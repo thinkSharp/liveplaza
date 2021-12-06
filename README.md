@@ -1,45 +1,4 @@
 
-PostgreSQL Setup
-----------------
- - Install postgres 10 locally
- - Create or Add user “odoo” as super user.
- - Login into the psql command prompt.
-
-
-```bash
-sudo -u postgres psql
-```
-
- - Create a Database named livep and alter the permissions.
- 
-
-```bash
-CREATE DATABASE livep; 
-
-ALTER DATABASE livep OWNER TO odoo;
-
-```
-
-
- - Once created verify the database with the owner name.
-
-```bash
-\l 
-```
-
- - Dump all the data from the dump.sql file into the livep database.
- 
-
-```bash
-
-sudo -u postgres psql livep < dump.sql
-
-```
-
-
-
-
-
 
 Python 3.6 Setup
 ----------------
@@ -85,6 +44,49 @@ python3 -m pip install -r requirements.txt
 python3 odoo-bin -c odoo.conf (to start the odoo- server)
 
 ```
+
+
+
+
+
+
+PostgreSQL Setup
+----------------
+ - Install postgres 10 locally
+ - Create or Add user “odoo” as super user.
+ - Login into the psql command prompt.
+
+
+```bash
+sudo -u postgres psql
+```
+
+ - Create a Database named livep and alter the permissions.
+ 
+
+```bash
+CREATE DATABASE livep; 
+
+ALTER DATABASE livep OWNER TO odoo;
+
+```
+
+
+ - Once created verify the database with the owner name.
+
+```bash
+\l 
+```
+
+ - Dump all the data from the dump.sql file into the livep database.
+ 
+
+```bash
+
+sudo -u postgres psql livep < dump.sql
+
+```
+
 
 
 
