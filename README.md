@@ -1,32 +1,92 @@
-[![Build Status](http://runbot.odoo.com/runbot/badge/flat/1/master.svg)](http://runbot.odoo.com/runbot)
-[![Tech Doc](http://img.shields.io/badge/master-docs-875A7B.svg?style=flat&colorA=8F8F8F)](http://www.odoo.com/documentation/master)
-[![Help](http://img.shields.io/badge/master-help-875A7B.svg?style=flat&colorA=8F8F8F)](https://www.odoo.com/forum/help-1)
-[![Nightly Builds](http://img.shields.io/badge/master-nightly-875A7B.svg?style=flat&colorA=8F8F8F)](http://nightly.odoo.com/)
 
-Odoo
+PostgreSQL Setup
+----------------
+ - Install postgres 10 locally
+ - Create or Add user “odoo” as super user.
+ - Login into the psql command prompt.
+
+
+```bash
+sudo -u postgres psql
+```
+
+ - Create a Database named livep and alter the permissions.
+ 
+
+```bash
+CREATE DATABASE livep; 
+
+ALTER DATABASE livep OWNER TO odoo;
+
+```
+
+
+ - Once created verify the database with the owner name.
+
+```bash
+\l 
+```
+
+ - Dump all the data from the dump.sql file into the livep database.
+ 
+
+```bash
+
+sudo -u postgres psql livep < dump.sql
+
+```
+
+
+
+
+
+
+Python 3.6 Setup
+----------------
+ - Download python3.6 tar file and perform linux installation from Google
+ - Check the python version (python3 -v)
+ - Perform the installation till you see python 3.6 for linux centos
+ - Create a virtual environment folder called odoo_dev 
+ - Activate the Virtual Environment.
+ - Git Clone the odoo-server folder.
+ - Git Clone custom folder
+ - Go to odoo-server and open odoo.conf file.
+ - Paste the text inside the config file
+
 ----
+```bash
+[options]
+admin_passwd = Chunny12$akcder
+addons_path = /home/ec2-user/odoo_backup/odoo/odoo-server/addons,/home/ec2-user/odoo_backup/odoo/odoo-server/odoo/addons,/home/ec2-user/odoo_backup/odoo/custom/addons,/home/ec2-user/odoo_backup/odoo/custom/themes
+db_host = localhost
+db_port = 5432
+db_user = odoo
+db_password = Chunny12$akcder
+http_port = 5001
+xmlrpc_port = 5001
+workers = 5
+max_cron_threads = 2
 
-Odoo is a suite of web based open source business apps.
+```
 
-The main Odoo Apps include an <a href="https://www.odoo.com/page/crm">Open Source CRM</a>,
-<a href="https://www.odoo.com/page/website-builder">Website Builder</a>,
-<a href="https://www.odoo.com/page/e-commerce">eCommerce</a>,
-<a href="https://www.odoo.com/page/warehouse">Warehouse Management</a>,
-<a href="https://www.odoo.com/page/project-management">Project Management</a>,
-<a href="https://www.odoo.com/page/accounting">Billing &amp; Accounting</a>,
-<a href="https://www.odoo.com/page/point-of-sale">Point of Sale</a>,
-<a href="https://www.odoo.com/page/employees">Human Resources</a>,
-<a href="https://www.odoo.com/page/lead-automation">Marketing</a>,
-<a href="https://www.odoo.com/page/manufacturing">Manufacturing</a>,
-<a href="https://www.odoo.com/#apps">...</a>
+----
+ - Install the requirements.txt file 
 
-Odoo Apps can be used as stand-alone applications, but they also integrate seamlessly so you get
-a full-featured <a href="https://www.odoo.com">Open Source ERP</a> when you install several Apps.
+```bash
+python3 -m pip install -r requirements.txt
+```
 
 
-Getting started with Odoo
--------------------------
-For a standard installation please follow the <a href="https://www.odoo.com/documentation/13.0/setup/install.html">Setup instructions</a>
-from the documentation.
+ - Run the odoo-bin from the odoo-server with the configuration file and the database name
 
-To learn the software, we recommend the <a href="https://www.odoo.com/slides">Odoo eLearning</a>, or <a href="https://www.odoo.com/page/scale-up-business-game">Scale-up</a>, the <a href="https://www.odoo.com/page/scale-up-business-game">business game</a>. Developers can start with <a href="https://www.odoo.com/documentation/13.0/tutorials.html">the developer tutorials</a>
+
+
+```bash
+python3 odoo-bin -c odoo.conf (to start the odoo- server)
+
+```
+
+
+
+
+
