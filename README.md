@@ -7,9 +7,8 @@ Python 3.6 Setup
  - Perform the installation till you see python 3.6 for linux centos
  - Create a virtual environment folder called odoo_dev 
  - Activate the Virtual Environment.
- - Git Clone the odoo-server folder.
- - Git Clone custom folder
- - Go to odoo-server and open odoo.conf file.
+ - Git Clone the liveplaza folder.
+ - Go to Folder odoo-server and open odoo.conf file.
  - Paste the text inside the config file
 
 ----
