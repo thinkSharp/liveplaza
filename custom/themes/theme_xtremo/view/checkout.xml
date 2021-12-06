@@ -1,0 +1,29 @@
+<odoo>
+  <data>
+
+    <template id="xt_cart_summary_header" inherit_id="website_sale.cart_summary">
+      <xpath expr="//div[contains(@class, 'card-body')]" position="before">
+        <h3>Shopping Cart</h3>
+      </xpath>
+    </template>
+
+    <template id="xtremo_snippet_place_checkout" inherit_id="website_sale.checkout">
+      <xpath expr="//div[@id='wrap']/div[hasclass('oe_website_sale')]" position="before">
+        <div class="oe_structure mb4" id="xtremo_checkout_page_name"/>
+      </xpath>
+    </template>
+
+    <template id="xtremo_snippet_place_address" inherit_id="website_sale.address">
+      <xpath expr="//div[@id='wrap']/div[hasclass('oe_website_sale')]" position="before">
+        <div class="oe_structure" id="xtremo_address_page_name"/>
+      </xpath>
+    </template>
+
+    <template id="xtremo_snippet_place_confirmation" inherit_id="website_sale.confirmation">
+      <xpath expr="//div[@id='wrap']/div[hasclass('oe_website_sale')]" position="before">
+        <div class="oe_structure" id="xtremo_confirmation_page_name"/>
+      </xpath>
+    </template>
+
+  </data>
+</odoo>

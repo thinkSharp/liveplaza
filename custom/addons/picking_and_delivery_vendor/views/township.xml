@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="res_country_township_tree_pickup" model="ir.ui.view">
+            <field name="name">res.country.township.tree.pickup</field>
+            <field name="model">res.country.township</field>
+            <field name="inherit_id" ref="customizations_by_livep.res_country_township_tree"/>
+            <field name="arch" type="xml">
+                <field name="delivery_carrier_ids" position="before">
+                    <field name="rel_pickup_method_ids" string="Pickup Zone" widget="many2many_tags" />
+                    <field name="rel_delivery_method_ids" string="Delivery Zone" widget="many2many_tags" />
+                </field>
+            </field>
+        </record>
+
+        <record id="res_country_township_form_pickup" model="ir.ui.view">
+            <field name="name">res.country.township.form.pickup</field>
+            <field name="model">res.country.township</field>
+            <field name="inherit_id" ref="customizations_by_livep.res_country_township_form"/>
+            <field name="arch" type="xml">
+                <field name="code" position="after">
+                    <field name="delivery_carrier_ids" string="Delivery Method" widget="many2many_tags" />   
+                    <field name="rel_pickup_method_ids" string="Pickup Zone" widget="many2many_tags" />
+                    <field name="rel_delivery_method_ids" string="Delivery Zone" widget="many2many_tags" />
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>

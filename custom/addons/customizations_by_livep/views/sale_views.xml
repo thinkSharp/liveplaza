@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <menuitem name="Reporting" id="marketplace_report_root" parent="odoo_marketplace.wk_seller_dashboard" groups="odoo_marketplace.marketplace_manager_group" sequence="8" />
+
+    <record model="ir.ui.view" id="sale_order_line_sales_report_tree">
+        <field name="name">Sales Report</field>
+        <field name="model">sale.order.line</field>
+        <field name="arch" type="xml">
+            <tree string="Sales Report Tree" create="false" edit="false" delete="false">
+                <field name="create_date" widget="date" string="Date" />
+                <field name="product_id" string="Item" />
+                <field name="marketplace_seller_id" />
+                <field name="seller_class_id" />
+                <field name="price_subtotal" string="Amount" />
+                <field name="commission_amount" />
+                <field name="order_partner_id" string="Buyer Information" />
+                <field name="edd" widget="date" />
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="sale_order_line_sales_report_search" model="ir.ui.view">
+        <field name="name">Sales Report Search</field>
+        <field name="model">sale.order.line</field>
+        <field name="arch" type="xml">
+            <search string="Sales Report Search">
+                <field name="marketplace_seller_id" />
+                <field name="product_id" />
+                <field name="order_partner_id" />
+                <filter string="Today" name="today" domain="[('create_date', '=', context_today().strftime('%Y-%m-%d'))]"/>
+                <filter string="Current Month" name="current_month" domain="[('create_date','&lt;',(context_today()+relativedelta(months=1)).strftime('%%Y-%%m-01')), ('create_date','&gt;=',time.strftime('%%Y-%%m-01'))]" />
+                <separator />
+                <filter string="Create Date" name="filter_create_date" date="create_date"/>
+                <separator />
+                <group expand="0" string="Group By">
+                    <filter string="Seller" name="group_by_seller" domain="[]" context="{'group_by':'marketplace_seller_id'}" />
+                    <filter string="Buyer" name="group_by_buyer" domain="[]" context="{'group_by':'order_partner_id'}" />
+                    <filter string="Product" name="group_by_product" domain="[]" context="{'group_by':'product_id'}" />
+                    <filter string="Seller Class" name="group_by_seller_class" domain="[]" context="{'group_by':'seller_class_id'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="sale_order_line_sales_report_pivot" model="ir.ui.view">
+        <field name="name">Sales Report Pivot</field>
+        <field name="model">sale.order.line</field>
+        <field name="arch" type="xml">
+            <pivot string="Sales Report Pivot">
+                <field name="marketplace_seller_id" type="row" />
+                <field name="price_subtotal" type="column" />
+            </pivot>
+        </field>
+    </record>
+
+    <record id="action_sales_report" model="ir.actions.act_window">
+        <field name="type">ir.actions.act_window</field>
+        <field name="name">Sales Report</field>
+        <field name="res_model">sale.order.line</field>
+        <field name="view_mode">tree,pivot</field>
+        <field name="context">{}</field>
+        <field name="context">{'search_default_today': 1}</field>
+        <field name="domain">[('marketplace_seller_id','!=', False)]</field>
+        <field name="view_id" ref="sale_order_line_sales_report_tree" />
+        <field name="search_view_id" ref="customizations_by_livep.sale_order_line_sales_report_search" />
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">Nothing here!</p>
+        </field>
+    </record>
+
+
+    <menuitem name="Sales Report" id="sales_report" parent="marketplace_report_root" groups="odoo_marketplace.marketplace_manager_group" action="action_sales_report" sequence="1" />
+
+</odoo>

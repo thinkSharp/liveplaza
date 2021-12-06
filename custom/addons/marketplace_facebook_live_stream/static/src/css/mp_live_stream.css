@@ -1,0 +1,291 @@
+/* Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) */
+/* See LICENSE file for full copyright and licensing details. */
+/* License URL : https://store.webkul.com/license.html/ */
+
+/* .owl-prev,
+.owl-next {
+  position: absolute;
+  top: 30%;
+  transform: translateY(-50%);
+}
+
+.owl-prev {
+  left: -2rem;
+}
+
+.owl-next {
+  right: -2rem;
+} */
+
+.owl-prev {
+  top: 44%;
+  position: absolute;
+  left: -20px;
+}
+.owl-next {
+  top: 44%;
+  position: absolute;
+  right: -20px;
+}
+.fb_video_div{
+  height: 300px;
+}
+
+.mp_promoted_prod_div .owl-wrapper-outer{
+  margin-bottom: 16px;
+}
+
+.mp_promoted_prod_div .owl-buttons{
+  font-size: xx-large;
+}
+
+.live_stream_owl_carousel{
+  display: none;
+}
+
+.live_stream_owl_carousel .img-responsive {
+  padding: 4px !important;
+  height: 200px !important;
+}
+.live_stream_owl_carousel .owl-nav {
+  font-size: 40px;
+}
+
+.live_stream_owl_carousel_x .img-responsive {
+  padding: 4px !important;
+  height: 200px !important;
+}
+.live_stream_owl_carousel_x .owl-nav {
+  font-size: 40px;
+}
+
+div.productName{
+    font-size: 16px;
+    color: #333333d9;
+    font-family: "Roboto", "Odoo Unicode Support Noto", sans-serif;
+    font-weight: 500;
+    line-height: 1.2;
+    margin-top: 6px;
+}
+
+.seller_name{
+  font-size: 20px;
+  font-family: "Roboto", "Odoo Unicode Support Noto", sans-serif;
+  font-weight: 600;
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
+.productImg{
+  width: 150px;
+  height: 150px;
+}
+
+.stream_prev{
+  left: -7%;
+  width: 10%;
+}
+
+.stream_next{
+  right: -7%;
+  width: 10%;
+}
+
+.mp_carousel_height{
+  min-height: 700px;
+}
+
+.mp_product_page_carousel_height{
+  min-height: 500px;
+}
+
+/* .carousel-item{
+  min-height: 500px!important;
+} */
+#ProfilelivestreamCarousel > .carousel-item > div{
+  height: auto !important;
+}
+.mp_profile_carousel_height img{
+  height: 445px;
+  width: 100%;
+}
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+
+  .fb_video_div{
+    height: 350px!important;
+  }
+  .productImg{
+    width: 110px;
+    height: 110px;
+  }
+  div.productName{
+      font-size: 14px;
+      margin-top: 4px;
+      width: 80px;
+  }
+  .stream_prev{
+    left: -10%;
+    top: -25%;
+  }
+  .stream_next{
+    right: -10%;
+    top: -25%;
+  }
+
+  .mp_carousel_height{
+    min-height: 500px;
+  }
+  .mp_product_page_carousel_height{
+    min-height: 500px;
+  }
+  #ProfilelivestreamCarousel > .carousel-item > div{
+    height: auto !important;
+  }
+
+}
+
+
+@media (min-width: 900px) and (max-width: 1024px) {
+  .fb_video_div{
+    height: 410px!important;
+  }
+}
+@media (min-width: 768px) and (max-width: 899px) {
+  #livestreamCarousel{
+    margin-top: 10%;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 767px) {
+
+    .fb_video_div{
+      height: 260px!important;
+    }
+    .productImg{
+      width: 80px;
+      height: 80px;
+    }
+    div.productName{
+        font-size: 13px;
+        margin-top: 4px;
+        width: 80px;
+    }
+    .stream_prev{
+      left: -7%;
+      top: 20%;
+      height: 25%;
+    }
+
+    .stream_next{
+      right: -7%;
+      top: 20%;
+      height: 25%;
+    }
+    .mp_carousel_height{
+      min-height: 420px;
+    }
+    .mp_product_page_carousel_height{
+      min-height: 420px;
+    }
+
+}
+
+@media (min-width: 320px) and (max-width: 480px) {
+
+    .fb_video_div{
+      height: 200px!important;
+    }
+    .productImg{
+      width: 50px;
+      height: 50px;
+    }
+    /* .owl-item{
+      width: 150px!important;
+    } */
+    /* .owl-wrapper{
+      min-width: 150px!important;
+      width:max-content!important;
+    } */
+    div.productName{
+        font-size: 13px;
+        margin-top: 4px;
+        width: 80px;
+    }
+    .stream_prev{
+      left: -7%;
+      top: 20%;
+      height: 25%;
+    }
+
+    .stream_next{
+      right: -7%;
+      top: 20%;
+      height: 25%;
+    }
+    .mp_carousel_height{
+      min-height: 340px;
+    }
+    .mp_product_page_carousel_height{
+      min-height: 340px;
+    }
+    #ProfilelivestreamCarousel > .mp_profile_carousel_height{
+      height: auto !important;
+    }
+    #wk_live_stream_carousel .owl-prev, #wk_upcoming_stream_carousel .owl-prev {
+      left: -18px;
+    }
+    #wk_live_stream_carousel .owl-next, #wk_upcoming_stream_carousel .owl-next {
+      right: -18px;
+    }
+    /* .mp_profile_carousel_height img{
+      height: 2000px;
+    } */
+    #ProfilelivestreamCarousel .stream_prev,#ProfilelivestreamCarousel .stream_next{
+      height: auto;
+    }
+    #livestreamCarousel{
+      margin-top: 10%;
+    }
+}
+
+@media only screen  and (max-width: 320px) {
+
+    .fb_video_div{
+      height: 150px!important;
+    }
+    .productImg{
+      width: 30px;
+      height: 30px;
+    }
+    /* .owl-item{
+      width: 120px!important;
+    } */
+    /* .owl-wrapper{
+      width: 120px!important;
+      width:max-content!important;
+    } */
+    div.productName{
+        font-size: 10px;
+        margin-top: 4px;
+        width: 40px;
+    }
+    .stream_prev{
+      left: -7%;
+      top: 20%;
+      height: 25%;
+    }
+
+    .stream_next{
+      right: -7%;
+      top: 20%;
+      height: 25%;
+    }
+    .mp_carousel_height{
+      min-height: 300px;
+    }
+    #livestreamCarousel{
+      margin-top: 10%;
+    }
+
+
+}

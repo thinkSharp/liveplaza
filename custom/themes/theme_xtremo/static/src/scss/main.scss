@@ -1,0 +1,300 @@
+html {
+  scroll-behavior: smooth;
+}
+
+.login-decorator {
+  @include absolute_item( 0, 0, 0, 0);
+  background-repeat: no-repeat, repeat;
+  background-position: top center;
+  background-size: cover;
+  &::after {
+    content: "";
+    @include absolute_item(0, 0, 0, 0);
+    background-color: rgba(256, 256, 256, 0.5);
+  }
+}
+
+
+#xtremo_cart_modal, #xtremo_comparision_modal, #xtremo_product_f_and_c_modal{
+  background-color: transparent !important;
+  .modal-dialog{
+    width: 30%;
+    right: -30%;
+    top: 0;
+    bottom: 0;
+    position: fixed;
+    margin: 0px;
+    padding: 0px;
+    border-width: 0px;
+    opacity: 0;
+    transition: right .4s ease-in-out, opacity .3s ease-in-out;
+    box-shadow: 5px 5px 5px 5px rgba(0,0,0,0.5);
+    transform: translate3d(0, 0, 0);
+    @media #{$pad}{
+      right: -60%;
+      width: 60%;
+    }
+    @media #{$mobile}{
+      right: -80%;
+      width: 80%;
+    }
+  }
+  &.show{
+    .modal-dialog{
+      right: 0%;
+      opacity: 1;
+    }
+  }
+  .modal-content{
+    top: 0;
+    right: 0px;
+    border-width: 0px;
+    border-radius: 0px;
+    height: 100%;
+    padding: 0px 8px;
+  }
+  .modal-header{
+    background-color: white;
+    padding: 16px;
+    font-size: 18px;
+    text-align: center;
+    color: $mn-text;
+    border-bottom: 1px solid $border;
+    display: flex;
+    justify-content: center;
+    padding-left: 0px;
+  }
+  .modal-body{
+    min-height: 0px;
+    overflow-y: auto;
+    padding: 0px;
+    .alert{
+      margin-bottom: 0px;
+      padding-top: 65px;
+      padding-bottom: 65px;
+      text-align: center;
+      background-color: white;
+      border-color: white;
+      font-size: 16px;
+      color: $text-color;
+    }
+    >.row.cart_line, .o_product_row{
+      margin: 0px !important;
+      border-bottom: 1px solid $border !important;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      font-size: 15px;
+      color: $text-color;
+      .o_remove{
+        color: $th-color !important;
+        padding-right: 10px;
+      }
+      .col-8 br{
+        line-height: 2;
+      }
+      a{
+        color: $mn-text !important;
+        word-break: normal;
+        .h6{
+          font-size: 15px;
+        }
+      }
+      .col-9{
+        margin-top: -5px;
+        div{
+          display: block;
+          a{
+            display: inline-block !important;
+          }
+        }
+      }
+      .o_image_64_max {
+        margin-bottom: 0px !important;
+      }
+    }
+    #xt_cart_line_delete{
+      display: block;
+      font-size: 12px;
+      color: $th-color !important;
+    }
+    .text-center >a{
+      display: none !important;
+    }
+    #cart_total table{
+      margin-top: 0px;
+      margin-bottom: 10px;
+      td{
+        padding-top: 10px !important;
+        padding-bottom: 10px !important;
+      }
+    }
+  }
+  .modal-footer{
+    display: flex;
+    justify-content: space-between;
+    a{
+      font-weight: bold;
+    }
+  }
+}
+
+.xtremo-payment-icon{
+  .payment_method_list{
+    display: flex;
+    flex-wrap: wrap;
+    li{
+      padding-right: 10px;
+      flex: 0 0 15%;
+    }
+  }
+}
+
+#xtremo_scroll_top{
+  position: fixed;
+  right: 0px;
+  bottom: 0px;
+  transition: all .2s ease-in-out;
+  opacity: 0;
+  z-index: 4333;
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.3);
+  border-radius: 50%;
+  span{
+    font-size: 35px;
+    padding: 2px 8px;
+    // border: 1px solid white;
+    border-radius: 50% !important;
+    background-color: white;
+    box-shadow: inset 0px 0px 3px 0px rgba(0, 0, 0, 0.2);
+    border-radius: 0px;
+    color: $text-color;
+    cursor: pointer;
+    transition: all .2s ease-in-out;
+    &:hover{
+      background-color: $th-color;
+      box-shadow: 0px 0px 10px 1px transparentize($th-color, 0.5);
+      border-color: $th-color !important;
+      color: white;
+      padding: 4px 10px;
+    }
+  }
+  &.show-scroll{
+    opacity: 1;
+    bottom: 60px;
+    right: 30px;
+  }
+}
+
+
+// #wk_loader{
+//   text-align: center;
+//   span{
+//     background-image: url('../../icon/svg/loader.svg');
+//     display:inline-block;
+//     height:19px;
+//     width:25px;
+//     height: 60px;
+//     width: 85px;
+//     display: none;
+//   }
+//   .fa-exclamation-triangle{
+//     color: $danger;
+//     font-size: 30px;
+//   }
+//   p{
+//     display: none;
+//     font-size: 14px;
+//     font-weight: bold;
+//   }
+// }
+
+// main{
+//   margin-top: 114px !important;
+// }
+
+// Shop Mobile View
+@media (max-width: 768px){
+
+  .oe_website_sale{
+    max-width: 560px !important;
+    .o_wsale_products_main_row{
+      #products_grid_before.xtremo_product_category_slider_model{
+        display: block !important;
+        max-width: 70% !important;
+        left: -70%;
+      }
+      #products_grid .table tr:first-child td:first-child{
+        margin-top: 15px;
+      }
+      #products_grid:not(.o_wsale_layout_list){
+        .o_wsale_products_grid_table_wrapper{
+          table{
+            display: block;
+            tbody{
+              display: block;
+              width: 100%;
+              tr{
+                display: flex;
+                flex-wrap: wrap;
+                td{
+                  width: 50%;
+                  .o_wsale_product_grid_wrapper{
+                    padding-top: 0px !important;
+                    .oe_product_cart{
+                      .oe_product_image{
+                        // height: 10rem !important;
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+      #products_grid.o_wsale_layout_list{
+
+      }
+    }
+  }
+}
+
+@media (max-width: 425px){
+  main{
+    margin-top: 55px !important;
+  }
+  .oe_website_sale{
+    .o_wsale_products_main_row{
+      #products_grid_before.xtremo_product_category_slider_model{
+        display: block !important;
+        max-width: 100% !important;
+        left: -100%;
+      }
+      #products_grid:not(.o_wsale_layout_list){
+        .o_wsale_products_grid_table_wrapper{
+          table{
+            display: block;
+            tbody{
+              display: block;
+              width: 100%;
+              tr{
+                display: flex;
+                flex-wrap: wrap;
+                td{
+                  width: 50%;
+                  .o_wsale_product_grid_wrapper{
+                    padding-top: 0px !important;
+                    .oe_product_cart{
+                      .oe_product_image{
+                        height: 10rem !important;
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+
+<odoo>
+    <record id="seller_livestream_rule" model="ir.rule">
+        <field name="name">Seller Live Stream only</field>
+        <field name="model_id" ref="model_seller_live_stream"/>
+        <field name="domain_force">[('seller_id','=',user.partner_id.id)]</field>
+        <field name="groups" eval="[(4, ref('odoo_marketplace.marketplace_seller_group'))]"/>
+    </record>
+
+    <record id="officer_livestream_rule" model="ir.rule">
+        <field name="name">Seller's All Live Stream Officer</field>
+        <field name="model_id" ref="model_seller_live_stream"/>
+        <field name="domain_force">[(1,'=',1)]</field>
+        <field name="groups" eval="[(4, ref('odoo_marketplace.marketplace_officer_group'))]"/>
+    </record>
+</odoo>
+        

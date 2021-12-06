@@ -1,0 +1,87 @@
+/* Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) */
+/* See LICENSE file for full copyright and licensing details. */
+
+.oe_website_sale.py-2{
+  margin-bottom: 10px;
+  margin-top: 10px;
+  .order-xl-1.oe_cart{
+    padding-top: 16px !important;
+  }
+  #payment_method{
+    >h3{
+      color: $mn-text;
+    }
+    .card{
+      border-radius: 0px !important;
+      border-color: $border !important;
+      .card-body{
+        border-color: $border !important;
+        .payment_option_name{
+          color: $text-color;
+        }
+        input[type=radio]{
+          vertical-align: top;
+          margin-right: 10px;
+        }
+
+      }
+    }
+    >form >.mt-2{
+      margin-top: 25px !important;
+    }
+    #o_payment_form_pay{
+      border-color: $th-color !important;
+      &:disabled{
+        color: white !important;
+        background-color: $th-color;
+        opacity: 0.8;
+      }
+    }
+  }
+  .oe_accept_cgv_button{
+    margin-top: 25px !important;
+    a[href*="/shop/terms"]{
+      color: $th-color !important;
+    }
+    .custom-control-label{
+      color: $text-color;
+      &::before{
+        border-radius: 0px;
+        background-color: $th-color;
+      }
+    }
+  }
+}
+
+.payment{
+  >.row{
+    >.col-12:nth-child(1){
+      margin-top: 5px;
+      margin-bottom: 15px !important;
+    }
+  }
+}
+
+
+.oe_website_sale.py-2.payment{
+  .o_payment_form_pay_icon_more{
+    color: $mn-text !important;
+  }
+  @media #{$l-pad}{
+    @include payment_mobile();
+  }
+  @media #{$pad}{
+    @include payment_mobile();
+  }
+  @media #{$mobile}{
+    @include payment_mobile();
+    .order-xl-2 {padding: 0px !important}
+  }
+
+}
+
+#shipping_and_billing{
+  >a{
+    color: $th-color !important;
+  }
+}

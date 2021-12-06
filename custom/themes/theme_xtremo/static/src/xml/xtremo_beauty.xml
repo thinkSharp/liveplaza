@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<templates id="template" xml:space="preserve">
+    <div class="x-items" t-name="theme_xtremo.frame_1">
+      <div class="x-item">
+        <div class="relative">
+          <div class="sub_1">
+            <div class="x-img">
+              <img src="/theme_xtremo/static/src/img/snippet/bt-1.png" alt="Image" />
+              <span class="x-open-icon"><i class="fa fa-search"></i></span>
+            </div>
+            <p>Fashion Collection</p>
+          </div>
+          <div class="sub_2">
+            <div class="x-img">
+              <img src="/theme_xtremo/static/src/img/snippet/bt-2.png" alt="Image" />
+              <span class="x-open-icon"><i class="fa fa-search"></i></span>
+            </div>
+            <p>Fashion Collection</p>
+          </div>
+        </div>
+      </div>
+      <div class="x-item x-main">
+        <div class="relative x">
+          <div class="x-img">
+            <img src="/theme_xtremo/static/src/img/snippet/bt-3.png" alt="Image" />
+            <span class="x-open-icon"><i class="fa fa-search"></i></span>
+          </div>
+          <p>Fashion Collection</p>
+        </div>
+      </div>
+    </div>
+    <div class="x-items frame-2" t-name="theme_xtremo.frame_2">
+      <div class="x-item">
+        <div class="relative">
+          <div class="sub_1">
+            <div class="x-img">
+              <img src="/theme_xtremo/static/src/img/snippet/bt-4.png" alt="Image" />
+              <span class="x-open-icon"><i class="fa fa-search"></i></span>
+            </div>
+            <p>Fashion Collection</p>
+          </div>
+          <div class="sub_2">
+            <div class="x-img">
+              <img src="/theme_xtremo/static/src/img/snippet/bt-5.jpeg" alt="Image" />
+              <span class="x-open-icon"><i class="fa fa-search"></i></span>
+            </div>
+            <p>Fashion Collection</p>
+          </div>
+        </div>
+      </div>
+      <div class="x-item x-main">
+        <div class="relative x">
+          <div class="x-img">
+            <img src="/theme_xtremo/static/src/img/snippet/bt-6.jpeg" alt="Image" />
+            <span class="x-open-icon"><i class="fa fa-search"></i></span>
+          </div>
+          <p>Fashion Collection</p>
+        </div>
+      </div>
+    </div>
+</templates>

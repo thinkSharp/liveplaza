@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- <record id="wk_seller_form_view_inherit" model="ir.ui.view">
+            <field name="name">wk.seller.form.view.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="odoo_marketplace.wk_seller_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="/form/header" position="inside">
+                    <button name="create_request" states="new,pending,approved" type="object" class="btn-primary" string="Create Product Request"/>
+                </xpath>
+            </field>
+        </record> -->
+    </data>
+</odoo>

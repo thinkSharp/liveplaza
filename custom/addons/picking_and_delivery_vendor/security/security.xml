@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data noupdate="0">
+
+        <record id="pickup_and_delivery_categ" model="ir.module.category">
+		    <field name="name">Pickup and Delivery</field>
+		</record>
+
+		<record id="pickup_vendor_group" model="res.groups">
+		    <field name="name">Pickup Vendor</field>
+		    <field name="category_id" ref="pickup_and_delivery_categ"/>
+		</record>
+
+        <record id="delivery_vendor_group" model="res.groups">
+		    <field name="name">Delivery Vendor</field>
+		    <field name="category_id" ref="pickup_and_delivery_categ"/>
+		</record>
+	
+	</data>
+
+	<data noupdate="1">
+
+		<!-- Pickup Record Rules -->
+		<record id="pickup_marketplace_manager_all" model="ir.rule">
+            <field name="name">Pickup Marketplace Manager : All Documents</field>
+            <field name="model_id" ref="model_picking_move"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('odoo_marketplace.marketplace_manager_group'))]"/>
+			<field name="perm_read" eval="True"/>
+			<field name="perm_write" eval="True"/>	
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+		<record id="pickup_marketplace_seller_own" model="ir.rule">
+            <field name="name">Pickup Marketplace Seller : Own Documents</field>
+            <field name="model_id" ref="model_picking_move"/>
+            <field name="domain_force">[('picking_address.id', '=', user.partner_id.id)]</field>
+            <field name="groups" eval="[(4, ref('odoo_marketplace.marketplace_seller_group'))]"/>
+			<field name="perm_read" eval="True"/>
+			<field name="perm_write" eval="True"/>	
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+		<record id="pickup_user_read_own" model="ir.rule">
+            <field name="name">Pickup User : Own Documents</field>
+            <field name="model_id" ref="model_picking_move"/>
+            <field name="domain_force">[('vendor_id.id', '=', user.partner_id.id)]</field>
+            <field name="groups" eval="[(4, ref('pickup_vendor_group'))]"/>
+			<field name="perm_read" eval="True"/>
+			<field name="perm_write" eval="True"/>	
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+		<!-- END -->
+
+		<!-- Packaging Record Rules -->
+		<record id="packaging_marketplace_manager_all" model="ir.rule">
+            <field name="name">Packaging Marketplace Manager : All Documents</field>
+            <field name="model_id" ref="model_packaging_move"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('odoo_marketplace.marketplace_manager_group'))]"/>
+			<field name="perm_read" eval="True"/>
+			<field name="perm_write" eval="True"/>	
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+        </record>
+
+		<record id="packaging_marketplace_seller_own" model="ir.rule">
+            <field name="name">Packaging Marketplace Seller : Own Documents</field>
+            <field name="model_id" ref="model_packaging_move"/>
+            <field name="domain_force">[('marketplace_seller_id.id', '=', user.partner_id.id)]</field>
+            <field name="groups" eval="[(4, ref('odoo_marketplace.marketplace_seller_group'))]"/>
+			<field name="perm_read" eval="True"/>
+			<field name="perm_write" eval="True"/>	
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+
+		<record id="packaging_user_read_own" model="ir.rule">
+            <field name="name">Packaging User : Own Documents</field>
+            <field name="model_id" ref="model_packaging_move"/>
+            <field name="domain_force">[('vendor_id.id', '=', user.partner_id.id)]</field>
+            <field name="groups" eval="[(4, ref('delivery_vendor_group'))]"/>
+			<field name="perm_read" eval="True"/>
+			<field name="perm_write" eval="True"/>	
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+        </record>
+		<!-- END -->
+
+    </data>
+</odoo>

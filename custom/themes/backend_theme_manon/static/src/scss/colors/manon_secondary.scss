@@ -1,0 +1,7 @@
+$primaryColor: map-get($bk-color-primary, 'primary_color') or #E02F1F;
+$secondaryColor: map-get($bk-color-primary, 'secondary_color') or #1FD0E0;
+$primaryColor_trans: lighten($primaryColor, 15%);
+$secondaryColor_trans: lighten($secondaryColor, 35%);
+
+$font: map-get($bk-font, 'font') or 'Zhi Mang Xing';
+$family: map-get($bk-font, 'family') or 'Quicksand';

@@ -1,0 +1,22 @@
+<odoo>
+  <data>
+    <!-- Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+    <!-- See LICENSE file for full copyright and licensing details. -->
+
+    <template id="404_inherit_xt" inherit_id="http_routing.404">
+      <xpath expr="//div[hasclass('container')]" position="replace">
+        <div class="container xt-error-container">
+          <div style="margin-top: 50px;margin-bottom: 50px;" class="col-md-12">
+            <div style="text-align: center;">
+              <img style="height: 120px;" src="/theme_xtremo/static/src/img/sprite-404.png"/>
+              <p>Sorry, the page you are looking for is not found.<br/>
+                <a class="btn btn-primary" href="/">Back To Home Page</a>
+              </p>
+            </div>
+          </div>
+        </div>
+      </xpath>
+    </template>
+
+  </data>
+</odoo>

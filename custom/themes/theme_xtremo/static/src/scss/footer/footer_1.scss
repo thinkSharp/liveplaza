@@ -1,0 +1,88 @@
+/* Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) */
+/* See LICENSE file for full copyright and licensing details. */
+
+#footer{
+  background-color: $bg-header;
+  section{
+    color: white !important;
+    line-height: 2;
+    .col-lg-4{
+      >h5{
+        color: transparentize(#fff, 0.4);
+        small{
+          font-size: 100% !important;
+        }
+      }
+      a:not(.dropdown-item){
+        color: white !important;
+        cursor: pointer;
+        &:hover{
+          color: transparentize(#fff, 0.4) !important;
+        }
+      }
+      &:nth-child(3){
+        >p{
+          display: none;
+        }
+      }
+      &#connect{
+        color: transparentize(#fff, 0.4) !important;
+        >ul >li:first-of-type{
+          display: none;
+        }
+        >p{
+          a{
+            background-color: transparent;
+            border-width: 0px;
+            &:first-of-type{
+              padding-left: 0px;
+            }
+            &:hover{
+              @include scale_element(1.2,1.2,forwards,.3s);
+            }
+          }
+        }
+      }
+      @media #{$mobile}{
+        &:not(:first-of-type){
+          margin-top: 10px;
+        }
+        >h5{
+          text-align: center;
+        }
+        &#connect{
+          text-align: center !important;
+        }
+        >ul >li{
+          text-align: center;
+        }
+      }
+      @media #{$pad-with-mobile} {
+        text-align: center;
+      }
+    }
+  }
+}
+footer{
+  .o_footer_copyright{
+    .py-3 {
+      padding: 0px 0px !important; 
+    }
+    background-color: transparentize($bg-header, 0.1) !important;
+    // .col-lg-6{
+      // flex: 0 0 100%;
+      max-width: 100%;
+      text-align: center !important;
+      color: transparentize(#fff, 0.6) !important;
+      .js_language_selector{
+        display: none;
+      }
+      span {
+        color: white !important;
+      }
+    }
+  // }
+  .o_brand_promotion{
+    display: none;
+  }
+}

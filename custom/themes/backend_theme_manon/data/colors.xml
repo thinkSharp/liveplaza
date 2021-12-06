@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">   
+    	 <record forcecreate= "True" id= "F44336" model= "wk.backend.color">
+            <field name= "name">Red</field>  
+            <field name= "color_primary">#F44336</field>            
+        <field name= "auto_color_secondary">True</field></record>            
+
+        <record forcecreate= "True" id= "EF5350" model= "wk.backend.color">
+            <field name= "name">Red(400)</field>  
+            <field name= "color_primary">#EF5350</field>            
+        <field name= "auto_color_secondary">True</field></record>            
+
+        <record forcecreate= "True" id= "E53935" model= "wk.backend.color">
+            <field name= "name">Red(600)</field>  
+            <field name= "color_primary">#E53935</field>            
+        <field name= "auto_color_secondary">True</field></record>            
+
+        <record forcecreate= "True" id= "D32F2F" model= "wk.backend.color">
+            <field name= "name">Red(700)</field>  
+            <field name= "color_primary">#D32F2F</field>            
+        <field name= "auto_color_secondary">True</field></record>            
+
+
+
+    	 <record forcecreate= "True" id= "E91E63" model= "wk.backend.color">
+            <field name= "name">Pink</field>  
+            <field name= "color_primary">#E91E63</field>            
+        <field name= "auto_color_secondary">True</field></record>            
+
+        <record forcecreate= "True" id= "EC407A" model= "wk.backend.color">
+            <field name= "name">Pink(400)</field>  
+            <field name= "color_primary">#EC407A</field>            
+        <field name= "auto_color_secondary">True</field></record>            
+
+        <record forcecreate= "True" id= "D81B60" model= "wk.backend.color">
+            <field name= "name">Pink(600)</field>  
+            <field name= "color_primary">#D81B60</field>            
+        <field name= "auto_color_secondary">True</field></record>            
+
+        <record forcecreate= "True" id= "C2185B" model= "wk.backend.color">
+            <field name= "name">Pink(700)</field>  
+            <field name= "color_primary">#C2185B</field>            
+        <field name= "auto_color_secondary">True</field></record>            
+
+
+
+    	 <record forcecreate= "True" id= "9C27B0" model= "wk.backend.color">
+            <field name= "name">Purple</field>  
+            <field name= "color_primary">#9C27B0</field>            
+        <field name= "auto_color_secondary">True</field></record>            
+
+        <record forcecreate= "True" id= "AB47BC" model= "wk.backend.color">
+            <field name= "name">Purple(400)</field>  
+            <field name= "color_primary">#AB47BC</field>            
+        <field name= "auto_color_secondary">True</field></record>            
+
+        <record forcecreate= "True" id= "8E24AA" model= "wk.backend.color">
+            <field name= "name">Purple(600)</field>  
+            <field name= "color_primary">#8E24AA</field>            
+        <field name= "auto_color_secondary">True</field></record>            
+
+        <record forcecreate= "True" id= "7B1FA2" model= "wk.backend.color">
+            <field name= "name">Purple(700)</field>  
+            <field name= "color_primary">#7B1FA2</field>            
+        <field name= "auto_color_secondary">True</field></record>            
+
+
+
+         <record forcecreate= "True" id= "FF5722" model= "wk.backend.color">
+            <field name= "name">Orange</field>  
+            <field name= "color_primary">#FF5722</field>            
+        <field name= "auto_color_secondary">True</field></record>            
+
+        <record forcecreate= "True" id= "FF7043" model= "wk.backend.color">
+            <field name= "name">Orange(400)</field>  
+            <field name= "color_primary">#FF7043</field>            
+        <field name= "auto_color_secondary">True</field></record>            
+
+        <record forcecreate= "True" id= "F4511E" model= "wk.backend.color">
+            <field name= "name">Orange(600)</field>  
+            <field name= "color_primary">#F4511E</field>            
+        <field name= "auto_color_secondary">True</field></record>            
+
+        <record forcecreate= "True" id= "E64A19" model= "wk.backend.color">
+            <field name= "name">Orange(700)</field>  
+            <field name= "color_primary">#E64A19</field>            
+        <field name= "auto_color_secondary">True</field></record>            
+
+
+
+        <record forcecreate= "True" id= "FFC107" model= "wk.backend.color">
+            <field name= "name">Amber</field>  
+            <field name= "color_primary">#FFC107</field>            
+        <field name= "auto_color_secondary">True</field></record>            
+
+        <record forcecreate= "True" id= "FFCA28" model= "wk.backend.color">
+            <field name= "name">Amber(400)</field>  
+            <field name= "color_primary">#FFCA28</field>            
+        <field name= "auto_color_secondary">True</field></record>            
+
+        <record forcecreate= "True" id= "FFB300" model= "wk.backend.color">
+            <field name= "name">Amber(600)</field>  
+            <field name= "color_primary">#FFB300</field>            
+        <field name= "auto_color_secondary">True</field></record>            
+
+        <record forcecreate= "True" id= "FFA000" model= "wk.backend.color">
+            <field name= "name">Amber(700)</field>  
+            <field name= "color_primary">#FFA000</field>            
+        <field name= "auto_color_secondary">True</field></record>            
+
+
+
+
+        <record forcecreate= "True" id= "2196F3" model= "wk.backend.color">
+            <field name= "name">Blue</field>  
+            <field name= "color_primary">#2196F3</field>            
+        <field name= "auto_color_secondary">True</field></record>            
+
+        <record forcecreate= "True" id= "42A5F5" model= "wk.backend.color">
+            <field name= "name">Blue(400)</field>  
+            <field name= "color_primary">#42A5F5</field>            
+        <field name= "auto_color_secondary">True</field></record>            
+
+        <record forcecreate= "True" id= "1E88E5" model= "wk.backend.color">
+            <field name= "name">Blue(600)</field>  
+            <field name= "color_primary">#1E88E5</field>            
+        <field name= "auto_color_secondary">True</field></record>            
+
+        <record forcecreate= "True" id= "1976D2" model= "wk.backend.color">
+            <field name= "name">Blue(700)</field>  
+            <field name= "color_primary">#1976D2</field>            
+        <field name= "auto_color_secondary">True</field></record>            
+
+
+
+        <record forcecreate= "True" id= "4CAF50" model= "wk.backend.color">
+            <field name= "name">Green</field>  
+            <field name= "color_primary">#4CAF50</field>            
+        <field name= "auto_color_secondary">True</field></record>            
+
+        <record forcecreate= "True" id= "66BB6A" model= "wk.backend.color">
+            <field name= "name">Green(400)</field>  
+            <field name= "color_primary">#66BB6A</field>            
+        <field name= "auto_color_secondary">True</field></record>            
+
+        <record forcecreate= "True" id= "43A047" model= "wk.backend.color">
+            <field name= "name">Green(600)</field>  
+            <field name= "color_primary">#43A047</field>            
+        <field name= "auto_color_secondary">True</field></record>            
+
+        <record forcecreate= "True" id= "2E7D32" model= "wk.backend.color">
+            <field name= "name">Green(700)</field>  
+            <field name= "color_primary">#2E7D32</field>            
+        <field name= "auto_color_secondary">True</field></record>            
+
+
+    </data>
+</openerp>

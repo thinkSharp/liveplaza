@@ -1,0 +1,32 @@
+/* Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) */
+/* See LICENSE file for full copyright and licensing details. */
+
+.dropdown-menu {
+  border-radius: 0px;
+  background-color: $white;
+  border-width: 0px;
+  z-index: 1111;
+  box-shadow: 1px 11px 36px -5px rgba(0,0,0,0.5);
+  a{
+    color: $text-color;
+    sup{
+      position: unset;
+      font-size: 100%;
+    }
+    &:hover{
+      background-color: $white;
+      color: $th-color;
+    }
+  }
+}
+
+.card{
+  border-radius: 0px;
+  border-color: $border;
+  color: $text-color;
+  .card-body{
+    .js_edit_address{
+      @include scale_element(1.05,1.05,forwards,.3s);
+    }
+  }
+}

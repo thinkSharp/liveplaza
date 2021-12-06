@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<template>
+    <t t-name="ThemeSlider">
+        <li groups="website.group_website_designer" class="o_mail_navbar_item o_theme_manager">
+            <a href="#" title="Theme Slider" class="dropdown-toggle oe_theme_button o-no-caret"  data-toggle="dropdown">
+                <span class="fa fa-paint-brush"/>
+            </a>
+            <div class="theme_content dropdown-menu dropdown-menu-right" role="menu">
+                <div class="container o_mail_navbar_dropdown_top">
+                    <div class="row">
+                      <div class="col-6">
+                        <button type="button"
+                            class="btn btn-sm wk_color_button o_filter_button o_selected "
+                            data-filter='color'> Colors </button>
+                        </div>
+                        <div class="col-6">
+                            <button type="button"
+                                class="btn btn-sm wk_font_button o_filter_button"
+                                data-filter='font'> Fonts </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="container o_mail_navbar_dropdown_channels"/>
+            </div>
+        </li>
+    </t>
+    <t t-name="ThemeSlider.Colors">
+        <t t-set="available" t-value="0"/>
+        <div class="row color_wrapper">
+            <t t-foreach="colors" t-as="color">
+                <div class="col-md-6 col-12">
+                    <div class="theme_item color" data-type="color" t-att-data-primary_color_value="color.color_primary" t-att-data-color_id="color.id" role="group">
+                        <span t-att-style="'background-color:' + color.color_primary "/>
+                        <i t-if="color.default" class='check fa fa-check-circle-o'/>
+                        <!-- <i t-if='web_color_id==color.id' style='color:white; line-height:2.5em' class="fa fa-check-circle-o"/> -->
+                    </div>
+                </div>
+                <t t-set="available" t-value="1"/>
+            </t>
+        </div>
+        <div t-if="available == 0"><b>No Colors Available <t t-esc="colors"/></b></div>
+    </t>
+    <t t-name="ThemeSlider.Fonts">
+        <t t-set="available" t-value="0"/>
+        <div class="row font_wrapper">
+            <t t-foreach="fonts" t-as="font">
+                <div class="col-12">
+                    <div class="theme_item font" data-type="font" t-att-data-font_id="font.id" t-att-data-font_value="font.family" >
+                        <span t-att-style="'font-family:' + font.family + ';font-weight:bold;'" class='theme_item_name' t-esc="font.name"></span>
+                        <i t-if="font.default" class='check fa fa-check-circle-o'/>
+                    </div>
+                </div>
+                <t t-set="available" t-value="1"/>
+            </t>
+        </div>
+        <div t-if="available == 0"><b>No Fonts Available <t t-esc="fonts"/></b></div>
+    </t>
+</template>

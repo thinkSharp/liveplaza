@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_xtremo_featured_portal,xtremo_featured,model_xtremo_featured,base.group_portal,1,1,1,1
+access_xtremo_featured_user,xtremo_featured,model_xtremo_featured,base.group_user,1,1,1,1

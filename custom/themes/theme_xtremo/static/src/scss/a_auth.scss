@@ -1,0 +1,127 @@
+/* Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) */
+/* See LICENSE file for full copyright and licensing details. */
+
+main{
+    background-color: $bg-body;
+    .oe_website_login_container{
+      .o_login_auth{
+        em{
+          margin-bottom: 5px !important;
+          margin-top: 5px !important;
+        }
+      }
+      .oe_login_form, .oe_signup_form,.oe_reset_password_form{
+        padding: 25px 100px;
+        background-color: white;
+        max-width: 40%;
+        color: $text-color;
+        .form-control-sm{
+          height: calc(2.0625rem + 2px) !important;
+        }
+        a[href="/web/database/selector"]{
+          height: calc(2.0625rem + 2px) !important;
+          font-size: unset;
+        }
+        &::before{
+          content: "";
+          border-top: 2px solid white !important;
+          display: block;
+          width: 10%;
+          position: absolute;
+          left: 0px;
+          top: 0px;
+        }
+        &:hover{
+          &::before{
+            border-top: 2px solid $th-color !important;
+            animation: animate_form 1s infinite;
+            animation-fill-mode: forwards;
+            animation-direction: alternate;
+          }
+        }
+        h2{
+          color: $mn-text;
+          width: 100%;
+          text-align: center;
+          margin-bottom: 20px;
+        }
+        .justify-content-between,.oe_login_buttons{
+          margin-top: 20px !important;
+          margin-bottom: 10px !important;
+          button{
+            font-size: 15px;
+            padding: 8px;
+            border-radius: 0px;
+          }
+          >a{
+            border-radius: 0px;
+            font-weight: bold;
+            font-size: 12px;
+            padding: 5px;
+            border-width: 0px;
+            &:hover{
+              color: white;
+              background-color: $th-color;
+            }
+          }
+        }
+        .oe_login_buttons{
+          margin: 0px auto;
+          >a{
+            margin-top: 20px !important;
+            margin-bottom: 10px !important;
+          }
+        }
+        @media #{$l-pad}{
+          max-width: 50%;
+          margin: 16px auto;
+        }
+        @media #{$pad}{
+          padding: 25px 15px;
+          max-width: 50%;
+          margin: 16px auto;
+        }
+        @media #{$mobile}{
+          padding: 25px 15px;
+          max-width: 60%;
+          margin: 16px auto;
+        }
+        @media #{$min-mobile}{
+          padding: 25px 15px;
+          max-width: 90%;
+          margin: 16px auto;
+        }
+      }
+      .oe_reset_password_form{
+        .justify-content-between{
+          display: block !important;
+          button{
+            display: block;
+            width: 100%;
+            margin-bottom: 20px !important;
+          }
+        }
+      }
+      .input-group {
+        .input-group-append a{
+          color: $text-color !important;
+          border-radius: 0px;
+          background-color: $white !important;
+          &:hover{
+            color: white !important;
+            background-color: $text-color !important;
+          }
+        }
+      }
+    }
+  }
+  
+  @keyframes animate_form{
+    from{
+      left: 0%;
+    }
+    to{
+      left: 90%;
+    }
+  }
+  

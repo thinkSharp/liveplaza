@@ -1,0 +1,73 @@
+.xt-market-place .row.col-md-12.ml0.mr0{
+  border-bottom: 1px solid $border;
+}
+.xt-market-place .mp_seller{
+  transition: box-shadow .3s ease-in-out;
+  &:hover{
+    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.3);
+  }
+  .wk_ribbon-wrapper{
+    position: absolute !important;
+    left: 0 !important;
+  }
+  img{
+    border: 0px solid !important;
+    border-radius: 0px !important;
+  }
+  .row.col-xs-12.ml0.mr0{
+    .col-xs-7{
+      padding-left: 15px !important;
+      #seller_name a{
+        color: $mn-text !important;
+        font-family: inherit !important;
+      }
+      .rating-fa::before{
+        color: $border !important;
+      }
+      #seller_other_info{
+        .grid-seller-detail, .fa-line-chart{
+          color: $text-color !important;
+          font-style: normal !important;
+          font-family: inherit !important;
+          &::before{
+            font-family: FontAwesome !important;
+            color: $text-color !important;
+          }
+          span{
+            font-style: normal !important;
+            font-family: inherit !important;
+          }
+        }
+      }
+    }
+  }
+  #seller_shop .container-fluid{
+    background-color: transparent !important;
+    >div .fa-home,.seller-shop-name a{
+      color: $mn-text !important;
+      // font-family: inherit !important;
+    }
+    .shop-tag-line{
+      font-family: inherit !important;
+      color: $text-color;
+    }
+  }
+  .view-profile{
+    color: $th-color !important;
+    padding: 5px;
+    u{
+      text-decoration: none !important;
+    }
+    &:hover{
+      color: white !important;
+      background-color: $th-color !important;
+    }
+  }
+  @media #{$mobile}{
+    margin-top: 10px;
+    border: 1px solid $border !important;
+    &:hover{
+      border: 0px solid !important;
+    }
+  }
+}

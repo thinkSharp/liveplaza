@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+  <template id="xtremo_assets_frontend" inherit_id="website.assets_frontend" name="xtremo_assets" >
+    <xpath expr="." position="inside">
+      <link href="https://fonts.googleapis.com/css?family=Abel|Cinzel|Montserrat|Noto+Serif|Nunito|Play|Rokkitt" rel="stylesheet" />
+      <link rel="stylesheet" type="text/css" href="/theme_xtremo/static/src/css/owl.theme.css"/>
+      <link rel="stylesheet" type="text/css" href="/theme_xtremo/static/src/css/owl.carousel.css"/>
+      <link rel="stylesheet" type="text/css" href="/theme_xtremo/static/src/css/owl.theme.gallery.css"/>
+      <link rel="stylesheet" type="text/scss" href="/theme_xtremo/static/src/scss/screen_size.scss"/>
+      <link rel="stylesheet" type="text/scss" href="/theme_xtremo/static/src/scss/mixin.scss"/>
+      <link rel="stylesheet" type="text/scss" href="/theme_xtremo/static/src/scss/bootstrap/button.scss"/>
+      <link rel="stylesheet" type="text/scss" href="/theme_xtremo/static/src/scss/bootstrap/badges.scss"/>
+      <link rel="stylesheet" type="text/scss" href="/theme_xtremo/static/src/scss/bootstrap/table.scss"/>
+      <link rel="stylesheet" type="text/scss" href="/theme_xtremo/static/src/scss/bootstrap/drop_down.scss"/>
+      <link rel="stylesheet" type="text/scss" href="/theme_xtremo/static/src/scss/bootstrap/pagination.scss"/>
+      <link rel="stylesheet" type="text/scss" href="/theme_xtremo/static/src/scss/website.editor.ui.scss"/>
+      <link rel="stylesheet" type="text/scss" href="/theme_xtremo/static/src/scss/cart.scss"/>
+      <link rel="stylesheet" type="text/scss" href="/theme_xtremo/static/src/scss/product.scss"/>
+      <link rel="stylesheet" type="text/scss" href="/theme_xtremo/static/src/scss/checkout.scss"/>
+      <link rel="stylesheet" type="text/scss" href="/theme_xtremo/static/src/scss/address.scss"/>
+      <link rel="stylesheet" type="text/scss" href="/theme_xtremo/static/src/scss/payment.scss"/>
+      <link rel="stylesheet" type="text/scss" href="/theme_xtremo/static/src/scss/wishlist.scss"/>
+      <link rel="stylesheet" type="text/scss" href="/theme_xtremo/static/src/scss/account.scss"/>
+      <link rel="stylesheet" type="text/css" href="/theme_xtremo/static/src/css/jquery.range.css"/>
+      <link rel="stylesheet" type="text/scss" href="/theme_xtremo/static/src/scss/contactus.scss"/>
+      <link rel="stylesheet" type="text/scss" href="/theme_xtremo/static/src/scss/quotation.scss"/>
+      <link rel="stylesheet" type="text/scss" href="/theme_xtremo/static/src/scss/confirmation.scss"/>
+      <link rel="stylesheet" type="text/scss" href="/theme_xtremo/static/src/scss/main.scss"/>
+      <link rel="stylesheet" type="text/scss" href="/theme_xtremo/static/src/scss/a_auth.scss"/>
+      <link rel="stylesheet" type="text/scss" href="/theme_xtremo/static/src/scss/home.scss"/>
+      <link rel="stylesheet" type="text/css" href="/theme_xtremo/static/src/css/twentytwenty.css"/>
+
+      <script type="text/javascript" src="/theme_xtremo/static/src/js/lib/jquery.range-min.js"></script>
+      <script type="text/javascript" src="/theme_xtremo/static/src/js/lib/jquery.mousewheel.min.js"></script>
+      <script type="text/javascript" src="/theme_xtremo/static/src/js/lib/jquery.twentytwenty.js"></script>
+      <script type="text/javascript" src="/theme_xtremo/static/src/js/lib/owl.carousel.min.js" />
+
+      <script type="text/javascript" src="/theme_xtremo/static/src/js/xtremo_core.js" />
+      <script type="text/javascript" src="/theme_xtremo/static/src/js/main.js" />
+      <script type="text/javascript" src="/theme_xtremo/static/src/js/theme.js" />
+      <script type="text/javascript" src="/theme_xtremo/static/src/js/home.js" />
+      <script type="text/javascript" src="/theme_xtremo/static/src/js/xtremo.sale.comparison.js" />
+      <script type="text/javascript" src="/theme_xtremo/static/src/js/xtremo.sale.cart.js" />
+      <script type="text/javascript" src="/theme_xtremo/static/src/js/shop.js" />
+      <script type="text/javascript" src="/theme_xtremo/static/src/js/lazzy_loading.js" />
+      <script type="text/javascript" src="/theme_xtremo/static/src/js/xtremo.snippet.editor.js" />
+
+    </xpath>
+  </template>
+
+  <!-- Header -->
+  <template id="xt_header_xtremo_1" inherit_id="theme_xtremo.xtremo_assets_frontend" active="True" priority="1">
+    <xpath expr="//link[last()]" position="after">
+      <link rel="stylesheet" type="text/scss" href="/theme_xtremo/static/src/scss/header/header_1.scss"/>
+      <!-- <script type="text/javascript" src="/theme_xtremo/static/src/js/header/header_1.js"> -->
+      <!-- </script> -->
+    </xpath>
+  </template>
+  <template id="xt_header_xtremo_2" inherit_id="theme_xtremo.xtremo_assets_frontend" active="False" priority="1">
+    <xpath expr="//link[last()]" position="after">
+      <link rel="stylesheet" type="text/scss" href="/theme_xtremo/static/src/scss/header/header_2.scss"/>
+      <!-- <script type="text/javascript" src="/theme_xtremo/static/src/js/header/header_2.js">
+      </script> -->
+    </xpath>
+  </template>
+
+  <!-- Footer -->
+  <template id="xt_footer_xtremo_1" inherit_id="theme_xtremo.xtremo_assets_frontend" active="True" priority="2">
+    <xpath expr="//link[last()]" position="after">
+      <link rel="stylesheet" type="text/scss" href="/theme_xtremo/static/src/scss/footer/footer_1.scss"/>
+    </xpath>
+  </template>
+  <template id="xt_footer_xtremo_2" inherit_id="theme_xtremo.xtremo_assets_frontend" active="False" priority="2">
+    <xpath expr="//link[last()]" position="after">
+      <link rel="stylesheet" type="text/scss" href="/theme_xtremo/static/src/scss/footer/footer_2.scss"/>
+    </xpath>
+  </template>
+
+  <!-- Shops -->
+  <template id="xt_shop_xtremo_1" inherit_id="theme_xtremo.xtremo_assets_frontend" active="True">
+    <xpath expr="//link[last()]" position="after">
+      <link rel="stylesheet" type="text/scss" href="/theme_xtremo/static/src/scss/shop/shop_1.scss"/>
+    </xpath>
+  </template>
+  <template id="xt_shop_xtremo_2" inherit_id="theme_xtremo.xtremo_assets_frontend" active="False">
+    <xpath expr="//link[last()]" position="after">
+      <link rel="stylesheet" type="text/scss" href="/theme_xtremo/static/src/scss/shop/shop_2.scss"/>
+    </xpath>
+  </template>
+
+  <!-- Colors -->
+  <template id="xt_header_xtremo_color_1" inherit_id="website.assets_frontend" active="True">
+    <xpath expr="//link[1]" position="after">
+      <link rel="stylesheet" type="text/scss" href="/theme_xtremo/static/src/scss/color/color_1.scss"/>
+    </xpath>
+  </template>
+  <template id="xt_header_xtremo_color_2" inherit_id="website.assets_frontend" active="False">
+    <xpath expr="//link[1]" position="after">
+      <link rel="stylesheet" type="text/scss" href="/theme_xtremo/static/src/scss/color/color_2.scss"/>
+    </xpath>
+  </template>
+  <template id="xt_header_xtremo_color_3" inherit_id="website.assets_frontend" active="False">
+    <xpath expr="//link[1]" position="after">
+      <link rel="stylesheet" type="text/scss" href="/theme_xtremo/static/src/scss/color/color_3.scss"/>
+    </xpath>
+  </template>
+  <template id="xt_header_xtremo_color_4" inherit_id="website.assets_frontend" active="False">
+    <xpath expr="//link[1]" position="after">
+      <link rel="stylesheet" type="text/scss" href="/theme_xtremo/static/src/scss/color/color_4.scss"/>
+    </xpath>
+  </template>
+  <template id="xt_header_xtremo_color_5" inherit_id="website.assets_frontend" active="False">
+    <xpath expr="//link[1]" position="after">
+      <link rel="stylesheet" type="text/scss" href="/theme_xtremo/static/src/scss/color/color_5.scss"/>
+    </xpath>
+  </template>
+  <template id="xt_header_xtremo_color_6" inherit_id="website.assets_frontend" active="False">
+    <xpath expr="//link[1]" position="after">
+      <link rel="stylesheet" type="text/scss" href="/theme_xtremo/static/src/scss/color/color_6.scss"/>
+    </xpath>
+  </template>
+
+  <!-- Fonts -->
+  <template id="xt_header_xtremo_font_1" inherit_id="website.assets_frontend" active="False">
+    <xpath expr="//link[1]" position="after">
+      <link rel="stylesheet" type="text/scss" href="/theme_xtremo/static/src/scss/fonts/font_1.scss"/>
+    </xpath>
+  </template>
+  <template id="xt_header_xtremo_font_2" inherit_id="website.assets_frontend" active="False">
+    <xpath expr="//link[1]" position="after">
+      <link rel="stylesheet" type="text/scss" href="/theme_xtremo/static/src/scss/fonts/font_2.scss"/>
+    </xpath>
+  </template>
+  <template id="xt_header_xtremo_font_3" inherit_id="website.assets_frontend" active="False">
+    <xpath expr="//link[1]" position="after">
+      <link rel="stylesheet" type="text/scss" href="/theme_xtremo/static/src/scss/fonts/font_3.scss"/>
+    </xpath>
+  </template>
+  <template id="xt_header_xtremo_font_4" inherit_id="website.assets_frontend" active="False">
+    <xpath expr="//link[1]" position="after">
+      <link rel="stylesheet" type="text/scss" href="/theme_xtremo/static/src/scss/fonts/font_4.scss"/>
+    </xpath>
+  </template>
+  <template id="xt_header_xtremo_font_5" inherit_id="website.assets_frontend" active="True">
+    <xpath expr="//link[1]" position="after">
+      <link rel="stylesheet" type="text/scss" href="/theme_xtremo/static/src/scss/fonts/font_5.scss"/>
+    </xpath>
+  </template>
+  <template id="xt_header_xtremo_font_6" inherit_id="website.assets_frontend" active="False">
+    <xpath expr="//link[1]" position="after">
+      <link rel="stylesheet" type="text/scss" href="/theme_xtremo/static/src/scss/fonts/font_6.scss"/>
+    </xpath>
+  </template>
+  <template id="xt_header_xtremo_font_7" inherit_id="website.assets_frontend" active="False">
+    <xpath expr="//link[1]" position="after">
+      <link rel="stylesheet" type="text/scss" href="/theme_xtremo/static/src/scss/fonts/font_7.scss"/>
+    </xpath>
+  </template>
+  <template id="xt_header_xtremo_font_8" inherit_id="website.assets_frontend" active="False">
+    <xpath expr="//link[1]" position="after">
+      <link rel="stylesheet" type="text/scss" href="/theme_xtremo/static/src/scss/fonts/font_8.scss"/>
+    </xpath>
+  </template>
+
+
+</odoo>

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+
+<odoo>
+    <data>
+        <record id="wk_pay_to_admin_wizard_form_view" model="ir.ui.view">
+            <field name="name">seller.payment.form</field>
+            <field name="model">seller.payment.wizard</field>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <form string="Pay To Admin">
+                    <group attrs="{'invisible': ['|',('cashable_amount', '&gt;', 0.0),('cashable_amount', '=', 0.0)]}">
+                        <field name="seller_id" invisible="1"/>
+                        <field name="cashable_amount" string="Due Amount" widget="monetary"/>
+                        <label for="amount" string="Payment Amount"/>
+                        <div>
+                            <field name="amount" string="Payment Amount" widget="monetary" class="oe_inline"/>
+                            <span></span>
+                        </div>
+                        <field name="currency_id" invisible="1"/>
+                        <field name="description" required="1" placeholder="Payment description"/>
+                    </group>
+
+                    <div class="text-center" attrs="{'invisible': [('cashable_amount', '&lt;', 0.0)]}">
+                        <h1>No Payment Due.</h1>
+                    </div>
+
+                    <footer>
+                        <div attrs="{'invisible': ['|',('cashable_amount', '&gt;', 0.0),('cashable_amount', '=', 0.0)]}">
+                            <button string="Pay" name="do_recieve" type="object" class="btn-primary" context="{'by_seller': True}"/>
+                             or
+                            <button string="Cancel" class="oe_link" special="cancel" />
+                        </div>
+                        <button string="Ok" class="oe_link" special="cancel" attrs="{'invisible': [('cashable_amount', '&lt;', 0.0)]}"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="wk_recieved_from_seller_wizard_form_view" model="ir.ui.view">
+            <field name="name">Pay.to.seller.payment.form</field>
+            <field name="model">seller.payment.wizard</field>
+            <field name="mode">primary</field>
+            <field name="arch" type="xml">
+                <form string="Recieved From Seller">
+                    <group>
+                        <field name="date" required="1"/>
+                        <field name="currency_id" invisible="1"/>
+                        <field name="seller_id" required="1" options='{"no_open": True, "no_create": True}' placeholder="Seller"/>
+                        <field name="cashable_amount" string="Due Amount" attrs="{'invisible': ['|',('cashable_amount', '&gt;', 0.0), ('seller_id', '=', False)]}" help="You can pay to seller upto this amount." widget="monetary"/>
+                        
+                        <label for="amount" string="Recieve Amount" attrs="{'invisible': [('seller_id', '=', False)]}"/>
+                        <div attrs="{'invisible': [('seller_id', '=', False)]}">
+                            <field name="amount" string="Recieve Amount" help="Amount which you are recieved from the seller." widget="monetary" class="oe_inline"/>
+                            <span></span>
+                        </div>
+                        <field name="payment_method_id" attrs="{'invisible': [('seller_id', '=', False)]}" required="1" options='{"no_open": True, "no_create": True}' placeholder="Payment Method" help="Select payment method in which you have paid payment to seller."/>
+                        <field name="description" attrs="{'invisible': [('seller_id', '=', False)]}" required="1" placeholder="Payment description"/>
+                    </group>
+
+
+                    <div class="fa fa-exclamation-triangle label-warning" attrs="{'invisible': ['|',('cashable_amount', '&lt;', 0.0), ('seller_id', '=', False)]}" style="padding: 10px 10px 0px 10px;border-radius: 10px;">
+                        <b>
+                            <p style="padding:2px; display: inline-block;">
+                                Sorry Seller has no due amount. So you can't recieved any payment from this seller.
+                            </p>
+                        </b>
+                    </div>
+                    <footer>
+                        <span  attrs="{'invisible': ['|',('cashable_amount', '&gt;', 0.0),('cashable_amount', '=', 0.0)]}">
+                            <button string="Recieve &amp; Confirm" name="do_recieve_and_confirm" type="object" class="btn-primary"/>
+                                or
+                            <button string="Recieve" name="do_recieve" type="object" class="btn-primary"/>
+                                or
+                        </span>
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="wk_pay_to_admin_wizard_action" model="ir.actions.act_window">
+            <field name="name">Pay To Admin</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">seller.payment.wizard</field>
+            <field name="target">new</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="wk_pay_to_admin_wizard_form_view"/>
+        </record>
+
+        <record id="wk_recieved_from_seller_wizard_action" model="ir.actions.act_window">
+            <field name="name">Recieved From Seller</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">seller.payment.wizard</field>
+            <field name="target">new</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="wk_recieved_from_seller_wizard_form_view"/>
+        </record>
+
+        <record id="inherit_wk_seller_payment_form_view" model="ir.ui.view">
+            <field name="name">seller.payment.cod</field>
+            <field name="model">seller.payment</field>
+            <field name="inherit_id" ref="odoo_marketplace.wk_seller_payment_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/header/button[3]" position="attributes">
+                    <attribute name="attrs">{'invisible':['|','&amp;',('payment_type','=','cr'),('payment_mode', 'in', ['order_paid']),('state','not in',['confirm'])]}</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <menuitem id="wk_pay_to_admin_menu" name="Pay To Admin" sequence="4" parent="odoo_marketplace.wk_seller_dashboard_menu3" action="wk_pay_to_admin_wizard_action" groups="odoo_marketplace.marketplace_seller_group"/>
+        <menuitem id="wk_recieved_from_seller_menu" name="Recieved From Seller" sequence="4" parent="odoo_marketplace.wk_seller_dashboard_menu3" action="wk_recieved_from_seller_wizard_action" groups="odoo_marketplace.marketplace_officer_group"/>
+    </data>
+</odoo>

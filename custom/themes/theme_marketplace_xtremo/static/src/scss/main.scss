@@ -1,0 +1,148 @@
+header .cart .text{
+  &::after,&::before{
+    display: none !important;
+  }
+}
+
+
+.xt-market-place .container{
+  margin-top: 30px;
+  margin-bottom: 30px;
+  background-color: white;
+  padding: 15px;
+  >br{
+    display: none;
+  }
+  table tr td{
+    border: 0px solid !important;
+    padding: 5px !important;
+    @media #{$mobile}{
+      &.mp_seller{
+        margin-bottom: 10px;
+        border: 1px solid $border !important;
+        &:hover{
+          border: 0px solid !important;
+        }
+      }
+    }
+  }
+}
+
+@mixin button_market($color){
+  background-color: $color !important;
+  border: 1px solid $color !important;
+  color: white !important;
+  border-radius: 0px !important;
+}
+
+@mixin seller_info(){
+  padding-left: 0px;
+  padding-right: 0px;
+  background-color: white;
+  div{
+    border: 0px solid !important;
+  }
+
+  .seller-profile-pic{
+    border-radius: 3px;
+    border: 10px solid white !important;
+  }
+  #seller_name_and_rating{
+    span{
+      color: $mn-text !important;
+    }
+  }
+}
+
+@mixin product_tabs(){
+  border-color: $border;
+  a{
+    border-radius: 0px;
+  }
+  a.active{
+    border-color: $border $border #FFFFFF;
+  }
+}
+
+@mixin table_market(){
+  td.oe_grid{
+    border: 0px solid !important;
+    padding: 5px;
+    height: auto !important;
+    .oe_product_cart{
+      transition: box-shadow .3s ease-in-out;
+      padding: 10px;
+      &:hover{
+        box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.5);
+      }
+      .oe_product_image,.oe_product_image img{
+        position: static;
+      }
+      section{
+        position: static;
+        padding-top: 10px;
+        h6{
+          font-size: 16px;
+          margin-bottom: 0px;
+          font-weight: bold;
+          a{
+            color: $mn-text !important;
+          }
+        }
+
+        b{
+          display: block;
+          margin-bottom:  10px;
+        }
+        .oe_subdescription{
+          font-size: 14px;
+          margin-bottom: 0px !important;
+          div{
+            color: $text-color !important;
+          }
+        }
+        .product_price >a, .product_price >button{
+          background-color: $th-color !important;
+          color: white !important;
+          border-color: $th-color !important;
+          span{
+            color: white !important;
+          }
+          &:hover{
+            background-color: white !important;
+            color: $th-color !important;
+            span{
+              color: $th-color !important;
+            }
+          }
+        }
+      }
+    }
+    @media #{$mobile}{
+      // &[class="oe_product"]{
+        padding: 0px !important;
+        margin-bottom: 10px !important;
+        .oe_product_cart{
+          padding: 0px !important;
+          border: 1px solid $border !important;
+        }
+        &:hover{
+          border: 0px solid $border !important;
+        }
+        section{
+          padding-bottom: 10px !important;
+        }
+      // }
+    }
+  }
+
+}
+
+.promo >div >.carousel-inner,
+.justify-content-center >.text-center >.carousel-inner,
+.justify-content-center >.offset-4 >.carousel-inner,
+.promo >div >.carousel-inner .oe_custom_bg,
+.justify-content-center >.text-center >.carousel-inner div,
+.justify-content-center >.offset-4 >.carousel-inner div{
+  height: 100%;
+}

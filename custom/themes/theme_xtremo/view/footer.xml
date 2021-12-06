@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <template id="xtremo_language_dropdown">
+    <div class="dropdown" id="xt_language_selector">
+      <a class="dropdown-toggle" type="button" id="dropdownlanguage_selector" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <span t-esc="list(filter(lambda lg : lg[0] == lang, languages))[0][2].split('/').pop()"/>
+      </a>
+      <div class="dropdown-menu" role="menu" aria-labelledby="dropdownlanguage_selector">
+        <t t-foreach="languages" t-as="lg">
+          <a t-att-href="url_for(request.httprequest.path + '?' + keep_query(), lang_code=lg[0])" class="dropdown-item js_change_lang" t-att-data-lang="lg[0]">
+            <t t-esc="lg[2].split('/').pop()"/>
+          </a>
+        </t>
+        <t t-set="url_return" t-value="url_for('', '[lang]') + '?' + keep_query()"/>
+        <a groups="website.group_website_publisher" class="dropdown-item" t-attf-href="/web#action=base.action_view_base_language_install&amp;website_id=#{website.id if website else ''}&amp;url_return=#{url_return}">
+          <i class="fa fa-plus-circle"/> Add a language...</a>
+        </div>
+      </div>
+    </template>
+
+      <template id="xtremo_payment_icons">
+        <ul class="payment_method_list list-inline">
+          <t t-foreach="request.website.payment_icons()" t-as="icon">
+            <li>
+              <span t-field="icon.image" t-options='{"widget": "image", "alt-field": "name"}' />
+            </li>
+          </t>
+        </ul>
+      </template>
+      <template id="footer_layout_1" inherit_id="website.footer_custom" active="True" priority="15">
+        <xpath expr="//section" position="replace">
+          <section class="s_text_block pt16 pb8">
+            <div class="container">
+              <div class="row">
+                <div class="col-lg-4">
+                  <h5>Information</h5>
+                  <ul class="list-unstyled">
+                    <li>
+                      <a href="/">Home</a>
+                    </li>
+                    <li>
+                      <a href="/contactus">Contact us</a>
+                    </li>
+                    <li>
+                      <a href="/aboutus">About us</a>
+                    </li>
+                    <li t-if="not request.website.is_public_user()">
+                      <a t-attf-href="/web/session/logout?redirect=/" >Logout</a>
+                    </li>
+                  </ul>
+                </div>
+                <div class="col-lg-4 order-md-4 order-lg-4 order-4" id="connect">
+                  <h5>Connect with us</h5>
+                  <ul class="list-unstyled">
+                    <li>
+                      <a href="/contactus">Contact us</a>
+                    </li>
+                    <li>
+                      <i class="fa fa-phone"/>
+                      <span t-field="res_company.phone"/>
+                    </li>
+                    <li>
+                      <i class="fa fa-envelope"/>
+                      <span t-field="res_company.email"/>
+                    </li>
+                  </ul>
+                  <p>
+                    <a t-if="website.social_facebook" t-att-href="website.social_facebook" class="btn btn-sm btn-link">
+                      <i class="fa fa-2x fa-facebook-square"/>
+                    </a>
+                    <a t-if="website.social_twitter" t-att-href="website.social_twitter" class="btn btn-sm btn-link">
+                      <i class="fa fa-2x fa-twitter"/>
+                    </a>
+                    <a t-if="website.social_linkedin" t-att-href="website.social_linkedin" class="btn btn-sm btn-link">
+                      <i class="fa fa-2x fa-linkedin"/>
+                    </a>
+                    <a t-if="website.social_youtube" t-att-href="website.social_youtube" class="btn btn-sm btn-link">
+                      <i class="fa fa-2x fa-youtube-play"/>
+                    </a>
+                    <!-- <a t-if="website.social_googleplus" t-att-href="website.social_googleplus" class="btn btn-sm btn-link" rel="publisher">
+                      <i class="fa fa-2x fa-google-plus-square"/>
+                    </a> -->
+                    <a t-if="website.social_github" t-att-href="website.social_github" class="btn btn-sm btn-link">
+                      <i class="fa fa-2x fa-github"/>
+                    </a>
+                    <a t-if="website.social_instagram" t-att-href="website.social_instagram" class="btn btn-sm btn-link">
+                      <i class="fa fa-2x fa-instagram"/>
+                    </a>
+                  </p>
+                  <div class="xtremo-payment-icon">
+                    <t t-call="theme_xtremo.xtremo_payment_icons" />
+                  </div>
+                </div>
+                <div class="col-lg-4">
+                  <h5>
+                    <small> Account</small>
+                  </h5>
+                  <ul class="list-unstyled">
+                    <li>
+                      <t t-call="theme_xtremo.xtremo_language_dropdown" />
+                    </li>
+                    <li>
+                      <a href="/shop/cart">My Cart</a>
+                    </li>
+                    <li t-if="not request.website.is_public_user()">
+                      <a href="/shop/wishlist">My Wishlist</a>
+                    </li>
+                    <li t-if="not request.website.is_public_user()">
+                      <a href="/my/home" role="menuitem">My Account</a>
+                    </li>
+                    <li t-if="not request.website.is_public_user()">
+                      <a href="/my/orders" >Orders History</a>
+                    </li>
+                    <li t-if="request.website.is_public_user()">
+                      <a t-attf-href="/web/login" >Login</a>
+                    </li>
+                  </ul>
+                  <p>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
+        </xpath>
+      </template>
+      <template id="footer_layout_2" inherit_id="website.footer_custom" priority="15" active="False" >
+        <xpath expr="//section[hasclass('s_text_block')]" position="replace">
+          <section class="s_text_block pt16 pb8">
+            <div class="container">
+              <div class="row">
+                <div class="col-lg-4">
+                  <h5>Accounts</h5>
+                  <ul class="list-unstyled">
+                    <li>
+                      <a href="/">Home</a>
+                    </li>
+                    <li t-if="not request.website.is_public_user()">
+                      <a href="/my/home" role="menuitem">My Account</a>
+                    </li>
+                    <li t-if="not user_id._is_public()">
+                      <a href="/my/quotes">Quotations</a>
+                    </li>
+                    <li t-if="not user_id._is_public()">
+                      <a href="/my/orders">Sales Orders</a>
+                    </li>
+                    <li>
+                      <a href="/shop/cart">Cart</a>
+                    </li>
+                    <li>
+                      <a href="/shop/wishlist">Wishlist</a>
+                    </li>
+                    <li t-if="signup_enabled">
+                      <a t-attf-href="/web/signup?{{ keep_query() }}" >Register</a>
+                    </li>
+                    <li t-if="user_id._is_public()">
+                      <a t-attf-href="/web/login?{{ keep_query() }}" >Login</a>
+                    </li>
+                    <li t-if="not user_id._is_public()" id="o_logout">
+                      <a t-attf-href="/web/session/logout?redirect=/" role="menuitem">Logout</a>
+                    </li>
+                  </ul>
+                </div>
+                <div class="col-lg-4" id="connect">
+                  <h5>Contact Us</h5>
+                  <ul class="list-unstyled">
+                    <li>
+                      <a href="/contactus">Contact us</a>
+                    </li>
+                    <li>
+                      <i class="fa fa-phone"/>
+                      <span t-field="res_company.phone"/>
+                    </li>
+                    <li>
+                      <i class="fa fa-envelope"/>
+                      <span t-field="res_company.email"/>
+                    </li>
+                  </ul>
+                  <p>
+                    <a t-if="website.social_facebook" t-att-href="website.social_facebook" class="btn btn-sm btn-link">
+                      <i class="fa fa-2x fa-facebook-square"/>
+                    </a>
+                    <a t-if="website.social_twitter" t-att-href="website.social_twitter" class="btn btn-sm btn-link">
+                      <i class="fa fa-2x fa-twitter"/>
+                    </a>
+                    <a t-if="website.social_linkedin" t-att-href="website.social_linkedin" class="btn btn-sm btn-link">
+                      <i class="fa fa-2x fa-linkedin"/>
+                    </a>
+                    <a t-if="website.social_youtube" t-att-href="website.social_youtube" class="btn btn-sm btn-link">
+                      <i class="fa fa-2x fa-youtube-play"/>
+                    </a>
+                    <!-- <a t-if="website.social_googleplus" t-att-href="website.social_googleplus" class="btn btn-sm btn-link" rel="publisher">
+                      <i class="fa fa-2x fa-google-plus-square"/>
+                    </a> -->
+                    <a t-if="website.social_github" t-att-href="website.social_github" class="btn btn-sm btn-link">
+                      <i class="fa fa-2x fa-github"/>
+                    </a>
+                    <a t-if="website.social_instagram" t-att-href="website.social_instagram" class="btn btn-sm btn-link">
+                      <i class="fa fa-2x fa-instagram"/>
+                    </a>
+                  </p>
+                </div>
+                <div class="col-lg-4">
+                  <h5>Seller</h5>
+                  <ul class="list-unstyled">
+                    <li>
+                      <t t-call="theme_xtremo.xtremo_language_dropdown" />
+                    </li>
+                    <li>
+                      <a href="/">Home</a>
+                    </li>
+                    <li>
+                      <a href="/shop">Shop</a>
+                    </li>
+                    <li>
+                      <a href="/aboutus">About us</a>
+                    </li>
+                  </ul>
+                </div>
+                <div class="col-lg-4">
+                  <h5>
+                    <span t-field="res_company.name"/>
+                  </h5>
+                  <p>                               We are a team of passionate people whose goal is to improve everyone's                               life through disruptive products. We build great products to solve your                               business problems.                           </p>
+                  <p>                               Our products are designed for small to medium size companies willing to optimize                               their performance.                           </p>
+                </div>
+                <div class="col-lg-4">
+                  <h5>Follow Us</h5>
+                  <p>
+                    <a class="btn btn-sm btn-link" t-att-href="website.social_facebook" t-if="website.social_facebook">
+                      <i class="fa fa-facebook-square"/>
+                    </a>
+                    <a class="btn btn-sm btn-link" t-att-href="website.social_twitter" t-if="website.social_twitter">
+                      <i class="fa fa-twitter"/>
+                    </a>
+                    <a class="btn btn-sm btn-link" t-att-href="website.social_linkedin" t-if="website.social_linkedin">
+                      <i class="fa fa-linkedin"/>
+                    </a>
+                    <a class="btn btn-sm btn-link" t-att-href="website.social_youtube" t-if="website.social_youtube">
+                      <i class="fa fa-youtube-play"/>
+                    </a>
+                    <!-- <a class="btn btn-sm btn-link" t-att-href="website.social_googleplus" t-if="website.social_googleplus" rel="publisher">
+                      <i class="fa fa-google-plus-square"/>
+                    </a> -->
+                    <a class="btn btn-sm btn-link" t-att-href="website.social_github" t-if="website.social_github">
+                      <i class="fa fa-github"/>
+                    </a>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
+        </xpath>
+      </template>
+      <template id="xt_footer_copyright" active="False" inherit_id="portal.frontend_layout">
+        <xpath expr="//div[hasclass('o_footer_copyright')]//div[hasclass('row')]" position="inside">
+          <div class="xtremo-payment-icon">
+            <t t-call="theme_xtremo.xtremo_payment_icons" />
+          </div>
+        </xpath>
+      </template>
+    </odoo>

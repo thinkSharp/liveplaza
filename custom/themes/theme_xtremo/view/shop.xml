@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+  <template id="theme_xtremo_products_count" inherit_id="website_sale.products" name="checking" priority="1">
+    <xpath expr="//div[@id='products_grid']/div[hasclass('o_wsale_products_grid_table_wrapper')]" position="before">
+        <div  class="xt_container">
+            <t t-set="xt_product" t-value="'All Products'" />
+            <ul id="xt_category">
+                <li t-foreach="all_categories" t-as="xt_category">
+                    <t t-if="xt_category.get('url')">
+                        <a t-att-href="xt_category.get('url')">
+                            <span><t t-esc="xt_category.get('name')" /></span>
+                        </a>
+                        <i class="fa fa-chevron-right" />
+                    </t>
+                    <t t-if="not xt_category.get('url')">
+                        <t t-set="xt_product" t-value="xt_category.get('name')" />
+                        <span class="final"><t t-esc="xt_category.get('name')" /></span>
+                    </t>
+                </li>
+            </ul>
+            <h3 class="xt_product_count_heading"><t t-esc="xt_product" /></h3>
+            <p style="font-size: 13px; font-weight: bold;">Showing
+                <t t-set="total_product" t-value="len(products)" />
+                <t t-set="current_product_list" t-value="(pager['page']['num']-1)*total_product if pager['page_count']!=pager['page']['num'] else search_count-total_product" />
+                <span class="xt_product_count"><t t-esc="(current_product_list+1) if total_product else '0'" /></span> To
+                <span class="xt_product_count xt_product_count-to"><t t-esc="current_product_list+total_product" /></span> of
+                <span class="xt_product_count"><t t-esc="search_count" /></span> Products
+            </p>
+            <div class="clr"></div>
+        </div>
+    </xpath>
+
+    <xpath expr="//div[@id='products_grid'][last()]" position="inside">
+        <div class="products_pager form-inline justify-content-center mt-3">
+            <div class="cp-spinner cp-round"></div>
+            <div id="wk_loader">Load More Products</div>
+        </div>
+    </xpath>
+
+
+
+    <xpath expr="//div[@id='products_grid_before']" position="inside">
+      <div class="selected_filters d-none">
+        <t t-if="category">
+          <div class="selected_category" t-att-data-index="category.id"></div>
+        </t>
+        <t t-if="attrib_values">
+          <div class="attributes">
+            <div class="attrib_list" t-att-data-list="attrib_values"></div>
+            <t t-foreach="attrib_values" t-as="attribute_list_ids">
+              <div class="attribute" t-att-data-attribute="attribute_list_ids[0]" t-att-data-attribute-value="attribute_list_ids[1]"></div>
+            </t>
+          </div>
+        </t>
+      </div>
+    </xpath>
+
+  </template>
+
+  <!-- <template id="theme_xtremo_product_rating" inherit_id="website_sale.products_item">
+     <xpath expr="//div[hasclass('product_price')]" position="after">
+       <div class="product_avg_rating">
+         <t t-set="avg_rating_count" t-value="0"/>
+         <t t-set="length_count" t-value="0"/>
+         <t t-if="product.rating_ids">
+           <t t-foreach="product.rating_ids" t-as="r">
+             <t t-set="avg_rating_count" t-value="avg_rating_count + r.rating"/>
+             <t t-set="length_count" t-value="length_count + 1"/>
+           </t>
+           <t t-set="avg_rating_count" t-value="avg_rating_count/length_count"/>
+           <t t-set="avg_rating_count" t-value="avg_rating_count/2"/>
+
+           <t t-set="val_integer" t-value="int(avg_rating_count)"/>
+           <t t-set="val_decimal" t-value="(avg_rating_count - val_integer)"/>
+           <t t-if="val_decimal">
+             <t t-set="val_decimal" t-value="0.5"/>
+             <t t-set="avg_rating_count" t-value="val_integer + val_decimal"/>
+           </t>
+           <div class="o_website_rating_static">
+               <t t-set="if_empty" t-value="val_integer"/>
+               <t t-foreach="range(val_integer)" t-as="num">
+                   <i class="fa fa-star" role="img" aria-label="One star" title="One star"></i>
+               </t>
+               <t t-if="val_decimal">
+                   <i class="fa fa-star-half-o" role="img" aria-label="Half a star" title="Half a star"></i>
+                   <t t-set="if_empty" t-value="if_empty + 1"/>
+               </t>
+               <t t-if="(5 - if_empty) > 0">
+                 <t t-foreach="range((5- if_empty))" t-as="num" role="img" t-attf-aria-label="#{empty_star} on 5" t-attf-title="#{empty_star} on 5">
+                   <i class="fa fa-star-o"></i>
+                 </t>
+               </t>
+           </div>
+         </t>
+         <t t-if="not product.rating_ids">
+           <t t-foreach="range(5)" t-as="num" role="img" t-attf-aria-label="#{empty_star} on 5" t-attf-title="#{empty_star} on 5">
+             <i class="fa fa-star-o"></i>
+           </t>
+         </t>
+       </div>
+     </xpath>
+   </template> -->
+
+
+  <template id="xtremo_color_filter_name" inherit_id="website_sale.products_attributes" name="color Filter Name" priority="16">
+    <xpath expr='//t[@t-if="a.display_type == &#39;color&#39;"]/t' position="replace">
+      <t t-set="c_id" t-value="'{}_{}'.format(a.name, a.id)" />
+      <ul t-attf-class="flex-column color-attribute #{'collapse' if collapse_cat else ''}" t-att-id="c_id">
+        <t t-foreach="a.value_ids" t-as="v">
+          <li class="nav-item">
+            <label style="margin: 0 10px;" t-attf-class=" #{'active color' if v.id in attrib_set else 'color'}">
+              <input type="checkbox" name="attrib" t-att-value="'%s-%s' % (a.id,v.id)" t-att-checked="'checked' if v.id in attrib_set else None" t-att-title="v.name" />
+              <span t-attf-style="background-color:#{v.html_color or v.name};" t-attf-class="css_attribute_color #{'active' if v.id in attrib_set else ''}"/>
+              <span t-esc="v.name" />
+            </label>
+          </li>
+        </t>
+      </ul>
+    </xpath>
+  </template>
+
+  <template id="product_error_message" inherit_id="website_sale.products">
+    <xpath expr='//div[@id="products_grid"]/t[@t-else=""]' position="replace">
+      <t t-else="" >
+        <div class="col-md-12 no-shop-products">
+          <div style="text-align: center;">
+            <img style="height: 150px;" src="/theme_xtremo/static/src/img/Sprite-search-not-found.png"/>
+            <p>Someting wrong here the content you are looking is not found,<br/>
+              sorry please try again. Return to <a class="error-search" href="/shop">Shop Page</a>
+            </p>
+          </div>
+        </div>
+      </t>
+    </xpath>
+  </template>
+
+
+</odoo>

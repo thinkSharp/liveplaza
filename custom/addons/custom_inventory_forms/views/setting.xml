@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<record id="res_config_settings_view_form_location" model="ir.ui.view">
+		<field name="name">res.config.settings.view.form.location.sync</field>
+		<field name="model">res.config.settings</field>
+		<field name="priority" eval="10" />
+		<field name="inherit_id" ref="base.res_config_settings_view_form" />
+		<field name="arch" type="xml">
+			<xpath expr="//div[hasclass('settings')]" position="inside">
+				<div class="app_settings_block" data-string="Location"
+					string="Location" data-key="location_sync">
+					<h2>Location Sync</h2>
+					<group>
+						<div class="row mt6 o_settings_container">
+							<div class="o_setting_left_pane">
+								<label for="location_id" string="Location" />									
+								<field name="location_id" />
+							</div>
+						</div>
+					</group>
+				</div>
+				<div class="app_settings_block" data-string="PriceList"
+					string="Price List" data-key="price_list_sync">
+					<h2>Price List Sync</h2>
+					<group>
+						<div class="row mt6 o_settings_container">
+							<div class="o_setting_left_pane">
+								<label for="pricelist_id" string="Price List" />									
+								<field name="pricelist_id" />
+							</div>
+						</div>
+					</group>
+				</div>
+			</xpath>
+		</field>
+	</record>
+	
+<!-- 	<record id="action_journal_sync_config_settings" model="ir.actions.act_window">
+        <field name="name">Journal Sync Settings</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_id" ref="res_config_settings_view_form"/>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+        <field name="context">{'module' : 'picking_and_delivery_vendor'}</field>
+    </record>
+
+    <menuitem id="menu_journal_sync_settings" name="Settings" parent="journal_sync_config_menu" sequence="1" action="action_journal_sync_config_settings"/> -->
+</odoo>

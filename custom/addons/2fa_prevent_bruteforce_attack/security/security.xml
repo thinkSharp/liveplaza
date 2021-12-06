@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="auth_2fa_security" model="res.groups">
+        <field name="name"># Can enable/disable QR Login Access</field>
+        <field name="comment">The user will have access to change QR code.</field>
+    </record>
+
+    <record id="auth_2fa_security_company" model="res.groups">
+        <field name="name">Admin 2-FA </field>
+    </record>
+
+</odoo>

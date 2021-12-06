@@ -1,0 +1,65 @@
+/* Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) */
+/* See LICENSE file for full copyright and licensing details. */
+
+main .badge{
+  color: white !important;
+  border-radius: 3px;
+  background-color: $th-color;
+  &.badge-info, &.badge-warning{
+    background-color: $text-color !important;
+  }
+  &.badge-secondary, &.badge-primary{
+   background-color: $th-color !important;
+ }
+  &.badge-danger{
+    background-color: $danger;
+  }
+}
+
+.alert-success,.alert-primary{
+  @include alert($th-color);
+}
+.alert-info,.alert-warning{
+  @include alert($mn-text);
+}
+.alert-danger{
+  @include alert($danger);
+}
+
+.text-danger{
+  color: $danger !important;
+}
+
+.xt-error-container{
+  >div{
+    margin: 25px 0px !important;
+    background-color: white;
+    padding: 30px;
+    @media #{$mobile}{
+      img{
+        height: 70px !important;
+      }
+    }
+    p{
+      line-height: 2;
+      margin-top: 20px;
+      color: $text-color;
+      a{
+        margin-top: 20px;
+      }
+    }
+  }
+}
+
+.fa-chevron-right::before{
+  content: "\f105" !important;
+  font-weight: bold;
+}
+.fa-chevron-left::before {
+  content: "\f104" !important;
+  font-weight: bold;
+}
+.fa-chevron-down::before{
+  content: "\f107" !important;
+  font-weight: bold;
+}

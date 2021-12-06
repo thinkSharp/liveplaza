@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record model="ir.ui.view" id="sale_order_line_commission_report">
+        <field name="name">Received Commission Report</field>
+        <field name="model">sale.order.line</field>
+        <field name="arch" type="xml">
+            <tree string="Commission Report" create="false" edit="false" delete="false">
+                <field name="marketplace_seller_id" />
+                <field name="order_id" />
+                <field name="create_date" widget="date" />
+                <field name="seller_amount" />
+                <field name="x_commission" />   
+                <field name="admin_commission" />
+                <field name="price_subtotal" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="sale_order_line_commission_report_search" model="ir.ui.view">
+        <field name="name">Received Commission Report Search</field>
+        <field name="model">sale.order.line</field>
+        <field name="arch" type="xml">
+            <search string="Commission Report Search">
+                <field name="marketplace_seller_id" />
+                <field name="order_id" />
+                <filter string="Current Month" name="current_month" domain="[('create_date','&lt;',(context_today()+relativedelta(months=1)).strftime('%%Y-%%m-01')), ('create_date','&gt;=',time.strftime('%%Y-%%m-01'))]"/>
+                <separator />
+                <group expand="0" string="Group By">
+                    <filter string="Seller" name="group_by_seller" domain="[]" context="{'group_by':'marketplace_seller_id'}" />
+                    <filter string="Order" name="group_by_order" domain="[]" context="{'group_by':'order_id'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="sale_order_line_commission_report_pivot" model="ir.ui.view">
+        <field name="name">Received Commission Report Pivot</field>
+        <field name="model">sale.order.line</field>
+        <field name="arch" type="xml">
+            <pivot string="Commission Report Pivot">
+                 <field name="marketplace_seller_id" type="row"/>
+            </pivot>
+         </field>
+      </record>
+
+    <record id="action_commission_report" model="ir.actions.act_window">
+        <field name="type">ir.actions.act_window</field>
+        <field name="name">Received Comission Report</field>
+        <field name="res_model">sale.order.line</field>
+        <field name="view_mode">tree,pivot</field>
+        <field name="context">{}</field>
+        <field name="domain">[('marketplace_seller_id','!=', False)]</field>
+        <field name="search_view_id" ref="odoo_marketplace_kms.sale_order_line_commission_report_search" />
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">Please make a order first!</p>
+        </field>
+    </record>
+
+
+    <menuitem name="Received Comission Report" id="commission_report" parent="marketplace_report_root" groups="odoo_marketplace.marketplace_manager_group" action="action_commission_report" sequence="2" />
+
+</odoo>

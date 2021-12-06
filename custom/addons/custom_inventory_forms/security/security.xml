@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="filter_product_request_manager" model="ir.rule">
+            <field name="name">Filter Product Request Manager</field>
+            <field name="model_id" ref="model_product_request"/>
+            <field name="groups" eval="[(4, ref('odoo_marketplace.marketplace_manager_group'))]"/>
+            <field name="domain_force">[(1,'=',1)]</field>
+        </record>
+        <record id="filter_product_request_line_manager" model="ir.rule">
+            <field name="name">Filter Product Request Line Manager</field>
+            <field name="model_id" ref="model_product_request_line"/>
+            <field name="groups" eval="[(4, ref('odoo_marketplace.marketplace_manager_group'))]"/>
+            <field name="domain_force">[(1,'=',1)]</field>
+        </record>        
+        <record id="filter_seller_product_request" model="ir.rule">
+            <field name="name">Filter Product Request</field>
+            <field name="model_id" ref="model_product_request"/>
+            <field name="groups" eval="[(4, ref('odoo_marketplace.marketplace_draft_seller_group'))]"/>
+            <field name="domain_force">[('seller_id','=',user.partner_id.id)]</field>
+        </record>
+        <record id="filter_seller_added_product" model="ir.rule">
+            <field name="name">Filter Seller Added Product</field>
+            <field name="model_id" ref="model_product_request_line"/>
+            <field name="groups" eval="[(4, ref('odoo_marketplace.marketplace_draft_seller_group'))]"/>
+            <field name="domain_force">[('product_request_id.seller_id','=',user.partner_id.id)]</field>
+        </record>
+        
+        
+        <record id="filter_product_variants_request_manager" model="ir.rule">
+            <field name="name">Filter Product Variants Request  Manager</field>
+            <field name="model_id" ref="model_product_variants_request"/>
+            <field name="groups" eval="[(4, ref('odoo_marketplace.marketplace_manager_group'))]"/>
+            <field name="domain_force">[(1,'=',1)]</field>
+        </record>
+        <record id="filter_product_variants_request_line_manager" model="ir.rule">
+            <field name="name">Filter Product Variants Request Line  Manager</field>
+            <field name="model_id" ref="model_product_variants_request_line"/>
+            <field name="groups" eval="[(4, ref('odoo_marketplace.marketplace_manager_group'))]"/>
+            <field name="domain_force">[(1,'=',1)]</field>
+        </record>
+        <record id="filter_seller_product_variants_request" model="ir.rule">
+            <field name="name">Filter Product Variants Request</field>
+            <field name="model_id" ref="model_product_variants_request"/>
+            <field name="groups" eval="[(4, ref('odoo_marketplace.marketplace_draft_seller_group'))]"/>
+            <field name="domain_force">[('seller_id','=',user.partner_id.id)]</field>
+        </record>
+         <record id="filter_seller_added_product_variants_request_line" model="ir.rule">
+            <field name="name">Filter Seller Added Product Variants</field>
+            <field name="model_id" ref="model_product_variants_request_line"/>
+            <field name="groups" eval="[(4, ref('odoo_marketplace.marketplace_draft_seller_group'))]"/>
+            <field name="domain_force">[('product_variants_request_id.seller_id','=',user.partner_id.id)]</field>
+        </record>
+                
+
+       
+    </data>
+</odoo>

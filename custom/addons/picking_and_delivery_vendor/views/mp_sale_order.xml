@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="picking_method_in_marketplace_order_form" model="ir.ui.view">
+            <field name="name">Picking Method in Marketplace Order Form</field>
+            <field name="model">sale.order.line</field>
+            <field name="inherit_id" ref="odoo_marketplace.wk_seller_product_order_line_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='action_view_delivery']" position="replace">
+                    <field name="marketplace_status" invisible='1'/>
+                    <button name="action_ready" string="Make Ready" type="object" class="oe_highlight" groups="odoo_marketplace.marketplace_seller_group" attrs="{'invisible':['|',('is_ready', '=', True),('marketplace_status', '=', False)]}"/>
+                </xpath>
+                <xpath expr="//div[@name='mp_button_box']/button[@name='action_view_delivery']" position="before">
+                    <button type="object" name="action_get_picking" class="oe_stat_button" icon="fa-shopping-cart" attrs="{'invisible': [('picking_move_count', '=', 0)]}">
+                        <field name="picking_move_count" widget="statinfo" string="Picked"/>
+                    </button>
+                    <button type="object" name="action_get_packaging" class="oe_stat_button" icon="fa-shopping-cart" attrs="{'invisible': [('packaging_move_count', '=', 0)]}">
+                        <field name="packaging_move_count" widget="statinfo" string="Packed"/>
+                    </button>
+                </xpath>
+                 <xpath expr="//div[@name='mp_button_box']/button[@name='action_view_delivery']" position="replace">
+                 	<button type="object" name="action_view_delivery" class="oe_stat_button" icon="fa-truck"  attrs="{'invisible': ['|', '|', ('marketplace_state', 'in', ['new','cancel']), ('is_ready', '=', False), ('is_picked', '=', False), ('is_packaged', '=', False)]}">
+                		<field name="mp_delivery_count" widget="statinfo" string="Delivery"/>
+               		</button>
+                </xpath>
+                <xpath expr="//field[@name='state']" position="after">
+                    <field name="is_ready" />
+                    <field name="is_picked" />
+                    <field name="is_packaged" />
+                    <field name="is_paid" />
+                </xpath>
+            </field>
+        </record>
+        <record id="wk_seller_product_order_line_tree_view_inherit" model="ir.ui.view">
+            <field name="name">seller.product.order.line.inherit</field>
+            <field name="model">sale.order.line</field>
+            <field name="inherit_id" ref="odoo_marketplace.wk_seller_product_order_line_tree_view"/>
+            <field name="arch" type="xml">
+            	 <xpath expr="//button[@name='button_cancel']" position="after">
+            	 	<field name="marketplace_status" invisible='1'/>
+            	 	<field name="is_ready" invisible='1'/>
+            	 	<button name="action_ready" string="Make Ready" type="object" class="oe_highlight" groups="odoo_marketplace.marketplace_seller_group" 
+            	 		attrs="{'invisible':['|',('is_ready', '=', True),('marketplace_status', '=', False)]}"/>
+            	 </xpath>
+            </field>
+          </record>
+    </data>
+</odoo>

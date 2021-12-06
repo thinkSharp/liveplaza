@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>;) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+
+    <record id="facebook_shop_tree_marketplace_facebook_ads_feeds" model="ir.ui.view">
+        <field name="name">fb.facebook.shop.tree.inherit</field>
+        <field name="model">fb.facebook.shop</field>
+        <field name="mode">primary</field>
+        <field name="inherit_id" ref="facebook_ads_feeds.facebook_shop_tree"/>
+        <field name="arch" type="xml">
+            <field name="name" position="after">
+                <field name="marketplace_seller_id" groups="odoo_marketplace.marketplace_officer_group"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="facebook_shop_form_marketplace_facebook_ads_feeds" model="ir.ui.view">
+        <field name="name">fb.facebook.shop.view.form.inherit</field>
+        <field name="model">fb.facebook.shop</field>
+        <field name="inherit_id" ref="facebook_ads_feeds.facebook_shop_form"/>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <field name="warehouse_id" position="after">
+                <field name="marketplace_seller_id"
+                    required="1"
+                    options="{'no_create_edit':True}"
+                    domain="[('seller','=',True),('state','=','approved')]"
+                    context="{'form_view_ref':'odoo_marketplace.wk_seller_form_view'}"
+                    groups="odoo_marketplace.marketplace_officer_group"
+                    />
+            </field>
+            <xpath expr="//field[@name='website_id']" position="attributes">
+                <attribute name="groups">odoo_marketplace.marketplace_officer_group</attribute>
+            </xpath>
+            <xpath expr="//field[@name='warehouse_id']" position="attributes">
+                <attribute name="readonly">True</attribute>
+                <attribute name="force_save">True</attribute>
+            </xpath>
+            <xpath expr="//field[@name='field_mapping_id']" position="attributes">
+                <attribute name="options">{'no_create_edit': True,'no_create': True,'no_quick_create':True,'no_open':True}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='crone_id']" position="attributes">
+                <attribute name="options">{'no_open':True}</attribute>
+            </xpath>
+            <xpath expr="//page[@name='cron_detail']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//field[@name='product_ids_rel']" position="attributes">
+                <attribute name="context">{
+                    'tree_view_ref' : 'odoo_marketplace.wk_seller_product_template_tree_view',
+                    'form_view_ref': 'odoo_marketplace.wk_seller_product_template_form_view',}</attribute>
+                <attribute name="domain">[('marketplace_seller_id','=',marketplace_seller_id),('status','=','approved')]</attribute>
+                <attribute name="options">{'no_create_edit': True,'no_create': True,'no_quick_create':True,'no_open':True}</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="mp_fb_facebook_shop_action" model="ir.actions.act_window">
+        <field name="name">Facebook Catalog</field>
+        <field name="res_model">fb.facebook.shop</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('marketplace_seller_id','!=',False)]</field>
+        <field name="context">{'mp_fb_feed':True}</field>
+    </record>
+
+    <record id="mp_fb_shop_action_for_tree" model="ir.actions.act_window.view">
+        <field name="view_mode">tree</field>
+        <field name="sequence">1</field>
+        <field name="view_id" ref="marketplace_facebook_ads_feeds.facebook_shop_tree_marketplace_facebook_ads_feeds"/>
+        <field name="act_window_id" ref="mp_fb_facebook_shop_action"/>
+    </record>
+
+    <record id="mp_fb_shop_action_for_form" model="ir.actions.act_window.view">
+        <field name="view_mode">form</field>
+        <field name="sequence">1</field>
+        <field name="view_id" ref="marketplace_facebook_ads_feeds.facebook_shop_form_marketplace_facebook_ads_feeds"/>
+        <field name="act_window_id" ref="mp_fb_facebook_shop_action"/>
+    </record>
+
+    <record id="facebook_ads_feeds.facebook_market_menu" model="ir.ui.menu">
+        <field name="groups_id" eval="[(6,0,[ref('base.group_erp_manager')])]"/>
+    </record>
+
+    <menuitem
+        id="mp_fb_marketing_menu"
+        name="Facebook Marketing"
+        parent="odoo_marketplace.wk_seller_dashboard"
+        sequence="8"/>
+        <menuitem
+            id="mp_fb_shop_menu"
+            name="Facebook Catalog"
+            action="mp_fb_facebook_shop_action"
+            parent="mp_fb_marketing_menu"
+            sequence="10"/>
+</odoo>

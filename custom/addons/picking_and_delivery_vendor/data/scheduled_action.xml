@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+<odoo>
+    <data noupdate="1">
+
+        <record model="ir.cron" id="hold_do_to_cancel_scheduler">
+            <field name="name">Delivery Order: Hold to Cancel</field>
+            <field name="user_id" ref="base.user_root" />
+            <field name="active" eval="True" />
+            <field name="interval_number">5</field>
+            <field name="interval_type">minutes</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False" />
+            <field name="model_id" ref="model_stock_picking" />
+            <field name="code">
+records = env['stock.picking'].search([('hold_state', '=', True), ('state', '!=', 'cancel')])
+for record in records:
+    current_time = datetime.datetime.now()
+    hold_date = record.hold_date
+    cancel_time =  hold_date + datetime.timedelta(minutes=1)
+                        
+    if current_time > cancel_time:          
+        record.sudo().action_cancel()                  
+            </field>
+            <field name="nextcall">2021-06-17 00:00:00</field>
+        </record>
+
+
+        <record model="ir.cron" id="deli_vendor_seq_and_assign_do">
+            <field name="name">Delivery Vendor: Arrange Vendor and Assign DO Vendor</field>
+            <field name="user_id" ref="base.user_root" />
+            <field name="active" eval="True" />
+            <field name="interval_number">1</field>
+            <field name="interval_type">days</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False" />
+            <field name="model_id" ref="model_res_partner" />
+            <field name="code">
+record_ids = env['stock.picking'].search([('is_picked', '=', True), ('is_packaged', '=', True), ('hold_state', '=', False), ('state', '=', 'assigned')], order="scheduled_date asc")
+vendor_ids = env['res.partner'].search([('delivery_vendor', '=', True), ('active_delivery', '=', True)], order='vendor_sequence desc')
+                                
+vendor_count = int(len(vendor_ids))
+                                
+for vendor in vendor_ids:
+    vendor_seq = vendor.vendor_sequence
+    if vendor_seq &lt; vendor_count:
+        vendor_seq += 1
+        vendor.sudo().write({
+            'vendor_sequence': vendor_seq,
+        }) 
+    elif vendor_seq &gt;= vendor_count:
+        vendor.sudo().write({
+            'vendor_sequence': 1,
+        })
+                                      
+if record_ids:
+    record_count = len(record_ids)
+    quotient = record_count // vendor_count
+    remainder = record_count % vendor_count
+                    
+    records = [record_ids[i:i+quotient] for i in range(0, record_count, quotient)]
+    sorted_vendors = vendor_ids.sorted(key=lambda r: r.vendor_sequence)
+                
+    ind = 0
+    if remainder == 0 :
+        while ind &lt; vendor_count:
+            records[ind].sudo().write({
+                'vendor_id' : sorted_vendors[ind],
+            })
+            ind += 1
+                        
+    else:
+        while ind &lt; vendor_count:
+            records[ind].sudo().write({
+                'vendor_id' : sorted_vendors[ind],
+            })
+            ind += 1
+                          
+        records[vendor_count].sudo().write({
+            'vendor_id' : sorted_vendors[vendor_count - 1],
+        })
+                            
+            </field>
+            <field name="nextcall">2021-06-18 00:00:00</field>
+        </record>
+    </data>
+</odoo>

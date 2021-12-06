@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <!-- 'Sell' to 'Create Seller Shop'  target="_blank"-->
+        <template id="sell_link_in_header_inherit" inherit_id="odoo_marketplace.sell_link_in_header">
+            <xpath expr="//a[@role='menuitem']" position="replace">
+                <a t-attf-class="nav-link #{'active' if request.httprequest.path == '/seller' else ''}" role="menuitem" href="/seller">
+                    <t>Create Seller Shop</t>
+                </a>
+            </xpath>
+        </template>
+
+        <!-- Hide Country in Seller sign up and replaced with subscription plan -->
+        <template id="seller_sign_up_inherit" inherit_id="odoo_marketplace.mp_seller_signup">
+            <xpath expr="//div[@class='form-group field-country']" position="replace">
+                <div class="form-group field-country">
+                    <t t-set="sub_plans" t-value="website.get_subscription_plans()" />
+                    <label class="control-label" for="sub_plans">Subscription</label>
+                    <select id="sub_plans" name="sub_plans" class="form-control" t-att-required="'disabled' if set_seller or signup_from_seller_page else None">
+                        <!-- <option value="">Choose...</option> -->
+                        <t t-foreach="sub_plans" t-as="sp">
+                            <option t-att-value="sp.id">
+                                <t t-esc="sp.name" />
+                            </option>
+                        </t>
+                    </select>
+                </div>
+            </xpath>
+        </template>
+
+        <!-- Hide Send Email to seller and re-add; Hide 'Contact Us for Seller' link -->
+        <template id="mp_seller_profile_inherit" inherit_id="odoo_marketplace.mp_seller_profile">
+            <xpath expr="//div[hasclass('col-md-3')]/a[@class='btn btn-primary']" position="replace"></xpath>
+            <xpath expr="//span[@t-field='seller.email']" position="after">
+                <a t-if="website.mp_seller_contact_btn" t-attf-href="mailto:{{ seller.email }}" class="btn btn-primary">Send email to seller</a>
+            </xpath>
+            <xpath expr="//a[@class='pull-right']" position="replace"></xpath>
+        </template>
+
+
+        <!-- Address Form Customizations -->
+        <template id="buyer_address_inherit" name="Buyer Address Inherit" inherit_id="website_sale.address">
+            <xpath expr="//label[@for='country_id']" position="before">
+                <div class="w-100" />
+                <div t-attf-class="form-group #{error and 'township_id' in error and 'has-error' or ''} col-lg-12 div_state">
+                    <t t-if="state">
+                        <t t-set="townships" t-value="website.get_townships()" />
+                        <t t-set="townships_by_state" t-value="townships.search([('state_id.name', '=', state)])" />
+                        <label class="col-form-label" for="townships">Township</label>
+                        <select id="townships" name="townships" t-attf-class="form-control #{error and 'township_id' in error and 'has-error' or ''}" data-init="1" required="True">
+                            <option value="">Choose...</option>
+                            <t t-foreach="townships_by_state" t-as="t">
+                                <option t-att-value="t.id" t-att-selected="t.id == ('township_id' in checkout and country and checkout['township_id'] != '' and int(checkout['township_id']))">
+                                    <t t-esc="t.name" />
+                                </option>
+                            </t>
+                        </select>
+                    </t>
+                </div>
+            </xpath>
+             <xpath expr="//div[@id='div_phone']" position="replace">
+             	 <div t-attf-class="form-group #{error.get('phone') and 'o_has_error' or ''} col-lg-6" id="div_phone">
+                     <label class="col-form-label" for="phone">Phone</label>
+                     <input type="number" name="phone" placeholder="eg.0912345678" t-attf-class="form-control #{error.get('phone') and 'is-invalid' or ''}" t-att-value="'phone' in checkout and checkout['phone']" />
+                 </div>
+             </xpath>
+            <xpath expr="//div[@class='d-flex justify-content-between']" position="replace">
+                <div class="d-flex justify-content-between">
+                    <a role="button" t-att-href="mode == ('new', 'billing') and '/shop/cart#' or '/shop/checkout#'" class="btn btn-secondary mb32">
+                        <i class="fa fa-chevron-left" />
+                        <span>Back</span>
+                    </a>
+                    <a role="button" href="#" class="btn btn-primary mb32 a-submit a-submit-disable a-submit-loading">
+                        <span>Next</span>
+                        <i class="fa fa-chevron-right" />
+                    </a>
+                </div>
+            </xpath>
+        </template>
+
+        <template id="portal_my_details_inherit" name="Portal Detail Inherit" inherit_id="portal.portal_my_details">
+            <xpath expr="//label[@for='company_name']" position="replace"></xpath>
+            <xpath expr="//input[@name='company_name']" position="replace"></xpath>
+            <xpath expr="//label[@for='vat']" position="replace"></xpath>
+            <xpath expr="//input[@name='vat']" position="replace"></xpath>
+        </template>
+
+        <!-- Edit Address Link Not Working Override -->
+        <template id="payment_page_inherit" name="Payment Inherit" inherit_id="website_sale.payment">
+            <xpath expr="//a[@class='float-right no-decoration']" position="replace">
+                <a class="float-right no-decoration" href="/shop/checkout#_">
+                    <i class="fa fa-edit" />
+                    Edit
+                </a>
+            </xpath>             
+        </template>
+
+        <!-- Hide Available Qty message from product page -->
+        <template id="web_product_inherit" name="Website Product Inherit" inherit_id="website_sale.product">
+            <xpath expr="//div[hasclass('availability_messages')]" position="replace"></xpath>
+        </template>
+
+        <template id="convert_user_into_seller_inherit" name="Website Product Inherit" inherit_id="odoo_marketplace.convert_user_into_seller">
+            <xpath expr="//div[@class='form-group field-country']" position="before">
+                <div class="form-group">
+                    <t t-set="sub_plans" t-value="website.get_subscription_plans()" />
+                    <label class="control-label" for="sub_plans">Subscription</label>
+                    <select id="sub_plans" name="sub_plans" class="form-control" t-att-required="'disabled' if set_seller or signup_from_seller_page else None">
+                        <option value="">Choose...</option>
+                        <t t-foreach="sub_plans" t-as="sp">
+                            <option t-att-value="sp.id">
+                                <t t-esc="sp.name" />
+                            </option>
+                        </t>
+                    </select>
+                </div>
+            </xpath>
+
+            <xpath expr="//div[@class='form-group field-country']" position="replace">
+                <label class="control-label" for="country_id">Country</label>
+                <select id="country_id" name="country_id" class="form-control" required="required">
+                    <option value="">Country...</option>
+                    <t t-foreach="countries" t-as="c">
+                        <option t-att-value="c.id" t-att-selected="c.name == 'Myanmar'">
+                            <t t-esc="c.name"/>
+                        </option>
+                    </t>
+                </select>
+            </xpath>
+
+
+        </template>
+
+    </data>
+</odoo>

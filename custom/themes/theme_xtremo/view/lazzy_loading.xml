@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<odoo>
+  <template id="wk_lazy_list_product_item" name="Lazy Loading List View">
+    <tr t-foreach="bins" t-as="tr_product">
+        <t t-foreach="tr_product" t-as="td_product">
+            <t t-if="td_product">
+                <t t-set="product" t-value="td_product['product']" />
+                <td t-att-colspan="td_product['x'] != 1 and td_product['x']"
+                    t-att-rowspan="td_product['y'] != 1 and td_product['y']"
+                    t-attf-class="oe_product #{td_product['class']}">
+                    <div t-attf-class="o_wsale_product_grid_wrapper o_wsale_product_grid_wrapper_#{td_product['x']}_#{td_product['y']}">
+                        <t t-call="website_sale.products_item">
+                        </t>
+                    </div>
+                </td>
+            </t>
+            <td t-else=""/>
+        </t>
+      </tr>
+  </template>
+
+  <template id="theme_products_grid_view" inherit_id="website_sale.products" name="Inherit Product grid View">
+    <xpath expr="//div[hasclass('products_pager')][last()]" position="replace">
+      <div t-if="bins" class="products_pager form-inline justify-content-center mt-3 mb-3">
+        <div id="wk_loader" t-att-category="category.id if category else 'none'"><span />
+          <button class="btn btn-secondary">Load More Products</button>
+          <p>loading ...</p>
+        </div>
+      </div>
+    </xpath>
+    <xpath expr="//t[@t-call='website.pager'][1]" position="replace">
+    </xpath>
+  </template>
+</odoo>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="product_request_variants_tree" model="ir.ui.view">
+        <field name="name">product.variants.request.tree</field>
+        <field name="model">product.variants.request</field>
+        <field name="priority">1</field>
+        <field name="arch" type="xml">
+            <tree string="Product Variants Requests" decoration-success="state=='done'" decoration-info="state=='request'" decoration-muted="state=='cancel'">
+                <field name="name" />                
+                <field name="state" />
+            </tree>
+        </field>
+    </record>
+    
+    <record model="ir.ui.view" id="product_variants_request_form">
+        <field name="name">product.variants.request.form</field>
+        <field name="model">product.variants.request</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Variants Form">
+            	<header>
+                    <button name="request" string="Request" type="object" states="draft" class="btn-primary" invisible="context.get('mp_stock', False)"/>
+						<button name="approve" string="Approve" type="object" states="requested" groups="odoo_marketplace.marketplace_officer_group" class="btn-primary"/>
+						<button name="reject" string="Reject" type="object" states="requested" groups="odoo_marketplace.marketplace_officer_group"/>
+						<button name="set_2_draft" string="Set to Draft" type="object" states="rejected" class="btn-primary"/>
+						<field name="state" widget="statusbar" statusbar_visible="draft,requested,approved,rejected"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1" />
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="request_date" />
+                        </group>
+                        <group>
+                            <field name="seller_id" readonly="1" invisible="1"/>
+                        </group>
+                        <group>
+                        	<button name="%(custom_inventory_forms.action_view_product_variants_request_wiz)d" type="action" string="Add Variant Qty"/>
+                        </group>
+                    </group>
+                     <notebook>
+                        <page string="Items" name="item_lines">
+                            <field name="product_variants_request_line_ids" mode="tree" nolabel="True" attrs="{'readonly': [('state', '!=', 'draft')]}">
+                                <tree name="Items" create="0">   <!--  editable="bottom"  -->                             	
+                                    <field name="product_id" readonly='1'/>  
+                                    <field name="lst_price" required="1"/>                                  
+                                    <field name="onhand_qty" required="1"/>
+                                     <field name="old_qty" readonly='1'/>   
+                                     <field name="image1" widget="image"/>                                                                                                         
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                    </sheet>
+            </form>
+        </field>
+    </record>
+    
+    <record id="product_variants_request_line_form" model="ir.ui.view">
+        <field name="name">product.variants.request.line.form</field>
+        <field name="model">product.variants.request.line</field>
+        <field name="priority">1</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Variants Request Line Form">
+                <sheet>		                	
+                    <group>
+                        <group>
+                            <field name="product_id" required="1" domain="['|', ('status','=','approved'),('marketplace_seller_id','in',['get_marketplace_seller_id()'])]"/>  
+                            <field name="lst_price" required="1"/>                                  
+                            <field name="onhand_qty" required="1"/>
+                            <field name="old_qty" readonly='1'/>                                       
+                        </group>
+                        <group>                            
+                            <field name="image1" widget="image" required="1"/>                          
+                        </group> 
+                                            
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    
+     <record id="action_seller_added_products_variants" model="ir.actions.act_window">
+        <field name="name">Seller Added Products Quantity</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">product.variants.request</field>
+        <field name="view_mode">tree,form</field>        
+        <field name="context">{}</field>
+        <field name="domain">[]</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No record here! Please request product first!
+            </p>
+        </field>
+    </record>
+    
+    <menuitem id="menu_seller_added_products_variants" 
+    name="Seller Added Products Quantity" 
+    action="action_seller_added_products_variants" 
+    parent="odoo_marketplace.wk_seller_dashboard_menu2" 
+    sequence="100" 
+    groups="odoo_marketplace.marketplace_draft_seller_group" />
+</odoo>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- Sequences for product.request -->
+
+        <record id="product_request_seq" model="ir.sequence">
+            <field name="name">Product Request</field>
+            <field name="code">product.request.seq</field>
+            <field name="active">TRUE</field>
+            <field name="prefix">PR/</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+
+        <!-- Sequences for Product Ref -->
+
+        <record id="product_ref_seq" model="ir.sequence">
+            <field name="name">Product Ref Seq</field>
+            <field name="code">product.ref.seq</field>
+            <field name="active">TRUE</field>
+            <field name="prefix">PID/</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+        
+        <record id="product_variants_request_seq" model="ir.sequence">
+            <field name="name">Product Variants Request</field>
+            <field name="code">product.variants.request.seq</field>
+            <field name="active">TRUE</field>
+            <field name="prefix">PVR/</field>
+            <field name="padding">5</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+        </record>
+        
+    </data>
+</odoo>

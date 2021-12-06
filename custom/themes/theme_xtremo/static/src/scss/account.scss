@@ -1,0 +1,253 @@
+/* Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) */
+/* See LICENSE file for full copyright and licensing details. */
+
+.o_portal_submenu{
+  padding: 0px!important;
+  li{
+    a{
+      color: $text-color;
+    }
+    &.active{
+      color: $th-color;
+      display: flex;
+      align-items: center;
+    }
+    &:not(:first-of-type)::before{
+      content: "\f054";
+      font-family: FontAwesome;
+      padding: 0px;
+      font-size: 10px;
+      margin-right: 5px;
+      color: $text-color;
+    }
+  }
+}
+
+.o_portal_wrap{
+  >.container.mb64{
+    margin-bottom: 0px !important;
+    .justify-content-between {
+      background-color: white !important;
+      padding: 16px 10px;
+      margin: 16px 0px !important;
+      & > .col-lg-6{
+        width: auto;
+        // margin: auto;
+        .o_portal_my_home{
+          .o_portal_docs{
+            a{
+              span{
+                  background: $th-color !important;
+              }
+            }
+          }
+        }
+      }
+    }
+    h3{
+      color: $mn-text;
+    }
+    .navbar{
+      margin-bottom: 15px !important;
+      border: 0px solid !important;
+      border-radius: 0px !important;
+      padding: 15px !important;
+      .navbar-toggler{
+        border: 0px solid;
+        color: $text-color;
+      }
+      .o_portal_submenu{
+        padding: 0px!important;
+        li{
+          a{
+            color: $text-color;
+          }
+          &.active{
+            color: $th-color;
+          }
+          &:not(:first-of-type)::before{
+            content: "\f054";
+            font-family: FontAwesome;
+            padding: 0px;
+            font-size: 10px;
+            color: $text-color;
+          }
+        }
+      }
+      #o_portal_navbar_content{
+        .form-inline{
+          >span{
+            font-size: 13px;
+            color: $text-color;
+          }
+          .btn-group{
+            #portal_searchbar_sortby{
+              border: 1px solid $text-color !important;
+              background-color: white !important;
+              color: $text-color !important;
+              font-size: 13px;
+            }
+            .dropdown-menu{
+              left: auto;
+              right: 0;
+              .dropdown-item.active{
+                background-color: $th-color;
+                color: white;
+              }
+              @media #{$mobile}{
+                left: 0;
+                right: auto;
+              }
+              @media #{$pad}{
+                left: 0;
+                right: auto;
+              }
+            }
+          }
+        }
+        @media #{$mobile}{
+          .flex-column{
+            margin-bottom: 4px !important;
+          }
+          margin: 0px;
+          background-color: white;
+          border-color: $border !important;
+        }
+        @media #{$pad}{
+          .flex-column{
+            margin-bottom: 4px !important;
+          }
+          margin: 0px;
+          background-color: white;
+          border-color: $border !important;
+        }
+      }
+
+    }
+    >.table-responsive{
+      border-radius: 0px !important;
+      border: 0px solid !important;
+      border-color: $border !important;
+      margin-top: 12px;
+      margin-bottom: 16px;
+      padding: 12px;
+      background-color: white;
+    }
+    .o_portal_my_doc_table{
+      margin-top: 0px;
+      th{
+        border-top: 1px solid $border;
+        border-bottom: 1px solid $border;
+        color: $mn-text;
+      }
+      td{
+        border-bottom: 1px solid $border;
+        padding-top: 15px !important;
+        padding-bottom: 15px !important;
+        color: $text-color;
+        &:first-of-type{
+          font-weight: bold;
+        }
+      }
+    }
+    .justify-content-between{
+      margin: 16px 0px !important;
+      h3{
+        color: $mn-text;
+        border-bottom: 1px solid $border;
+        padding-bottom: 10px;
+      }
+      .o_portal_docs{
+        margin-top: 16px;
+        a{
+          margin: 0px !important;
+          border-radius: 0px;
+          border-color: $border;
+          color: $text-color;
+          &:not(:first-of-type){
+            border-top: 0px solid;
+          }
+        }
+      }
+    }
+    address{
+      text-align: left;
+      span[itemprop="name"]{
+        color: $mn-text;
+      }
+      div[itemprop="name"]{
+        color: $text-color;
+      }
+      div[itemprop="streetAddress"]{
+        // padding-left: 25px !important;
+        line-height: 2;
+      }
+      & > div[itemprop=address] > div{
+        display: flex !important;
+      }
+    }
+    #o_my_sidebar{
+      h4{
+        color: $mn-text;
+      }
+      hr{
+        color: $border;
+      }
+      @media #{$mobile}{
+        margin-top: 16px;
+        address{
+          text-align: left;
+          margin-top: 0px;
+          & > div{
+            div[itemprop=streetAddress]{
+              margin-left: 25px;
+            }
+          }
+        }
+      }
+      @media #{$pad}{
+        h4,address{
+          text-align: right;
+          margin-top: 0px;
+        }
+        i{
+          position: static;
+        }
+      }
+      .o_portal_my_details {
+        address {
+          text-align: left !important;
+          margin-top: .5rem !important;
+          .w-100 {
+            width: 100% !important;
+          }
+          .fa-map-marker {
+            margin-top: 4px;
+          }
+          div[itemprop=streetAddress]{
+            margin-left: 25px;
+          }
+        }
+      }
+    }
+    .alert-danger{
+      margin: 8px 0px;
+    }
+    form[action="/my/account"]{
+      label{
+        color: $text-color;
+      }
+    }
+  }
+
+  .my_account_details{
+    padding-left: 0px;
+    padding-right: 0px;
+    form{
+      margin: 15px auto;
+      padding: 20px;
+      background-color: white !important;
+    }
+  }
+
+}

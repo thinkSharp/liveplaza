@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+
+<odoo>
+
+	<template id="mp_product_template_live_stream" name="MP product Template Live Stream">
+        <div t-if="product_template_live_stream" class="container mt32 mb32">
+          <div id="product_template_livestream" class="carousel slide" data-ride="carousel" data-interval="false" >
+              <script async="1" defer="1" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&amp;version=v3.2"></script>
+              <div class="carousel-inner">
+                <t t-set="j" t-value="0"/>
+                  <t t-foreach="product_template_live_stream" t-as="stream">
+                    <t t-if="stream.start_stream_datetime and stream.start_stream_datetime &lt; datetime.datetime.now() and stream.end_stream_datetime &gt; datetime.datetime.now()">
+
+                      <div t-att-class="'carousel-item oe_img_bg oe_custom_bg active' if j==0 else 'carousel-item oe_img_bg oe_custom_bg'">
+                          <div class="fb-video mb16"
+                              t-att-data-href="stream.live_stream_url"
+                              data-width="384"
+                              data-height="auto"
+                              data-allowfullscreen="true"
+                              data-autoplay="false"
+                              data-show-captions="true"
+                              data-show-text="false">
+                            </div>
+                      </div>
+                      <t t-set="j" t-value="j+1"/>
+                    </t>
+                  </t>
+              </div>
+              <a t-if="j > 1" class="carousel-control-prev stream_prev" href="#product_template_livestream" data-slide="prev">
+                  <span class="fa fa-chevron-circle-left" style="color: #333333;font-size: 25px;"></span>
+              </a>
+              <a t-if="j > 1" class="carousel-control-next stream_next" href="#product_template_livestream" data-slide="next">
+                  <span class="fa fa-chevron-circle-right" style="color: #333333;font-size: 25px;"></span>
+              </a>
+          </div>
+        </div>
+    </template>
+
+	<template id="product_template_livestream" inherit_id="website_sale.product" name="Product Template Livestream">
+		<xpath expr="//hr[@t-if='product.description_sale']" position="before">
+			<t t-set="marketplace_seller_id" t-value="product.sudo().marketplace_seller_id"/>
+			<t t-if="marketplace_seller_id">
+				<hr/>
+				<t t-call="marketplace_facebook_live_stream.mp_product_template_live_stream">
+					<t t-set="view_name" t-value="'mp_product_template'"/>
+              		<t t-set="product_template_live_stream" t-value="request.website.sudo()._get_seller_live_streams(view_name, marketplace_seller_id,product.id)"/>	
+				</t>
+			</t>
+		</xpath>
+	</template>
+</odoo>

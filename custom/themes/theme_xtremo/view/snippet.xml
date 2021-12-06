@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <data>
+    <!-- Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+    <!-- See LICENSE file for full copyright and licensing details. -->
+
+    <template id="xtremo_sell_with_us" name="Sell Tag">
+      <section id="xtremo_sell_with_us" class="s_cover parallax bg-black-50 oe_img_bg oe_custom_bg" data-scroll-background-ratio="1">
+        <span class="s_parallax_bg" style="background-image: url('/theme_xtremo/static/src/img/snippet/Sell-with-us-img.png'); background-position: 50% 0;"/>
+        <div class="container">
+            <div class="row s_nb_column_fixed">
+                <div class="col-lg-12" data-name="Title">
+                  <h1 class="s_title_thin" style="text-align: center !important;">Sell With Us</h1>
+                </div>
+                <div class="col-lg-12 s_text" data-name="Text">
+                  <p class="lead" style="text-align: center;">Write one or two paragraphs describing your product, services or a specific feature.<br/> To be successful your content needs to be useful to your readers.</p>
+                </div>
+                <div class="col-lg-12 s_btn text-center" data-name="Buttons">
+                  <a href="/shop" class="open-shop">Open Shop</a>
+                </div>
+            </div>
+        </div>
+      </section>
+    </template>
+
+    <template id="xtremo_featured_product" name="Featured Product">
+      <section class="xtremo_home_feature container" data-ref="feature">
+      </section>
+    </template>
+
+    <template id="xtremo_featured_top_sale" name="Top Sale">
+      <section class="xtremo_home_feature container" data-ref="top_sale">
+      </section>
+    </template>
+
+    <template id="xtremo_featured_category" name="Top Category">
+      <section class="xtremo_home_feature container" data-ref="category">
+      </section>
+    </template>
+
+    <template id="xtremo_featured_rated" name="Top Rated">
+      <section class="xtremo_home_feature container" data-ref="top_rated">
+      </section>
+    </template>
+
+    <template id="xtremo_top_page_instruction" name="Web Page Name">
+      <section id="xtremo_web_page_name">
+        <img src="/theme_xtremo/static/src/img/snippet/page_name.png" alt="image" />
+        <div class="name-page">
+          <h2 class="s_title_thin" style="text-align: center !important;">Shop Page</h2>
+        </div>
+      </section>
+    </template>
+
+    <template id="xtremo_banner_with_category" name="Category With Banner">
+      <section class="xtremo_banner_with_category container">
+        <div id="xtremo_home_cat" >
+          <ul class="remove-ul">
+          </ul>
+          <div id="myCarousel" class="s_carousel s_carousel_default carousel slide" data-interval="10000">
+            <div class="carousel-inner">
+              <div class="carousel-item active oe_custom_bg oe_img_bg pt152 pb152" style="background-image: url('/theme_xtremo/static/src/img/snippet/pexels-photo-296881.jpeg');" data-name="Slide">
+              </div>
+              <div class="carousel-item oe_custom_bg oe_img_bg pt128 pb128" style="background-image: url('/theme_xtremo/static/src/img/snippet/pexels-photo-936112.jpeg');" data-name="Slide">
+              </div>
+            </div>
+            <div class="carousel-control-prev" data-target="#myCarousel" data-slide="prev" role="img" aria-label="Previous" title="Previous">
+                <span class="carousel-control-prev-icon"/>
+                <span class="sr-only">Previous</span>
+            </div>
+            <div class="carousel-control-next" data-target="#myCarousel" data-slide="next" role="img" aria-label="Next" title="Next">
+                <span class="carousel-control-next-icon"/>
+                <span class="sr-only">Next</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </template>
+
+    <template id="xtremo_website_beauty" name="Website Beauty 1">
+      <section class="xtremo-website-beauty">
+        <div class="navigation">Scroll this to view more collections</div>
+        <div class="text-wrap">
+          <h1>Best <br/> Collections</h1>
+          <p>Lorem Ipsum is simply dummy. Lorem Ipsum is simply dummy. Lorem Ipsum is simply dummy</p>
+        </div>
+        <div class="image-container">
+          <div class="x-items">
+            <div class="x-item">
+              <div class="relative">
+                <div class="sub_1">
+                  <div class="x-img">
+                    <img src="/theme_xtremo/static/src/img/snippet/bt-1.png" alt="Image" />
+                    <span class="x-open-icon"><i class="fa fa-search"></i></span>
+                  </div>
+                  <p>Fashion Collection</p>
+                </div>
+                <div class="sub_2">
+                  <div class="x-img">
+                    <img src="/theme_xtremo/static/src/img/snippet/bt-2.png" alt="Image" />
+                    <span class="x-open-icon"><i class="fa fa-search"></i></span>
+                  </div>
+                  <p>Fashion Collection</p>
+                </div>
+              </div>
+            </div>
+            <div class="x-item x-main">
+              <div class="relative x">
+                <div class="x-img">
+                  <img src="/theme_xtremo/static/src/img/snippet/bt-3.png" alt="Image" />
+                  <span class="x-open-icon"><i class="fa fa-search"></i></span>
+                </div>
+                <p>Fashion Collection</p>
+              </div>
+            </div>
+          </div>
+          <div class="x-items frame-2">
+            <div class="x-item">
+              <div class="relative">
+                <div class="sub_1">
+                  <div class="x-img">
+                    <img src="/theme_xtremo/static/src/img/snippet/bt-4.png" alt="Image" />
+                    <span class="x-open-icon"><i class="fa fa-search"></i></span>
+                  </div>
+                  <p>Fashion Collection</p>
+                </div>
+                <div class="sub_2">
+                  <div class="x-img">
+                    <img src="/theme_xtremo/static/src/img/snippet/bt-5.jpeg" alt="Image" />
+                    <span class="x-open-icon"><i class="fa fa-search"></i></span>
+                  </div>
+                  <p>Fashion Collection</p>
+                </div>
+              </div>
+            </div>
+            <div class="x-item x-main">
+              <div class="relative x">
+                <div class="x-img">
+                  <img src="/theme_xtremo/static/src/img/snippet/bt-6.jpeg" alt="Image" />
+                  <span class="x-open-icon"><i class="fa fa-search"></i></span>
+                </div>
+                <p>Fashion Collection</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </template>
+
+    <template id="shopoint_snippets" inherit_id="website.snippets" name="Shopoint">
+        <xpath expr="//div[@id='snippet_mega_menu']/div[hasclass('o_panel_body')]" position="inside">
+          <t t-snippet="theme_xtremo.xtremo_mega_menu_image_text" t-thumbnail="/theme_xtremo/static/src/icon/mega-menu-1.png"/>
+          <t t-snippet="theme_xtremo.xtremo_mega_menu_image_menu" t-thumbnail="/theme_xtremo/static/src/icon/mega-menu.png"/>
+          <t t-snippet="theme_xtremo.xtremo_mega_side_image_menu" t-thumbnail="/theme_xtremo/static/src/icon/mega-menu-3.png"/>
+          <t t-snippet="theme_xtremo.xtremo_mega_simple_dropdown_menu" t-thumbnail="/theme_xtremo/static/src/icon/mega-menu-2.png"/>
+        </xpath>
+        <xpath expr="//div[@id='snippet_structure']" position="before">
+            <div id="sp_snippet_structure" class="o_panel">
+                <div class="o_panel_header">
+                     <span><img id="snippet_icon" src="/theme_xtremo/static/src/icon/Logo.png" alt="Image" /></span>
+                </div>
+                <div class="o_panel_body">
+                  <t t-snippet="theme_xtremo.xtremo_featured_product" t-thumbnail="/theme_xtremo/static/description/feature-product-snippet.png"/>
+                  <t t-snippet="theme_xtremo.xtremo_featured_top_sale" t-thumbnail="/theme_xtremo/static/description/sales-product-snippet.png"/>
+                  <t t-snippet="theme_xtremo.xtremo_featured_category" t-thumbnail="/theme_xtremo/static/description/top-categories-snippet.png"/>
+                  <t t-snippet="theme_xtremo.xtremo_featured_rated" t-thumbnail="/theme_xtremo/static/description/top-rated-product-snippet.png"/>
+                  <t t-snippet="theme_xtremo.xtremo_top_page_instruction" t-thumbnail="/theme_xtremo/static/description/page-banner-link-snippet.png"/>
+                  <t t-snippet="theme_xtremo.xtremo_sell_with_us" t-thumbnail="/theme_xtremo/static/description/snippet_1.png"/>
+                  <t t-snippet="theme_xtremo.xtremo_banner_with_category" t-thumbnail="/theme_xtremo/static/description/category-and-side-img.png"/>
+                  <t t-snippet="theme_xtremo.xtremo_website_beauty" t-thumbnail="/theme_xtremo/static/description/horizontal-scroll.png"/>
+                  <t t-snippet="theme_xtremo.xtremo_product_image_grid" t-thumbnail="/theme_xtremo/static/description/images-in-grid.png"/>
+                  <t t-snippet="theme_xtremo.xtremo_bubble_description" t-thumbnail="/theme_xtremo/static/description/Related-product-image.png"/>
+                  <t t-snippet="theme_xtremo.xtremo_contact_us_form" t-thumbnail="/theme_xtremo/static/description/Contact-form.png" />
+                  <t t-snippet="theme_xtremo.about_us_header" t-thumbnail="/theme_xtremo/static/description/about-content.png" />
+                  <t t-snippet="theme_xtremo.xtremo_s_text_image" t-thumbnail="/theme_xtremo/static/description/Side-img-and-content.png" />
+                  <t t-snippet="theme_xtremo.xtremo_our_team" t-thumbnail="/theme_xtremo/static/description/our-team.png" />
+                  <t t-snippet="theme_xtremo.xtremo_client_word" t-thumbnail="/theme_xtremo/static/description/Client-reviews.png" />
+                  <t t-snippet="theme_xtremo.xtremo_product_left_grid" t-thumbnail="/theme_xtremo/static/description/product-image-grid.png" />
+                  <t t-snippet="theme_xtremo.grip_view_3" t-thumbnail="/theme_xtremo/static/description/product-image-grid.png"/>
+                  <t t-snippet="theme_xtremo.grip_view_4" t-thumbnail="/theme_xtremo/static/description/product-image-grid.png"/>
+                  <t t-snippet="theme_xtremo.grip_view_5" t-thumbnail="/theme_xtremo/static/description/product-image-grid.png"/>
+                  <t t-snippet="theme_xtremo.grip_view_6" t-thumbnail="/theme_xtremo/static/description/product-image-grid.png"/>
+                  <t t-snippet="theme_xtremo.grip_view_7" t-thumbnail="/theme_xtremo/static/description/product-image-grid.png"/>
+                  <t t-snippet="theme_xtremo.grip_view_8" t-thumbnail="/theme_xtremo/static/description/product-image-grid.png"/>
+                  <t t-snippet="theme_xtremo.xtremo_banner_product_1" t-thumbnail="/theme_xtremo/static/description/product-image-grid.png"/>
+                  <t t-snippet="theme_xtremo.xtremo_banner_product_2" t-thumbnail="/theme_xtremo/static/description/product-image-grid.png"/>
+                  <t t-snippet="theme_xtremo.xtremo_beauty_1" t-thumbnail="/theme_xtremo/static/description/horizontal-scroll.png"/>
+                  <!-- <t t-snippet="theme_xtremo.xtremo_banner_product_2" t-thumbnail="/theme_xtremo/static/description/horizontal-scroll.png"/> -->
+                </div>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="snippet_options" inherit_id="website.snippet_options">
+      <xpath expr="//div[1]" position="after">
+        <div data-js='xtremo_home_feature' data-selector=".xtremo_home_feature"></div>
+        <div data-js='xtremo_web_page_name' data-selector="#xtremo_web_page_name"></div>
+        <div data-js='addXtremoBeauty' data-selector=".x-items">
+          <we-button data-add-beauty="true" data-no-preview="true"><i class="fa fa-pencil-square-o"/> Add More Slide</we-button>
+        </div>
+        <div data-js='xtremo_team' data-selector=".xtremo_our_team .item">
+          <we-button data-add-more="true" data-no-preview="true"><i class="fa fa-pencil-square-o"/> Add More Contact</we-button>
+        </div>
+        <div data-js='contact_us' data-selector=".xtremo_contact_us_form"></div>
+        <div data-selector=".semi-item"></div>
+      </xpath>
+    </template>
+
+  </data>
+</odoo>

@@ -1,0 +1,429 @@
+/* Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) */
+/* See LICENSE file for full copyright and licensing details. */
+@mixin hide_from_mobile(){
+  @media #{$mobile}{
+    display: none !important;
+  }
+}
+
+@mixin mega_menu_move() {
+  @keyframes move {
+    from {transform: rotateX(65deg);}
+    to {transform: rotateX(0deg);}
+  }
+  animation: move .3s forwards;
+}
+
+@mixin drop_down_mega_menu(){
+  color: $text-color !important;
+  cursor: pointer;
+  padding-left: 0px;
+  transition: padding-left .3s ease-in-out;
+  &::before{
+    content:"\f101";
+    font-family: FontAwesome;
+    visibility: hidden;
+    transition: font-size .3s ease-in-out;
+    font-size: 0px;
+  }
+  &:hover{
+    color: $th-color !important;
+    padding-left: .5rem !important;
+    &::before{
+      content:"\f101";
+      font-family: FontAwesome;
+      visibility: visible;
+      padding-right: 5px;
+      font-size: 12px;
+    }
+  }
+}
+
+
+@mixin update_quantity(){
+  .oe_website_spinner{
+    margin-bottom: 15px;
+    @media #{$mobile}{
+      margin-bottom: 0px;
+    }
+    .js_add_cart_json{
+      border: 1px solid $th-color;
+      background-color: $th-color;
+      border-top-left-radius: 50%;
+      border-bottom-left-radius: 50%;
+      color: $white !important;
+    }
+    .js_add_cart_json.float_left{
+      border-radius: 0px;
+      border-top-right-radius: 50%;
+      border-bottom-right-radius: 50%;
+    }
+    .quantity{
+      border: 1px solid $th-color !important;
+    }
+  }
+}
+
+
+@mixin anchor_mixin(){
+    background-color: $th-color;
+    color: #fff;
+    border: 1px solid $th-color;
+}
+
+@mixin rotate_element($x, $y, $z, $time,$angle,$type){
+  animation: rotate_3D #{$time} #{$type};
+  @keyframes rotate_3D{
+    0%{
+      transform: rotate3d(1, 1, 1, 0deg);
+    }
+    100%{
+      transform: rotate3d($x, $y, $z, $angle);
+    }
+  }
+}
+
+@mixin scale_element($val_l, $val_r, $effact, $time){
+  animation: scale_3D #{$time} #{$effact};
+  @keyframes scale_3D{
+    0%{
+      transform: scale(1,1);
+      -moz-transform: scale(1,1);
+    }
+    100%{
+      transform: scale($val_l,$val_r);
+      -moz-transform: scale($val_l,$val_r);
+    }
+  }
+}
+
+@mixin set_left_right($left, $right, $left_end, $right_end){
+  animation: set .2s forwards;
+  animation-delay: .5s;
+  @keyframes set{
+    0%{
+      left: $left;
+      right: $right;
+    }
+    100%{
+      left: $left_end;
+      right: $right_end;
+    }
+  }
+}
+
+
+
+@mixin config_button($color){
+  background-color: white;
+  border: 2px solid $color;
+  color: #{$color};
+  border-radius: 0px;
+}
+
+
+@mixin button($color){
+  background-color: white;
+  position: relative;
+  color: $color !important;
+  border: 1px solid $color;
+  border-radius: 0px;
+  &:hover,&:active,&:focus,&:visited{
+    background-color: $color !important;
+    color: white !important;
+    border: 1px solid $color;
+  }
+  &:active{
+    background-color: white !important;
+    border: 1px solid $color !important;
+  }
+}
+
+.o_login_auth{
+  .o_auth_oauth_providers{
+    >a{
+      margin-top: 5px;
+      margin-bottom: 5px;
+      border-radius: 2px;
+      padding: 5px 10px !important;
+      font-size: 15px;
+      background-color: $text-color;
+      color: white;
+      text-align: center;
+      cursor: pointer;
+      i{
+        color: white;
+      }
+      &[href*=facebook]{
+        background-color: #3b5998;
+      }
+      &[href*=google]{
+        background-color: #c71610;
+      }
+      .o_custom_icon{
+        border: 3px solid white;
+      }
+    }
+  }
+}
+
+
+@keyframes slow_overflow {
+  99%{
+    overflow: hidden;
+  }
+  100%{
+    overflow: visible;
+  }
+}
+@keyframes slow_overflow_rev{
+  99%{
+    overflow: visible;
+  }
+  100%{
+    overflow: hidden;
+  }
+}
+
+@mixin time_ago(){
+  .fa-clock-o{
+    color: $mn-text;
+  }
+  abbr{
+    color: $text-color;
+    cursor: default;
+    text-decoration: none;
+  }
+}
+
+@mixin cart_mobile(){
+  padding-left: 0px !important;
+  .js_cart_summary{
+    margin-top: 0px;
+    position: static !important;
+    top:0px !important;
+    .card-body{
+      padding: 0px 15px;
+      >div{
+        text-align: right;
+        td{
+          padding-right: 4px !important;
+        }
+      }
+      .text-xl-right.noborder{
+        text-align: right !important;
+      }
+    }
+  }
+  .d-xl-none{
+    margin-top: 20px;
+    background-color: white;
+    position: static;
+    a{
+      margin: 10px !important;
+    }
+  }
+}
+
+@mixin payment_mobile(){
+  .order-xl-1.oe_cart{
+    padding: 16px 15px !important;
+  }
+  .order-xl-2{
+    padding-left: 0px;
+    margin-bottom: 10px;
+    margin-top: 0px !important;
+    @include cart_summary_mobile();
+  }
+}
+
+@mixin cart_summary_mobile() {
+  >.card{
+    padding-left: 10px;
+    padding-right: 10px;
+    >h3{
+      text-align: left;
+      padding-bottom: 10px;
+      border-bottom: 1px solid $border;
+    }
+    .card-body{
+      padding: 0px;
+      .toggle_summary{
+        color: $mn-text;
+        margin-bottom: 10px;
+        .fa-chevron-down{
+          border: 0px solid;
+        }
+      }
+      .toggle_summary_div{
+        table td{
+          padding-top: 10px !important;
+          padding-bottom: 10px !important;
+        }
+        #cart_total table tr td{
+          text-align: right;
+          .show_coupon{
+              float: right;
+              border: 0px solid white !important;
+          }
+        }
+      }
+    }
+  }
+}
+
+@mixin include_confirmation(){
+  >.col-xl-auto{
+    padding: 0px !important;
+    background-color: white;
+    margin-top: 0px;
+    @include cart_summary_mobile()
+  }
+}
+
+@mixin alert($color){
+  color: $color;
+  background-color: transparentize($color, 0.9) !important;
+  border-color: transparentize($color, 0.9) !important;
+  border-radius: 0px;
+  h1,h2,h3,h4,a{
+    color: $color !important;
+  }
+  p,div,span{
+      color: $text-color;
+  }
+  .fa{
+      color: $color;
+  }
+  .fa-times{
+    color: $text-color;
+  }
+}
+
+body >.o_theme_customize_modal{
+    .modal-dialog{
+      left: 0 !important;
+      right: auto !important;
+      max-width: 370px !important;
+      top: 0;
+      padding: 0 !important;
+      bottom: 0;
+      height: 100%;
+      animation: theme_modal_cus 0.3s forwards;
+      @media #{$mobile}{
+        max-width: 100% !important;
+        animation: theme_modal_cus 0s forwards;
+      }
+      .modal-content{
+        height: 100%;
+        padding: 0px !important;
+        .modal-header{
+          background-color: white !important;
+          padding-left: 15px;
+          padding-right: 15px;
+          border-bottom: 1px solid $border !important;
+          h4{
+            color: $bg-header !important;
+          }
+          button{
+            color: $bg-header !important;
+          }
+        }
+        .modal-body{
+          padding: 10px 15px !important;
+          ul{
+            li{
+              margin-bottom: 15px !important;
+              a{
+                color: $bg-header !important;
+                background-color: white !important;
+                font-weight: bold !important;
+                border-bottom: 2px solid $bg-header !important;
+                text-align: left !important;
+                padding-left: 0px !important;
+                &.active{
+                  border-width: 0px !important;
+                  border-bottom: 2px solid $text-color !important;
+                  color: $text-color !important;
+                }
+              }
+            }
+          }
+          .tab-content{
+            .tab-pane{
+            h5{
+              color: $text-color !important;
+            }
+            .o_options_container .col-4{
+              flex: 0 0 50%;
+              max-width: 50%;
+              label{
+                border: 2px solid $bg-header !important;
+                opacity: 0.1 !important;
+                span{
+                  display: none !important;
+                }
+                &.checked{
+                  border: 2px solid $text-color !important;
+                  opacity: 1.0 !important;
+                }
+              }
+            }
+          }
+          }
+        }
+        .modal-footer{
+          border-top: 0px solid !important;
+          padding: 0px !important;
+        }
+      }
+    }
+  }
+
+@mixin theme_customization(){
+}
+@mixin absolute_item($top,$bottom,$left,$right){
+  position: absolute;
+  top: $top;
+  bottom: $bottom;
+  left: $left;
+  right: $right;
+}
+@include theme_customization();
+
+@keyframes set_opacity {
+  0%{
+    opacity: 0;
+  }
+
+  75%{
+    opacity: 6
+  }
+  100%{
+    opacity: 1;
+  }
+}
+
+@mixin srcoll_background($s_val,$e_val,$time,$d_time){
+  animation-delay: $d_time;
+  animation: set_background $time forwards;
+  @keyframes set_background {
+    0%{
+      left: $s_val;
+    }
+    100%{
+      left: $e_val;
+    }
+  }
+}
+
+@keyframes animate_border_li{
+  0%{
+    left: 50%;
+    right: 50%;
+  }
+  100%{
+    left: 0%;
+    right: 0%;
+  }
+}

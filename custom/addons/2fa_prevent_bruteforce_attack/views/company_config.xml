@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="company_confif_2fa" model="ir.ui.view">
+        <field name="name">company.config.fa</field>
+        <field name="model">res.company</field>
+        <field name="priority" eval="100"/>
+        <field name="inherit_id" ref="base.view_company_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='website']" position="after">
+                <field name="is_open_2fa" groups="auth_2FA.auth_2fa_security_company"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

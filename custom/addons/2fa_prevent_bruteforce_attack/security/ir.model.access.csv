@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_check_login_fail,check.login.fail,model_check_login_fail,,1,1,1,0
+access_log_time_login,log.time.login,model_log_time_login,,1,1,1,1
+access_white_list_ip,white.list.ip,model_white_list_ip,,1,1,1,1
+

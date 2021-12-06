@@ -1,0 +1,144 @@
+# -*- coding: utf-8 -*-
+
+from odoo import api, models, fields, _
+from datetime import datetime
+from odoo.exceptions import UserError
+
+
+class ProductRequest(models.Model):
+    _name = 'product.request'
+    _description = 'Product Request'
+    _order = 'request_date desc'
+
+    name = fields.Char(string='Name', copy=False,
+                       store=True, index=True, default='New')
+    request_date = fields.Date(
+        string='Requested Date', store=True, default=datetime.today())
+    seller_id = fields.Many2one('res.partner', string='Seller',
+                                default=lambda self: self.env.user.partner_id.id, ondelete='cascade')
+    state = fields.Selection([
+        ('draft', 'Draft'),
+        ('request', 'Requested'),
+        ('done', 'Done'),
+        ('cancel', 'Cancelled'),
+    ], string='Status', readonly=True, copy=False, index=True, tracking=3, default='draft')
+    product_request_line_ids = fields.One2many(
+        'product.request.line', 'product_request_id', string='Product Request Lines')
+
+    @api.model
+    def create(self, vals):
+        obj = super(ProductRequest, self).create(vals)
+        if obj.name == 'New':
+            sequence = self.env['ir.sequence'].get(
+                'product.request.seq') or 'New'
+            obj.write({'name': sequence})
+        return obj
+
+    def action_request(self):
+        self.write({'state': 'request'})
+
+    def action_done(self):
+        for request in self.product_request_line_ids:
+            name = request.product
+            ref = request.product_id
+            mp_seller_id = request.seller_id.id
+            categ_id = request.categ.id
+            price = request.price
+            image_1920 = request.image_1
+            sale_delay = request.customer_lead
+            qty_available = request.product_qty
+            vals = {
+                'name': name,
+                'default_code' : ref,
+                'sale_ok' : True,
+                'type' : 'product',
+                'property_account_income_id' : 442,
+                'marketplace_seller_id': mp_seller_id,
+                'categ_id' : categ_id,
+                'lst_price' : price,
+                'image_1920' : image_1920,
+                'sale_delay' : sale_delay,
+                'status' : 'approved',
+                'invoice_policy': 'order',
+                'qty_available' : qty_available,
+                'public_categ_ids': [(6, 0, request.categ_ids.ids)],                
+            }
+            product_tmpl_obj = self.env['product.template'].create(vals)
+            product_id = self.env['product.product'].search([('product_tmpl_id', '=', product_tmpl_obj.id)]).id
+            for line in request: 
+                for att_line in line.attribute_line_ids: 
+                    lines ={
+                        'attribute_id': att_line.attribute_id.id,
+                        'product_tmpl_id': product_tmpl_obj.id,
+                        'value_ids': [(6, 0, att_line.value_ids.ids)]
+                        }          
+                    self.env['product.template.attribute.line'].create(lines)
+            
+        self.write({'state': 'done'})
+        return product_tmpl_obj          
+        
+   
+
+    def action_cancel(self):
+        self.write({'state': 'cancel'})
+
+
+class ProductRequestLine(models.Model):
+    _name = 'product.request.line'
+    _description = 'Product Request Line'
+    _rec_name = 'product_id'
+    _order = 'id desc'
+
+    product_request_id = fields.Many2one(
+        'product.request', string='Product Request',  ondelete='cascade')
+    product = fields.Char(string='Product', translate=True, store=True)
+    product_id = fields.Char(string='Product ID', copy=False,
+                       store=True, index=True, default='-')
+    seller_id = fields.Many2one('res.partner', string='Seller',
+                                default=lambda self: self.env.user.partner_id.id, ondelete='cascade')
+ublic.category', string='Category')
+    categ_ids = fields.Many2many('product.public.category', string='Category')
+    price = fields.Float(string='Price', store=True)
+    color = fields.Char(string='Color', store=True)
+    size = fields.Char(string='Size',  store=True)
+    accessory_product = fields.Char(string='Accessories', translate=True, store=True)
+    customer_lead = fields.Integer(
+        string='Lead', store=True, help="Days for delivery")
+    image_1 = fields.Binary('Image 1')
+    image_2 = fields.Binary('Image 2')
+    image_3 = fields.Binary('Image 3')
+    image_4 = fields.Binary('Image 4')
+    image_5 = fields.Binary('Image 5')
+    attribute_line_ids = fields.One2many('product.request.attribute.line', 'product_request_line_id', 'Product Attributes', copy=False)
+    product_qty = fields.Integer(string="Product Qty")
+    note = fields.Text(string="Note")
+    
+    @api.constrains('price')
+    def price_constratints(self):
+        if self.price == 0.00 :
+            raise UserError('Price must be different from zero')
+   
+
+    @api.model
+    def create(self, vals):
+        obj = super(ProductRequestLine, self).create(vals)
+        if obj.product_id == '-':
+            sequence = self.env['ir.sequence'].get(
+                'product.ref.seq') or '-'
+            obj.write({'product_id': sequence})
+        return obj  
+    
+  
+
+class ProductRequestAttributeLine(models.Model):
+    _name = 'product.request.attribute.line'
+    _description = 'Product Request Attribute Line'
+    
+    active = fields.Boolean(default=True)
+    product_request_line_id = fields.Many2one('product.request.line', string="Product Request Line", ondelete='cascade', required=True, index=True)
+    attribute_id = fields.Many2one('product.attribute', string="Attribute",  required=True)
+    value_ids = fields.Many2many('product.attribute.value', string="Values", domain="[('attribute_id', '=', attribute_id)]", ondelete='restrict')
+    
+ 
+
+    

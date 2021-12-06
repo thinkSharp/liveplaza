@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="delivery_method_form" model="ir.ui.view">
+        <field name="name">delivery.method.form</field>
+        <field name="model">delivery.method</field>
+        <field name="arch" type="xml">
+            <form string="Delivery Method Form">
+                <sheet>
+                    <label for="name" class="oe_edit_only"/>
+                    <field name="name" required="1" placeholder="e.g. Method A" />
+                    <group>
+                        <field name="deli_price" placeholder="e.g. 1000"/>
+                    </group>
+                    <group>
+                        <field name="related_partner_ids" widget="many2many_tags" />
+                    </group>
+                    <group>
+                        <field name="township_ids" widget="many2many_tags" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="delivery_method_tree" model="ir.ui.view">
+        <field name="name">delivery.method.tree</field>
+        <field name="model">delivery.method</field>
+        <field name="arch" type="xml">
+            <tree string="Delivery Method Tree">
+                <field name="name"/>
+                <field name="deli_price"/>
+                <field name="related_partner_ids" widget="many2many_tags"  />
+                <field name="township_ids" widget="many2many_tags"  />
+            </tree>
+        </field>
+    </record>
+
+    <record id="delivery_method_search" model="ir.ui.view">
+        <field name="name">delivery.method.search</field>
+        <field name="model">delivery.method</field>
+        <field name="arch" type="xml">
+            <search string="Delivery method Report Search">
+                <field name="name" />
+                <field name="related_partner_ids" />
+            </search>
+        </field>
+    </record>
+
+    <record id="action_delivery_method" model="ir.actions.act_window">
+        <field name="type">ir.actions.act_window</field>
+        <field name="name">Delivery Zones</field>
+        <field name="res_model">delivery.method</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{}</field>
+        <field name="domain">[]</field>
+        <field name="search_view_id" ref="delivery_method_search" />
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">Nothing here!</p>
+        </field>
+    </record>
+
+    <menuitem name="Delivery Zones" id="delivery_method_menu" parent="picking_menu" groups="base.group_user" action="action_delivery_method" sequence="1" />
+
+</odoo>

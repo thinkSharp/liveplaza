@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+       <record forcecreate= "True" id= "Taviraj" model= "wk.backend.font">
+            <field name= "name">Taviraj</field>  
+            <field name= "family">'Taviraj',serif</field>
+            <!-- <field name= "url">https://fonts.googleapis.com/css?family=Taviraj</field>      -->
+        </record>
+
+        <record forcecreate= "True" id= "OpenSans" model= "wk.backend.font">
+            <field name= "name">Open Sans</field> 
+            <field name= "family">'Open Sans', sans-serif</field> 
+            <!-- <field name= "url">https://fonts.googleapis.com/css?family=Open+Sans</field>      -->
+        </record>
+        <record forcecreate= "True" id= "Roboto" model= "wk.backend.font">
+            <field name= "name">Roboto</field> 
+            <field name= "family">'Roboto' , sans-serif</field>
+            <!-- <field name= "url">https://fonts.googleapis.com/css?family=Roboto</field>      -->
+        </record>
+
+
+        <record forcecreate= "True" id= "Lato" model= "wk.backend.font">
+            <field name= "name">Lato</field>  
+            <field name= "family">'Lato', sans-serif</field>  
+            <!-- <field name= "url">https://fonts.googleapis.com/css?family=Lato</field>      -->
+        </record>
+        <record forcecreate= "True" id= "PTSans" model= "wk.backend.font">
+            <field name= "name">PT Sans</field>  
+            <field name= "family">'PT Sans', sans-serif</field>
+            <!-- <field name= "url">https://fonts.googleapis.com/css?family=PT+Sans</field>      -->
+        </record>
+        <record forcecreate= "True" id= "SourceSansPro" model= "wk.backend.font">
+            <field name= "name">Source Sans Pro</field>  
+            <field name= "family">'Source Sans Pro', sans-serif</field>
+            <!-- <field name= "url">https://fonts.googleapis.com/css?family=Source+Sans+Pro</field>      -->
+        </record>
+
+
+        <record forcecreate= "True" id= "Exo2" model= "wk.backend.font">
+            <field name= "name">Exo2</field> 
+            <field name= "family">'Exo 2', sans-serif</field>  
+            <!-- <field name= "url">https://fonts.googleapis.com/css?family=Exo+2</field>    -->
+        </record>
+
+        <record forcecreate= "True" id= "Ubuntu" model= "wk.backend.font">
+            <field name= "name">Ubuntu</field> 
+            <field name= "family">'Ubuntu', sans-serif</field>               
+            <!-- <field name= "url">https://fonts.googleapis.com/css?family=Ubuntu</field>    -->
+        </record>
+
+        <record forcecreate= "True" id= "Istok" model= "wk.backend.font">
+            <field name= "name">IstokWeb</field>  
+            <field name= "family">'Istok Web', sans-serif</field> 
+            <!-- <field name= "url">https://fonts.googleapis.com/css?family=Istok+Web</field>      -->
+        </record>
+</odoo>

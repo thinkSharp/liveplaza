@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="delivery_payment_form" model="ir.ui.view">
+        <field name="name">delivery.payment.form</field>
+        <field name="model">delivery.payment</field>
+        <field name="arch" type="xml">
+            <form string="Delivery Payment Form">
+                <header>
+                    <button name="post_payment" string="Post" type="object" attrs="{'invisible': [('payment_state', '!=', 'draft')]}" class="oe_highlight" groups="picking_and_delivery_vendor.delivery_vendor_group"/>
+                    <field name="payment_state" widget="statusbar" statusbar_visible="draft,done"/>
+                </header>
+                <sheet>
+                    <group>
+                        <label for="name" string="Ref : " />
+                        <field name="name" />
+                        <group>
+                            <field name="mp_orders" widget="many2many_tags" options="{'no_create_edit': True}" attrs="{'readonly': [('payment_state', '=', 'done')]}" />
+                            <field name="receivable_amount" attrs="{'invisible': [('payment_state', '!=', 'draft')]}"/>
+                            <field name="total_amount" attrs="{'readonly': [('payment_state', '=', 'done')]}" />
+                            <field name="required_condition" invisible="1" />
+                        </group>
+                        <group>
+                            <field name="vendor_id" attrs="{'readonly': [('payment_state', '=', 'done')]}" />
+                            <field name="pay_date" attrs="{'readonly': [('payment_state', '=', 'done')]}" />
+                            <field name="memo" attrs="{'required': [('required_condition', '=', True)], 'readonly': [('payment_state', '=', 'done')]}" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="delivery_payment_tree" model="ir.ui.view">
+        <field name="name">delivery.payment.tree</field>
+        <field name="model">delivery.payment</field>
+        <field name="arch" type="xml">
+            <tree string="Delivery Payment Tree">
+                <field name="name"/>
+                <field name="mp_orders" widget="many2many_tags" />
+                <field name="total_amount" />
+                <field name="vendor_id" />
+                <field name="pay_date" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="delivery_payment_search" model="ir.ui.view">
+        <field name="name">delivery.payment.search</field>
+        <field name="model">delivery.payment</field>
+        <field name="arch" type="xml">
+            <search string="Delivery Ppayment Report Search">
+                <field name="name" />
+                <field name="mp_orders" />
+                <field name="vendor_id"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_delivery_payment" model="ir.actions.act_window">
+        <field name="type">ir.actions.act_window</field>
+        <field name="name">Delivery Payment</field>
+        <field name="res_model">delivery.payment</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{}</field>
+        <field name="domain">[]</field>
+        <field name="search_view_id" ref="delivery_payment_search" />
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">Nothing here!</p>
+        </field>
+    </record>
+
+    <menuitem name="Delivery Payment" id="delivery_payment_menu" parent="odoo_marketplace.wk_seller_dashboard_menu4" groups="picking_and_delivery_vendor.delivery_vendor_group" action="action_delivery_payment" sequence="4" />
+
+</odoo>

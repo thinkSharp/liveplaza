@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <data>
+    <!-- Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+    <!-- See LICENSE file for full copyright and licensing details. -->
+    <template id="xtremo_user" active="True">
+      <div class="dropdown" id="xtremo_user_header">
+        <t t-set="website_sale_show_signin" t-value="request.env['ir.ui.view'].sudo().search([('key','=','portal.portal_show_sign_in'),'|',('active','=',False),('active','=',True)])"/>
+        <t t-set="website_sale_show_signin" t-value="website_sale_show_signin if len(website_sale_show_signin) == 1 else website_sale_show_signin.filtered(lambda v : v.website_id == request.website)"/>
+        <a class="dropdown-toggle" data-toggle="dropdown" id="xtremo_dropdown_toggle" t-if="user_id._is_public()">
+          <span>
+            <span class="user">
+              <i class="fa fa-user" />
+            </span>
+            <span class="xt-user-info">
+              <span>Hello User!</span>
+              <span class="name">SIGN IN</span>
+            </span>
+          </span>
+        </a>
+        <a class="dropdown-toggle" data-toggle="dropdown" id="xtremo_dropdown_toggle" t-if="not user_id._is_public()">
+          <span  id="xtm_user_image" t-field="user_id.image_512" t-options="{'widget': 'image', 'class': 'img-rounded'}" />
+        </a>
+        <div t-if="user_id._is_public()" class="dropdown-menu js_usermenu" role="menu">
+          <div class="row dropdown-item">
+            <a t-if="website_sale_show_signin and website_sale_show_signin.active" class="col-md-6 col-lg-6" t-attf-href="/web/login" role="menuitem">LOGIN</a>
+            <a class="col-md-6 col-lg-6" t-if="request.env['ir.config_parameter'].sudo().get_param('auth_signup.invitation_scope', 'b2b')" t-attf-href="/web/signup?{{ keep_query() }}" role="menuitem">REGISTER</a>
+          </div>
+          <a class="dropdown-item" href="/shop/wishlist" role="menuitem"> My Wishlist (<sup t-attf-class="my_wish_quantity o_animate_blink label label-primary">
+            <t t-esc='wishcount if wishcount else "0"'/>
+            </sup>)          </a>
+            <div t-if="reset_password_enabled" role="separator" class="dropdown-divider">
+            </div>
+            <a t-if="reset_password_enabled" class="dropdown-item" t-attf-href="/web/reset_password?{{ keep_query() }}" role="menuitem">Forget your <br/>password?</a>
+          </div>
+        </div>
+      </template>
+      <template id="xtremo_product_search">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <span class="text" data="0">All Category</span>
+              <span>
+                <i class="fa fa-angle-down">
+                </i>
+              </span>
+            </button>
+            <ul class="dropdown-menu">
+              <t t-set="keep" t-value="request.website.get_all_categories().get('keep')" />
+              <li class="dropdown-item">
+                <a href="/shop">All</a>
+              </li>
+              <t t-set="categories" t-value="request.env['product.public.category'].search([('parent_id', '=', None)])" />
+              <t t-foreach="categories" t-as="c">
+                <t t-call="theme_xtremo.categories_recursive_xt" />
+              </t>
+            </ul>
+          </div>
+          <input type="text" class="form-control" placeholder="Search entire store here..."/>
+          <div class="input-group-append">
+            <button type="button" class="btn btn-outline-secondary" aria-haspopup="true" >
+              <i class="fa fa-search"/>
+              <span class="text">Search</span>
+            </button>
+          </div>
+        </div>
+      </template>
+      <template id="xtremo_extra_menu_item_2" inherit_id="portal.frontend_layout" priority="0">
+        <xpath expr="//ul[@id='top_menu']/li/div/a[last()]" position="after">
+          <div role="separator" class="dropdown-divider">
+          </div>
+          <a class="dropdown-item user-name" href="#">
+            <span t-esc="user_id.name[:23] + '...' if user_id.name and len(user_id.name) &gt; 25 else user_id.name"/>
+          </a>
+        </xpath>
+        <xpath expr="//ul[@id='top_menu']/li/div/a[@id='o_logout']" position="before">
+          <a class="dropdown-item" href="/shop/wishlist">          My Wishlist (<sup t-attf-class="my_wish_quantity o_animate_blink label label-primary">
+            <t t-esc='wishcount if wishcount else "0"'/>
+            </sup>)        </a>
+          </xpath>
+        </template>
+        <template id="xtremo_header_2_menu_content" inherit_id="portal.frontend_layout" priority="0" active="False">
+          <xpath expr="//div[@id='top_menu_collapse']" position="after">
+            <t t-call="theme_xtremo.xtremo_language_dropdown" />
+          </xpath>
+        </template>
+        <template id="xtremo_mobile_menu">
+          <div id="xtremo_mobile_menu" class="d-xl-none d-lg-none d-md-none">
+            <div class="xt-cart">
+              <div class="row">
+                <div class="col-sm-6 col-6 active toggle-user-menu" name="menu">Menu</div>
+                <div class="col-sm-6 col-6 toggle-user-menu" name="user">My Account</div>
+                <div class="col-sm-12 col-12">
+                  <input type="text" class="col-sm-12 col-12 form-control" placeholder="Search entire store here..."/>
+                  <i class="fa fa-search" />
+                </div>
+              </div>
+              <div role="separator" class="dropdown-divider">
+              </div>
+            </div>
+          </div>
+        </template>
+        <template id="xtremo_header_default" inherit_id="portal.frontend_layout" name="header default">
+          <xpath expr="//header/nav" position="before">
+            <div class="cart">
+              <nav class="navbar navbar-expand-md navbar-light bg-light" id="xtremo">
+                <div class="container">
+                  <a href="/" class="navbar-brand logo">
+                    <span t-field="res_company.logo" t-options="{'widget': 'image'}" t-att-alt="'Logo of %s' % res_company.name" t-att-title="res_company.name"/>
+                  </a>
+                  <div class="navbar-collapse" id="xtremo_top_menu_collapse">
+                    <ul class="nav navbar-nav ml-auto text-right" id="xtremo_top_menu">
+                      <li class="nav-item xtremo_search hide-mobile" t-ignore="true">
+                        <t t-call="theme_xtremo.xtremo_product_search" />
+                      </li>
+                      <li id="my_cart" t-attf-class="nav-item">
+                        <t t-set="website_sale_order" t-value="website.sale_get_order()" />
+                        <a href="/shop/cart" class="nav-link">
+                          <i class="fa fa-shopping-cart">
+                          </i>
+                          <span> Cart</span>
+                          <sup t-attf-class="my_cart_quantity badge badge-primary" t-esc="website_sale_order and website_sale_order.cart_quantity or '0'" />
+                        </a>
+                      </li>
+                      <li id="compare" t-attf-class="nav-item">
+                        <t t-set="website_sale_order" t-value="website.sale_get_order()" />
+                        <a class="nav-link">
+                          <i class="fa fa-balance-scale">
+                          </i>
+                          <span>Compare</span>
+                          <sup t-attf-class="my_compare_quantity badge badge-primary">0</sup>
+                        </a>
+                      </li>
+                      <li class="nav-item hide-mobile" t-ignore="true">
+                        <t t-call="theme_xtremo.xtremo_user" />
+                      </li>
+                      <li class="d-xl-none d-lg-none d-md-none" id="xt-mobile-menu">
+                        <button >
+                          <i class="fa fa-bars"/>
+                        </button>
+                        <t t-call="theme_xtremo.xtremo_mobile_menu"  />
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </nav>
+            </div>
+          </xpath>
+        </template>
+        <template id="xtremo_whishlist_button" inherit_id="theme_xtremo.xtremo_header_default">
+          <xpath expr="//ul[@id='xtremo_top_menu']/li[@id='my_cart']" position="before">
+            <t t-if="request.env.ref('website_sale_wishlist.add_to_wishlist').active">
+              <t t-set='wishcount' t-value="len(request.env['product.wishlist'].current())"/>
+              <li id="my_wish" class="nav-item" t-att-style="not wishcount and 'display:none;'">
+                <a href="/shop/wishlist" class="nav-link">
+                  <i class="fa fa-heart"/>
+                  <sup t-attf-class="my_wish_quantity o_animate_blink badge badge-primary">
+                    <t t-esc='wishcount'/>
+                  </sup>
+                </a>
+              </li>
+            </t>
+          </xpath>
+        </template>
+        <template id="footer_layout_scrollup" inherit_id="theme_xtremo.xtremo_user">
+          <xpath expr="//div" position="after">
+            <div id="xtremo_scroll_top">
+              <span class="fa fa-angle-double-up" />
+            </div>
+          </xpath>
+        </template>
+      </data>
+    </odoo>

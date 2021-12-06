@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<templates id="template" xml:space="preserve">
+  <div t-name="theme_xtremo.dynamic_modal" t-att-id="t_id" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <span t-esc="t_header"></span>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span class="fa fa-times" />
+          </button>
+        </div>
+        <div class="modal-body"></div>
+        <div class="modal-footer">
+          <t t-raw="t_button"/>
+        </div>
+      </div>
+    </div>
+  </div>
+</templates>

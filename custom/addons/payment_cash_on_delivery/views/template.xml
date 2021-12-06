@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (c) 2019-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE URL <https://store.webkul.com/license.html/> for full copyright and licensing details. -->
+<odoo>
+    <template id="assets_frontend" inherit_id="website.assets_frontend" name="COD">
+        <xpath expr="." position="inside">
+            <script src="/payment_cash_on_delivery/static/src/js/payment_cash_on_delivery.js" type="text/javascript"/>
+            <link href="/payment_cash_on_delivery/static/src/scss/payment_cash_on_delivery.scss" rel="stylesheet"/>
+        </xpath>
+    </template>
+
+    <template active="True" id="payment_cash_on_delivery.product" inherit_id="website_sale.product" name="COD  Availability">
+        <xpath expr="//div[@id='product_details']//hr" position="before">
+            <t t-if='cod_rule'>
+                <hr/>
+                <t t-if="cod_availability">
+                    <t t-if="combination_info['list_price'] &gt; cod_rule.min_order_amount - 1 and combination_info['list_price'] &lt; cod_rule.max_order_amount + 1">
+                        <p class="text-success" t-if="cod_rule.cod_availability_message">
+                            <t t-esc="cod_rule.cod_availability_message"/>
+                        </p>
+                        <!-- <p t-if="cod_rule.show_expected_cod_date">DELIVERED BY
+                            <t t-esc="website.expected_cod_date(product)"/></p> -->
+                        <p class="text-info" data-placement="left" data-toggle="popover" data-trigger="hover" t-att-data-content="cod_rule.policy_content" t-if="cod_rule.show_policy" title="COD Availability">
+                            <i class="fa fa-plus-circle"/>
+                            Policy and Authenticity</p>
+                    </t>
+                    <t t-else="">
+                        <p class="text-danger" data-placement="left" data-toggle="popover" data-trigger="hover" data-content="Current COD Status is based on single quantity and existing combination. COD status may vary in case of any change in quantity and combination">
+                            <i class="fa fa-exclamation-triangle"/>
+                            <t t-esc="cod_rule.cod_unavailability_message"/>
+                        </p>
+                        <p class="text-info" data-placement="left" data-toggle="popover" data-trigger="hover" t-att-data-content="cod_rule.policy_content" t-if="cod_rule.show_policy" title="COD Availability">
+                            <i class="fa fa-plus-circle"/>
+                            Policy and Authenticity</p>
+                    </t>
+                </t>
+                <t t-if="not cod_availability and cod_rule.cod_unavailability_message">
+                    <p>
+                        <t t-esc="cod_rule.cod_unavailability_message"/>
+                    </p>
+                </t>
+            </t>
+        </xpath>
+    </template>
+    <template id="cod_payment_tockens_list_inheri" inherit_id="payment.payment_tokens_list">
+        <xpath expr="//t[@t-foreach='acquirers']//div[hasclass('o_payment_acquirer_select')]" position="attributes">
+            <attribute name="t-attf-class">card-body o_payment_acquirer_select #{'disabled' if isCodDisable and acq.provider == 'cash_on_delivery' else ''}</attribute> 
+            <attribute name="t-att-id">'payment_cod' if acq.provider == 'cash_on_delivery' else ''</attribute> 
+        </xpath>
+         <xpath expr="//t[@t-foreach='acquirers']//div[hasclass('o_payment_acquirer_select')]" position="inside">
+            <t t-if="acq.provider == 'cash_on_delivery'">
+                <div class="cod_error_msg ml-3">
+                    <p class="text-danger" t-if="cod_errors">
+                        <t t-foreach="cod_errors" t-as="msg">
+                            <span t-esc="msg"/>
+                        </t>
+                        <span t-if="acq.cod_rule and acq.cod_rule.show_policy" class="text-info" data-placement="left" data-toggle="popover" data-trigger="hover" t-att-data-content="acq.cod_rule.policy_content"  title="COD Availability">
+                            <i class="fa fa-plus-circle"/>
+                            Policy and Authenticity</span>
+                    </p>
+                </div>
+            </t>
+        </xpath>
+    </template>
+    <template id="payment_cash_on_delivery_acquirer_button">
+        <input type="hidden" name="data_set" t-att-data-action-url="tx_url" data-remove-me=""/>
+        <input type="hidden" name="data_set" data-create-route="/payment/ogone/s2s/create_json_3ds"/>
+        <input type="hidden" name="acquirer_id" t-att-value="id"/>
+        <input t-if="return_url" type="hidden" name="return_url" t-att-value="return_url"/>
+        <input t-if="partner_id" type="hidden" name="partner_id" t-att-value="partner_id"/>
+        <input name="csrf_token" t-att-value="request.csrf_token()" type="hidden"/>
+        <input name="reference" t-att-value="reference" type="hidden"/>
+        <input name="amount" t-att-value="amount or &quot;0.0&quot;" type="hidden"/>
+        <input name="currency" t-att-value="currency.name" type="hidden"/>
+    </template>
+</odoo>

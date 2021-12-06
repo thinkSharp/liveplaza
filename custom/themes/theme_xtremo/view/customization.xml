@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <data>
+    <!-- Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+    <!-- See LICENSE file for full copyright and licensing details. -->
+    <template id="theme_customize" inherit_id="website.theme_customize">
+       <xpath expr="//div" position="replace">
+         <div>
+
+          <content id="theme_xtremo_customize_shop" string="Shop" title="Shop Page">
+            <opt data-xmlid="theme_xtremo.xt_shop_xtremo_1" data-icon="/theme_xtremo/static/src/icon/shop1.png"/>
+            <opt data-xmlid="theme_xtremo.xt_shop_xtremo_2" data-icon="/theme_xtremo/static/src/icon/shop2.png"/>
+          </content>
+
+          <content id="theme_xtremo_customize_color" string="Color" title="Choose Website Color">
+            <opt data-xmlid="theme_xtremo.xt_header_xtremo_color_1" data-icon="/theme_xtremo/static/src/icon/color-1.png" active="True"/>
+            <opt data-xmlid="theme_xtremo.xt_header_xtremo_color_2" data-icon="/theme_xtremo/static/src/icon/color-4.png"/>
+            <opt data-xmlid="theme_xtremo.xt_header_xtremo_color_3" data-icon="/theme_xtremo/static/src/icon/color-3.png"/>
+            <opt data-xmlid="theme_xtremo.xt_header_xtremo_color_4" data-icon="/theme_xtremo/static/src/icon/color-6.png"/>
+            <opt data-xmlid="theme_xtremo.xt_header_xtremo_color_5" data-icon="/theme_xtremo/static/src/icon/color-2.png"/>
+            <opt data-xmlid="theme_xtremo.xt_header_xtremo_color_6" data-icon="/theme_xtremo/static/src/icon/color-7.png"/>
+          </content>
+
+          <content id="theme_xtremo_customize_fonts" string="Fonts" title="Choose Website Font">
+            <opt data-xmlid="theme_xtremo.xt_header_xtremo_font_1" data-icon="/theme_xtremo/static/src/icon/fonts-Abel.png" active="True"/>
+            <opt data-xmlid="theme_xtremo.xt_header_xtremo_font_2" data-icon="/theme_xtremo/static/src/icon/fonts-Cinzel.png"/>
+            <opt data-xmlid="theme_xtremo.xt_header_xtremo_font_3" data-icon="/theme_xtremo/static/src/icon/fonts-Nunito.png"/>
+            <opt data-xmlid="theme_xtremo.xt_header_xtremo_font_4" data-icon="/theme_xtremo/static/src/icon/fonts-Noto-Serif.png"/>
+            <opt data-xmlid="theme_xtremo.xt_header_xtremo_font_5" data-icon="/theme_xtremo/static/src/icon/fonts-Koho.png"/>
+            <opt data-xmlid="theme_xtremo.xt_header_xtremo_font_6" data-icon="/theme_xtremo/static/src/icon/fonts-Play.png"/>
+            <opt data-xmlid="theme_xtremo.xt_header_xtremo_font_7" data-icon="/theme_xtremo/static/src/icon/fonts-Rokkitt.png"/>
+            <opt data-xmlid="theme_xtremo.xt_header_xtremo_font_8" data-icon="/theme_xtremo/static/src/icon/fonts-montserrat.png"/>
+          </content>
+
+          <content id="theme_customize_page_header" string="Header" title="Choose your Header">
+              <opt data-xmlid="theme_xtremo.xt_header_xtremo_2,theme_xtremo.xtremo_header_2_menu_content,theme_xtremo.xtremo_whishlist_button" data-reload="/*" data-icon="/theme_xtremo/static/src/icon/Header-2.png" />
+              <opt data-xmlid="theme_xtremo.xt_header_xtremo_1" data-reload="/*" data-icon="/theme_xtremo/static/src/icon/Header-1.png" active="True" />
+          </content>
+
+          <content id="theme_xtremo_customize_footer" string="Footer" title="Choose your Footer">
+              <opt data-reload="/*" data-xmlid="theme_xtremo.xt_footer_xtremo_1,theme_xtremo.footer_layout_1" data-icon="/theme_xtremo/static/src/icon/Footer-2.png" active="True"/>
+              <opt data-reload="/*" data-xmlid="theme_xtremo.xt_footer_xtremo_2,theme_xtremo.footer_layout_2,theme_xtremo.xt_footer_copyright" data-icon="/theme_xtremo/static/src/icon/Footer-1.png"/>
+          </content>
+
+         </div>
+       </xpath>
+    </template>
+
+
+
+
+  </data>
+</odoo>

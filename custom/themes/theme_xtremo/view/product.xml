@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <template id="categories_recursive_xt" name="Category list xt">
+    <li t-att-class="'dropdown-item icon' if c.child_id else 'dropdown-item'">
+      <a t-att-href="keep('/shop/category/' + slug(c), category=0)" t-field="c.name" >
+      </a>
+      <ul t-if="c.child_id" class="">
+        <t t-foreach="c.child_id" t-as="c">
+          <t t-call="theme_xtremo.categories_recursive_xt" />
+        </t>
+      </ul>
+    </li>
+  </template>
+
+
+  
+</odoo>

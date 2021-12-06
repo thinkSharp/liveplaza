@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+    <data>
+      <record id="show_seller_fb_attachment_mapping_rule" model="ir.rule">
+        <field name="name">Seller Facebook attachment Mapping rule</field>
+        <field name="model_id" ref="facebook_ads_feeds.model_fb_attachment_mapping"/>
+        <field name="domain_force">[('marketplace_seller_id.id','=',user.partner_id.id)]</field>
+        <field name="groups" eval="[(4, ref('odoo_marketplace.marketplace_seller_group'))]"/>
+    </record>
+    <record id="show_officer_fb_attachment_mapping_rule" model="ir.rule">
+      <field name="name">officer Facebook attachment Mapping rule</field>
+      <field name="model_id" ref="facebook_ads_feeds.model_fb_attachment_mapping"/>
+      <field name="domain_force">[(1,'=',1)]</field>
+      <field name="groups" eval="[(4, ref('odoo_marketplace.marketplace_officer_group'))]"/>
+  </record>
+        <record id="show_seller_fb_shop_rule" model="ir.rule">
+	        <field name="name">Seller Facebook Catalog</field>
+	        <field name="model_id" ref="facebook_ads_feeds.model_fb_facebook_shop"/>
+	        <field name="domain_force">[('marketplace_seller_id.id','=',user.partner_id.id)]</field>
+	        <field name="groups" eval="[(4, ref('odoo_marketplace.marketplace_seller_group'))]"/>
+	    </record>
+        <record id="show_officer_fb_shop_rule" model="ir.rule">
+	        <field name="name">Officer Facebook Catalog</field>
+	        <field name="model_id" ref="facebook_ads_feeds.model_fb_facebook_shop"/>
+	        <field name="domain_force">[(1,'=',1)]</field>
+	        <field name="groups" eval="[(4, ref('odoo_marketplace.marketplace_officer_group'))]"/>
+	    </record>
+    </data>
+</odoo>

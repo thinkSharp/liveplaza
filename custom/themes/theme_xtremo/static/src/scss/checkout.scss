@@ -1,0 +1,107 @@
+/* Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) */
+/* See LICENSE file for full copyright and licensing details. */
+
+.checkout{
+  & > .row:nth-child(1){
+    & > .col-12:nth-child(1){
+      margin-bottom: 15px !important;
+    }
+  }
+}
+.col-12.col-xl.order-xl-1.oe_cart{
+  background-color: white;
+  padding: 0px 15px !important;
+  // margin-top: 15px !important;
+  .o_page_header{
+    color: $mn-text;
+    border-color: $border;
+  }
+  .js_edit_address{
+    border-width: 0px !important;
+  }
+  .one_kanban{
+    .card{
+      border-color: $border !important;
+    }
+  }
+}
+.all_shipping{
+  form{
+    a{
+      @include button($text-color);
+    }
+  }
+
+}
+
+.order-xl-2{
+  padding-right: 0px;
+  // margin-top: 15px !important;
+  .card{
+    border-color: white;
+    padding: 10px;
+    h3{
+      text-align: center;
+      color: $mn-text;
+    }
+    table{
+      margin-top: 0px;
+    }
+    .show_coupon{
+      padding-right: 0px;
+    }
+    .coupon_form form{
+      margin-bottom: 0px !important;
+    }
+    #cart_total{
+      margin-bottom: 0px !important;
+      td{
+        color: $text-color !important;
+      }
+      #order_total td{
+        color: $mn-text !important;
+      }
+    }
+    &.border-primary {
+      border-color: $text-color !important;
+    }
+  }
+}
+
+.oe_website_sale.py-2.checkout >.row{
+  >.oe_cart{
+    padding-top: 0px !important;
+  }
+  @media #{$mobile}{
+    >.col-12.col-xl.order-xl-1.oe_cart{
+      >.row{
+        >.col-lg-12{
+          padding-right: 0px;
+        }
+        .one_kanban{
+          padding-right: 0px;
+
+        }
+      }
+    }
+    .all_shipping{
+      padding-right: 15px !important;
+    }
+  }
+  @media #{$pad}{
+
+    >.col-12.col-xl.order-xl-1.oe_cart{
+      >.row{
+        >.col-lg-12{
+          padding-right: 0px;
+        }
+        .one_kanban{
+          padding-right: 0px;
+        }
+      }
+    }
+    .all_shipping{
+      padding-right: 15px !important;
+    }
+  }
+}

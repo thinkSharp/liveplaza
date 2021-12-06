@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="mp_seller_signup_inherit" model="ir.ui.view">
+            <field name="name">mp_seller_signup.inherit</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="odoo_marketplace.mp_seller_signup" />
+            <field name="arch" type="xml">
+                <xpath expr="//div[@class='form-group has-feedback']" position="after">
+                    <div class="form_group">
+                        <label for="seller_subscription" class="control-label">Subscription</label>
+                        <field name="subscription" />
+                    </div>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

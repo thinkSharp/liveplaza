@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="mp_delivery_vendor_receivable_result_wizard_form" model="ir.ui.view">
+            <field name="name">mp.delivery.vendor.receivable.result.wizard.form</field>
+            <field name="model">mp.delivery.vendor.receivable.result.wizard</field>
+            <field name="arch" type="xml">
+              <form string="Delivery Vendor Receivable">
+                <footer>
+                  <button name="generate_order_report" string="Generate" type="object" class="btn-primary"/>
+                  <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+              </form>
+            </field>
+        </record>
+        
+        <record id="mp_delivery_vendor_receivable_result_wizard_action" model="ir.actions.act_window">
+            <field name="name">Delivery Vendor Receivable</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">mp.delivery.vendor.receivable.result.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="mp_delivery_vendor_receivable_result_wizard_form"/>
+            <field name="target">new</field>
+        </record>
+        
+        <menuitem id="mp_delivery_vendor_receivable_result_wizard_menu" name="Delivery Vendor Receivable Report" action="mp_delivery_vendor_receivable_result_wizard_action" parent="customizations_by_livep.marketplace_report_root" sequence="20"/>
+
+          
+        <record id="mp_delivery_vendor_receivable_result_tree" model="ir.ui.view">
+            <field name="name">Delivery Collection</field>
+            <field name="model">mp.delivery.vendor.receivable.result</field>
+            <field name="arch" type="xml">
+                <tree string="Delivery Vendor Receivable" create="false" decoration-muted="mp_active_vendor == False" >
+                    <field name="mp_delivery_name"/>
+                    <field name="mp_collected_amount" />
+                    <field name="mp_to_pay_amount" />
+                    <field name="mp_active_vendor"/>
+                </tree>
+            </field>
+        </record>
+
+    </data>
+</odoo>

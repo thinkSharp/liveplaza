@@ -1,0 +1,85 @@
+/* Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) */
+/* See LICENSE file for full copyright and licensing details. */
+
+.oe_website_sale.py-2{
+
+  .col-12 >.row{
+    margin-right: 0px;
+    padding-right: 0px;
+    >.col-xl{
+      background-color: white;
+      margin-top: 15px;
+      margin-bottom: 15px;
+    }
+  }
+  >.row{
+    >.order-xl-1.oe_cart >div{
+      >.o_page_header{
+        margin-top: 0px !important;
+      }
+      a[href*="?redirect=/shop/checkout"]{
+        background-color: white;
+        color: $th-color;
+        margin-top: 5px !important;
+        padding: 0px;
+        padding-left: 10px;
+        border: 0px solid !important;
+        font-size: 15px ;
+      }
+    }
+    form[action='/shop/address']{
+      color: $text-color;
+      .o_has_error{
+        color: $danger;
+        input{
+          border-color: $danger !important;
+        }
+      }
+      .justify-content-between{
+        margin-top: 15px;
+      }
+    }
+  }
+  @media #{$mobile}{
+    >.row >.col-12{
+      background-color: white;
+      margin-bottom: 10px;
+      margin-top: 10px;
+      padding-left: 15px !important;
+      >.row .col-xl{
+        padding: 0px 15px;
+      }
+      @media #{$mobile}{
+        color: $mn-text !important;
+      }
+    }
+    >.row{
+      >.col-12.col-xl.order-xl-1.oe_cart{
+        margin-top: 0px !important;
+      }
+    }
+  }
+}
+
+.oe_website_sale.py-2.address{
+  .text-danger {
+    color: $danger !important;
+  }
+  >.row{
+    >.oe_cart{
+      padding-top: 0px !important;
+    }
+    >.col-12{
+      padding-right: 0px;
+      @media #{$mobile}{
+        margin-top: 0px;
+      }
+    }
+    >.col-12.col-xl.order-xl-1.oe_cart{
+      >div h2.o_page_header{
+        margin-top: 8px !important;
+      }
+    }
+  }
+
+}

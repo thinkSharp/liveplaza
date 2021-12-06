@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="mp_order_result_wizard_form" model="ir.ui.view">
+            <field name="name">mp.order.result.wizardform</field>
+            <field name="model">mp.order.result.wizard</field>
+            <field name="arch" type="xml">
+              <form string="Marketplace Orders">
+                <group>
+                  <group>
+                    <field name="start_date"/>
+                  </group>
+                  <group>
+                    <field name="end_date"/>
+                  </group>
+                </group>
+                <footer>
+                  <button name="generate_order_report" string="Generate" type="object" class="btn-primary"/>
+                  <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+              </form>
+            </field>
+        </record>
+        
+        <record id="mp_order_result_wizard_action" model="ir.actions.act_window">
+            <field name="name">Marketplace Orders</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">mp.order.result.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="mp_order_result_wizard_form"/>
+            <field name="target">new</field>
+        </record>
+        
+        <menuitem id="mp_order_result_wizard_menu" name="Marketplace Order Report" action="mp_order_result_wizard_action" parent="customizations_by_livep.marketplace_report_root" sequence="5"/>
+
+          
+        <record id="mp_order_result_tree" model="ir.ui.view">
+            <field name="name">Marketplace Orders</field>
+            <field name="model">mp.order.result</field>
+            <field name="arch" type="xml">
+                <tree string="Marketplace Orders" create="false" decoration-info="mp_payment_state == 'new'">
+                    <field name="mp_order"/>
+                    <field name="mp_product_name"/>
+                    <field name="mp_customer_name"/>
+                    <field name="mp_order_date"/>
+                    <field name="mp_order_qty"/>
+                    <field name="mp_subtotal"/>
+                    <field name="mp_seller_name"/>
+                    <field name="mp_journal" />
+                    <field name="mp_order_state"/>
+                    <field name="mp_payment_state" />
+                </tree>
+            </field>
+        </record>
+
+    </data>
+</odoo>

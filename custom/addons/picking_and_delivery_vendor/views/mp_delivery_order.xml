@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="marketplace_picking_stock_modified_form_view_inherit" model="ir.ui.view">
+            <field name="name">Marketplace Stock Picking Inherit</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="odoo_marketplace.marketplace_picking_stock_modified_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='button_validate']" position="replace">
+                    <button name="button_validate" attrs="{'invisible': ['|', ('payment_upload', '=', False), ('state', '!=', 'assigned')]}" string="Deliver Now" groups="picking_and_delivery_vendor.delivery_vendor_group" type="object" class="oe_highlight"/>
+                </xpath>
+                <xpath expr="//button[@name='button_validate']" position="after">
+                    <button name="set_as_hold" string="Set as Hold" attrs="{'invisible': ['|', ('hold_reason', '=', False), ('hold_state', '=', True)]}" groups="picking_and_delivery_vendor.delivery_vendor_group" type="object"/>
+                    <button name="make_ready" string="Make Ready" attrs="{'invisible': ['|', ('hold_state', '!=', True), ('state', '!=', 'assigned')]}" groups="picking_and_delivery_vendor.delivery_vendor_group" type="object"/>
+                </xpath>
+                <xpath expr="//field[@name='location_id']" position="after">
+                    <field name="is_picked" readonly="1" />
+                    <field name="is_packaged"  readonly="1" />
+                    <field name="journal_id" string="Payment Type" attrs="{'invisible': ['|', ('hold_state', '=', True), ('is_packaged', '=', False)], 'readonly': [('state', '=', 'done')]}" />
+                    <field name="receivable_amount" string="To Receive" attrs="{'invisible': ['|',('journal_id', '=', False),('state', '=', 'done')]}" />
+                    <field name="paid_amount" attrs="{'invisible': [('journal_id', '=', False)],  'readonly': [('state', '=', 'done')]}" />
+                    <field name="payment_remark" attrs="{'invisible': [('journal_id', '=', False)], 'required': [('required_condition', '=', True)], 'readonly': [('state', '=', 'done')]}" />
+                    <field name="payment_upload" filename="payment_upload_name" attrs="{'invisible': [('paid_amount', '&lt;=', '0.0')], 'readonly': [('state', '=', 'done')]}" />
+                    <field name="payment_upload_name" invisible="1" />
+               </xpath>
+                <xpath expr="//field[@name='origin']" position="after">
+                    <field name="vendor_id"  domain="[('delivery_vendor', '=', True)]" attrs="{'readonly': [('state', 'in', ('done','cancel'))]}" required='1'/>
+                    <field name="delivery_method_id" attrs="{'readonly': [('state', 'in', ('done','cancel'))]}" />
+                    <field name="hold_reason" attrs="{'invisible': [('state', '!=', 'assigned')]}" />
+                    <field name="hold_state" readonly="1" />
+                    <field name="hold_date" readonly="1" attrs="{'invisible': [('hold_state', '=', False)]}" />
+                    <field name="required_condition" invisible="1" />
+               </xpath>
+               <xpath expr="//button[@name='do_unreserve']" position="replace" />
+               <xpath expr="//button[@name='action_toggle_is_locked']" position="replace" />               
+              
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,86 @@
+/* Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) */
+/* See LICENSE file for full copyright and licensing details. */
+
+.table:not(.table-borderless){
+    &.table-bordered{
+      border: 0px solid $border;
+      tr{
+        border-top: 1px solid $border;
+        td{
+          border: 0px solid $border;
+        }
+      }
+    }
+    margin-top: 20px;
+    thead{
+      tr{
+          border-top: 1px solid $border;
+        th{
+          padding-top: 20px;
+          padding-bottom: 20px;
+          font-size: 16px;
+          vertical-align: middle;
+          color: $mn-text;
+          border-top: 1px solid $border;
+          border-bottom: 1px solid $border;
+          background-color: $white;
+        }
+      }
+    }
+    tbody{
+
+      tr{
+        max-height: auto;
+        td{
+          &.td-qty{
+            @include update_quantity();
+          }
+          &.td-price{
+            font-weight: bold;
+            width: 20%;
+          }
+          @media #{$sm-mobile}{
+            vertical-align: !important;
+          }
+          color: $mn-text;
+          padding-top: 20px;
+          padding-bottom: 20px;
+          border-top: 0px solid $border;
+          border-bottom: 1px solid $border;
+          background-color: $white;
+          img.img-responsive{
+            height: 165px;
+            width: 181px;
+            max-width: 181px;
+          }
+          a{
+            color: $mn-text;
+            &:hover{
+              text-decoration: none;
+            }
+          }
+          .text-muted{
+            margin-top: 10px;
+            color: $mn-text;
+            span{
+              line-height: 1.8;
+              font-size: 13px;
+            }
+          }
+          .js_delete_product{
+            font-weight: bold;
+            color: $th-color;
+            font-size: 20px;
+            @media #{$mobile}{
+              display: block !important;
+            }
+          }
+        }
+      }
+    }
+    @media #{$mobile}{
+      .td-img {
+        display: block !important;
+      }
+    }
+  }

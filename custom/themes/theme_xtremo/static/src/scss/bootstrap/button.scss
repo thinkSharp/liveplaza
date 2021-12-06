@@ -1,0 +1,113 @@
+/* Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) */
+/* See LICENSE file for full copyright and licensing details. */
+
+main .btn:not(header .btn){
+  background-color: white;
+  border: 1px solid $th-color;
+  color: $th-color;
+  position: relative;
+  transition: box-shadow .3s linear;
+}
+
+input,select,textarea{
+  border: 1px solid $border !important;
+  border-radius: 0px !important;
+  &:focus, &:active{
+    border-color: $th-color !important;
+    -moz-box-shadow:    0px 0px 0px 0px $th-color !important;
+    -webkit-box-shadow: 0px 0px 0px 0px $th-color !important;
+    box-shadow:         0px 0px 0px 0px $th-color !important;
+    background-color: white;
+    color: $mn-text !important;
+  }
+}
+
+
+@mixin create_selection($icon, $hover_icon) {
+  visibility: hidden;
+  margin-right: 0px !important;
+  cursor: pointer;
+  // vertical-align: top !important;
+  appearance: none;
+  -webkit-appearance: none;
+   -moz-appearance: none;
+  &::after{
+      transition: all .2s ease-in-out;
+      content: $icon;
+      color: $text-color !important;
+      padding: 0px 2px;
+      visibility: visible;
+      font-family: FontAwesome;
+      color: white;
+      cursor: pointer;
+  }
+  &:checked{
+    &::after{
+      content: $hover_icon;
+      color: $th-color !important;
+    }
+  }
+}
+ input[type="checkbox"]{
+  @include create_selection("\f096", "\f14a");
+}
+
+input[type="radio"]{
+  @include create_selection("\f1db", "\f058");
+}
+
+a,.btn-link{
+  color: $th-color;
+  text-decoration: none;
+  &:hover{
+    color: $th-color;
+    text-decoration: none;
+  }
+}
+
+a,button,.btn{
+  box-shadow: none !important;
+  border-radius: 0px;
+}
+hr{
+  border-top: 1px solid $border;
+}
+
+main .btn-primary,main .btn-success{
+  @include button($th-color);
+}
+
+main .btn-secondary{
+  @include button($text-color);
+}
+
+.oe_website_spinner.css_quantity, .css_quantity{
+  order: 3;
+  flex: 100%;
+  div{
+    a,button{
+      background-color: $th-color !important;
+      border: 1px solid $th-color !important;
+      color: white !important;
+      &::after{
+        display: none;
+      }
+      &:hover{
+        color: white !important;
+      }
+    }
+    &.input-group-prepend a,&.input-group-prepend button{
+      border-top-left-radius: 50%;
+      border-bottom-left-radius: 50%;
+    }
+    &.input-group-append a, &.input-group-append button{
+      border-top-right-radius: 50%;
+      border-bottom-right-radius: 50%;
+    }
+    input[type=text]{
+      border: 1px solid $th-color !important;
+      color: $text-color;
+
+    }
+  }
+}

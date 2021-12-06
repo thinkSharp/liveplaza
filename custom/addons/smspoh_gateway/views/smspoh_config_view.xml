@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="sms_mail_server_smspoh_formview" model="ir.ui.view">
+            <field name="name">sms.mail.server.smspoh.config</field>
+            <field name="model">sms.mail.server</field>
+            <field name="inherit_id" ref="sms_notification.sms_mail_server_formview"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='conn_info']" position="after">
+                    <group string='Security And Authentication' attrs="{'invisible':[('gateway','!=','smspoh')]}">
+                        <field name="smspoh_api_key" attrs="{'required':[('gateway','=','smspoh')]}" password="True"/>
+                        <field name="smspoh_sender" attrs="{'required':[('gateway','=','smspoh')]}"/>
+                        <button name="test_conn_smspoh" string="Test Connection" type="object"  />
+                    </group>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

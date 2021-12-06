@@ -1,0 +1,186 @@
+/* Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) */
+/* See LICENSE file for full copyright and licensing details. */
+
+main{
+  >.o_portal.container{
+    padding-left: 0px;
+    padding-right: 0px;
+    margin-top: 16px !important;
+    box-shadow: $box-shadow;
+    hr{
+      color: $border !important;
+    }
+    .no-gutters{
+      border-width: 0px !important;
+      border-radius: 0px !important;
+      padding: 15px 10px;
+      .o_portal_submenu{
+        li{
+          color: $th-color;
+          a{
+            color: $text-color;
+          }
+          &.active{
+            color: $th-color;
+          }
+          &:not(:first-of-type)::before{
+            content: "\f054";
+            font-family: FontAwesome;
+            padding: 0px;
+            font-size: 10px;
+            color: $text-color;
+          }
+        }
+      }
+    }
+  }
+  .o_portal_wrap{
+
+    .o_portal_sale_sidebar{
+      border-color: $border !important;
+      .d-print-none:first-of-type {
+        padding-left: 0px !important;
+      }
+      #sidebar_content{
+        border: 0px solid !important;
+        box-shadow: $box-shadow;
+        border-radius: 0px;
+        padding: 4px;
+        @media #{$mobile}{
+          border: 1px solid $border !important;
+          box-shadow: none;
+        }
+        .card-body{
+          border-width: 0px;
+          border-left: 0px;
+          .text-muted{
+            color: $border;
+          }
+          b{
+            color: $mn-text;
+          }
+        }
+        ul li{
+          border-left: 0px;
+          border-color: $border!important;
+          ul a,.flex-nowrap a{
+            color: $text-color !important;
+          }
+        }
+        .card-footer{
+          background-color: white;
+          border-radius: 0px;
+          border-left: 0px;
+          border-bottom: 0px;
+        }
+      }
+      #quote_content{
+        padding-left: 5px !important;
+        padding-right: 0px !important;
+        .alert{
+          background: white !important;
+          border: 0px;
+          box-shadow: $box-shadow;
+          border-radius: 0px !important;
+
+          > span{
+            color: $text-color;
+          }
+          > div{
+            color: $text-color;
+          }
+        }
+        .card{
+          border-width: 0px !important;
+          box-shadow: $box-shadow;
+          padding: 4px;
+          #introduction{
+            border-color: $border !important;
+          }
+          #quote_header_4, #quote_5{
+            color: $mn-text;
+          }
+          #sales_order_table{
+            margin-top: 0px;
+            margin-bottom: 0px;
+            thead tr th{
+              padding-top: 10px !important;
+              padding-bottom: 10px !important;
+            }
+          }
+          #total table{
+            margin-top: 0px;
+          }
+          @media #{$mobile}{
+            .card-body{
+              padding-left: 10px;
+              padding-right: 10px;
+            }
+          }
+        }
+        #sale_order_communication{
+          margin-top: 0px !important;
+          background-color: white;
+          padding: 12px;
+          box-shadow: $box-shadow;
+          #quote_header_6{
+            color: $mn-text;
+          }
+          .o_portal_chatter_header{
+            margin-bottom: 0px;
+          }
+          hr{
+            margin-top: 10px  ;
+          }
+          .o_portal_chatter_messages{
+            .o_portal_chatter_message{
+              margin-bottom: 10px;
+              h5{
+                color: $mn-text;
+              }
+              p{
+                color: $text-color;
+              }
+              .o_portal_chatter_puslished_date{
+                color: $border;
+              }
+            }
+          }
+          .o_message_counter{
+            color: $text-color;
+          }
+        }
+      }
+      hr{
+        color: $border !important;
+      }
+    }
+    .o_portal_invoice_sidebar{
+      & > .col-lg-auto:nth-child(1){
+        padding-left: 0px;
+        .card{
+          border: 0px !important;
+          box-shadow: $box-shadow;
+        }
+      }
+      #invoice_content{
+        padding-right: 0px;
+        padding-left: 5px;
+        #invoice_communication{
+          background-color: white !important;
+          box-shadow: $box-shadow;
+          padding: 15px;
+        }
+      }
+    }
+
+  }
+}
+
+@media (max-width: 425px){
+  .o_portal_sale_sidebar{
+    .d-print-none{
+      padding-right: 0px;
+    }
+  }
+}

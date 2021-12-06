@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <data>
+    <!-- Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+    <!-- See LICENSE file for full copyright and licensing details. -->
+
+    <record id="xtremo_view_website_form" model="ir.ui.view">
+      <field name="name">website.form</field>
+      <field name="model">website</field>
+      <field name="inherit_id" ref="website.view_website_form"/>
+      <field name="arch" type="xml">
+        <field name="logo" position="after">
+          <field name="login_background" widget="image" class="oe_avatar float-left"/>
+        </field>
+      </field>
+    </record>
+
+    <record id="xtremo_featured_tree_view" model="ir.ui.view">
+      <field name="name">xtremo.featured.tree.view</field>
+      <field name="model">xtremo.featured</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="type"/>
+          <field name="product_ids" widget="many2many_tags"/>
+          <field name="category_ids" widget="many2many_tags"/>
+          <field name="is_publish" />
+        </tree>
+      </field>
+    </record>
+
+    <record id="xtremo_featured_from_view" model="ir.ui.view">
+      <field name="name">xtremo_featured form view</field>
+      <field name="model">xtremo.featured</field>
+      <field name="arch" type="xml">
+        <form>
+          <sheet>
+            <group>
+              <div class="oe_button_box" name="button_box">
+                <button  name="toggle_is_publish" type="object" class="oe_stat_button" icon="fa-globe">
+                  <field name="is_publish" widget="website_button" />
+                </button>
+              </div>
+            </group>
+            <group col="4">
+              <field name="name" required="1"/>
+              <field name="type" required="1"/>
+              <field name="price_list"  attrs="{'invisible':[('type','!=', 'price_list')], 'required': [('type','=', 'price_list')]}"/>
+            </group>
+            <group col="2">
+              <field name="product_ids"  widget="many2many_tags" attrs="
+                {'invisible':[('type','not in', ['product', 'price_list'])], 'required': [('type','in', ['product', 'price_list'])]}"
+                />
+              <field name="category_ids"  widget="many2many_tags" attrs="{'invisible':[('type','!=', 'category')], 'required': [('type','=', 'category')]}"/>
+            </group>
+            <group col="4">
+              <field name="avg_rating" attrs="{'invisible':[('type','!=', 'top_rating')]}"/>
+              <field name="no_of_products" attrs="{'invisible':[('type','!=', 'top_rating')]}"/>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <record id="xtremo_price_filter_form_view" model="ir.ui.view">
+      <field name="name">xtremo price filter form view</field>
+      <field name="model">xtremo.res.config.settings</field>
+      <field name="arch" type="xml">
+        <form string="Set Website Product Price Limit On Filter">
+          <header  class="col-md-12" style="position:fixed;z-index:10" >
+            <button string="Save" type="object" name="execute" class="oe_highlight"/>
+            or
+            <button string="Cancel" type="object" name="cancel" class="oe_link"/>
+          </header>
+          <div style="height:10px;" />
+          <sheet>
+            <group>
+              <group><field name="website_min_price_filter" /></group>
+              <group><field name="website_max_price_filter" /></group>
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="view_product_image_form">
+      <field name="name">product.image.form</field>
+      <field name="model">product.image</field>
+      <field name="inherit_id" ref="website_sale.view_product_image_form"/>
+      <field name="arch" type="xml">
+        <xpath expr="//h2" position="after">
+          <group><field name="set_slider_on_shop" /></group>
+        </xpath>
+      </field>
+    </record>
+
+    <record id="xtremo_product_public_category_form_view" model="ir.ui.view">
+        <field name="name">product.public.category.form</field>
+        <field name="model">product.public.category</field>
+        <field name="inherit_id" ref="website_sale.product_public_category_form_view" />
+        <field name="arch" type="xml">
+          <field name="name" position="before">
+            <field name="icon" widget="image"/>
+          </field>
+        </field>
+    </record>
+
+    <record id="xtremo_featured_action_backend" model="ir.actions.act_window">
+      <field name="name">Xtremo Features</field>
+      <field name="res_model">xtremo.featured</field>
+      <field name="view_mode">tree,form</field>
+      <field name="view_id" ref="xtremo_featured_tree_view" />
+    </record>
+
+
+    <record id="xtremo_price_filter_setter_action" model="ir.actions.act_window">
+      <field name="name">Xtremo Price Filter Action</field>
+      <field name="res_model">xtremo.res.config.settings</field>
+      <field name="target">inline</field>
+      <field name="view_id" ref="xtremo_price_filter_form_view" />
+      <field name="view_mode">form</field>
+    </record>
+
+    <menuitem id="xtremo_menu"
+          name="Theme Xtremo"
+          sequence="11"
+          parent="website.menu_website_global_configuration" />
+
+    <menuitem id="xtremo_featured_sub_menu_backend"
+          name="Product Features"
+          sequence="1"
+          parent="theme_xtremo.xtremo_menu"
+          action="xtremo_featured_action_backend"
+          groups="base.group_user" />
+
+    <menuitem id="xtremo_price_filter_setter"
+          name="Price Filter Limit"
+          sequence="3"
+          parent="theme_xtremo.xtremo_menu"
+          action="xtremo_price_filter_setter_action" />
+
+  </data>
+</odoo>

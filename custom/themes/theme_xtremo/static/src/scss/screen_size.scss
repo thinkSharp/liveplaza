@@ -1,0 +1,21 @@
+/* Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) */
+/* See LICENSE file for full copyright and licensing details. */
+
+$l-pad: "(min-width: 998px) and (max-width: 1200px)";
+$pad: "(min-width: 768px) and (max-width: 998px)";
+$mobile: "(max-width: 767px)";
+$sm-mobile: "(max-width: 576px)";
+$min-mobile: "(max-width: 420px)";
+$less-mobile: "(max-width: 358px)";
+$pad-with-mobile: "(max-width: 998px)";
+$box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.2) !important;
+@media #{$mobile}{
+  .hide-mobile{
+    display: none !important;
+  }
+}
+
+
+.o_product_feature_panel{
+  display: none !important;
+}

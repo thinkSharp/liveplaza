@@ -1,0 +1,720 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <data>
+    <!-- Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+    <!-- See LICENSE file for full copyright and licensing details. -->
+
+    <template id="xtremo_home_page_feature">
+      <t t-set="fname" t-value="xt_products.name if xt_products else 'Top Feature Products'" />
+      <t t-set="xt_product" t-value="xt_products.product_ids if xt_products else request.env['product.template'].search([('website_published', '=', True)], limit=6)" />
+        <div id="xtremo_home_header"><h4><t t-esc="fname" /></h4></div>
+        <div class="owl-carousel owl-theme">
+          <t t-foreach="xt_product" t-as="product">
+            <div class="xt_products carousel-item active" >
+              <a t-attf-href="/shop/product/#{ slug(product) }">
+                <div class="p-container">
+                  <span alt="product" t-field="product.image_1920" t-options="{'widget': 'image', 'class': 'd-block w-100' }" />
+                  <div class="product_price">
+                   <p><t t-esc="product.display_name" /></p>
+                   <t t-set="combination" t-value="product._get_first_possible_combination()"/>
+                   <t t-set="combination_info" t-value="product._get_combination_info(combination, add_qty=add_qty or 1, pricelist=pricelist)"/>
+                   <t t-set="product_variant" t-value="product.env['product.product'].browse(combination_info['product_id'])"/>
+                   <t t-call="website_sale.product_price"/>
+                   <!-- <b class="oe_price" style="white-space: nowrap;" t-field="product.website_price" t-options='{"widget": "monetary", "display_currency": website.currency_id}'/> -->
+                   <br/>
+                 </div>
+                </div>
+              </a>
+            </div>
+           </t>
+         </div>
+    </template>
+
+    <template id="xtremo_home_page_category">
+      <t t-set="fname" t-value="xt_products.name if xt_products else 'Top Categories'" />
+      <t t-set="xt_product" t-value="xt_products.category_ids if xt_products else request.env['product.public.category'].search([], limit=6)" />
+        <div id="xtremo_home_header"><h4><t t-esc="fname" /></h4></div>
+        <div class="owl-carousel owl-theme" id="xtremo_home_category">
+          <t t-foreach="xt_product" t-as="product">
+            <div class="active" >
+              <a t-attf-href="/shop/category/#{ slug(product) }">
+                <div class="p-container">
+                  <span alt="product" t-field="product.image_1920" t-options="{'widget': 'image', 'class': 'd-block w-100' }" />
+                  <div class="product_price">
+                   <p><t t-esc="product.name" /></p>
+                 </div>
+                </div>
+              </a>
+            </div>
+           </t>
+         </div>
+    </template>
+
+    <template id="xtremo_home_page_top_rated">
+      <t t-if="len(xt_products.get('featured_products'))">
+        <div id="xtremo_home_header">
+          <h4>
+            <t t-esc="xt_products.get('name') if xt_products.get('name') else 'Top Rated Products'" />
+          </h4>
+        </div>
+        <div class="owl-carousel owl-theme">
+          <t t-foreach="xt_products.get('featured_products')" t-as="product">
+            <div class="carousel-item active" >
+              <a t-attf-href="/shop/product/#{ slug(product) }">
+                <div class="p-container">
+                  <span alt="product" t-field="product.image_1920" t-options="{'widget': 'image', 'class': 'd-block w-100' }" />
+                  <div class="product_price">
+                   <p><t t-esc="product.display_name" /></p>
+                   <t t-call="xtremo_base.theme_xtremo_product_rating_star" />
+                   <t t-set="combination" t-value="product._get_first_possible_combination()"/>
+                   <t t-set="combination_info" t-value="product._get_combination_info(combination, add_qty=add_qty or 1, pricelist=pricelist)"/>
+                   <t t-set="product_variant" t-value="product.env['product.product'].browse(combination_info['product_id'])"/>
+                   <b class="oe_price" style="white-space: nowrap;" t-esc="combination_info['price']" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>
+                   <br/>
+                 </div>
+                </div>
+              </a>
+            </div>
+          </t>
+       </div>
+      </t>
+    </template>
+
+    <template id="xtremo_home_page_top_sales">
+      <t t-set="fname" t-value="xt_products.name if xt_products else 'Top Sale Products'" />
+      <t t-set="xt_product" t-value="xt_products.product_ids if xt_products else request.env['product.template'].search([('website_published', '=', True)], limit=6)" />
+        <div id="xtremo_home_header"><h4><t t-esc="fname" /></h4></div>
+        <div class="owl-carousel owl-theme">
+          <t t-foreach="xt_product" t-as="product">
+            <div class="carousel-item active" >
+              <a t-attf-href="/shop/product/#{ slug(product) }">
+                <div class="p-container">
+                  <span alt="product" t-field="product.image_1920" t-options="{'widget': 'image', 'class': 'd-block w-100' }" />
+                  <div class="product_price">
+                   <p><t t-esc="product.display_name" /></p>
+                   <t t-call="xtremo_base.theme_xtremo_product_rating_star" />
+                   <t t-set="combination" t-value="product._get_first_possible_combination()"/>
+                   <t t-set="combination_info" t-value="product._get_combination_info(combination, add_qty=add_qty or 1, pricelist=pricelist)"/>
+                   <t t-set="product_variant" t-value="product.env['product.product'].browse(combination_info['product_id'])"/>
+                   <b class="oe_price" style="white-space: nowrap;" t-esc="combination_info['price']" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>
+                   <br/>
+                 </div>
+                </div>
+              </a>
+            </div>
+           </t>
+         </div>
+    </template>
+
+    <template id="xtremo_mega_menu_type_1">
+        <t t-foreach="cat_submenu" t-as="c">
+          <li class="item_class">
+            <a t-att-href="request.website.get_all_categories_url(c)" class="link_class" ><span><t t-esc="c.name" /></span></a>
+          </li>
+          <t t-if="c.child_id">
+            <t t-call="theme_xtremo.xtremo_mega_menu_type_1" >
+              <t t-set="cat_submenu" t-value="c.child_id"/>
+            </t>
+          </t>
+        </t>
+    </template>
+
+
+
+    <template id="xtremo_banner_with_category_items">
+      <li>
+        <a t-att-href="url_fun(c)"><span><t t-esc="c.name" /></span></a>
+        <span t-if="c.child_id" class="fa fa-chevron-right" />
+        <ul t-if="c.child_id" >
+          <div style="column-count:0;">
+            <t t-foreach="c.child_id" t-as="c1">
+              <div class="">
+                <li>
+                  <a t-att-href="url_fun(c1)"><span><t t-esc="c1.name" /></span></a>
+                  <ul>
+                    <t t-if="c1.child_id" t-call="theme_xtremo.xtremo_mega_menu_type_1" >
+                      <t t-set="cat_submenu" t-value="c1.child_id"/>
+                    </t>
+                  </ul>
+                </li>
+              </div>
+            </t>
+          </div>
+        </ul>
+      </li>
+    </template>
+
+    <template id="xtremo_banner_with_category_item">
+      <t t-set="keep" t-value="request.website.get_all_categories().get('keep')" />
+      <li class="dropdown-item"><a href="shop">All</a></li>
+      <t t-set="categories" t-value="request.env['product.public.category'].search([('parent_id', '=', False)], limit=13)" />
+      <t t-set="url_fun" t-value="request.website.get_all_categories_url" />
+      <t t-foreach="categories" t-as="c">
+        <t t-call="theme_xtremo.xtremo_banner_with_category_items" />
+      </t>
+    </template>
+
+    <template id="xtremo_product_image_grid" name="Product Image Grid 1">
+      <section id="xtremo_product_image_grid">
+        <div class="item_1 hover">
+          <img src="/theme_xtremo/static/src/img/snippet/image-grid-1.png" alt="left image"/>
+        </div>
+        <div class="item_2">
+          <div class="hover">
+            <img src="/theme_xtremo/static/src/img/snippet/image-grid-2.png" alt="left image"/>
+          </div>
+          <div class="hover">
+            <img src="/theme_xtremo/static/src/img/snippet/image-grid-3.png" alt="left image"/>
+          </div>
+        </div>
+        <div class="item-child-2 hover">
+          <img src="/theme_xtremo/static/src/img/snippet/image-grid-4.png" alt="left image"/>
+        </div>
+      </section>
+    </template>
+
+    <template id="xtremo_bubble_description" name="Product Bubble">
+      <section id="xtremo_bubble_description">
+        <div class="container">
+          <div class="item">
+            <div>
+              <h1>Best Collections</h1>
+              <p>
+                Lorem Ipsum is simply dummy. Lorem Ipsum is simply dummy
+                Lorem Ipsum is simply dummy. Lorem Ipsum is simply dummy
+                Lorem Ipsum is simply dummy. Lorem Ipsum is simply dummy
+                Lorem Ipsum is simply dummy. Lorem Ipsum is simply dummy
+              </p>
+            </div>
+            <div>
+              <a href="shop" class="see-related"> See All Related Products</a>
+            </div>
+          </div>
+          <div class="item img">
+            <div class="bubble">
+              <div style="height: 83px;"><p><img src="/theme_xtremo/static/src/img/snippet/bubble-icon1.png" alt="left image"/></p></div>
+              <div style="height: 83px;"><p><img src="/theme_xtremo/static/src/img/snippet/bubble-icon2.png" alt="left image"/></p></div>
+              <div style="height: 83px;"><p><img src="/theme_xtremo/static/src/img/snippet/bubble-icon-3.png" alt="left image"/></p></div>
+            </div>
+            <div class="full-img"><img src="/theme_xtremo/static/src/img/snippet/bubble.png" alt="left image"/></div>
+          </div>
+        </div>
+      </section>
+    </template>
+
+    <template id="xtremo_contact_us_form" name="Contact Us Form">
+      <section class="xtremo_contact_us_form oe_img_bg oe_custom_bg" style="background-image: url('/theme_xtremo/static/src/img/snippet/contact_us.jpeg');"></section>
+    </template>
+
+    <template id="about_us_header" name="Welcome About Us">
+      <section class="welcome_about_us">
+        <div class="container">
+          <h1>Hello! Welcome To  Xtremo</h1>
+          <p class="m-text">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever </p>
+          <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+             when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting,
+             remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing
+             Lorem Ipsum passages, and more recently with desktop publishing
+           </p>
+        </div>
+      </section>
+    </template>
+
+    <template id="xtremo_s_text_image" name="Side Text Image">
+      <section class="xtremo_s_text_image">
+          <div class="container">
+              <div class="row align-items-center">
+                  <div class="col-lg-5 pt16 pb16">
+                      <img src="/theme_xtremo/static/src/img/snippet/side-text.png" class="img img-fluid mx-auto" alt="Odoo • Text and Image"/>
+                  </div>
+                  <div class="col-lg-7 pt16 pb16">
+                      <h2>Dummy Content</h2>
+                      <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                        Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                        when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+                        It has survived not only five centuries, but also the leap into electronic typesetting,
+                        remaining essentially unchanged. It was popularised in the 1960s with the release of
+                        Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing
+                      </p>
+                  </div>
+              </div>
+          </div>
+        </section>
+      </template>
+
+      <template id="xtremo_our_team" name="Our Team">
+        <section class="xtremo_our_team">
+          <div class="container">
+            <h1>Our Team</h1>
+            <p class="m-text">
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+              Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+            </p>
+            <div class="team">
+              <div class="item">
+                <div>
+                  <div>
+                    <img src="/theme_xtremo/static/src/img/snippet/team-1.png" class="img img-fluid mx-auto" alt="Odoo • Text and Image"/>
+                  </div>
+                  <div class="text">
+                    <p>Dummy Name</p>
+                    <h5>Designation</h5>
+                  </div>
+                </div>
+              </div>
+              <div class="item">
+                <div>
+                  <div>
+                    <img src="/theme_xtremo/static/src/img/snippet/team-2.png" class="img img-fluid mx-auto" alt="Odoo • Text and Image"/>
+                  </div>
+                  <div class="text">
+                    <p>Dummy Name</p>
+                    <h5>Designation</h5>
+                  </div>
+                </div>
+              </div>
+              <div class="item">
+                <div>
+                  <div>
+                    <img src="/theme_xtremo/static/src/img/snippet/team-3.png" class="img img-fluid mx-auto" alt="Odoo • Text and Image"/>
+                  </div>
+                  <div class="text">
+                    <p>Dummy Name</p>
+                    <h5>Designation</h5>
+                  </div>
+                </div>
+              </div>
+              <div class="item">
+                <div>
+                  <div>
+                    <img src="/theme_xtremo/static/src/img/snippet/team-4.png" class="img img-fluid mx-auto" alt="Odoo • Text and Image"/>
+                  </div>
+                  <div class="text">
+                    <p>Dummy Name</p>
+                    <h5>Designation</h5>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </template>
+
+      <template id="xtremo_client_word" name="Client Words">
+        <section class="xtremo_client_word">
+          <div class="container">
+            <h1>Our Clients Words</h1>
+            <p class="m-text">
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+               Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+            </p>
+            <div>
+              <div id="myCarousel" class="s_carousel s_carousel_default carousel slide" data-interval="10000">
+                <div class="carousel-inner">
+                  <div class="carousel-item active oe_custom_bg oe_img_bg" data-name="Slide">
+                    <div class="item">
+                      <div class="img">
+                        <div>
+                          <img src="/theme_xtremo/static/src/img/snippet/team-4.png" class="img img-fluid mx-auto" alt="Odoo • Text and Image"/>
+                        </div>
+                        <div class="text">
+                          <p>Dummy Name</p>
+                          <h5>Designation</h5>
+                        </div>
+                      </div>
+                      <div class="content">
+                        <p>
+                          Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                          Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                          Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                          Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="carousel-item oe_custom_bg oe_img_bg" data-name="Slide">
+                    <div class="item">
+                      <div class="img">
+                        <div>
+                          <img src="/theme_xtremo/static/src/img/snippet/team-3.png" class="img img-fluid mx-auto" alt="Odoo • Text and Image"/>
+                        </div>
+                        <div class="text">
+                          <p>Dummy Name</p>
+                          <h5>Designation</h5>
+                        </div>
+                      </div>
+                      <div class="content">
+                        <p>
+                          Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                          Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                          Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                          Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="carousel-control-prev" data-target="#myCarousel" data-slide="prev" role="img" aria-label="Previous" title="Previous">
+                    <span class="carousel-control-prev-icon"/>
+                    <span class="sr-only">Previous</span>
+                </div>
+                <div class="carousel-control-next" data-target="#myCarousel" data-slide="next" role="img" aria-label="Next" title="Next">
+                    <span class="carousel-control-next-icon"/>
+                    <span class="sr-only">Next</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </template>
+
+      <template id="xtremo_product_left_grid" name="Product Image Grid 2">
+        <section class="xtremo_product_left_grid">
+          <h1>Best Collections</h1>
+          <div class="items">
+            <div class="item">
+              <div class="content">
+                <a href="#">See More</a>
+                <img src="/theme_xtremo/static/src/img/snippet/gri-2-1.jpeg" class="img img-fluid mx-auto" alt="Odoo • Text and Image"/>
+              </div>
+            </div>
+            <div class="item">
+              <div class="content">
+                <a href="#">See More</a>
+                <img src="/theme_xtremo/static/src/img/snippet/gri-2-3.jpeg" class="img img-fluid mx-auto" alt="Odoo • Text and Image"/>
+              </div>
+            </div>
+            <div class="item">
+              <div class="content">
+                <a href="#">See More</a>
+                <img src="/theme_xtremo/static/src/img/snippet/bt-6.jpeg" class="img img-fluid mx-auto" alt="Odoo • Text and Image"/>
+              </div>
+            </div>
+            <div class="item">
+              <div class="content">
+                <a href="#">See More</a>
+                <img src="/theme_xtremo/static/src/img/snippet/gri-2-2.jpeg" class="img img-fluid mx-auto" alt="Odoo • Text and Image"/>
+              </div>
+            </div>
+          </div>
+        </section>
+      </template>
+
+      <template id="grip_view_3" name="Product Image Grid 3">
+        <section style="background-color: white;">
+          <div id="grip_view_3" class="container">
+            <section class="semi-item oe_img_bg oe_custom_bg" style="background-image: url('/theme_xtremo/static/src/img/snippet/gri-2-2.jpeg');">
+              <div>
+                <div>
+                  <a href="/shop"><i class="fa fa-shopping-cart" /></a>
+                  <div class="text">
+                    <h4><strong>Collection</strong></h4>
+                    <p>Lorem Ipsum</p>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section class="semi-item oe_img_bg oe_custom_bg" style="background-image: url('/theme_xtremo/static/src/img/snippet/gri-2-2.jpeg');">
+              <div>
+                <div>
+                  <a href="/shop"><i class="fa fa-shopping-cart" /></a>
+                  <div class="text">
+                    <h4><strong>Collection</strong></h4>
+                    <p>Lorem Ipsum</p>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section class="semi-item oe_img_bg oe_custom_bg" style="background-image: url('/theme_xtremo/static/src/img/snippet/gri-2-2.jpeg');">
+              <div>
+                <div>
+                  <a href="/shop"><i class="fa fa-shopping-cart" /></a>
+                  <div class="text">
+                    <h4><strong>Collection</strong></h4>
+                    <p>Lorem Ipsum</p>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+        </section>
+      </template>
+
+      <template id="grip_view_4" name="Product Image Grid 4">
+        <section style="background-color: #E9E9E9;">
+          <div id="grip_view_4" class="container">
+            <div class="left-item">
+              <section class="semi-item oe_img_bg oe_custom_bg" style="background-image: url('/theme_xtremo/static/src/img/snippet/gri-2-2.jpeg');">
+                <a href="/shop" class="hover-a">
+                  <i class="fa fa-shopping-cart" />
+                  <p>Lorem Ipsum is simply dummy text of the printing</p>
+                </a>
+              </section>
+              <div class="item-text">
+                <h2><a href="/shop">Best Collections For Men, Women and Kids</a></h2>
+                <p class="text">Lorem Ipsum is simply dummy text of the printing</p>
+                <div class="hr" />
+                <p>
+                  Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                  Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                  Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                  Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                  Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                  Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                  Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                  Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                </p>
+                <a href="/shop" class="btn btn-primary">Shop Now</a>
+              </div>
+            </div>
+            <div class="rigth-item">
+              <div class="child-container">
+                <section class="semi-item oe_img_bg oe_custom_bg" style="background-image: url('/theme_xtremo/static/src/img/snippet/gri-2-2.jpeg');">
+                  <a href="/shop" class="hover-a">
+                    <i class="fa fa-shopping-cart" />
+                    <p>Lorem Ipsum standard dummy</p>
+                  </a>
+                </section>
+                <section class="semi-item oe_img_bg oe_custom_bg" style="background-image: url('/theme_xtremo/static/src/img/snippet/gri-2-2.jpeg');">
+                  <a href="/shop" class="hover-a">
+                    <i class="fa fa-shopping-cart" />
+                    <p>Lorem Ipsum standard dummy</p>
+                  </a>
+                </section>
+              </div>
+            </div>
+          </div>
+        </section>
+      </template>
+
+      <template id="grip_view_5" name="Product Image Grid 5">
+        <section style="background-color: #E9E9E9;">
+          <div id="grip_view_5" class="container">
+            <div class="head">
+              <h1>Best Collections</h1>
+              <p>Lorem Ipsum standard dummy</p>
+            </div>
+            <section class="semi-item oe_img_bg oe_custom_bg" style="background-image: url('/theme_xtremo/static/src/img/snippet/gri-2-2.jpeg');">
+              <div class="hover-a">
+                <h3>Collections</h3>
+                <p>Lorem Ipsum standard dummy</p>
+                <a href="/shop">Add To Cart</a>
+              </div>
+            </section>
+            <section class="semi-item oe_img_bg oe_custom_bg" style="background-image: url('/theme_xtremo/static/src/img/snippet/gri-2-2.jpeg');">
+              <div class="hover-a">
+                <h3>Collections</h3>
+                <p>Lorem Ipsum standard dummy</p>
+                <a href="/shop">Add To Cart</a>
+              </div>
+            </section>
+            <section class="semi-item oe_img_bg oe_custom_bg" style="background-image: url('/theme_xtremo/static/src/img/snippet/gri-2-2.jpeg');">
+              <div class="hover-a">
+                <h3>Collections</h3>
+                <p>Lorem Ipsum standard dummy</p>
+                <a href="/shop">Add To Cart</a>
+              </div>
+            </section>
+            <section class="semi-item oe_img_bg oe_custom_bg" style="background-image: url('/theme_xtremo/static/src/img/snippet/gri-2-2.jpeg');">
+              <div class="hover-a">
+                <h3>Collections</h3>
+                <p>Lorem Ipsum standard dummy</p>
+                <a href="/shop">Add To Cart</a>
+              </div>
+            </section>
+          </div>
+        </section>
+      </template>
+
+      <template id="xtremo_banner_product_1" name="Product Banner 2">
+        <section style="background-color: white;">
+          <section id="xtremo_banner_product" class="oe_img_bg oe_custom_bg" style="background-image: url('/theme_xtremo/static/src/img/snippet/gri-2-2.jpeg');">
+            <div class="hover-a">
+              <p>Lorem Ipsum standard dummy</p>
+              <h1>Best Collections For Men</h1>
+              <a href="/shop">Go For Shop Now</a>
+            </div>
+            <div class="dummy dummy-left"><div></div></div>
+            <div class="dummy dummy-right"><div></div></div>
+          </section>
+        </section>
+      </template>
+
+      <template id="xtremo_banner_product_2" name="Product Banner 3">
+        <section style="background-color: white;">
+          <section id="xtremo_banner_product" class="not-fixed oe_img_bg oe_custom_bg" style="background-image: url('/theme_xtremo/static/src/img/snippet/gri-2-2.jpeg');">
+            <div class="hover-a">
+              <h1>Best Collections For Men</h1>
+              <div class="hr" />
+              <p>
+                Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+              </p>
+              <a href="/shop">Go For Shop Now</a>
+            </div>
+          </section>
+        </section>
+      </template>
+
+      <template id="grip_view_6" name="Product Image Grid 6">
+        <section id="grip_view_6">
+          <section class="semi-item oe_img_bg oe_custom_bg" style="background-image: url('/theme_xtremo/static/src/img/snippet/gri-2-2.jpeg');">
+            <div class="hover-a">
+              <h3>Collections</h3>
+              <div class="hr" />
+              <a href="/shop">View More</a>
+            </div>
+          </section>
+          <section class="semi-item oe_img_bg oe_custom_bg" style="background-image: url('/theme_xtremo/static/src/img/snippet/gri-2-2.jpeg');">
+            <div class="hover-a">
+              <h3>Collections</h3>
+              <div class="hr" />
+              <a href="/shop">View More</a>
+            </div>
+          </section>
+          <section class="semi-item oe_img_bg oe_custom_bg" style="background-image: url('/theme_xtremo/static/src/img/snippet/gri-2-2.jpeg');">
+            <div class="hover-a">
+              <h3>Collections</h3>
+              <div class="hr" />
+              <a href="/shop">View More</a>
+            </div>
+          </section>
+        </section>
+      </template>
+
+      <template id="grip_view_7" name="Product Image Grid 7">
+        <section style="background-color: white;">
+          <div id="grip_view_7" class="container">
+            <div class="item-img">
+              <section class="semi-item oe_img_bg oe_custom_bg" style="background-image: url('/theme_xtremo/static/src/img/snippet/gri-2-2.jpeg');">
+                <div class="hover-a">
+                  <h2>Collections</h2>
+                </div>
+              </section>
+            </div>
+            <div class="item-dec">
+              <div class="section">
+                <div class="section-item">
+                  <p>Lorem Ipsum is simply dummy text</p>
+                </div>
+                <div class="section-item">
+                  <p>Lorem Ipsum is simply dummy text</p>
+                </div>
+                <div class="section-item">
+                  <p>Lorem Ipsum is simply dummy text</p>
+                </div>
+              </div>
+              <div class="text">
+                <p>
+                  Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                  Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                  Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                  Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                  Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                  Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                  Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                  Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+                </p>
+                <a href="shop"> View More</a>
+                <div class="tag">Hot</div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </template>
+
+      <template id="grip_view_8" name="Product Image Grid 8">
+        <section id="grip_view_8">
+          <section class="item" style="background-color:rgb(237, 105, 103);">
+            <div class="contain">
+              <div clas="icon"><span class="fa fa-shopping-cart" /></div>
+              <h3>Collections</h3>
+              <p>
+                Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+              </p>
+            </div>
+          </section>
+          <section class="item" style="background-color:rgb(254, 201, 107);">
+            <div class="contain">
+              <div clas="icon"><span class="fa fa-shopping-cart" /></div>
+              <h3>Collections</h3>
+              <p>
+                Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+              </p>
+            </div>
+          </section>
+          <section class="item" style="background-color:rgb(64, 130, 146);">
+            <div class="contain">
+              <div clas="icon"><span class="fa fa-shopping-cart" /></div>
+              <h3>Collections</h3>
+              <p>
+                Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+              </p>
+            </div>
+          </section>
+          <section class="item" style="background-color:rgb(92, 102, 104);">
+            <div class="contain">
+              <div clas="icon"><span class="fa fa-shopping-cart" /></div>
+              <h3>Collections</h3>
+              <p>
+                Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,
+              </p>
+            </div>
+          </section>
+        </section>
+      </template>
+
+      <template id="xtremo_beauty_1" name="Website Beauty 2">
+        <section style="background-color: white;">
+          <div class="container xtremo-website-beauty-1">
+            <div class="xtremo-container">
+                <section class="item semi-item oe_img_bg oe_custom_bg" style="background-image: url('/theme_xtremo/static/src/img/snippet/gri-2-2.jpeg');" />
+                <section class="item semi-item oe_img_bg oe_custom_bg" style="background-image: url('/theme_xtremo/static/src/img/snippet/gri-2-2.jpeg');" />
+                <section class="item semi-item oe_img_bg oe_custom_bg" style="background-image: url('/theme_xtremo/static/src/img/snippet/gri-2-2.jpeg');" />
+                <section class="item semi-item oe_img_bg oe_custom_bg" style="background-image: url('/theme_xtremo/static/src/img/snippet/gri-2-2.jpeg');" />
+            </div>
+            <div class="navigator left-side"><span class="fa fa-angle-left"/></div>
+            <div class="navigator right-side"><span class="fa fa-angle-right "/></div>
+          </div>
+        </section>
+      </template>
+
+      <template id="xtremo_banner_product_2" name="Product Banner 1">
+        <section id="xtremo_banner_product_2" style="background-color: #E9E9E9;">
+          <section class="item semi-item oe_img_bg oe_custom_bg" style="background-image: url('/theme_xtremo/static/src/img/snippet/gri-2-2.jpeg');" >
+            <div class="item-div">
+              <div>
+                <a href="/shop" > Best Offers for Today</a>
+                <div class="contain">
+                  <h1>Best Collections For Men, Women And Kids is Here</h1>
+                  <p>Only for Today</p>
+                </div>
+              </div>
+            </div>
+          </section>
+          <div class="absolute-item container">
+            <h3>Best Collections</h3>
+            <div class="hr"><div /></div>
+            <div class="name-product">
+              <section class="semi-item oe_img_bg oe_custom_bg" style="background-image: url('/theme_xtremo/static/src/img/snippet/gri-2-2.jpeg');" />
+              <h3>Collection 1</h3>
+            </div>
+            <div class="name-product">
+              <section class="semi-item oe_img_bg oe_custom_bg" style="background-image: url('/theme_xtremo/static/src/img/snippet/gri-2-2.jpeg');" />
+              <h3>Collection 2</h3>
+            </div>
+            <div class="name-product">
+              <section class="semi-item oe_img_bg oe_custom_bg" style="background-image: url('/theme_xtremo/static/src/img/snippet/gri-2-2.jpeg');" />
+              <h3>Collection 3</h3>
+            </div>
+          </div>
+        </section>
+      </template>
+
+
+  </data>
+</odoo>

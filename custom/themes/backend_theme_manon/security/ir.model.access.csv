@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+
+access_font_admin,wk.backend.font,model_wk_backend_font,sales_team.group_sale_manager,1,1,1,1
+access_color_admin,wk.backend.color,model_wk_backend_color,sales_team.group_sale_manager,1,1,1,1
+
+access_font_users,wk.backend.font,model_wk_backend_font,,1,0,0,0
+access_color_users,wk.backend.color,model_wk_backend_color,,1,0,0,0

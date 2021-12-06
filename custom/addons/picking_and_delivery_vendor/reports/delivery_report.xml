@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record model="ir.ui.view" id="delivery_report_tree">
+        <field name="name">Delivery Report</field>
+        <field name="model">delivery.report</field>
+        <field name="arch" type="xml">
+            <tree string="Delivery Report" create="false" edit="false">
+                <field name="delivery_address" invisible="1" />
+                <field name="buyer_id" invisible="1"/>
+                <field name="origin" />
+                <!-- <field name="" /> -->
+                <field name="scheduled_date" />
+                <field name="state" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="delivery_report_pivot" model="ir.ui.view">  
+        <field name="name">Delivery Report Pivot</field>  
+        <field name="model">delivery.report</field>  
+        <field name="arch" type="xml">      
+            <pivot string="Pivot View">           
+                <field name="buyer_id" type="row"/>      
+                <field name="delivery_address" type="row"/>
+            </pivot>   
+        </field>
+    </record>
+
+    <record id="action_delivery_report_tree" model="ir.actions.act_window">
+        <field name="type">ir.actions.act_window</field>
+        <field name="name">Delivery Report</field>
+        <field name="res_model">delivery.report</field>
+        <field name="view_mode">tree,pivot</field>
+        <field name="domain">[('state', '=', 'assigned')]</field>
+        <field name="context">{'group_by': ['buyer_id', 'delivery_address']}</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">Nothing Here!!!</p>
+        </field>
+    </record>
+
+    <menuitem name="Delivery Report" id="delivery_report_menu" parent="customizations_by_livep.marketplace_report_root" groups="base.group_user" action="action_delivery_report_tree" sequence="4" />
+
+</odoo>

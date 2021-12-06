@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+    <template id="fb_live_stream_inherit_products" inherit_id="website_sale.products" customize_show="True" name="Facebook Live Stream">
+        <xpath expr="//div[hasclass('products_pager')][1]" position="before">
+            <t t-call="marketplace_facebook_live_stream.shop_page_live_stream_template">
+                <t t-set="view_name" t-value="'shop_page'"/>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="fb_live_stream_inherit_seller_shop_list" inherit_id="odoo_marketplace.seller_shop_list" customize_show="True" name="Facebook Live Stream">
+        <xpath expr="//div[@id='wrap']" position="before">
+            <t t-call="marketplace_facebook_live_stream.shop_page_live_stream_template">
+                <t t-set="view_name" t-value="'seller_shop_list_page'"/>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="fb_live_stream_inherit_mp_seller_shop" inherit_id="odoo_marketplace.mp_seller_shop" customize_show="True" name="Facebook Live Stream">
+        <xpath expr="//div[hasclass('container')]" position="after">
+            <t t-call="marketplace_facebook_live_stream.seller_profile_live_stream_template">
+              <t t-set="view_name" t-value="'seller_shop_page'"/>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="shop_page_live_stream_template" name="Shop Page Live Stream Template">
+        <t t-set="live_streams" t-value="request.website.sudo()._get_seller_live_streams(view_name)"/>
+        <div t-if="live_streams" class="container mt32 mb32">
+          <div t-if="live_streams.filtered(lambda stream: stream.start_stream_datetime &lt; datetime.datetime.now() and stream.end_stream_datetime &gt; datetime.datetime.now())" class="pl-2" >
+            <strong><span class="px-1" style="background: red;width: 50px;color: #FFFFFF;">LIVE</span></strong>
+          </div>
+          <div class="owl-carousel owl-theme live_stream_owl_carousel mb-2" id="wk_live_stream_carousel">
+              <t t-foreach="live_streams" t-as="stream">
+                <t t-set="num" t-value="int(12/len(live_streams))"/>
+                <t t-if="stream.start_stream_datetime &lt; datetime.datetime.now() and stream.end_stream_datetime &gt; datetime.datetime.now()">
+                <div class="item text-center">
+                  <t t-if="stream.live_stream_banner">                   
+                    <a class=""  t-attf-href="/livestream/#{stream.id}">
+                    <img t-if="stream.live_stream_banner" t-attf-src="/web/image/seller.live.stream/#{stream.id}/live_stream_banner"
+                          t-att-alt="stream.name" class="img-responsive " style="max-height: 219px;"></img>
+                    </a>
+                  </t>
+                </div>
+                </t>
+              </t>
+          </div>
+          <div t-if="live_streams.filtered(lambda stream: stream.start_stream_datetime &gt; datetime.datetime.now())" class="mb-1 mt32">
+            <strong><p class="ml-2" style="display: inline;font-style: italic;color: blue;">Upcoming</p> <span class="px-1" style="display: inline; background: red;width: 50px;color: #FFFFFF;">LIVE</span></strong>
+          </div>
+          <div class="owl-carousel owl-theme live_stream_owl_carousel mb-2" id="wk_upcoming_stream_carousel">
+              <t t-foreach="live_streams" t-as="stream">
+                <t t-set="num" t-value="int(12/len(live_streams))"/>
+                <t t-if="stream.start_stream_datetime &gt; datetime.datetime.now()">
+                  <div class="item text-center">
+                    <t t-if="stream.live_stream_banner">
+                      <a class="wk_upcoming_live_stream" href="#">
+                      <span class="d-none" id="stream_start_datetime" t-esc="stream.start_stream_datetime"  t-options="{'widget': 'datetime'}"/>
+                      <img t-if="stream.live_stream_banner" t-attf-src="/web/image/seller.live.stream/#{stream.id}/live_stream_banner"
+                            t-att-alt="stream.name" class="img-responsive" style="max-height: 219px;"></img>
+                      </a>
+                    </t>
+                  </div>
+              </t>
+              </t>
+          </div>
+        </div>
+    </template>
+
+    <template id="upcoming_streaming_modals" inherit_id="portal.frontend_layout">
+      <xpath expr="//div[@id='wrapwrap']" position="inside">
+      <!-- Modal -->
+      <div class="modal fade" id="wk_upcoming_stream_modal" tabindex="-1" role="dialog" aria-labelledby="wk_upcoming_streamLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="wk_upcoming_streamLabel">Livestream Schedule</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span><i class="fa fa-times" ></i></span>
+              </button>
+            </div>
+            <div class="modal-body inline-block" >
+              <h2 class="stream_scheduled_time">This live stream is scheduled for<span class="stream_scheduled_datetime"></span></h2>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      </xpath>
+    </template>
+</odoo>

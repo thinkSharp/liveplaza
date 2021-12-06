@@ -1,0 +1,133 @@
+/* Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) */
+/* See LICENSE file for full copyright and licensing details. */
+
+.oe_structure{
+  section .s_nb_column_fixed >div{
+    padding: 16px 0px !important;
+    padding-bottom: 0px !important;
+    @media #{$mobile}{
+      padding-left: 10px !important;
+      padding-right: 10px !important;
+      padding-top: 0px !important;
+    }
+    h1{
+      color: $mn-text;
+      border-bottom: 1px solid $border;
+      text-align: left !important;
+    }
+    h3{
+      color: $text-color !important;
+      text-align: left !important;
+    }
+  }
+  section.s_text_block >.container >.row .col-lg-12{
+    padding: 0px !important;
+    @media #{$mobile}{
+      padding-left: 10px !important;
+      padding-right: 10px !important;;
+    }
+    p{
+      color: $text-color;
+    }
+  }
+}
+.container >.row >.col-lg-8 .text-center #o_contact_mail{
+  float: left;
+  margin-left: -15px;
+  @media #{$mobile}{
+    margin-left: 0px;
+  }
+}
+.container{
+  >.row >.col-lg-4{
+   address{
+     text-align: right;
+     margin-right: -7px;
+     color: $text-color;
+     a[href*="https://maps.google.com/maps?"],.fa-map-marker:nth-child(2){
+       color: $th-color;
+       margin-right: -5px;
+     }
+     @media #{$pad}{
+       text-align: left;
+       margin-left: -7px;
+       margin-top: 20px;
+     }
+     @media #{$mobile}{
+       text-align: center;
+       margin-left: -7px;
+       margin-top: 20px;
+       padding: 0px 10px;
+     }
+     >div .d-flex.align-items-baseline {
+       justify-content: flex-end;
+       >.w-100 {
+         width: auto !important;
+       }
+     }
+   }
+  }
+  &.xtremo-contact-form{
+    color: black !important;
+    p{
+      color: black !important;
+    }
+    .col-lg-4{
+      align-self: center;
+      text-align: center;
+      >address{
+        background-color: rgba(256, 256, 256, 0.6);
+        padding: 10px;
+        text-align: center;
+        border-radius: 3px;
+        address{
+          margin-right: 0px !important;
+          text-align: center;
+          color: black;
+          font-weight: bold;
+          line-height: 2;
+          .align-items-baseline {
+            display: block !important;
+          }
+        }
+      }
+    }
+    input:-webkit-autofill,
+    input:-webkit-autofill:hover,
+    input:-webkit-autofill:focus,
+    textarea:-webkit-autofill,
+    textarea:-webkit-autofill:hover,
+    textarea:-webkit-autofill:focus,
+    select:-webkit-autofill,
+    select:-webkit-autofill:hover,
+    select:-webkit-autofill:focus {
+      border: 1px solid transparent;
+      -webkit-text-fill-color: white;
+      -webkit-box-shadow: 0 0 0px 1000px transparent inset;
+      transition: background-color 5000s ease-in-out 0s;
+    }
+    input, textarea{
+      background-color: transparent;
+      border-width: 0px !important;
+      border-bottom: 1px solid black !important;
+      color: $th-color !important;
+      font-weight: bold;
+    }
+    .o_website_form_send{
+      background-color: $th-color !important;
+      color: white !important;
+      margin: 25px 0px;
+      padding: 5px 30px;
+    }
+  }
+}
+.s_text_image p{
+  color: $text-color !important;
+}
+.o_website_form_input, .o_website_form_send{
+  margin-bottom: 10px !important;
+}
+
+h6,h1,h2,h3,h4,h5{
+  font-family: inherit !important;
+}

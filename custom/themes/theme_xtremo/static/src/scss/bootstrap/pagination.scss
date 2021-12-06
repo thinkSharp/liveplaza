@@ -1,0 +1,80 @@
+/* Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) */
+/* See LICENSE file for full copyright and licensing details. */
+
+.pagination{
+  padding-left: 0px !important;
+    li{
+        a{
+            font-size: 16px;
+            width: 32px;
+            margin-right: 2.5px;
+            margin-left: 2.5px;
+            text-align: center;
+            border: 1px solid $white;
+            background-color: $white;
+            color: $text-color;
+            font-weight: 400;
+            border-radius: 3px;
+            line-height: 8px;
+            padding: 10px !important;
+            box-shadow: none !important;
+            &:hover{
+                @include anchor_mixin();
+            }
+        }
+
+        &:first-of-type{
+            a{
+                padding-left: 0px;
+                visibility: hidden;
+                width: 20px;
+                margin-left: 5px;
+                &:before{
+                    visibility: visible;
+                    font-family: FontAwesome;
+                    content: "\f104";
+                    font-size: 20px;
+                    font-weight: bold;
+                }
+              &:hover::before, &:active::before, &:focus::before{
+                  color: $mn-text !important;
+              }
+            }
+        }
+        &:last-of-type{
+            a{
+                color: $text-color !important;
+                visibility: hidden;
+                padding-right: 0px;
+                padding-left: 3px !important;
+                width: 25px;
+                &:before{
+                    visibility: visible;
+                    font-family: FontAwesome;
+                    content: "\f105";
+                    font-size: 20px;
+                    font-weight: bold;
+                }
+
+                &:hover::after, &:active::after, &:focus::after{
+                    color: $mn-text !important;
+                }
+            }
+        }
+    }
+    li.active{
+      .page-link{
+        @include anchor_mixin();
+      }
+    }
+    li.page-item.disabled{
+      color: $text-color !important;
+      opacity: 0.8;
+      cursor: not-allowed;
+    }
+  @media #{$mobile}{
+    &.ml-2{
+      display: none !important;
+    }
+  }
+}

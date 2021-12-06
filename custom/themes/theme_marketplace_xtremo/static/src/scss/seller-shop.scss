@@ -1,0 +1,48 @@
+.xt-seller-shop{
+  .oe_img_bg.oe_custom_bg{
+    height: 320px !important;
+    @media #{$mobile}{
+      background-position:center !important;
+      &.seller-profile-pic{
+        background-size: 100px 100px !important;
+        height: 110px !important;
+        width: 100px !important;
+        top: -40px;
+        border-width: 5px !important
+      }
+    }
+  }
+  >.container{
+      margin-bottom: 16px !important;
+      @include seller_info();
+      .nav-tabs{
+        @include product_tabs();
+        margin-top: 0px !important;
+        background-color: $bg-body;
+      }
+      .tab-content{
+        margin-top: 0px !important;
+        padding: 0px 10px !important;
+        table{
+          @include table_market();
+        }
+      }
+      span:not(.badge){
+        color: $text-color !important;
+      }
+      b{
+        color: $mn-text !important;
+      }
+      .fa-tags{
+        margin-left: 0px !important;
+      }
+      #shop_all_product form{
+        margin-right: 15px !important;
+      }
+  }
+
+}
+
+#top_menu_collapse li.contact_no{
+  display: none !important;
+}

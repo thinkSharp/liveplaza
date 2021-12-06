@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <!-- <t t-extend="ControlPanel">
+    	<t t-jquery="div.o_control_panel" t-operation="prepend">
+             <div class="toggle visible-sm visible-xs">
+                <div class="text-right">
+                    <a class="toogle_cp" title="Toggle ControlPanel">
+                        <i class="fa fa-compress"></i>
+                    </a>
+                </div>
+            </div>
+        </t>
+    </t> -->
+
+     <t t-extend="mail.discuss.Sidebar">
+        <t t-jquery="span.o_thread_name:eq(0) i" t-operation="replace">
+            <i class="fa fa-envelope mr8"/>
+        </t>
+     </t>
+
+    <t t-extend='Menu'>
+        <t t-jquery=".o_menu_systray" t-operation="after">
+            <div class="sub_menu">
+                <i class="fa fa-bars"/>
+            </div>
+        </t>
+    </t>
+
+</templates>

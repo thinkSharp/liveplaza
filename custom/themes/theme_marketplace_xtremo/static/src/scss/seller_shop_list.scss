@@ -1,0 +1,85 @@
+.all-seller-label{
+  background-color: white;
+  color: $mn-text;
+  font-family: inherit;
+}
+.all-seller-count{
+  color: $text-color !important;
+  border-color: transparent !important;
+  padding: 0px !important;
+}
+.all-seller-avl{
+  color: $text-color;
+}
+
+#seller_shop_table{
+  .oe_product{
+    border: 0px solid !important;
+    padding: 5px;
+    .oe_product_cart
+    {
+      transition: box-shadow .3s ease-in-out;
+      &:hover{
+        box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.3);
+      }      
+    }
+    .rating-fa::before{
+      color: $border;
+    }
+    #mp_shop_content{
+      background-color: rgba(0,0,0,0.1) !important;
+      position: static !important;
+      #seller-shop-name{
+        text-align: left !important;
+        margin-bottom: 0px !important;
+        strong a{
+          color: $mn-text !important;
+          font-size: 16px;
+        }
+        div{
+          color: $text-color;
+        }
+      }
+      >.row.mb4 >.col-md-12 >span{
+        display: none;
+      }
+      #shop_products_sales{
+        padding-left: 0px;
+        padding-right: 0px;
+        .fa-tags{
+          background-color: transparent;
+          text-align: left;
+          color: $text-color !important;
+          padding: 0px;
+        }
+        .fa-line-chart{
+          background-color: transparent;
+          text-align: right;
+          color: $text-color !important;
+        }
+      }
+      #btn_seller_shop{
+        .text-right{
+          text-align: left !important;
+          a{
+            background-color: $th-color !important;
+            color: white !important;
+            border-color: $th-color !important;
+          }
+        }
+        .text-left{
+          text-align: right !important;
+          a{
+            background-color: $text-color !important;
+            color: white !important;
+            border-color: $text-color !important;
+          }
+        }
+      }
+    }
+  }
+}
+
+.rating-fa::before{
+  color: $border !important;
+}

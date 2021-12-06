@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <record id="view_product_variants_request_wiz" model="ir.ui.view">
+            <field name="name">Invoice Orders</field>
+            <field name="model">product.variants.request.wiz</field>
+            <field name="arch" type="xml">
+                <form string="Invoice Sales Order">
+                	<sheet>
+                		<group>
+                			<field name="product_id" string="Select Product" domain="['|', ('status','=','approved'),('marketplace_seller_id','in',['get_marketplace_seller_id()'])]"/>
+                		</group>
+                		<group>
+                		</group>
+                		<footer>
+                        <button name="create_product_template" string="Create" type="object"  class="btn-primary"/>                        
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                	</sheet>
+                </form>
+             </field>
+		</record>
+		
+		<record id="action_view_product_variants_request_wiz" model="ir.actions.act_window">
+            <field name="name">Create New Products</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.variants.request.wiz</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>            
+            <field name="binding_model_id" ref="custom_inventory_forms.model_product_variants_request" />
+            <field name="binding_view_types">list</field>
+        </record>
+</odoo>

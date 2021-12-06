@@ -1,0 +1,45 @@
+/* Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) */
+/* See LICENSE file for full copyright and licensing details. */
+
+.oe_website_sale{
+  >section.container{
+    background-color: white;
+    padding: 16px 10px;
+    margin-top: 15px;
+    h3{
+      color: $mn-text;
+    }
+    .text-muted{
+      color: $text-color;
+    }
+    .o_wish_rm{
+      padding-left: 0px;
+      border-width: 0px;
+      @media #{$sm-mobile}{
+        display: block;
+      }
+    }
+    #o_comparelist_table{
+      tr.clickable{
+        background-color: $border;
+        color: $mn-text;
+      }
+      thead > tr:nth-child(2) > td{
+        padding: 5px !important;
+      }
+    }
+  }
+  .wishlist-section {
+    margin-bottom: 15px;
+    #o_comparelist_table {
+      tr {
+        background-color: white !important;
+      }
+      .td-img {
+        padding-left: 0px;
+        text-align: left;
+        min-width: 45px !important;
+      }
+    }
+  }
+}

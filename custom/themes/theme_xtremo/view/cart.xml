@@ -1,0 +1,22 @@
+
+
+<odoo>
+  <data>
+
+    <template id="xt_add_text_shopping_cart" inherit_id="website_sale.cart">
+      <xpath expr="//div[@t-if='abandoned_proceed or access_token']" position="before">
+        <h2 class="text-shopping">Shopping Cart</h2>
+      </xpath>
+    </template>
+
+    <template id="xt_empty_cart_message" inherit_id="website_sale.cart_lines">
+      <xpath expr="//div[@t-if='not website_sale_order or not website_sale_order.website_order_line']" position="replace">
+        <div t-if='not website_sale_order or not website_sale_order.website_order_line' class="empty-cart-message">
+          <p>You have no items in your shopping cart.</p>
+          <p>For go to shop select Continue Shopping.</p>
+        </div>
+      </xpath>
+    </template>
+
+  </data>
+</odoo>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="pickup_move_report">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <div class="text-center">
+                        <h3>Daily Pickup Report</h3>
+                    </div>
+                    <div class="row">
+                        <div class="col-11 pull-left">
+                            <label><strong>Date : </strong></label>
+                            <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%b %d, %Y')"/>  
+                        </div>
+                    </div>
+                    <table class="table table-sm table-bordered">
+                        <tbody>
+                            <t t-set="seller_id" t-value="[]" />
+                            <t t-set="picking_address" t-value="[]" />
+    
+                            <t t-foreach="docs" t-as="doc">
+                                <t t-set="seller_id" t-value="seller_id+[doc.seller_id]" />
+                                <t t-set="picking_address" t-value="picking_address+[doc.picking_address]" />
+
+                            </t>
+
+                            <t t-foreach="set(seller_id)" t-as="seller">
+                                <tr style="background-color: #000000">
+                                    <td style="color: #ffffff"><strong>Seller : </strong> <span t-esc="seller.name" style="font-style: italic" /></td>
+                                </tr>
+
+                                <!-- <tr>
+                                    <td t-esc="picking_address" style="font-weight: bold" />
+                                </tr> -->
+
+                                <t t-foreach="docs" t-as="doc">
+                                    <t t-if="seller.id == doc.seller_id.id">
+                                        <tr>
+                                            <td>
+                                                <span t-field="doc.product_id" />
+                                            </td>
+                                            <td>
+                                                <span t-field="doc.origin" />
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </t>
+                            </t>                            
+
+
+                            
+                            
+
+                            
+                        </tbody>
+
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

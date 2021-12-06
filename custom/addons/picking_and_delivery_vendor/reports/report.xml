@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <report
+        id="report_pickup_move"
+        model="pickup.report"
+        string="Pickup Report"
+        name="picking_and_delivery_vendor.pickup_move_report"
+        file="picking_and_delivery_vendor.pickup_move_report"
+        report_type="qweb-pdf"
+        />
+
+    <report
+        id="report_delivery_move"
+        model="delivery.report"
+        string="Delivery Report"
+        name="picking_and_delivery_vendor.delivery_move_report"
+        file="picking_and_delivery_vendor.delivery_move_report"
+        report_type="qweb-pdf"
+        />
+
+
+    <!-- <report
+        id="report_budget_capex"
+        model="budget.capex"
+        string="Capex Export"
+        name="accounting_budget_extension_V7.budget_capex_report"
+        file="accounting_budget_extension_V7.budget_capex_report"
+        report_type="qweb-pdf"
+        paperformat="accounting_budget_extension_V7.paperformat_headerspacing"
+        /> -->
+</odoo>

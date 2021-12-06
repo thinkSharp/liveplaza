@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="white_list_ip_form_view" model="ir.ui.view">
+            <field name="name">white_list_ip_form</field>
+            <field name="model">white.list.ip</field>
+            <field name="arch" type="xml">
+                <form string="White List">
+                    <sheet>
+                        <div class="IP address">
+                            <label for="ip"/>
+                            <h1>
+                                <field name="ip" placeholder="ex: 192.168.0.114"/>
+                            </h1>
+                        </div>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="white_list_ip_tree_view" model="ir.ui.view">
+            <field name="name">white_list_ip_tree</field>
+            <field name="model">white.list.ip</field>
+            <field name="arch" type="xml">
+                <tree string="IP address">
+                    <field name="ip"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="white_list_ip_search_view" model="ir.ui.view">
+            <field name="name">white_list_ip_search</field>
+            <field name="model">white.list.ip</field>
+            <field name="arch" type="xml">
+                <search string="ModelTitle">
+                    <group expand="1" string="Group By">
+                        <field name="ip"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="white_list_ip_act_window" model="ir.actions.act_window">
+            <field name="name">White List Ip Address</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">white.list.ip</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    There is no examples click here to add new ModelTitle.
+                </p>
+            </field>
+        </record>
+
+        <menuitem name="White List Ip Address" id="white_list_ip_menu" parent="check_login_root" action="white_list_ip_act_window"/>
+
+    </data>
+</odoo>

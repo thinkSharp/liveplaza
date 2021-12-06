@@ -1,0 +1,11 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_product_request_manager,product.request.manager,model_product_request,odoo_marketplace.marketplace_manager_group,1,1,1,1
+access_product_request_user,product.request.user,model_product_request,odoo_marketplace.marketplace_draft_seller_group,1,1,1,0
+access_product_request_line_user,product.request.line.user,model_product_request_line,odoo_marketplace.marketplace_draft_seller_group,1,1,1,1
+access_product_request_attribute_line_user,product.request.attribute.line.user,model_product_request_attribute_line,odoo_marketplace.marketplace_draft_seller_group,1,1,1,1
+
+product_variants_request_manager,product.variants.request.manager,model_product_variants_request,odoo_marketplace.marketplace_manager_group,1,1,1,1
+product_variants_request_user,product.variants.request.user,model_product_variants_request,odoo_marketplace.marketplace_draft_seller_group,1,1,1,0
+product_variants_request_line_user,product.variants.request.line.user,model_product_variants_request_line,odoo_marketplace.marketplace_draft_seller_group,1,1,1,1
+
+product_variants_request_wiz_user,product.variants.request.wiz.user,model_product_variants_request_wiz,odoo_marketplace.marketplace_draft_seller_group,1,1,1,1

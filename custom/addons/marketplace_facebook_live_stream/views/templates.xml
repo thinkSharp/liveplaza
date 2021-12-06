@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+<odoo>
+    <template id="fb_live_stream_assets_frontend" inherit_id="website.assets_frontend" name="Facebook Live Stream">
+        <xpath expr="." position="inside">
+            <script type="text/javascript" src="/marketplace_facebook_live_stream/static/src/js/mp_live_stream.js"></script>
+            <link rel="stylesheet" href="/marketplace_facebook_live_stream/static/src/css/mp_live_stream.css"/>
+            <link rel='stylesheet' href='/marketplace_facebook_live_stream/static/src/css/owl.carousel.css'/>
+            <link rel='stylesheet' href='/marketplace_facebook_live_stream/static/src/css/owl.theme.css'/>
+            <script type="text/javascript" src="/marketplace_facebook_live_stream/static/src/js/owl.carousel.min.js"></script>
+        </xpath>
+    </template>
+</odoo>

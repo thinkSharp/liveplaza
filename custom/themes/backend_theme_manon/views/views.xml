@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+		<!-- <record id="manon_view_users_form_simple_modif" model="ir.ui.view">
+            <field name="name">res.users.preferences.theme.forms</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="base.view_users_form"/>
+             <field name="arch" type="xml">
+                <field name="tz" position="after">
+                    <field name="web_color_id" readony="0" widget="selection"/>
+                    <field name="web_font_id" readony="0" widget="selection"/>
+                </field>
+            </field>
+        </record> -->
+
+        <record id="colors_form_view" model="ir.ui.view">
+            <field name="name">wk.backend.color.form</field>
+            <field name="model">wk.backend.color</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="List">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                            </group>
+                            <group>
+                                <field name="active"/>
+                                    <field name="default"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="color_primary" widget="color"/>
+                            </group>
+                            <group>
+                                <field name="color_secondary"  widget="color" attrs="{'invisible':[('auto_color_secondary','==',True)]}"/>
+                                <field name="auto_color_secondary" />
+                            </group>
+                        </group>
+                       </sheet>
+                </form>
+            </field>
+        </record>
+
+       	<record model="ir.ui.view" id="colors_tree_view">
+            <field name="name">wk.backend.color.tree</field>
+            <field name="model">wk.backend.color</field>
+            <field name="type">tree</field>
+            <field name="arch"  type="xml" >
+                <tree>
+                    <field name="name"/>
+                    <field name="color_primary" widget="color"/>
+                </tree>
+            </field>
+        </record>
+
+		<record model="ir.actions.act_window" id="action_colors">
+            <field name="name">Color(s)</field>
+            <field name="res_model">wk.backend.color</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="colors_tree_view"/>
+        </record>
+
+        <record id="fonts_form_view" model="ir.ui.view">
+            <field name="name">wk.backend.font.form</field>
+            <field name="model">wk.backend.font</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="List">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" placeholder="Lato"/>
+                                <field name="family" placeholder="'Lato', sans-serif"/>
+                            </group>
+                            <group>
+                                <field name="active"/>
+                                <field name="default"/>
+                            </group>
+                            <group>
+                                <p class="text-info" style="font-weight:bold">Only Google Fonts are supported (https://fonts.googleapis.com/css?family=Lato)</p>
+                            </group>
+                        </group>
+                        <!-- <group>
+                            <field name="url" placeholder="https://fonts.googleapis.com/css?family=Lato"/>
+                        </group> -->
+                       </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="fonts_tree_view">
+            <field name="name">wk.backend.font.tree</field>
+            <field name="model">wk.backend.font</field>
+            <field name="type">tree</field>
+            <field name="arch"  type="xml" >
+                <tree>
+                    <field name="name"/>
+                    <field name="family"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_fonts">
+            <field name="name">Font(s)</field>
+            <field name="res_model">wk.backend.font</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="fonts_tree_view"/>
+        </record>
+
+       <menuitem id="menu_themes"
+            parent="base.next_id_2" name="Theme(s)" string="User Theme" />
+       <menuitem id="menu_colors"
+            parent="menu_themes" action="action_colors" name="Color(s)" string="Color(s)" />
+       <menuitem id="menu_fonts"
+            parent="menu_themes" action="action_fonts" name="Font(s)" string="Font(s)"/>
+
+        <!-- <record id="action_client_open_theme" model="ir.actions.client">
+            <field name="name">Open Theme Menu</field>
+            <field name="tag">reload</field>
+            <field name="params" eval="{'menu_id': ref('menu_themes')}"/>
+        </record>
+
+        <record id="base.open_menu" model="ir.actions.todo">
+            <field name="action_id" ref="action_client_open_theme"/>
+            <field name="type">automatic</field>
+            <field name="note">Open Theme</field>
+        </record> -->
+
+	</data>
+</odoo>

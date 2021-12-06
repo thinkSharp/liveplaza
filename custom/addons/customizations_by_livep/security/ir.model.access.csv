@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_res_country_township_user,access.res.country.township.user,model_res_country_township,base.group_portal,1,1,0,0
+access_res_country_township_manager,access.res.country.township.manager,model_res_country_township,base.group_user,1,1,1,1
+access_res_country_township_public,access.res.country.township.public,model_res_country_township,,1,1,0,0

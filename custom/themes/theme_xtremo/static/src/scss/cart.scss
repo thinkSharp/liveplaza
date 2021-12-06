@@ -1,0 +1,187 @@
+/* Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) */
+/* See LICENSE file for full copyright and licensing details. */
+
+.oe_website_sale.py-2{
+  >.row{
+    .col-xl-4.col-12:last-of-type{
+      padding-right: 0px;
+      margin-top: 0px;
+      background-color: transparent;
+      @media #{$pad}{
+          @include cart_mobile();
+      }
+      @media #{$l-pad}{
+          @include cart_mobile();
+      }
+      @media #{$mobile}{
+          @include cart_mobile();
+      }
+    }
+    .col-12:not(:last-of-type):not(.order-xl-2){
+      background-color: white;
+      margin-bottom: 10px;
+      @media #{$mobile}{
+        margin-bottom: 10px;
+        margin-top: 0px;
+        >.row{
+          overflow-x: auto;
+          margin-right: 0px !important;
+        }
+        #cart_products{
+          margin-bottom: 0px !important;
+          .td-img{
+            padding-left: 0px !important;
+          }
+        }
+        .js_cart_lines{
+          margin-top: 15px;
+        }
+      }
+      .text-shopping{
+        margin-bottom: 0px;
+        padding-top: 16px;
+        color: $mn-text;
+      }
+      .empty-cart-message{
+        margin-top: 16px;
+        text-align: center;
+        padding: 20px 0px;
+        border: 1px solid $border;
+        margin-bottom: 16px;
+        p{
+          color: $text-color;
+        }
+      }
+    }
+  }
+}
+
+.wizard{
+  background-color: white;
+  .progress-wizard{
+    margin-top: 30px;
+    @media #{$mobile}{
+      margin-top: 0px;
+    }
+    .progress-wizard-bar{
+      background-color: $border;
+    }
+    .progress-wizard-dot{
+      background-color: $border !important;
+      box-shadow: 0px 0px 5px 5px white, 0px 0px 3px 5px $border !important;
+    }
+    .progress-wizard-steplabel{
+      font-weight: normal !important;
+      color: $text-color !important;
+      @media #{$mobile}{
+        color: $mn-text !important;
+      }
+    }
+    .progress-wizard-step.complete{
+      .progress-wizard-dot{
+        background-color: $th-color !important;
+        box-shadow: 0px 0px 5px 5px white, 0px 0px 3px 5px $th-color !important;
+        &::after{
+          display: none;
+        }
+      }
+      .progress-wizard-steplabel{
+        color: $th-color !important;
+      }
+    }
+  }
+}
+
+
+.js_cart_summary{
+  border-radius: 0px;
+  border-color: white;
+  position: static;
+  position: sticky;
+  top: 0px;
+  h4{
+    text-align: center;
+    color: $mn-text;
+  }
+  hr{
+    margin-bottom: 0px;
+  }
+  #cart_total{
+    table{
+      margin: 0px;
+      margin-bottom:  0px !important;
+      td{
+        padding-top: 10px !important;
+        padding-bottom: 10px !important;
+        padding-right: 0px;
+      }
+    }
+    .show_coupon{
+      padding-right: 0px;
+      border: 0px solid white !important;
+    }
+    .coupon_form form{
+      margin-bottom: 0px !important;
+    }
+  }
+}
+
+.oe_website_sale.py-2.cart{
+  padding-top: 15px !important;
+  >.row{
+    &> .col-12:nth-child(1){
+      margin-bottom: 15px;
+    }
+    >.col-12.col-xl-4{
+      .card.js_cart_summary{
+        margin-top: 0px !important;
+      }
+    }
+
+  }
+  @media #{$l-pad}{
+    >.row{
+      .col-12.col-xl-8.oe_cart{
+        margin-bottom: 0px;
+        >.row >.col-lg-12{
+          padding-right: 0px;
+        }
+      }
+    }
+  }
+  @media #{$pad}{
+    >.row{
+      .col-12.col-xl-8.oe_cart{
+        margin-bottom: 0px;
+        >.row >.col-lg-12{
+          padding-right: 0px;
+        }
+      }
+    }
+  }
+  @media #{$mobile}{
+    >.row{
+      .col-12.col-xl-8.oe_cart{
+        margin-bottom: 0px;
+        >.row >.col-lg-12{
+          padding-right: 0px;
+        }
+      }
+    }
+  }
+}
+
+.toggle_summary_div{
+  #cart_total tr td{
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+  }
+}
+
+table#suggested_products{
+  margin-top: 15px;
+  border-top: 1px solid $border;
+  .td-product_name{
+    width: 50%;
+  }
+}

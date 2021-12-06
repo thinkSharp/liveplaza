@@ -1,0 +1,116 @@
+/* Copyright (c) 2018-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) */
+/* See LICENSE file for full copyright and licensing details. */
+
+#footer{
+  background-color: transparentize($bg-header, 0.1);
+  section{
+    word-break: break-all;
+    color: white !important;
+    line-height: 2;
+    margin-top: 0px;
+    padding-top: 0px !important;
+    padding-bottom: 0px !important;
+    .col-lg-4{
+      flex: 0 0 20%;
+      max-width: 20%;
+      padding-top: 40px;
+      padding-bottom: 20px;
+      @media #{$pad}{
+        flex: 0 0 33%;
+        max-width: 33%;
+        padding-bottom: 0px !important;
+        &:nth-child(4),&:nth-child(5){
+          padding-top: 10px !important;
+        }
+      }
+      @media #{$mobile}{
+        flex: 0 0 50%;
+        max-width: 50%;
+        padding-bottom: 0px !important;
+        &:nth-child(3),&:nth-child(4),&:nth-child(5){
+          padding-top: 10px !important;
+        }
+        &:nth-child(5){
+          flex: 0 0 100%;
+          max-width: 100%;
+        }
+      }
+      >h5{
+        color: transparentize(#fff, 0.3);
+      }
+      a:not(.dropdown-item){
+        color: white !important;
+        cursor: pointer;
+        &:hover{
+          color: $th-color !important;
+        }
+      }
+      &#connect{
+        p{
+          display: none;
+        }
+      }
+      &:last-of-type{
+        background-color: $bg-header;
+        text-align: center;
+        >p a{
+          font-size: 25px;
+          background-color: transparent;
+          border-width: 0px;
+        }
+        .fa-envelope{
+          display: block;
+        }
+      }
+    }
+  }
+}
+footer{
+  .o_footer_copyright{
+    padding: 0px;
+    background-color: transparentize($bg-header, 0.2);
+    >.container {
+      padding: 0px !important;
+    }
+    >.container >.row{
+      justify-content: flex-end;
+      margin: 0px;
+      >.text-muted {
+        padding: 8px 0px;
+      }
+      .xtremo-payment-icon{
+        margin-top: 0px !important;
+        margin-bottom: 0px !important;
+        @media #{$mobile}{
+          display: none !important;
+        }
+        flex: 0 0 20%;
+        background-color: $bg-header;
+        padding: 0px 5px;
+        border-top: 1px solid transparentize($bg-header, 0.2);
+        .payment_method_list{
+          justify-content: center;
+          margin-bottom: 0px;
+          padding: 10px 0px;
+        }
+      }
+    }
+    // .col-lg-6{
+      padding-left: 0px;
+      text-align: left !important;
+      color: white !important;
+      .js_language_selector{
+        display: none;
+      }
+      @media #{$mobile}{
+        text-align: center !important;
+      }
+      span{
+        color: white !important;
+      }
+    // }
+  }
+  .o_brand_promotion{
+    display: none;
+  }
+}
