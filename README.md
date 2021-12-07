@@ -1,12 +1,25 @@
 
 
-Python 3.6 Setup
+Python 3.6 Setup (Command Line Setup)
 ----------------
  - Download python3.6 tar file and perform linux installation from Google
  - Check the python version (python3 -v)
- - Perform the installation till you see python 3.6 for linux centos
- - Create a virtual environment folder called odoo_dev 
+ - Perform the installation till you see python 3.6 for linux centos.
+ - Create a virtual environment folder called odoo_dev.
+ - Locate the bin folder
  - Activate the Virtual Environment.
+ 
+ ```bash
+source bin/activate
+
+```
+
+ - If using IDE like Eclipse or Pycharm kindly make use of Python 3.6 virtual Environment and skip to the LivePlaza local setup.
+ 
+
+LivePlaza Local setup
+---------------- 
+
  - Git Clone the liveplaza folder.
  - Go to Folder odoo-server and open odoo.conf file.
  - Paste the text inside the config file
@@ -15,7 +28,7 @@ Python 3.6 Setup
 ```bash
 [options]
 admin_passwd = Chunny12$akcder
-addons_path = /home/ec2-user/odoo_backup/odoo/odoo-server/addons,/home/ec2-user/odoo_backup/odoo/odoo-server/odoo/addons,/home/ec2-user/odoo_backup/odoo/custom/addons,/home/ec2-user/odoo_backup/odoo/custom/themes
+addons_path = ~/odoo-server/addons,~/odoo-server/odoo/addons,~/custom/addons,~/custom/themes
 db_host = localhost
 db_port = 5432
 db_user = odoo
