@@ -1,4 +1,20 @@
 
+GitHub Desktop Setup
+----------------
+
+ - Download Github Desktop for the local box.
+ - 
+ - Once downloaded Click File > Clone Repository > URL.
+ - Add the following link in the URL text box.
+ ```bash 
+ https://github.com/thinkSharp/liveplaza
+ ```
+ - Once done add the local path as well.
+ - Now Click Clone.
+ - Now select the repository liveplaza, branch dev.
+ - Click create new branch. 
+ - Add the name (Your Name) for the branch and choose dev branch.
+ 
 
 Python 3.6 Setup (Command Line Setup)
 ----------------
@@ -74,7 +90,6 @@ sudo -u postgres psql
 ```
 
  - Create a Database named livep and alter the permissions.
- 
 
 ```bash
 CREATE DATABASE livep; 
@@ -98,6 +113,14 @@ ALTER DATABASE livep OWNER TO odoo;
 sudo -u postgres psql livep < dump.sql
 
 ```
+
+GitHub Creating Pull Request
+----------------
+ - Once modifying code to the branch commit, push all the changes to your branch.
+ - Once completing the click create Pull Request.
+ - Once redirected to thr web page on your browser click merge to dev branch.
+ - Add reviewer and add Vishal.
+ - Add comments and click create PR.
 
 
 
