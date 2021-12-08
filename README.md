@@ -3,7 +3,6 @@ GitHub Desktop Setup
 ----------------
 
  - Download Github Desktop for the local box.
- - 
  - Once downloaded Click File > Clone Repository > URL.
  - Add the following link in the URL text box.
  ```bash 
