@@ -19,7 +19,7 @@
                     </button>
                 </xpath>
                  <xpath expr="//div[@name='mp_button_box']/button[@name='action_view_delivery']" position="replace">
-                 	<button type="object" name="action_view_delivery" class="oe_stat_button" icon="fa-truck"  attrs="{'invisible': ['|', '|', ('marketplace_state', 'in', ['new','cancel']), ('is_ready', '=', False), ('is_picked', '=', False), ('is_packaged', '=', False)]}">
+                 	<button type="object" name="action_view_delivery" class="oe_stat_button" icon="fa-truck"  attrs="{'invisible': ['|', '&amp;', '&amp;', ('marketplace_state', 'in', ['new','cancel']), ('is_ready', '=', False), ('is_picked', '=', False), ('is_packaged', '=', False)]}">
                 		<field name="mp_delivery_count" widget="statinfo" string="Delivery"/>
                		</button>
                 </xpath>
