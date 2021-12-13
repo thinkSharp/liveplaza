@@ -40,17 +40,17 @@
 						<t t-set="num" t-value="int(12/len(current_stream_object.promoted_product_ids))" />
 						<div class="item text-center">
 							<a itemprop="url" t-attf-href="/shop/product/#{ slug(product) }">
-								<img t-if="product.image_1920" t-attf-src="/web/image/product.template/#{product.id}/image_1920" t-att-alt="product.name" class="img-responsive productImg"></img>
+								<img style="width: 220px; height: 250px; padding:0px;" t-if="product.image_1920" t-attf-src="/web/image/product.template/#{product.id}/image_1920" t-att-alt="product.name"></img>
 								<img t-else="" src="/web/static/src/img/placeholder.png" class="img-responsive productImg" />										
 							 </a>
-							 <h3 class="productName text-center containere">
+							 <h5 class="productName text-left container">
 								<t t-esc="product.name" />
-							</h3>	
-							 <h4 class="card-body p-0 text-center o_wsale_product_information p-2 o_wsale_product_information_text">
+							</h5>	
+							 <div class="card-body p-0 text-left o_wsale_product_information p-2 o_wsale_product_information_text">
 							 	<b class="oe_price" style="white-space: nowrap;" t-esc="product.list_price" t-options="{'widget': 'monetary', 'display_currency': product.currency_id}"/>
 					            <span itemprop="price" style="display:none;" t-esc="product.list_price"/>
 					            <span itemprop="priceCurrency" style="display:none;" t-esc="website.currency_id.name"/>	
-							</h4>								
+							</div>								
 						</div>						
 					</t>
 				</div>
