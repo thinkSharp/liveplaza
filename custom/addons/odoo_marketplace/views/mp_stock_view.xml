@@ -435,7 +435,7 @@
 					<field name='product_id' groups="odoo_marketplace.marketplace_officer_group" invisible="1"/>
 					<field name='marketplace_seller_id' groups="odoo_marketplace.marketplace_officer_group"/>
 					<field name='new_quantity'/>
-					<field name='location_id' groups="odoo_marketplace.marketplace_officer_group"/>
+					<!-- <field name='location_id' groups="odoo_marketplace.marketplace_officer_group"/> -->
 					<field name='state'/>
 					<field name='create_date'/>
 				</tree>

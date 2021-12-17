@@ -34,7 +34,7 @@
             <menuitem id="wk_seller_dashboard_menu4" name="Inventory" parent="wk_seller_dashboard" groups="odoo_marketplace.marketplace_seller_group" sequence="7"/>
                 <menuitem id="wk_seller_dashboard_menu4_sub_menu1" name="Delivery Orders" parent="wk_seller_dashboard_menu4" action="marketplace_stock_picking_action" sequence="2" groups="odoo_marketplace.marketplace_seller_group"/>
                 <menuitem id="wk_seller_dashboard_menu4_sub_menu2" name="Inventory Requests" parent="wk_seller_dashboard_menu4" action="marketplace_product_stock_action" sequence="1" groups="odoo_marketplace.marketplace_seller_group"/>
-                <menuitem id="wk_seller_dashboard_menu3_sub_menu3" name="Stock Moves" parent="wk_seller_dashboard_menu4" sequence="3" action="wk_seller_delivery_action" groups="odoo_marketplace.marketplace_seller_group"/>
+               <!--  <menuitem id="wk_seller_dashboard_menu3_sub_menu3" name="Stock Moves" parent="wk_seller_dashboard_menu4" sequence="3" action="wk_seller_delivery_action" groups="odoo_marketplace.marketplace_seller_group"/> -->
 
 			<menuitem id="wk_seller_dashboard_menu8" name="Configuration" parent="wk_seller_dashboard" groups="odoo_marketplace.marketplace_seller_group" sequence="10"/>
                 <menuitem id="wk_odoo_marketplace_config_settings" name="Settings" parent="wk_seller_dashboard_menu8" action="odoo_marketplace.marketplace_base_config_settings_action" sequence="1" groups="odoo_marketplace.marketplace_manager_group"/>
