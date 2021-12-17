@@ -5,11 +5,11 @@
         <field name="model">pickup.report</field>
         <field name="arch" type="xml">
             <tree string="Pickup Report" create="false" edit="false">
-                <field name="picking_address" invisible="1" />
-                <field name="seller_id" invisible="1" />
+            	<field name="seller_id"/>
+                <field name="picking_address" string="Address"/> 
+                 <field name="origin" string="Order Number"/>               
                 <field name="product_id" />
-                <field name="scheduled_date" />
-                <field name="origin" />
+                <field name="scheduled_date" />               
                 <field name="state" />
             </tree>
         </field>
@@ -34,7 +34,7 @@
         <field name="res_model">pickup.report</field>
         <field name="view_mode">tree,pivot</field>
         <field name="domain">[('state', '=', 'draft')]</field>
-        <field name="context">{'group_by': ['seller_id', 'picking_address']}</field>
+        <!-- <field name="context">{'group_by': ['seller_id', 'picking_address']}</field> -->
         <field name="help" type="html">
             <p class="oe_view_nocontent_create">Nothing Here!!!</p>
         </field>
