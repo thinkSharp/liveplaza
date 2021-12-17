@@ -42,11 +42,11 @@ class PickingMove(models.Model):
         'picking.method', string='Pickup Zone', ondelete='cascade')
     is_ready = fields.Boolean('Ready to Pick', default=False)
     
-    township_id = fields.Many2one(
+    township_id = fields.Many2one('res.country.township',
         related="picking_address.township_id",
         string="Township", readonly=False, store=True)
     
-    state_id = fields.Many2one(
+    state_id = fields.Many2one('res.country.state',
         related="picking_address.state_id",
         string="State", readonly=False, store=True)
     
@@ -109,8 +109,11 @@ class PackagingMove(models.Model):
     marketplace_seller_id = fields.Many2one('res.partner', string='Seller', ondelete='cascade')
     is_picked = fields.Boolean('Picked', default=False)
     
-    customer_id = fields.Many2one(
-        'res.partner', string='Customer',  ondelete='cascade')
+#     buyer_id = fields.Many2one(
+#         'res.partner', string='Buyer',  ondelete='cascade')
+    buyer_id = fields.Many2one('res.partner',
+        related="mp_order_id.order_partner_id",
+        string="Buyer", readonly=False, store=True)
     
     def create(self, vals):
         vals['name'] = self.env['ir.sequence'].next_by_code(
