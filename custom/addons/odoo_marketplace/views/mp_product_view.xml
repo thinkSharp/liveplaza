@@ -419,9 +419,9 @@
 			<field name="model">product.template</field>
 			<field name="arch" type="xml">
 				<tree string="Product" decoration-success="status=='approved'" decoration-warning="status=='pending'" decoration-primary="status=='draft'" decoration-danger="status=='rejected'">
-					<field name="name" string="Product"/>
+					<field name="name" string="Product Name"/>
 					<field name="marketplace_seller_id" string="Seller" groups="odoo_marketplace.marketplace_officer_group"/>
-					<field name="categ_id"/>
+					<!-- <field name="categ_id"/> -->
 					<field name="type"/>
 					<field name="qty_available"/>
 					<field name="status"/>
