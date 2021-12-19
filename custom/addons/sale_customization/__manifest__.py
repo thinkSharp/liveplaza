@@ -20,7 +20,8 @@
         
         'views/sale_views.xml',
         'views/res_partner_view.xml',
-        'views/product_template_view.xml'
+        'views/product_template_view.xml',
+        'views/product_pricelist_view.xml'
        
         
     ],
