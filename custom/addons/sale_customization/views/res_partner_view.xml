@@ -1,0 +1,22 @@
+<odoo>
+	<data>
+		 <record id="view_partner_tree_inherit" model="ir.ui.view">
+            <field name="name">res.partner.tree</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_tree"/>
+            <field name="arch" type="xml">
+            	<xpath expr="//field[@name='company_id']" position="replace">
+                    <field name="company_id"  invisible="1"/>
+                </xpath>
+                <xpath expr="//field[@name='phone']" position="replace">
+                    <field name="phone"  string="Phone Number"/>
+                </xpath>
+                <xpath expr="//field[@name='email']" position="after">
+                    <field name="street"/>
+                    <field name="township_id"/>
+                    <field name="state_id"/>
+                </xpath>
+            </field>
+         </record>
+	</data>
+</odoo>
