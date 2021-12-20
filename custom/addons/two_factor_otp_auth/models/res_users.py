@@ -39,6 +39,9 @@ class ResUsers(models.Model):
         string="Two Factor Authentication QR Code",
         copy=False,
     )
+    
+    delivery_vendor = fields.Boolean(related='partner_id.delivery_vendor', string="Delivery Vendor", readonly=False)
+    seller = fields.Boolean(related='partner_id.seller', string="Seller", readonly=False)
 
     def write(self, vals):
         """
