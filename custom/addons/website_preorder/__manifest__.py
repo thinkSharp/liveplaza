@@ -36,6 +36,9 @@ Website backorders""",
   "depends"              :  [
                              'website_stock',
                              'website_sale_delivery',
+                             'website',
+                             'website_sale',
+                             'website_crm'
                             ],
   "data"                 :  [
                              'security/ir.model.access.csv',
@@ -47,6 +50,7 @@ Website backorders""",
                              'views/template.xml',
                              'views/webkul_addons_config_inherit_view.xml',
                              'views/inherit_product_view.xml',
+                             'views/website_visitor_view.xml'
                             ],
   "demo"                 :  [],
   "images"               :  ['static/description/Banner.png'],
