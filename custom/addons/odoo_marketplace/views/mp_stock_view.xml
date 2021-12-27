@@ -13,8 +13,8 @@
                 <tree create="0" decoration-info="state == 'draft'" decoration-muted="state == 'cancel'" decoration-danger="state not in ('cancel', 'done') and scheduled_date &lt; current_date" string="Picking list" default_order="id desc">
                     <field name="name"/>
                     <field name="location_dest_id" invisible="1" />
-                    <field name="partner_id" string="Customer"/>
-					<field name="marketplace_seller_id" string="Seller" groups="odoo_marketplace.marketplace_officer_group"/>
+                    <field name="partner_id" string="Customer Name"/>
+					<field name="marketplace_seller_id" string="Seller Name" groups="odoo_marketplace.marketplace_officer_group"/>
                     <field name="date" invisible="1"/>
                     <field name="scheduled_date"/>
                     <field name="origin"/>

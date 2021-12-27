@@ -1,0 +1,39 @@
+<odoo>
+	<data>
+		<record id="website_visitor_view_tree_inherit" model="ir.ui.view">
+        <field name="name">website.visitor.view.tree</field>
+        <field name="model">website.visitor</field>
+         <field name="inherit_id" ref="website.website_visitor_view_tree"/>
+        <field name="arch" type="xml">
+        	<xpath expr="//field[@name='create_date']" position="replace">
+                    <field name="create_date"  string="First Connection Date"/>
+             </xpath>
+             <xpath expr="//field[@name='last_connection_datetime']" position="replace">
+                    <field name="last_connection_datetime"  string="Last Connection Date"/>
+             </xpath>
+        </field>
+        </record>
+        
+        <record id="website_sale_visitor_view_tree_inherit" model="ir.ui.view">
+	        <field name="name">website.visitor.view.tree</field>
+	        <field name="model">website.visitor</field>
+	        <field name="inherit_id" ref="website_sale.website_sale_visitor_view_tree"/>
+	        <field name="arch" type="xml">
+	            <xpath expr="//field[@name='product_ids']" position="replace">
+	                <field name="product_ids" invisible="1"/>
+	            </xpath>
+	        </field>
+	    </record>
+	    
+	     <record id="website_visitor_view_tree_inherits" model="ir.ui.view">
+	        <field name="name">website.visitor.view.tree.inherit.website.crm</field>
+	        <field name="model">website.visitor</field>
+	        <field name="inherit_id" ref="website_crm.website_visitor_view_tree"/>
+	        <field name="arch" type="xml">
+	            <xpath expr="//field[@name='lead_count']" position="replace">
+	                <field name="lead_count" invisible="1"/>
+	            </xpath>
+	        </field>
+	    </record>
+	</data>
+</odoo>

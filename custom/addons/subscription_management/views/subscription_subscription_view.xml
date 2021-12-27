@@ -118,9 +118,9 @@
             <field name="model">subscription.subscription</field>
             <field name="arch" type="xml">
                 <tree decoration-info="state == 'draft'" decoration-danger="state == 'cancel'" decoration-bf="state == 'in_progress'" string="Subscriptions">
-                    <field name="name"></field>
+                    <field name="name" string="Subscription ID"></field>
                     <field name="customer_name"></field>
-                    <field name="product_id"></field>
+                    <field name="product_id" invisible="1"></field>
                     <field name="quantity"></field>
                     <field name="sub_plan_id"></field>
                     <field name="duration"></field>
