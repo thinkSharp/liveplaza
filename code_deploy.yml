@@ -1,0 +1,14 @@
+version: 0.0
+os: amazon-linux-2
+files:
+  - source: python3 odoo-bin -c odoo.conf -d livep
+    destination: /home/ec2-user/odoo/odoo-server
+hooks:
+  ApplicationStart:
+    - location: scripts/start_server
+      timeout: 300
+      runas: root
+  ApplicationStop:
+    - location: scripts/stop_server
+      timeout: 300
+      runas: root
