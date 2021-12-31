@@ -23,6 +23,6 @@
     <field name="target">new</field>
   </record>
 
-  <!-- <menuitem id="pickup_report_wizard_menu" name="Print Pickup Report" action="pickup_report_wizard_action" parent="customizations_by_livep.marketplace_report_root" groups="picking_and_delivery_vendor.pickup_vendor_group" sequence="3"/> -->
+  <menuitem id="pickup_report_wizard_menu" name="Print Pickup Report" action="pickup_report_wizard_action" parent="customizations_by_livep.marketplace_report_root" groups="picking_and_delivery_vendor.pickup_vendor_group" sequence="3"/>
 
 </odoo>

@@ -5,11 +5,10 @@
         <field name="model">delivery.report</field>
         <field name="arch" type="xml">
             <tree string="Delivery Report" create="false" edit="false">
-            	<field name="buyer_id" string="Customer"/>
-                <field name="delivery_address" string="Address"/>                
-                <field name="origin" string="Order Number"/>
+                <field name="delivery_address" invisible="1" />
+                <field name="buyer_id" invisible="1"/>
+                <field name="origin" />
                 <!-- <field name="" /> -->
-                <field name="product_id" />
                 <field name="scheduled_date" />
                 <field name="state" />
             </tree>

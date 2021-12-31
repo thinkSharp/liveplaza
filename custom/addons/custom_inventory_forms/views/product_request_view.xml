@@ -39,7 +39,7 @@
         <field name="priority">1</field>
         <field name="arch" type="xml">
             <tree string="Product Requests" decoration-success="state=='done'" decoration-info="state=='request'" decoration-muted="state=='cancel'">
-                <field name="name" string="Product Request ID"/>
+                <field name="name" />
                 <field name="seller_id" />
                 <field name="request_date" />
                 <field name="state" />
@@ -271,7 +271,7 @@
         </field>
     </record>
 
-    <!-- <menuitem id="menu_seller_added_products" name="Seller Added Products" action="action_seller_added_products" parent="odoo_marketplace.wk_seller_dashboard_menu2" sequence="100" groups="odoo_marketplace.marketplace_draft_seller_group" /> -->
+    <menuitem id="menu_seller_added_products" name="Seller Added Products" action="action_seller_added_products" parent="odoo_marketplace.wk_seller_dashboard_menu2" sequence="100" groups="odoo_marketplace.marketplace_draft_seller_group" />
     <!-- End -->
 
 </odoo>

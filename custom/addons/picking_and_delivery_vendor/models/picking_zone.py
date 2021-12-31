@@ -32,7 +32,7 @@ class PickingMove(models.Model):
     mp_order_id = fields.Many2one(
         'sale.order.line', string='Marketplace Order', ondelete='cascade')
     picking_address = fields.Many2one(
-        'res.partner', string='Seller', ondelete='cascade')
+        'res.partner', string='Address for Picking', ondelete='cascade')
     origin = fields.Char(string='Order Number', store=True)
     state = fields.Selection(
         [('draft', 'Draft'), ('pick', 'Picked'), ('cancel', 'Cancelled')], 'State', default='draft')
@@ -41,18 +41,6 @@ class PickingMove(models.Model):
     picking_method_id = fields.Many2one(
         'picking.method', string='Pickup Zone', ondelete='cascade')
     is_ready = fields.Boolean('Ready to Pick', default=False)
-    
-    township_id = fields.Many2one('res.country.township',
-        related="picking_address.township_id",
-        string="Township", readonly=False, store=True)
-    
-    state_id = fields.Many2one('res.country.state',
-        related="picking_address.state_id",
-        string="State", readonly=False, store=True)
-    
-    street = fields.Char(
-        related="picking_address.street",
-        string="Street", readonly=False, store=True)
 
     def create(self, vals):
         vals['name'] = self.env['ir.sequence'].next_by_code(
@@ -101,19 +89,13 @@ class PackagingMove(models.Model):
     done_date = fields.Datetime(string='Effective Date', store=True)
     mp_order_id = fields.Many2one(
         'sale.order.line', string='Marketplace Order', ondelete='cascade')
-    origin = fields.Char(string='Order Number', store=True)
+    origin = fields.Char(string='Source Document', store=True)
     state = fields.Selection(
         [('draft', 'Draft'), ('package', 'Packaged'), ('cancel', 'Cancelled')], 'State', default='draft')
     vendor_id = fields.Many2one(
         'res.partner', string='Vendor',  ondelete='cascade')
     marketplace_seller_id = fields.Many2one('res.partner', string='Seller', ondelete='cascade')
     is_picked = fields.Boolean('Picked', default=False)
-    
-#     buyer_id = fields.Many2one(
-#         'res.partner', string='Buyer',  ondelete='cascade')
-    buyer_id = fields.Many2one('res.partner',
-        related="mp_order_id.order_partner_id",
-        string="Buyer", readonly=False, store=True)
     
     def create(self, vals):
         vals['name'] = self.env['ir.sequence'].next_by_code(

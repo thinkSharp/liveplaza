@@ -181,14 +181,10 @@
             <field name="mode">primary</field>
             <field name="arch" type="xml">
                 <tree string="Sellers" create="0">
-                    <!-- <field name="sequence"/> -->
+                    <field name="sequence"/>
                     <field name="name"/>
                     <field name="seller_id"/>
-                    <field name="phone"/>
                     <field name="shop_mobile"/>
-                    <field name="street"/>
-                    <field name="city"/>
-                    <field name="state_id"/>
                 </tree>
             </field>
         </record>

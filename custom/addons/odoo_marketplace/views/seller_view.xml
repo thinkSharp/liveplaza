@@ -371,10 +371,10 @@
 					decoration-danger="state=='denied'" create="0">
                     <field name="name"/>
                     <field name="email"/>
-                    <field name="phone"/>                    
-                    <field name="mobile"/>
+                    <field name="phone"/>
                     <field name="state"/>
-                   <!--  <field name="payment_method"/> -->
+                    <field name="mobile"/>
+                    <field name="payment_method"/>
                 </tree>
             </field>
         </record>

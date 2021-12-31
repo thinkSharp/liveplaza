@@ -78,9 +78,6 @@
                 <field name="name" />
                 <field name="is_ready" />
                 <field name="state" />
-                <field name="street" />
-                <field name="state_id" />
-                <field name="township_id" />
             </tree>
         </field>
     </record>
@@ -148,11 +145,10 @@
             <tree string="Packaging Move Tree" create="false">
                 <button name="action_package" string="Package" type="object" class="btn btn-primary" attrs="{'invisible':['|', ('state', '!=', 'draft'), ('is_picked', '=', False)]}" groups="picking_and_delivery_vendor.delivery_vendor_group" />
                 <field name="origin" />
-                <field name="buyer_id" />
-                <field name="scheduled_date" />               
-                <field name="done_date" />
+                <field name="scheduled_date" />
                 <field name="marketplace_seller_id" />
-                <!-- <field name="name" />   -->              
+                <field name="done_date" />
+                <field name="name" />                
                 <field name="is_picked" />
                 <field name="state" />
             </tree>

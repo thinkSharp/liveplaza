@@ -317,7 +317,7 @@
             <field name="arch" type="xml">
                 <tree string="Seller Recommendation Tree" editable="top" decoration-success="state=='pub'" decoration-danger="state=='unpub'">
                     <field name="seller_id"/>
-                    <field name="customer_id" string="Customer"/>
+                    <field name="customer_id" string="Customer ID"/>
                     <field name="recommend_state"/>
                     <field name="state"/>
                     <button name="publish_unpublish_btn" class="oe_highlight fa fa-globe" string="Publish Now" states="unpub"  type="object" />

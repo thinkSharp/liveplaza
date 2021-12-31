@@ -392,7 +392,7 @@
                       decoration-muted="state == 'cancel'"
                       banner_route="/account/account_invoice_onboarding"
                       js_class="account_tree">
-                    <field name="name" string="Reference"/>
+                    <field name="name"/>
                     <field name="partner_id" invisible="1"/>
                     <field name="invoice_source_email" invisible="1"/>
                     <field name="invoice_partner_icon" string=" "/>

@@ -71,8 +71,8 @@
                 			attrs="{'invisible':[('marketplace_state','in', ['approved','shipped','cancel'])]}"/>
                     <button name="button_cancel" string="Cancel" type="object" groups="odoo_marketplace.marketplace_seller_group" 
                     		 attrs="{'invisible':[('marketplace_state','in', ['approved','shipped','cancel'])]}"/>
-                    <field name="order_id" string="Order Number"/>
-                    <!-- <field name="create_date"/> -->
+                    <field name="order_id"/>
+                    <field name="create_date"/>
                     <field name="order_partner_id"/>
                     <field name="product_id" invisible="0"/>
                     <field name="marketplace_seller_id" readonly="1" groups="odoo_marketplace.marketplace_officer_group" string="Seller"/>

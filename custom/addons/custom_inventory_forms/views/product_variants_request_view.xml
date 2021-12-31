@@ -6,7 +6,7 @@
         <field name="priority">1</field>
         <field name="arch" type="xml">
             <tree string="Product Variants Requests" decoration-success="state=='done'" decoration-info="state=='request'" decoration-muted="state=='cancel'">
-                <field name="name" string="Product Variants Request ID"/>                
+                <field name="name" />                
                 <field name="state" />
             </tree>
         </field>

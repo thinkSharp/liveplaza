@@ -6,7 +6,6 @@
     'summary' : 'The customizations made by liveplaza tech team.',
     'company' : 'LivePlaza',
     'depends' : [
-                'base',
                 'website_sale', 
                 'odoo_marketplace', 
                 'marketplace_facebook_live_stream'

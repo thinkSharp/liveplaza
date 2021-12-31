@@ -135,7 +135,6 @@ class SaleOrderLine(models.Model):
         date = self.create_date
         origin = self.order_id.name
         seller_id = self.marketplace_seller_id.id
-        buyer_id = self.order_partner_id.id
         
 
         packaging_vals = {
@@ -145,7 +144,6 @@ class SaleOrderLine(models.Model):
             'mp_order_id': self.id,
             'marketplace_seller_id': seller_id,
             'state': 'draft',
-#             'buyer_id': buyer_id,
         }
 
         return self.env['packaging.move'].create(packaging_vals)
