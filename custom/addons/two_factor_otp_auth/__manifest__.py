@@ -18,9 +18,6 @@
     "installable": True,
     "depends": [
         "web",
-        'base',
-        'odoo_marketplace',
-        'picking_and_delivery_vendor'
     ],
     "data": [
         "security/two_factor_otp_auth.xml",

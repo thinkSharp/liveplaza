@@ -30,23 +30,7 @@
         <field name="inherit_id" ref="base.view_users_tree"/>
         <field name="arch" type="xml">
             <field name="login_date" position="after">
-                <field name="enable_2fa" invisible="1"/>
-            </field>
-            <field name="lang" position="replace">
-                <field name="lang" invisible="1"/>
-            </field>
-            <field name="login" position="replace">
-                <field name="login" string="Mail"/>
-            </field>
-            <field name="login_date" position="replace">
-                <field name="login_date" string="Latest Authentication"/>
-            </field>
-            <field name="company_id" position="replace">
-                <field name="company_id" invisible="1"/>
-            </field>
-            <field name="login_date" position="after">
-                <field name="delivery_vendor"/>
-                <field name="seller"/>
+                <field name="enable_2fa"/>
             </field>
         </field>
     </record>
