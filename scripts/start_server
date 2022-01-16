@@ -1,0 +1,5 @@
+sudo service httpd start
+
+cd /home/ec2-user/odoo
+
+source bin/activate

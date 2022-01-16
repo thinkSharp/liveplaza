@@ -1,0 +1,15 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /home/ec2-user/liveplaza
+hooks:
+  BeforeInstall:
+    - location: scripts/start_server
+      timeout: 30
+  ApplicationStart:
+    - location: scripts/start_flaskapp
+      timeout: 30
+  ApplicationStop:
+    - location: scripts/stop_server
+      timeout: 30
