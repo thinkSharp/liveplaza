@@ -1,0 +1,4 @@
+cd cd /home/ec2-user//
+cd /home/ec2-user/liveplaza/
+sudo systemctl start flaskapp.service
+sudo systemctl start liveplaza.service
