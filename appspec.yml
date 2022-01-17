@@ -4,12 +4,12 @@ files:
   - source: /
     destination: /home/ec2-user/liveplaza
 hooks:
+  ApplicationStop:
+    - location: scripts/stop_server
+      timeout: 30
   BeforeInstall:
     - location: scripts/start_server
       timeout: 30
   ApplicationStart:
-    - location: scripts/start_server
-      timeout: 30
-  ApplicationStop:
-    - location: scripts/stop_server
+    - location: scripts/liveplaza_start
       timeout: 30
