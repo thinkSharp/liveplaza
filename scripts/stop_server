@@ -1,0 +1,3 @@
+sudo systemctl stop liveplaza.service
+
+sudo service nginx stop
