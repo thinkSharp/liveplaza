@@ -1,5 +1,2 @@
-sudo service httpd start
+sudo service nginx start
 
-cd /home/ec2-user/odoo
-
-source bin/activate

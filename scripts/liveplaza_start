@@ -1,3 +1,1 @@
-cd /home/ec2-user/liveplaza/
-
 sudo systemctl start liveplaza.service
