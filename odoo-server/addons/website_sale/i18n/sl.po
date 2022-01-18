@@ -677,9 +677,7 @@ msgid "BeNeLux"
 msgstr ""
 
 #. module: website_sale
-#: model:product.pricelist,name:website_sale.list_benelux
-msgid "Benelux"
-msgstr ""
+
 
 #. module: website_sale
 #. openerp-web

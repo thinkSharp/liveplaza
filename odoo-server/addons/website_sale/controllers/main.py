@@ -579,7 +579,11 @@ class WebsiteSale(http.Controller):
                 error["vat"] = 'error'
 
         if [err for err in error.values() if err == 'missing']:
-            error_message.append(_('Some required fields are empty.'))
+            for i in error.keys():
+                if i == 'township_id':
+                    error.pop('township_id')
+                    error.update({'township':'missing'})
+            error_message.append(_('\n'.join("{}".format(k) for k in error.keys()) + ' is invalid'))
 
         return error, error_message
 
