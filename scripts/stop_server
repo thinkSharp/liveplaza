@@ -1,3 +1,23 @@
 sudo systemctl stop liveplaza.service
 
 sudo service nginx stop
+
+sudo yum clean all
+
+sudo rm -rf /var/cache/yum
+
+sudo find /home/ec2-user/ -name error_log -delete
+
+sudo package-cleanup --quiet --leaves | sudo xargs yum remove -y
+
+(( $(rpm -E %{rhel}) >= 8 )) && sudo dnf remove $(dnf repoquery --installonly --latest-limit=-2 -q)
+
+(( $(rpm -E %{rhel}) <= 7 )) && sudo package-cleanup --oldkernels --count=2
+
+(( $(rpm -E %{rhel}) >= 8 )) && sudo dnf remove $(dnf repoquery --installonly --latest-limit=-1 -q)
+
+(( $(rpm -E %{rhel}) <= 7 )) && yes | sudo package-cleanup --oldkernels --count=1
+
+sudo rm -rf /root/.composer/cache
+
+sudo find -regex ".*/core\.[0-9]+$" -delete
