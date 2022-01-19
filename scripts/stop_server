@@ -24,7 +24,7 @@ sudo find -regex ".*/core\.[0-9]+$" -delete
 
 sudo rm -rf /opt/codedeploy-agent/deployment-root/*
 
-sudo yum install libxslt-devel
+yes | sudo yum install libxslt-devel
 
 
 
