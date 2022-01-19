@@ -69,9 +69,9 @@
         <xpath expr="//ul[@id='top_menu']/li/div/a[last()]" position="after">
           <div role="separator" class="dropdown-divider">
           </div>
-          <a class="dropdown-item user-name" href="#">
+          <p style="font-weight: bold;" class="dropdown-item user-name">
             <span t-esc="user_id.name[:23] + '...' if user_id.name and len(user_id.name) &gt; 25 else user_id.name"/>
-          </a>
+          </p>
         </xpath>
         <xpath expr="//ul[@id='top_menu']/li/div/a[@id='o_logout']" position="before">
           <a class="dropdown-item" href="/shop/wishlist">          My Wishlist (<sup t-attf-class="my_wish_quantity o_animate_blink label label-primary">
