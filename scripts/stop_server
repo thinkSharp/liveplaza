@@ -21,3 +21,5 @@ sudo package-cleanup --quiet --leaves | sudo xargs yum remove -y
 sudo rm -rf /root/.composer/cache
 
 sudo find -regex ".*/core\.[0-9]+$" -delete
+
+sudo yum install libxslt-devel
