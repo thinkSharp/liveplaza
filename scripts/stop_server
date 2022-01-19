@@ -11,5 +11,3 @@ sudo rm -rf /var/cache/yum
 sudo find /home/ec2-user/ -name error_log -delete
 
 sudo rm -rf /opt/codedeploy-agent/deployment-root/*
-
-
