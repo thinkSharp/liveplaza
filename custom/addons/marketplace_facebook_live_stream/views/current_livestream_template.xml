@@ -4,9 +4,12 @@
 <!-- License URL : https://store.webkul.com/license.html/ -->
 
 <odoo>
+
 	<template id="product_page_live_stream_template" name="Seller Live Stream Template">
+		<link rel='stylesheet' href='/marketplace_facebook_live_stream/static/src/css/live_stream_product.css'/>
 		<t t-set="live_streams" t-value="request.website.sudo()._get_seller_live_streams(view_name)" />
-		<div t-if="live_streams" class="container mb32" style="margin-top: 10%;">
+		<div class="row livestream-container" style="margin-top: 7.5%;">
+			<div t-if="live_streams" class="container mb32 col-12 col-xl" style="width:60%; margin-top: 3.5%">
 			<div id="livestreamCarousel" class="carousel slide" data-ride="carousel" data-interval="false">
 				<!--              <script async="1" defer="1" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&amp;version=v3.2"></script> -->
 				<div class="carousel-inner mp_product_page_carousel_height">
@@ -22,17 +25,21 @@
 						<div class="fb-video mb16 d-block d-md-none d-lg-none" id="mobile_fb_livestream" t-att-data-href="current_stream_url" data-width="auto" data-height="450" data-allowfullscreen="true" data-autoplay="false" data-show-captions="false"
 							data-show-text="false">
 						</div>
-						<t t-call="marketplace_facebook_live_stream.livestream_product_carousel_template" />
 					</div>
 				</div>
+			</div>
+		</div>
+			<div class="col-12 col-xl-auto order-xl-2 d-none d-xl-block ls-p-outer"
+				 style="width: 25%;">
+				<t t-call="marketplace_facebook_live_stream.livestream_product_carousel_template_laptop" />
 			</div>
 		</div>
 	</template>
 
 	<template id="livestream_product_carousel_template">
-		<div class="container mt32 mb32 px-4">
+		<div class="phone_tablet container mt32 mb32 px-4">
 			<div t-if="current_stream_object.promoted_product_ids" class="row ml0 mr0 mp_promoted_prod_div">
-				<div class="p-1 text-center alert alert-secondary mt0">
+				<div class="ls-p-title p-1 text-center alert alert-secondary mt0">
 					<strong>Feature Products in Livestream</strong>
 				</div>
 				<div class="owl-carousel owl-theme live_stream_owl_carousel mb-2" id="wk_upcoming_stream_carousel">
@@ -40,22 +47,53 @@
 						<t t-set="num" t-value="int(12/len(current_stream_object.promoted_product_ids))" />
 						<div class="item text-center">
 							<a itemprop="url" t-attf-href="/shop/product/#{ slug(product) }">
-								<img t-if="product.image_1920" t-attf-src="/web/image/product.template/#{product.id}/image_1920" t-att-alt="product.name" class="img-responsive productImg"></img>
-								<img t-else="" src="/web/static/src/img/placeholder.png" class="img-responsive productImg" />										
+								<img t-if="product.image_1920" t-attf-src="/web/image/product.template/#{product.id}/image_1920" t-att-alt="product.name" class="img-responsive productImg ls-p-img"></img>
+								<img t-else="" src="/web/static/src/img/placeholder.png" class="img-responsive productImg ls-p-img" />
 							 </a>
 							 <h3 class="productName text-center containere">
 								<t t-esc="product.name" />
-							</h3>	
+							</h3>
 							 <h4 class="card-body p-0 text-center o_wsale_product_information p-2 o_wsale_product_information_text">
 							 	<b class="oe_price" style="white-space: nowrap;" t-esc="product.list_price" t-options="{'widget': 'monetary', 'display_currency': product.currency_id}"/>
 					            <span itemprop="price" style="display:none;" t-esc="product.list_price"/>
-					            <span itemprop="priceCurrency" style="display:none;" t-esc="website.currency_id.name"/>	
-							</h4>								
-						</div>						
+					            <span itemprop="priceCurrency" style="display:none;" t-esc="website.currency_id.name"/>
+							</h4>
+						</div>
 					</t>
 				</div>
 			</div>
 		</div>
+	</template>
+
+	<template id="livestream_product_carousel_template_laptop">
+		<div class="laptop container mb32 px-4">
+		<div t-if="current_stream_object.promoted_product_ids" class="row ml0 mr0 mp_promoted_prod_div">
+			<div class="ls-p-title p-1 text-center alert alert-secondary mt0">
+				<strong>Feature Products in Livestream</strong>
+			</div>
+			<div class="owl-carousel owl-theme live_stream_owl_carousel mb-2 ls-p-container" id="wk_upcoming_stream_carousel">
+				<div>
+					<t t-foreach="current_stream_object.promoted_product_ids" t-as="product">
+						<t t-set="num" t-value="int(12/len(current_stream_object.promoted_product_ids))" />
+						<div class="ls-p-inner mb32 item text-center">
+							<a class="laptop" itemprop="url" t-attf-href="/shop/product/#{ slug(product) }">
+								<img class="ls-p-img" style="width: 150px; height: 180px; padding:0px;" t-if="product.image_1920" t-attf-src="/web/image/product.template/#{product.id}/image_1920" t-att-alt="product.name"></img>
+								<img t-else="" src="/web/static/src/img/placeholder.png" class="ls-p-img img-responsive productImg" />
+							</a>
+							 <div class="ls-p-text card-body p-0 text-left o_wsale_product_information p-2 o_wsale_product_information_text">
+							  	<p class="ls-p-name productName text-left container">
+									<t t-esc="product.name" />
+								</p>
+								<b class="oe_price" style="white-space: nowrap;" t-esc="product.list_price" t-options="{'widget': 'monetary', 'display_currency': product.currency_id}"/>
+								<span itemprop="price" style="display:none;" t-esc="product.list_price"/>
+								<span itemprop="priceCurrency" style="display:none;" t-esc="website.currency_id.name"/>
+							</div>
+						</div>
+					</t>
+				</div>
+			</div>
+		</div>
+	</div>
 	</template>
 
 	<template id="wk_live_stream" inherit_id="website.layout" name="Live Stream">
@@ -70,3 +108,7 @@
 		</xpath>
 	</template>
 </odoo>
+
+
+
+
