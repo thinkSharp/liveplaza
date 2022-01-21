@@ -558,6 +558,13 @@ class WebsiteSale(http.Controller):
             if not data.get(field_name):
                 error[field_name] = 'missing'
 
+        #name validation
+        name = data.get('name')
+        if True in [n.isdigit() for n in name]:
+            error['name'] = 'invalid name'
+        if len(name) > 30:
+            error['name'] = 'invalid name'
+
         # email validation
         if data.get('email') and not tools.single_email_re.match(data.get('email')):
             error["email"] = 'error'
@@ -578,12 +585,15 @@ class WebsiteSale(http.Controller):
             except ValidationError:
                 error["vat"] = 'error'
 
-        if [err for err in error.values() if err == 'missing']:
-            for i in error.keys():
-                if i == 'township_id':
-                    error.pop('township_id')
-                    error.update({'township': 'missing'})
-            error_message.append(_('\n'.join("{}".format(k) for k in error.keys()) + ' is invalid'))
+        if [err for err in error.values() if err == 'missing' or err == 'invalid name']:
+            if len(error.keys()) == 1:
+                for i in error.keys():
+                    if i == 'township_id':
+                        error.pop('township_id')
+                        error.update({'township': 'missing'})
+                error_message.append(_('\n'.join("{}".format(k) for k in error.keys()) + ' is invalid'))
+            else:
+                error_message.append(_('Some required fields are empty.'))
 
         return error, error_message
 
