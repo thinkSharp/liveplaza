@@ -561,9 +561,9 @@ class WebsiteSale(http.Controller):
         #name validation
         name = data.get('name')
         if True in [n.isdigit() for n in name]:
-            error['name'] = 'invalid name'
+            error['name'] = 'invalid name. No digit allowed'
         if len(name) > 30:
-            error['name'] = 'invalid name'
+            error['name'] = 'invalid name! Length is greater then 30'
 
         # email validation
         if data.get('email') and not tools.single_email_re.match(data.get('email')):
