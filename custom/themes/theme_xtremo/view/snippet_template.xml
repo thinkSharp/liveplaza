@@ -122,19 +122,22 @@
 
 
     <template id="xtremo_banner_with_category_items">
-      <li>
+      <li style="position:relative;">
         <a t-att-href="url_fun(c)"><span><t t-esc="c.name" /></span></a>
         <span t-if="c.child_id" class="fa fa-chevron-right" />
-        <ul t-if="c.child_id" >
-          <div style="column-count:0;">
+        <ul t-if="c.child_id" style="position:absolute; top:0px; height: fit-content; box-shadow: 3px 3px 5px 6px #ccc;">
+          <div style="column-count:1; width:100%">
             <t t-foreach="c.child_id" t-as="c1">
               <div class="">
-                <li>
+                <li class="second-menu">
                   <a t-att-href="url_fun(c1)"><span><t t-esc="c1.name" /></span></a>
-                  <ul>
-                    <t t-if="c1.child_id" t-call="theme_xtremo.xtremo_mega_menu_type_1" >
-                      <t t-set="cat_submenu" t-value="c1.child_id"/>
-                    </t>
+                  <ul class="third-menu" style="position:absolute; top: 0px; left: 90%; width: fit-content;
+                    box-shadow: 3px 3px 5px 6px #ccc;">
+                    <div style="column-count: 1;">
+                        <t t-if="c1.child_id" t-call="theme_xtremo.xtremo_mega_menu_type_1" >
+                          <t t-set="cat_submenu" t-value="c1.child_id"/>
+                        </t>
+                    </div>
                   </ul>
                 </li>
               </div>
