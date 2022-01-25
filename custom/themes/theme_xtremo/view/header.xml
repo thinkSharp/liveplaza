@@ -50,13 +50,17 @@
               <li class="dropdown-item">
                 <a href="/shop">All</a>
               </li>
+
               <t t-set="categories" t-value="request.env['product.public.category'].search([('parent_id', '=', None)])" />
               <t t-foreach="categories" t-as="c">
-                <t t-call="theme_xtremo.categories_recursive_xt" />
+                <li t-att-class="'dropdown-item icon' if c.child_id else 'dropdown-item'">
+                  <a t-att-href="keep('/shop/category/' + slug(c), category=0)" t-field="c.name" >
+                  </a>
+                </li>
               </t>
             </ul>
           </div>
-          <input type="text" class="form-control" placeholder="Search entire store here..."/>
+          <input type="text" name="main-search" class="form-control" placeholder="Search entire store here..."/>
           <div class="input-group-append">
             <button type="button" class="btn btn-outline-secondary" aria-haspopup="true" >
               <i class="fa fa-search"/>
