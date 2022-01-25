@@ -1,0 +1,11 @@
+.second-menu {
+    width: 100%;
+}
+
+.third-menu {
+    display: none;
+}
+
+.second-menu:hover .third-menu {
+    display: block;
+}
