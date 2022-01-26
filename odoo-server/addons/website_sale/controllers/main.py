@@ -134,7 +134,6 @@ class Website(Website):
         if view_key in ('website_sale.products_list_view', 'website_sale.add_grid_or_list_option'):
             request.session.pop('website_sale_shop_layout_mode', None)
 
-
 class WebsiteSale(http.Controller):
 
     def _get_pricelist_context(self):
@@ -561,9 +560,17 @@ class WebsiteSale(http.Controller):
         #name validation
         name = data.get('name')
         if True in [n.isdigit() for n in name]:
-            error['name'] = 'invalid name. No digit allowed'
+            error['name'] = 'invalid name'
+            error_message.append(_('Invalid name. No digit allowed.'))
         if len(name) > 30:
-            error['name'] = 'invalid name! Length is greater then 30'
+            error['name'] = 'invalid name'
+            error_message.append(_('Invalid name! Length is greater then 30.'))
+
+        #street validation
+        street = data.get('street')
+        if len(street) > 80:
+            error['street'] = 'street name too long'
+            error_message.append(_('Address is too long. Please use two lines.'))
 
         # email validation
         if data.get('email') and not tools.single_email_re.match(data.get('email')):
@@ -585,15 +592,18 @@ class WebsiteSale(http.Controller):
             except ValidationError:
                 error["vat"] = 'error'
 
-        if [err for err in error.values() if err == 'missing' or err == 'invalid name']:
+        if [err for err in error.values() if err == 'missing']:
             if len(error.keys()) == 1:
                 for i in error.keys():
                     if i == 'township_id':
                         error.pop('township_id')
                         error.update({'township': 'missing'})
+                    elif i == 'country_id':
+                        error.pop('country_id')
+                        error.update({'country': 'missing'})
                 error_message.append(_('\n'.join("{}".format(k) for k in error.keys()) + ' is invalid'))
             else:
-                error_message.append(_('Some required fields are empty.'))
+                error_message.append(_('Some required fields are empty or invalid.'))
 
         return error, error_message
 
