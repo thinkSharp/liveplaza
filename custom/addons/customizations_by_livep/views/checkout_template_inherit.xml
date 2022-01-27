@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<odoo>
+    <template id="checkout_template_inherit" inherit_id="website_sale.address">
+        <xpath expr="//label[@for='street']" position="replace">
+            <label class="col-form-label" for="street">Address</label>
+        </xpath>
+        <xpath expr="//select[@id='country_id']" position="replace">
+            <select id="country_id" name="country_id" t-attf-class="form-control #{error.get('country_id') and 'is-invalid' or ''}">
+                <t t-foreach="countries" t-as="c">
+                    <option t-att-value="c.id" t-att-selected="c.id == (country and country.id or -1)">
+                        <t t-esc="c.name" />
+                    </option>
+                </t>
+            </select>
+        </xpath>
+    </template>
+
+    
+
+</odoo>
