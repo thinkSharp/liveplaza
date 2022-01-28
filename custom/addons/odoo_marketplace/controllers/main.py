@@ -36,7 +36,6 @@ _logger = logging.getLogger(__name__)
 import urllib.parse as urlparse
 from urllib.parse import urlencode
 
-
 PPG = 20  # Products Per Page
 PPR = 4   # Products Per Row
 
@@ -103,16 +102,17 @@ class AuthSignupHome(Website):
         qcontext = self.get_auth_signup_qcontext()
         if not qcontext.get('token') and not qcontext.get('signup_enabled'):
             raise werkzeug.exceptions.NotFound()
-#         name = int(kw.get("name"))
-#         for n in name:
-#             if n in (0,1,2,3,4,5,6,7,8,9):
-#                 qcontext["error"] = _("Please at leat one character.")   
-        
-        if kw.get("name", False):            
+
+        name = str(kw.get("name"))
+        if True in [n.isdigit() for n in name]:
+            qcontext["error"] = _("Name is invalid. Please put at least one character.")
+
+        if kw.get("name", False):
             if 'error' not in qcontext and request.httprequest.method == 'POST':
                 if qcontext.get("mp_terms_conditions") == None:
                     qcontext["error"] = _("Please Check term and condition.")                           
 #                     raise UserError(_("Please Check term and condition."))
+
                 if  qcontext.get("mp_terms_conditions") != None:
                     try:
                         self.do_signup(qcontext)
@@ -135,7 +135,6 @@ class AuthSignupHome(Website):
                 qcontext.update({"set_seller": True, 'hide_top_menu': True})
 
         return request.render('odoo_marketplace.mp_seller_signup', qcontext)
-
 
 class website_marketplace_dashboard(http.Controller):
 
