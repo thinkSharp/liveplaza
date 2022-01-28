@@ -19,6 +19,8 @@
         'views/sale_views.xml',
         'views/current_live_stream_inherit.xml',
         'views/seller_live_stream_inherit.xml',
+        'views/checkout_template_inherit.xml',
+        'views/signup_form_inherit.xml',
     ],
     'installable' : True,
     'application' : False,
