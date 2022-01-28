@@ -597,10 +597,13 @@ class WebsiteSale(http.Controller):
                 for i in error.keys():
                     if i == 'township_id':
                         error.pop('township_id')
-                        error.update({'township': 'missing'})
+                        error.update({'Township': 'missing'})
                     elif i == 'country_id':
                         error.pop('country_id')
-                        error.update({'country': 'missing'})
+                        error.update({'Country': 'missing'})
+                    elif i == 'street':
+                        error.pop('street')
+                        error.update({'Address': 'missing'})
                 error_message.append(_('\n'.join("{}".format(k) for k in error.keys()) + ' is invalid'))
             else:
                 error_message.append(_('Some required fields are empty or invalid.'))
