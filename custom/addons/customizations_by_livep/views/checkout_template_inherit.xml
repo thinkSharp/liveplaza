@@ -21,13 +21,13 @@
                 </t>
             </select>
         </xpath>
-        <xpath expr="//input[@type='email']" position="replace">
-            <input type="email" name="email" t-attf-class="form-control #{error.get('email') and 'is-invalid' or ''}" t-att-value="email" />
-        </xpath>
-        <xpath expr="//input[@name='phone']" position="replace">
-            <input type="tel" name="phone" placeholder="eg.09xxxxxxxxx"
-                   t-attf-class="form-control #{error.get('phone') and 'is-invalid' or ''}" t-att-value="phone" />
-        </xpath>
+<!--        <xpath expr="//input[@type='email']" position="replace">-->
+<!--            <input type="email" name="email" t-attf-class="form-control #{error.get('email') and 'is-invalid' or ''}" t-att-value="email" />-->
+<!--        </xpath>-->
+<!--        <xpath expr="//input[@name='phone']" position="replace">-->
+<!--            <input type="tel" name="phone" placeholder="eg.09xxxxxxxxx"-->
+<!--                   t-attf-class="form-control #{error.get('phone') and 'is-invalid' or ''}" t-att-value="phone" />-->
+<!--        </xpath>-->
     </template>
 
 <!--    <template id="shipping_address_delete_btn" inherit_id="website_sale.address_kanban">-->
