@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
 
 <odoo>
+    <template id="checkout_assets_frontend" inherit_id="website.assets_frontend">
+        <xpath expr="." position="inside">
+            <script type="text/javascript" src="/customizations_by_livep/static/src/js/deleteAddress.js"></script>
+
+        </xpath>
+    </template>
+
     <template id="checkout_template_inherit" inherit_id="website_sale.address">
         <xpath expr="//label[@for='street']" position="replace">
             <label class="col-form-label" for="street">Address</label>
@@ -14,7 +21,36 @@
                 </t>
             </select>
         </xpath>
+        <xpath expr="//input[@type='email']" position="replace">
+            <input type="email" name="email" t-attf-class="form-control #{error.get('email') and 'is-invalid' or ''}" t-att-value="email" />
+        </xpath>
+        <xpath expr="//input[@name='phone']" position="replace">
+            <input type="tel" name="phone" placeholder="eg.09xxxxxxxxx"
+                   t-attf-class="form-control #{error.get('phone') and 'is-invalid' or ''}" t-att-value="phone" />
+        </xpath>
     </template>
+
+<!--    <template id="shipping_address_delete_btn" inherit_id="website_sale.address_kanban">-->
+<!--        <xpath expr="//div[@class='card-body']" position="replace">-->
+<!--            <div class='card-body' style='min-height: 130px;'>-->
+<!--                <form action="" >-->
+<!--                    <button type="submit" name="deleteShippingAddress" onclick="deleteAddress()" class="btn float-right p-0 no-decoration" title="Delete this address"-->
+<!--                   aria-label="Delete this address" style="margin-left: 3%; border: none;"><i style="font-size: 18px;" class='fa fa-trash'/></button>-->
+<!--                </form>-->
+<!--                <a t-if="not actual_partner or (ship.id in actual_partner.child_ids.ids)" href="#" class="btn btn-link float-right p-0 js_edit_address no-decoration" role="button" title="Edit this address" aria-label="Edit this address"><i class='fa fa-edit'/></a>-->
+<!--                <t t-esc="contact" t-options="dict(widget='contact', fields=['name', 'address'], no_marker=True)"/>-->
+
+<!--            </div>-->
+<!--        </xpath>-->
+
+<!--        <xpath expr="//div[@class='card-footer']" position="inside">-->
+<!--            <span class=''>-->
+<!--                <button name="deleteShippingAddress" class="btn btn-block btn-secondary">-->
+<!--                    Delete this address-->
+<!--                </button>-->
+<!--            </span>-->
+<!--        </xpath>-->
+<!--    </template>-->
 
     <template id="shareBtn_each_product" inherit_id="website_sale.product">
         <xpath expr="//hr[@t-if='product.description_sale']" position="after">
@@ -35,5 +71,33 @@
             </div>
         </xpath>
     </template>
+
+    <template id="payment_confirmation_status_inherit" inherit_id="website_sale.payment_confirmation_status">
+        <xpath expr="//div[@class='card-header']" position="replace">
+            <div class="card-header" style="background:#0051B1; outline: 2px solid #0051B1">
+                <a style="background:#0051B1; outline:5px solid #0051B1" role="button" groups="base.group_system" class="btn btn-sm btn-link text-white float-right" target="_blank" aria-label="Edit" title="Edit"
+                        t-att-href="'/web#model=%s&amp;id=%s&amp;action=%s&amp;view_type=form' % ('payment.acquirer', payment_tx_id.acquirer_id.id, 'payment.action_payment_acquirer')">
+                    <i style="font-size: 20px;" class="fa fa-pencil"></i>
+                </a>
+                <t t-if="payment_tx_id.state == 'pending'">
+                    <t t-raw="payment_tx_id.acquirer_id.pending_msg"/>
+                </t>
+                <t t-if="payment_tx_id.state == 'done'">
+                    <span t-if='payment_tx_id.acquirer_id.done_msg' t-raw="payment_tx_id.acquirer_id.done_msg"/>
+                </t>
+                <t t-if="payment_tx_id.state == 'cancel'">
+                    <t t-raw="payment_tx_id.acquirer_id.cancel_msg"/>
+                </t>
+                <t t-if="payment_tx_id.state == 'authorized'">
+                    <span>Your payment has been authorized.</span>
+                </t>
+                <t t-if="payment_tx_id.state == 'error'">
+                    <span t-esc="payment_tx_id.state_message"/>
+                </t>
+            </div>
+        </xpath>
+
+    </template>
+
 
 </odoo>
