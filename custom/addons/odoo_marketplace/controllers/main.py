@@ -24,17 +24,19 @@ from odoo.http import request
 # from odoo.addons.web.controllers.main import binary_content
 import base64
 from odoo.tools.translate import _
-from odoo.exceptions import UserError
 from odoo import SUPERUSER_ID
 from odoo.addons.website_sale.controllers.main import TableCompute, QueryURL, WebsiteSale
 from odoo.addons.auth_signup.controllers.main import AuthSignupHome
 from odoo.addons.website_mail.controllers.main import WebsiteMail
 from odoo.addons.website.controllers.main import Website
 from odoo.addons.portal.controllers.web import Home
+from odoo.exceptions import UserError, ValidationError
 import logging
 _logger = logging.getLogger(__name__)
 import urllib.parse as urlparse
+import re
 from urllib.parse import urlencode
+
 
 PPG = 20  # Products Per Page
 PPR = 4   # Products Per Row
@@ -104,8 +106,8 @@ class AuthSignupHome(Website):
             raise werkzeug.exceptions.NotFound()
 
         name = str(kw.get("name"))
-        if True in [n.isdigit() for n in name]:
-            qcontext["error"] = _("Name is invalid. Please put at least one character.")
+        if True in [name[0].isdigit()]:
+            qcontext["error"] = _("Name is invalid. Please do not put a digit at the start.")
 
         if kw.get("name", False):
             if 'error' not in qcontext and request.httprequest.method == 'POST':
