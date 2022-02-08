@@ -94,7 +94,7 @@ class SmsSms(models.Model):
                             vals['state'] = 'sent'
                             vals['message'] = False
                         else:
-                            message_data = response.get('error').get("messages")
+                            message_data = response.get('error')#.get("messages")
                             vals.update({'state': 'failed','message':message_data})
                         if sms_report_obj:
                             sms_report_obj.write(vals)
@@ -162,7 +162,7 @@ class SmsReport(models.Model):
                                 vals['state'] = 'sent'
                                 vals['message'] = False
                             else:
-                                message_data = response.get('error').get("messages")[0]
+                                message_data = response.get('error')#.get("messages")[0]
                                 vals.update({'state': 'failed','message':message_data})
                             rec.write(vals)
                             count += 1
