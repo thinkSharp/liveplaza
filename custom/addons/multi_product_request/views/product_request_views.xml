@@ -200,14 +200,14 @@
                 <sheet>
                         <group>
                             <group>
-                                <field name='name'/>
-                                <field name='list_price'/>
+                                <field name='name' attrs="{'readonly':['|', ('is_variants_generated', '=', True), ('is_product_saved', '=', True)]}"/>
+                                <field name='list_price' attrs="{'readonly':['|', ('is_variants_generated', '=', True), ('is_product_saved', '=', True)]}"/>
                                 <field name="seller" invisible="1" readonly="1"/>
-                                <field name='alternative' widget="many2many_tags" domain="[('marketplace_seller_id', '=', seller), ('status', '=', 'approved')]"/>
+                                <field name='alternative' widget="many2many_tags" domain="[('marketplace_seller_id', '=', seller), ('status', '=', 'approved')]" attrs="{'readonly':['|', ('is_variants_generated', '=', True), ('is_product_saved', '=', True)]}"/>
                             </group>
                             <group>
-                                <field name='categ_ids' widget="many2many_tags"/>
-                                <field name='quantity'/>
+                                <field name='categ_ids' widget="many2many_tags" attrs="{'readonly':['|', ('is_variants_generated', '=', True), ('is_product_saved', '=', True)]}"/>
+                                <field name='quantity' attrs="{'readonly':['|', ('is_variants_generated', '=', True), ('is_product_saved', '=', True)]}"/>
 
                             </group>
                             <group>
@@ -217,22 +217,22 @@
                                 <field name='auto_publish'/>
                             </group>
                         </group>
-                        <group><field name='description'  widget="html"/></group>
+                        <group><field name='description'  widget="html" attrs="{'readonly':['|', ('is_variants_generated', '=', True), ('is_product_saved', '=', True)]}"/></group>
                         <group>
                             <group>
-                                <field name='image_1920' widget="image" style="width:200px"/>
+                                <field name='image_1920' widget="image" style="width:200px" attrs="{'readonly':['|', ('is_variants_generated', '=', True), ('is_product_saved', '=', True)]}"/>
                             </group>
                             <group>
-                                <field name='image2' widget="image" style="width:200px"/>
+                                <field name='image2' widget="image" style="width:200px" attrs="{'readonly':['|', ('is_variants_generated', '=', True), ('is_product_saved', '=', True)]}"/>
                             </group>
                             <group>
-                                <field name='image3' widget="image" style="width:200px"/>
+                                <field name='image3' widget="image" style="width:200px" attrs="{'readonly':['|', ('is_variants_generated', '=', True), ('is_product_saved', '=', True)]}"/>
                             </group>
                             <group>
-                                <field name='image4' widget="image" style="width:200px"/>    
+                                <field name='image4' widget="image" style="width:200px" attrs="{'readonly':['|', ('is_variants_generated', '=', True), ('is_product_saved', '=', True)]}"/>
                             </group>
                             <group>
-                                <field name='image5' widget="image" style="width:200px"/>  
+                                <field name='image5' widget="image" style="width:200px" attrs="{'readonly':['|', ('is_variants_generated', '=', True), ('is_product_saved', '=', True)]}"/>
                             </group>
                         </group>
 
@@ -260,7 +260,7 @@
                         <button name="action_generate_product_variants" type="object" class="oe_highlight" string="Generate Product" attrs="{'invisible':['|', ('is_product_saved', '=', True) , ('has_variant', '!=', 'no')]}" style="margin-bottom:15px"/>
 
                         <group>
-                            <field name="product_variant_lines" attrs="{'readonly':[('has_variant', '=', 'no')]}">
+                            <field name="product_variant_lines" attrs="{'readonly':['|', ('has_variant', '=', 'no'), ('is_variants_saved', '=', True)]}">
                                 <tree  create="false" editable="bottom">
                                     <field name="image" widget="image" class="oe_avatar"/>
                                     <field name='product_id' options="{'no_open':true}"/>
