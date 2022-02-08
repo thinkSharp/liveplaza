@@ -191,6 +191,10 @@ class Product(models.Model):
 
     def action_generate_product_variants(self):
 
+        if self.has_variant == 'yes':
+            if not len(self.attribute_line_ids):
+                raise exceptions.ValidationError(_('Add Variants!'))
+
         for line in self:
             vals = {
                 'name': line.name,
@@ -416,9 +420,8 @@ class AdminProductRequest(models.Model):
         ('draft', 'Draft'),
         ('approved', 'Approved'),
     ], string='Status', readonly=True, copy=False, index=True, default='draft')
-    seller = fields.Many2one("res.partner", string="Seller", default=lambda
-        self: self.env.user.partner_id.id if self.env.user.partner_id and self.env.user.partner_id.seller else self.env[
-        'res.partner'])
+    seller = fields.Many2one("res.partner", required=True, string="Seller")
+
     product_ids = fields.One2many('product.request.product', 'admin_request_id', string='Products')
     no_products = fields.Integer(readonly=True, default=0)
 
