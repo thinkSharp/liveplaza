@@ -126,6 +126,10 @@ class AuthSignupHome(Website):
                         else:
                             _logger.error("%s", e)
                             qcontext['error'] = _("Your name is already taken..")
+                        email = str(kw.get("login"))
+                        if (not "@" in email) or (email[-1] == "@"):
+                            qcontext["error"] = _("Your email format is incorrect")
+
                         pwd = str(kw.get("password"))
                         pwd_len = len(pwd)
                         if pwd_len  < 8:

@@ -150,7 +150,7 @@ odoo.define('odoo_marketplace.WebClient', function (require) {
                                 $('#profile_url_error').html('Sorry, this profile url is not available.');
                             }
                             else{
-                                $('#profile_url_error').html('Please Enter Your Profile URLgggg.');
+                                $('#profile_url_error').html('Please Enter Your Profile URL.');
                             }                            
                             $('#profile_url').addClass('invalide_url');
                             $('#profile_url_error').show();
