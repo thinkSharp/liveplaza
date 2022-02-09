@@ -126,7 +126,7 @@
                     </h1>
                     <group>
                         <group>
-                            <field name='seller'  attrs="{'readonly':[('state','!=','draft')]}" string="Seller" domain="[('state', '=', 'approved')]"/>
+                            <field name='seller'  attrs="{'readonly':[('state','!=','draft')]}" string="Seller" domain="[('state', '=', 'approved')]" />
                         </group>
                         <group>
                             <field name='create_date' string='Request Date:'/>

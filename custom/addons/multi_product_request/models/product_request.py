@@ -158,8 +158,8 @@ class Product(models.Model):
 
     name = fields.Char(required=True, string='Product Name')
     categ_ids = fields.Many2many('product.public.category', string='Product Category', required=True)
-    list_price = fields.Float(required=True, string='Product Price', default=100)
-    quantity = fields.Integer(required=True, string='Product Quantity', default=1)
+    list_price = fields.Float(required=True, string='Product Price')
+    quantity = fields.Integer(required=True, string='Product Quantity')
     image_1920 = fields.Image(required=True, string='Product Image 1')
     image2 = fields.Image(string='Product Image 2')
     image3 = fields.Image(string='Product Image 3')
@@ -190,6 +190,19 @@ class Product(models.Model):
 
 
     def action_generate_product_variants(self):
+
+        for line in self:
+            if line.quantity > 999 or line.quantity < 1:
+                raise exceptions.ValidationError(_('Quantity must be between 1 and 999.'))
+                return True
+
+
+
+            if line.list_price > 9999999 or line.list_price< 100:
+                raise exceptions.ValidationError(_('Price must be between 100 and 9999999.'))
+                return True
+
+
 
         if self.has_variant == 'yes':
             if not len(self.attribute_line_ids):
@@ -293,12 +306,16 @@ class Product(models.Model):
             print('In upper validation')
             print(line.quantity)
             print(line.price)
+
             if line.quantity > 999 or line.quantity < 1:
-                raise exceptions.Warning('Quantity must be between 1 and 999.')
+                raise exceptions.ValidationError(_('Quantity must be between 1 and 999.'))
                 return True
 
+
+
+
             if line.price > 9999999 or line.price < 100:
-                raise exceptions.Warning('Price must be between 100 and 9999999.')
+                raise exceptions.ValidationError(_('Price must be between 100 and 9999999.'))
                 return True
 
 
@@ -348,39 +365,10 @@ class Product(models.Model):
             self.env['product.template.attribute.value'].search(['&', ('attribute_line_id', '=', attribute_line_id), ('product_attribute_value_id', '=', product_attribute_value_id )]).write({'price_extra': price_extra})
 
 
-
-
-
-
-
-
-
-
-
-
-
         return True
 
 
-    @api.onchange('quantity')
-    def _onchange_quantity(self):
-        for object in self:
-            if object.quantity > 999 or object.quantity < 1:
-                object.quantity = 1
-                print('Default Value')
-                raise exceptions.Warning('Quantity must be between 1 and 999.')
 
-
-
-
-
-    @api.onchange('list_price')
-    def _onchange_price(self):
-        for object in self:
-            if object.list_price > 9999999 or object.list_price < 100:
-                object.list_price = 100
-                print('Defulat Value')
-                raise exceptions.Warning('Price must be between 100 and 9999999.')
 
 
 
@@ -420,7 +408,7 @@ class AdminProductRequest(models.Model):
         ('draft', 'Draft'),
         ('approved', 'Approved'),
     ], string='Status', readonly=True, copy=False, index=True, default='draft')
-    seller = fields.Many2one("res.partner", required=True, string="Seller")
+    seller = fields.Many2one("res.partner", string="Seller", default=lambda self: self.env.user.partner_id.id if self.env.user.partner_id and self.env.user.partner_id.seller else self.env['res.partner'])
 
     product_ids = fields.One2many('product.request.product', 'admin_request_id', string='Products')
     no_products = fields.Integer(readonly=True, default=0)
@@ -480,6 +468,14 @@ class AdminProductRequest(models.Model):
 
 
             raise exceptions.ValidationError(_('Before Saving,\n' + string))
+
+    @api.onchange('seller')
+    def _onchange_seller(self):
+        print('Before Seller', self.seller)
+        seller = self.seller
+        self.product_ids.unlink()
+        self.seller = seller
+        print('After Seller', self.seller)
 
 
 
