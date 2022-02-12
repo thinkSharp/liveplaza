@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="AutoImportSettings">
-    <option name="autoReloadType" value="SELECTIVE" />
-  </component>
   <component name="ChangeListManager">
     <list default="true" id="1f4cf359-07a8-4e6b-914b-c6fc22c35153" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/odoo-server/odoo.conf" beforeDir="false" afterPath="$PROJECT_DIR$/odoo-server/odoo.conf" afterDir="false" />
