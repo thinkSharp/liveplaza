@@ -108,8 +108,8 @@
             </div>
           </div>
         </xpath>
-        <xpath expr="//t[@t-call='website.pager'][1]" position="replace">
-        </xpath>
+<!--        <xpath expr="//t[@t-call='website.pager'][1]" position="replace">-->
+<!--        </xpath>-->
     </template>
 
 </odoo>
