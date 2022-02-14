@@ -1,0 +1,5 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+request,request,model_product_request,,1,1,1,1
+request_product,request_product,model_product_request_product,,1,1,1,1
+request_product_variant_lines,request_product_variant_lines,model_product_request_product_variant_lines,,1,1,1,1
+admin_product_request,admin_product_request,model_admin_product_request,,1,1,1,1

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <!-- Sequences for product.request -->
+    <record id="seq_product_request" model="ir.sequence">
+        <field name="name">Request Sequence</field>
+        <field name="code">request.sequence</field>
+        <field name="prefix">PR-</field>
+        <field name="padding">4</field>
+    </record>
+
+
+    
+
+    
+
+</odoo>
