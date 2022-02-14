@@ -1,0 +1,439 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* multi_product_request
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 13.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-02-10 10:47+0000\n"
+"PO-Revision-Date: 2022-02-10 10:47+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: multi_product_request
+#: code:addons/multi_product_request/models/product_request.py:0
+#, python-format
+msgid "Add Variants!"
+msgstr "မူကွဲများ ထည့်မယ်"
+
+#. module: multi_product_request
+#: model:ir.actions.act_window,name:multi_product_request.admin_request_action
+msgid "Admin Product Requests"
+msgstr "Admin မှ ပစ္စည်းအသစ်တင်ခြင်း"
+
+#. module: multi_product_request
+#: model:ir.model.fields,field_description:multi_product_request.field_product_request_product__admin_request_id
+msgid "Admin Request"
+msgstr ""
+
+#. module: multi_product_request
+#: model:ir.model.fields,field_description:multi_product_request.field_product_request_product__alternative
+msgid "Alternative Products"
+msgstr "ရွေးချယ်စရာ ပစ္စည်းများ"
+
+#. module: multi_product_request
+#: model_terms:ir.ui.view,arch_db:multi_product_request.admin_approve_product_request_form_view
+#: model_terms:ir.ui.view,arch_db:multi_product_request.admin_product_request_form_view
+msgid "Approve"
+msgstr ""
+
+#. module: multi_product_request
+#: model:ir.model.fields.selection,name:multi_product_request.selection__admin_product_request__state__approved
+#: model:ir.model.fields.selection,name:multi_product_request.selection__product_request__state__approved
+msgid "Approved"
+msgstr "ခွင့်ပြုချက်ရပြီးသော"
+
+#. module: multi_product_request
+#: model:ir.model.fields,field_description:multi_product_request.field_product_request_product__auto_publish
+msgid "Auto Publish"
+msgstr "၀က်ဆိုဒ်ပေါ်တွင် ဖော်ပြရန်"
+
+#. module: multi_product_request
+#: code:addons/multi_product_request/models/product_request.py:0
+#: code:addons/multi_product_request/models/product_request.py:0
+#, python-format
+msgid "Before Saving,\n"
+msgstr ""
+
+#. module: multi_product_request
+#: model:ir.model.fields,field_description:multi_product_request.field_admin_product_request__create_uid
+#: model:ir.model.fields,field_description:multi_product_request.field_product_request__create_uid
+#: model:ir.model.fields,field_description:multi_product_request.field_product_request_product__create_uid
+#: model:ir.model.fields,field_description:multi_product_request.field_product_request_product_variant_lines__create_uid
+msgid "Created by"
+msgstr "ဖန်တီးသူ"
+
+#. module: multi_product_request
+#: model:ir.model.fields,field_description:multi_product_request.field_admin_product_request__create_date
+#: model:ir.model.fields,field_description:multi_product_request.field_product_request__create_date
+#: model:ir.model.fields,field_description:multi_product_request.field_product_request_product__create_date
+#: model:ir.model.fields,field_description:multi_product_request.field_product_request_product_variant_lines__create_date
+msgid "Created on"
+msgstr "ပြုလုပ်ထားသည်"
+
+#. module: multi_product_request
+#: model:ir.model.fields,field_description:multi_product_request.field_admin_product_request__display_name
+#: model:ir.model.fields,field_description:multi_product_request.field_product_request__display_name
+#: model:ir.model.fields,field_description:multi_product_request.field_product_request_product__display_name
+#: model:ir.model.fields,field_description:multi_product_request.field_product_request_product_variant_lines__display_name
+msgid "Display Name"
+msgstr "အမည် ဖော်ပြသည်"
+
+#. module: multi_product_request
+#: model:ir.model.fields.selection,name:multi_product_request.selection__admin_product_request__state__draft
+#: model:ir.model.fields.selection,name:multi_product_request.selection__product_request__state__draft
+msgid "Draft"
+msgstr "ယာယီသိမ်းဆည်းခြင်း"
+
+#. module: multi_product_request
+#: model_terms:ir.ui.view,arch_db:multi_product_request.product_form_view
+msgid "Generate Product"
+msgstr "ကုန်ပစ္စည်း ထုတ်ရန်"
+
+#. module: multi_product_request
+#: model_terms:ir.ui.view,arch_db:multi_product_request.product_form_view
+msgid "Generate Product Variants"
+msgstr "ကုန်ပစ္စည်း မူကွဲများ ထုတ်ရန်"
+
+#. module: multi_product_request
+#: model:ir.model.fields,field_description:multi_product_request.field_product_request_product__has_variant
+msgid "Has Variants?"
+msgstr "မူကွဲများ ရှိပါသလား"
+
+#. module: multi_product_request
+#: model:ir.model.fields,field_description:multi_product_request.field_admin_product_request__id
+#: model:ir.model.fields,field_description:multi_product_request.field_product_request__id
+#: model:ir.model.fields,field_description:multi_product_request.field_product_request_product__id
+#: model:ir.model.fields,field_description:multi_product_request.field_product_request_product_variant_lines__id
+msgid "ID"
+msgstr ""
+
+#. module: multi_product_request
+#: model:ir.model.fields,field_description:multi_product_request.field_product_request_product_variant_lines__image
+msgid "Image"
+msgstr "ရုပ်ပုံ"
+
+#. module: multi_product_request
+#: model:ir.model.fields,field_description:multi_product_request.field_product_request_product__is_product_saved
+msgid "Is Product Saved"
+msgstr ""
+
+#. module: multi_product_request
+#: model:ir.model.fields,field_description:multi_product_request.field_product_request_product__is_variants_generated
+msgid "Is Variants Generated"
+msgstr ""
+
+#. module: multi_product_request
+#: model:ir.model.fields,field_description:multi_product_request.field_product_request_product__is_variants_saved
+msgid "Is Variants Saved"
+msgstr ""
+
+#. module: multi_product_request
+#: model:ir.model.fields,field_description:multi_product_request.field_admin_product_request____last_update
+#: model:ir.model.fields,field_description:multi_product_request.field_product_request____last_update
+#: model:ir.model.fields,field_description:multi_product_request.field_product_request_product____last_update
+#: model:ir.model.fields,field_description:multi_product_request.field_product_request_product_variant_lines____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: multi_product_request
+#: model:ir.model.fields,field_description:multi_product_request.field_admin_product_request__write_uid
+#: model:ir.model.fields,field_description:multi_product_request.field_product_request__write_uid
+#: model:ir.model.fields,field_description:multi_product_request.field_product_request_product__write_uid
+#: model:ir.model.fields,field_description:multi_product_request.field_product_request_product_variant_lines__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: multi_product_request
+#: model:ir.model.fields,field_description:multi_product_request.field_admin_product_request__write_date
+#: model:ir.model.fields,field_description:multi_product_request.field_product_request__write_date
+#: model:ir.model.fields,field_description:multi_product_request.field_product_request_product__write_date
+#: model:ir.model.fields,field_description:multi_product_request.field_product_request_product_variant_lines__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: multi_product_request
+#: model:ir.ui.menu,name:multi_product_request.product_requests
+msgid "Multi Product Requests"
+msgstr "ပစ္စည်းအသစ်များရောင်းရန် တင်မယ်"
+
+#. module: multi_product_request
+#: model:ir.ui.menu,name:multi_product_request.product_requests_approval
+msgid "Multi Product Requests Approval"
+msgstr "ပစ္စည်းအသစ်များခွင့်ပြုရန် စာမျက်နှာ"
+
+#. module: multi_product_request
+#: model:ir.ui.menu,name:multi_product_request.admin_product_requests
+msgid "Multi Product Requests by Admin"
+msgstr "Admin မှ ပစ္စည်းအသစ်တင်မည်"
+
+#. module: multi_product_request
+#: code:addons/multi_product_request/models/product_request.py:0
+#: code:addons/multi_product_request/models/product_request.py:0
+#: code:addons/multi_product_request/models/product_request.py:0
+#: code:addons/multi_product_request/models/product_request.py:0
+#: code:addons/multi_product_request/models/product_request.py:0
+#: code:addons/multi_product_request/models/product_request.py:0
+#, python-format
+msgid "New"
+msgstr "အသစ်"
+
+#. module: multi_product_request
+#: model:ir.model.fields.selection,name:multi_product_request.selection__product_request_product__has_variant__no
+msgid "No"
+msgstr "မရှိပါ"
+
+#. module: multi_product_request
+#: model:ir.model.fields,field_description:multi_product_request.field_admin_product_request__no_products
+#: model:ir.model.fields,field_description:multi_product_request.field_product_request__no_products
+msgid "No Products"
+msgstr "အရေအတွက်"
+
+#. module: multi_product_request
+#: model:ir.model.fields,field_description:multi_product_request.field_product_request_product_variant_lines__price
+msgid "Price"
+msgstr "စျေးနှုန်း"
+
+#. module: multi_product_request
+#: code:addons/multi_product_request/models/product_request.py:0
+#: code:addons/multi_product_request/models/product_request.py:0
+#, python-format
+msgid "Price must be between 100 and 9999999."
+msgstr "ဈေးနှုန်းသည် ၁၀၀ နှင့် ၉,၉၉၉,၉၉၉ ကျပ် ကြားတွင် ရှိရမည်"
+
+#. module: multi_product_request
+#: model:ir.model.fields,field_description:multi_product_request.field_product_request_product_variant_lines__product_id
+msgid "Product"
+msgstr "ကုန်ပစ္စည်း"
+
+#. module: multi_product_request
+#: model:ir.model.fields,field_description:multi_product_request.field_product_request_product__categ_ids
+msgid "Product Category"
+msgstr "ကုန်ပစ္စည်း အမျိုးအစား"
+
+#. module: multi_product_request
+#: model:ir.model.fields,field_description:multi_product_request.field_product_request_product__description
+msgid "Product Description"
+msgstr "ကုန်ပစ္စည်း ဖော်ပြချက်"
+
+#. module: multi_product_request
+#: model_terms:ir.ui.view,arch_db:multi_product_request.product_variants_form_view
+msgid "Product Image"
+msgstr "ပစ္စည်း ဓာတ်ပုံ"
+
+#. module: multi_product_request
+#: model:ir.model.fields,field_description:multi_product_request.field_product_request_product__image_1920
+msgid "Product Image 1"
+msgstr "ပုံ ၁"
+
+#. module: multi_product_request
+#: model:ir.model.fields,field_description:multi_product_request.field_product_request_product__image2
+msgid "Product Image 2"
+msgstr "ပုံ ၂"
+
+#. module: multi_product_request
+#: model:ir.model.fields,field_description:multi_product_request.field_product_request_product__image3
+msgid "Product Image 3"
+msgstr "ပုံ ၃"
+
+#. module: multi_product_request
+#: model:ir.model.fields,field_description:multi_product_request.field_product_request_product__image4
+msgid "Product Image 4"
+msgstr "ပုံ ၄"
+
+#. module: multi_product_request
+#: model:ir.model.fields,field_description:multi_product_request.field_product_request_product__image5
+msgid "Product Image 5"
+msgstr "ပုံ ၅"
+
+#. module: multi_product_request
+#: model:ir.model.fields,field_description:multi_product_request.field_product_request_product__name
+#: model_terms:ir.ui.view,arch_db:multi_product_request.product_variants_form_view
+msgid "Product Name"
+msgstr "ပစ္စည်းအမည်"
+
+#. module: multi_product_request
+#: model_terms:ir.ui.view,arch_db:multi_product_request.admin_product_request_list_view
+#: model_terms:ir.ui.view,arch_db:multi_product_request.product_request_list_view
+msgid "Product Numbers"
+msgstr "ပစ္စည်း အရေအတွက်"
+
+#. module: multi_product_request
+#: model:ir.model.fields,field_description:multi_product_request.field_product_request_product__list_price
+msgid "Product Price"
+msgstr "စျေးနှုန်း"
+
+#. module: multi_product_request
+#: model:ir.model.fields,field_description:multi_product_request.field_product_request_product__quantity
+#: model_terms:ir.ui.view,arch_db:multi_product_request.product_variants_form_view
+msgid "Product Quantity"
+msgstr "ကုန်ပစ္စည်း အရေအတွက်"
+
+#. module: multi_product_request
+#: model:ir.model.fields,field_description:multi_product_request.field_product_request_product__product_request_id
+msgid "Product Request"
+msgstr "ပစ္စည်းအသစ် တင်ရန်"
+
+#. module: multi_product_request
+#: model:ir.actions.act_window,name:multi_product_request.request_action
+msgid "Product Requests"
+msgstr "ပစ္စည်းအသစ်များ တင်ရန်"
+
+#. module: multi_product_request
+#: model:ir.actions.act_window,name:multi_product_request.request_approval_action
+msgid "Product Requests Approval"
+msgstr "ပစ္စည်းအသစ်များခွင့်ပြုရန် စာမျက်နှာ"
+
+#. module: multi_product_request
+#: model:ir.model.fields,field_description:multi_product_request.field_product_template_attribute_line__product_tmpl_id
+msgid "Product Template"
+msgstr "ကုန်ပစ္စည်း ပုံစံ"
+
+#. module: multi_product_request
+#: model:ir.model,name:multi_product_request.model_product_template_attribute_line
+msgid "Product Template Attribute Line"
+msgstr ""
+
+#. module: multi_product_request
+#: model:ir.model.fields,field_description:multi_product_request.field_product_request_product__product_tmpl_id
+msgid "Product Tmpl"
+msgstr ""
+
+#. module: multi_product_request
+#: model:ir.model,name:multi_product_request.model_product_request_product_variant_lines
+msgid "Product Variants Request"
+msgstr "ကုန်ပစ္စည်းမူကွဲများ တောင်းဆိုရန်"
+
+#. module: multi_product_request
+#: model:ir.model,name:multi_product_request.model_admin_product_request
+msgid "Product requests from admin as a vendor to sale on website."
+msgstr ""
+
+#. module: multi_product_request
+#: model:ir.model,name:multi_product_request.model_product_request
+msgid "Product requests from vendors to sale on website."
+msgstr ""
+
+#. module: multi_product_request
+#: model:ir.model,name:multi_product_request.model_product_request_product
+#: model:ir.model.fields,field_description:multi_product_request.field_admin_product_request__product_ids
+#: model:ir.model.fields,field_description:multi_product_request.field_product_request__product_ids
+#: model:ir.model.fields,field_description:multi_product_request.field_product_request_product__product_variant_lines
+#: model:ir.model.fields,field_description:multi_product_request.field_product_request_product_variant_lines__product_variant_id
+#: model_terms:ir.ui.view,arch_db:multi_product_request.admin_approve_product_request_form_view
+#: model_terms:ir.ui.view,arch_db:multi_product_request.admin_product_request_form_view
+#: model_terms:ir.ui.view,arch_db:multi_product_request.product_request_form_view
+msgid "Products"
+msgstr "ကုန်ပစ္စည်းများ"
+
+#. module: multi_product_request
+#: model:ir.model.fields,field_description:multi_product_request.field_product_request_product_variant_lines__quantity
+msgid "Quantity"
+msgstr "အရေအတွက်"
+
+#. module: multi_product_request
+#: code:addons/multi_product_request/models/product_request.py:0
+#: code:addons/multi_product_request/models/product_request.py:0
+#, python-format
+msgid "Quantity must be between 1 and 999."
+msgstr ""
+
+#. module: multi_product_request
+#: model_terms:ir.ui.view,arch_db:multi_product_request.admin_approve_product_request_form_view
+msgid "Reject"
+msgstr ""
+
+#. module: multi_product_request
+#: model:ir.model.fields.selection,name:multi_product_request.selection__product_request__state__rejected
+msgid "Rejected"
+msgstr "ငြင်းပယ်သည်"
+
+#. module: multi_product_request
+#: model:ir.model.fields,field_description:multi_product_request.field_admin_product_request__name
+#: model:ir.model.fields,field_description:multi_product_request.field_product_request__name
+msgid "Request"
+msgstr "တောင်းဆိုမှု"
+
+#. module: multi_product_request
+#: model_terms:ir.ui.view,arch_db:multi_product_request.admin_approve_product_request_list_view
+#: model_terms:ir.ui.view,arch_db:multi_product_request.admin_product_request_list_view
+#: model_terms:ir.ui.view,arch_db:multi_product_request.product_request_list_view
+msgid "Request Date"
+msgstr "ဖန်တီးခဲ့သည့် နေ့စွဲ"
+
+#. module: multi_product_request
+#: model_terms:ir.ui.view,arch_db:multi_product_request.admin_approve_product_request_form_view
+#: model_terms:ir.ui.view,arch_db:multi_product_request.admin_product_request_form_view
+#: model_terms:ir.ui.view,arch_db:multi_product_request.product_request_form_view
+msgid "Request Date:"
+msgstr "ဖန်တီးခဲ့သည့် နေ့စွဲ"
+
+#. module: multi_product_request
+#: model_terms:ir.ui.view,arch_db:multi_product_request.product_request_form_view
+msgid "Request for Approval"
+msgstr "ခွင့်ပြုချက်ရရန် တောင်းခံသည်"
+
+#. module: multi_product_request
+#: model:ir.model.fields.selection,name:multi_product_request.selection__product_request__state__requested
+msgid "Requested"
+msgstr "တောင်းခံထားသော"
+
+#. module: multi_product_request
+#: model:ir.model.fields,field_description:multi_product_request.field_product_template_attribute_line__requested_product_tmpl_id
+msgid "Requested Product Tmpl"
+msgstr ""
+
+#. module: multi_product_request
+#: model:ir.model.fields,field_description:multi_product_request.field_product_request_product__returnable
+msgid "Returnable"
+msgstr "ပြန်လဲလှယ်နိုင်သော"
+
+#. module: multi_product_request
+#: model_terms:ir.ui.view,arch_db:multi_product_request.product_form_view
+msgid "Save Variants"
+msgstr "မူကွဲများအား သိမ်းမယ်"
+
+#. module: multi_product_request
+#: model:ir.model.fields,field_description:multi_product_request.field_admin_product_request__seller
+#: model:ir.model.fields,field_description:multi_product_request.field_product_request__seller
+#: model:ir.model.fields,field_description:multi_product_request.field_product_request_product__seller
+#: model_terms:ir.ui.view,arch_db:multi_product_request.admin_approve_product_request_form_view
+#: model_terms:ir.ui.view,arch_db:multi_product_request.admin_approve_product_request_list_view
+#: model_terms:ir.ui.view,arch_db:multi_product_request.admin_product_request_form_view
+#: model_terms:ir.ui.view,arch_db:multi_product_request.admin_product_request_list_view
+#: model_terms:ir.ui.view,arch_db:multi_product_request.product_request_form_view
+#: model_terms:ir.ui.view,arch_db:multi_product_request.product_request_list_view
+msgid "Seller"
+msgstr "ရောင်းချသူ"
+
+#. module: multi_product_request
+#: model:ir.model.fields,field_description:multi_product_request.field_admin_product_request__state
+#: model:ir.model.fields,field_description:multi_product_request.field_product_request__state
+msgid "Status"
+msgstr "အခြေအနေ"
+
+#. module: multi_product_request
+#: model_terms:ir.ui.view,arch_db:multi_product_request.product_form_view
+msgid "Type"
+msgstr "အမျိုးအမည်"
+
+#. module: multi_product_request
+#: model_terms:ir.ui.view,arch_db:multi_product_request.product_form_view
+msgid "Variant"
+msgstr "မူကွဲ"
+
+#. module: multi_product_request
+#: model:ir.model.fields,field_description:multi_product_request.field_product_request_product__attribute_line_ids
+#: model_terms:ir.ui.view,arch_db:multi_product_request.product_form_view
+msgid "Variants"
+msgstr "မူကွဲများ"
+
+#. module: multi_product_request
+#: model:ir.model.fields.selection,name:multi_product_request.selection__product_request_product__has_variant__yes
+msgid "Yes"
+msgstr "ရှိပါတယ်"
