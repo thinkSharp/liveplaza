@@ -99,5 +99,17 @@
 
     </template>
 
+    <template id="theme_products_grid_view_inherit" inherit_id="website_sale.products" name="Inherit Product grid View Inherit">
+        <xpath expr="//div[hasclass('products_pager')][last()]" position="replace">
+          <div t-if="bins" class="products_pager form-inline justify-content-center mt-3 mb-3">
+            <div id="wk_loader" t-att-category="category.id if category else 'none'"><span />
+              <button class="btn btn-secondary">Load More Products</button>
+              <p>loading ...</p>
+            </div>
+          </div>
+        </xpath>
+        <xpath expr="//t[@t-call='website.pager'][1]" position="replace">
+        </xpath>
+    </template>
 
 </odoo>
