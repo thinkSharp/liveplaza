@@ -18,7 +18,7 @@
 from odoo import models, fields, api, _
 from datetime import datetime, timedelta
 from odoo.exceptions import UserError
-import logging
+import logging, re
 _logger = logging.getLogger(__name__)
 
 class SellerLiveStream(models.Model):
@@ -33,7 +33,11 @@ class SellerLiveStream(models.Model):
         return self.env['res.partner']
 
     name = fields.Char("Name", copy=True)
-    live_stream_url = fields.Char(string="Live Stream Url", copy=False,)
+    host = fields.Selection(
+        [('facebook', 'Facebook'), ('youtube', 'Youtube'), ('tiktok', 'Tiktok'), ('instagram', 'Instagram'), ('twitter', 'Twitter'),
+         ('twitch', 'Twitch'), ('Weibo', 'Weibo')], string='Host', store=True)
+    live_stream_url = fields.Char(string="Live Stream Url", copy=False, required=True)
+    embed_url = fields.Char(string="Embed Stream Url", copy=False, default="")
     description = fields.Text("Description")
     live_stream_datetime = fields.Datetime("Date and time of live stream", copy=False)
     start_stream_datetime = fields.Datetime("Start Date and time of live stream", copy=False)
@@ -134,3 +138,59 @@ class SellerLiveStream(models.Model):
                 else:
                     record.live_stream_datetime = fields.Datetime.now()
                     record.website_published = True
+
+    @api.onchange('live_stream_url')
+    def set_embed_url(self):
+        if self.live_stream_url:
+            video_url = self.live_stream_url
+            # Regex for few of the widely used video hosting services
+            ytRegex = r'.*youtube.*v=(.*)'
+            tkRegex = r'.*tiktok.com*/.*/.*/(.*)'
+            igRegex = r'.*instagram.*'
+            twitterRegex = r'.*twitter.*'
+            twitchRegex = r'.*twitch.tv/(.*)'
+            weiboRegex = r'.*weibo.*'
+            facebookRegex = r'.*f.*watch.*'
+
+            ytMatch = re.search(ytRegex, video_url)
+            tkMatch = re.search(tkRegex, video_url)
+            igMatch = re.search(igRegex, video_url)
+            twitterMatch = re.search(twitterRegex, video_url)
+            twitchMatch = re.search(twitchRegex, video_url)
+            weiboMatch = re.search(weiboRegex, video_url)
+            facebookMatch = re.search(facebookRegex, video_url)
+
+            if facebookMatch:
+                self.host = 'facebook'
+                embedUrl = ''
+
+            elif ytMatch:
+                self.host ='youtube'
+                embedUrl = 'https://www.youtube.com/embed/{}'.format(ytMatch.groups()[0])
+
+
+            elif tkMatch:
+                self.host = 'tiktok'
+                embedUrl = tkMatch.groups()[0]
+
+            elif igMatch:
+                self.host = 'instagram'
+                embedUrl = video_url
+
+            elif twitterMatch:
+                self.host = 'twitter'
+                embedUrl = video_url
+
+            elif twitchMatch:
+                self.host = 'twitch'
+                embedUrl = 'https://player.twitch.tv/?channel={}&parent=dev.liveplaza.co'.format(twitchMatch.groups()[0])
+
+            elif weiboMatch:
+                self.host = 'weibo'
+                embedUrl = video_url
+
+            else:
+                # We directly use the provided URL as it is
+                embedUrl = video_url
+
+            self.embed_url = embedUrl
