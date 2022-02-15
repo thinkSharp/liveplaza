@@ -65,7 +65,7 @@
 																'tree_view_ref':'odoo_marketplace.wk_seller_product_template_tree_view'}"
 														 />
 												    <field name="live_stream_url" widget="url" string="Live Stream Url" placeholder="e.g. https://www.facebook.com/watch/?v=7870523275381732"/>
-													<field name="embed_url"/>
+													<field name="embed_url" invisible="1"/>
 												<field name="live_stream_banner" required="1" string="Banner" widget="image" class="oe_left" options='{"size": [250, 250]}'/>
 
 												</group>

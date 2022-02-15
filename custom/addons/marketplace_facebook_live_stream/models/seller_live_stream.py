@@ -36,8 +36,8 @@ class SellerLiveStream(models.Model):
     host = fields.Selection(
         [('facebook', 'Facebook'), ('youtube', 'Youtube'), ('tiktok', 'Tiktok'), ('instagram', 'Instagram'), ('twitter', 'Twitter'),
          ('twitch', 'Twitch'), ('Weibo', 'Weibo')], string='Host', store=True)
-    live_stream_url = fields.Char(string="Live Stream Url", copy=False,)
-    embed_url = fields.Char(string="Embed Stream Url", copy=False, compute='set_embed_url')
+    live_stream_url = fields.Char(string="Live Stream Url", copy=False, required=True)
+    embed_url = fields.Char(string="Embed Stream Url", copy=False, default="")
     description = fields.Text("Description")
     live_stream_datetime = fields.Datetime("Date and time of live stream", copy=False)
     start_stream_datetime = fields.Datetime("Start Date and time of live stream", copy=False)
@@ -139,28 +139,20 @@ class SellerLiveStream(models.Model):
                     record.live_stream_datetime = fields.Datetime.now()
                     record.website_published = True
 
-    @api.depends('live_stream_url')
+    @api.onchange('live_stream_url')
     def set_embed_url(self):
         if self.live_stream_url:
             video_url = self.live_stream_url
             # Regex for few of the widely used video hosting services
-            ytRegex = r'^(?:(?:https?:)?\/\/)?(?:www\.)?(?:youtu\.be\/|youtube(-nocookie)?\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((?:\w|-){11})(?:\S+)?$'
-            vimeoRegex = r'\/\/(player.)?vimeo.com\/([a-z]*\/)*([0-9]{6,11})[?]?.*'
-            dmRegex = r'.+dailymotion.com\/(video|hub|embed)\/([^_]+)[^#]*(#video=([^_&]+))?'
-            # igRegex = r'(.*)instagram.com\/p\/(.[a-zA-Z0-9]*)'
-            ykuRegex = r'(.*).youku\.com\/(v_show\/id_|embed\/)(.+)'
+            ytRegex = r'.*youtube.*v=(.*)'
             tkRegex = r'.*tiktok.com*/.*/.*/(.*)'
             igRegex = r'.*instagram.*'
             twitterRegex = r'.*twitter.*'
             twitchRegex = r'.*twitch.tv/(.*)'
             weiboRegex = r'.*weibo.*'
-
-            facebookRegex = r'.*f.*'
+            facebookRegex = r'.*f.*watch.*'
 
             ytMatch = re.search(ytRegex, video_url)
-            vimeoMatch = re.search(vimeoRegex, video_url)
-            dmMatch = re.search(dmRegex, video_url)
-            ykuMatch = re.search(ykuRegex, video_url)
             tkMatch = re.search(tkRegex, video_url)
             igMatch = re.search(igRegex, video_url)
             twitterMatch = re.search(twitterRegex, video_url)
@@ -170,20 +162,12 @@ class SellerLiveStream(models.Model):
 
             if facebookMatch:
                 self.host = 'facebook'
-            elif ytMatch and len(ytMatch.groups()[1]) == 11:
-                embedUrl = '//www.youtube%s.com/embed/%s?rel=0' % (ytMatch.groups()[0] or '', ytMatch.groups()[1])
+                embedUrl = ''
+
+            elif ytMatch:
                 self.host ='youtube'
+                embedUrl = 'https://www.youtube.com/embed/{}'.format(ytMatch.groups()[0])
 
-            elif vimeoMatch:
-                embedUrl = '//player.vimeo.com/video/%s' % (vimeoMatch.groups()[2])
-            elif dmMatch:
-                embedUrl = '//www.dailymotion.com/embed/video/%s' % (dmMatch.groups()[1])
-
-            elif ykuMatch:
-                ykuLink = ykuMatch.groups()[2]
-                if '.html?' in ykuLink:
-                    ykuLink = ykuLink.split('.html?')[0]
-                embedUrl = '//player.youku.com/embed/%s' % (ykuLink)
 
             elif tkMatch:
                 self.host = 'tiktok'
@@ -199,7 +183,7 @@ class SellerLiveStream(models.Model):
 
             elif twitchMatch:
                 self.host = 'twitch'
-                embedUrl = 'https://player.twitch.tv/?channel={}&parent=localhost'.format(twitchMatch.groups()[0])
+                embedUrl = 'https://player.twitch.tv/?channel={}&parent=dev.liveplaza.co'.format(twitchMatch.groups()[0])
 
             elif weiboMatch:
                 self.host = 'weibo'
