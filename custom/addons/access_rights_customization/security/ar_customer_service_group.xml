@@ -2,10 +2,10 @@
 <odoo>
 <data>
     <record id="group_customer_service_operator" model="res.groups">
-        <field name="name">Customer Service Operator</field>
+        <field name="name">Customer Service Operator - arc</field>
     </record>
     <record id="group_customer_service_supervisor" model="res.groups">
-        <field name="name">Customer Service Supervisor</field>
+        <field name="name">Customer Service Supervisor - arc</field>
     </record>
 </data>
 </odoo>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+<data>
+    <record id="group_seller_tier_two" model="res.groups">
+        <field name="name">Seller Tier 2 - arc</field>
+    </record>
+</data>
+</odoo>

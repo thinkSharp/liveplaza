@@ -2,7 +2,7 @@
 <odoo>
 <data>
     <record id="group_pickupandpackaging_operator" model="res.groups">
-        <field name="name">Pickup and Packaging Operator</field>
+        <field name="name">Pickup and Packaging Operator - arc</field>
     </record>
 </data>
 </odoo>

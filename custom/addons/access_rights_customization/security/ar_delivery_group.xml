@@ -2,7 +2,7 @@
 <odoo>
 <data>
     <record id="group_delivery_operator" model="res.groups">
-        <field name="name">Delivery Operator</field>
+        <field name="name">Delivery Operator - arc</field>
     </record>
 </data>
 </odoo>
