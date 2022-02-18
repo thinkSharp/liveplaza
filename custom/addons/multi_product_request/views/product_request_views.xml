@@ -255,6 +255,18 @@
                             </field>
                         </group>
 
+                        <group>
+                            <field name="product_template_attribute_value_ids" attrs="{'invisible':[('is_variants_generated', '=', False)]}" >
+                                <tree string="Extra Price" editable="bottom"  delete="false">
+                                    <field name="attribute_id" options="{'no_open':true}" />
+                                    <field name="name"/>
+                                    <field name="price_extra" string="Extra Price"/>
+                                </tree>
+                             </field>
+                        </group>
+
+                        <button name="action_save_extra_price" type="object" class="oe_highlight" string="Check Total Price" attrs="{'invisible':[('is_variants_generated', '=', False)]}"/>
+
                         <!--<button name="action_generate_product_variants" type="object" class="oe_highlight" string="Generate Product Variants" attrs="{'invisible':['|',('is_product_created', '=', True), ('has_variant', '!=', 'yes')]}" style="margin-bottom:15px"/>-->
                         <button name="action_generate_product_variants" type="object" class="oe_highlight" string="Generate Product Variants" attrs="{'invisible':['|', ('is_variants_generated', '=', True), ('has_variant', '!=', 'yes')]}" style="margin-bottom:15px"/>
                         <button name="action_generate_product_variants" type="object" class="oe_highlight" string="Generate Product" attrs="{'invisible':['|', ('is_product_saved', '=', True) , ('has_variant', '!=', 'no')]}" style="margin-bottom:15px"/>
@@ -269,7 +281,12 @@
                                 </tree>
                             </field>
                         </group>
-                
+
+
+                       <field name="product_tmpl_id" invisible="1"/>
+
+
+
                         <button name="saved_variants" type="object" class="oe_highlight" string="Save Variants" attrs="{'invisible':['|', ('is_variants_saved', '=', True), '|',  ('is_variants_generated', '=', False), ('has_variant', '!=', 'yes')]}"/>
                 </sheet>
             </form>   
