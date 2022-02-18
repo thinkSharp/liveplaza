@@ -11,11 +11,8 @@ class ProductTemplateAttributeLineInherit(models.Model):
     # To create product variants without product_template
     product_tmpl_id = fields.Many2one('product.template', string="Product Template", ondelete='cascade', required=False, index=True)
 
-'''
-class ProductProductInherit(models.Model):
-    _inherit = "product.product"
-    price_extra = fields.Float()
-'''
+
+
 
 class ProductRequest(models.Model):
     _name = 'product.request'
@@ -153,6 +150,18 @@ class ProductRequest(models.Model):
 
 
 class Product(models.Model):
+
+
+    @api.model
+    def _get_default_attribute(self):
+        terms_obj = self.env['product.template.attribute.value']
+        termsids = terms_obj.search([('product_tmpl_id', '=', self.product_tmpl_id)])
+
+        return termsids
+
+
+
+
     _name = "product.request.product"
     _description = "Products"
 
@@ -186,8 +195,11 @@ class Product(models.Model):
     is_variants_generated = fields.Boolean(default=False)
     is_product_saved = fields.Boolean(default=False)
     is_variants_saved = fields.Boolean(defalut=False)
-
-
+    product_template_attribute_value_ids = fields.Many2many(
+        'product.template.attribute.value',
+        domain="[('product_tmpl_id', '=', product_tmpl_id)]",
+        string='Variant Extra Price',
+    default=_get_default_attribute)
 
     def action_generate_product_variants(self):
 
@@ -269,10 +281,15 @@ class Product(models.Model):
             self.env['product.request.product.variant.lines'].sudo().create({          
                 'product_id': pobj.id,
                 'product_variant_id': self.id,
-                'price': self.list_price,
+                'price': pobj.lst_price,
                 'image': self.image_1920,
                 'quantity': self.quantity
             })
+
+        #terms_obj = self.env['product.template.attribute.value']
+        #termsids = terms_obj.search([('product_tmpl_id', '=', self.product_tmpl_id)])
+        #self.product_template_attribute_value_ids = [(4, 0, termsid) for termsid in termsids]
+
 
 
 
@@ -319,21 +336,6 @@ class Product(models.Model):
                 return True
 
 
-        product_price_list = []
-        attribute_line_ids = self.env["product.template.attribute.line"].search(
-            [('product_tmpl_id', '=', self.product_tmpl_id)])
-        print(attribute_line_ids)
-        
-        
-        for attribute_line_id in attribute_line_ids:
-            product_attribute_value_ids_query = "select product_attribute_value_id from product_attribute_value_product_template_attribute_line_rel where product_template_attribute_line_id=%s"
-            self.env.cr.execute(product_attribute_value_ids_query, (attribute_line_id.id,))
-            product_attribute_value_ids = self.env.cr.fetchall()
-            print(product_attribute_value_ids)
-            for product_attribute_value_id in product_attribute_value_ids:
-                print(attribute_line_id.id, product_attribute_value_id[0])
-
-                product_price_list.append((attribute_line_id.id, product_attribute_value_id[0]))
 
 
         for index,line in enumerate(self.product_variant_lines):
@@ -351,21 +353,22 @@ class Product(models.Model):
             self.write({'is_variants_saved': True})
 
 
-            product_template = self.env['product.template'].search(
-                [('id', '=', line.product_variant_id.product_tmpl_id)])
-
-            price_extra = line.price - product_template.list_price
-            print('Price Extra', price_extra)
 
             self.env['product.product'].search([('id', '=', line.product_id.id)]).write({'image_1920': line.image})
-            #print(self.env['product.product'].search([('id', '=', line.product_id.id)]).price_extra)
 
-            attribute_line_id, product_attribute_value_id = product_price_list[index]
-            print(attribute_line_id, product_attribute_value_id)
-            self.env['product.template.attribute.value'].search(['&', ('attribute_line_id', '=', attribute_line_id), ('product_attribute_value_id', '=', product_attribute_value_id )]).write({'price_extra': price_extra})
+
+
 
 
         return True
+
+
+
+    def action_save_extra_price(self):
+        for variant in self.product_variant_lines:
+            variant.price = self.env['product.product'].search([('id', '=', variant.product_id.id)]).lst_price
+
+
 
 
 
