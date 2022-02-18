@@ -257,15 +257,15 @@
 
                         <group>
                             <field name="product_template_attribute_value_ids" attrs="{'invisible':[('is_variants_generated', '=', False)]}" >
-                                <tree string="Extra Price" editable="bottom"  delete="false">
-                                    <field name="attribute_id" options="{'no_open':true}" />
+                                <tree string="Variant Extra Price" editable="bottom"  delete="false">
+                                    <field name="attribute_id" options="{'no_open':true}" string="Variant"/>
                                     <field name="name"/>
                                     <field name="price_extra" string="Extra Price"/>
                                 </tree>
                              </field>
                         </group>
 
-                        <button name="action_save_extra_price" type="object" class="oe_highlight" string="Check Total Price" attrs="{'invisible':[('is_variants_generated', '=', False)]}"/>
+                        <button name="action_save_extra_price" type="object" class="oe_highlight" string="Save Variant Extra Price" attrs="{'invisible':[('is_variants_generated', '=', False)]}"/>
 
                         <!--<button name="action_generate_product_variants" type="object" class="oe_highlight" string="Generate Product Variants" attrs="{'invisible':['|',('is_product_created', '=', True), ('has_variant', '!=', 'yes')]}" style="margin-bottom:15px"/>-->
                         <button name="action_generate_product_variants" type="object" class="oe_highlight" string="Generate Product Variants" attrs="{'invisible':['|', ('is_variants_generated', '=', True), ('has_variant', '!=', 'yes')]}" style="margin-bottom:15px"/>
@@ -277,7 +277,7 @@
                                     <field name="image" widget="image" class="oe_avatar"/>
                                     <field name='product_id' options="{'no_open':true}"/>
                                     <field name="quantity"/>
-                                    <field name="price"/>
+                                    <field name="price" string="Total Price"/>
                                 </tree>
                             </field>
                         </group>

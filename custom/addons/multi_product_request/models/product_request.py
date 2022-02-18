@@ -198,7 +198,7 @@ class Product(models.Model):
     product_template_attribute_value_ids = fields.Many2many(
         'product.template.attribute.value',
         domain="[('product_tmpl_id', '=', product_tmpl_id)]",
-        string='Extra Price',
+        string='Variant Extra Price',
     default=_get_default_attribute)
 
     def action_generate_product_variants(self):
