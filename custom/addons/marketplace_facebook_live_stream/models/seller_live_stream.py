@@ -37,6 +37,7 @@ class SellerLiveStream(models.Model):
         [('facebook', 'Facebook'), ('youtube', 'Youtube'), ('tiktok', 'Tiktok'), ('instagram', 'Instagram'), ('twitter', 'Twitter'),
          ('twitch', 'Twitch'), ('Weibo', 'Weibo')], string='Host', store=True)
     live_stream_url = fields.Char(string="Live Stream Url", copy=False, required=True)
+    domain = fields.Char(string='Domain', store=True)
     embed_url = fields.Char(string="Embed Stream Url", copy=False, default="")
     description = fields.Text("Description")
     live_stream_datetime = fields.Datetime("Date and time of live stream", copy=False)
@@ -183,7 +184,11 @@ class SellerLiveStream(models.Model):
 
             elif twitchMatch:
                 self.host = 'twitch'
-                embedUrl = 'https://player.twitch.tv/?channel={}&parent=dev.liveplaza.co'.format(twitchMatch.groups()[0])
+                self.domain = self.env['ir.config_parameter'].sudo().get_param('domain')
+                #self.domain = 'localhost'
+                print('My Domain', self.domain)
+
+                embedUrl = "https://player.twitch.tv/?channel={}&parent={}".format(twitchMatch.groups()[0], self.domain)
 
             elif weiboMatch:
                 self.host = 'weibo'
