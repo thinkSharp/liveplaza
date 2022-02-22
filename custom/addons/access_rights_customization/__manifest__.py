@@ -3,10 +3,10 @@
     'name': 'Access Rights Customization',
     'author': 'LivePlaza Technical Team',
     'version': '13.1.0',
-    'summary': 'Access Rights Customization',
+    'summary': 'Access Rights Customization Module',
     'depends': ['base', 'account', 'sale', 'analytic', 'subscription_management', 'picking_and_delivery_vendor', 'im_livechat',
-                'website_livechat', 'website', 'product', 'custom_inventory_forms', 'marketplace_facebook_live_stream', 'mail',
-                'odoo_marketplace'],
+                'website_livechat', 'website', 'product', 'multi_product_request', 'marketplace_facebook_live_stream', 'mail',
+                'odoo_marketplace', 'website_crm', 'stock'],
     'data': [
             'security/ar_finance_group.xml',
             'security/ar_delivery_group.xml',
