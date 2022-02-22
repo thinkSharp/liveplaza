@@ -294,10 +294,14 @@ class Product(models.Model):
 
 
         if self.has_variant == 'no':
+            warehouse_location = self.env['ir.config_parameter'].sudo().get_param('multi_product_request.warehouse_location')
+
+            print('Warehouse Location', warehouse_location)
+
             for line in self.product_variant_lines:
 
                 lines ={
-                    'location_id': 8,
+                    'location_id': int(warehouse_location),
                     'product_id': line.product_id.id,
                     'in_date': datetime.datetime.today(),
                     'quantity': line.quantity
@@ -335,14 +339,12 @@ class Product(models.Model):
                 raise exceptions.ValidationError(_('Price must be between 100 and 9999999.'))
                 return True
 
-
-
-
+        warehouse_location = self.env['ir.config_parameter'].sudo().get_param('multi_product_request.warehouse_location')
         for index,line in enumerate(self.product_variant_lines):
             print('In Loop.............................')
             print('IN UPDATE VARIANT FOR LOOP')
             lines ={
-                'location_id': 8,
+                'location_id': int(warehouse_location),
                 'product_id': line.product_id.id,
                 'in_date': datetime.datetime.today(),
                 'quantity': line.quantity
