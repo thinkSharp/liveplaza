@@ -21,6 +21,12 @@
       </tr>
   </template>
 
+<!--    <template id="load_more_products">-->
+<!--        <xpath expr="//div[@class='js_sale']" position="replace">-->
+<!--            <div id="wrap" class="js_sale"></div>-->
+<!--        </xpath>-->
+<!--    </template>-->
+
   <template id="theme_products_grid_view" inherit_id="website_sale.products" name="Inherit Product grid View">
     <xpath expr="//div[hasclass('products_pager')][last()]" position="replace">
       <div t-if="bins" class="products_pager form-inline justify-content-center mt-3 mb-3">

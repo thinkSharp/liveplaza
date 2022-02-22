@@ -30,6 +30,7 @@
       <link rel="stylesheet" type="text/scss" href="/theme_xtremo/static/src/scss/a_auth.scss"/>
       <link rel="stylesheet" type="text/scss" href="/theme_xtremo/static/src/scss/home.scss"/>
       <link rel="stylesheet" type="text/css" href="/theme_xtremo/static/src/css/twentytwenty.css"/>
+      <link rel="stylesheet" type="text/css" href="/theme_xtremo/static/src/css/side_menu.css"/>
 
       <script type="text/javascript" src="/theme_xtremo/static/src/js/lib/jquery.range-min.js"></script>
       <script type="text/javascript" src="/theme_xtremo/static/src/js/lib/jquery.mousewheel.min.js"></script>
