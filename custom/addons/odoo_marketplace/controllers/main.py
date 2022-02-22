@@ -24,16 +24,17 @@ from odoo.http import request
 # from odoo.addons.web.controllers.main import binary_content
 import base64
 from odoo.tools.translate import _
-from odoo.exceptions import UserError
 from odoo import SUPERUSER_ID
 from odoo.addons.website_sale.controllers.main import TableCompute, QueryURL, WebsiteSale
 from odoo.addons.auth_signup.controllers.main import AuthSignupHome
 from odoo.addons.website_mail.controllers.main import WebsiteMail
 from odoo.addons.website.controllers.main import Website
 from odoo.addons.portal.controllers.web import Home
+from odoo.exceptions import UserError, ValidationError
 import logging
 _logger = logging.getLogger(__name__)
 import urllib.parse as urlparse
+import re
 from urllib.parse import urlencode
 
 
@@ -103,16 +104,17 @@ class AuthSignupHome(Website):
         qcontext = self.get_auth_signup_qcontext()
         if not qcontext.get('token') and not qcontext.get('signup_enabled'):
             raise werkzeug.exceptions.NotFound()
-#         name = int(kw.get("name"))
-#         for n in name:
-#             if n in (0,1,2,3,4,5,6,7,8,9):
-#                 qcontext["error"] = _("Please at leat one character.")   
-        
-        if kw.get("name", False):            
+
+        name = str(kw.get("name"))
+        if True in [name[0].isdigit()]:
+            qcontext["error"] = _("Name is invalid. Please do not put a digit at the start.")
+
+        if kw.get("name", False):
             if 'error' not in qcontext and request.httprequest.method == 'POST':
                 if qcontext.get("mp_terms_conditions") == None:
                     qcontext["error"] = _("Please Check term and condition.")                           
 #                     raise UserError(_("Please Check term and condition."))
+
                 if  qcontext.get("mp_terms_conditions") != None:
                     try:
                         self.do_signup(qcontext)
@@ -126,6 +128,10 @@ class AuthSignupHome(Website):
                         else:
                             _logger.error("%s", e)
                             qcontext['error'] = _("Your name is already taken..")
+                        email = str(kw.get("login"))
+                        if (not "@" in email) or (email[-1] == "@"):
+                            qcontext["error"] = _("Your email format is incorrect")
+
                         pwd = str(kw.get("password"))
                         pwd_len = len(pwd)
                         if pwd_len  < 8:
@@ -135,7 +141,6 @@ class AuthSignupHome(Website):
                 qcontext.update({"set_seller": True, 'hide_top_menu': True})
 
         return request.render('odoo_marketplace.mp_seller_signup', qcontext)
-
 
 class website_marketplace_dashboard(http.Controller):
 

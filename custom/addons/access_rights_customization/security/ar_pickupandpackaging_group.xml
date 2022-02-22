@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+<data>
+    <record id="group_pickupandpackaging_operator" model="res.groups">
+        <field name="name">Pickup and Packaging Operator - arc</field>
+    </record>
+</data>
+</odoo>
