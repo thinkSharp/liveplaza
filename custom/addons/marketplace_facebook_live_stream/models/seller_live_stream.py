@@ -184,7 +184,7 @@ class SellerLiveStream(models.Model):
 
             elif twitchMatch:
                 self.host = 'twitch'
-                self.domain = self.env['ir.config_parameter'].sudo().get_param('domain')
+                self.domain = self.env['ir.config_parameter'].sudo().get_param('customizations_by_livep.domain')
                 #self.domain = 'localhost'
                 print('My Domain', self.domain)
 

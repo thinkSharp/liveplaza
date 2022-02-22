@@ -4,6 +4,4 @@ import datetime
 
 class LivepResConfigSettings(models.TransientModel):
     _inherit = 'res.config.settings'
-    domain = fields.Selection(
-        [('localhost', 'Localhost'), ('online', 'Online'), ('dev', 'Dev'),
-         ], string='domain')
+    domain = fields.Char( string='domain', config_parameter='customizations_by_livep.domain')
