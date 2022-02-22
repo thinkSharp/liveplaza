@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id='admin_approve_product_request_list_view' model='ir.ui.view'>
+        <field name="name">admin.product.request.list.view</field>
+        <field name="model">product.request</field>
+        <field name="arch" type="xml">
+            <tree export_xlsx="false" create="false" edit="false" default_order='name desc'>
+                <field name='name'/>
+                <field name="seller" string="Seller"/>
+                <field name="no_products"/>
+                <field name="state"/>
+                <field name='create_date' string='Request Date'/>
+            </tree>
+        </field>
+    </record>
+
+     <record id='admin_approve_product_request_form_view' model='ir.ui.view'>
+        <field name="name">admin.product.request.form.view</field>
+        <field name="model">product.request</field>
+        <field name="arch" type="xml">
+            <form create="false" edit="false">
+                <sheet>
+                    <button name="action_approve" type="object" class="oe_highlight" string="Approve" attrs="{'invisible':[('state', '!=', 'requested')]}" style="margin-bottom:15px;margin-right:15px"/>
+                    <button name="action_reject" type="object"  string="Reject" attrs="{'invisible':[('state', '!=', 'requested')]}"  style="margin-bottom:15px;margin-right:15px"/>
+                    <header>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,requested,approved,rejected"/>
+                    </header>
+                    <h1>
+                        <field name='name'/>
+                    </h1>
+                    <group>
+                        <group>
+                            <field name='seller' string="Seller"/>
+                        </group>
+                        <group>
+                            <field name='create_date' string='Request Date:'/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Products">
+                            <group>
+                                <field name="product_ids" attrs="{'readonly':[('state', '!=', 'draft')]}"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id='product_request_list_view' model='ir.ui.view'>
+        <field name="name">product.request.list.view</field>
+        <field name="model">product.request</field>
+        <field name="arch" type="xml">
+            <tree default_order='name desc'>
+                <field name='name'/>
+                <field name="seller" string="Seller" readonly="1"/>
+                <field name="no_products" string="Product Numbers"/>
+                <field name="state"/>
+                <field name='create_date' string='Request Date'/>
+            </tree>
+        </field>
+    </record>
+
+    <record id='product_request_form_view' model='ir.ui.view'>
+        <field name="name">product.request.form.view</field>
+        <field name="model">product.request</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <button name="action_request" type="object" class="oe_read_only oe_highlight" string="Request for Approval" attrs="{'invisible':[('state', '!=', 'draft')]}" style="margin-bottom:15px"/>
+                    <header>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,requested,approved,rejected"/>
+                    </header>
+
+                    <h1>
+                        <field name='name'/>
+                    </h1>
+                    <group>
+                        <group>
+                            <field name='seller' string="Seller" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name='create_date' string='Request Date:'/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Products">
+                            <group>
+                                <field name="product_ids" attrs="{'readonly':[('state','!=','draft')]}"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id='admin_product_request_list_view' model='ir.ui.view'>
+        <field name="name">admin.product.request.list.view</field>
+        <field name="model">admin.product.request</field>
+        <field name="arch" type="xml">
+            <tree default_order='name desc'>
+                <field name='name'/>
+                <field name="seller" string="Seller" readonly="1"/>
+                <field name="no_products" string="Product Numbers"/>
+                <field name="state"/>
+                <field name='create_date' string='Request Date'/>
+            </tree>
+        </field>
+    </record>
+
+     <record id='admin_product_request_form_view' model='ir.ui.view'>
+        <field name="name">admin.product.request.form.view</field>
+        <field name="model">admin.product.request</field>
+        <field name="arch" type="xml">
+            <form>
+
+                <sheet>
+                     <button name="action_approve" type="object" class="oe_read_only oe_highlight" string="Approve" attrs="{'invisible':[('state', '=', 'approved')]}" style="margin-bottom:15px"/>
+                    <header>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,approved"/>
+                    </header>
+                    <h1>
+                        <field name='name'/>
+                    </h1>
+                    <group>
+                        <group>
+                            <field name='seller'  attrs="{'readonly':[('state','!=','draft')]}" string="Seller" domain="[('state', '=', 'approved')]" />
+                        </group>
+                        <group>
+                            <field name='create_date' string='Request Date:'/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Products">
+                            <group>
+                                <field name="product_ids"  attrs="{'readonly':[('state','!=','draft')]}" context="{'default_seller':seller}"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+
+    <record id="request_action" model="ir.actions.act_window">
+        <field name="name">Product Requests</field>
+        <field name="res_model">product.request</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+    (0, 0, {'view_mode': 'tree', 'view_id': ref('product_request_list_view')}),
+    (0, 0, {'view_mode': 'form', 'view_id': ref('product_request_form_view')})]"/>
+        <field name="domain">[('create_uid','=',uid)]</field>
+    </record>
+
+     <record id="request_approval_action" model="ir.actions.act_window">
+         <field name="name">Product Requests Approval</field>
+        <field name="res_model">product.request</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+    (0, 0, {'view_mode': 'tree', 'view_id': ref('admin_approve_product_request_list_view')}),
+    (0, 0, {'view_mode': 'form', 'view_id': ref('admin_approve_product_request_form_view')})]"/>
+         <field name="domain">[('state', '!=', 'draft')]</field>
+    </record>
+
+
+
+     <record id="admin_request_action" model="ir.actions.act_window">
+         <field name="name">Admin Product Requests</field>
+        <field name="res_model">admin.product.request</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+    (0, 0, {'view_mode': 'tree', 'view_id': ref('admin_product_request_list_view')}),
+     (0, 0, {'view_mode': 'form', 'view_id': ref('admin_product_request_form_view')})]"/>
+    </record>
+
+
+    <record id='product_list_view' model='ir.ui.view'>
+        <field name="name">product.list.view</field>
+        <field name="model">product.request.product</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="image_1920" widget="image" class="oe_avatar"/>
+                <field name="name"/>
+                <field name="categ_ids" widget="many2many_tags"/>
+                <field name='list_price'/>
+                <field name='quantity'/>
+            </tree>
+        </field>
+    </record>
+
+    <record id='product_form_view' model='ir.ui.view'>
+        <field name="name">product.form.view</field>
+        <field name="model">product.request.product</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                        <group>
+                            <group>
+                                <field name='name' attrs="{'readonly':['|', ('is_variants_generated', '=', True), ('is_product_saved', '=', True)]}"/>
+                                <field name='list_price' attrs="{'readonly':['|', ('is_variants_generated', '=', True), ('is_product_saved', '=', True)]}"/>
+                                <field name="seller" invisible="1" readonly="1"/>
+                                <field name='alternative' widget="many2many_tags" domain="[('marketplace_seller_id', '=', seller), ('status', '=', 'approved')]" attrs="{'readonly':['|', ('is_variants_generated', '=', True), ('is_product_saved', '=', True)]}"/>
+                            </group>
+                            <group>
+                                <field name='categ_ids' widget="many2many_tags" attrs="{'readonly':['|', ('is_variants_generated', '=', True), ('is_product_saved', '=', True)]}"/>
+                                <field name='quantity' attrs="{'readonly':['|', ('is_variants_generated', '=', True), ('is_product_saved', '=', True)]}"/>
+
+                            </group>
+                            <group>
+                                <field name='returnable'/>
+                            </group>
+                            <group>
+                                <field name='auto_publish'/>
+                            </group>
+                        </group>
+                        <group><field name='description'  widget="html" attrs="{'readonly':['|', ('is_variants_generated', '=', True), ('is_product_saved', '=', True)]}"/></group>
+                        <group>
+                            <group>
+                                <field name='image_1920' widget="image" style="width:200px" attrs="{'readonly':['|', ('is_variants_generated', '=', True), ('is_product_saved', '=', True)]}"/>
+                            </group>
+                            <group>
+                                <field name='image2' widget="image" style="width:200px" attrs="{'readonly':['|', ('is_variants_generated', '=', True), ('is_product_saved', '=', True)]}"/>
+                            </group>
+                            <group>
+                                <field name='image3' widget="image" style="width:200px" attrs="{'readonly':['|', ('is_variants_generated', '=', True), ('is_product_saved', '=', True)]}"/>
+                            </group>
+                            <group>
+                                <field name='image4' widget="image" style="width:200px" attrs="{'readonly':['|', ('is_variants_generated', '=', True), ('is_product_saved', '=', True)]}"/>
+                            </group>
+                            <group>
+                                <field name='image5' widget="image" style="width:200px" attrs="{'readonly':['|', ('is_variants_generated', '=', True), ('is_product_saved', '=', True)]}"/>
+                            </group>
+                        </group>
+
+
+                        <group>
+                             <group><field name="has_variant" attrs="{'readonly':['|', ('is_variants_generated', '=', True), ('is_product_saved', '=', True)]}"/></group>
+                        </group>
+
+                        <field name="is_product_saved" invisible="1" readonly="1"/>
+                        <field name="is_variants_generated" invisible="1" readonly="1"/>
+                        <field name="is_variants_saved" invisible="1" readonly="1"/>
+
+                        <group>
+                            <field name="attribute_line_ids" widget="one2many" attrs="{'readonly':[('is_variants_generated', '=', True)],'invisible':[('has_variant', '!=', 'yes')]}" context="{'show_attribute': False}">
+
+                                <tree string="Variants" editable="bottom">
+                                    <field name="attribute_id" attrs="{'readonly': [('id', '!=', False)]}" string="Variant"/>
+                                    <field name="value_ids" widget="many2many_tags" options="{'no_create_edit': True}" context="{'default_attribute_id': attribute_id, 'show_attribute': False}" string="Type"/>
+                                </tree>
+                            </field>
+                        </group>
+
+                        <group>
+                            <field name="product_template_attribute_value_ids" attrs="{'invisible':[('is_variants_generated', '=', False)]}" >
+                                <tree string="Variant Extra Price" editable="bottom"  delete="false">
+                                    <field name="attribute_id" options="{'no_open':true}" string="Variant"/>
+                                    <field name="name"/>
+                                    <field name="price_extra" string="Extra Price"/>
+                                </tree>
+                             </field>
+                        </group>
+
+                        <button name="action_save_extra_price" type="object" class="oe_highlight" string="Save Variant Extra Price" attrs="{'invisible':[('is_variants_generated', '=', False)]}"/>
+
+                        <!--<button name="action_generate_product_variants" type="object" class="oe_highlight" string="Generate Product Variants" attrs="{'invisible':['|',('is_product_created', '=', True), ('has_variant', '!=', 'yes')]}" style="margin-bottom:15px"/>-->
+                        <button name="action_generate_product_variants" type="object" class="oe_highlight" string="Generate Product Variants" attrs="{'invisible':['|', ('is_variants_generated', '=', True), ('has_variant', '!=', 'yes')]}" style="margin-bottom:15px"/>
+                        <button name="action_generate_product_variants" type="object" class="oe_highlight" string="Generate Product" attrs="{'invisible':['|', ('is_product_saved', '=', True) , ('has_variant', '!=', 'no')]}" style="margin-bottom:15px"/>
+
+                        <group>
+                            <field name="product_variant_lines" attrs="{'readonly':['|', ('has_variant', '=', 'no'), ('is_variants_saved', '=', True)]}">
+                                <tree  create="false" editable="bottom">
+                                    <field name="image" widget="image" class="oe_avatar"/>
+                                    <field name='product_id' options="{'no_open':true}"/>
+                                    <field name="quantity"/>
+                                    <field name="price" string="Total Price"/>
+                                </tree>
+                            </field>
+                        </group>
+
+
+                       <field name="product_tmpl_id" invisible="1"/>
+
+
+
+                        <button name="saved_variants" type="object" class="oe_highlight" string="Save Variants" attrs="{'invisible':['|', ('is_variants_saved', '=', True), '|',  ('is_variants_generated', '=', False), ('has_variant', '!=', 'yes')]}"/>
+                </sheet>
+            </form>   
+        </field>
+    </record>
+
+
+    <record id='product_variants_form_view' model='ir.ui.view'>
+        <field name="name">product.variants.form.view</field>
+        <field name="model">product.request.product.variant.lines</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="product_id" options="{'no_open':true}" string="Product Name"/>
+                        <field name="quantity" string="Product Quantity"/>
+                        <field name="price" sting="Product Price"/>
+                        <field name="image" string="Product Image" widget="image" style="width:200px"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+            <menuitem id='product_requests' name='Multi Product Requests' action='request_action' parent='odoo_marketplace.wk_seller_dashboard_menu2'/>
+            <menuitem id='product_requests_approval' name='Multi Product Requests Approval' action='request_approval_action' parent='odoo_marketplace.wk_seller_dashboard_menu2'/>
+            <menuitem id='admin_product_requests' name='Multi Product Requests by Admin' action='admin_request_action' parent='odoo_marketplace.wk_seller_dashboard_menu2'/>
+</odoo>

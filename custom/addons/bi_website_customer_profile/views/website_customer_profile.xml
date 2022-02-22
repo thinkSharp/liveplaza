@@ -181,9 +181,10 @@
 										</div> -->
 
 									<div t-attf-class="form-group #{error and 'street' in error and 'has-error' or ''} col-lg-6">
-										<label class="control-label" for="street">Street</label>
+										<label class="control-label" for="street">Address</label>
 										<input type="text" name="street" required="required" class="form-control" t-att-value="user_id.partner_id.street"/>
 									</div>
+
 									<div t-attf-class="form-group #{error and 'street2' in error and 'has-error' or ''} col-lg-6">
 										<label class="control-label" for="street2">Street2</label>
 										<input type="text" name="street2" class="form-control" t-att-value="user_id.partner_id.street2"/>
@@ -272,11 +273,12 @@
 										<input type="text" required="True" name="mobile" class="form-control" t-att-value="user_id.partner_id.mobile"/>
 									</div>
 
-									<div class="clearfix" />
 
+							</div>
 
+								<div class="clearfix" />
 									<div class="row">
-										<a href="/my/profile" class="btn btn-default mb32">
+										<a href="/my/profile" class="btn btn-default mb32 pull-left">
 											<span class="fa fa-long-arrow-left" />
 												Return to Profile
 										</a>
@@ -284,7 +286,6 @@
 									</div>
 
 								</div>
-							</div>
 						</div>
 					</form>
 				</div>
@@ -326,13 +327,13 @@
 										<input type="text" name="name" required="True" class="form-control" t-att-value="partner.name"/>
 									</div>
 									<div t-attf-class="form-group #{error and 'street' in error and 'has-error' or ''} col-lg-6">
-										<label class="control-label" for="street">Street</label>
+										<label class="control-label" for="street">Address</label>
 										<input type="text" name="street" required="required" class="form-control" t-att-value="partner.street"/>
 									</div>
-									<div t-attf-class="form-group #{error and 'street2' in error and 'has-error' or ''} col-lg-6">
-										<label class="control-label" for="street2">Street2</label>
-										<input type="text" name="street2" class="form-control" t-att-value="partner.street2"/>
-									</div>
+<!--									<div t-attf-class="form-group #{error and 'street2' in error and 'has-error' or ''} col-lg-6">-->
+<!--										<label class="control-label" for="street2">Street2</label>-->
+<!--										<input type="text" name="street2" class="form-control" t-att-value="partner.street2"/>-->
+<!--									</div>-->
 									<div t-attf-class="form-group #{error and 'city' in error and 'has-error' or ''} col-lg-6">
 										<label class="control-label" for="city">City</label>
 										<input type="text" name="city" required="True" class="form-control" t-att-value="partner.city"/>
@@ -400,8 +401,9 @@
 										<label class="control-label" for="mobile">Mobile</label>
 										<input type="text" required="True" name="mobile" class="form-control" t-att-value="partner.mobile"/>
 									</div>
+								</div>
 
-									<div class="clearfix" />
+								<div class="clearfix" />
 
 									<div class="row">
 										<a href="/my/profile" class="btn btn-default mb32">
@@ -412,7 +414,6 @@
 									</div>
 
 								</div>
-							</div>
 						</div>
 					</form>
 				</div>
@@ -454,13 +455,13 @@
 										<input type="text" name="name" required="True" class="form-control" t-att-value="partner.name"/>
 									</div>
 									<div t-attf-class="form-group #{error and 'street' in error and 'has-error' or ''} col-lg-6">
-										<label class="control-label" for="street">Street</label>
+										<label class="control-label" for="street">Address</label>
 										<input type="text" name="street" required="required" class="form-control" t-att-value="partner.street"/>
 									</div>
-									<div t-attf-class="form-group #{error and 'street2' in error and 'has-error' or ''} col-lg-6">
-										<label class="control-label" for="street2">Street2</label>
-										<input type="text" name="street2" class="form-control" t-att-value="partner.street2"/>
-									</div>
+<!--									<div t-attf-class="form-group #{error and 'street2' in error and 'has-error' or ''} col-lg-6">-->
+<!--										<label class="control-label" for="street2">Street2</label>-->
+<!--										<input type="text" name="street2" class="form-control" t-att-value="partner.street2"/>-->
+<!--									</div>-->
 									<div t-attf-class="form-group #{error and 'city' in error and 'has-error' or ''} col-lg-6">
 										<label class="control-label" for="city">City</label>
 										<input type="text" name="city" required="True" class="form-control" t-att-value="partner.city"/>
@@ -530,8 +531,8 @@
 										<label class="control-label" for="mobile">Mobile</label>
 										<input type="text" required="True" name="mobile" class="form-control" t-att-value="partner.mobile"/>
 									</div>
-
-									<div class="clearfix" />
+								</div>
+								<div class="clearfix" />
 
 									<div class="row">
 										<a href="/my/profile" class="btn btn-default mb32">
@@ -542,7 +543,6 @@
 									</div>
 
 								</div>
-							</div>
 						</div>
 					</form>
 				</div>

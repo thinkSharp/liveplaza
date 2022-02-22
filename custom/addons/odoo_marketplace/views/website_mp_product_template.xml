@@ -16,7 +16,10 @@
 				<script src="/odoo_marketplace/static/src/js/jquery.timeago.js" type="text/javascript"></script>
 				<script src="/odoo_marketplace/static/src/js/jquery.circlechart.js" type="text/javascript"></script>
 				<script src="/odoo_marketplace/static/src/js/seller_ratting.js" type="text/javascript" ></script>
-			</xpath>
+<!--				<script src="/odoo_marketplace/static/src/js/marketplace.js" type="text/javascript" ></script>-->
+
+		</xpath>
+
 		</template>
 
 		<template id="mp_sold_by_detail_in_product" inherit_id="website_sale.product" customize_show="True" active="True" name="Seller Details">
@@ -95,6 +98,43 @@
 			</xpath>
 		</template>
 
+		<template id="shop_products_item" name="Products item">
+			<t t-set="product_href" t-value="keep(product.website_url, page=(pager['page']['num'] if pager['page']['num']&gt;1 else None))" />
+
+			<t t-set="combination_info" t-value="product._get_combination_info(only_template=True, add_qty=add_qty or 1, pricelist=pricelist)"/>
+
+			<form action="/shop/cart/update" method="post" class="card oe_product_cart"
+				t-att-data-publish="product.website_published and 'on' or 'off'"
+				itemscope="itemscope" itemtype="http://schema.org/Product">
+				<div class="card-body p-1 oe_product_image">
+					<input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
+					<div class="ribbon-wrapper">
+						<a href="#" role="button" class="ribbon btn btn-danger">Sale</a>
+					</div>
+					<a t-att-href="product_href" class="d-block h-100" itemprop="url">
+						<span t-field="product.image_1920"
+							t-options="{'widget': 'image', 'preview_image': 'image_1024' if product_image_big else 'image_256'}"
+							class="d-flex h-100 justify-content-center align-items-center"/>
+					</a>
+				</div>
+				<div class="card-body p-0 text-center o_wsale_product_information">
+					<div class="p-2 o_wsale_product_information_text">
+						<h6 class="o_wsale_products_item_title">
+							<a itemprop="name" t-att-href="product_href" t-att-content="product.name" t-field="product.name" />
+							<a role="button" t-if="not product.website_published" t-att-href="product_href" class="btn btn-sm btn-danger" title="This product is unpublished.">Unpublished</a>
+						</h6>
+						<div class="product_price" itemprop="offers" itemscope="itemscope" itemtype="http://schema.org/Offer">
+							<del t-attf-class="text-danger mr-2 {{'' if combination_info['has_discounted_price'] else 'd-none'}}" style="white-space: nowrap;" t-esc="combination_info['list_price']" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}" />
+							<span t-if="combination_info['price']" t-esc="combination_info['price']" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>
+							<span itemprop="price" style="display:none;" t-esc="combination_info['price']" />
+							<span itemprop="priceCurrency" style="display:none;" t-esc="website.currency_id.name" />
+						</div>
+					</div>
+					<div class="o_wsale_product_btn"/>
+				</div>
+			</form>
+    </template>
+
 		<template id="shop_recently_product" name="Seller Rececntly Product Template">
 			<div class="tab-pane active oe_website_sale">
 				<div class='row o_wsale_products_main_row'>
@@ -114,7 +154,7 @@
 													t-attf-class="oe_product oe_grid oe-height-#{td_product['y']*2} #{ td_product['class'] }">
 													<div t-attf-class="o_wsale_product_grid_wrapper o_wsale_product_grid_wrapper_#{td_product['x']}_#{td_product['y']}"
 														t-att-data-publish="product.website_published and 'on' or 'off'">
-														<t t-call="website_sale.products_item">
+														<t t-call="odoo_marketplace.shop_products_item">
 															<t t-set="product_image_big" t-value="td_product['x'] + td_product['y'] &gt; 2"/>
 														</t>
 													</div>

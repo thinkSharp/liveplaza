@@ -46,17 +46,24 @@
               </span>
             </button>
             <ul class="dropdown-menu">
+              <li class="dropdown-item">
+                <a href="/sellers/list/">Seller</a>
+              </li>
               <t t-set="keep" t-value="request.website.get_all_categories().get('keep')" />
               <li class="dropdown-item">
                 <a href="/shop">All</a>
               </li>
+
               <t t-set="categories" t-value="request.env['product.public.category'].search([('parent_id', '=', None)])" />
               <t t-foreach="categories" t-as="c">
-                <t t-call="theme_xtremo.categories_recursive_xt" />
+                <li t-att-class="'dropdown-item icon' if c.child_id else 'dropdown-item'">
+                  <a t-att-href="keep('/shop/category/' + slug(c), category=0)" t-field="c.name" >
+                  </a>
+                </li>
               </t>
             </ul>
           </div>
-          <input type="text" class="form-control" placeholder="Search entire store here..."/>
+          <input type="text" name="main-search" class="form-control" placeholder="Search entire store here..."/>
           <div class="input-group-append">
             <button type="button" class="btn btn-outline-secondary" aria-haspopup="true" >
               <i class="fa fa-search"/>
@@ -69,9 +76,9 @@
         <xpath expr="//ul[@id='top_menu']/li/div/a[last()]" position="after">
           <div role="separator" class="dropdown-divider">
           </div>
-          <a class="dropdown-item user-name" href="#">
+          <p style="font-weight: bold;" class="dropdown-item user-name">
             <span t-esc="user_id.name[:23] + '...' if user_id.name and len(user_id.name) &gt; 25 else user_id.name"/>
-          </a>
+          </p>
         </xpath>
         <xpath expr="//ul[@id='top_menu']/li/div/a[@id='o_logout']" position="before">
           <a class="dropdown-item" href="/shop/wishlist">          My Wishlist (<sup t-attf-class="my_wish_quantity o_animate_blink label label-primary">
