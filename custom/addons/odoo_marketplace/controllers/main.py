@@ -109,6 +109,10 @@ class AuthSignupHome(Website):
         if True in [name[0].isdigit()]:
             qcontext["error"] = _("Name is invalid. Please do not put a digit at the start.")
 
+        email = str(kw.get("login"))
+        if (not "@" in email) or (email[-1] == "@"):
+            qcontext["error"] = _("Your email format is incorrect")
+
         if kw.get("name", False):
             if 'error' not in qcontext and request.httprequest.method == 'POST':
                 if qcontext.get("mp_terms_conditions") == None:
@@ -128,9 +132,9 @@ class AuthSignupHome(Website):
                         else:
                             _logger.error("%s", e)
                             qcontext['error'] = _("Your name is already taken..")
-                        email = str(kw.get("login"))
-                        if (not "@" in email) or (email[-1] == "@"):
-                            qcontext["error"] = _("Your email format is incorrect")
+
+
+
 
                         pwd = str(kw.get("password"))
                         pwd_len = len(pwd)

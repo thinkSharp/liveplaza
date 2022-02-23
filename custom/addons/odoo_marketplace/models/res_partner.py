@@ -31,6 +31,7 @@ class ResPartner(models.Model):
     _inherit = 'res.partner'
 
     # Default methods
+    phone = fields.Char(required=True)
 
     @api.model
     def _set_payment_method(self):
