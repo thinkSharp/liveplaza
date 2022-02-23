@@ -115,4 +115,29 @@
         </xpath>
     </template>
 
+    <template id="state_province_modify" inherit_id="website_sale.address">
+        <xpath expr="//select[@name='state_id']" position="replace">
+            <select name="state_id" t-attf-class="form-control #{error.get('state_id') and 'is-invalid' or ''}" data-init="1">
+                <t t-foreach="country and country.state_ids or []" t-as="s">
+                    <option t-att-value="s.id" t-att-selected="s.id == ('state_id' in checkout and country and checkout['state_id'] != '' and int(checkout['state_id']))">
+                        <t t-esc="s.name" />
+                    </option>
+                </t>
+            </select>
+        </xpath>
+    </template>
+
+    <template id="pay_now_change_label" inherit_id="website_sale.payment">
+        <xpath expr="//a[@class='btn btn-primary a-submit']" position="replace">
+            <a role="button" class="btn btn-primary a-submit" href="#">
+                <span t-if="order.amount_total &gt; 0">Check out <span class="fa fa-chevron-right"></span></span>
+                <span t-if="order.amount_total == 0">Confirm Order <span class="fa fa-chevron-right"></span></span>
+            </a>
+        </xpath>
+
+        <xpath expr="//t[@t-set='submit_txt']" position="replace">
+            <t t-set="submit_txt">Check out</t>
+        </xpath>
+    </template>
+
 </odoo>
