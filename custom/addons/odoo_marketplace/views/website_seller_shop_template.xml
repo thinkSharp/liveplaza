@@ -78,11 +78,11 @@
 									</t>
 								</ul>
 							</div>
-							<div t-if="website.mp_seller_contact_btn" class="row">
+							<!--<div t-if="website.mp_seller_contact_btn" class="row">
 								<div class="col-md-2">
 									<a t-attf-href="mailto:{{ shop_obj.sudo().seller_id.email }}" class="btn btn-primary">Contact Seller</a>
 								</div>
-							</div>
+							</div>-->
 						</div>
 					</div>
 					<div class="oe_structure"/>
