@@ -21,36 +21,7 @@
                 </t>
             </select>
         </xpath>
-<!--        <xpath expr="//input[@type='email']" position="replace">-->
-<!--            <input type="email" name="email" t-attf-class="form-control #{error.get('email') and 'is-invalid' or ''}" t-att-value="email" />-->
-<!--        </xpath>-->
-<!--        <xpath expr="//input[@name='phone']" position="replace">-->
-<!--            <input type="tel" name="phone" placeholder="eg.09xxxxxxxxx"-->
-<!--                   t-attf-class="form-control #{error.get('phone') and 'is-invalid' or ''}" t-att-value="phone" />-->
-<!--        </xpath>-->
     </template>
-
-<!--    <template id="shipping_address_delete_btn" inherit_id="website_sale.address_kanban">-->
-<!--        <xpath expr="//div[@class='card-body']" position="replace">-->
-<!--            <div class='card-body' style='min-height: 130px;'>-->
-<!--                <form action="" >-->
-<!--                    <button type="submit" name="deleteShippingAddress" onclick="deleteAddress()" class="btn float-right p-0 no-decoration" title="Delete this address"-->
-<!--                   aria-label="Delete this address" style="margin-left: 3%; border: none;"><i style="font-size: 18px;" class='fa fa-trash'/></button>-->
-<!--                </form>-->
-<!--                <a t-if="not actual_partner or (ship.id in actual_partner.child_ids.ids)" href="#" class="btn btn-link float-right p-0 js_edit_address no-decoration" role="button" title="Edit this address" aria-label="Edit this address"><i class='fa fa-edit'/></a>-->
-<!--                <t t-esc="contact" t-options="dict(widget='contact', fields=['name', 'address'], no_marker=True)"/>-->
-
-<!--            </div>-->
-<!--        </xpath>-->
-
-<!--        <xpath expr="//div[@class='card-footer']" position="inside">-->
-<!--            <span class=''>-->
-<!--                <button name="deleteShippingAddress" class="btn btn-block btn-secondary">-->
-<!--                    Delete this address-->
-<!--                </button>-->
-<!--            </span>-->
-<!--        </xpath>-->
-<!--    </template>-->
 
     <template id="shareBtn_each_product" inherit_id="website_sale.product">
         <xpath expr="//hr[@t-if='product.description_sale']" position="after">
@@ -108,8 +79,65 @@
             </div>
           </div>
         </xpath>
-<!--        <xpath expr="//t[@t-call='website.pager'][1]" position="replace">-->
+    </template>
+
+<!--    <template id="sellelrs_grid_view_inherit" inherit_id="odoo_marketplace.sellers_list">-->
+<!--        <xpath expr="//div[hasclass('products_pager')][last()]" position="before">-->
+<!--          <div t-if="bins" class="products_pager form-inline justify-content-center mt-3 mb-3">-->
+<!--            <div id="wk_loader" t-att-category="category.id if category else 'none'"><span />-->
+<!--              <button class="btn btn-secondary">Load More Products</button>-->
+<!--              <p>loading ...</p>-->
+<!--            </div>-->
+<!--          </div>-->
 <!--        </xpath>-->
+<!--    </template>-->
+
+    <template id="shop_page_products_grid_view_inherit" inherit_id="odoo_marketplace.mp_seller_profile">
+        <xpath expr="//div[hasclass('products_pager')][last()]" position="before">
+          <div t-if="bins" class="products_pager form-inline justify-content-center mt-3 mb-3">
+            <div id="wk_loader" t-att-category="category.id if category else 'none'"><span />
+                <form method="get" t-attf-action="/seller/profile/#{seller.sudo().id}/page/2">
+                    <button
+                       class="btn btn-secondary">Load More Products</button>
+                    <p>loading ...</p>
+                </form>
+
+            </div>
+          </div>
+        </xpath>
+    </template>
+
+    <template id="process_checkout_change_label" inherit_id="website_sale.short_cart_summary">
+        <xpath position="replace" expr="//a[@class='btn btn-secondary float-right d-none d-xl-inline-block']">
+            <a role="button" t-if="website_sale_order and website_sale_order.website_order_line" class="btn btn-secondary float-right d-none d-xl-inline-block" href="/shop/checkout?express=1">
+                <span>Place Order</span>
+            </a>
+        </xpath>
+    </template>
+
+    <template id="state_province_modify" inherit_id="website_sale.address">
+        <xpath expr="//select[@name='state_id']" position="replace">
+            <select name="state_id" t-attf-class="form-control #{error.get('state_id') and 'is-invalid' or ''}" data-init="1">
+                <t t-foreach="country and country.state_ids or []" t-as="s">
+                    <option t-att-value="s.id" t-att-selected="s.id == ('state_id' in checkout and country and checkout['state_id'] != '' and int(checkout['state_id']))">
+                        <t t-esc="s.name" />
+                    </option>
+                </t>
+            </select>
+        </xpath>
+    </template>
+
+    <template id="pay_now_change_label" inherit_id="website_sale.payment">
+        <xpath expr="//a[@class='btn btn-primary a-submit']" position="replace">
+            <a role="button" class="btn btn-primary a-submit" href="#">
+                <span t-if="order.amount_total &gt; 0">Check out <span class="fa fa-chevron-right"></span></span>
+                <span t-if="order.amount_total == 0">Confirm Order <span class="fa fa-chevron-right"></span></span>
+            </a>
+        </xpath>
+
+        <xpath expr="//t[@t-set='submit_txt']" position="replace">
+            <t t-set="submit_txt">Check out</t>
+        </xpath>
     </template>
 
 </odoo>
