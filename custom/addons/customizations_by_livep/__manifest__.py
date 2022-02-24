@@ -6,6 +6,8 @@
     'summary' : 'The customizations made by liveplaza tech team.',
     'company' : 'LivePlaza',
     'depends' : [
+                'base',
+                'base_setup',
                 'website_sale', 
                 'odoo_marketplace', 
                 'marketplace_facebook_live_stream'
@@ -20,6 +22,7 @@
         'views/current_live_stream_inherit.xml',
         'views/seller_live_stream_inherit.xml',
         'views/checkout_template_inherit.xml',
+        'views/setting_config_inherit.xml',
         'views/signup_form_inherit.xml',
     ],
     'installable' : True,

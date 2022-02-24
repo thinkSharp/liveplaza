@@ -12,7 +12,8 @@
     'data': [
         'security/ir.model.access.csv',
         'views/product_request_views.xml',
-        'data/sequence.xml'
+        'data/sequence.xml',
+        'views/setting_config_inherit.xml'
     ]
 }
 

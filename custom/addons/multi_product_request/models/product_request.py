@@ -11,11 +11,8 @@ class ProductTemplateAttributeLineInherit(models.Model):
     # To create product variants without product_template
     product_tmpl_id = fields.Many2one('product.template', string="Product Template", ondelete='cascade', required=False, index=True)
 
-'''
-class ProductProductInherit(models.Model):
-    _inherit = "product.product"
-    price_extra = fields.Float()
-'''
+
+
 
 class ProductRequest(models.Model):
     _name = 'product.request'
@@ -106,20 +103,25 @@ class ProductRequest(models.Model):
         missing_is_product_saved = []
         missing_is_variants_generated = []
         missing_is_variants_saved = []
+        missing_is_extra_price_saved = []
         for product_id in self.product_ids:
             if product_id.has_variant == 'yes':
                 if not product_id.is_variants_generated:
                     missing_is_variants_generated.append(product_id.name)
 
-                elif not product_id.is_variants_saved:
+                if not product_id.is_variants_saved:
                     missing_is_variants_saved.append(product_id.name)
+
+                if not product_id.is_extra_price_saved:
+
+                    missing_is_extra_price_saved.append(product_id.name)
 
             elif product_id.has_variant == 'no':
                 if not product_id.is_product_saved:
                     missing_is_product_saved.append(product_id.name)
 
 
-        if missing_is_product_saved or missing_is_variants_generated or missing_is_variants_saved:
+        if missing_is_product_saved or missing_is_variants_generated or missing_is_variants_saved or missing_is_extra_price_saved:
             string = ''
             if missing_is_product_saved:
                 string += ' Generate Product:\n'
@@ -134,6 +136,11 @@ class ProductRequest(models.Model):
             if missing_is_variants_saved:
                 string += ' Save Variants:\n'
                 for product in missing_is_variants_saved:
+                    string += f'     {product}\n'
+
+            if missing_is_extra_price_saved:
+                string += ' Save Extra Price:\n'
+                for product in missing_is_extra_price_saved:
                     string += f'     {product}\n'
 
 
@@ -153,6 +160,18 @@ class ProductRequest(models.Model):
 
 
 class Product(models.Model):
+
+
+    @api.model
+    def _get_default_attribute(self):
+        terms_obj = self.env['product.template.attribute.value']
+        termsids = terms_obj.search([('product_tmpl_id', '=', self.product_tmpl_id)])
+
+        return termsids
+
+
+
+
     _name = "product.request.product"
     _description = "Products"
 
@@ -183,120 +202,133 @@ class Product(models.Model):
     ], string='Has Variants?', copy=False, index=True, required=True)
     product_tmpl_id = fields.Integer()
 
+    is_generate_button_pressed = fields.Boolean(default=False)
     is_variants_generated = fields.Boolean(default=False)
     is_product_saved = fields.Boolean(default=False)
     is_variants_saved = fields.Boolean(defalut=False)
-
-
+    is_extra_price_saved = fields.Boolean(defalut=False)
+    product_template_attribute_value_ids = fields.Many2many(
+        'product.template.attribute.value',
+        domain="[('product_tmpl_id', '=', product_tmpl_id)]",
+        string='Variant Extra Price',
+    default=_get_default_attribute)
 
     def action_generate_product_variants(self):
 
-        for line in self:
-            if line.quantity > 999 or line.quantity < 1:
-                raise exceptions.ValidationError(_('Quantity must be between 1 and 999.'))
-                return True
+        if not self.is_generate_button_pressed:
+
+            for line in self:
+                if line.quantity > 999 or line.quantity < 1:
+                    raise exceptions.ValidationError(_('Quantity must be between 1 and 999.'))
+                    return True
 
 
 
-            if line.list_price > 9999999 or line.list_price< 100:
-                raise exceptions.ValidationError(_('Price must be between 100 and 9999999.'))
-                return True
+                if line.list_price > 9999999 or line.list_price< 100:
+                    raise exceptions.ValidationError(_('Price must be between 100 and 9999999.'))
+                    return True
 
 
 
-        if self.has_variant == 'yes':
-            if not len(self.attribute_line_ids):
-                raise exceptions.ValidationError(_('Add Variants!'))
+            if self.has_variant == 'yes':
+                if not len(self.attribute_line_ids):
+                    raise exceptions.ValidationError(_('Add Variants!'))
 
-        for line in self:
-            vals = {
-                'name': line.name,
-                'categ_id': 1,
-                'list_price': line.list_price,
-                'image_1920': line.image_1920,
-                'image2': line.image2,
-                'image3': line.image3,
-                'image4': line.image4,
-                'image5': line.image5,
-                'alternative': line.alternative,
-                'description': line.description,
-                'returnable': line.returnable,
-                'auto_publish': line.auto_publish,
-                'product_request_id': line.product_request_id,
-            }
-            # print('action_variant_vals', vals)
-
-
-            product_vals = {
-                'name': vals['name'],
-                'categ_id': 1,
-                'type': 'product',
-                'list_price': vals['list_price'],
-                'image_1920': vals['image_1920'],
-                'description': vals['description'],
-                'active': True,
-                'sale_ok': False,
-                'website_published':vals['auto_publish'],
-                'public_categ_ids': line.categ_ids,
-                'invoice_policy': 'order',
-                'alternative_product_ids': vals['alternative'],
-                'inventory_availability': 'always'
-            }
-
-            product_tmpl_obj = self.env['product.template'].create(product_vals)
-            if product_tmpl_obj:
-                self.write({'is_variants_generated' : True})
-            # print('Action Variant New Product:', product_tmpl_obj.id)
-            self.product_tmpl_id = product_tmpl_obj.id
-
-            self.env['wk.product.tabs'].create({'name': 'Product Description', 'content': line.description,'tab_product_id': self.product_tmpl_id, 'active': True})
-
-            for image in [line.image2, line.image3, line.image4, line.image5]:
-                if image:
-                    self.env['product.image'].create({'name': self.name, 'image_1920': image, 'product_tmpl_id': self.product_tmpl_id})
-
-            for att_data in line:
-                for att_line in att_data.attribute_line_ids: 
-                    lines ={
-                    'attribute_id': att_line.attribute_id.id,
-                    'product_tmpl_id': product_tmpl_obj.id,
-                    'value_ids': [(6, 0, att_line.value_ids.ids)]
-                    }
-                    self.env['product.template.attribute.line'].create(lines)
-
-        product_obj =self.env['product.product'].search([('product_tmpl_id', '=', self.product_tmpl_id)])
-        for pobj in product_obj:
-            self.env['product.request.product.variant.lines'].sudo().create({          
-                'product_id': pobj.id,
-                'product_variant_id': self.id,
-                'price': self.list_price,
-                'image': self.image_1920,
-                'quantity': self.quantity
-            })
+            for line in self:
+                vals = {
+                    'name': line.name,
+                    'categ_id': 1,
+                    'list_price': line.list_price,
+                    'image_1920': line.image_1920,
+                    'image2': line.image2,
+                    'image3': line.image3,
+                    'image4': line.image4,
+                    'image5': line.image5,
+                    'alternative': line.alternative,
+                    'description': line.description,
+                    'returnable': line.returnable,
+                    'auto_publish': line.auto_publish,
+                    'product_request_id': line.product_request_id,
+                }
+                # print('action_variant_vals', vals)
 
 
-
-        if self.has_variant == 'no':
-            for line in self.product_variant_lines:
-
-                lines ={
-                    'location_id': 8,
-                    'product_id': line.product_id.id,
-                    'in_date': datetime.datetime.today(),
-                    'quantity': line.quantity
+                product_vals = {
+                    'name': vals['name'],
+                    'categ_id': 1,
+                    'type': 'product',
+                    'list_price': vals['list_price'],
+                    'image_1920': vals['image_1920'],
+                    'description': vals['description'],
+                    'active': True,
+                    'sale_ok': False,
+                    'website_published':vals['auto_publish'],
+                    'public_categ_ids': line.categ_ids,
+                    'invoice_policy': 'order',
+                    'alternative_product_ids': vals['alternative'],
+                    'inventory_availability': 'always'
                 }
 
-                print('Line', lines)
-                self.env['stock.quant'].sudo().create(lines)
+                product_tmpl_obj = self.env['product.template'].create(product_vals)
+                if product_tmpl_obj:
+                    self.write({'is_variants_generated' : True})
+                # print('Action Variant New Product:', product_tmpl_obj.id)
+                self.product_tmpl_id = product_tmpl_obj.id
 
-                self.write({'is_variants_generated': False})
-                self.write({'is_product_saved': True})
+                self.env['wk.product.tabs'].create({'name': 'Product Description', 'content': line.description,'tab_product_id': self.product_tmpl_id, 'active': True})
+
+                for image in [line.image2, line.image3, line.image4, line.image5]:
+                    if image:
+                        self.env['product.image'].create({'name': self.name, 'image_1920': image, 'product_tmpl_id': self.product_tmpl_id})
+
+                for att_data in line:
+                    for att_line in att_data.attribute_line_ids:
+                        lines ={
+                        'attribute_id': att_line.attribute_id.id,
+                        'product_tmpl_id': product_tmpl_obj.id,
+                        'value_ids': [(6, 0, att_line.value_ids.ids)]
+                        }
+                        self.env['product.template.attribute.line'].create(lines)
+
+            product_obj =self.env['product.product'].search([('product_tmpl_id', '=', self.product_tmpl_id)])
+            for pobj in product_obj:
+                self.env['product.request.product.variant.lines'].sudo().create({
+                    'product_id': pobj.id,
+                    'product_variant_id': self.id,
+                    'price': pobj.lst_price,
+                    'image': self.image_1920,
+                    'quantity': self.quantity
+                })
+
+            #terms_obj = self.env['product.template.attribute.value']
+            #termsids = terms_obj.search([('product_tmpl_id', '=', self.product_tmpl_id)])
+            #self.product_template_attribute_value_ids = [(4, 0, termsid) for termsid in termsids]
 
 
 
 
-        
-        return True
+            if self.has_variant == 'no':
+                warehouse_location = self.env['ir.config_parameter'].sudo().get_param('multi_product_request.warehouse_location')
+
+                print('Warehouse Location', warehouse_location)
+
+                for line in self.product_variant_lines:
+
+                    lines ={
+                        'location_id': int(warehouse_location),
+                        'product_id': line.product_id.id,
+                        'in_date': datetime.datetime.today(),
+                        'quantity': line.quantity
+                    }
+
+                    print('Line', lines)
+                    self.env['stock.quant'].sudo().create(lines)
+
+                    self.write({'is_variants_generated': False})
+                    self.write({'is_product_saved': True})
+
+            self.write({'is_generate_button_pressed': True})
+            return True
         
 
 
@@ -318,29 +350,12 @@ class Product(models.Model):
                 raise exceptions.ValidationError(_('Price must be between 100 and 9999999.'))
                 return True
 
-
-        product_price_list = []
-        attribute_line_ids = self.env["product.template.attribute.line"].search(
-            [('product_tmpl_id', '=', self.product_tmpl_id)])
-        print(attribute_line_ids)
-        
-        
-        for attribute_line_id in attribute_line_ids:
-            product_attribute_value_ids_query = "select product_attribute_value_id from product_attribute_value_product_template_attribute_line_rel where product_template_attribute_line_id=%s"
-            self.env.cr.execute(product_attribute_value_ids_query, (attribute_line_id.id,))
-            product_attribute_value_ids = self.env.cr.fetchall()
-            print(product_attribute_value_ids)
-            for product_attribute_value_id in product_attribute_value_ids:
-                print(attribute_line_id.id, product_attribute_value_id[0])
-
-                product_price_list.append((attribute_line_id.id, product_attribute_value_id[0]))
-
-
+        warehouse_location = self.env['ir.config_parameter'].sudo().get_param('multi_product_request.warehouse_location')
         for index,line in enumerate(self.product_variant_lines):
             print('In Loop.............................')
             print('IN UPDATE VARIANT FOR LOOP')
             lines ={
-                'location_id': 8,
+                'location_id': int(warehouse_location),
                 'product_id': line.product_id.id,
                 'in_date': datetime.datetime.today(),
                 'quantity': line.quantity
@@ -351,21 +366,23 @@ class Product(models.Model):
             self.write({'is_variants_saved': True})
 
 
-            product_template = self.env['product.template'].search(
-                [('id', '=', line.product_variant_id.product_tmpl_id)])
-
-            price_extra = line.price - product_template.list_price
-            print('Price Extra', price_extra)
 
             self.env['product.product'].search([('id', '=', line.product_id.id)]).write({'image_1920': line.image})
-            #print(self.env['product.product'].search([('id', '=', line.product_id.id)]).price_extra)
 
-            attribute_line_id, product_attribute_value_id = product_price_list[index]
-            print(attribute_line_id, product_attribute_value_id)
-            self.env['product.template.attribute.value'].search(['&', ('attribute_line_id', '=', attribute_line_id), ('product_attribute_value_id', '=', product_attribute_value_id )]).write({'price_extra': price_extra})
+
+
 
 
         return True
+
+
+
+    def action_save_extra_price(self):
+        self.write({'is_extra_price_saved': True})
+        for variant in self.product_variant_lines:
+            variant.price = self.env['product.product'].search([('id', '=', variant.product_id.id)]).lst_price
+
+
 
 
 
@@ -384,7 +401,7 @@ class Product_Variants_Lines(models.Model):
     product_variant_id = fields.Many2one('product.request.product', string='Products')
     product_id = fields.Many2one('product.product', readonly=True)
     quantity = fields.Integer()
-    price = fields.Float()
+    price = fields.Float(readonly=True)
     image = fields.Image()
 
     def unlink(self):
@@ -436,20 +453,29 @@ class AdminProductRequest(models.Model):
         missing_is_product_saved = []
         missing_is_variants_generated = []
         missing_is_variants_saved = []
+        missing_is_extra_price_saved = []
         for product_id in self.product_ids:
+
             if product_id.has_variant == 'yes':
+
                 if not product_id.is_variants_generated:
                     missing_is_variants_generated.append(product_id.name)
 
-                elif not product_id.is_variants_saved:
+                if not product_id.is_variants_saved:
                     missing_is_variants_saved.append(product_id.name)
+
+
+                if not product_id.is_extra_price_saved:
+
+                    missing_is_extra_price_saved.append(product_id.name)
+
 
             elif product_id.has_variant == 'no':
                 if not product_id.is_product_saved:
                     missing_is_product_saved.append(product_id.name)
 
 
-        if missing_is_product_saved or missing_is_variants_generated or missing_is_variants_saved:
+        if missing_is_product_saved or missing_is_variants_generated or missing_is_variants_saved or missing_is_extra_price_saved:
             string = ''
             if missing_is_product_saved:
                 string += ' Generate Product:\n'
@@ -465,6 +491,12 @@ class AdminProductRequest(models.Model):
                 string += ' Save Variants:\n'
                 for product in missing_is_variants_saved:
                     string += f'     {product}\n'
+
+            if missing_is_extra_price_saved:
+                string += ' Save Extra Price:\n'
+                for product in missing_is_extra_price_saved:
+                    string += f'     {product}\n'
+
 
 
             raise exceptions.ValidationError(_('Before Saving,\n' + string))
