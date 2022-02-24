@@ -732,6 +732,17 @@ class ResPartner(models.Model):
             'domain': "[('marketplace_seller_id','=',%s)]" % self._ids[0],
         }
 
+    def seller_website_publish_button(self):
+
+        print('Partner ID', self.id)
+        products = self.env['product.template'].search([('marketplace_seller_id', '=', self.id)])
+        print('Prouducts', products)
+        for product in products:
+            product.write({'sale_ok':not self.website_published})
+        self.ensure_one()
+        return self.write({'website_published': not self.website_published})
+
+
     def total_star_count(self, no_of_star):
         if not no_of_star:
             return 0
