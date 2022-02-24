@@ -78,12 +78,12 @@
                                     <field name="country_id" placeholder="Country" class="o_address_country" options="{'no_open': True, 'no_create': True}"/>
                                 </div>
                             </group>
-                            <group>
-                                <field name="phone"/>
-                                <field name="shop_mobile"/>
-                                <field name="email"/>
-                                <field name="fax"/>
-                            </group>
+                            <!--<group>
+                                <field name="phone" invisible="1"/>
+                                <field name="shop_mobile" invisible="1"/>
+                                <field name="email" invisible="1"/>
+                                <field name="fax" invisible="1"/>
+                            </group> -->
                         </group>
                         <notebook>
                             <page name="seller_products" string="Products">

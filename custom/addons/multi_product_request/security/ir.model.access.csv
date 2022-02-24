@@ -3,3 +3,4 @@ request,request,model_product_request,,1,1,1,1
 request_product,request_product,model_product_request_product,,1,1,1,1
 request_product_variant_lines,request_product_variant_lines,model_product_request_product_variant_lines,,1,1,1,1
 admin_product_request,admin_product_request,model_admin_product_request,,1,1,1,1
+mp_access_product_template_attribute_line,mp.product.template.attribute.line,product.model_product_template_attribute_line,odoo_marketplace.marketplace_seller_group,1,1,1,1

@@ -14,14 +14,82 @@
               <t t-esc="current_stream_object.seller_id.name" />
             </a>
           </div>
+
+          <div class="container seller_name text-center  mt0">
+            <t t-esc="current_stream_object.name"/>
+          </div>
+
+
           <div t-if="current_stream_object.host == 'facebook'">
+
             <div class="fb-video mb16 d-none d-md-block" id="fb_livestream" t-att-data-href="current_stream_url" data-width="1200" data-height="500" data-allowfullscreen="true" data-autoplay="false" data-show-captions="true" data-show-text="true">
             </div>
             <div class="fb-video mb16 d-block d-md-none d-lg-none" id="mobile_fb_livestream" t-att-data-href="current_stream_url" data-width="auto" data-height="450" data-allowfullscreen="true" data-autoplay="false" data-show-captions="false"
               data-show-text="false">
             </div>
           </div>
-          <div t-else="">
+
+
+          <div t-if="current_stream_object.host == 'tiktok'">
+
+            <t t-set="current_youtube_stream" t-value="request.env['seller.live.stream'].sudo().search([('id','in',[stream_id])])"/>
+            <t t-set="current_youtube_stream_url" t-value="current_youtube_stream.embed_url"/>
+            <blockquote class="tiktok-embed" t-att-data-video-id="current_youtube_stream_url" style="width: 100%;" > <section></section> </blockquote> <script src="https://www.tiktok.com/embed.js"></script>
+          </div>
+
+
+          <div t-if="current_stream_object.host == 'instagram'">
+
+            <t t-set="current_youtube_stream" t-value="request.env['seller.live.stream'].sudo().search([('id','in',[stream_id])])"/>
+            <t t-set="current_youtube_stream_url" t-value="current_youtube_stream.live_stream_url"/>
+            <script async="async" src="http://www.instagram.com/embed.js"></script><blockquote style=" margin: auto;" class="instagram-media" t-att-data-instgrm-permalink="current_youtube_stream_url"  data-instgrm-version="14"></blockquote>
+
+          </div>
+
+
+          <div t-if="current_stream_object.host == 'twitch'">
+
+            <t t-set="current_youtube_stream" t-value="request.env['seller.live.stream'].sudo().search([('id','in',[stream_id])])"/>
+            <t t-set="current_youtube_stream_url" t-value="current_youtube_stream.embed_url"/>
+            <div class="mb16 d-none d-md-block" id="YouTube">
+              <iframe width="100%" height="500" t-att-src="current_youtube_stream_url"  t-att-parent="current_youtube_stream.domain"  frameborder="0" scrolling="no" allowfullscreen="true" />
+            </div>
+
+            <div class="mb16 d-block d-md-none d-lg-none" id="YouTube Mobile">
+              <iframe width="100%" height="450" t-att-src="current_youtube_stream_url"  t-att-parent="current_youtube_stream.domain"  frameborder="0" scrolling="no" allowfullscreen="true" />
+            </div>
+          </div>
+
+
+          <div t-if="current_stream_object.host == 'weibo'">
+            <div>Weibo</div>
+          </div>
+
+
+          <div t-if="current_stream_object.host == 'twitter'">
+            <div>Twitter</div>
+          </div>
+
+
+          <div t-if="current_stream_object.host == 'youtube'">
+
+            <t t-set="current_youtube_stream" t-value="request.env['seller.live.stream'].sudo().search([('id','in',[stream_id])])" />
+            <t t-set="current_youtube_stream_url" t-value="current_youtube_stream.embed_url" />
+            <div class="mb16 d-none d-md-block" id="YouTube">
+              <iframe width="100%" height="500" t-att-src="current_youtube_stream_url" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
+              </iframe>
+            </div>
+            <div class="mb16 d-block d-md-none d-lg-none" id="YouTube Mobile">
+              <iframe width="100%" height="450" t-att-src="current_youtube_stream_url" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
+              </iframe>
+            </div>
+          </div>
+
+
+
+
+
+          <!--<div t-else="">
             <t t-set="current_youtube_stream" t-value="request.env['seller.live.stream'].sudo().search([('id','in',[stream_id])])" />
             <t t-set="current_youtube_stream_url" t-value="'https://www.youtube.com/embed/' + current_youtube_stream.live_stream_url" />
             <div class="mb16 d-none d-md-block" id="YouTube">
@@ -31,6 +99,12 @@
             <div class="mb16 d-block d-md-none d-lg-none" id="YouTube Mobile">
               <iframe width="100%" height="450" t-att-src="current_youtube_stream_url" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
               </iframe>
+            </div>
+          </div> -->
+
+          <div t-if="current_stream_object.description">
+            <div class="container mt32" style="width: 100%; border-radius: 10px; border:1px solid #000000; min-height:100px; padding:15px; font-size:20px">
+                <t t-esc="current_stream_object.description"/>
             </div>
           </div>
           <t t-call="marketplace_facebook_live_stream.livestream_product_carousel_template" />

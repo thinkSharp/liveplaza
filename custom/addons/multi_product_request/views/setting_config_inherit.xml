@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <data>
+        <record id="mp_setting_config_form_view_inherit" model="ir.ui.view">
+           <field name="name">mp.res.config.settings.view.form.inherit.stock</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="stock.res_config_settings_view_form"/>
+              <field name="arch" type="xml">
+                <xpath expr="//field[@name='group_stock_multi_warehouses']" position="after">
+                	<group><field name="warehouse_location"/></group>
+                </xpath>
+
+
+              </field>
+        </record>
+    </data>
+</odoo>
