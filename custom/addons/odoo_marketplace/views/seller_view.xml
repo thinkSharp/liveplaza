@@ -46,7 +46,7 @@
                                 <field string="Recommend" name="active_recommendation" widget="statinfo" style=""/>
                                 <!-- <span style="position: relative;left: -50px;top: -7px;color: #7b7bad;font-weight: 700;">%</span> -->
                             </button>
-                            <button name="website_publish_button" type="object" class="oe_stat_button" icon="fa-globe">
+                            <button name="seller_website_publish_button" type="object" class="oe_stat_button" icon="fa-globe">
                                 <field name="website_published" widget="website_publish_button"/>
                             </button>
                             <button name="action_seller_sol" type="object" class="oe_stat_button" icon="fa-usd">
