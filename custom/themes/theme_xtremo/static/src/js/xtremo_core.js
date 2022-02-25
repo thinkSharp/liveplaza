@@ -69,6 +69,11 @@ odoo.define('xtremo.core', function (require) {
   }
 
   function owl_for_home($self){
+    var x = window.matchMedia("(max-width: 600px)")
+    if (x.matches) {
+        list.nav = false;
+    }
+
     if( $self.find('.owl-carousel').length > 0){
       var ref = $self.find('.carousel-item');
       var con = ref.length > 5;
