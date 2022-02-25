@@ -105,6 +105,8 @@ class AuthSignupHome(Website):
         login = qcontext.get("login")
         if not qcontext.get('token') and not qcontext.get('signup_enabled'):
             raise werkzeug.exceptions.NotFound()
+        if not str(login).isdigit():
+            qcontext["error"] = _("Phone number should not contain character.")
 
         if 'error' not in qcontext and request.httprequest.method == 'POST':
             try:
@@ -125,6 +127,7 @@ class AuthSignupHome(Website):
                 return self.web_login(*args, **kw)
             except UserError as e:
                 qcontext['error'] = e.name or e.value
+
             except (SignupError, AssertionError) as e:
                 if request.env["res.users"].sudo().search([("login", "=", qcontext.get("login"))]):
                     if (login.isdigit()):
@@ -134,6 +137,8 @@ class AuthSignupHome(Website):
                 else:
                     _logger.error("%s", e)
                     qcontext['error'] = _("Could not create a new account.")
+
+
 
         response = request.render('auth_signup.signup', qcontext)
         response.headers['X-Frame-Options'] = 'DENY'
