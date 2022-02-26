@@ -78,11 +78,11 @@
         <xpath expr="//div[@id='products_grid_before']" position="attributes">
           <attribute name="class" add="xtremo_product_category_slider_model" separator=" " />
         </xpath>
-        <xpath expr="//div[hasclass('products_pager')]" position="inside">
-          <button class="attribute_category_filter" title="Filters" id="xtremo_product_category_slider">
-            <i class="fa fa-filter"/>
-          </button>
-        </xpath>
+<!--        <xpath expr="//div[hasclass('products_pager')]" position="inside">-->
+<!--          <button class="attribute_category_filter" title="Filters" id="xtremo_product_category_slider">-->
+<!--            <i class="fa fa-filter"/>-->
+<!--          </button>-->
+<!--        </xpath>-->
         <xpath expr="//div[@id='products_grid_before']" position="inside">
           <button class="attribute_category_filter_close"><i class="fa fa-times"/></button>
         </xpath>
