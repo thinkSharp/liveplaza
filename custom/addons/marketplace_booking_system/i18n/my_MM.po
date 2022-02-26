@@ -1,0 +1,274 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* marketplace_booking_system
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 13.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-02-26 05:47+0000\n"
+"PO-Revision-Date: 2022-02-26 05:47+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: marketplace_booking_system
+#: model_terms:ir.ui.view,arch_db:marketplace_booking_system.mp_wk_booking_plan_form_view
+msgid "Approve"
+msgstr ""
+
+#. module: marketplace_booking_system
+#: model:ir.actions.server,name:marketplace_booking_system.ir_actions_server_mp_approve_booking_plans
+msgid "Approve All Booking Plans"
+msgstr ""
+
+#. module: marketplace_booking_system
+#: model:ir.actions.server,name:marketplace_booking_system.ir_actions_server_mp_approve_booking_timeslots
+msgid "Approve All Timesolts"
+msgstr ""
+
+#. module: marketplace_booking_system
+#: model:ir.model.fields.selection,name:marketplace_booking_system.selection__booking_plan__state__approved
+#: model:ir.model.fields.selection,name:marketplace_booking_system.selection__booking_time_slot__state__approved
+#: model:ir.ui.menu,name:marketplace_booking_system.mp_booking_plans_approved_menu
+#: model:ir.ui.menu,name:marketplace_booking_system.mp_booking_timeslots_approved_menu
+msgid "Approved"
+msgstr "ခွင့်ပြုချက်ရပြီးသော"
+
+#. module: marketplace_booking_system
+#: model:ir.model.fields,field_description:marketplace_booking_system.field_booking_plan__auto_plan_approve
+#: model:ir.model.fields,field_description:marketplace_booking_system.field_res_config_settings__mp_auto_plan_approve
+#: model:ir.model.fields,field_description:marketplace_booking_system.field_webkul_website_addons__mp_auto_plan_approve
+#: model:ir.model.fields,field_description:marketplace_booking_system.field_website_review_config__mp_auto_plan_approve
+#: model:ir.model.fields,field_description:marketplace_booking_system.field_xtremo_res_config_settings__mp_auto_plan_approve
+msgid "Auto Plan Approve"
+msgstr ""
+
+#. module: marketplace_booking_system
+#: model:ir.model.fields,field_description:marketplace_booking_system.field_booking_time_slot__auto_timeslot_approve
+#: model:ir.model.fields,field_description:marketplace_booking_system.field_res_config_settings__mp_auto_timeslot_approve
+#: model:ir.model.fields,field_description:marketplace_booking_system.field_webkul_website_addons__mp_auto_timeslot_approve
+#: model:ir.model.fields,field_description:marketplace_booking_system.field_website_review_config__mp_auto_timeslot_approve
+#: model:ir.model.fields,field_description:marketplace_booking_system.field_xtremo_res_config_settings__mp_auto_timeslot_approve
+msgid "Auto Timeslot Approve"
+msgstr ""
+
+#. module: marketplace_booking_system
+#: model:ir.ui.menu,name:marketplace_booking_system.mp_booking_main_menu
+#: model_terms:ir.ui.view,arch_db:marketplace_booking_system.mp_booking_product_form_view
+msgid "Booking & Reservation"
+msgstr ""
+
+#. module: marketplace_booking_system
+#: model_terms:ir.ui.view,arch_db:marketplace_booking_system.mp_booking_inherit_wk_seller_product_order_line_form_view
+msgid "Booking Details"
+msgstr ""
+
+#. module: marketplace_booking_system
+#: model_terms:ir.ui.view,arch_db:marketplace_booking_system.mp_inherit_wk_seller_product_order_line_search_view
+msgid "Booking Order"
+msgstr "ကြိုတင်မှာယူထားသော အမှာစာ"
+
+#. module: marketplace_booking_system
+#: model_terms:ir.ui.view,arch_db:marketplace_booking_system.mp_booking_inherit_marketplace_base_config_settings_form_view
+msgid "Booking Plan Approval"
+msgstr ""
+
+#. module: marketplace_booking_system
+#: model_terms:ir.ui.view,arch_db:marketplace_booking_system.mp_wk_booking_plan_form_view
+#: model_terms:ir.ui.view,arch_db:marketplace_booking_system.mp_wk_booking_plan_tree_view
+msgid "Booking Plans"
+msgstr "ဘိုကင် အစီအစဉ်"
+
+#. module: marketplace_booking_system
+#: model_terms:ir.ui.view,arch_db:marketplace_booking_system.inherit_mp_booking_product_search_view
+msgid "Booking Product"
+msgstr "ကြိုတင်မှာယူထားသော ကုန်ပစ္စည်း"
+
+#. module: marketplace_booking_system
+#: model_terms:ir.ui.view,arch_db:marketplace_booking_system.mp_wk_booking_timeslot_tree_view
+msgid "Booking Time Slots"
+msgstr ""
+
+#. module: marketplace_booking_system
+#: model_terms:ir.ui.view,arch_db:marketplace_booking_system.mp_booking_inherit_marketplace_base_config_settings_form_view
+msgid "Booking Timeslot Approval"
+msgstr ""
+
+#. module: marketplace_booking_system
+#: model_terms:ir.ui.view,arch_db:marketplace_booking_system.mp_booking_product_form_view
+msgid "Check Booking Quantity"
+msgstr ""
+
+#. module: marketplace_booking_system
+#: model_terms:ir.ui.view,arch_db:marketplace_booking_system.mp_wk_booking_timeslot_tree_view
+msgid "Click to Approve"
+msgstr ""
+
+#. module: marketplace_booking_system
+#: model_terms:ir.ui.view,arch_db:marketplace_booking_system.mp_wk_booking_timeslot_tree_view
+msgid "Click to Reject"
+msgstr ""
+
+#. module: marketplace_booking_system
+#: model:ir.model,name:marketplace_booking_system.model_res_config_settings
+msgid "Config Settings"
+msgstr ""
+
+#. module: marketplace_booking_system
+#: model_terms:ir.ui.view,arch_db:marketplace_booking_system.mp_booking_product_form_view
+msgid "Configure Day Slots"
+msgstr ""
+
+#. module: marketplace_booking_system
+#: model_terms:ir.ui.view,arch_db:marketplace_booking_system.mp_booking_inherit_marketplace_base_config_settings_form_view
+msgid "Enable this if you want to approve booking plan automatically."
+msgstr ""
+
+#. module: marketplace_booking_system
+#: model_terms:ir.ui.view,arch_db:marketplace_booking_system.mp_booking_inherit_marketplace_base_config_settings_form_view
+msgid "Enable this if you want to approve timeslots automatically."
+msgstr ""
+
+#. module: marketplace_booking_system
+#: model_terms:ir.actions.act_window,help:marketplace_booking_system.mp_booking_plans_approved_action
+msgid ""
+"Here is a list of all the approved booking plans created by sellers of marketplace. You\n"
+"                can click on any record to get the detailed Information About these plans."
+msgstr ""
+
+#. module: marketplace_booking_system
+#: model_terms:ir.actions.act_window,help:marketplace_booking_system.mp_booking_timeslots_approved_action
+msgid ""
+"Here is a list of all the approved booking timeslots created by sellers of marketplace. You\n"
+"                can click on any record to get the detailed Information About these TimeSlots."
+msgstr ""
+
+#. module: marketplace_booking_system
+#: model_terms:ir.actions.act_window,help:marketplace_booking_system.mp_booking_plans_new_action
+msgid ""
+"Here is a list of all the new booking plans created by sellers of marketplace. You\n"
+"                can click on any record to get the detailed Information About these plans."
+msgstr ""
+
+#. module: marketplace_booking_system
+#: model_terms:ir.actions.act_window,help:marketplace_booking_system.mp_booking_timeslots_new_action
+msgid ""
+"Here is a list of all the new booking timeslots created by sellers of marketplace. You\n"
+"                can click on any record to get the detailed Information About these timeslots."
+msgstr ""
+
+#. module: marketplace_booking_system
+#: model:ir.actions.act_window,name:marketplace_booking_system.mp_booking_timeslots_approved_action
+msgid "Marketplace Booking Approved TimeSlots"
+msgstr ""
+
+#. module: marketplace_booking_system
+#: model:ir.actions.act_window,name:marketplace_booking_system.mp_booking_plans_approved_action
+msgid "Marketplace Booking Approved plans"
+msgstr ""
+
+#. module: marketplace_booking_system
+#: model:ir.actions.act_window,name:marketplace_booking_system.mp_booking_timeslots_new_action
+msgid "Marketplace Booking New TimeSlots"
+msgstr ""
+
+#. module: marketplace_booking_system
+#: model:ir.actions.act_window,name:marketplace_booking_system.mp_booking_plans_new_action
+msgid "Marketplace Booking New plans"
+msgstr ""
+
+#. module: marketplace_booking_system
+#: model:ir.model.fields.selection,name:marketplace_booking_system.selection__booking_plan__state__new
+#: model:ir.model.fields.selection,name:marketplace_booking_system.selection__booking_time_slot__state__new
+msgid "New"
+msgstr "အသစ်"
+
+#. module: marketplace_booking_system
+#: model:ir.ui.menu,name:marketplace_booking_system.mp_booking_plans_new_menu
+#: model:ir.ui.menu,name:marketplace_booking_system.mp_booking_timeslots_new_menu
+msgid "Non-Approved"
+msgstr "ခွင့်ပြုချက်မရသေးသော"
+
+#. module: marketplace_booking_system
+#: model:ir.model.fields.selection,name:marketplace_booking_system.selection__booking_plan__state__pending
+#: model:ir.model.fields.selection,name:marketplace_booking_system.selection__booking_time_slot__state__pending
+msgid "Pending"
+msgstr "လုပ်ဆောင်နေဆဲ"
+
+#. module: marketplace_booking_system
+#: model:ir.ui.menu,name:marketplace_booking_system.mp_booking_plans_main_menu
+msgid "Plans"
+msgstr ""
+
+#. module: marketplace_booking_system
+#: model_terms:ir.ui.view,arch_db:marketplace_booking_system.mp_wk_booking_plan_form_view
+msgid "Reject"
+msgstr ""
+
+#. module: marketplace_booking_system
+#: model:ir.model.fields.selection,name:marketplace_booking_system.selection__booking_plan__state__rejected
+#: model:ir.model.fields.selection,name:marketplace_booking_system.selection__booking_time_slot__state__rejected
+msgid "Rejected"
+msgstr "ငြင်းပယ်သည်"
+
+#. module: marketplace_booking_system
+#: model_terms:ir.ui.view,arch_db:marketplace_booking_system.mp_wk_booking_plan_form_view
+#: model_terms:ir.ui.view,arch_db:marketplace_booking_system.mp_wk_booking_timeslot_tree_view
+msgid "Request to Approve"
+msgstr "ခွင့်ပြုချက်တောင်းခံရန်"
+
+#. module: marketplace_booking_system
+#: model_terms:ir.ui.view,arch_db:marketplace_booking_system.mp_wk_booking_plan_form_view
+#: model_terms:ir.ui.view,arch_db:marketplace_booking_system.mp_wk_booking_timeslot_tree_view
+msgid "Requested By"
+msgstr ""
+
+#. module: marketplace_booking_system
+#: model:ir.model.fields,field_description:marketplace_booking_system.field_booking_plan__marketplace_seller_id
+#: model:ir.model.fields,field_description:marketplace_booking_system.field_booking_time_slot__marketplace_seller_id
+msgid "Seller"
+msgstr "ရောင်းချသူ"
+
+#. module: marketplace_booking_system
+#: model:ir.model.fields,field_description:marketplace_booking_system.field_booking_plan__state
+#: model:ir.model.fields,field_description:marketplace_booking_system.field_booking_time_slot__state
+msgid "State"
+msgstr "အခြေအနေ"
+
+#. module: marketplace_booking_system
+#: model:ir.ui.menu,name:marketplace_booking_system.mp_booking_timeslots_main_menu
+msgid "Time Slots"
+msgstr ""
+
+#. module: marketplace_booking_system
+#: model_terms:ir.ui.view,arch_db:marketplace_booking_system.mp_inherit_wk_seller_product_order_line_search_view
+msgid "Today's Booking Order"
+msgstr "ယနေ့ ကြိုတင်မှာယူထားသော အမှာစာ"
+
+#. module: marketplace_booking_system
+#: model:ir.model,name:marketplace_booking_system.model_booking_plan
+msgid "booking.plan"
+msgstr ""
+
+#. module: marketplace_booking_system
+#: model:ir.model,name:marketplace_booking_system.model_booking_time_slot
+msgid "booking.time.slot"
+msgstr ""
+
+#. module: marketplace_booking_system
+#: model_terms:ir.ui.view,arch_db:marketplace_booking_system.mp_booking_inherit_marketplace_base_config_settings_form_view
+msgid ""
+"⇒ If it is enabled then all seller's booking plan will be automatically "
+"approved."
+msgstr ""
+
+#. module: marketplace_booking_system
+#: model_terms:ir.ui.view,arch_db:marketplace_booking_system.mp_booking_inherit_marketplace_base_config_settings_form_view
+msgid ""
+"⇒ If it is enabled then all seller's timeslot will be automatically "
+"approved."
+msgstr ""

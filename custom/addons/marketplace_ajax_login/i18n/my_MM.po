@@ -1,0 +1,66 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* marketplace_ajax_login
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 13.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-02-26 05:45+0000\n"
+"PO-Revision-Date: 2022-02-26 05:45+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: marketplace_ajax_login
+#: model_terms:ir.ui.view,arch_db:marketplace_ajax_login.mp_custom_ajax_login
+msgid "<span class=\"ml4 mr4\">or</span>"
+msgstr ""
+
+#. module: marketplace_ajax_login
+#: model_terms:ir.ui.view,arch_db:marketplace_ajax_login.mp_custom_ajax_login
+msgid "Country"
+msgstr "နိုင်ငံ"
+
+#. module: marketplace_ajax_login
+#: model_terms:ir.ui.view,arch_db:marketplace_ajax_login.mp_custom_ajax_login
+msgid "Country..."
+msgstr ""
+
+#. module: marketplace_ajax_login
+#: model_terms:ir.ui.view,arch_db:marketplace_ajax_login.mp_custom_ajax_login
+msgid "Do you want to become seller/vendor?"
+msgstr ""
+
+#. module: marketplace_ajax_login
+#: model_terms:ir.ui.view,arch_db:marketplace_ajax_login.mp_custom_ajax_login
+msgid "I Accept"
+msgstr ""
+
+#. module: marketplace_ajax_login
+#: model_terms:ir.ui.view,arch_db:marketplace_ajax_login.mp_custom_ajax_login
+msgid "Profile URL"
+msgstr "ကိုယ်ရေးအချက်အလက် Url"
+
+#. module: marketplace_ajax_login
+#: model_terms:ir.ui.view,arch_db:marketplace_ajax_login.mp_custom_ajax_login
+msgid "Shop"
+msgstr "စျေးဆိုင်"
+
+#. module: marketplace_ajax_login
+#: model_terms:ir.ui.view,arch_db:marketplace_ajax_login.mp_custom_ajax_login
+msgid "Terms &amp; Conditions"
+msgstr ""
+
+#. module: marketplace_ajax_login
+#: model_terms:ir.ui.view,arch_db:marketplace_ajax_login.mp_custom_ajax_login
+msgid "Unique Seller Profile URL handler.."
+msgstr ""
+
+#. module: marketplace_ajax_login
+#: model:ir.model,name:marketplace_ajax_login.model_res_users
+msgid "Users"
+msgstr "အသုံးပြုသူများ"

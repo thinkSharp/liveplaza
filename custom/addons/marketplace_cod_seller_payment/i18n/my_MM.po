@@ -1,0 +1,216 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* marketplace_cod_seller_payment
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 13.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-02-26 05:49+0000\n"
+"PO-Revision-Date: 2022-02-26 05:49+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: marketplace_cod_seller_payment
+#: model_terms:ir.ui.view,arch_db:marketplace_cod_seller_payment.wk_recieved_from_seller_wizard_form_view
+msgid "Amount which you are recieved from the seller."
+msgstr ""
+
+#. module: marketplace_cod_seller_payment
+#: model:ir.model.fields.selection,name:marketplace_cod_seller_payment.selection__seller_payment__payment_mode__cod_payment
+msgid "COD Payment"
+msgstr ""
+
+#. module: marketplace_cod_seller_payment
+#: model_terms:ir.ui.view,arch_db:marketplace_cod_seller_payment.wk_pay_to_admin_wizard_form_view
+#: model_terms:ir.ui.view,arch_db:marketplace_cod_seller_payment.wk_recieved_from_seller_wizard_form_view
+msgid "Cancel"
+msgstr "မလုပ်ဆောင်ပါ"
+
+#. module: marketplace_cod_seller_payment
+#: model:ir.model,name:marketplace_cod_seller_payment.model_res_partner
+msgid "Contact"
+msgstr "အဆက်အသွယ်"
+
+#. module: marketplace_cod_seller_payment
+#: model_terms:ir.ui.view,arch_db:marketplace_cod_seller_payment.wk_pay_to_admin_wizard_form_view
+#: model_terms:ir.ui.view,arch_db:marketplace_cod_seller_payment.wk_recieved_from_seller_wizard_form_view
+msgid "Due Amount"
+msgstr ""
+
+#. module: marketplace_cod_seller_payment
+#: model:ir.model,name:marketplace_cod_seller_payment.model_account_move
+msgid "Journal Entries"
+msgstr ""
+
+#. module: marketplace_cod_seller_payment
+#: model:ir.model,name:marketplace_cod_seller_payment.model_ir_ui_menu
+msgid "Menu"
+msgstr ""
+
+#. module: marketplace_cod_seller_payment
+#: model_terms:ir.ui.view,arch_db:marketplace_cod_seller_payment.wk_pay_to_admin_wizard_form_view
+msgid "No Payment Due."
+msgstr ""
+
+#. module: marketplace_cod_seller_payment
+#: model_terms:ir.ui.view,arch_db:marketplace_cod_seller_payment.wk_pay_to_admin_wizard_form_view
+msgid "Ok"
+msgstr ""
+
+#. module: marketplace_cod_seller_payment
+#: code:addons/marketplace_cod_seller_payment/wizard/inherit_seller_payment_wizard.py:0
+#, python-format
+msgid ""
+"One request of payment is not done yet for this seller, so please wait..."
+msgstr ""
+
+#. module: marketplace_cod_seller_payment
+#: model_terms:ir.ui.view,arch_db:marketplace_cod_seller_payment.wk_pay_to_admin_wizard_form_view
+msgid "Pay"
+msgstr ""
+
+#. module: marketplace_cod_seller_payment
+#: model:ir.actions.act_window,name:marketplace_cod_seller_payment.wk_pay_to_admin_wizard_action
+#: model:ir.ui.menu,name:marketplace_cod_seller_payment.wk_pay_to_admin_menu
+#: model_terms:ir.ui.view,arch_db:marketplace_cod_seller_payment.wk_pay_to_admin_wizard_form_view
+msgid "Pay To Admin"
+msgstr "Admin သို့ ပေးရန်"
+
+#. module: marketplace_cod_seller_payment
+#: code:addons/marketplace_cod_seller_payment/wizard/inherit_seller_payment_wizard.py:0
+#, python-format
+msgid "Paying amount should be greater than 0. "
+msgstr ""
+
+#. module: marketplace_cod_seller_payment
+#: model_terms:ir.ui.view,arch_db:marketplace_cod_seller_payment.wk_pay_to_admin_wizard_form_view
+msgid "Payment Amount"
+msgstr ""
+
+#. module: marketplace_cod_seller_payment
+#: model_terms:ir.ui.view,arch_db:marketplace_cod_seller_payment.wk_recieved_from_seller_wizard_form_view
+msgid "Payment Method"
+msgstr "ငွေပေးချေခြင်း နည်းလမ်း"
+
+#. module: marketplace_cod_seller_payment
+#: model:ir.model.fields,field_description:marketplace_cod_seller_payment.field_seller_payment__payment_mode
+msgid "Payment Mode"
+msgstr "ငွေပေးချေခြင်း နည်းလမ်း"
+
+#. module: marketplace_cod_seller_payment
+#: model_terms:ir.ui.view,arch_db:marketplace_cod_seller_payment.wk_pay_to_admin_wizard_form_view
+#: model_terms:ir.ui.view,arch_db:marketplace_cod_seller_payment.wk_recieved_from_seller_wizard_form_view
+msgid "Payment description"
+msgstr ""
+
+#. module: marketplace_cod_seller_payment
+#: model:ir.model.fields.selection,name:marketplace_cod_seller_payment.selection__seller_payment__payment_mode__received_from_seller
+msgid "Received From Seller"
+msgstr ""
+
+#. module: marketplace_cod_seller_payment
+#: model_terms:ir.ui.view,arch_db:marketplace_cod_seller_payment.wk_recieved_from_seller_wizard_form_view
+msgid "Recieve"
+msgstr ""
+
+#. module: marketplace_cod_seller_payment
+#: model_terms:ir.ui.view,arch_db:marketplace_cod_seller_payment.wk_recieved_from_seller_wizard_form_view
+msgid "Recieve & Confirm"
+msgstr ""
+
+#. module: marketplace_cod_seller_payment
+#: model_terms:ir.ui.view,arch_db:marketplace_cod_seller_payment.wk_recieved_from_seller_wizard_form_view
+msgid "Recieve Amount"
+msgstr ""
+
+#. module: marketplace_cod_seller_payment
+#: model:ir.actions.act_window,name:marketplace_cod_seller_payment.wk_recieved_from_seller_wizard_action
+#: model:ir.ui.menu,name:marketplace_cod_seller_payment.wk_recieved_from_seller_menu
+#: model_terms:ir.ui.view,arch_db:marketplace_cod_seller_payment.wk_recieved_from_seller_wizard_form_view
+msgid "Recieved From Seller"
+msgstr ""
+
+#. module: marketplace_cod_seller_payment
+#: code:addons/marketplace_cod_seller_payment/wizard/inherit_seller_payment_wizard.py:0
+#, python-format
+msgid "Recieving amount should be greater than 0. "
+msgstr ""
+
+#. module: marketplace_cod_seller_payment
+#: model_terms:ir.ui.view,arch_db:marketplace_cod_seller_payment.wk_recieved_from_seller_wizard_form_view
+msgid "Select payment method in which you have paid payment to seller."
+msgstr ""
+
+#. module: marketplace_cod_seller_payment
+#: model_terms:ir.ui.view,arch_db:marketplace_cod_seller_payment.wk_recieved_from_seller_wizard_form_view
+msgid "Seller"
+msgstr "ရောင်းချသူ"
+
+#. module: marketplace_cod_seller_payment
+#: model:ir.model,name:marketplace_cod_seller_payment.model_seller_payment
+msgid "Seller Payment"
+msgstr "ရောင်းသူ၏ ငွေပေးချေမှု"
+
+#. module: marketplace_cod_seller_payment
+#: model:ir.model,name:marketplace_cod_seller_payment.model_seller_payment_wizard
+msgid "Seller Payment Wizard"
+msgstr ""
+
+#. module: marketplace_cod_seller_payment
+#: code:addons/marketplace_cod_seller_payment/wizard/inherit_seller_payment_wizard.py:0
+#, python-format
+msgid "Seller requested for payment..."
+msgstr ""
+
+#. module: marketplace_cod_seller_payment
+#: model_terms:ir.ui.view,arch_db:marketplace_cod_seller_payment.wk_recieved_from_seller_wizard_form_view
+msgid ""
+"Sorry Seller has no due amount. So you can't recieved any payment from this "
+"seller."
+msgstr ""
+
+#. module: marketplace_cod_seller_payment
+#: model_terms:ir.ui.view,arch_db:marketplace_cod_seller_payment.wk_recieved_from_seller_wizard_form_view
+msgid "You can pay to seller upto this amount."
+msgstr ""
+
+#. module: marketplace_cod_seller_payment
+#: code:addons/marketplace_cod_seller_payment/wizard/inherit_seller_payment_wizard.py:0
+#, python-format
+msgid "You can't pay more than the due amount."
+msgstr ""
+
+#. module: marketplace_cod_seller_payment
+#: code:addons/marketplace_cod_seller_payment/wizard/inherit_seller_payment_wizard.py:0
+#, python-format
+msgid "You can't pay now, due to insufficient amount."
+msgstr ""
+
+#. module: marketplace_cod_seller_payment
+#: code:addons/marketplace_cod_seller_payment/wizard/inherit_seller_payment_wizard.py:0
+#, python-format
+msgid "You can't recieve from this seller, due to insufficient amount."
+msgstr ""
+
+#. module: marketplace_cod_seller_payment
+#: code:addons/marketplace_cod_seller_payment/wizard/inherit_seller_payment_wizard.py:0
+#, python-format
+msgid "You can't recieve more than the due amount."
+msgstr ""
+
+#. module: marketplace_cod_seller_payment
+#: code:addons/marketplace_cod_seller_payment/wizard/inherit_seller_payment_wizard.py:0
+#, python-format
+msgid "Your one request of payment is not done yet, so please wait..."
+msgstr ""
+
+#. module: marketplace_cod_seller_payment
+#: model_terms:ir.ui.view,arch_db:marketplace_cod_seller_payment.wk_pay_to_admin_wizard_form_view
+#: model_terms:ir.ui.view,arch_db:marketplace_cod_seller_payment.wk_recieved_from_seller_wizard_form_view
+msgid "or"
+msgstr "သို့မဟုတ်"
