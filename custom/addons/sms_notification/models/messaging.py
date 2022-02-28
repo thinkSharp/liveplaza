@@ -50,6 +50,7 @@ class SaleOrder(models.Model):
     #             if mobile:
     #                 sms_template_obj.send_sms_using_template(
     #                     mobile, sms_template_obj, obj=obj)
+    #
     #     return res
 
     
