@@ -1,0 +1,270 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* website_ajax_login
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 13.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-02-26 06:04+0000\n"
+"PO-Revision-Date: 2022-02-26 06:04+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: website_ajax_login
+#: model_terms:ir.ui.view,arch_db:website_ajax_login.res_config_settings_view_form
+msgid "<i class=\"fa fa-fw fa-arrow-right\"/>Tutorial"
+msgstr ""
+
+#. module: website_ajax_login
+#: model_terms:ir.ui.view,arch_db:website_ajax_login.wk_ajax_login_modals
+msgid ""
+"<span class=\"modal-title\" id=\"wk_ModalLabel\">Login To Your Account\n"
+"                                        </span>"
+msgstr ""
+
+#. module: website_ajax_login
+#: model_terms:ir.ui.view,arch_db:website_ajax_login.wk_ajax_login_modals
+msgid ""
+"<span class=\"modal-title\" id=\"wk_ModalLabel\">Reset Password\n"
+"                                        </span>"
+msgstr "စကားဝှက် ပြောင်းရန်"
+
+#. module: website_ajax_login
+#: model_terms:ir.ui.view,arch_db:website_ajax_login.wk_ajax_login_modals
+msgid "<span id=\"footertitle\">Already Have An Account ?</span>"
+msgstr ""
+
+#. module: website_ajax_login
+#: model_terms:ir.ui.view,arch_db:website_ajax_login.wk_ajax_login_modals
+msgid ""
+"<span id=\"wk_ModalLabel\" style=\"text-align: left;\">Create Your Account , Its Free !!\n"
+"                                        </span>"
+msgstr ""
+
+#. module: website_ajax_login
+#: model_terms:ir.ui.view,arch_db:website_ajax_login.res_config_settings_view_form
+msgid "Ajax Login"
+msgstr ""
+
+#. module: website_ajax_login
+#: model_terms:ir.ui.view,arch_db:website_ajax_login.res_config_settings_view_form
+msgid "Allow users to sign in with their Facebook account"
+msgstr ""
+
+#. module: website_ajax_login
+#: model_terms:ir.ui.view,arch_db:website_ajax_login.res_config_settings_view_form
+msgid "Allow users to sign in with their Odoo account"
+msgstr ""
+
+#. module: website_ajax_login
+#: model_terms:ir.ui.view,arch_db:website_ajax_login.res_config_settings_view_form
+msgid "Always show Ajax login form"
+msgstr ""
+
+#. module: website_ajax_login
+#: code:addons/website_ajax_login/controller/controller.py:0
+#, python-format
+msgid "An email has been sent with credentials to reset your password"
+msgstr ""
+
+#. module: website_ajax_login
+#: model_terms:ir.ui.view,arch_db:website_ajax_login.res_config_settings_view_form
+msgid "App ID:"
+msgstr ""
+
+#. module: website_ajax_login
+#: model_terms:ir.ui.view,arch_db:website_ajax_login.wk_ajax_login_modals
+msgid "Back to Login"
+msgstr ""
+
+#. module: website_ajax_login
+#: model_terms:ir.ui.view,arch_db:website_ajax_login.res_config_settings_view_form
+msgid "Block UI"
+msgstr ""
+
+#. module: website_ajax_login
+#: model_terms:ir.ui.view,arch_db:website_ajax_login.wk_ajax_login_modals
+msgid "Close"
+msgstr "ပိတ်သည်"
+
+#. module: website_ajax_login
+#: model:ir.model,name:website_ajax_login.model_res_config_settings
+msgid "Config Settings"
+msgstr ""
+
+#. module: website_ajax_login
+#: model_terms:ir.ui.view,arch_db:website_ajax_login.wk_ajax_login_modals
+msgid "Confirm"
+msgstr "အတည်ပြုသည်"
+
+#. module: website_ajax_login
+#: model_terms:ir.ui.view,arch_db:website_ajax_login.wk_ajax_login_modals
+msgid "Confirm password"
+msgstr ""
+
+#. module: website_ajax_login
+#: code:addons/website_ajax_login/controller/controller.py:0
+#, python-format
+msgid "Could not reset your password"
+msgstr ""
+
+#. module: website_ajax_login
+#: model_terms:ir.ui.view,arch_db:website_ajax_login.res_config_settings_view_form
+msgid "Don't allow user to close the Ajax Pop Up form without login"
+msgstr ""
+
+#. module: website_ajax_login
+#: model:ir.model.fields,field_description:website_ajax_login.field_res_config_settings__wk_block_ui
+msgid "Don't allow user to close the Ajax Pop Up form without login."
+msgstr ""
+
+#. module: website_ajax_login
+#: model_terms:ir.ui.view,arch_db:website_ajax_login.wk_ajax_login_modals
+msgid "Don't buy for reason , Shop for emotion."
+msgstr ""
+
+#. module: website_ajax_login
+#: model_terms:ir.ui.view,arch_db:website_ajax_login.wk_ajax_login_modals
+msgid "Email"
+msgstr "အီးမေးလ်"
+
+#. module: website_ajax_login
+#: model_terms:ir.ui.view,arch_db:website_ajax_login.wk_ajax_login_modals
+msgid "Enter your registered email address."
+msgstr ""
+
+#. module: website_ajax_login
+#: model:ir.model.fields,field_description:website_ajax_login.field_res_config_settings__facebook_client_id
+msgid "Facebook App ID"
+msgstr ""
+
+#. module: website_ajax_login
+#: model_terms:ir.ui.view,arch_db:website_ajax_login.res_config_settings_view_form
+msgid "Facebook Authentication"
+msgstr ""
+
+#. module: website_ajax_login
+#: model:ir.model.fields,field_description:website_ajax_login.field_res_config_settings__website_facebook_login
+msgid "Facebook Login"
+msgstr ""
+
+#. module: website_ajax_login
+#: model_terms:ir.ui.view,arch_db:website_ajax_login.wk_ajax_login_modals
+msgid "Forgot Password?"
+msgstr ""
+
+#. module: website_ajax_login
+#: model_terms:ir.ui.view,arch_db:website_ajax_login.custom
+msgid "Log in"
+msgstr ""
+
+#. module: website_ajax_login
+#: model_terms:ir.ui.view,arch_db:website_ajax_login.wk_ajax_login_modals
+msgid "Login"
+msgstr "အကောင့်ဝင်ရန်"
+
+#. module: website_ajax_login
+#: model_terms:ir.ui.view,arch_db:website_ajax_login.res_config_settings_view_form
+msgid "Login PopUp"
+msgstr ""
+
+#. module: website_ajax_login
+#: model_terms:ir.ui.view,arch_db:website_ajax_login.wk_ajax_login_modals
+msgid "Name"
+msgstr "အမည်"
+
+#. module: website_ajax_login
+#: code:addons/website_ajax_login/controller/controller.py:0
+#, python-format
+msgid "No login provided."
+msgstr ""
+
+#. module: website_ajax_login
+#: model_terms:ir.ui.view,arch_db:website_ajax_login.res_config_settings_view_form
+msgid "Odoo Authentication"
+msgstr ""
+
+#. module: website_ajax_login
+#: model:ir.model.fields,field_description:website_ajax_login.field_res_config_settings__website_odoo_login
+msgid "Odoo Login"
+msgstr ""
+
+#. module: website_ajax_login
+#: model_terms:ir.ui.view,arch_db:website_ajax_login.wk_ajax_login_modals
+msgid "Password"
+msgstr "စကားဝှက်"
+
+#. module: website_ajax_login
+#: model:ir.model.fields,field_description:website_ajax_login.field_res_config_settings__show_ajax_form_always
+msgid "Pop Up Ajax form if user not logged in, on every web page."
+msgstr ""
+
+#. module: website_ajax_login
+#: model_terms:ir.ui.view,arch_db:website_ajax_login.wk_ajax_login_modals
+msgid "Register Now"
+msgstr ""
+
+#. module: website_ajax_login
+#: model_terms:ir.ui.view,arch_db:website_ajax_login.wk_ajax_login_modals
+msgid "Remember me"
+msgstr ""
+
+#. module: website_ajax_login
+#: model_terms:ir.ui.view,arch_db:website_ajax_login.wk_ajax_login_modals
+msgid "Sign in with your email address."
+msgstr ""
+
+#. module: website_ajax_login
+#: model_terms:ir.ui.view,arch_db:website_ajax_login.wk_ajax_login_modals
+msgid "SignUp with Facebook"
+msgstr ""
+
+#. module: website_ajax_login
+#: model_terms:ir.ui.view,arch_db:website_ajax_login.wk_ajax_login_modals
+msgid "SignUp with Google+"
+msgstr ""
+
+#. module: website_ajax_login
+#: model_terms:ir.ui.view,arch_db:website_ajax_login.wk_ajax_login_modals
+msgid "SignUp with Odoo"
+msgstr ""
+
+#. module: website_ajax_login
+#: model_terms:ir.ui.view,arch_db:website_ajax_login.wk_ajax_login_modals
+msgid "Username"
+msgstr ""
+
+#. module: website_ajax_login
+#: model_terms:ir.ui.view,arch_db:website_ajax_login.wk_ajax_login_modals
+msgid "Username or Email"
+msgstr ""
+
+#. module: website_ajax_login
+#: model:ir.model,name:website_ajax_login.model_website
+msgid "Website"
+msgstr "ဝက်ဆိုဒ်"
+
+#. module: website_ajax_login
+#: model_terms:ir.ui.view,arch_db:website_ajax_login.res_config_settings_view_form
+msgid "e.g. 1234-xyz.apps.googleusercontent.com"
+msgstr ""
+
+#. module: website_ajax_login
+#: model_terms:ir.ui.view,arch_db:website_ajax_login.wk_ajax_login_modals
+msgid "or Continue with"
+msgstr ""
+
+#. module: website_ajax_login
+#: model_terms:ir.ui.view,arch_db:website_ajax_login.wk_ajax_login_modals
+msgid "or Login with"
+msgstr ""
+
+#. module: website_ajax_login
+#: model_terms:ir.ui.view,arch_db:website_ajax_login.wk_ajax_login_modals
+msgid "username or email"
+msgstr ""

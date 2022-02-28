@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<odoo>
+    <template id="checkout_assets_frontend" inherit_id="website.assets_frontend">
+        <xpath expr="." position="inside">
+            <script type="text/javascript" src="/customizations_by_livep/static/src/js/deleteAddress.js"></script>
+
+        </xpath>
+    </template>
+
+    <template id="checkout_template_inherit" inherit_id="website_sale.address">
+<!--        <xpath expr="//select[@name='state_id']" position="replace">-->
+<!--            <select name="state_id" t-attf-class="form-control #{error.get('state_id') and 'is-invalid' or ''}" data-init="1">-->
+<!--                <t t-foreach="country and country.state_ids or []" t-as="s">-->
+<!--                    <option t-att-value="s.id" t-att-selected="s.id == ('state_id' in checkout and country and checkout['state_id'] != '' and int(checkout['state_id']))">-->
+<!--                        <t t-esc="s.name" />-->
+<!--                    </option>-->
+<!--                </t>-->
+<!--            </select>-->
+<!--        </xpath>-->
+        <xpath expr="//label[@for='street']" position="replace">
+            <label class="col-form-label" for="street">Address</label>
+        </xpath>
+        <xpath expr="//select[@id='country_id']" position="replace">
+            <select id="country_id" name="country_id" t-attf-class="form-control #{error.get('country_id') and 'is-invalid' or ''}">
+                <t t-foreach="countries" t-as="c">
+                    <option t-att-value="c.id" t-att-selected="c.id == (country and country.id or -1)">
+                        <t t-esc="c.name" />
+                    </option>
+                </t>
+            </select>
+        </xpath>
+        <xpath expr="//input[@type='email']" position="replace">
+            <input type="email" name="email" t-attf-class="form-control #{error.get('email') and 'is-invalid' or ''}" t-att-value="email" />
+        </xpath>
+        <xpath expr="//input[@name='phone']" position="replace">
+            <input type="tel" name="phone" placeholder="eg.09xxxxxxxxx"
+                   t-attf-class="form-control #{error.get('phone') and 'is-invalid' or ''}" t-att-value="phone" />
+        </xpath>
+    </template>
+
+    <template id="shareBtn_each_product" inherit_id="website_sale.product">
+        <xpath expr="//hr[@t-if='product.description_sale']" position="after">
+            <div class="s_share" data-name="Share" style="margin: 7% 0">
+                <h4 class="s_share_title o_default_snippet_text">Share</h4>
+                <a href="https://www.facebook.com/sharer/sharer.php?u={url}" target="_blank" class="s_share_facebook ">
+                  <i class="fa fa-1x fa-facebook rounded shadow-sm" data-original-title="" title="" aria-describedby="tooltip513340"/>
+                </a>
+                <a href="https://twitter.com/intent/tweet?text={title}&amp;url={url}" target="_blank" class="s_share_twitter ">
+                  <i class="fa fa-1x fa-twitter rounded shadow-sm"/>
+                </a>
+                <a href="http://www.linkedin.com/shareArticle?mini=true&amp;url={url}&amp;title={title}&amp;" target="_blank" class="s_share_linkedin ">
+                  <i class="fa fa-1x fa-linkedin rounded shadow-sm"/>
+                </a>
+                <a href="mailto:?body={url}&amp;subject={title}" class="s_share_email ">
+                  <i class="fa fa-1x fa-envelope rounded shadow-sm"/>
+                </a>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="payment_confirmation_status_inherit" inherit_id="website_sale.payment_confirmation_status">
+        <xpath expr="//div[@class='card-header']" position="replace">
+            <div class="card-header" style="background:#0051B1; outline: 2px solid #0051B1">
+                <a style="background:#0051B1; outline:5px solid #0051B1" role="button" groups="base.group_system" class="btn btn-sm btn-link text-white float-right" target="_blank" aria-label="Edit" title="Edit"
+                        t-att-href="'/web#model=%s&amp;id=%s&amp;action=%s&amp;view_type=form' % ('payment.acquirer', payment_tx_id.acquirer_id.id, 'payment.action_payment_acquirer')">
+                    <i style="font-size: 20px;" class="fa fa-pencil"></i>
+                </a>
+                <t t-if="payment_tx_id.state == 'pending'">
+                    <t t-raw="payment_tx_id.acquirer_id.pending_msg"/>
+                </t>
+                <t t-if="payment_tx_id.state == 'done'">
+                    <span t-if='payment_tx_id.acquirer_id.done_msg' t-raw="payment_tx_id.acquirer_id.done_msg"/>
+                </t>
+                <t t-if="payment_tx_id.state == 'cancel'">
+                    <t t-raw="payment_tx_id.acquirer_id.cancel_msg"/>
+                </t>
+                <t t-if="payment_tx_id.state == 'authorized'">
+                    <span>Your payment has been authorized.</span>
+                </t>
+                <t t-if="payment_tx_id.state == 'error'">
+                    <span t-esc="payment_tx_id.state_message"/>
+                </t>
+            </div>
+        </xpath>
+
+    </template>
+
+    <template id="theme_products_grid_view_inherit" inherit_id="website_sale.products" name="Inherit Product grid View Inherit">
+        <xpath expr="//div[hasclass('products_pager')][last()]" position="replace">
+          <div t-if="bins" class="products_pager form-inline justify-content-center mt-3 mb-3">
+            <div id="wk_loader" t-att-category="category.id if category else 'none'"><span />
+              <button class="btn btn-secondary">Load More Products</button>
+              <p>loading ...</p>
+            </div>
+          </div>
+        </xpath>
+    </template>
+
+<!--    <template id="sellelrs_grid_view_inherit" inherit_id="odoo_marketplace.sellers_list">-->
+<!--        <xpath expr="//div[hasclass('products_pager')][last()]" position="before">-->
+<!--          <div t-if="bins" class="products_pager form-inline justify-content-center mt-3 mb-3">-->
+<!--            <div id="wk_loader" t-att-category="category.id if category else 'none'"><span />-->
+<!--              <button class="btn btn-secondary">Load More Products</button>-->
+<!--              <p>loading ...</p>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </xpath>-->
+<!--    </template>-->
+
+    <template id="shop_page_products_grid_view_inherit" inherit_id="odoo_marketplace.mp_seller_profile">
+        <xpath expr="//div[hasclass('products_pager')][last()]" position="before">
+          <div t-if="bins" class="products_pager form-inline justify-content-center mt-3 mb-3">
+            <div id="wk_loader" t-att-category="category.id if category else 'none'"><span />
+                <form method="get" t-attf-action="/seller/profile/#{seller.sudo().id}/page/2">
+                    <button
+                       class="btn btn-secondary">Load More Products</button>
+                    <p>loading ...</p>
+                </form>
+
+            </div>
+          </div>
+        </xpath>
+    </template>
+
+    <template id="process_checkout_change_label" inherit_id="website_sale.short_cart_summary">
+        <xpath position="replace" expr="//a[@class='btn btn-secondary float-right d-none d-xl-inline-block']">
+            <a role="button" t-if="website_sale_order and website_sale_order.website_order_line" class="btn btn-secondary float-right d-none d-xl-inline-block" href="/shop/checkout?express=1">
+                <span>Place Order</span>
+            </a>
+        </xpath>
+    </template>
+
+    <template id="pay_now_change_label" inherit_id="website_sale.payment">
+        <xpath expr="//a[@class='btn btn-primary a-submit']" position="replace">
+            <a role="button" class="btn btn-primary a-submit" href="#">
+                <span t-if="order.amount_total &gt; 0">Check out <span class="fa fa-chevron-right"></span></span>
+                <span t-if="order.amount_total == 0">Confirm Order <span class="fa fa-chevron-right"></span></span>
+            </a>
+        </xpath>
+
+        <xpath expr="//t[@t-set='submit_txt']" position="replace">
+            <t t-set="submit_txt">Check out</t>
+        </xpath>
+    </template>
+
+</odoo>

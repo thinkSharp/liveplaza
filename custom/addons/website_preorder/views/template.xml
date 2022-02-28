@@ -285,7 +285,8 @@
                               t-att-class="(ol.discount and 'text-danger' or '') + ' text-right'"
                           />
                           <div t-if="ol.discount">
-                              <t t-esc="(1-line.discount / 100.0) * ol.price_unit" t-options='{"widget": "monetary", "display_currency": sale_order.pricelist_id.currency_id}'/>
+                              <!--(1-line.discount / 100.0) * ol.price_unit-->
+                              <t t-esc="( (100-ol.discount) / 100.0) * ol.price_unit" t-options='{"widget": "monetary", "display_currency": sale_order.pricelist_id.currency_id}'/>
                           </div>
                         </td>
                         <td class="text-right">

@@ -373,10 +373,10 @@
  	        <field name="name">Seller Product Template Attribute Value Read Only</field>
  	        <field name="model_id" ref="product.model_product_template_attribute_value"/>
  	        <field name="domain_force">[(1,'=',1)]</field>
-            <field name="perm_write" eval="0"/>
+            <field name="perm_write" eval="1"/>
 	        <field name="perm_read" eval="1"/>
-	        <field name="perm_create" eval="0"/>
-	        <field name="perm_unlink" eval="0"/>
+	        <field name="perm_create" eval="1"/>
+	        <field name="perm_unlink" eval="1"/>
  	        <field name="groups" eval="[(4, ref('marketplace_seller_group'))]"/>
  	    </record>
         <record id="officer_show_all_seller_product_template_attribute_value_rule" model="ir.rule">
@@ -395,10 +395,10 @@
  	        <field name="name">Seller Product Template Attribute Line Read Only</field>
  	        <field name="model_id" ref="product.model_product_template_attribute_line"/>
  	        <field name="domain_force">[(1,'=',1)]</field>
-            <field name="perm_write" eval="0"/>
+            <field name="perm_write" eval="1"/>
 	        <field name="perm_read" eval="1"/>
-	        <field name="perm_create" eval="0"/>
-	        <field name="perm_unlink" eval="0"/>
+	        <field name="perm_create" eval="1"/>
+	        <field name="perm_unlink" eval="1"/>
  	        <field name="groups" eval="[(4, ref('marketplace_seller_group'))]"/>
  	    </record>
         <record id="officer_show_all_seller_product_template_attribute_line_rule" model="ir.rule">

@@ -13,7 +13,7 @@ odoo.define('xtremo.core', function (require) {
     navText: ["<i class='fa fa-angle-right'></i>","<i class='fa fa-angle-left'></i>"],
     responsive: {
       0: {
-        items: 1
+        items: 2.5
       },
       600: {
         items: 3
@@ -69,6 +69,11 @@ odoo.define('xtremo.core', function (require) {
   }
 
   function owl_for_home($self){
+    var x = window.matchMedia("(max-width: 600px)")
+    if (x.matches) {
+        list.nav = false;
+    }
+
     if( $self.find('.owl-carousel').length > 0){
       var ref = $self.find('.carousel-item');
       var con = ref.length > 5;

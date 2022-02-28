@@ -1,5 +1,3 @@
-Hello World! from Thar Paing
-
 Python 3.6 Setup
 ----------------
  - Download python3.6 tar file and perform linux installation from Google

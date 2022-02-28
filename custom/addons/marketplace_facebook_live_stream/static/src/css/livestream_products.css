@@ -1,0 +1,245 @@
+
+
+.laptop {
+    display: block;
+}
+
+.tablet,
+.phone,
+.phone_tablet {
+    display: none;
+}
+
+.livestream-container {
+    width: 95%;
+    margin: 5% auto;
+}
+
+.ls-p-outer {
+    margin: 3.5% 0;
+    width: 22%;
+}
+
+.ls-p-container {
+    padding: 0 4%;
+    overflow-y: scroll;
+    max-height: 500px;
+}
+
+.ls-p-container::-webkit-scrollbar {
+    display: block;
+}
+
+.ls-p-inner {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.ls-p-title {
+    font-size: 16px;
+    font-weight: bolder;
+    margin: 0 auto;
+    margin-bottom: 9%;
+}
+
+.ls-p-name {
+    font-size: 15px;
+    margin-bottom: 3px;
+}
+
+.ls-p-img {
+    border-radius: 20px;
+}
+
+.laptop .owl-carousel {
+    width: 90%;
+    margin-left: 4%;
+}
+
+@media (min-width: 1200px) {
+    .ls-p-text {
+        width: 380%;
+    }
+}
+
+@media (min-width: 786px) and (max-width: 1200px) and (orientation: landscape) {
+    .tablet,
+    .phone_tablet {
+        display: block;
+    }
+    
+    .laptop,
+    .phone {
+        display: none;
+    }
+
+    .ls-p-outer {
+        width: 50%;
+        margin: 0 auto;
+    }
+
+    .ls-p-container {
+        padding: 0;
+    }
+    
+    .ls-p-title {
+        font-size: 22px;
+        width: 50%;
+        letter-spacing: 0.05em;
+        margin-bottom: 5%;
+    }
+ 
+    .ls-p-container {
+        width: 90%;
+        overflow-x: scroll;
+        max-width: 1000px;
+    }
+
+    .ls-p-outer {
+        width: 90%;
+    }
+}
+
+@media (min-width: 601px) and (max-width: 785px) {
+    .tablet,
+    .phone_tablet {
+        display: block;
+    }
+    
+    .laptop,
+    .phone {
+        display: none;
+    }
+
+    .ls-p-outer {
+        width: 80%;
+        margin: 0 auto;
+    }
+
+    .ls-p-container {
+        padding: 0;
+    }
+
+    .ls-p-title {
+        font-size: 20px;
+        width: 50%;
+        letter-spacing: 0.05em;
+        margin-bottom: 5%;
+    }
+
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    .ls-p-container::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* Hide scrollbar for IE, Edge and Firefox */
+    .ls-p-container {
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+    }
+
+    .ls-p-outer {
+        width: 95%;
+    }
+
+    .ls-p-inner {
+        width: 25%;
+    }
+
+    .ls-p-outer {
+        width: 90%;
+    }
+
+    .ls-p-container {
+        width: 90%;
+        overflow-x: scroll;
+        max-width: 750px;
+    }
+
+}
+
+@media (min-width: 481px) and (max-width: 600px) {
+    .phone_tablet,
+    .phone {
+        display: block;
+    }
+
+    .laptop,
+    .tablet {
+        display: none;
+    }
+
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    .ls-p-container::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* Hide scrollbar for IE, Edge and Firefox */
+    .ls-p-container {
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+    }
+
+    .ls-p-container {
+        width: 90%;
+        overflow-x: scroll;
+        max-width: 580px;
+    }
+
+    .ls-p-outer {
+        width: 100%;
+    }
+
+    .ls-p-inner {
+        width: 95%;
+    }
+}
+
+@media (min-width: 320px) and (max-width: 480px) {
+    .phone {
+        display: block;
+    }
+
+    .phone_tablet {
+        display: block;
+    }
+    
+    .laptop,
+    .tablet {
+        display: none;
+    }
+
+    .ls-p-outer {
+        width: 80%;
+        margin: 0 auto;
+    }
+
+    .ls-p-title {
+        font-size: 18px;
+    }
+
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    .ls-p-container::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* Hide scrollbar for IE, Edge and Firefox */
+    .ls-p-container {
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+    }
+
+    .ls-p-container {
+        width: 90%;
+        overflow-x: scroll;
+        max-width: 450px;
+    }
+
+    .ls-p-outer {
+        width: 100%;
+    }
+
+    .ls-p-inner {
+        width: 95%;
+    }
+}
