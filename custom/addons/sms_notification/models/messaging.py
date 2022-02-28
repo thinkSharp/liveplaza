@@ -77,6 +77,7 @@ class StockPicking(models.Model):
     #     for res in self:
     #         if res and vals.get("date_done", False):
     #             res.send_picking_done_message()
+    #
     #     return result
 
     # method to send msg on picking done
