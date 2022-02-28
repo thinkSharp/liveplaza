@@ -1,0 +1,561 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* website_subscription_management
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 13.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-02-26 06:08+0000\n"
+"PO-Revision-Date: 2022-02-26 06:08+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: website_subscription_management
+#: model:mail.template,body_html:website_subscription_management.email_template_mail
+msgid ""
+"\n"
+"            Please your renew your subscription      \n"
+"            \n"
+"            "
+msgstr ""
+
+#. module: website_subscription_management
+#: model_terms:ir.ui.view,arch_db:website_subscription_management.product_edit
+msgid "&amp;nbsp;"
+msgstr ""
+
+#. module: website_subscription_management
+#: model_terms:ir.ui.view,arch_db:website_subscription_management.cart_summary
+#: model_terms:ir.ui.view,arch_db:website_subscription_management.edit_cart
+msgid "<b>( Subscription Plan )</b>"
+msgstr ""
+
+#. module: website_subscription_management
+#: model_terms:ir.ui.view,arch_db:website_subscription_management.my_subscription_detail
+msgid "<b>Date of Next Payment: </b>"
+msgstr ""
+
+#. module: website_subscription_management
+#: model_terms:ir.ui.view,arch_db:website_subscription_management.my_subscription_detail
+msgid "<b>End Date :</b>"
+msgstr ""
+
+#. module: website_subscription_management
+#: model_terms:ir.ui.view,arch_db:website_subscription_management.my_subscription_detail
+msgid "<b>No. of Billing cycle : </b>"
+msgstr ""
+
+#. module: website_subscription_management
+#: model_terms:ir.ui.view,arch_db:website_subscription_management.product_edit
+msgid "<b>Plan Description</b>"
+msgstr ""
+
+#. module: website_subscription_management
+#: model_terms:ir.ui.view,arch_db:website_subscription_management.product_edit
+msgid "<b>Plan Duration</b>:The plan has"
+msgstr ""
+
+#. module: website_subscription_management
+#: model_terms:ir.ui.view,arch_db:website_subscription_management.my_subscription_detail
+msgid "<b>Plan Price : </b>"
+msgstr ""
+
+#. module: website_subscription_management
+#: model_terms:ir.ui.view,arch_db:website_subscription_management.my_subscription_detail
+msgid "<b>Recurrency : </b>"
+msgstr ""
+
+#. module: website_subscription_management
+#: model_terms:ir.ui.view,arch_db:website_subscription_management.my_subscription_detail
+msgid "<b>Start Date : </b>"
+msgstr ""
+
+#. module: website_subscription_management
+#: model_terms:ir.ui.view,arch_db:website_subscription_management.my_subscription_detail
+msgid "<b>Subscription Plan :</b>"
+msgstr ""
+
+#. module: website_subscription_management
+#: model_terms:ir.ui.view,arch_db:website_subscription_management.subscription_description_read_more_modal
+msgid "<b>Subscription Plan Details</b>"
+msgstr ""
+
+#. module: website_subscription_management
+#: model_terms:ir.ui.view,arch_db:website_subscription_management.my_subscription_detail
+msgid "<b>Trial Period:</b>"
+msgstr ""
+
+#. module: website_subscription_management
+#: model_terms:ir.ui.view,arch_db:website_subscription_management.product_edit
+msgid "<b>Trial Period</b> : This plan has"
+msgstr ""
+
+#. module: website_subscription_management
+#: model_terms:ir.ui.view,arch_db:website_subscription_management.cart_edit
+msgid ""
+"<span class=\"\">Place Order</span>\n"
+"                        <span class=\"fa fa-chevron-right\"/>"
+msgstr "ပစ္စည်းများကိုဝယ်ယူခြင်း"
+
+#. module: website_subscription_management
+#: model_terms:ir.ui.view,arch_db:website_subscription_management.cart_edit
+msgid ""
+"<span class=\"\">Place Order</span>\n"
+"                      <span class=\"fa fa-chevron-right\"/>"
+msgstr "ပစ္စည်းများကိုဝယ်ယူခြင်း"
+
+#. module: website_subscription_management
+#: model_terms:ir.ui.view,arch_db:website_subscription_management.my_subscription_detail
+msgid "<span style=\"font-size:25px\">Subscription ID: </span>"
+msgstr ""
+
+#. module: website_subscription_management
+#: model_terms:ir.ui.view,arch_db:website_subscription_management.product_edit
+msgid "<span> No Trial Period.</span>"
+msgstr ""
+
+#. module: website_subscription_management
+#: model_terms:ir.ui.view,arch_db:website_subscription_management.my_subscription_detail
+#: model_terms:ir.ui.view,arch_db:website_subscription_management.portal_my_subscription
+msgid "Active"
+msgstr "တက်ကြွသည်။"
+
+#. module: website_subscription_management
+#: model_terms:ir.ui.view,arch_db:website_subscription_management.my_subscription_detail
+msgid "Cancel"
+msgstr "မလုပ်ဆောင်ပါ"
+
+#. module: website_subscription_management
+#: model_terms:ir.ui.view,arch_db:website_subscription_management.modal_template
+msgid "Cancel Now"
+msgstr ""
+
+#. module: website_subscription_management
+#: model_terms:ir.ui.view,arch_db:website_subscription_management.my_subscription_detail
+#: model_terms:ir.ui.view,arch_db:website_subscription_management.portal_my_subscription
+msgid "Cancelled"
+msgstr "ပယ်ဖျက်လိုက်သည်"
+
+#. module: website_subscription_management
+#: model_terms:ir.ui.view,arch_db:website_subscription_management.modal_template
+msgid "Choose..."
+msgstr ""
+
+#. module: website_subscription_management
+#: model_terms:ir.ui.view,arch_db:website_subscription_management.enddate_modal
+msgid "Click on it."
+msgstr ""
+
+#. module: website_subscription_management
+#: model_terms:ir.ui.view,arch_db:website_subscription_management.enddate_modal
+#: model_terms:ir.ui.view,arch_db:website_subscription_management.modal_template
+#: model_terms:ir.ui.view,arch_db:website_subscription_management.subscription_description_read_more_modal
+msgid "Close"
+msgstr "ပိတ်သည်"
+
+#. module: website_subscription_management
+#: model:ir.model.fields,field_description:website_subscription_management.field_subscription_configuration__create_uid
+msgid "Created by"
+msgstr "ဖန်တီးသူ"
+
+#. module: website_subscription_management
+#: model:ir.model.fields,field_description:website_subscription_management.field_subscription_configuration__create_date
+msgid "Created on"
+msgstr "ပြုလုပ်ထားသည်"
+
+#. module: website_subscription_management
+#: model:ir.model.fields,field_description:website_subscription_management.field_subscription_configuration__display_name
+msgid "Display Name"
+msgstr "ပြချင်သော အမည်"
+
+#. module: website_subscription_management
+#: model_terms:ir.ui.view,arch_db:website_subscription_management.portal_my_subscription
+msgid "End Date"
+msgstr "ကုန်ဆုံးသော နေ့စွဲ"
+
+#. module: website_subscription_management
+#: model_terms:ir.ui.view,arch_db:website_subscription_management.portal_my_subscription
+msgid "Expired"
+msgstr "သက်တမ်းကုန်ဆုံးခဲ့သည်"
+
+#. module: website_subscription_management
+#: model:ir.model.fields,field_description:website_subscription_management.field_subscription_configuration__id
+msgid "ID"
+msgstr "နံပါတ်"
+
+#. module: website_subscription_management
+#: model:product.product,wk_in_stock_msg:website_subscription_management.product_product_4b
+#: model:product.product,wk_in_stock_msg:website_subscription_management.product_product_4c
+#: model:product.product,wk_in_stock_msg:website_subscription_management.product_product_4d
+#: model:product.product,wk_in_stock_msg:website_subscription_management.product_product_4e
+msgid "In Stock"
+msgstr "ပစ္စည်းအသင့်ရှိ"
+
+#. module: website_subscription_management
+#: model_terms:ir.ui.view,arch_db:website_subscription_management.enddate_modal
+msgid "Information"
+msgstr "သတင်းအချက်အလက်"
+
+#. module: website_subscription_management
+#: model:ir.model.fields,field_description:website_subscription_management.field_subscription_configuration____last_update
+msgid "Last Modified on"
+msgstr "နောက်ဆုံးပြင်ဆင်ချိန်"
+
+#. module: website_subscription_management
+#: model:ir.model.fields,field_description:website_subscription_management.field_subscription_configuration__write_uid
+msgid "Last Updated by"
+msgstr "နောက်ဆုံးပြင်ဆင်သူ"
+
+#. module: website_subscription_management
+#: model:ir.model.fields,field_description:website_subscription_management.field_subscription_configuration__write_date
+msgid "Last Updated on"
+msgstr "နောက်ဆုံးပြင်ဆင်ချိန်"
+
+#. module: website_subscription_management
+#: model_terms:ir.ui.view,arch_db:website_subscription_management.cart_edit
+msgid "Login or sign up for purchase"
+msgstr ""
+
+#. module: website_subscription_management
+#: model:ir.model.fields,field_description:website_subscription_management.field_subscription_configuration__msg_for_active
+msgid "Message for Active State"
+msgstr ""
+
+#. module: website_subscription_management
+#: model:ir.model.fields,field_description:website_subscription_management.field_subscription_configuration__msg_for_cancel
+msgid "Message for Cancel State"
+msgstr ""
+
+#. module: website_subscription_management
+#: model:ir.model.fields,field_description:website_subscription_management.field_subscription_configuration__msg_for_draft
+msgid "Message for Draft State"
+msgstr ""
+
+#. module: website_subscription_management
+#: model:ir.model.fields,field_description:website_subscription_management.field_subscription_configuration__msg_for_expired
+msgid "Message for Expired State"
+msgstr ""
+
+#. module: website_subscription_management
+#: model:ir.model.fields,field_description:website_subscription_management.field_subscription_configuration__msg_for_renewed
+msgid "Message for renewed State"
+msgstr ""
+
+#. module: website_subscription_management
+#: model_terms:ir.ui.view,arch_db:website_subscription_management.modal_template
+msgid "Message:"
+msgstr ""
+
+#. module: website_subscription_management
+#: model:product.attribute.value,name:website_subscription_management.product_attribute_value_demo_2
+#: model:product.template.attribute.value,name:website_subscription_management.wk_product_4_attribute_1_value_2
+msgid "Monthly"
+msgstr "လစဉ်"
+
+#. module: website_subscription_management
+#: model:product.product,name:website_subscription_management.product_product_4b
+#: model:product.product,name:website_subscription_management.product_product_4c
+#: model:product.product,name:website_subscription_management.product_product_4d
+#: model:product.product,name:website_subscription_management.product_product_4e
+#: model:product.template,name:website_subscription_management.product_product_4
+msgid "New yorker magzine"
+msgstr ""
+
+#. module: website_subscription_management
+#: model_terms:ir.ui.view,arch_db:website_subscription_management.my_subscription_detail
+msgid "Payment Information:"
+msgstr "ငွေပေးချေမှု အချက်အလက်"
+
+#. module: website_subscription_management
+#: model_terms:ir.ui.view,arch_db:website_subscription_management.my_subscription_detail
+msgid "Plan Information:"
+msgstr ""
+
+#. module: website_subscription_management
+#: model_terms:ir.ui.view,arch_db:website_subscription_management.portal_my_subscription
+msgid "Plan Name"
+msgstr ""
+
+#. module: website_subscription_management
+#: model:product.attribute,name:website_subscription_management.product_attribute_demo_1
+msgid "Plan Type"
+msgstr ""
+
+#. module: website_subscription_management
+#: model_terms:ir.ui.view,arch_db:website_subscription_management.product_edit
+msgid "Plans Information"
+msgstr ""
+
+#. module: website_subscription_management
+#: model_terms:ir.ui.view,arch_db:website_subscription_management.modal_template
+msgid "Please mention your reason why you do this"
+msgstr ""
+
+#. module: website_subscription_management
+#: model:ir.model.fields,field_description:website_subscription_management.field_subscription_plan__notification_days
+msgid "Pre Notification Days"
+msgstr ""
+
+#. module: website_subscription_management
+#: model_terms:ir.ui.view,arch_db:website_subscription_management.product_edit
+msgid "Read more. . ."
+msgstr ""
+
+#. module: website_subscription_management
+#: model_terms:ir.ui.view,arch_db:website_subscription_management.modal_template
+msgid "Reason for cancel"
+msgstr ""
+
+#. module: website_subscription_management
+#: model_terms:ir.ui.view,arch_db:website_subscription_management.modal_template
+msgid "Reasons"
+msgstr ""
+
+#. module: website_subscription_management
+#: model:ir.model.fields,field_description:website_subscription_management.field_subscription_subscription__source
+msgid "Related To"
+msgstr ""
+
+#. module: website_subscription_management
+#: model_terms:ir.ui.view,arch_db:website_subscription_management.my_subscription_detail
+#: model_terms:ir.ui.view,arch_db:website_subscription_management.portal_my_subscription
+msgid "Renew"
+msgstr ""
+
+#. module: website_subscription_management
+#: model:ir.model.fields,field_description:website_subscription_management.field_subscription_plan__renew_days
+msgid "Renew button days"
+msgstr ""
+
+#. module: website_subscription_management
+#: model_terms:ir.ui.view,arch_db:website_subscription_management.my_subscription_detail
+#: model_terms:ir.ui.view,arch_db:website_subscription_management.portal_my_subscription
+msgid "Renewed"
+msgstr ""
+
+#. module: website_subscription_management
+#: model_terms:ir.ui.view,arch_db:website_subscription_management.cart_edit
+msgid "Sign in"
+msgstr ""
+
+#. module: website_subscription_management
+#: model_terms:ir.ui.view,arch_db:website_subscription_management.portal_my_subscription
+msgid "Start Date"
+msgstr "စတင်သောနေ့"
+
+#. module: website_subscription_management
+#: model_terms:ir.ui.view,arch_db:website_subscription_management.portal_my_subscription
+msgid "State"
+msgstr "အခြေအနေ"
+
+#. module: website_subscription_management
+#: model:ir.model,name:website_subscription_management.model_subscription_subscription
+msgid "Subscription"
+msgstr "စာရင်းပေးသွင်းခြင်း"
+
+#. module: website_subscription_management
+#: model:mail.template,subject:website_subscription_management.email_template_mail
+msgid "Subscription Expiration"
+msgstr ""
+
+#. module: website_subscription_management
+#: model:ir.model,name:website_subscription_management.model_subscription_plan
+#: model_terms:ir.ui.view,arch_db:website_subscription_management.portal_my_subscription
+msgid "Subscription Plan"
+msgstr ""
+
+#. module: website_subscription_management
+#: model:ir.model,name:website_subscription_management.model_subscription_reasons
+msgid "Subscription Reasons"
+msgstr ""
+
+#. module: website_subscription_management
+#: model:ir.ui.menu,name:website_subscription_management.menu_sale_subscription_con_submenu2
+msgid "Subscription configuration"
+msgstr ""
+
+#. module: website_subscription_management
+#: model_terms:ir.ui.view,arch_db:website_subscription_management.portal_my_subscription
+#: model_terms:ir.ui.view,arch_db:website_subscription_management.subscription_list
+msgid "Subscriptions"
+msgstr ""
+
+#. module: website_subscription_management
+#: model:ir.actions.act_window,name:website_subscription_management.action_subscription_configuration
+msgid "Subscriptions configuration"
+msgstr ""
+
+#. module: website_subscription_management
+#: model:ir.model.fields,help:website_subscription_management.field_subscription_plan__notification_days
+msgid "The Number of days before user got the alert mail about plan state"
+msgstr ""
+
+#. module: website_subscription_management
+#: model:ir.model.fields,help:website_subscription_management.field_subscription_plan__renew_days
+msgid "The number of days before renew is apper in the view"
+msgstr ""
+
+#. module: website_subscription_management
+#: model_terms:ir.ui.view,arch_db:website_subscription_management.my_subscription_detail
+msgid "This plan has no trial period."
+msgstr ""
+
+#. module: website_subscription_management
+#: model:subscription.configuration,msg_for_expired:website_subscription_management.demo_configuration_rec_1
+msgid "This plan is expired."
+msgstr ""
+
+#. module: website_subscription_management
+#: model:subscription.configuration,msg_for_renewed:website_subscription_management.demo_configuration_rec_1
+msgid "This plan is renewed."
+msgstr ""
+
+#. module: website_subscription_management
+#: model:product.product,wk_out_of_stock_msg:website_subscription_management.product_product_4b
+#: model:product.product,wk_out_of_stock_msg:website_subscription_management.product_product_4c
+#: model:product.product,wk_out_of_stock_msg:website_subscription_management.product_product_4d
+#: model:product.product,wk_out_of_stock_msg:website_subscription_management.product_product_4e
+msgid "This product has gone out of Stock!"
+msgstr ""
+
+#. module: website_subscription_management
+#: model_terms:ir.ui.view,arch_db:website_subscription_management.my_subscription_detail
+#: model_terms:ir.ui.view,arch_db:website_subscription_management.portal_my_subscription
+msgid "This subscription is Renewed."
+msgstr ""
+
+#. module: website_subscription_management
+#: model_terms:ir.ui.view,arch_db:website_subscription_management.my_subscription_detail
+#: model_terms:ir.ui.view,arch_db:website_subscription_management.portal_my_subscription
+msgid "This subscription is cancelled. You cannot access it any more."
+msgstr ""
+
+#. module: website_subscription_management
+#: model_terms:ir.ui.view,arch_db:website_subscription_management.product_edit
+msgid "Trial period."
+msgstr ""
+
+#. module: website_subscription_management
+#: model:product.product,uom_name:website_subscription_management.product_product_4b
+#: model:product.product,uom_name:website_subscription_management.product_product_4c
+#: model:product.product,uom_name:website_subscription_management.product_product_4d
+#: model:product.product,uom_name:website_subscription_management.product_product_4e
+#: model:product.template,uom_name:website_subscription_management.product_product_4
+msgid "Units"
+msgstr ""
+
+#. module: website_subscription_management
+#: model_terms:ir.ui.view,arch_db:website_subscription_management.my_subscription_detail
+#: model_terms:ir.ui.view,arch_db:website_subscription_management.portal_my_subscription
+msgid "Waiting"
+msgstr "စောင့်ဆိုင်းသည်"
+
+#. module: website_subscription_management
+#: model_terms:ir.ui.view,arch_db:website_subscription_management.my_subscription_detail
+msgid "Want to cancel your subscription"
+msgstr ""
+
+#. module: website_subscription_management
+#: model:ir.model,name:website_subscription_management.model_website
+#: model:ir.model.fields.selection,name:website_subscription_management.selection__subscription_subscription__source__website
+msgid "Website"
+msgstr "ဝက်ဆိုဒ်"
+
+#. module: website_subscription_management
+#: model:product.attribute.value,name:website_subscription_management.product_attribute_value_demo_3
+#: model:product.template.attribute.value,name:website_subscription_management.wk_product_4_attribute_1_value_3
+msgid "Weekly"
+msgstr "အပတ်စဉ်"
+
+#. module: website_subscription_management
+#: model:product.attribute.value,name:website_subscription_management.product_attribute_value_demo_1
+#: model:product.template.attribute.value,name:website_subscription_management.wk_product_4_attribute_1_value_1
+msgid "Yearly"
+msgstr ""
+
+#. module: website_subscription_management
+#: model_terms:ir.ui.view,arch_db:website_subscription_management.portal_my_subscription
+msgid "You haven't any subscription yet.Purchase them."
+msgstr ""
+
+#. module: website_subscription_management
+#: model_terms:ir.ui.view,arch_db:website_subscription_management.portal_my_subscription
+msgid "Your Current Subscription is  active."
+msgstr ""
+
+#. module: website_subscription_management
+#: model_terms:ir.ui.view,arch_db:website_subscription_management.portal_my_subscription
+msgid "Your Current Subscription is to be expired"
+msgstr ""
+
+#. module: website_subscription_management
+#: model_terms:ir.ui.view,arch_db:website_subscription_management.my_subscription_detail
+msgid "Your Current Subscription is to be under progress.It will active soon"
+msgstr ""
+
+#. module: website_subscription_management
+#: model_terms:ir.ui.view,arch_db:website_subscription_management.portal_my_subscription
+#: model:subscription.configuration,msg_for_draft:website_subscription_management.demo_configuration_rec_1
+msgid "Your Current Subscription is to be under progress.It will active soon."
+msgstr ""
+
+#. module: website_subscription_management
+#: model_terms:ir.ui.view,arch_db:website_subscription_management.enddate_modal
+msgid "Your Subscription Plan is in Never Expire Mode."
+msgstr ""
+
+#. module: website_subscription_management
+#: model:subscription.configuration,msg_for_active:website_subscription_management.demo_configuration_rec_1
+msgid "Your plan is active.Enjoy the service."
+msgstr ""
+
+#. module: website_subscription_management
+#: model:subscription.configuration,msg_for_cancel:website_subscription_management.demo_configuration_rec_1
+msgid "Your plan is cancelled.You cannot access it anymore."
+msgstr ""
+
+#. module: website_subscription_management
+#: model_terms:ir.ui.view,arch_db:website_subscription_management.portal_my_subscription
+msgid "Your subscription is expired.Please Renew it."
+msgstr ""
+
+#. module: website_subscription_management
+#: model:product.attribute.value,name:website_subscription_management.product_attribute_value_demo_4
+#: model:product.template.attribute.value,name:website_subscription_management.wk_product_4_attribute_1_value_4
+msgid "day"
+msgstr ""
+
+#. module: website_subscription_management
+#: model_terms:ir.ui.view,arch_db:website_subscription_management.product_edit
+msgid "duration."
+msgstr ""
+
+#. module: website_subscription_management
+#: model_terms:ir.ui.view,arch_db:website_subscription_management.my_subscription_detail
+msgid "expired"
+msgstr ""
+
+#. module: website_subscription_management
+#: model_terms:ir.ui.view,arch_db:website_subscription_management.ribbon_product
+msgid "subscription"
+msgstr ""
+
+#. module: website_subscription_management
+#: model:ir.model,name:website_subscription_management.model_subscription_configuration
+msgid "subscription.configuration"
+msgstr ""
+
+#. module: website_subscription_management
+#: model_terms:ir.ui.view,arch_db:website_subscription_management.subscription_configuration
+msgid "subscription_configuration form"
+msgstr ""
+
+#. module: website_subscription_management
+#: model_terms:ir.ui.view,arch_db:website_subscription_management.subscription_configuration_tree
+msgid "subscription_configuration tree"
+msgstr ""

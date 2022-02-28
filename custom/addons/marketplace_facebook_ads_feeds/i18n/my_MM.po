@@ -1,0 +1,65 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* marketplace_facebook_ads_feeds
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 13.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-02-26 05:52+0000\n"
+"PO-Revision-Date: 2022-02-26 05:52+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: marketplace_facebook_ads_feeds
+#: code:addons/marketplace_facebook_ads_feeds/models/facebook_shop.py:0
+#: code:addons/marketplace_facebook_ads_feeds/models/facebook_shop.py:0
+#, python-format
+msgid "Catalog with this Content language already exists"
+msgstr ""
+
+#. module: marketplace_facebook_ads_feeds
+#: model:ir.model,name:marketplace_facebook_ads_feeds.model_fb_attachment_mapping
+msgid "Facebook Attachments"
+msgstr ""
+
+#. module: marketplace_facebook_ads_feeds
+#: model:ir.actions.act_window,name:marketplace_facebook_ads_feeds.mp_fb_facebook_shop_action
+#: model:ir.ui.menu,name:marketplace_facebook_ads_feeds.mp_fb_shop_menu
+msgid "Facebook Catalog"
+msgstr ""
+
+#. module: marketplace_facebook_ads_feeds
+#: model:ir.ui.menu,name:marketplace_facebook_ads_feeds.mp_fb_marketing_menu
+msgid "Facebook Marketing"
+msgstr ""
+
+#. module: marketplace_facebook_ads_feeds
+#: model:ir.model,name:marketplace_facebook_ads_feeds.model_fb_facebook_shop
+msgid "Facebook Shops"
+msgstr ""
+
+#. module: marketplace_facebook_ads_feeds
+#: model:ir.model.fields,field_description:marketplace_facebook_ads_feeds.field_fb_attachment_mapping__marketplace_seller_id
+#: model:ir.model.fields,field_description:marketplace_facebook_ads_feeds.field_fb_facebook_shop__marketplace_seller_id
+msgid "Seller"
+msgstr "ရောင်းချသူ"
+
+#. module: marketplace_facebook_ads_feeds
+#: model:ir.model.fields,field_description:marketplace_facebook_ads_feeds.field_fb_facebook_shop__shop_url
+msgid "Shop Url"
+msgstr ""
+
+#. module: marketplace_facebook_ads_feeds
+#: model:ir.model.fields,help:marketplace_facebook_ads_feeds.field_fb_facebook_shop__shop_url
+msgid "Write your domain name of your website"
+msgstr ""
+
+#. module: marketplace_facebook_ads_feeds
+#: model:ir.model.fields,field_description:marketplace_facebook_ads_feeds.field_fb_facebook_shop__website_id
+msgid "website"
+msgstr ""

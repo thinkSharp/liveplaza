@@ -1,0 +1,488 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    	<menuitem name="Delivery" id="menu_delivery_root" sequence="30" groups="stock.group_stock_manager,stock.group_stock_user"
+	        web_icon="do_customization,static/description/icon.png"/>
+
+    	<menuitem id="menu_do_mgmt" name="Pick" parent="menu_delivery_root" sequence="2"/>
+    
+        <!-- Tree View -->
+		<record id="stock_picking_stock_tree_view_for_do_cus" model="ir.ui.view">
+			<field name="name">Picking</field>
+			<field name="model">stock.picking</field>
+			<field name="arch" type="xml">
+                <tree create="0" decoration-info="state == 'draft'" decoration-muted="state == 'cancel'" decoration-danger="state not in ('cancel', 'done') and scheduled_date &lt; current_date" string="Picking list" default_order="id desc">
+                    <field name="name"/>
+                    <field name="location_dest_id"/>
+                    <field name="partner_id" string="Customer"/>
+					<field name="marketplace_seller_id" string="Seller" groups="odoo_marketplace.marketplace_officer_group"/>
+                    <field name="date" invisible="1"/>
+                    <field name="scheduled_date"/>
+                    <field name="origin"/>
+                    <field name="group_id" invisible="1"/>
+                    <field name="backorder_id"/>
+                    <field name="state"/>
+                    <field name="priority" invisible="1"/>
+                    <field name="picking_type_id" invisible="1"/>
+                </tree>
+            </field>
+		</record>
+    	
+		<record id="stock_packing_stock_tree_view_for_do_cus" model="ir.ui.view">
+			<field name="name">Packing</field>
+			<field name="model">stock.picking</field>
+			<field name="arch" type="xml">
+                <tree create="0" decoration-info="state == 'draft'" decoration-muted="state == 'cancel'" decoration-danger="state not in ('cancel', 'done') and scheduled_date &lt; current_date" string="Picking list" default_order="id desc">
+                    <field name="name"/>
+                    <field name="location_dest_id"/>
+                    <field name="partner_id" string="Customer"/>
+					<field name="marketplace_seller_id" string="Seller" groups="odoo_marketplace.marketplace_officer_group"/>
+                    <field name="date" invisible="1"/>
+                    <field name="scheduled_date"/>
+                    <field name="origin"/>
+                    <field name="group_id" invisible="1"/>
+                    <field name="backorder_id"/>
+                    <field name="state"/>
+                    <field name="priority" invisible="1"/>
+                    <field name="picking_type_id" invisible="1"/>
+                </tree>
+            </field>
+		</record>
+    	
+		<record id="stock_do_stock_tree_view_for_do_cus" model="ir.ui.view">
+			<field name="name">Delivery Orders</field>
+			<field name="model">stock.picking</field>
+			<field name="arch" type="xml">
+                <tree create="0" decoration-info="state == 'draft'" decoration-muted="state == 'cancel'" decoration-danger="state not in ('cancel', 'done') and scheduled_date &lt; current_date" string="Picking list" default_order="id desc">
+                    <field name="name"/>
+                    <field name="location_dest_id"/>
+                    <field name="partner_id" string="Customer"/>
+					<field name="marketplace_seller_id" string="Seller" groups="odoo_marketplace.marketplace_officer_group"/>
+                    <field name="date" invisible="1"/>
+                    <field name="scheduled_date"/>
+                    <field name="origin"/>
+                    <field name="group_id" invisible="1"/>
+                    <field name="backorder_id"/>
+                    <field name="state"/>
+                    <field name="priority" invisible="1"/>
+                    <field name="picking_type_id" invisible="1"/>
+                </tree>
+            </field>
+		</record>
+
+        <!-- Kanban View -->
+		<record model="ir.ui.view" id="pick_picking_stock_kanban_view_for_mp">
+            <field name="name">pick.stock.picking.kanban</field>
+            <field name="model">stock.picking</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_mobile" create="0" disable_draggable="true">
+                    <field name="name"/>
+                    <field name="partner_id"/>
+                    <field name="location_dest_id"/>
+                    <field name="state"/>
+                    <field name="date"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+                                <div class="o_kanban_record_top mb8">
+                                    <div class="o_kanban_record_headings">
+                                        <strong class="o_kanban_record_title"><span><t t-esc="record.name.value"/></span></strong>
+                                    </div>
+                                    <strong>
+										<field name="state" widget="label_selection" options="{'classes': {'draft': 'info', 'cancel': 'info', 'none': 'danger', 'waiting': 'warning', 'confirmed': 'warning', 'partially_available': 'warning', 'done': 'success'}}"/>
+                                    </strong>
+                                </div>
+                                <div class="o_kanban_record_bottom">
+                                    <div class="oe_kanban_bottom_left">
+										<strong> Customer </strong>
+                                        <t t-esc="record.partner_id.value"/>
+                                    </div>
+                                    <div class="oe_kanban_bottom_right">
+                                        <t t-esc="record.date.value and record.date.value.split(' ')[0] or False"/>
+                                    </div>
+                                </div>
+								<div class="o_kanban_record_bottom">
+                                    <div class="oe_kanban_bottom_left">
+										<strong groups="odoo_marketplace.marketplace_officer_group"> Seller: </strong>
+										<field name="marketplace_seller_id" groups="odoo_marketplace.marketplace_officer_group"/>
+									</div>
+                                    <div class="oe_kanban_bottom_right">
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+        
+		<record model="ir.ui.view" id="pack_picking_stock_kanban_view_for_mp">
+            <field name="name">pack.stock.packing.kanban</field>
+            <field name="model">stock.picking</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_mobile" create="0" disable_draggable="true">
+                    <field name="name"/>
+                    <field name="partner_id"/>
+                    <field name="location_dest_id"/>
+                    <field name="state"/>
+                    <field name="date"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+                                <div class="o_kanban_record_top mb8">
+                                    <div class="o_kanban_record_headings">
+                                        <strong class="o_kanban_record_title"><span><t t-esc="record.name.value"/></span></strong>
+                                    </div>
+                                    <strong>
+										<field name="state" widget="label_selection" options="{'classes': {'draft': 'info', 'cancel': 'info', 'none': 'danger', 'waiting': 'warning', 'confirmed': 'warning', 'partially_available': 'warning', 'done': 'success'}}"/>
+                                    </strong>
+                                </div>
+                                <div class="o_kanban_record_bottom">
+                                    <div class="oe_kanban_bottom_left">
+										<strong> Customer </strong>
+                                        <t t-esc="record.partner_id.value"/>
+                                    </div>
+                                    <div class="oe_kanban_bottom_right">
+                                        <t t-esc="record.date.value and record.date.value.split(' ')[0] or False"/>
+                                    </div>
+                                </div>
+								<div class="o_kanban_record_bottom">
+                                    <div class="oe_kanban_bottom_left">
+										<strong groups="odoo_marketplace.marketplace_officer_group"> Seller: </strong>
+										<field name="marketplace_seller_id" groups="odoo_marketplace.marketplace_officer_group"/>
+									</div>
+                                    <div class="oe_kanban_bottom_right">
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+                
+		<record model="ir.ui.view" id="do_picking_stock_kanban_view_for_mp">
+            <field name="name">do.stock.do.kanban</field>
+            <field name="model">stock.picking</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_mobile" create="0" disable_draggable="true">
+                    <field name="name"/>
+                    <field name="partner_id"/>
+                    <field name="location_dest_id"/>
+                    <field name="state"/>
+                    <field name="date"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+                                <div class="o_kanban_record_top mb8">
+                                    <div class="o_kanban_record_headings">
+                                        <strong class="o_kanban_record_title"><span><t t-esc="record.name.value"/></span></strong>
+                                    </div>
+                                    <strong>
+										<field name="state" widget="label_selection" options="{'classes': {'draft': 'info', 'cancel': 'info', 'none': 'danger', 'waiting': 'warning', 'confirmed': 'warning', 'partially_available': 'warning', 'done': 'success'}}"/>
+                                    </strong>
+                                </div>
+                                <div class="o_kanban_record_bottom">
+                                    <div class="oe_kanban_bottom_left">
+										<strong> Customer </strong>
+                                        <t t-esc="record.partner_id.value"/>
+                                    </div>
+                                    <div class="oe_kanban_bottom_right">
+                                        <t t-esc="record.date.value and record.date.value.split(' ')[0] or False"/>
+                                    </div>
+                                </div>
+								<div class="o_kanban_record_bottom">
+                                    <div class="oe_kanban_bottom_left">
+										<strong groups="odoo_marketplace.marketplace_officer_group"> Seller: </strong>
+										<field name="marketplace_seller_id" groups="odoo_marketplace.marketplace_officer_group"/>
+									</div>
+                                    <div class="oe_kanban_bottom_right">
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+                
+        <!-- Form View -->                        
+		<record id="do_picking_stock_modified_form_view_inherit" model="ir.ui.view">
+            <field name="name">Delivery Stock DO</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="odoo_marketplace.marketplace_picking_stock_modified_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='button_validate']" position="replace">
+                    <button name="button_validate" attrs="{'invisible': ['|', '|',('is_admin_approved', '=', False),
+                    		('state', '!=', 'assigned')]}" string="Validate" 
+                    		type="object" class="oe_highlight"/>
+                </xpath>
+                <xpath expr="//button[@name='button_validate']" position="after">
+                    <button name="set_as_hold" string="Set as Hold" attrs="{'invisible': ['|', ('hold_reason', '=', False), ('hold_state', '=', True)]}"  type="object"/>
+                    <button name="make_ready" string="Make Ready" attrs="{'invisible': ['|', ('hold_state', '!=', True), ('state', '!=', 'assigned')]}"  type="object"/>
+                </xpath>
+                <xpath expr="//field[@name='move_type']" position="before">
+                    <field name="payment_provider" readonly="1"/>
+                    <field name="is_admin_approved" readonly="1"/>
+                    
+               </xpath>
+			   <xpath expr="//field[@name='location_dest_id']" position="after">
+					<field name="journal_id" string="Payment Type" attrs="{ 'readonly': [('state', '=', 'done')]}" />
+                    <field name="receivable_amount" string="To Receive" attrs="{'invisible': ['|',('journal_id', '=', False),('state', '=', 'done')]}" />
+                    <field name="paid_amount" attrs="{'invisible': [('journal_id', '=', False)],  'readonly': [('state', '=', 'done')]}" />
+                    
+                    <field name="payment_remark" attrs="{'invisible': [('journal_id', '=', False)], 'readonly': [('state', '=', 'done')]}" />
+                    <field name="payment_upload" filename="payment_upload_name" attrs="{'invisible': [('paid_amount', '&lt;=', '0.0')], 'readonly': [('state', '=', 'done')]}" />
+                    <field name="payment_upload_name" invisible="1" />
+                    
+                    <field name="is_picked" invisible="1" />
+                    <field name="is_packaged" invisible="1" />
+                </xpath>
+                <xpath expr="//field[@name='origin']" position="after">
+                    <field name="vendor_id"  domain="[('delivery_vendor', '=', True)]" attrs="{'readonly': [('state', 'in', ('done','cancel'))]}" required='1'/>
+                    <field name="delivery_method_id" attrs="{'readonly': [('state', 'in', ('done','cancel'))]}" />
+                    <field name="hold_reason" attrs="{'invisible': [('state', '!=', 'assigned')]}" />
+                    <field name="hold_state" string="To Receive" invisible="1"/>
+                    <field name="hold_date" string="To Receive" invisible="1"/>
+                    <field name="required_condition" invisible="1" />
+               </xpath>
+               
+               <xpath expr="//button[@name='action_toggle_is_locked']" position="replace" />               
+              
+            </field>
+        </record>
+
+<!-- 		<record id="pick_picking_stock_modified_form_view_inherit" model="ir.ui.view">
+            <field name="name">Delivery Stock Picking</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="odoo_marketplace.marketplace_picking_stock_modified_form_view"/>
+            <field name="arch" type="xml">
+                            
+              
+            </field>
+        </record>
+        
+        <record id="pack_picking_stock_modified_form_view_inherit" model="ir.ui.view">
+            <field name="name">Delivery Stock Packing</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="odoo_marketplace.marketplace_picking_stock_modified_form_view"/>
+            <field name="arch" type="xml">
+                            
+              
+            </field>
+        </record> -->
+        
+ 
+		<!-- Filters -->
+		<record id="do_cus_stock_search_view" model="ir.ui.view">
+			<field name="name">Stock Picking Search</field>
+			<field name="model">stock.picking</field>
+			<field name="priority" eval="100"/>
+			<field name="arch" type="xml">
+				<search string="Search Stock Request">
+                    <field name="marketplace_seller_id" string="Seller"/>
+                    <field name="state" string="Status"/>
+					<group string="Group By">
+						<filter string="Seller" context="{'group_by':'marketplace_seller_id'}" name="by_marketplace_seller_id" groups="odoo_marketplace.marketplace_officer_group"/>
+						<filter string="Status" name="groupby_state" context="{'group_by':'state'}"/>
+						<filter string="Date" name="groupby_name" context="{'group_by':'create_date'}"/>
+					</group>
+				</search>
+			</field>
+		</record>
+		
+        <!-- Action View -->		
+		<record id="stock_picking_type_action" model="ir.actions.act_window">
+            <field name="name">Delivery Overview</field>
+            <field name="res_model">stock.picking.type</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">kanban,form</field>
+            <field name="domain">[('name','in', ('Pick','Pack','Delivery Orders'))]</field>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Create a new operation type
+              </p><p>
+                The operation type system allows you to assign each stock
+                operation a specific type which will alter its views accordingly.
+                On the operation type you could e.g. specify if packing is needed by default,
+                if it should show the customer.
+              </p>
+            </field>
+        </record>
+
+		<record id="stock_inventory_cus_action" model="ir.actions.act_window">
+            <field name="name">Delivery Overview</field>
+            <field name="res_model">stock.picking.type</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">kanban,form</field>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Create a new operation type
+              </p><p>
+                The operation type system allows you to assign each stock
+                operation a specific type which will alter its views accordingly.
+                On the operation type you could e.g. specify if packing is needed by default,
+                if it should show the customer.
+              </p>
+            </field>
+        </record>
+        
+		<record id="stock_picking_do_cus_action" model="ir.actions.act_window">
+            <field name="name">Picking</field>
+            <field name="res_model">stock.picking</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">tree,form,kanban</field>
+            <field name="domain">[('picking_type_id','=', 3 ),('is_admin_approved','=', True )]</field>
+            <field name="context">{'search_default_by_marketplace_seller_id': 1}</field>
+	        <field name="view_ids" eval="[(5, 0, 0),
+		    	(0, 0, {'sequence': 2, 'view_mode': 'kanban', 'view_id': ref('pick_picking_stock_kanban_view_for_mp')}),
+		    	(0, 0, {'sequence': 1, 'view_mode': 'tree', 'view_id': ref('stock_picking_stock_tree_view_for_do_cus')}),
+		     	(0, 0, {'sequence': 3, 'view_mode': 'form', 'view_id': ref('do_picking_stock_modified_form_view_inherit')})]"/>
+            <field name="search_view_id" ref="do_cus_stock_search_view"/>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Create a new operation.
+              </p><p>
+                The operation type system allows you to assign each stock
+                operation a specific type which will alter its views accordingly.
+                On the operation type you could e.g. specify if packing is needed by default,
+                if it should show the customer.
+              </p>
+            </field>
+        </record>
+        
+        <record id="stock_picking_do_cus_action_inventory" model="ir.actions.act_window">
+            <field name="name">Picking</field>
+            <field name="res_model">stock.picking</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">tree,form,kanban</field>
+            <field name="domain">[('picking_type_id','=', 3 )]</field>
+            <field name="context">{'search_default_by_marketplace_seller_id': 1}</field>
+	        <field name="view_ids" eval="[(5, 0, 0),
+		    	(0, 0, {'sequence': 2, 'view_mode': 'kanban', 'view_id': ref('pick_picking_stock_kanban_view_for_mp')}),
+		    	(0, 0, {'sequence': 1, 'view_mode': 'tree', 'view_id': ref('stock_picking_stock_tree_view_for_do_cus')}),
+		     	(0, 0, {'sequence': 3, 'view_mode': 'form', 'view_id': ref('do_picking_stock_modified_form_view_inherit')})]"/>
+            <field name="search_view_id" ref="do_cus_stock_search_view"/>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Create a new operation.
+              </p><p>
+                The operation type system allows you to assign each stock
+                operation a specific type which will alter its views accordingly.
+                On the operation type you could e.g. specify if packing is needed by default,
+                if it should show the customer.
+              </p>
+            </field>
+        </record>
+
+		<record id="stock_packing_do_cus_action" model="ir.actions.act_window">
+            <field name="name">Packing</field>
+            <field name="res_model">stock.picking</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">tree,form,kanban</field>
+            <field name="domain">[('picking_type_id','=', 4 ),('is_admin_approved','=', True )]</field>
+            <field name="context">{'search_default_by_marketplace_seller_id': 1}</field>
+	        <field name="view_ids" eval="[(5, 0, 0),
+		    	(0, 0, {'sequence': 2, 'view_mode': 'kanban', 'view_id': ref('pack_picking_stock_kanban_view_for_mp')}),
+		    	(0, 0, {'sequence': 1, 'view_mode': 'tree', 'view_id': ref('stock_packing_stock_tree_view_for_do_cus')}),
+		     	(0, 0, {'sequence': 3, 'view_mode': 'form', 'view_id': ref('do_picking_stock_modified_form_view_inherit')})]"/>	            
+            <field name="search_view_id" ref="do_cus_stock_search_view"/>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Create a new operation.
+              </p><p>
+                The operation type system allows you to assign each stock
+                operation a specific type which will alter its views accordingly.
+                On the operation type you could e.g. specify if packing is needed by default,
+                if it should show the customer.
+              </p>
+            </field>
+        </record>
+        
+		<record id="stock_packing_do_cus_action_inventory" model="ir.actions.act_window">
+            <field name="name">Packing</field>
+            <field name="res_model">stock.picking</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">tree,form,kanban</field>
+            <field name="domain">[('picking_type_id','=', 4 )]</field>
+            <field name="context">{'search_default_by_marketplace_seller_id': 1}</field>
+	        <field name="view_ids" eval="[(5, 0, 0),
+		    	(0, 0, {'sequence': 2, 'view_mode': 'kanban', 'view_id': ref('pack_picking_stock_kanban_view_for_mp')}),
+		    	(0, 0, {'sequence': 1, 'view_mode': 'tree', 'view_id': ref('stock_packing_stock_tree_view_for_do_cus')}),
+		     	(0, 0, {'sequence': 3, 'view_mode': 'form', 'view_id': ref('do_picking_stock_modified_form_view_inherit')})]"/>	            
+            <field name="search_view_id" ref="do_cus_stock_search_view"/>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Create a new operation.
+              </p><p>
+                The operation type system allows you to assign each stock
+                operation a specific type which will alter its views accordingly.
+                On the operation type you could e.g. specify if packing is needed by default,
+                if it should show the customer.
+              </p>
+            </field>
+        </record>
+		
+		<record id="stock_do_cus_action" model="ir.actions.act_window">
+            <field name="name">Delivery Orders</field>
+            <field name="res_model">stock.picking</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">tree,form,kanban</field>
+            <field name="domain">[('picking_type_id','=', 2 ),('is_admin_approved','=', True )]</field>
+            <field name="context">{'search_default_groupby_state': 1}</field>
+	        <field name="view_ids" eval="[(5, 0, 0),
+		    	(0, 0, {'sequence': 2, 'view_mode': 'kanban', 'view_id': ref('do_picking_stock_kanban_view_for_mp')}),
+		    	(0, 0, {'sequence': 1, 'view_mode': 'tree', 'view_id': ref('stock_do_stock_tree_view_for_do_cus')}),
+		     	(0, 0, {'sequence': 3, 'view_mode': 'form', 'view_id': ref('do_picking_stock_modified_form_view_inherit')})]"/>		     	
+		     	
+            <field name="search_view_id" ref="do_cus_stock_search_view"/>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Create a new operation.
+              </p><p>
+                The operation type system allows you to assign each stock
+                operation a specific type which will alter its views accordingly.
+                On the operation type you could e.g. specify if packing is needed by default,
+                if it should show the customer.
+              </p>
+            </field>
+        </record>
+        
+       	<record id="stock_do_cus_action_inventory" model="ir.actions.act_window">
+            <field name="name">Delivery Orders</field>
+            <field name="res_model">stock.picking</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">tree,form,kanban</field>
+            <field name="domain">[('picking_type_id','=', 2 )]</field>
+            <field name="context">{'search_default_groupby_state': 1}</field>
+	        <field name="view_ids" eval="[(5, 0, 0),
+		    	(0, 0, {'sequence': 2, 'view_mode': 'kanban', 'view_id': ref('do_picking_stock_kanban_view_for_mp')}),
+		    	(0, 0, {'sequence': 1, 'view_mode': 'tree', 'view_id': ref('stock_do_stock_tree_view_for_do_cus')}),
+		     	(0, 0, {'sequence': 3, 'view_mode': 'form', 'view_id': ref('do_picking_stock_modified_form_view_inherit')})]"/>		     	
+		     	
+            <field name="search_view_id" ref="do_cus_stock_search_view"/>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Create a new operation.
+              </p><p>
+                The operation type system allows you to assign each stock
+                operation a specific type which will alter its views accordingly.
+                On the operation type you could e.g. specify if packing is needed by default,
+                if it should show the customer.
+              </p>
+            </field>
+        </record>
+        
+        <menuitem action="stock_picking_type_action" id="stock_picking_type_menu_do" parent="menu_delivery_root" sequence="0" name="Overview"/>
+        <menuitem action="stock_picking_do_cus_action" id="stock_picking_menu_do" parent="menu_delivery_root" sequence="0" name="Picking"/>
+        <menuitem action="stock_packing_do_cus_action" id="stock_packing_menu_do" parent="menu_delivery_root" sequence="0" name="Packing"/>
+        <menuitem action="stock_do_cus_action" id="stock_do_menu_do" parent="menu_delivery_root" sequence="0" name="Delivery Order"/>
+        
+        <menuitem action="stock_inventory_cus_action" id="stock_do_menu_inventory" parent="menu_delivery_root" sequence="0" name="Inventory by Admin"/>
+        <menuitem action="stock_inventory_cus_action" id="stock_do_menu_inventory_overview" parent="stock_do_menu_inventory" sequence="1" name="Overview"/>
+        <menuitem action="stock_picking_do_cus_action_inventory" id="stock_do_menu_inventory_pick" parent="stock_do_menu_inventory" sequence="2" name="Picking"/>
+        <menuitem action="stock_packing_do_cus_action_inventory" id="stock_do_menu_inventory_pack" parent="stock_do_menu_inventory" sequence="3" name="Packing"/>
+        <menuitem action="stock_do_cus_action_inventory" id="stock_do_menu_inventory_do" parent="stock_do_menu_inventory" sequence="4" name="Delivery Order"/>
+        
+            
+</odoo>

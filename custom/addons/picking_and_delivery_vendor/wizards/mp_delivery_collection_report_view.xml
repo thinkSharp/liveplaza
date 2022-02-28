@@ -39,13 +39,13 @@
             <field name="model">mp.delivery.collection.result</field>
             <field name="arch" type="xml">
                 <tree string="Delivery Collection" create="false" decoration-info="mp_paid_date == False" >
-                    <field name="mp_name"/>
+                    <field name="mp_name" string="Order Number"/>
                     <field name="mp_order_date"/>
                     <field name="mp_paid_date"/>
                     <field name="mp_customer_name"/>
                     <field name="mp_amount_total"/>
                     <field name="mp_paid_amount"/>
-                    <field name="mp_vendor_name"/>
+                    <field name="mp_vendor_name"  invisible="1"/>
                     <field name="mp_payment_type"/>
                     <field name="mp_paid_state"/>
                 </tree>

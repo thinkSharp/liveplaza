@@ -1,0 +1,454 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* customizations_by_livep
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 13.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-02-26 05:38+0000\n"
+"PO-Revision-Date: 2022-02-26 05:38+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: customizations_by_livep
+#: model_terms:ir.ui.view,arch_db:customizations_by_livep.buyer_address_inherit
+msgid ""
+"<i class=\"fa fa-chevron-left\"/>\n"
+"                        <span>Back</span>"
+msgstr ""
+
+#. module: customizations_by_livep
+#: model_terms:ir.ui.view,arch_db:customizations_by_livep.payment_page_inherit
+msgid ""
+"<i class=\"fa fa-edit\"/>\n"
+"                    Edit"
+msgstr ""
+
+#. module: customizations_by_livep
+#: model_terms:ir.ui.view,arch_db:customizations_by_livep.buyer_address_inherit
+msgid ""
+"<span>Next</span>\n"
+"                        <i class=\"fa fa-chevron-right\"/>"
+msgstr ""
+
+#. module: customizations_by_livep
+#: model_terms:ir.ui.view,arch_db:customizations_by_livep.process_checkout_change_label
+msgid "<span>Place Order</span>"
+msgstr ""
+
+#. module: customizations_by_livep
+#: model_terms:ir.ui.view,arch_db:customizations_by_livep.payment_confirmation_status_inherit
+msgid "<span>Your payment has been authorized.</span>"
+msgstr ""
+
+#. module: customizations_by_livep
+#: model:ir.model.fields,field_description:customizations_by_livep.field_res_country_state__active
+#: model:ir.model.fields,field_description:customizations_by_livep.field_res_country_township__active
+msgid "Active"
+msgstr "တက်ကြွသည်။"
+
+#. module: customizations_by_livep
+#: model_terms:ir.ui.view,arch_db:customizations_by_livep.checkout_template_inherit
+msgid "Address"
+msgstr "လိပ်စာ"
+
+#. module: customizations_by_livep
+#: model_terms:ir.ui.view,arch_db:customizations_by_livep.sale_order_line_sales_report_tree
+msgid "Amount"
+msgstr "ပမာဏ"
+
+#. module: customizations_by_livep
+#: model_terms:ir.ui.view,arch_db:customizations_by_livep.sale_order_line_sales_report_search
+msgid "Buyer"
+msgstr "ဝယ်ယူသူ"
+
+#. module: customizations_by_livep
+#: model_terms:ir.ui.view,arch_db:customizations_by_livep.sale_order_line_sales_report_tree
+msgid "Buyer Information"
+msgstr ""
+
+#. module: customizations_by_livep
+#: model_terms:ir.ui.view,arch_db:customizations_by_livep.pay_now_change_label
+msgid "Check out"
+msgstr ""
+
+#. module: customizations_by_livep
+#: model_terms:ir.ui.view,arch_db:customizations_by_livep.pay_now_change_label
+msgid "Check out <span class=\"fa fa-chevron-right\"/>"
+msgstr ""
+
+#. module: customizations_by_livep
+#: model_terms:ir.ui.view,arch_db:customizations_by_livep.buyer_address_inherit
+#: model_terms:ir.ui.view,arch_db:customizations_by_livep.convert_user_into_seller_inherit
+msgid "Choose..."
+msgstr ""
+
+#. module: customizations_by_livep
+#: model:ir.model.fields,field_description:customizations_by_livep.field_res_country_township__code
+msgid "Code"
+msgstr "ကုဒ်"
+
+#. module: customizations_by_livep
+#: model:ir.model.fields,field_description:customizations_by_livep.field_sale_order_line__commission_amount
+msgid "Commission"
+msgstr "ကော်မရှင်"
+
+#. module: customizations_by_livep
+#: model:ir.model,name:customizations_by_livep.model_res_config_settings
+msgid "Config Settings"
+msgstr ""
+
+#. module: customizations_by_livep
+#: model_terms:ir.ui.view,arch_db:customizations_by_livep.pay_now_change_label
+msgid "Confirm Order <span class=\"fa fa-chevron-right\"/>"
+msgstr ""
+
+#. module: customizations_by_livep
+#: model:ir.model,name:customizations_by_livep.model_res_partner
+msgid "Contact"
+msgstr "အဆက်အသွယ်"
+
+#. module: customizations_by_livep
+#: model:ir.model.fields,field_description:customizations_by_livep.field_res_country_township__country_id
+#: model_terms:ir.ui.view,arch_db:customizations_by_livep.convert_user_into_seller_inherit
+msgid "Country"
+msgstr "နိုင်ငံ"
+
+#. module: customizations_by_livep
+#: model:ir.model,name:customizations_by_livep.model_res_country_state
+msgid "Country state"
+msgstr ""
+
+#. module: customizations_by_livep
+#: model_terms:ir.ui.view,arch_db:customizations_by_livep.convert_user_into_seller_inherit
+msgid "Country..."
+msgstr ""
+
+#. module: customizations_by_livep
+#: model_terms:ir.ui.view,arch_db:customizations_by_livep.sale_order_line_sales_report_search
+msgid "Create Date"
+msgstr "ဖန်တီးသည့်ရက်စွဲ"
+
+#. module: customizations_by_livep
+#: model_terms:ir.ui.view,arch_db:customizations_by_livep.sell_link_in_header_inherit
+msgid "Create Seller Shop"
+msgstr "ဈေးဆိုင်ဖွင့်ရန်"
+
+#. module: customizations_by_livep
+#: model_terms:ir.actions.act_window,help:customizations_by_livep.action_res_country_township
+msgid "Create a record first!"
+msgstr ""
+
+#. module: customizations_by_livep
+#: model:ir.model.fields,field_description:customizations_by_livep.field_res_country_township__create_uid
+msgid "Created by"
+msgstr "ဖန်တီးသူ"
+
+#. module: customizations_by_livep
+#: model:ir.model.fields,field_description:customizations_by_livep.field_res_country_township__create_date
+msgid "Created on"
+msgstr "ပြုလုပ်ထားသည်"
+
+#. module: customizations_by_livep
+#: model_terms:ir.ui.view,arch_db:customizations_by_livep.sale_order_line_sales_report_search
+msgid "Current Month"
+msgstr ""
+
+#. module: customizations_by_livep
+#: model_terms:ir.ui.view,arch_db:customizations_by_livep.sale_order_line_sales_report_tree
+msgid "Date"
+msgstr "နေ့စွဲ"
+
+#. module: customizations_by_livep
+#: model:ir.model.fields,field_description:customizations_by_livep.field_res_country_township__delivery_price
+msgid "Delivery Price"
+msgstr "ကုန်ပစ္စည်းပို့ဆောင်ခ"
+
+#. module: customizations_by_livep
+#: model_terms:ir.ui.view,arch_db:customizations_by_livep.delivery_carrier_form_inherit
+msgid "Destination Availability"
+msgstr ""
+
+#. module: customizations_by_livep
+#: model:ir.model.fields,field_description:customizations_by_livep.field_res_country_township__display_name
+msgid "Display Name"
+msgstr "ပြချင်သော အမည်"
+
+#. module: customizations_by_livep
+#: model_terms:ir.ui.view,arch_db:customizations_by_livep.livep_res_config_settings_view_form
+msgid "Domain of the current site."
+msgstr ""
+
+#. module: customizations_by_livep
+#: model_terms:ir.ui.view,arch_db:customizations_by_livep.payment_confirmation_status_inherit
+msgid "Edit"
+msgstr "ပြင်မယ်"
+
+#. module: customizations_by_livep
+#: model_terms:ir.ui.view,arch_db:customizations_by_livep.login_form_inherit
+msgid "Email or Phone"
+msgstr "အီးမေးလ် သို့မဟုတ် ဖုန်း"
+
+#. module: customizations_by_livep
+#: model:ir.model.fields,field_description:customizations_by_livep.field_sale_order_line__edd
+msgid "Expected Delivery Date"
+msgstr ""
+
+#. module: customizations_by_livep
+#: model_terms:ir.ui.view,arch_db:customizations_by_livep.delivery_carrier_form_inherit
+msgid ""
+"Filling this form allows you to filter delivery carriers according to the "
+"delivery address of your customer."
+msgstr ""
+
+#. module: customizations_by_livep
+#: model_terms:ir.ui.view,arch_db:customizations_by_livep.res_country_township_search
+#: model_terms:ir.ui.view,arch_db:customizations_by_livep.sale_order_line_sales_report_search
+msgid "Group By"
+msgstr "အုပ်စုအရ"
+
+#. module: customizations_by_livep
+#: model:ir.model.fields,field_description:customizations_by_livep.field_res_country_township__id
+msgid "ID"
+msgstr "နံပါတ်"
+
+#. module: customizations_by_livep
+#: model_terms:ir.ui.view,arch_db:customizations_by_livep.sale_order_line_sales_report_tree
+msgid "Item"
+msgstr ""
+
+#. module: customizations_by_livep
+#: model:ir.model.fields,field_description:customizations_by_livep.field_res_country_township____last_update
+msgid "Last Modified on"
+msgstr "နောက်ဆုံးပြင်ဆင်ချိန်"
+
+#. module: customizations_by_livep
+#: model:ir.model.fields,field_description:customizations_by_livep.field_res_country_township__write_uid
+msgid "Last Updated by"
+msgstr "နောက်ဆုံးပြင်ဆင်သူ"
+
+#. module: customizations_by_livep
+#: model:ir.model.fields,field_description:customizations_by_livep.field_res_country_township__write_date
+msgid "Last Updated on"
+msgstr "နောက်ဆုံးပြင်ဆင်ချိန်"
+
+#. module: customizations_by_livep
+#: model_terms:ir.ui.view,arch_db:customizations_by_livep.shop_page_products_grid_view_inherit
+#: model_terms:ir.ui.view,arch_db:customizations_by_livep.theme_products_grid_view_inherit
+msgid "Load More Products"
+msgstr ""
+
+#. module: customizations_by_livep
+#: model:ir.model.fields,field_description:customizations_by_livep.field_res_country_township__name
+msgid "Name"
+msgstr "အမည်"
+
+#. module: customizations_by_livep
+#: model_terms:ir.actions.act_window,help:customizations_by_livep.action_sales_report
+msgid "Nothing here!"
+msgstr ""
+
+#. module: customizations_by_livep
+#: model_terms:ir.ui.view,arch_db:customizations_by_livep.buyer_address_inherit
+msgid "Phone"
+msgstr "ဖုန်း"
+
+#. module: customizations_by_livep
+#: model_terms:ir.ui.view,arch_db:customizations_by_livep.buyer_signup_form_inherit
+msgid "Phone Number"
+msgstr "ဖုန်း"
+
+#. module: customizations_by_livep
+#: model_terms:ir.ui.view,arch_db:customizations_by_livep.sale_order_line_sales_report_search
+msgid "Product"
+msgstr "ကုန်ပစ္စည်း"
+
+#. module: customizations_by_livep
+#: model:ir.model.fields.selection,name:customizations_by_livep.selection__res_partner__sales_type__products
+msgid "Products"
+msgstr "ကုန်ပစ္စည်းများ"
+
+#. module: customizations_by_livep
+#: model:ir.model.fields.selection,name:customizations_by_livep.selection__res_partner__sales_type__products_services
+msgid "Products and Services"
+msgstr ""
+
+#. module: customizations_by_livep
+#: model_terms:ir.ui.view,arch_db:customizations_by_livep.product_page_live_stream_template_inherit
+msgid "Promoted by"
+msgstr ""
+
+#. module: customizations_by_livep
+#: model:ir.ui.menu,name:customizations_by_livep.marketplace_report_root
+msgid "Reporting"
+msgstr ""
+
+#. module: customizations_by_livep
+#: model:ir.model,name:customizations_by_livep.model_sale_order_line
+msgid "Sales Order Line"
+msgstr ""
+
+#. module: customizations_by_livep
+#: model:ir.actions.act_window,name:customizations_by_livep.action_sales_report
+#: model:ir.ui.menu,name:customizations_by_livep.sales_report
+msgid "Sales Report"
+msgstr ""
+
+#. module: customizations_by_livep
+#: model_terms:ir.ui.view,arch_db:customizations_by_livep.sale_order_line_sales_report_pivot
+msgid "Sales Report Pivot"
+msgstr ""
+
+#. module: customizations_by_livep
+#: model_terms:ir.ui.view,arch_db:customizations_by_livep.sale_order_line_sales_report_search
+msgid "Sales Report Search"
+msgstr ""
+
+#. module: customizations_by_livep
+#: model_terms:ir.ui.view,arch_db:customizations_by_livep.sale_order_line_sales_report_tree
+msgid "Sales Report Tree"
+msgstr ""
+
+#. module: customizations_by_livep
+#: model:ir.model.fields,field_description:customizations_by_livep.field_res_partner__sales_type
+msgid "Sales Type"
+msgstr ""
+
+#. module: customizations_by_livep
+#: model_terms:ir.ui.view,arch_db:customizations_by_livep.sale_order_line_sales_report_search
+msgid "Seller"
+msgstr "ရောင်းချသူ"
+
+#. module: customizations_by_livep
+#: model:ir.model.fields,field_description:customizations_by_livep.field_sale_order_line__seller_class_id
+#: model_terms:ir.ui.view,arch_db:customizations_by_livep.sale_order_line_sales_report_search
+msgid "Seller Class"
+msgstr ""
+
+#. module: customizations_by_livep
+#: model_terms:ir.ui.view,arch_db:customizations_by_livep.mp_seller_profile_inherit
+msgid "Send email to seller"
+msgstr ""
+
+#. module: customizations_by_livep
+#: model:ir.model.fields.selection,name:customizations_by_livep.selection__res_partner__sales_type__services
+msgid "Services"
+msgstr "ဝန်ဆောင်မှုများ"
+
+#. module: customizations_by_livep
+#: model_terms:ir.ui.view,arch_db:customizations_by_livep.shareBtn_each_product
+msgid "Share"
+msgstr ""
+
+#. module: customizations_by_livep
+#: model:ir.model,name:customizations_by_livep.model_delivery_carrier
+#: model:ir.model.fields,field_description:customizations_by_livep.field_res_country_township__delivery_carrier_ids
+msgid "Shipping Methods"
+msgstr ""
+
+#. module: customizations_by_livep
+#: model:ir.model.fields,field_description:customizations_by_livep.field_res_country_township__state_id
+#: model_terms:ir.ui.view,arch_db:customizations_by_livep.res_country_township_search
+#: model_terms:ir.ui.view,arch_db:customizations_by_livep.seller_form_inherit
+msgid "State"
+msgstr "အခြေအနေ"
+
+#. module: customizations_by_livep
+#: model:ir.model.fields,field_description:customizations_by_livep.field_res_partner__seller_subscription_id
+#: model:ir.model.fields,field_description:customizations_by_livep.field_res_users__seller_subscription_id
+#: model_terms:ir.ui.view,arch_db:customizations_by_livep.convert_user_into_seller_inherit
+#: model_terms:ir.ui.view,arch_db:customizations_by_livep.seller_sign_up_inherit
+msgid "Subscription"
+msgstr "စာရင်းပေးသွင်းခြင်း"
+
+#. module: customizations_by_livep
+#: model_terms:ir.ui.view,arch_db:customizations_by_livep.sale_order_line_sales_report_search
+msgid "Today"
+msgstr "ယနေ့"
+
+#. module: customizations_by_livep
+#: model:ir.actions.act_window,name:customizations_by_livep.action_res_country_township
+#: model:ir.model,name:customizations_by_livep.model_res_country_township
+#: model:ir.model.fields,field_description:customizations_by_livep.field_res_partner__township_id
+#: model:ir.model.fields,field_description:customizations_by_livep.field_res_users__township_id
+#: model:ir.ui.menu,name:customizations_by_livep.res_country_township_menu
+#: model_terms:ir.ui.view,arch_db:customizations_by_livep.buyer_address_inherit
+#: model_terms:ir.ui.view,arch_db:customizations_by_livep.seller_form_inherit
+msgid "Township"
+msgstr ""
+
+#. module: customizations_by_livep
+#: model_terms:ir.ui.view,arch_db:customizations_by_livep.res_country_township_form
+msgid "Township Form"
+msgstr ""
+
+#. module: customizations_by_livep
+#: model_terms:ir.ui.view,arch_db:customizations_by_livep.res_country_township_search
+msgid "Township Search"
+msgstr ""
+
+#. module: customizations_by_livep
+#: model_terms:ir.ui.view,arch_db:customizations_by_livep.res_country_township_tree
+msgid "Township Tree"
+msgstr ""
+
+#. module: customizations_by_livep
+#: model:ir.model.fields,field_description:customizations_by_livep.field_delivery_carrier__township_ids
+#: model:ir.model.fields,field_description:customizations_by_livep.field_res_country_state__township_ids
+msgid "Townships"
+msgstr ""
+
+#. module: customizations_by_livep
+#: model_terms:ir.ui.view,arch_db:customizations_by_livep.product_page_live_stream_template_inherit
+msgid "Twitter"
+msgstr ""
+
+#. module: customizations_by_livep
+#: model:ir.model,name:customizations_by_livep.model_website
+msgid "Website"
+msgstr "ဝက်ဆိုဒ်"
+
+#. module: customizations_by_livep
+#: model_terms:ir.ui.view,arch_db:customizations_by_livep.product_page_live_stream_template_inherit
+msgid "Weibo"
+msgstr ""
+
+#. module: customizations_by_livep
+#: model_terms:ir.ui.view,arch_db:customizations_by_livep.mp_product_template_live_stream_inherit
+#: model_terms:ir.ui.view,arch_db:customizations_by_livep.product_page_live_stream_template_inherit
+msgid "YouTube video player"
+msgstr ""
+
+#. module: customizations_by_livep
+#: model:ir.model.fields,field_description:customizations_by_livep.field_res_config_settings__domain
+#: model:ir.model.fields,field_description:customizations_by_livep.field_webkul_website_addons__domain
+#: model:ir.model.fields,field_description:customizations_by_livep.field_website_review_config__domain
+#: model:ir.model.fields,field_description:customizations_by_livep.field_xtremo_res_config_settings__domain
+msgid "domain"
+msgstr ""
+
+#. module: customizations_by_livep
+#: model_terms:ir.ui.view,arch_db:customizations_by_livep.buyer_address_inherit
+msgid "eg.0912345678"
+msgstr ""
+
+#. module: customizations_by_livep
+#: model_terms:ir.ui.view,arch_db:customizations_by_livep.checkout_template_inherit
+msgid "eg.09xxxxxxxxx"
+msgstr ""
+
+#. module: customizations_by_livep
+#: model_terms:ir.ui.view,arch_db:customizations_by_livep.shop_page_products_grid_view_inherit
+#: model_terms:ir.ui.view,arch_db:customizations_by_livep.theme_products_grid_view_inherit
+msgid "loading ..."
+msgstr ""
+
+#. module: customizations_by_livep
+#: model:ir.model,name:customizations_by_livep.model_seller_live_stream
+msgid "seller.live.stream"
+msgstr ""

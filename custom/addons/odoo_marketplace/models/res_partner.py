@@ -739,7 +739,12 @@ class ResPartner(models.Model):
         print('Prouducts', products)
         for product in products:
             product.write({'sale_ok':not self.website_published})
+
+        user = self.env['res.users'].search([('partner_id', '=', self.id)])
+        user.write({'active': not self.website_published})
+        self.write({'active': not self.website_published})
         self.ensure_one()
+
         return self.write({'website_published': not self.website_published})
 
 
