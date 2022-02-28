@@ -171,6 +171,12 @@ odoo.define('xtremo.shop.advance.search', function (require) {
         $grid.toggleClass('o_wsale_layout_list', switchToList);
         void $grid[0].offsetWidth;
         $grid.find('*').css('transition', '');
+
+        var x = window.matchMedia("(max-width: 640px)")
+        if (x.matches) {
+            document.getElementById('products_grid').classList.remove('o_wsale_layout_list');
+
+        }
     },
 
     resize: function (ev) {
