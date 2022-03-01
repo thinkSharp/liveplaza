@@ -111,6 +111,6 @@
         </record>
 
         <menuitem id="wk_pay_to_admin_menu" name="Pay To Admin" sequence="4" parent="odoo_marketplace.wk_seller_dashboard_menu3" action="wk_pay_to_admin_wizard_action" groups="odoo_marketplace.marketplace_seller_group"/>
-        <menuitem id="wk_recieved_from_seller_menu" name="Recieved From Seller" sequence="4" parent="odoo_marketplace.wk_seller_dashboard_menu3" action="wk_recieved_from_seller_wizard_action" groups="odoo_marketplace.marketplace_officer_group"/>
+        <!-- <menuitem id="wk_recieved_from_seller_menu" name="Recieved From Seller" sequence="4" parent="odoo_marketplace.wk_seller_dashboard_menu3" action="wk_recieved_from_seller_wizard_action" groups="odoo_marketplace.marketplace_officer_group"/> -->
     </data>
 </odoo>

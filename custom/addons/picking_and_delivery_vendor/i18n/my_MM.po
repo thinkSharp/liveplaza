@@ -1,0 +1,1084 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* picking_and_delivery_vendor
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 13.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-02-26 06:16+0000\n"
+"PO-Revision-Date: 2022-02-26 06:16+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: picking_and_delivery_vendor
+#: model_terms:ir.ui.view,arch_db:picking_and_delivery_vendor.delivery_move_report
+#: model_terms:ir.ui.view,arch_db:picking_and_delivery_vendor.pickup_move_report
+msgid "<strong>Date : </strong>"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model_terms:ir.ui.view,arch_db:picking_and_delivery_vendor.pickup_move_report
+msgid "<strong>Seller : </strong>"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model_terms:ir.ui.view,arch_db:picking_and_delivery_vendor.delivery_move_report
+msgid "<strong>buyer : </strong>"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_delivery_method__active
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_mp_delivery_vendor_receivable_result__mp_active_vendor
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_picking_method__active
+msgid "Active"
+msgstr "တက်ကြွသည်။"
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_res_partner__active_delivery
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_res_users__active_delivery
+msgid "Active Delivery"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_picking_move__picking_address
+msgid "Address for Picking"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_delivery_method__township_ids
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_picking_method__township_ids
+msgid "Allowed Townships"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_delivery_payment__total_amount
+msgid "Amount"
+msgstr "ပမာဏ"
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields.selection,name:picking_and_delivery_vendor.selection__mp_order_result__mp_order_state__approved
+msgid "Approved"
+msgstr "ခွင့်ပြုချက်ရပြီးသော"
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_delivery_report__buyer_id
+msgid "Buyer"
+msgstr "ဝယ်ယူသူ"
+
+#. module: picking_and_delivery_vendor
+#: model_terms:ir.ui.view,arch_db:picking_and_delivery_vendor.mp_delivery_collection_result_wizard_form
+#: model_terms:ir.ui.view,arch_db:picking_and_delivery_vendor.mp_delivery_vendor_receivable_result_wizard_form
+#: model_terms:ir.ui.view,arch_db:picking_and_delivery_vendor.mp_order_result_wizard_form
+#: model_terms:ir.ui.view,arch_db:picking_and_delivery_vendor.pickup_report_wizard_form
+msgid "Cancel"
+msgstr "မလုပ်ဆောင်ပါ"
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields.selection,name:picking_and_delivery_vendor.selection__delivery_report__state__cancel
+#: model:ir.model.fields.selection,name:picking_and_delivery_vendor.selection__mp_order_result__mp_order_state__cancel
+#: model:ir.model.fields.selection,name:picking_and_delivery_vendor.selection__packaging_move__state__cancel
+#: model:ir.model.fields.selection,name:picking_and_delivery_vendor.selection__picking_move__state__cancel
+#: model:ir.model.fields.selection,name:picking_and_delivery_vendor.selection__pickup_report__state__cancel
+msgid "Cancelled"
+msgstr "ပယ်ဖျက်လိုက်သည်"
+
+#. module: picking_and_delivery_vendor
+#: code:addons/picking_and_delivery_vendor/models/stock_picking.py:0
+#, python-format
+msgid "Choose Delivery Vendor."
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model_terms:ir.ui.view,arch_db:picking_and_delivery_vendor.pickup_report_wizard_form
+msgid "Click 'Print' to get pickup report!"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields.selection,name:picking_and_delivery_vendor.selection__mp_order_result__mp_payment_state__collected
+msgid "Collected"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_mp_delivery_vendor_receivable_result__mp_collected_amount
+msgid "Collected Amount"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_delivery_payment__required_condition
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_stock_picking__required_condition
+msgid "Condition"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model,name:picking_and_delivery_vendor.model_res_config_settings
+msgid "Config Settings"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model,name:picking_and_delivery_vendor.model_res_partner
+msgid "Contact"
+msgstr "အဆက်အသွယ်"
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_delivery_method__create_uid
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_delivery_payment__create_uid
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_mp_delivery_collection_result__create_uid
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_mp_delivery_collection_result_wizard__create_uid
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_mp_delivery_vendor_receivable_result__create_uid
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_mp_delivery_vendor_receivable_result_wizard__create_uid
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_mp_order_result__create_uid
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_mp_order_result_wizard__create_uid
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_packaging_move__create_uid
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_picking_method__create_uid
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_picking_move__create_uid
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_pickup_report_wizard__create_uid
+msgid "Created by"
+msgstr "ဖန်တီးသူ"
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_delivery_method__create_date
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_delivery_payment__create_date
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_mp_delivery_collection_result__create_date
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_mp_delivery_collection_result_wizard__create_date
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_mp_delivery_vendor_receivable_result__create_date
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_mp_delivery_vendor_receivable_result_wizard__create_date
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_mp_order_result__create_date
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_mp_order_result_wizard__create_date
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_packaging_move__create_date
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_picking_method__create_date
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_picking_move__create_date
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_pickup_report_wizard__create_date
+msgid "Created on"
+msgstr "ပြုလုပ်ထားသည်"
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_mp_delivery_collection_result__mp_customer_name
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_mp_order_result__mp_customer_name
+msgid "Customer"
+msgstr "ဝယ်သူ"
+
+#. module: picking_and_delivery_vendor
+#: model_terms:ir.ui.view,arch_db:picking_and_delivery_vendor.delivery_move_report
+msgid "Daily Delivery Report"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model_terms:ir.ui.view,arch_db:picking_and_delivery_vendor.pickup_move_report
+msgid "Daily Pickup Report"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model_terms:ir.ui.view,arch_db:picking_and_delivery_vendor.pickup_report_wizard_form
+msgid "Daily Sales Report"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_mp_order_result__mp_order_date
+msgid "Date"
+msgstr "နေ့စွဲ"
+
+#. module: picking_and_delivery_vendor
+#: model_terms:ir.ui.view,arch_db:picking_and_delivery_vendor.marketplace_picking_stock_modified_form_view_inherit
+msgid "Deliver Now"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model_terms:ir.ui.view,arch_db:picking_and_delivery_vendor.picking_method_in_marketplace_order_form
+msgid "Delivery"
+msgstr "ပစ္စည်းများကိုပို့ဆောင်ခြင်း"
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_delivery_report__delivery_address
+msgid "Delivery Address"
+msgstr "ပေးပို့ရနျလိပျစာ"
+
+#. module: picking_and_delivery_vendor
+#: model:ir.actions.act_window,name:picking_and_delivery_vendor.mp_delivery_collection_result_wizard_action
+#: model_terms:ir.ui.view,arch_db:picking_and_delivery_vendor.mp_delivery_collection_result_tree
+#: model_terms:ir.ui.view,arch_db:picking_and_delivery_vendor.mp_delivery_collection_result_wizard_form
+msgid "Delivery Collection"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.ui.menu,name:picking_and_delivery_vendor.mp_delivery_collection_result_wizard_menu
+msgid "Delivery Collection Report"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model_terms:ir.ui.view,arch_db:picking_and_delivery_vendor.picking_method_in_partner_form
+msgid "Delivery Info"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model_terms:ir.ui.view,arch_db:picking_and_delivery_vendor.res_country_township_form_pickup
+msgid "Delivery Method"
+msgstr "ပစ္စည်းပို့ဆောင်ရန်နည်းလမ်း"
+
+#. module: picking_and_delivery_vendor
+#: model_terms:ir.ui.view,arch_db:picking_and_delivery_vendor.delivery_method_form
+msgid "Delivery Method Form"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model_terms:ir.ui.view,arch_db:picking_and_delivery_vendor.delivery_method_tree
+msgid "Delivery Method Tree"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.actions.server,name:picking_and_delivery_vendor.hold_do_to_cancel_scheduler_ir_actions_server
+#: model:ir.cron,cron_name:picking_and_delivery_vendor.hold_do_to_cancel_scheduler
+#: model:ir.cron,name:picking_and_delivery_vendor.hold_do_to_cancel_scheduler
+msgid "Delivery Order: Hold to Cancel"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.actions.server,name:picking_and_delivery_vendor.orange_do_to_cancel_scheduler_ir_actions_server
+msgid "Delivery Order: Orange to Cancel"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.actions.act_window,name:picking_and_delivery_vendor.action_delivery_payment
+#: model:ir.model,name:picking_and_delivery_vendor.model_delivery_payment
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_stock_picking__delivery_payment_id
+#: model:ir.ui.menu,name:picking_and_delivery_vendor.delivery_payment_menu
+msgid "Delivery Payment"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model_terms:ir.ui.view,arch_db:picking_and_delivery_vendor.delivery_payment_form
+msgid "Delivery Payment Form"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model_terms:ir.ui.view,arch_db:picking_and_delivery_vendor.delivery_payment_tree
+msgid "Delivery Payment Tree"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_mp_delivery_vendor_receivable_result__mp_delivery_name
+msgid "Delivery Person"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model_terms:ir.ui.view,arch_db:picking_and_delivery_vendor.delivery_payment_search
+msgid "Delivery Ppayment Report Search"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.actions.act_window,name:picking_and_delivery_vendor.action_delivery_report_tree
+#: model:ir.actions.report,name:picking_and_delivery_vendor.report_delivery_move
+#: model:ir.model,name:picking_and_delivery_vendor.model_delivery_report
+#: model:ir.ui.menu,name:picking_and_delivery_vendor.delivery_report_menu
+#: model_terms:ir.ui.view,arch_db:picking_and_delivery_vendor.delivery_report_tree
+msgid "Delivery Report"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_delivery_payment__vendor_id
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_mp_delivery_collection_result__mp_vendor_name
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_res_partner__delivery_vendor
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_res_users__delivery_vendor
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_stock_picking__vendor_id
+#: model:res.groups,name:picking_and_delivery_vendor.delivery_vendor_group
+msgid "Delivery Vendor"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.actions.act_window,name:picking_and_delivery_vendor.mp_delivery_vendor_receivable_result_wizard_action
+#: model_terms:ir.ui.view,arch_db:picking_and_delivery_vendor.mp_delivery_vendor_receivable_result_tree
+#: model_terms:ir.ui.view,arch_db:picking_and_delivery_vendor.mp_delivery_vendor_receivable_result_wizard_form
+msgid "Delivery Vendor Receivable"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.ui.menu,name:picking_and_delivery_vendor.mp_delivery_vendor_receivable_result_wizard_menu
+msgid "Delivery Vendor Receivable Report"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.actions.server,name:picking_and_delivery_vendor.arrange_deli_vendor_seq_ir_actions_server
+msgid "Delivery Vendor: Arrange Sequence"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.actions.server,name:picking_and_delivery_vendor.arrange_deli_vendor_seq_and_assign_ir_actions_server
+msgid "Delivery Vendor: Arrange Sequence and Assign Vendor"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.actions.server,name:picking_and_delivery_vendor.deli_vendor_seq_and_assign_do_ir_actions_server
+#: model:ir.cron,cron_name:picking_and_delivery_vendor.deli_vendor_seq_and_assign_do
+#: model:ir.cron,name:picking_and_delivery_vendor.deli_vendor_seq_and_assign_do
+msgid "Delivery Vendor: Arrange Vendor and Assign DO Vendor"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.actions.server,name:picking_and_delivery_vendor.arrange_deli_vendor_seq_and_assign_do_ir_actions_server
+msgid "Delivery Vendor: Arrange Vendor and Assign Vendor to DO"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model,name:picking_and_delivery_vendor.model_delivery_method
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_res_partner__delivery_method_ids
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_res_users__delivery_method_ids
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_stock_picking__delivery_method_id
+#: model_terms:ir.ui.view,arch_db:picking_and_delivery_vendor.res_country_township_form_pickup
+#: model_terms:ir.ui.view,arch_db:picking_and_delivery_vendor.res_country_township_tree_pickup
+msgid "Delivery Zone"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.actions.act_window,name:picking_and_delivery_vendor.action_delivery_method
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_res_country_township__rel_delivery_method_ids
+#: model:ir.ui.menu,name:picking_and_delivery_vendor.delivery_method_menu
+msgid "Delivery Zones"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model_terms:ir.ui.view,arch_db:picking_and_delivery_vendor.delivery_method_search
+#: model_terms:ir.ui.view,arch_db:picking_and_delivery_vendor.vendor_pickup_search
+msgid "Delivery method Report Search"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_delivery_method__display_name
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_delivery_payment__display_name
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_delivery_report__display_name
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_mp_delivery_collection_result__display_name
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_mp_delivery_collection_result_wizard__display_name
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_mp_delivery_vendor_receivable_result__display_name
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_mp_delivery_vendor_receivable_result_wizard__display_name
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_mp_order_result__display_name
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_mp_order_result_wizard__display_name
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_packaging_move__display_name
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_picking_method__display_name
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_picking_move__display_name
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_pickup_report__display_name
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_pickup_report_wizard__display_name
+msgid "Display Name"
+msgstr "ပြချင်သော အမည်"
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields.selection,name:picking_and_delivery_vendor.selection__delivery_payment__payment_state__done
+#: model:ir.model.fields.selection,name:picking_and_delivery_vendor.selection__delivery_report__state__done
+msgid "Done"
+msgstr "ပြီးဆုံးသည်"
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields.selection,name:picking_and_delivery_vendor.selection__delivery_payment__payment_state__draft
+#: model:ir.model.fields.selection,name:picking_and_delivery_vendor.selection__delivery_report__state__draft
+#: model:ir.model.fields.selection,name:picking_and_delivery_vendor.selection__packaging_move__state__draft
+#: model:ir.model.fields.selection,name:picking_and_delivery_vendor.selection__picking_move__state__draft
+#: model:ir.model.fields.selection,name:picking_and_delivery_vendor.selection__pickup_report__state__draft
+msgid "Draft"
+msgstr "ယာယီသိမ်းဆည်းခြင်း"
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_packaging_move__done_date
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_picking_move__done_date
+msgid "Effective Date"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_mp_delivery_collection_result_wizard__end_date
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_mp_order_result_wizard__end_date
+msgid "End Date"
+msgstr "ကုန်ဆုံးသော နေ့စွဲ"
+
+#. module: picking_and_delivery_vendor
+#: model_terms:ir.ui.view,arch_db:picking_and_delivery_vendor.mp_delivery_collection_result_wizard_form
+#: model_terms:ir.ui.view,arch_db:picking_and_delivery_vendor.mp_delivery_vendor_receivable_result_wizard_form
+#: model_terms:ir.ui.view,arch_db:picking_and_delivery_vendor.mp_order_result_wizard_form
+msgid "Generate"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_stock_picking__hold_date
+msgid "Hold Date"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_stock_picking__hold_reason
+msgid "Hold Reason"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_stock_picking__hold_state
+msgid "Hold State"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_delivery_method__id
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_delivery_payment__id
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_delivery_report__id
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_mp_delivery_collection_result__id
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_mp_delivery_collection_result_wizard__id
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_mp_delivery_vendor_receivable_result__id
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_mp_delivery_vendor_receivable_result_wizard__id
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_mp_order_result__id
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_mp_order_result_wizard__id
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_packaging_move__id
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_picking_method__id
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_picking_move__id
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_pickup_report__id
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_pickup_report_wizard__id
+msgid "ID"
+msgstr "နံပါတ်"
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_pickup_report__product_id
+msgid "Item"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_res_config_settings__journal_id
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_stock_picking__journal_id
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_webkul_website_addons__journal_id
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_website_review_config__journal_id
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_xtremo_res_config_settings__journal_id
+#: model_terms:ir.ui.view,arch_db:picking_and_delivery_vendor.res_config_settings_view_form
+msgid "Journal"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model_terms:ir.ui.view,arch_db:picking_and_delivery_vendor.res_config_settings_view_form
+msgid "Journal Sync"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_delivery_method____last_update
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_delivery_payment____last_update
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_delivery_report____last_update
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_mp_delivery_collection_result____last_update
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_mp_delivery_collection_result_wizard____last_update
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_mp_delivery_vendor_receivable_result____last_update
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_mp_delivery_vendor_receivable_result_wizard____last_update
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_mp_order_result____last_update
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_mp_order_result_wizard____last_update
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_packaging_move____last_update
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_picking_method____last_update
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_picking_move____last_update
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_pickup_report____last_update
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_pickup_report_wizard____last_update
+msgid "Last Modified on"
+msgstr "နောက်ဆုံးပြင်ဆင်ချိန်"
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_delivery_method__write_uid
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_delivery_payment__write_uid
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_mp_delivery_collection_result__write_uid
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_mp_delivery_collection_result_wizard__write_uid
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_mp_delivery_vendor_receivable_result__write_uid
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_mp_delivery_vendor_receivable_result_wizard__write_uid
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_mp_order_result__write_uid
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_mp_order_result_wizard__write_uid
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_packaging_move__write_uid
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_picking_method__write_uid
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_picking_move__write_uid
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_pickup_report_wizard__write_uid
+msgid "Last Updated by"
+msgstr "နောက်ဆုံးပြင်ဆင်သူ"
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_delivery_method__write_date
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_delivery_payment__write_date
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_mp_delivery_collection_result__write_date
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_mp_delivery_collection_result_wizard__write_date
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_mp_delivery_vendor_receivable_result__write_date
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_mp_delivery_vendor_receivable_result_wizard__write_date
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_mp_order_result__write_date
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_mp_order_result_wizard__write_date
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_packaging_move__write_date
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_picking_method__write_date
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_picking_move__write_date
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_pickup_report_wizard__write_date
+msgid "Last Updated on"
+msgstr "နောက်ဆုံးပြင်ဆင်ချိန်"
+
+#. module: picking_and_delivery_vendor
+#: model_terms:ir.ui.view,arch_db:picking_and_delivery_vendor.marketplace_picking_stock_modified_form_view_inherit
+#: model_terms:ir.ui.view,arch_db:picking_and_delivery_vendor.picking_method_in_marketplace_order_form
+#: model_terms:ir.ui.view,arch_db:picking_and_delivery_vendor.wk_seller_product_order_line_tree_view_inherit
+msgid "Make Ready"
+msgstr "အဆင်သင့် ဖြစ်ပါပြီ"
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_sale_order_line__marketplace_status
+msgid "MarketPlace State"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_packaging_move__mp_order_id
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_picking_move__mp_order_id
+msgid "Marketplace Order"
+msgstr "စျေးဆိုင်မှ အော်ဒါများ"
+
+#. module: picking_and_delivery_vendor
+#: model:ir.ui.menu,name:picking_and_delivery_vendor.mp_order_result_wizard_menu
+msgid "Marketplace Order Report"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.actions.act_window,name:picking_and_delivery_vendor.mp_order_result_wizard_action
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_delivery_payment__mp_orders
+#: model_terms:ir.ui.view,arch_db:picking_and_delivery_vendor.mp_order_result_tree
+#: model_terms:ir.ui.view,arch_db:picking_and_delivery_vendor.mp_order_result_wizard_form
+msgid "Marketplace Orders"
+msgstr "စျေးဆိုင်မှ အော်ဒါများ"
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_delivery_payment__memo
+msgid "Memo"
+msgstr "မှတ်ချက်"
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_delivery_method__name
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_picking_method__name
+msgid "Name"
+msgstr "အမည်"
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields.selection,name:picking_and_delivery_vendor.selection__mp_delivery_collection_result__mp_paid_state__new
+msgid "New"
+msgstr "အသစ်"
+
+#. module: picking_and_delivery_vendor
+#: code:addons/picking_and_delivery_vendor/wizards/mp_delivery_collection_report.py:0
+#: code:addons/picking_and_delivery_vendor/wizards/mp_delivery_vendor_receivable.py:0
+#: code:addons/picking_and_delivery_vendor/wizards/mp_order_report_wizard.py:0
+#, python-format
+msgid "No records found."
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model_terms:ir.actions.act_window,help:picking_and_delivery_vendor.action_delivery_report_tree
+#: model_terms:ir.actions.act_window,help:picking_and_delivery_vendor.action_pickup_report_tree
+msgid "Nothing Here!!!"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model_terms:ir.actions.act_window,help:picking_and_delivery_vendor.action_delivery_method
+#: model_terms:ir.actions.act_window,help:picking_and_delivery_vendor.action_delivery_payment
+#: model_terms:ir.actions.act_window,help:picking_and_delivery_vendor.action_picking_method
+#: model_terms:ir.actions.act_window,help:picking_and_delivery_vendor.action_vendor_packaging
+#: model_terms:ir.actions.act_window,help:picking_and_delivery_vendor.action_vendor_pickup
+msgid "Nothing here!"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields.selection,name:picking_and_delivery_vendor.selection__mp_order_result__mp_payment_state__open
+msgid "Open"
+msgstr "ဖွင့်ထားသော"
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_mp_delivery_collection_result__mp_order_date
+msgid "Order Date"
+msgstr "အမှာစာ ရက်စွဲ"
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_picking_move__origin
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_stock_picking__origin
+msgid "Order Number"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_mp_order_result__mp_order
+msgid "Order Ref"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_mp_delivery_collection_result__mp_name
+msgid "Order Reference"
+msgstr "အော်ဒါနံပါတ်"
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_mp_order_result__mp_order_qty
+msgid "Ordered Qty"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model_terms:ir.ui.view,arch_db:picking_and_delivery_vendor.packaging_move_tree
+msgid "Package"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_sale_order_line__is_packaged
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_stock_picking__is_packaged
+#: model:ir.model.fields.selection,name:picking_and_delivery_vendor.selection__mp_order_result__mp_order_state__packaged
+#: model:ir.model.fields.selection,name:picking_and_delivery_vendor.selection__packaging_move__state__package
+msgid "Packaged"
+msgstr "ပစ္စည်းထုပ်ပိုးပြီးပါပြီ"
+
+#. module: picking_and_delivery_vendor
+#: model:ir.actions.act_window,name:picking_and_delivery_vendor.action_vendor_packaging
+#: model:ir.ui.menu,name:picking_and_delivery_vendor.vendor_packaging_menu
+msgid "Packaging"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model,name:picking_and_delivery_vendor.model_packaging_move
+msgid "Packaging Move"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_sale_order_line__packaging_move_count
+msgid "Packaging Move Count"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model_terms:ir.ui.view,arch_db:picking_and_delivery_vendor.packaging_move_tree
+msgid "Packaging Move Tree"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model_terms:ir.ui.view,arch_db:picking_and_delivery_vendor.vendor_packaging_search
+msgid "Packaging Search"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model_terms:ir.ui.view,arch_db:picking_and_delivery_vendor.picking_method_in_marketplace_order_form
+msgid "Packed"
+msgstr "ပစ္စည်းထုပ်ပိုးပြီးပါပြီ"
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_sale_order_line__is_paid
+#: model:ir.model.fields.selection,name:picking_and_delivery_vendor.selection__mp_delivery_collection_result__mp_paid_state__paid
+#: model:ir.model.fields.selection,name:picking_and_delivery_vendor.selection__mp_order_result__mp_payment_state__paid
+msgid "Paid"
+msgstr "ငွေပေးချေပြီးသော"
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_mp_delivery_collection_result__mp_paid_amount
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_stock_picking__paid_amount
+msgid "Paid Amount"
+msgstr "ငွေရှင်းပြီး ပမာဏ"
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_mp_delivery_collection_result__mp_paid_date
+msgid "Paid Date"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields.selection,name:picking_and_delivery_vendor.selection__mp_delivery_collection_result__mp_paid_state__partial
+msgid "Partially Paid"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_picking_method__related_partner_ids
+msgid "Partner"
+msgstr "မိတ်ဖက်"
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_delivery_payment__pay_date
+msgid "Payment Date"
+msgstr "ငွေပေးချေသည့် ရက်စွဲ"
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_delivery_payment__payment_state
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_mp_delivery_collection_result__mp_paid_state
+msgid "Payment State"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_mp_delivery_collection_result__mp_payment_type
+#: model_terms:ir.ui.view,arch_db:picking_and_delivery_vendor.marketplace_picking_stock_modified_form_view_inherit
+msgid "Payment Type"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model_terms:ir.ui.view,arch_db:picking_and_delivery_vendor.picking_move_tree
+msgid "Pick"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.ui.menu,name:picking_and_delivery_vendor.pick_and_pack_menu
+msgid "Pick & Pack"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_packaging_move__is_picked
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_sale_order_line__is_picked
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_stock_picking__is_picked
+#: model:ir.model.fields.selection,name:picking_and_delivery_vendor.selection__mp_order_result__mp_order_state__picked
+#: model:ir.model.fields.selection,name:picking_and_delivery_vendor.selection__picking_move__state__pick
+#: model:ir.model.fields.selection,name:picking_and_delivery_vendor.selection__pickup_report__state__pick
+#: model_terms:ir.ui.view,arch_db:picking_and_delivery_vendor.picking_method_in_marketplace_order_form
+msgid "Picked"
+msgstr "ရောင်းသူထံမှ ပစ္စည်းယူပြီးပါပြီ"
+
+#. module: picking_and_delivery_vendor
+#: model:ir.actions.act_window,name:picking_and_delivery_vendor.action_vendor_pickup
+#: model:ir.ui.menu,name:picking_and_delivery_vendor.vendor_pickup_menu
+msgid "Picking"
+msgstr "ကုန်ပစ္စည်း ကောက်ခြင်း"
+
+#. module: picking_and_delivery_vendor
+#: model_terms:ir.ui.view,arch_db:picking_and_delivery_vendor.picking_method_in_partner_form
+msgid "Picking Info"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model,name:picking_and_delivery_vendor.model_picking_move
+msgid "Picking Move"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_sale_order_line__picking_move_count
+msgid "Picking Move Count"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model_terms:ir.ui.view,arch_db:picking_and_delivery_vendor.picking_move_tree
+msgid "Picking Move Tree"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_res_partner__picking_vendor
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_res_users__picking_vendor
+msgid "Picking Vendor"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model,name:picking_and_delivery_vendor.model_picking_method
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_res_partner__picking_method_ids
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_res_users__picking_method_ids
+msgid "Picking Zone"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model_terms:ir.ui.view,arch_db:picking_and_delivery_vendor.picking_method_form
+msgid "Picking method Form"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model_terms:ir.ui.view,arch_db:picking_and_delivery_vendor.picking_method_search
+msgid "Picking method Report Search"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model_terms:ir.ui.view,arch_db:picking_and_delivery_vendor.picking_method_tree
+msgid "Picking method Tree"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_pickup_report__picking_address
+msgid "Pickup Address"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.actions.act_window,name:picking_and_delivery_vendor.action_pickup_report_tree
+#: model:ir.actions.act_window,name:picking_and_delivery_vendor.pickup_report_wizard_action
+#: model:ir.actions.report,name:picking_and_delivery_vendor.report_pickup_move
+#: model:ir.model,name:picking_and_delivery_vendor.model_pickup_report
+#: model:ir.ui.menu,name:picking_and_delivery_vendor.pickup_report_menu
+#: model_terms:ir.ui.view,arch_db:picking_and_delivery_vendor.pickup_report_tree
+msgid "Pickup Report"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model,name:picking_and_delivery_vendor.model_pickup_report_wizard
+msgid "Pickup Report Wizard"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:res.groups,name:picking_and_delivery_vendor.pickup_vendor_group
+msgid "Pickup Vendor"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_picking_move__picking_method_id
+#: model_terms:ir.ui.view,arch_db:picking_and_delivery_vendor.res_country_township_form_pickup
+#: model_terms:ir.ui.view,arch_db:picking_and_delivery_vendor.res_country_township_tree_pickup
+msgid "Pickup Zone"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.actions.act_window,name:picking_and_delivery_vendor.action_picking_method
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_res_country_township__rel_pickup_method_ids
+#: model:ir.ui.menu,name:picking_and_delivery_vendor.picking_method_menu
+msgid "Pickup Zones"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.module.category,name:picking_and_delivery_vendor.pickup_and_delivery_categ
+msgid "Pickup and Delivery"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model_terms:ir.ui.view,arch_db:picking_and_delivery_vendor.delivery_report_pivot
+#: model_terms:ir.ui.view,arch_db:picking_and_delivery_vendor.pickup_report_pivot
+msgid "Pivot View"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model_terms:ir.ui.view,arch_db:picking_and_delivery_vendor.delivery_payment_form
+msgid "Post"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_delivery_method__deli_price
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_picking_method__picking_price
+msgid "Price"
+msgstr "စျေးနှုန်း"
+
+#. module: picking_and_delivery_vendor
+#: model_terms:ir.ui.view,arch_db:picking_and_delivery_vendor.pickup_report_wizard_form
+msgid "Print"
+msgstr "စာရွက်ထုတ်သည်"
+
+#. module: picking_and_delivery_vendor
+#: model:ir.ui.menu,name:picking_and_delivery_vendor.pickup_report_wizard_menu
+msgid "Print Pickup Report"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_mp_order_result__mp_product_name
+msgid "Product"
+msgstr "ကုန်ပစ္စည်း"
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields.selection,name:picking_and_delivery_vendor.selection__delivery_report__state__assigned
+msgid "Ready"
+msgstr "အဆင်သင့်ဖြစ်သည်"
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_picking_move__is_ready
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_sale_order_line__is_ready
+msgid "Ready to Pick"
+msgstr "ပစ္စည်းယူရန် အသင့်ဖြစ်သည်"
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_delivery_payment__receivable_amount
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_mp_delivery_vendor_receivable_result__mp_to_pay_amount
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_stock_picking__receivable_amount
+msgid "Receivable Amount"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model_terms:ir.ui.view,arch_db:picking_and_delivery_vendor.delivery_payment_form
+msgid "Ref :"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_delivery_payment__name
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_packaging_move__name
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_picking_move__name
+msgid "Reference"
+msgstr "စာချုပ် မှီငြမ်းချက်"
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields,help:picking_and_delivery_vendor.field_stock_picking__origin
+msgid "Reference of the document"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: code:addons/picking_and_delivery_vendor/wizards/stock_picking_return.py:0
+#: code:addons/picking_and_delivery_vendor/wizards/stock_picking_return.py:0
+#: code:addons/picking_and_delivery_vendor/wizards/stock_picking_return.py:0
+#, python-format
+msgid "Refund Payment of %s"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_stock_picking__payment_remark
+msgid "Remark for Payment"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model,name:picking_and_delivery_vendor.model_stock_return_picking
+msgid "Return Picking"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: code:addons/picking_and_delivery_vendor/wizards/stock_picking_return.py:0
+#, python-format
+msgid "Returned Picking"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model,name:picking_and_delivery_vendor.model_sale_order
+msgid "Sales Order"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model,name:picking_and_delivery_vendor.model_sale_order_line
+msgid "Sales Order Line"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_delivery_report__scheduled_date
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_packaging_move__scheduled_date
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_picking_move__scheduled_date
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_pickup_report__scheduled_date
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_stock_picking__scheduled_date
+msgid "Scheduled Date"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields,help:picking_and_delivery_vendor.field_stock_picking__scheduled_date
+msgid ""
+"Scheduled time for the first part of the shipment to be processed. Setting "
+"manually a value here would set it as expected date for all the stock moves."
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_mp_order_result__mp_seller_name
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_packaging_move__marketplace_seller_id
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_pickup_report__seller_id
+msgid "Seller"
+msgstr "ရောင်းချသူ"
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_res_partner__vendor_sequence
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_res_users__vendor_sequence
+msgid "Sequence"
+msgstr "အစီစဉ်အတိုင်း"
+
+#. module: picking_and_delivery_vendor
+#: model_terms:ir.ui.view,arch_db:picking_and_delivery_vendor.marketplace_picking_stock_modified_form_view_inherit
+msgid "Set as Hold"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields.selection,name:picking_and_delivery_vendor.selection__mp_order_result__mp_order_state__shipped
+msgid "Shipped"
+msgstr "ပစ္စည်းပို့ဆောင်ပြီးပါပြီ"
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_delivery_report__origin
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_pickup_report__origin
+msgid "Source"
+msgstr "မူလ"
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_packaging_move__origin
+msgid "Source Document"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_mp_delivery_collection_result_wizard__start_date
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_mp_order_result_wizard__start_date
+msgid "Start Date"
+msgstr "စတင်သောနေ့"
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_delivery_report__state
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_mp_order_result__mp_order_state
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_mp_order_result__mp_payment_state
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_packaging_move__state
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_picking_move__state
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_pickup_report__state
+msgid "State"
+msgstr "အခြေအနေ"
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_mp_order_result__mp_subtotal
+msgid "Subtotal"
+msgstr "ပစ္စည်းစုစုပေါင်း"
+
+#. module: picking_and_delivery_vendor
+#: model_terms:ir.ui.view,arch_db:picking_and_delivery_vendor.marketplace_picking_stock_modified_form_view_inherit
+msgid "To Receive"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_mp_delivery_collection_result__mp_amount_total
+msgid "Total Amount"
+msgstr "စုစုပေါင်း ပမာဏ"
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model,name:picking_and_delivery_vendor.model_res_country_township
+msgid "Township"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model,name:picking_and_delivery_vendor.model_stock_picking
+msgid "Transfer"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_mp_order_result__mp_journal
+msgid "Type"
+msgstr "အမျိုးအမည်"
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_stock_picking__payment_upload
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_stock_picking__payment_upload_name
+msgid "Upload Payment"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_delivery_method__related_partner_ids
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_delivery_report__vendor_id
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_packaging_move__vendor_id
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_picking_move__vendor_id
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_pickup_report__vendor_id
+#: model:ir.model.fields,field_description:picking_and_delivery_vendor.field_pickup_report_wizard__vendor_id
+msgid "Vendor"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields.selection,name:picking_and_delivery_vendor.selection__delivery_report__state__confirmed
+msgid "Waiting"
+msgstr "စောင့်ဆိုင်းသည်"
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model.fields.selection,name:picking_and_delivery_vendor.selection__delivery_report__state__wating
+msgid "Waiting Another Operation"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.ui.menu,name:picking_and_delivery_vendor.picking_menu
+msgid "Zone"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model_terms:ir.ui.view,arch_db:picking_and_delivery_vendor.delivery_method_form
+#: model_terms:ir.ui.view,arch_db:picking_and_delivery_vendor.picking_method_form
+msgid "e.g. 1000"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model_terms:ir.ui.view,arch_db:picking_and_delivery_vendor.delivery_method_form
+msgid "e.g. Method A"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model_terms:ir.ui.view,arch_db:picking_and_delivery_vendor.picking_method_form
+msgid "e.g. method A"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model,name:picking_and_delivery_vendor.model_mp_delivery_collection_result
+msgid "mp.delivery.collection.result"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model,name:picking_and_delivery_vendor.model_mp_delivery_collection_result_wizard
+msgid "mp.delivery.collection.result.wizard"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model,name:picking_and_delivery_vendor.model_mp_delivery_vendor_receivable_result
+msgid "mp.delivery.vendor.receivable.result"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model,name:picking_and_delivery_vendor.model_mp_delivery_vendor_receivable_result_wizard
+msgid "mp.delivery.vendor.receivable.result.wizard"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model,name:picking_and_delivery_vendor.model_mp_order_result
+msgid "mp.order.result"
+msgstr ""
+
+#. module: picking_and_delivery_vendor
+#: model:ir.model,name:picking_and_delivery_vendor.model_mp_order_result_wizard
+msgid "mp.order.result.wizard"
+msgstr ""

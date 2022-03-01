@@ -46,7 +46,7 @@
 			<xpath expr="//div[hasclass('o_portal_my_details')]" position="before">
 				<div id="become_seller_btn">
 					<t t-set="show_become_a_seller" t-value="website.mp_show_become_a_seller"/>
-					<a t-if="show_become_a_seller and not user_id.partner_id.seller" class="btn btn-success mb8" href="/my/marketplace/become_seller" >Become a Seller</a>
+					<a t-if="show_become_a_seller and not user_id.partner_id.seller" class="btn btn-success mb8" href="/seller/signup" >Become a Seller</a>
 				</div>
 			</xpath>
 		</template>

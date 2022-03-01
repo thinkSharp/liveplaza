@@ -1,0 +1,544 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* facebook_ads_feeds
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 13.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-02-26 05:41+0000\n"
+"PO-Revision-Date: 2022-02-26 05:41+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: facebook_ads_feeds
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_fb_field_mappning__active
+msgid "Active"
+msgstr "တက်ကြွသည်။"
+
+#. module: facebook_ads_feeds
+#: model_terms:ir.ui.view,arch_db:facebook_ads_feeds.field_mappning_form
+msgid "Archived"
+msgstr "မမြင်အောင် ဖျောက်ထားရန်"
+
+#. module: facebook_ads_feeds
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_fb_attachment_mapping__attachment_id
+#: model_terms:ir.ui.view,arch_db:facebook_ads_feeds.facebook_shop_form
+msgid "Attachment"
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model:ir.model.fields.selection,name:facebook_ads_feeds.selection__fb_facebook_shop__feeds_security__automatic
+msgid "Automatic"
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model_terms:ir.ui.view,arch_db:facebook_ads_feeds.facebook_shop_form
+msgid ""
+"Automatic: Feed URL will be accessible publicly and can be used inside the "
+"Facebook catalog for regular fetch."
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_fb_facebook_fields__g_beg
+msgid "Begins With 'g:'"
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_product_product__brand
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_product_template__brand
+msgid "Brand"
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model:ir.ui.menu,name:facebook_ads_feeds.facebook_shop_menu
+msgid "Catalogs"
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_google_category__google_categ_id
+msgid "Categ ID"
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_fb_facebook_shop__public_categ_ids
+#: model:ir.model.fields.selection,name:facebook_ads_feeds.selection__fb_facebook_shop__product_selection_type__category
+msgid "Category"
+msgstr "အမျိုးအစားများ"
+
+#. module: facebook_ads_feeds
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_fb_facebook_shop__content_language_id
+msgid "Content Language"
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model_terms:ir.ui.view,arch_db:facebook_ads_feeds.facebook_shop_form
+msgid "Create Cron"
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_fb_attachment_mapping__create_uid
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_fb_facebook_fields__create_uid
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_fb_facebook_shop__create_uid
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_fb_field_mappning__create_uid
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_fb_field_mappning_line__create_uid
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_google_category__create_uid
+msgid "Created by"
+msgstr "ဖန်တီးသူ"
+
+#. module: facebook_ads_feeds
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_fb_attachment_mapping__create_date
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_fb_facebook_fields__create_date
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_fb_facebook_shop__create_date
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_fb_field_mappning__create_date
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_fb_field_mappning_line__create_date
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_google_category__create_date
+msgid "Created on"
+msgstr "ပြုလုပ်ထားသည်"
+
+#. module: facebook_ads_feeds
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_fb_facebook_shop__crone_id
+msgid "Cron Detail"
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model_terms:ir.ui.view,arch_db:facebook_ads_feeds.facebook_shop_form
+msgid "Cron Details"
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_fb_facebook_shop__currency_id
+msgid "Currency"
+msgstr "ငွေကြေး"
+
+#. module: facebook_ads_feeds
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_fb_field_mappning_line__default
+msgid "Default"
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_fb_attachment_mapping__display_name
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_fb_facebook_fields__display_name
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_fb_facebook_shop__display_name
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_fb_field_mappning__display_name
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_fb_field_mappning_line__display_name
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_google_category__display_name
+msgid "Display Name"
+msgstr "ပြချင်သော အမည်"
+
+#. module: facebook_ads_feeds
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_fb_facebook_shop__domain_input
+#: model:ir.model.fields.selection,name:facebook_ads_feeds.selection__fb_facebook_shop__product_selection_type__domain
+msgid "Domain"
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model:ir.model.fields,help:facebook_ads_feeds.field_fb_facebook_shop__domain_input
+msgid ""
+"Domain Filter:- Using this only filtered products will generate inside feed "
+"xml."
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model:ir.model.fields,help:facebook_ads_feeds.field_fb_facebook_shop__enable_token
+msgid "Enbale if you want to secure publicly access Feed URL"
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model:ir.actions.act_window,name:facebook_ads_feeds.fb_attachment_mapping_action
+#: model_terms:ir.ui.view,arch_db:facebook_ads_feeds.fb_attachment_mapping_form
+#: model_terms:ir.ui.view,arch_db:facebook_ads_feeds.fb_attachment_mapping_tree
+msgid "FB Attachment"
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model:ir.model,name:facebook_ads_feeds.model_fb_attachment_mapping
+msgid "Facebook Attachments"
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model_terms:ir.ui.view,arch_db:facebook_ads_feeds.facebook_product_template_form
+msgid "Facebook Attributes"
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model:ir.actions.act_window,name:facebook_ads_feeds.facebook_shop_action
+#: model:ir.ui.menu,name:facebook_ads_feeds.facebook_shops_menu
+msgid "Facebook Catalog"
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model:ir.ui.menu,name:facebook_ads_feeds.facebook_fields_menu
+msgid "Facebook Catalog Fields"
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model_terms:ir.ui.view,arch_db:facebook_ads_feeds.facebook_shop_form
+msgid "Facebook Catalog Form"
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model:ir.actions.act_window,name:facebook_ads_feeds.facebook_fields_action
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_fb_field_mappning_line__facebook_field_id
+msgid "Facebook Fields"
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model:ir.model,name:facebook_ads_feeds.model_fb_field_mappning
+msgid "Facebook Fields Mapping"
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model:ir.ui.menu,name:facebook_ads_feeds.facebook_market_menu
+msgid "Facebook Marketing"
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_fb_attachment_mapping__fb_shop
+msgid "Facebook Shop"
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model:ir.model,name:facebook_ads_feeds.model_fb_facebook_shop
+msgid "Facebook Shops"
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model:ir.model,name:facebook_ads_feeds.model_fb_facebook_fields
+msgid "Facebook fields"
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_fb_facebook_shop__feeds_security
+msgid "Feed Security"
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_fb_facebook_shop__feed_url
+msgid "Feed URL"
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_fb_facebook_fields__name
+msgid "Field"
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_fb_facebook_shop__field_mapping_id
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_fb_field_mappning_line__field_mapping_id
+#: model:ir.ui.menu,name:facebook_ads_feeds.field_mappning_menu
+#: model_terms:ir.ui.view,arch_db:facebook_ads_feeds.field_mappning_form
+#: model_terms:ir.ui.view,arch_db:facebook_ads_feeds.field_mappning_tree
+msgid "Field Mapping"
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model:ir.actions.act_window,name:facebook_ads_feeds.field_mappning_action
+msgid "Field Mappning"
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model:ir.model.fields,help:facebook_ads_feeds.field_fb_field_mappning_line__field_mapping_id
+msgid "Field with which you want to map"
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model:ir.model,name:facebook_ads_feeds.model_fb_field_mappning_line
+msgid "Fields mapping Line"
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_fb_field_mappning__field_mapping_line_ids
+msgid "Fileds To Mapped"
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_fb_field_mappning_line__fixed
+msgid "Fixed"
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model:ir.model.fields,help:facebook_ads_feeds.field_fb_field_mappning_line__fixed_text
+msgid "Fixed data that you want to send"
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model:ir.model,name:facebook_ads_feeds.model_google_category
+msgid "Google Cateegories"
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model:ir.actions.act_window,name:facebook_ads_feeds.google_category_action
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_product_product__google_categ_id
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_product_template__google_categ_id
+#: model:ir.ui.menu,name:facebook_ads_feeds.google_category_menu
+#: model_terms:ir.ui.view,arch_db:facebook_ads_feeds.google_category_form
+#: model_terms:ir.ui.view,arch_db:facebook_ads_feeds.google_category_tree
+msgid "Google Category"
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_google_category__name
+msgid "Google Category Name"
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_product_product__gtin
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_product_template__gtin
+msgid "Gtin"
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_fb_attachment_mapping__id
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_fb_facebook_fields__id
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_fb_facebook_shop__id
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_fb_field_mappning__id
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_fb_field_mappning_line__id
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_google_category__id
+msgid "ID"
+msgstr "နံပါတ်"
+
+#. module: facebook_ads_feeds
+#: model:ir.model.fields,help:facebook_ads_feeds.field_fb_facebook_shop__warehouse_id
+msgid ""
+"If it's set then selected warehouse quantity will get fetched else all "
+"quantity will fetch."
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model_terms:ir.ui.view,arch_db:facebook_ads_feeds.facebook_shop_form
+msgid ""
+"If you will re-generate token enabled feed URL then you will have to update "
+"on Facebook too."
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model:ir.model.fields,help:facebook_ads_feeds.field_fb_facebook_shop__content_language_id
+msgid "Language in which your products will get sync on Facebook Shop"
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_fb_attachment_mapping____last_update
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_fb_facebook_fields____last_update
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_fb_facebook_shop____last_update
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_fb_field_mappning____last_update
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_fb_field_mappning_line____last_update
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_google_category____last_update
+msgid "Last Modified on"
+msgstr "နောက်ဆုံးပြင်ဆင်ချိန်"
+
+#. module: facebook_ads_feeds
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_fb_attachment_mapping__write_uid
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_fb_facebook_fields__write_uid
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_fb_facebook_shop__write_uid
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_fb_field_mappning__write_uid
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_fb_field_mappning_line__write_uid
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_google_category__write_uid
+msgid "Last Updated by"
+msgstr "နောက်ဆုံးပြင်ဆင်သူ"
+
+#. module: facebook_ads_feeds
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_fb_attachment_mapping__write_date
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_fb_facebook_fields__write_date
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_fb_facebook_shop__write_date
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_fb_field_mappning__write_date
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_fb_field_mappning_line__write_date
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_google_category__write_date
+msgid "Last Updated on"
+msgstr "နောက်ဆုံးပြင်ဆင်ချိန်"
+
+#. module: facebook_ads_feeds
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_fb_attachment_mapping__latest
+msgid "Latest"
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_fb_facebook_shop__limit
+msgid "Limit"
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model:ir.model.fields.selection,name:facebook_ads_feeds.selection__fb_facebook_shop__feeds_security__manual
+#: model:ir.model.fields.selection,name:facebook_ads_feeds.selection__fb_facebook_shop__product_selection_type__manual
+msgid "Manual"
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model_terms:ir.ui.view,arch_db:facebook_ads_feeds.facebook_shop_form
+msgid ""
+"Manual: Feed URL will not be accessible publicly and XML feed will be "
+"uploaded manually on the Facebook catalog."
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model_terms:ir.ui.view,arch_db:facebook_ads_feeds.facebook_shop_form
+msgid "Manually Create Feeds"
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model:ir.ui.menu,name:facebook_ads_feeds.mappings_fields
+msgid "Mapping"
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_fb_facebook_shop__mapping_count
+msgid "Mapping Count"
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_fb_field_mappning_line__model_field_id
+msgid "Model Field"
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_product_product__mpn
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_product_template__mpn
+msgid "Mpn No."
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model_terms:ir.ui.view,arch_db:facebook_ads_feeds.facebook_shop_form
+msgid "NAME"
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_fb_field_mappning__name
+msgid "Name"
+msgstr "အမည်"
+
+#. module: facebook_ads_feeds
+#: model:ir.model.fields,help:facebook_ads_feeds.field_fb_facebook_shop__limit
+msgid "Product Limit:- Selected limit product will generate inside feed xml."
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_fb_facebook_shop__pricelist_id
+msgid "Product Pricelist"
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model_terms:ir.ui.view,arch_db:facebook_ads_feeds.facebook_shop_form
+msgid "Product Select"
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_fb_facebook_shop__product_selection_type
+msgid "Product Select Way"
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model:ir.model,name:facebook_ads_feeds.model_product_template
+msgid "Product Template"
+msgstr "ကုန်ပစ္စည်း ပုံစံ"
+
+#. module: facebook_ads_feeds
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_fb_facebook_shop__product_ids_rel
+msgid "Products"
+msgstr "ကုန်ပစ္စည်းများ"
+
+#. module: facebook_ads_feeds
+#: model_terms:ir.ui.view,arch_db:facebook_ads_feeds.facebook_shop_form
+msgid "Regenerate Token Url"
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_fb_facebook_fields__required
+msgid "Required"
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model:ir.model.fields,help:facebook_ads_feeds.field_fb_field_mappning_line__facebook_field_id
+msgid "Select the facebook field name that you want to map with Odoo field"
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model:ir.model.fields,help:facebook_ads_feeds.field_fb_facebook_shop__product_selection_type
+msgid ""
+"Select wether you want to select the product manually or with the help of "
+"domain"
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model:ir.model.fields,help:facebook_ads_feeds.field_fb_field_mappning_line__fixed
+msgid "Select wether you want to send the fixed data or the field data"
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model:ir.ui.menu,name:facebook_ads_feeds.facebook_settings
+msgid "Setting"
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_fb_facebook_shop__name
+msgid "Shop Name"
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_fb_facebook_shop__shop_url
+msgid "Shop Url"
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_fb_field_mappning_line__fixed_text
+msgid "Text"
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model:ir.model.fields,help:facebook_ads_feeds.field_fb_field_mappning_line__default
+msgid "The data enter here will be send when there is no data in the field"
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_fb_facebook_shop__feed_token
+msgid "Token"
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_fb_facebook_shop__enable_token
+msgid "Token Enabled"
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_fb_attachment_mapping__updated
+msgid "Updated"
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_fb_facebook_shop__multi_images
+msgid "Want to sync Multi Images at facebook catalog"
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_fb_facebook_shop__sync_product_variant
+msgid "Want to sync product variants at facebook catalog"
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_fb_facebook_shop__update_image
+msgid "Want to update the image/multi image at facebook catalog"
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_fb_facebook_shop__warehouse_id
+msgid "Warehouse"
+msgstr "ကုန်လှောင်ရုံ"
+
+#. module: facebook_ads_feeds
+#: model:ir.model.fields,help:facebook_ads_feeds.field_fb_facebook_shop__shop_url
+msgid "Write your domain name of your website"
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model:ir.model.fields,help:facebook_ads_feeds.field_fb_facebook_shop__pricelist_id
+msgid ""
+"select the pricelist according to which your product price will get selected"
+msgstr ""
+
+#. module: facebook_ads_feeds
+#: model:ir.model.fields,field_description:facebook_ads_feeds.field_fb_facebook_shop__website_id
+msgid "website"
+msgstr ""

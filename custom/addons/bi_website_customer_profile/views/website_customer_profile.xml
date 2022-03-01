@@ -252,7 +252,7 @@
 
 									<div t-attf-class="form-group #{error and 'email' in error and 'has-error' or ''} col-lg-6">
 										<label class="control-label" for="email">Email</label>
-										<input type="email" required="True" name="email" class="form-control" t-att-value="user_id.partner_id.email"/>
+										<input type="email" name="email" class="form-control" t-att-value="email"/>
 									</div>
 
 
@@ -265,14 +265,13 @@
 
 									<div t-attf-class="form-group #{error and 'phone' in error and 'has-error' or ''} col-lg-6">
 										<label class="control-label" for="phone">Phone</label>
-										<input type="text" name="phone" class="form-control" t-att-value="user_id.partner_id.phone"/>
+										<input type="text" name="phone" class="form-control" t-att-value="phone"/>
 									</div>
 
 									<div t-attf-class="form-group #{error and 'mobile' in error and 'has-error' or ''} col-lg-6">
 										<label class="control-label" for="mobile">Mobile</label>
-										<input type="text" required="True" name="mobile" class="form-control" t-att-value="user_id.partner_id.mobile"/>
+										<input type="text" name="mobile" class="form-control" t-att-value="user_id.partner_id.mobile"/>
 									</div>
-
 
 							</div>
 
