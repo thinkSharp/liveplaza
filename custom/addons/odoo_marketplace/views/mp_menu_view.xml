@@ -22,7 +22,7 @@
                 <menuitem id="wk_seller_order_analysis" name="Order Analysis" sequence="7" parent="odoo_marketplace.wk_seller_dashboard_menu3" action="odoo_marketplace.wk_seller_sale_order_line_analysis_action" groups="odoo_marketplace.marketplace_seller_group"/>
 
             <menuitem id="wk_seller_dashboard_menu2" name="Products" parent="wk_seller_dashboard" groups="odoo_marketplace.marketplace_seller_group" sequence="3"/>
-                <menuitem id="wk_seller_dashboard_menu2_sub_menu0" name="Create New Product" parent="wk_seller_dashboard_menu2" action="wk_seller_new_product_create_action" sequence="1" groups="odoo_marketplace.marketplace_seller_group"/><!-- adding create new product menu-->
+                <menuitem id="wk_seller_dashboard_menu2_sub_menu0" name="Create New Product" parent="wk_seller_dashboard_menu2" action="wk_seller_new_product_create_action" sequence="1" groups="odoo_marketplace.marketplace_seller_group"/><!-- adding create new product -->
                 <menuitem id="wk_seller_dashboard_menu2_sub_menu1" name="Non-Approved Products" parent="wk_seller_dashboard_menu2" action="wk_seller_product_template_action" sequence="2"/>
                 <menuitem id="wk_seller_dashboard_menu2_sub_menu2" name="Approved Products" parent="wk_seller_dashboard_menu2" action="wk_seller_product_template_approved_products_action"  groups="odoo_marketplace.marketplace_seller_group" sequence="3"/>
                 <menuitem id="wk_seller_dashboard_menu2_sub_menu3" name="Product Variants" parent="wk_seller_dashboard_menu2" action="mp_product_product_action"  groups="product.group_product_variant" sequence="4"/>
