@@ -39,45 +39,47 @@ class SaleOrder(models.Model):
         return res
 
     
-    def action_cancel(self):
-        res = super(SaleOrder, self).action_cancel()
-        sms_template_objs = self.env["wk.sms.template"].sudo().search(
-            [('condition', '=', 'order_cancel'),('globally_access','=',False)])
-        for obj in self:
+    # def action_cancel(self):
+    #     res = super(SaleOrder, self).action_cancel()
+    #     sms_template_objs = self.env["wk.sms.template"].sudo().search(
+    #         [('condition', '=', 'order_cancel'),('globally_access','=',False)])
+    #     for obj in self:
 
-            for sms_template_obj in sms_template_objs:
-                mobile = sms_template_obj._get_partner_mobile(obj.partner_id)
-                if mobile:
-                    sms_template_obj.send_sms_using_template(
-                        mobile, sms_template_obj, obj=obj)
-        return res
+    #         for sms_template_obj in sms_template_objs:
+    #             mobile = sms_template_obj._get_partner_mobile(obj.partner_id)
+    #             if mobile:
+    #                 sms_template_obj.send_sms_using_template(
+    #                     mobile, sms_template_obj, obj=obj)
+    #
+    #     return res
 
     
-    def write(self, vals):
-        result = super(SaleOrder, self).write(vals)
-        for res in self:
-            if res and vals.get("state", False) == 'sent':
-                sms_template_objs = self.env["wk.sms.template"].sudo().search(
-                    [('condition', '=', 'order_placed'),('globally_access','=',False)])
-                for sms_template_obj in sms_template_objs:
-                    mobile = sms_template_obj._get_partner_mobile(
-                        res.partner_id)
-                    if mobile:
-                        sms_template_obj.send_sms_using_template(
-                            mobile, sms_template_obj, obj=res)
-        return result
+    # def write(self, vals):
+    #     result = super(SaleOrder, self).write(vals)
+    #     for res in self:
+    #         if res and vals.get("state", False) == 'sent':
+    #             sms_template_objs = self.env["wk.sms.template"].sudo().search(
+    #                 [('condition', '=', 'order_placed'),('globally_access','=',False)])
+    #             for sms_template_obj in sms_template_objs:
+    #                 mobile = sms_template_obj._get_partner_mobile(
+    #                     res.partner_id)
+    #                 if mobile:
+    #                     sms_template_obj.send_sms_using_template(
+    #                         mobile, sms_template_obj, obj=res)
+    #     return result
 
 
 class StockPicking(models.Model):
     _inherit = "stock.picking"
 
     
-    def write(self, vals):
-        result = super(StockPicking, self).write(vals)
-        for res in self:
-            if res and vals.get("date_done", False):
-                res.send_picking_done_message()
-        return result
+    # def write(self, vals):
+    #     result = super(StockPicking, self).write(vals)
+    #     for res in self:
+    #         if res and vals.get("date_done", False):
+    #             res.send_picking_done_message()
+    #
+    #     return result
 
     # method to send msg on picking done
     def send_picking_done_message(self):
@@ -96,12 +98,12 @@ class AccountMove(models.Model):
     _inherit = "account.move"
 
     
-    def write(self, vals):
-        result = super(AccountMove, self).write(vals)
-        for res in self:
-            if res and vals.get("state", False) in ["open", "paid"]:
-                res.send_invoice_message(vals.get("state"))
-        return result
+    # def write(self, vals):
+    #     result = super(AccountMove, self).write(vals)
+    #     for res in self:
+    #         if res and vals.get("state", False) in ["open", "paid"]:
+    #             res.send_invoice_message(vals.get("state"))
+    #     return result
 
     # method to send msg for open or paid invoice
     def send_invoice_message(self,state):

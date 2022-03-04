@@ -31,8 +31,22 @@ class customerprofile(CustomerPortal):
         partner = request.env.user.partner_id
         partner_township = partner.township_id.id
         partner_state = partner.township_id.state_id.id 
-                
-        return request.render("bi_website_customer_profile.bi_portal_my_profile_edit", {'partner': partner, 'partner_township' : partner_township, 'partner_state': partner_state})
+
+        email_or_phone = partner.email
+        if email_or_phone.isdigit():
+            phone = email_or_phone
+            email = ""
+        else:
+            email = email_or_phone
+            phone = partner.phone
+
+        return request.render("bi_website_customer_profile.bi_portal_my_profile_edit",
+                              {'partner': partner,
+                               'partner_township' : partner_township,
+                               'partner_state': partner_state,
+                               'phone': phone,
+                               'email': email,
+                               })
 
     @http.route(['/my/profile/thankyou'], type='http', auth="public", website=True)
     def edit_your_profile(self, **post):

@@ -161,13 +161,13 @@
                     <field name="name"/>
                     <field name="seller_id" groups="odoo_marketplace.marketplace_officer_group"/>
                     <field name="date"/>
-                    <field name="payment_type"/>
+                    <field name="payment_type" string="Account Type"/>
                     <field name="payment_mode"/>
                     <field name="memo"/>
                     <field name="payable_amount" sum="Total Payable Amount" widget="monetary"/>
                     <field name="state"/>
                     <field name="create_date" string="Create Date" widget="date"/>
-                    <field name="currency_id"/>
+                    <!-- <field name="currency_id"/> -->
                 </tree>
             </field>
         </record>
