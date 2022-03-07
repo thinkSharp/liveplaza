@@ -100,7 +100,8 @@ class AuthSignupHome(Website):
         return super(AuthSignupHome, self)._signup_with_values(token, values)
 
     @http.route('/seller/signup', type='http', auth="public", website=True)
-    def seller_signup_form(self, *args, **kw):        
+    def seller_signup_form(self, *args, **kw):
+        print(kw)
         qcontext = self.get_auth_signup_qcontext()
         if not qcontext.get('token') and not qcontext.get('signup_enabled'):
             raise werkzeug.exceptions.NotFound()
@@ -110,8 +111,9 @@ class AuthSignupHome(Website):
             qcontext["error"] = _("Name is invalid. Please do not put a digit at the start.")
 
         email = str(kw.get("login"))
-        if (not "@" in email) or (email[-1] == "@"):
-            qcontext["error"] = _("Your email format is incorrect")
+        if email != 'None':
+            if (not "@" in email) or (email[-1] == "@"):
+                qcontext["error"] = _("Your email format is incorrect")
 
         if kw.get("name", False):
             if 'error' not in qcontext and request.httprequest.method == 'POST':
