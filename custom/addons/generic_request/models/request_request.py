@@ -183,7 +183,7 @@ class RequestRequest(models.Model):
         'res.users', 'Closed by', readonly=True, ondelete='restrict',
         copy=False, help="Request was closed by this user")
     partner_id = fields.Many2one(
-        'res.partner', 'Partner', track_visibility='onchange',
+        'res.users', 'Partner', track_visibility='onchange',
         ondelete='restrict', help="Partner related to this request")
     author_id = fields.Many2one(
         'res.partner', 'Author', index=True, required=False,
