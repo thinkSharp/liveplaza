@@ -192,7 +192,8 @@ class AuthSignupHome(Website):
                                 qcontext["error"] = _("Another user is already registered using this email address.")
                         else:
                             _logger.error("%s", e)
-                            qcontext['error'] = _("Your name is already taken..")
+                            print('e..................', e)
+                            qcontext['error'] = _(e)
 
 
 
