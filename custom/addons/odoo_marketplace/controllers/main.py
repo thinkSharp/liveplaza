@@ -183,6 +183,7 @@ class AuthSignupHome(Website):
                         qcontext['error'] = e.name or e.value
                     except (SignupError, AssertionError) as e:
                         user_exist = request.env["res.users"].sudo().search([("login", "=", qcontext.get("login"))])
+                        name_exist = request.env["res.partner"].sudo().search([("name", "=", qcontext.get("name")), ("seller","=","true")])
                         info = qcontext.get("login")
                         print('Info', info)
                         if user_exist:
@@ -190,6 +191,10 @@ class AuthSignupHome(Website):
                                 qcontext["error"] = _("Another user is already registered using this phone number.")
                             else:
                                 qcontext["error"] = _("Another user is already registered using this email address.")
+
+                        elif name_exist:
+                            qcontext['error'] = _("Your name is already taken.")
+
                         else:
                             _logger.error("%s", e)
                             print('e..................', e)
