@@ -3,7 +3,6 @@
 
 from ast import literal_eval
 from datetime import date
-from datetime import datetime, timedelta
 from itertools import groupby
 from operator import itemgetter
 import time
@@ -17,7 +16,19 @@ from odoo.addons.stock.models.stock_move import PROCUREMENT_PRIORITIES
 
 
 class Picking(models.Model):
-    _inherit = "stock.picking"
+    _name = "stock.picking"
+    _inherit = ['mail.thread']
+    _description = "Delivery Configuration"
+    _order = 'id desc'
+    
+    
+    delivery_vendor_id = fields.Many2one('res.partner', states={'draft': [('readonly', False)]},
+            domain="['|', ('company_type', '=', 'company'), ('delivery_vendor', '=', True)]",
+            string='Delivery Vendor')
+    
+    delivery_person_id = fields.Many2one('res.partner', states={'draft': [('readonly', False)]},
+            domain="['|', ('company_type', '=', 'person'), ('delivery_vendor', '=', True)]",
+            string='Delivery Vendor')
 
     payment_provider = fields.Selection(selection=[('manual', 'Custom Payment Form'),('transfer', 'Prepaid'),
                                                     ('cash_on_delivery', 'COD')], string='Payment Type')
@@ -42,30 +53,6 @@ class Picking(models.Model):
     
     picking_method_id = fields.Many2one('picking.method', string='Pickup Zone', ondelete='cascade')
     
-    delivery_person_id = fields.Many2one('res.partner', states={'draft': [('readonly', False)]},
-            domain="['|', ('company_type', '=', 'individual'), ('delivery_vendor', '=', True)]", string='Delivery Person') 
-    
-    pickup_person_id = fields.Many2one('res.partner', states={'draft': [('readonly', False)]},
-            domain="['|', ('company_type', '=', 'individual'), ('picking_vendor', '=', True)]", string='Pickup Person') 
-    
-    state = fields.Selection([
-            ('draft', 'Draft'),
-            ('waiting', 'Waiting Another Operation'),
-            ('confirmed', 'Waiting'),
-            ('assigned', 'Ready'),            
-            ('done', 'Done'),
-            ('cancel', 'Cancelled'),
-            ('hold', 'Hold'),
-        ], string='Status', compute='_compute_state',
-            copy=False, index=True, readonly=True, store=True, tracking=True)
-    
-    old_state = fields.Char(string="Old Status", readonly=True, store=True)
-    
-    def do_hold(self):
-        if self.state == 'hold':
-            self.write({'state': self.old_state, 'old_state': ''})            
-        else:
-            self.write({'state': 'hold', 'old_state': self.state, 'hold_date': datetime.now()})    
     
     
     
