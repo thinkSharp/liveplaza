@@ -11,7 +11,7 @@ function getTownshipByState() {
         if(option.selected) {
             selected.push(option.value);
             document.getElementById(selected).style.display = "block";
-            document.getElementById('township_id').value = "default";
+            document.getElementById('township_id').value = "";
         }
         for (var state of states) {
             if (state != selected)

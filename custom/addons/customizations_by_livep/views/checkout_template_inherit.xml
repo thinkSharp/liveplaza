@@ -262,7 +262,7 @@
                         <label class="col-form-label" for="state_id">State / Province</label>
                         <select id="state_id" name="state_id" class="form-control" required="required" onchange="getTownshipByState()">
                             <t t-set="state_list" t-value="website.get_state_list()"/>
-                            <option value="default">Select State</option>
+<!--                            <option value="">Select State</option>-->
                             <t t-foreach="state_list or []" t-as="state">
                                 <option t-att-value="state.id" t-att-selected="state.id == partner_state">
                                     <t t-esc="state.name"/>
@@ -274,14 +274,22 @@
                     <div t-attf-class="form-group #{error and 'township_id' in error and 'has-error' or ''} col-lg-6  div_township">
                         <label class="control-label" for="township_id">Township</label>
                         <select id="township_id" name="township_id" class="form-control" required="required">
-                            <option id="default" value="default">Select Township ...</option>
+                            <option value="">Select Township ...</option>
                             <t t-set="state_list" t-value="website.get_state_list()" />
+                            <t t-if="state_list" t-set="first_state" t-value="state_list[0]" />
                             <t t-foreach="state_list or []" t-as="state" >
                                 <t t-set="township_list" t-value="website.get_township_list_by_state(state.id)" />
                                 <t t-if="state.id == partner_state">
                                     <t t-set="style" t-value="'display: block;'" />
                                 </t>
-                                <t t-else=""><t t-set="style" t-value="'display: none;'" /></t>
+                                <t t-else="">
+                                    <t t-if="first_state and first_state == state">
+                                        <t t-set="style" t-value="'display: block;'" />
+                                    </t>
+                                    <t t-else=""><t t-set="style" t-value="'display: none;'" /></t>
+
+                                </t>
+
                                 <optgroup t-att-style="style" t-att-id="state.id" t-att-label="state.name">
                                     <t t-foreach="township_list" t-as="t">
                                         <option t-att-id="state.id" t-att-value="t.id" t-att-selected="t.id == partner_township">
