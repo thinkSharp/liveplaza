@@ -16,7 +16,8 @@
         'sale', 
         'customizations_by_livep',
         'odoo_marketplace',
-        'sale_stock'
+        'sale_stock',
+        'web_domain_field'
     ],
     "data":  [
         'security/ir.model.access.csv',
