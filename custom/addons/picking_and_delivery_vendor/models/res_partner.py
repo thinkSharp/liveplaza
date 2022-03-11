@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from odoo import fields, models, api, _
-from bokeh.themes import default
+#from bokeh.themes import default
 import json
 
 class ResPartner(models.Model):
