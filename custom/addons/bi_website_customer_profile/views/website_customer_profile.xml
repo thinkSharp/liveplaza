@@ -6,6 +6,7 @@
 	<template id="customer_profile" inherit_id="website.assets_frontend" name="Customer profile Frontend">
 		<xpath expr="." position="inside">
 			<link rel='stylesheet' href='/bi_website_customer_profile/static/src/css/profile_css.css'/>
+			<script type="text/javascript" src="/bi_website_customer_profile/static/src/js/township.js"></script>
 		</xpath>
 	</template>
 
@@ -203,36 +204,42 @@
 											<input type="text" name="zip" required="True" class="form-control" t-att-value="user_id.partner_id.zip"/>
 										</div> -->
 
-
-
-
-									<div t-attf-class="form-group #{error and 'township_id' in error and 'has-error' or ''} col-lg-6 div_township">
+									<div t-attf-class="form-group #{error and 'township_id' in error and 'has-error' or ''} div_township">
 										<label class="control-label" for="township_id">Township</label>
-										<t t-set="township_list" t-value="website.get_township_list()" />
-										<select name="township_id" class="form-control #{error.get('state_id') and 'is-invalid' or ''}" required="required">
-											<option value="">Select Township</option>
-											<t t-foreach="township_list" t-as="t">
-												<option t-att-value="t.id" t-att-selected="t.id == partner_township">
-													<t t-esc="t.name" />
-												</option>
-											</t>
-										</select>
+											<select id="township_id" name="township_id" class="form-control #{error.get('state_id') and 'is-invalid' or ''}" required="required">
+												<option id="default" value="default">Select Township ...</option>
+												<t t-set="state_list" t-value="website.get_state_list()" />
+												<t t-foreach="state_list or []" t-as="state" >
+													<t t-set="township_list" t-value="website.get_township_list_by_state(state.id)" />
+													<t t-if="state.id == partner_state">
+														<t t-set="style" t-value="'display: block;'" />
+													</t>
+													<t t-else=""><t t-set="style" t-value="'display: none;'" /></t>
+													<optgroup t-att-style="style" t-att-id="state.id" t-att-label="state.name">
+														<t t-foreach="township_list" t-as="t">
+															<option t-att-id="state.id" t-att-value="t.id" t-att-selected="t.id == partner_township">
+															<t t-esc="t.name" />
+															</option>
+														</t>
+													</optgroup>
+												</t>
+											</select>
 									</div>
 
 									<div t-attf-class="form-group #{error and 'state_id' in error and 'has-error' or ''} col-lg-6">
 										<label class="control-label" for="state_id">State</label>
 										<t t-set="state_list" t-value="website.get_state_list()"/>
-										<select name="state_id" class="form-control" required="required">
-											<option value="">Select State</option>
+										<select id="state_id" name="state_id" class="form-control" required="required" onchange="getTownshipByState()">
+											<option value="default">Select State</option>
 											<t t-foreach="state_list or []" t-as="state">
 												<option t-att-value="state.id" t-att-selected="state.id == partner_state">
+<!--												<option t-att-value="state.id">-->
 													<t t-esc="state.name"/>
 												</option>
 											</t>
 											
 										</select>
 									</div>
-
 
 									<div t-attf-class="form-group #{error and 'country_id' in error and 'has-error' or ''} col-lg-6">
 										<label class="control-label" for="country_id">Country
@@ -344,26 +351,36 @@
 											<input type="text" name="zip" required="True" class="form-control" t-att-value="partner.zip"/>
 										</div> -->
 
-									<div t-attf-class="form-group is-invalid col-lg-6 div_township">
+									<div t-attf-class="form-group #{error and 'township_id' in error and 'has-error' or ''} col-lg-6 div_township">
 										<label class="control-label" for="township_id">Township</label>
-										<t t-set="township_list" t-value="website.get_township_list()" />
-										<select name="township_id"  required="required" class="form-control is-invalid">
-											<option value="">Select Township</option>
-											<t t-foreach="township_list" t-as="t">
-												<option t-att-value="t.id" t-att-selected="t.name == partner_township">
-													<t t-esc="t.name" />
-												</option>
-											</t>
-										</select>
+											<select id="township_id" name="township_id" class="form-control #{error.get('state_id') and 'is-invalid' or ''}" required="required">
+												<option id="default" value="default">Select Township ...</option>
+												<t t-set="state_list" t-value="website.get_state_list()" />
+												<t t-foreach="state_list or []" t-as="state" >
+													<t t-set="township_list" t-value="website.get_township_list_by_state(state.id)" />
+													<t t-if="state.id == partner_state">
+														<t t-set="style" t-value="'display: block;'" />
+													</t>
+													<t t-else=""><t t-set="style" t-value="'display: none;'" /></t>
+													<optgroup t-att-style="style" t-att-id="state.id" t-att-label="state.name">
+														<t t-foreach="township_list" t-as="t">
+															<option t-att-id="state.id" t-att-value="t.id" t-att-selected="t.id == partner_township">
+															<t t-esc="t.name" />
+															</option>
+														</t>
+													</optgroup>
+												</t>
+											</select>
 									</div>
 
 									<div t-attf-class="form-group #{error and 'state_id' in error and 'has-error' or ''} col-lg-6">
 										<label class="control-label" for="state_id">State</label>
 										<t t-set="state_list" t-value="website.get_state_list()"/>
-										<select name="state_id" class="form-control" required="required">
-											<option value="">Select State</option>
+										<select id="state_id" name="state_id" class="form-control" required="required" onchange="getTownshipByState()">
+											<option value="default">Select State</option>
 											<t t-foreach="state_list or []" t-as="state">
 												<option t-att-value="state.id" t-att-selected="state.id == partner_state">
+<!--												<option t-att-value="state.id">-->
 													<t t-esc="state.name"/>
 												</option>
 											</t>
@@ -475,24 +492,34 @@
 
 									<div t-attf-class="form-group #{error and 'township_id' in error and 'has-error' or ''} col-lg-6 div_township">
 										<label class="control-label" for="township_id">Township</label>
-										<t t-set="township_list" t-value="website.get_township_list()" />
-										<select name="township_id" class="form-control #{error.get('state_id') and 'is-invalid' or ''}" required="required">
-											<option value="">Select Township</option>
-											<t t-foreach="township_list" t-as="t">
-												<option t-att-value="t.id" t-att-selected="t.id == partner_township">
-													<t t-esc="t.name" />
-												</option>
-											</t>
-										</select>
+											<select id="township_id" name="township_id" class="form-control #{error.get('state_id') and 'is-invalid' or ''}" required="required">
+												<option id="default" value="default">Select Township ...</option>
+												<t t-set="state_list" t-value="website.get_state_list()" />
+												<t t-foreach="state_list or []" t-as="state" >
+													<t t-set="township_list" t-value="website.get_township_list_by_state(state.id)" />
+													<t t-if="state.id == partner_state">
+														<t t-set="style" t-value="'display: block;'" />
+													</t>
+													<t t-else=""><t t-set="style" t-value="'display: none;'" /></t>
+													<optgroup t-att-style="style" t-att-id="state.id" t-att-label="state.name">
+														<t t-foreach="township_list" t-as="t">
+															<option t-att-id="state.id" t-att-value="t.id" t-att-selected="t.id == partner_township">
+															<t t-esc="t.name" />
+															</option>
+														</t>
+													</optgroup>
+												</t>
+											</select>
 									</div>
 
 									<div t-attf-class="form-group #{error and 'state_id' in error and 'has-error' or ''} col-lg-6">
 										<label class="control-label" for="state_id">State</label>
 										<t t-set="state_list" t-value="website.get_state_list()"/>
-										<select name="state_id" class="form-control" required="required">
-											<option value="">Select State</option>
+										<select id="state_id" name="state_id" class="form-control" required="required" onchange="getTownshipByState()">
+											<option value="default">Select State</option>
 											<t t-foreach="state_list or []" t-as="state">
 												<option t-att-value="state.id" t-att-selected="state.id == partner_state">
+<!--												<option t-att-value="state.id">-->
 													<t t-esc="state.name"/>
 												</option>
 											</t>

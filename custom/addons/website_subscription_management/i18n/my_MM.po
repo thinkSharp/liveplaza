@@ -100,14 +100,14 @@ msgstr ""
 msgid ""
 "<span class=\"\">Place Order</span>\n"
 "                        <span class=\"fa fa-chevron-right\"/>"
-msgstr "ပစ္စည်းများကိုဝယ်ယူခြင်း"
+msgstr "အော်ဒါတင်ရန်"
 
 #. module: website_subscription_management
 #: model_terms:ir.ui.view,arch_db:website_subscription_management.cart_edit
 msgid ""
 "<span class=\"\">Place Order</span>\n"
 "                      <span class=\"fa fa-chevron-right\"/>"
-msgstr "ပစ္စည်းများကိုဝယ်ယူခြင်း"
+msgstr "အော်ဒါတင်ရန်"
 
 #. module: website_subscription_management
 #: model_terms:ir.ui.view,arch_db:website_subscription_management.my_subscription_detail
@@ -559,3 +559,6 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:website_subscription_management.subscription_configuration_tree
 msgid "subscription_configuration tree"
 msgstr ""
+
+
+
