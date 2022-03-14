@@ -264,7 +264,8 @@
                             <t t-set="state_list" t-value="website.get_state_list()"/>
 <!--                            <option value="">Select State</option>-->
                             <t t-foreach="state_list or []" t-as="state">
-                                <option t-att-value="state.id" t-att-selected="state.id == partner_state">
+<!--                                <option t-att-value="state.id" t-att-selected="state.id == partner_state">-->
+                                <option t-att-value="state.id">
                                     <t t-esc="state.name"/>
                                 </option>
                             </t>
@@ -289,11 +290,11 @@
                                     <t t-else=""><t t-set="style" t-value="'display: none;'" /></t>
 
                                 </t>
-
                                 <optgroup t-att-style="style" t-att-id="state.id" t-att-label="state.name">
                                     <t t-foreach="township_list" t-as="t">
-                                        <option t-att-id="state.id" t-att-value="t.id" t-att-selected="t.id == partner_township">
-                                        <t t-esc="t.name" />
+<!--                                        <option t-att-id="state.id" t-att-value="t.id" t-att-selected="t.id == partner_township">-->
+                                        <option t-att-id="state.id" t-att-value="t.id">
+                                            <t t-esc="t.name" />
                                         </option>
                                     </t>
                                 </optgroup>
