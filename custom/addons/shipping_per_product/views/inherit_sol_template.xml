@@ -20,15 +20,15 @@
         </template>
 
         <template id="sol_delivery_carriers">
-            <tr>
-                <td colspan="4">
-                    <h4 class="sp_del_opt_header"><strong>Free Delivery During Promotion</strong></h4>
-                    <span>Promotion ကာလ Delivery Free
+<!--            <tr>-->
+<!--                <td colspan="4">-->
+<!--                    <h4 class="sp_del_opt_header"><strong>Free Delivery During Promotion</strong></h4>-->
+<!--                    <span>Promotion ကာလ Delivery Free-->
 
-ယခု Promotion ကာလ အတွင်း မှာယူပါက ရန်ကုန် နှင့် မန္တလေးမြို့တွင်း ပို့ဆောင်ခ အခမဲ့ဖြင့် ပို့ဆောင်ပေးနေပါသည်။ နယ်မှ ဝယ်ယူသူများ အတွက်လည်း ကားဂိတ် ရောက်သည် အထိ ပို့ဆောင်ခမယူပဲ ပို့ဆောင်ပေးနေပါသည် (မှတ်ချက်-ဝယ်ယူသူမှကားဂိတ်၌တန်ဆာခရှင်းပြီးပစ္စည်းထုတ်ယူပေးပါရန်)</span>
-                </td>
-            </tr>
-           <!--  <tr>
+<!--ယခု Promotion ကာလ အတွင်း မှာယူပါက ရန်ကုန် နှင့် မန္တလေးမြို့တွင်း ပို့ဆောင်ခ အခမဲ့ဖြင့် ပို့ဆောင်ပေးနေပါသည်။ နယ်မှ ဝယ်ယူသူများ အတွက်လည်း ကားဂိတ် ရောက်သည် အထိ ပို့ဆောင်ခမယူပဲ ပို့ဆောင်ပေးနေပါသည် (မှတ်ချက်-ဝယ်ယူသူမှကားဂိတ်၌တန်ဆာခရှင်းပြီးပစ္စည်းထုတ်ယူပေးပါရန်)</span>-->
+<!--                </td>-->
+<!--            </tr>-->
+           <tr>
                 <t t-set="line" t-value="pro_lines[0]"/>
                 <td colspan="4" style="padding:0;border: 0;">
                     <div class="sol_delivery_carrier">
@@ -38,11 +38,11 @@
                         <span class="sale_order_line_id" t-att-data-sale_order_line_ids="pro_lines.ids"/>
                         <input type="hidden" class="line_delivery_name" t-att-name="'line_delivery_name_%i' % line.id" value="" autocomplete="off"/>
                         <ul class="list-group" style="margin-bottom: 0;border: 0;">
-                            <t t-foreach="sol_deliveries" t-as="delivery">
+                            <t t-if="deliveries" t-foreach="deliveries" t-as="delivery">
                                 <li class="list-group-item" style="border: 0;">
-                                    <input t-att-value="delivery.id" t-att-id="'delivery_%i_%i' % (line.id,delivery.id)" t-att-checked="'checked'" type="radio" t-att-name="'delivery_type_%i' % line.id" autocomplete="off"/>
+                                    <input t-att-value="delivery.id" t-att-id="'delivery_%i_%i' % (line.id,delivery.id)" type="radio" t-att-name="'delivery_type_%i' % line.id" autocomplete="off"/>
                                     <label class="label-optional" t-field="delivery.name" t-att-for="'delivery_%i_%i' % (line.id,delivery.id)"/>
-                                    <t t-if="delivery.delivery_type == 'fixed'">                                        
+                                    <t t-if="delivery.delivery_type == 'fixed'">
                                         <span t-if="delivery.fixed_price > 0.0" class="float-right badge badge-secondary">
                                             <t t-esc="delivery.rate_shipment(website_sale_order)['price'] if delivery.free_over else delivery.fixed_price"
                                                t-options='{"widget": "monetary", "from_currency": delivery.product_id.company_id.currency_id,
@@ -61,7 +61,7 @@
                         </ul>
                     </div>
                 </td>
-            </tr> -->
+            </tr>
         </template>
 
         <template id="order_lines_section_with_delivery">
@@ -107,7 +107,7 @@
                             <td colspan="4" style="padding-top: 22px;">
                                 <t t-set="pro_lines" t-value="website_o_lines.get('s_lines')"/>
                                 <t t-if="pro_lines" t-call="shipping_per_product.order_lines_section_with_delivery">
-                                    <t t-set="sol_deliveries" t-value="None"/>
+                                    <t t-set="sol_deliveries" t-value="d_section.get_delivery_carrier_ids()"/>
                                 </t>
                                 <t t-foreach="website_o_lines['m_ol']" t-as="d_section">
                                     <t t-call="shipping_per_product.order_lines_section_with_delivery">
@@ -147,7 +147,8 @@
                 <tr id="order_delivery">
                   <td class="text-right border-0 text-muted"  title="Delivery will be updated after choosing a new delivery method">Delivery:</td>
                   <td class="text-xl-right border-0 text-muted" >
-                       <span t-field="website_sale_order.amount_delivery" class="monetary_field" style="white-space: nowrap;" t-options='{
+                       <span t-field="website_sale_order.amount_delivery" class="monetary_field" style="white-space: nowrap;"
+                             t-options='{
                           "widget": "monetary",
                           "display_currency": website_sale_order.currency_id,
                       }'/>
