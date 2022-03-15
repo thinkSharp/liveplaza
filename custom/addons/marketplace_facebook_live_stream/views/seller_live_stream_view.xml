@@ -86,15 +86,15 @@
             <field name="mode">primary</field>
             <field name="arch" type="xml">
                 <tree default_order="live_stream_datetime desc" string="Seller Live Stream">
-                    <field name="name"/>
+                    <field name="name" string="Live Name"/>
                     <field name="seller_id"/>
-										<field name="publish_on_shop" />
-										<field name="publish_on_seller_shop" />
-										<field name="publish_on_seller_profile" />
-										<!-- <field name="live_stream_datetime"/> -->
-										<field name="start_stream_datetime" string="Livestream Start Time"/>
-										<field name="end_stream_datetime" string="Livestream End Time"/>
-										<field name="website_published" string="Published on Website"/>
+					<field name="publish_on_shop" />
+					<field name="publish_on_seller_shop" />
+					<field name="publish_on_seller_profile" />
+					<!-- <field name="live_stream_datetime"/> -->
+					<field name="start_stream_datetime" string="Livestream Start Time"/>
+					<field name="end_stream_datetime" string="Livestream End Time"/>
+					<field name="website_published" string="Published on Website"/>
                 </tree>
             </field>
         </record>

@@ -39,14 +39,14 @@
             <field name="model">mp.order.result</field>
             <field name="arch" type="xml">
                 <tree string="Marketplace Orders" create="false" decoration-info="mp_payment_state == 'new'">
-                    <field name="mp_order"/>
+                    <field name="mp_order" string="Order Number"/>
                     <field name="mp_product_name"/>
                     <field name="mp_customer_name"/>
                     <field name="mp_order_date"/>
                     <field name="mp_order_qty"/>
                     <field name="mp_subtotal"/>
                     <field name="mp_seller_name"/>
-                    <field name="mp_journal" />
+                    <field name="mp_journal" invisible="1"/>
                     <field name="mp_order_state"/>
                     <field name="mp_payment_state" />
                 </tree>

@@ -165,15 +165,27 @@ class SmsTemplate(models.Model):
             gateway_id = sms_gateway
         if mob_no and sms_tmpl:
             ctx = dict(self._context or {})
-            sms_sms_obj = self.env["wk.sms.sms"].create({
-                'sms_gateway_config_id': gateway_id.id,
-                'partner_id': obj.partner_id.id if obj else False,
-                'to': mob_no,
-                'group_type': 'individual',
-                'auto_delete': sms_tmpl.auto_delete,
-                'msg': sms_tmpl.with_context(ctx).get_body_data(obj, obj.partner_id) if obj else sms_tmpl.sms_body_html,
-                'template_id': False
-            })
+            uid = self.sudo()._uid
+            if sms_tmpl.condition == 'order_confirm':
+                sms_sms_obj = self.env["wk.sms.sms"].create({
+                    'sms_gateway_config_id': gateway_id.id,
+                    'partner_id': obj.partner_id.id if obj else False,
+                    'to': mob_no,
+                    'group_type': 'individual',
+                    'auto_delete': sms_tmpl.auto_delete,
+                    'msg': sms_tmpl.with_context(ctx).get_body_data(obj, obj.partner_id) if obj else sms_tmpl.sms_body_html,
+                    'template_id': False
+                })
+            else:
+                sms_sms_obj = self.env["wk.sms.sms"].create({
+                    'sms_gateway_config_id': gateway_id.id,
+                    'partner_id': obj.partner_id.id if obj else False,
+                    'to': mob_no,
+                    'group_type': 'individual',
+                    'auto_delete': sms_tmpl.auto_delete,
+                    'msg': sms_tmpl.with_context(ctx).get_body_data(sms_tmpl, uid) or sms_tmpl.sms_body_html,
+                    'template_id': False
+                })
             return sms_sms_obj.send_sms_via_gateway(
                 sms_sms_obj.msg, [sms_sms_obj.to], from_mob=None, sms_gateway=gateway_id)
         return False

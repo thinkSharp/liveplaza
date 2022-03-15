@@ -145,7 +145,8 @@ class SellerLiveStream(models.Model):
         if self.live_stream_url:
             video_url = self.live_stream_url
             # Regex for few of the widely used video hosting services
-            ytRegex = r'.*youtube.*v=(.*)'
+            #https: // youtu.be / Dl6QrfC1v0Q
+            ytRegex = r'.*youtu.be/(.*)'
             tkRegex = r'.*tiktok.com*/.*/.*/(.*)'
             igRegex = r'.*instagram.*'
             twitterRegex = r'.*twitter.*'
