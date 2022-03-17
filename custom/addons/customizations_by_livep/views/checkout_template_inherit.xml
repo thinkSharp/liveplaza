@@ -126,23 +126,23 @@
 
     <template id="payment_show_cod_only_for_Yangon" inherit_id="payment.payment_tokens_list">
         <xpath expr="//div[@class='card-body o_payment_acquirer_select']" position="replace">
-            <div t-att-style="'display: none;' if(acq.display_as == 'Cash on Delivery' and order.partner_shipping_id.state_id.name != 'Yangon') else 'display: block;'" class="card-body o_payment_acquirer_select">
+            <div t-att-style="'display: none;' if(acq.display_as == 'Cash on Delivery' and order.partner_shipping_id.township_id.cod_availability == False) else 'display: block;'" class="card-body o_payment_acquirer_select">
                 <label>
                     <t t-if="acq.payment_flow == 'form'">
                         <input type="radio" t-att-data-acquirer-id="acq.id"
                                t-att-data-form-payment="true"
                                t-att-data-provider="acq.provider"
                                t-att-class="'d-none' if (acquirers_count==1 and pms_count==0) else ''"
-                               name="pm_id" t-attf-value="form_{{acq.id}}"
-                               t-att-checked="acquirers_count==1 and pms_count==0 or acquirers[0] == acq"/>
+                               name="pm_id" t-attf-value="form_{{acq.id}}" />
+<!--                               t-att-checked="acquirers_count==1 and pms_count==0 or acquirers[0] == acq"/>-->
                     </t>
                     <t t-else="acq.payment_flow == 's2s'">
                         <input type="radio" t-att-data-acquirer-id="acq.id"
                                t-att-data-s2s-payment="true"
                                t-att-data-provider="acq.provider"
                                name="pm_id" t-attf-value="new_{{acq.id}}"
-                               t-att-class="'d-none' if (acquirers_count==1 and pms_count==0) else ''"
-                               t-att-checked="acquirers_count==1 and pms_count==0 or acquirers[0] == acq"/>
+                               t-att-class="'d-none' if (acquirers_count==1 and pms_count==0) else ''" />
+<!--                               t-att-checked="acquirers_count==1 and pms_count==0 or acquirers[0] == acq"/>-->
                     </t>
                     <span class="payment_option_name">
                       <t t-esc="acq.display_as or acq.name"/>

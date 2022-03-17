@@ -28,3 +28,5 @@ class ResCountryTownship(models.Model):
     delivery_carrier_ids = fields.Many2many(
         'delivery.carrier', 'township_shipping_rel', string='Shipping Methods')
     active = fields.Boolean('Active', default=True)
+
+    cod_availability = fields.Boolean('Cash on Delivery', default=True)
