@@ -49,8 +49,6 @@
                                     </tbody>
                                 </table>
                                 
-                                <t t-call="website_sale.payment_confirmation_status"/>
-                                
 								<t t-if="order.get_portal_last_transaction().acquirer_id.name != 'Cash on Delivery'">
                                 	<div class="card mt-3 fa-border">
 			                            <h5 style="margin-top:5px;"> <Strong> Upload payment screenshot for prepaid payment.</Strong></h5>
@@ -67,7 +65,10 @@
 						                    </div>
 	                                    </form>	                               
 		                        	</div>
-		                         </t>
+                                </t>
+
+                                <t t-call="website_sale.payment_confirmation_status"/>
+
                                 <div class="card mt-3">
                                   <div class="card-body">
                                     <t t-set="same_shipping" t-value="bool(order.partner_shipping_id==order.partner_id or only_services)" />
