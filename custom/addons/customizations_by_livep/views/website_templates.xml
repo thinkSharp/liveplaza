@@ -38,46 +38,67 @@
             <xpath expr="//a[@class='pull-right']" position="replace"></xpath>
         </template>
 
-
         <!-- Address Form Customizations -->
-        <template id="buyer_address_inherit" name="Buyer Address Inherit" inherit_id="website_sale.address">
-            <xpath expr="//label[@for='country_id']" position="before">
-                <div class="w-100" />
-                <div t-attf-class="form-group #{error and 'township_id' in error and 'has-error' or ''} col-lg-12 div_state">
-                    <t t-if="state">
-                        <t t-set="townships" t-value="website.get_townships()" />
-                        <t t-set="townships_by_state" t-value="townships.search([('state_id.name', '=', state)])" />
-                        <label class="col-form-label" for="townships">Township</label>
-                        <select id="townships" name="townships" t-attf-class="form-control #{error and 'township_id' in error and 'has-error' or ''}" data-init="1" required="True">
-                            <option value="">Choose...</option>
-                            <t t-foreach="townships_by_state" t-as="t">
-                                <option t-att-value="t.id" t-att-selected="t.id == ('township_id' in checkout and country and checkout['township_id'] != '' and int(checkout['township_id']))">
-                                    <t t-esc="t.name" />
-                                </option>
-                            </t>
-                        </select>
-                    </t>
-                </div>
-            </xpath>
-             <xpath expr="//div[@id='div_phone']" position="replace">
-             	 <div t-attf-class="form-group #{error.get('phone') and 'o_has_error' or ''} col-lg-6" id="div_phone">
-                     <label class="col-form-label" for="phone">Phone</label>
-                     <input type="number" name="phone" placeholder="eg.0912345678" t-attf-class="form-control #{error.get('phone') and 'is-invalid' or ''}" t-att-value="'phone' in checkout and checkout['phone']" />
-                 </div>
-             </xpath>
-            <xpath expr="//div[@class='d-flex justify-content-between']" position="replace">
-                <div class="d-flex justify-content-between">
-                    <a role="button" t-att-href="mode == ('new', 'billing') and '/shop/cart#' or '/shop/checkout#'" class="btn btn-secondary mb32">
-                        <i class="fa fa-chevron-left" />
-                        <span>Back</span>
-                    </a>
-                    <a role="button" href="#" class="btn btn-primary mb32 a-submit a-submit-disable a-submit-loading">
-                        <span>Next</span>
-                        <i class="fa fa-chevron-right" />
-                    </a>
-                </div>
-            </xpath>
-        </template>
+<!--        <template id="buyer_address_inherit" name="Buyer Address Inherit" inherit_id="website_sale.address">-->
+<!--            <xpath expr="//label[@for='country_id']" position="replace">-->
+<!--                <div class="w-100" />-->
+<!--                <div id="test" >-->
+<!--                    <div t-attf-class="form-group #{error and 'township_id' in error and 'has-error' or ''} div_township">-->
+<!--                        <label class="control-label" for="township_id">Township</label>-->
+<!--                        <select id="township_id" name="township_id" class="form-control" required="required">-->
+<!--                            <option id="default" value="default">Select Township ...</option>-->
+<!--                            <t t-set="state_list" t-value="website.get_state_list()" />-->
+<!--                            <t t-foreach="state_list or []" t-as="state" >-->
+<!--                                <t t-set="township_list" t-value="website.get_township_list_by_state(state.id)" />-->
+<!--                                <t t-if="state.id == partner_state">-->
+<!--                                    <t t-set="style" t-value="'display: block;'" />-->
+<!--                                </t>-->
+<!--                                <t t-else=""><t t-set="style" t-value="'display: none;'" /></t>-->
+<!--                                <optgroup t-att-style="style" t-att-id="state.id" t-att-label="state.name">-->
+<!--                                    <t t-foreach="township_list" t-as="t">-->
+<!--                                        <option t-att-id="state.id" t-att-value="t.id" t-att-selected="t.id == partner_township">-->
+<!--                                        <t t-esc="t.name" />-->
+<!--                                        </option>-->
+<!--                                    </t>-->
+<!--                                </optgroup>-->
+<!--                            </t>-->
+<!--                        </select>-->
+<!--                    </div>-->
+<!--                </div>-->
+
+<!--            </xpath>-->
+
+<!--            <xpath expr="//select[@name='state_id']" position="replace">-->
+<!--                <select id="state_id" name="state_id" class="form-control" required="required" onchange="getTownshipByState()">-->
+<!--                    <t t-set="state_list" t-value="website.get_state_list()"/>-->
+<!--                    <option value="default">Select State</option>-->
+<!--                    <t t-foreach="state_list or []" t-as="state">-->
+<!--                        <option t-att-value="state.id" t-att-selected="state.id == partner_state">-->
+<!--                            <t t-esc="state.name"/>-->
+<!--                        </option>-->
+<!--                    </t>-->
+
+<!--                </select>-->
+<!--            </xpath>-->
+<!--             <xpath expr="//div[@id='div_phone']" position="replace">-->
+<!--             	 <div t-attf-class="form-group #{error.get('phone') and 'o_has_error' or ''} col-lg-6" id="div_phone">-->
+<!--                     <label class="col-form-label" for="phone">Phone</label>-->
+<!--                     <input type="number" name="phone" placeholder="eg.0912345678" t-attf-class="form-control #{error.get('phone') and 'is-invalid' or ''}" t-att-value="'phone' in checkout and checkout['phone']" />-->
+<!--                 </div>-->
+<!--             </xpath>-->
+<!--            <xpath expr="//div[@class='d-flex justify-content-between']" position="replace">-->
+<!--                <div class="d-flex justify-content-between">-->
+<!--                    <a role="button" t-att-href="mode == ('new', 'billing') and '/shop/cart#' or '/shop/checkout#'" class="btn btn-secondary mb32">-->
+<!--                        <i class="fa fa-chevron-left" />-->
+<!--                        <span>Back</span>-->
+<!--                    </a>-->
+<!--                    <a role="button" href="#" class="btn btn-primary mb32 a-submit a-submit-disable a-submit-loading">-->
+<!--                        <span>Next</span>-->
+<!--                        <i class="fa fa-chevron-right" />-->
+<!--                    </a>-->
+<!--                </div>-->
+<!--            </xpath>-->
+<!--        </template>-->
 
         <template id="portal_my_details_inherit" name="Portal Detail Inherit" inherit_id="portal.portal_my_details">
             <xpath expr="//label[@for='company_name']" position="replace"></xpath>
@@ -128,8 +149,6 @@
                     </t>
                 </select>
             </xpath>
-
-
         </template>
 
     </data>

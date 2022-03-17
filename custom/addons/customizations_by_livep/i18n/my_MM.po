@@ -39,7 +39,7 @@ msgstr ""
 #. module: customizations_by_livep
 #: model_terms:ir.ui.view,arch_db:customizations_by_livep.process_checkout_change_label
 msgid "<span>Place Order</span>"
-msgstr ""
+msgstr "အော်ဒါတင်ရန်"
 
 #. module: customizations_by_livep
 #: model_terms:ir.ui.view,arch_db:customizations_by_livep.payment_confirmation_status_inherit
@@ -75,7 +75,7 @@ msgstr ""
 #. module: customizations_by_livep
 #: model_terms:ir.ui.view,arch_db:customizations_by_livep.pay_now_change_label
 msgid "Check out"
-msgstr ""
+msgstr "ယခုငွေပေးချေမည"
 
 #. module: customizations_by_livep
 #: model_terms:ir.ui.view,arch_db:customizations_by_livep.pay_now_change_label
@@ -262,11 +262,6 @@ msgstr "ဖုန်း"
 #: model_terms:ir.ui.view,arch_db:customizations_by_livep.buyer_signup_form_inherit
 msgid "Phone Number"
 msgstr "ဖုန်း"
-
-#. module: customizations_by_livep
-#: model_terms:ir.ui.view,arch_db:customizations_by_livep.sale_order_line_sales_report_search
-msgid "Product"
-msgstr "ကုန်ပစ္စည်း"
 
 #. module: customizations_by_livep
 #: model:ir.model.fields.selection,name:customizations_by_livep.selection__res_partner__sales_type__products

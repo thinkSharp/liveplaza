@@ -124,7 +124,7 @@
 
                     <div class="row">
                         <div class="oe_structure col-sm-6">
-                            <h3 class="mt4">Select type</h3>
+                            <h3 class="mt4">Select your type</h3>
                         </div>
                         <div id="request-selection-box" class="d-none d-lg-block col-lg-6">
                             <div class="pull-right">
