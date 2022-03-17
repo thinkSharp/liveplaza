@@ -78,7 +78,11 @@ access_finance_supervisor_subscription_plan,subscription_plan,subscription_manag
 
 access_delivery_operator_sale_order,sale.order.delivery.operator,odoo_marketplace.model_sale_order,group_delivery_operator,1,1,1,1
 sale_order_line_delivery_operator,sale.order.line.delivery.operator,odoo_marketplace.model_sale_order_line,group_delivery_operator,1,1,1,1
-
+access_stock_picking_delivery_operator,stock.picking,stock.model_stock_picking,group_delivery_operator,1,1,1,1
+access_stock_scrap_delivery_operator,stock.scrap,stock.model_stock_scrap,group_delivery_operator,1,1,1,1
+access_stock_move_delivery_operator,stock.move,stock.model_stock_move,group_delivery_operator,1,1,1,1
+access_account_move_delivery_operator,account.move,account.model_account_move,group_delivery_operator,1,1,1,1
+access_delivery_operator_subscription,subscription_subscription,subscription_management.model_subscription_subscription,group_delivery_operator,1,0,0,0
 
 
 
@@ -92,6 +96,7 @@ delivery_method_pickupandpackaging_operator,delivery.method,picking_and_delivery
 pickup_report_pickupandpackaging_operator,pickup.report,picking_and_delivery_vendor.model_pickup_report,group_pickupandpackaging_operator,1,1,1,1
 delivery_report_pickupandpackaging_operator,delivery.report,picking_and_delivery_vendor.model_delivery_report,group_pickupandpackaging_operator,1,1,1,1
 delivery_payment_pickupandpackaging_operator,delivery.payment,picking_and_delivery_vendor.model_delivery_payment,group_pickupandpackaging_operator,1,1,1,1
+access_stock_picking_pickupandpackaging_operator,stock.picking,stock.model_stock_picking,group_pickupandpackaging_operator,1,0,0,0
 
 
 
@@ -258,8 +263,8 @@ access_admin_product_request_operation_supervisor,admin.product.request,multi_pr
 
 res_users_operation_operator,res_users,base.model_res_users,group_operation_operator,1,1,1,1
 res_users_operation_supervisor,res_users,base.model_res_users,group_operation_supervisor,1,1,1,1
-res_users_operation_operator,res_partner,base.model_res_partner,group_operation_operator,1,1,1,1
-res_users_operation_supervisor,res_partner,base.model_res_partner,group_operation_supervisor,1,1,1,1
+res_partner_operation_operator,res_partner,base.model_res_partner,group_operation_operator,1,1,1,1
+res_partner_operation_supervisor,res_partner,base.model_res_partner,group_operation_supervisor,1,1,1,1
 seller_shop_operation_operator,seller_shop,odoo_marketplace.model_seller_shop,group_operation_operator,1,1,1,1
 seller_shop_operation_supervisor,seller_shop,odoo_marketplace.model_seller_shop,group_operation_supervisor,1,1,1,1
 seller_review_operation_operator,seller_review,odoo_marketplace.model_seller_review,group_operation_operator,1,0,0,0
@@ -267,7 +272,8 @@ seller_review_operation_supervisor,seller_review,odoo_marketplace.model_seller_r
 seller_recommendation_operation_operator,seller_recommendation,odoo_marketplace.model_seller_recommendation,group_operation_operator,1,0,0,0
 seller_recommendation_operation_supervisor,seller_recommendation,odoo_marketplace.model_seller_recommendation,group_operation_supervisor,1,0,0,0
 
-access_stock_move_operation_operator,stock.move,stock.model_stock_move,group_operation_operator,1,1,1,1
+access_stock_scrap_operation_operator,stock.scrap,stock.model_stock_scrap,group_operation_operator,1,1,1,1
+access_stock_scrap_operation_supervisor,stock.scrap,stock.model_stock_scrap,group_operation_supervisor,1,1,1,1
 
 seller_social_media_link_operation_operatorr,seller_social_media_link_manager,odoo_marketplace.model_seller_social_media_link,group_operation_operator,1,1,1,1
 seller_social_media_link_operation_supervisor,seller_social_media_link_manager,odoo_marketplace.model_seller_social_media_link,group_operation_supervisor,1,1,1,1
@@ -287,6 +293,7 @@ access_sales_team_operation_supervisor,crm_team,crm.model_crm_team,group_operati
 access_ir_ui_menu_operation_operator,ir_ui_menu,odoo_marketplace.model_ir_ui_menu,group_operation_operator,1,1,1,1
 access_ir_ui_menu_operation_supervisor,ir_ui_menu,odoo_marketplace.model_ir_ui_menu,group_operation_supervisor,1,1,1,1
 
+access_operation_operator_subscription,subscription_subscription,subscription_management.model_subscription_subscription,group_operation_operator,1,0,0,0
 access_operation_supervisor_subscription,subscription_subscription,subscription_management.model_subscription_subscription,group_operation_supervisor,1,1,1,1
 
 access_operation_operator_sale_order_line,sale.order.line,sale.model_sale_order_line,group_operation_operator,1,0,0,0
@@ -294,10 +301,7 @@ access_operation_supervisor_sale_order_line,sale.order.line,sale.model_sale_orde
 access_operation_operator_sale_order,sale.order,sale.model_sale_order,group_operation_operator,1,0,0,0
 access_operation_supervisor_sale_order,sale.order,sale.model_sale_order,group_operation_supervisor,1,1,1,1
 access_operation_operator_sale_report,sale.report,sale.model_sale_report,group_operation_operator,1,0,0,0
-access_operation_supervisor_sale_report,sale.report,sale.model_sale_report,group_operation_supervisor,1,0,0,0
-
-
-access_stock_picking_operation_operator,stock.picking,stock.model_stock_picking,group_operation_operator,1,0,0,0
+access_operation_supervisor_sale_report,sale.report,sale.model_sale_report,group_operation_supervisor,1,1,1,1
 
 
 access_mail_message_operation_operator,mail.message.user,mail.model_mail_message,group_operation_operator,1,1,1,1
