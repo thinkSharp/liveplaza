@@ -49,8 +49,6 @@
                                     </tbody>
                                 </table>
                                 
-                                <t t-call="website_sale.payment_confirmation_status"/>
-                                
 								<t t-if="order.get_portal_last_transaction().acquirer_id.name != 'Cash on Delivery'">
                                 	<div class="card mt-3 fa-border">
 			                            <h5 style="margin-top:5px;"> <Strong> Upload payment screenshot for prepaid payment.</Strong></h5>
@@ -67,7 +65,10 @@
 						                    </div>
 	                                    </form>	                               
 		                        	</div>
-		                         </t>
+                                </t>
+
+                                <t t-call="website_sale.payment_confirmation_status"/>
+
                                 <div class="card mt-3">
                                   <div class="card-body">
                                     <t t-set="same_shipping" t-value="bool(order.partner_shipping_id==order.partner_id or only_services)" />
@@ -95,7 +96,16 @@
             <t t-set="additional_title">Payment Uploaded</t>
             <div id="wrap">
                 <div class="container oe_website_sale py-2">
-                    <h1><span>Your payment screenshot has been uploaded for Order No.</span> <em t-field="order.name" /> <t t-if="order.state == 'sale'"><span>.  LivePlaza will review and send the order confirmation message to you.</span></t></h1>
+                    <p>
+                        Your payment screenshot has been uploaded. Thank you for your order.
+                        To know the order status details, please contact Customer Service Hotline - 09-442766814, 09-442766876
+                    </p>
+                    <p>
+                        ၀ယ်ယူအားပေးမှုအတွက်ကျေးဇူးတင်ပါသည်။ လူကြီးမင်း၏အော်ဒါအသေးစိတ်ကို သိရှိလိုပါက LIVEPlaza Customer Service Hotline - 09-442766814, 09-442766876 သို့ဆက်သွယ်စုံစမ်းနိုင်ပါသည်။
+                    </p>
+
+
+
                 </div>
             </div>
         </t>

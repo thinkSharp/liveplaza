@@ -34,6 +34,7 @@ class SaleOrder(models.Model):
             ('sent', 'Quotation Sent'),
             ('sale', 'Sales Order'),
             ('approve_by_admin', 'Approved by Admin'),
+            ('ready_to_pick', 'Ready to Pick'),
             ('done', 'Locked'),
             ('cancel', 'Cancelled'),
             ], string='Status', readonly=True, copy=False, index=True, tracking=3, default='draft')
@@ -90,7 +91,12 @@ class SaleOrder(models.Model):
                         for delivery_person_data in delivery_vendor_obj.child_ids:
                             if delivery_zone in delivery_person_data.delivery_method_ids:
                                 delivery_person = delivery_person_data.id
-                    
+                                
+                if not delivery_zone:
+                    raise Warning("Need to setup delivery zone for buyer township %s" % buyer_township.name)
+                if not pickup_zone:
+                    raise Warning("Need to setup pickup zone for seller township %s" % seller_township.name)
+                
                 if picking_data.picking_type_id.name == 'Pick':
                     picking_data.write({'payment_provider': self.get_portal_last_transaction().acquirer_id.provider,
                                        'is_admin_approved': True,
@@ -129,17 +135,23 @@ class SaleOrder(models.Model):
                                                'paid_amount': self.get_portal_last_transaction().amount, 
                                                'payment_remark': self.get_portal_last_transaction().reference,                                   
                                                'journal_id': self.get_portal_last_transaction().acquirer_id.journal_id.id })
+                            
+                        elif self.get_portal_last_transaction().acquirer_id.provider == 'cash_on_delivery':
+                            picking_data.write({
+                                               'paid_amount': self.get_portal_last_transaction().amount, 
+                                               'payment_remark': self.get_portal_last_transaction().reference,                                   
+                                               'journal_id': self.get_portal_last_transaction().acquirer_id.journal_id.id })
     
-    def action_seller(self):
+    def action_ready_to_pick(self):
         if self.filtered(lambda so: so.state != 'approve_by_admin'):
             raise UserError(_('Only sale orders can be marked as sent directly.'))
         for order in self:
             order.message_subscribe(partner_ids=order.partner_id.ids)
     
-        if self.write({'state': 'approve_by_seller'}):
+        if self.write({'state': 'ready_to_pick'}):
             picking_obj = self.env['stock.picking'].search([('origin','=',self.name)])
             picking_obj.write({'payment_provider': self.get_portal_last_transaction().acquirer_id.provider,
-                               'is_seller_approved': True,
+                               'ready_to_pick': True,
                                'hold_state': False })
             
 class SaleOrderLine(models.Model):
