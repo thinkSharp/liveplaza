@@ -54,6 +54,7 @@ Netelip SMS Gateway""",
   "depends"              :  [
                              'sale_management',
                              'stock',
+                             'do_customization',
                             ],
   "data"                 :  [
                              'security/ir_rule.xml',
