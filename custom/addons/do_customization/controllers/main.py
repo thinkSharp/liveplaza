@@ -71,6 +71,7 @@ class WebsiteSale(WebsiteSale):
                 'website_sale_order': order,
                 'order': order,
             }
+            
         # else:
         #     return "Please select payment screenshot from your device and upload."  #"NotFound() #raise Warning(_("Please select payment screenshot from your device and upload."))
         
