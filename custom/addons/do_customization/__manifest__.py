@@ -30,6 +30,7 @@
         'views/templates.xml',
         'views/res_partner.xml',
     ],
+
     'qweb': [
 
     ],
