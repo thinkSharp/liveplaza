@@ -13,9 +13,9 @@
 			<field name="arch" type="xml">
                 <tree create="0" decoration-info="state == 'draft'" decoration-muted="state == 'cancel'" decoration-danger="state not in ('cancel', 'done') and scheduled_date &lt; current_date" string="Picking list" default_order="id desc">
                     <button name="button_validate" attrs="{'invisible': ['|', '|',('is_admin_approved', '=', False),
-                    		('state', '!=', 'assigned')]}" groups="odoo_marketplace.marketplace_seller_group" string="Pick" type="object" class="oe_highlight"/>
+                    		('state', '!=', 'assigned')]}" string="Pick" type="object" class="oe_highlight"/>
                     <field name="origin"/>                    
-                    <field name="marketplace_seller_id" string="Seller" groups="odoo_marketplace.marketplace_officer_group"/>
+                    <field name="marketplace_seller_id" string="Seller"/>
                     <field name="street" />
 	                <field name="state_id" />
 	                <field name="township_id" />  
@@ -44,7 +44,7 @@
 			<field name="arch" type="xml">
                 <tree create="0" decoration-info="state == 'draft'" decoration-muted="state == 'cancel'" decoration-danger="state not in ('cancel', 'done') and scheduled_date &lt; current_date" string="Picking list" default_order="id desc">
                     <button name="button_validate" attrs="{'invisible': ['|', '|',('is_admin_approved', '=', False),
-                    		('state', '!=', 'assigned')]}" groups="odoo_marketplace.marketplace_seller_group" string="Pack" type="object" class="oe_highlight"/>
+                    		('state', '!=', 'assigned')]}" string="Pack" type="object" class="oe_highlight"/>
                     <field name="origin"/>              
                     <field name="partner_id" string="Buyer"/>
 					<field name="marketplace_seller_id" string="Seller" groups="odoo_marketplace.marketplace_officer_group"/>
@@ -247,7 +247,7 @@
                     <button name="action_assign" attrs="{'invisible': [('show_check_availability', '=', False)]}" string="Check Availability" type="object" class="oe_highlight" groups="odoo_marketplace.marketplace_seller_group"/>
 
 					<button name="button_validate" attrs="{'invisible': ['|', '|',('is_admin_approved', '=', False),
-                    		('state', '!=', 'assigned')]}" groups="odoo_marketplace.marketplace_seller_group" string="Deliver Now" type="object" class="oe_highlight"/>
+                    		('state', '!=', 'assigned')]}" string="Deliver Now" type="object" class="oe_highlight"/>
                     		
 <!--                     <button name="set_as_hold" string="Set as Hold" attrs="{'invisible': ['|', ('hold_reason', '=', False), ('hold_state', '=', True)]}"  type="object"/> -->
                     <button name="make_ready" string="Make Ready" attrs="{'invisible': ['|', ('hold_state', '!=', True), ('state', '!=', 'assigned')]}"  type="object"/>
@@ -471,7 +471,7 @@
                     <button name="action_assign" attrs="{'invisible': [('show_check_availability', '=', False)]}" string="Check Availability" type="object" class="oe_highlight" groups="odoo_marketplace.marketplace_seller_group"/>
 
 					<button name="button_validate" attrs="{'invisible': ['|', '|',('is_admin_approved', '=', False),
-                    		('state', '!=', 'assigned')]}" groups="odoo_marketplace.marketplace_seller_group" string="Pick" type="object" class="oe_highlight"/>
+                    		('state', '!=', 'assigned')]}" string="Pick" type="object" class="oe_highlight"/>
                     		
 <!--                     <button name="set_as_hold" string="Set as Hold" attrs="{'invisible': ['|', ('hold_reason', '=', False), ('hold_state', '=', True)]}"  type="object"/> -->
                     <button name="make_ready" string="Make Ready" attrs="{'invisible': ['|', ('hold_state', '!=', True), ('state', '!=', 'assigned')]}"  type="object"/>
@@ -684,7 +684,7 @@
                     <button name="action_assign" attrs="{'invisible': [('show_check_availability', '=', False)]}" string="Check Availability" type="object" class="oe_highlight" groups="odoo_marketplace.marketplace_seller_group"/>
 
 					<button name="button_validate" attrs="{'invisible': ['|', '|',('is_admin_approved', '=', False),
-                    		('state', '!=', 'assigned')]}" groups="odoo_marketplace.marketplace_seller_group" string="Pack" type="object" class="oe_highlight"/>
+                    		('state', '!=', 'assigned')]}" string="Pack" type="object" class="oe_highlight"/>
                     		
 <!--                     <button name="set_as_hold" string="Set as Hold" attrs="{'invisible': ['|', ('hold_reason', '=', False), ('hold_state', '=', True)]}"  type="object"/> -->
                     <button name="make_ready" string="Make Ready" attrs="{'invisible': ['|', ('hold_state', '!=', True), ('state', '!=', 'assigned')]}"  type="object"/>
