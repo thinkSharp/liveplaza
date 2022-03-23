@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 	<template id="delivery_slip_inherit" inherit_id="stock.report_delivery_document">
+
         <xpath expr="//t" position="replace">
             <div t-call="web.html_container">
-                <div t-call="web.external_layout">
+                <div t-call="report_customization.external_layout">
                     <t t-set="o" t-value="o.with_context(lang=o.partner_id.lang)" />
-                    <t t-set="partner" t-value="o.partner_id or (o.move_lines and o.move_lines[0].partner_id) or False"/>
 
                     <div class="page">
                         <div>
@@ -28,10 +28,20 @@
                                 </tr>
                                 <tr>
                                     <td>Address:</td>
-                                    <td><span t-esc="partner"
-                        t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True}'/></td>
+                                    <td>
+                                        <span t-field="o.buyer_street"/>
+                                        <span>,</span><br></br>
+                                        <t t-if="o.buyer_street2">
+                                         <span t-field="o.buyer_street2"/>
+                                         <span>,</span><br></br>
+                                        </t>
+                                        <span t-field="o.buyer_township_id.name"/>
+                                        <span>,</span>
+                                        <span t-field="o.buyer_state_id.name"/>
+
+                                    </td>
                                     <td>Date:</td>
-                                    <td><span t-field="o.scheduled_date"/></td>
+                                    <td><span t-field="o.sale_id.create_date"/></td>
                                 </tr>
                                 <tr>
                                     <td>Ph No:</td>
@@ -59,7 +69,7 @@
 <!--                                <tr style="min-height:200px" t-foreach="lines" t-as="move">-->
                                 <tr style="min-height:200px" t-foreach="o.sale_id.order_line" t-as="move">
                                     <td colspan="2" style="border:1px solid black; border-collapse: collapse;" name="td_product"><span t-field="move.product_id.name" style="padding:15px;" /></td>
-                                    <td style="border:1px solid black; border-collapse: collapse;" name="td_price" class="text-right"><span t-field="move.price_unit"  style="padding:15px;"/></td>
+                                    <td style="border:1px solid black; border-collapse: collapse;" name="td_price" class="text-right"><span t-field="move.price_reduce"  style="padding:15px;"/></td>
                                     <td style="border:1px solid black; border-collapse: collapse;" name="td_quantity" class="text-right"><span t-field="move.product_qty" style="padding:15px;"/></td>
                                     <td style="border:1px solid black; border-collapse: collapse;" name="td_amount" class="text-right"><span t-field="move.price_subtotal" style="padding:15px;"/></td>
                                 </tr>

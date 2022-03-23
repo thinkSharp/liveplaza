@@ -2,7 +2,8 @@
 <odoo>
 	<template id="sale_report_template_inherit" inherit_id="sale.report_saleorder_document">
         <xpath expr="//t" position="replace">
-                <t t-call="web.external_layout">
+<!--                <t t-call="web.external_layout">-->
+                <t t-call="external_layout">
                 <t t-set="doc" t-value="doc.with_context(lang=doc.partner_id.lang)" />
                 <t t-set="address">
                     <div t-field="doc.partner_id"
