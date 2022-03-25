@@ -60,9 +60,9 @@
 	                <field name="state" widget="statusbar" statusbar_visible="draft,sent,sale,approve_by_admin,ready_to_pick"/>
 	            </xpath>
 
-                <xpath expr="//field[@name='order_line']" position="replace">
-	                <field name="order_line" widget="section_and_note_one2many" mode="tree,kanban" attrs="{'readonly': [('state', 'in', ('sale','approve_by_admin','ready_to_pick','done','cancel'))]}" />
-	            </xpath>        
+                <xpath expr="//tree/field[@name='name']" position="after">
+                    <field name="marketplace_seller_id" readonly="1" groups="odoo_marketplace.marketplace_officer_group" string="Seller"/>
+                </xpath>      
 	            
 	            	            
 	            <xpath expr="//button[@name='action_confirm']" position="replace">
