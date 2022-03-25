@@ -13,9 +13,9 @@
 			<field name="arch" type="xml">
                 <tree create="0" decoration-info="state == 'draft'" decoration-muted="state == 'cancel'" decoration-danger="state not in ('cancel', 'done') and scheduled_date &lt; current_date" string="Picking list" default_order="id desc">
                     <button name="button_validate" attrs="{'invisible': ['|', '|',('is_admin_approved', '=', False),
-                    		('state', '!=', 'assigned')]}" groups="odoo_marketplace.marketplace_seller_group" string="Pick" type="object" class="oe_highlight"/>
+                    		('state', '!=', 'assigned')]}" string="Pick" type="object" class="oe_highlight"/>
                     <field name="origin"/>                    
-                    <field name="marketplace_seller_id" string="Seller" groups="odoo_marketplace.marketplace_officer_group"/>
+                    <field name="marketplace_seller_id" string="Seller"/>
                     <field name="street" />
 	                <field name="state_id" />
 	                <field name="township_id" />  
@@ -44,7 +44,7 @@
 			<field name="arch" type="xml">
                 <tree create="0" decoration-info="state == 'draft'" decoration-muted="state == 'cancel'" decoration-danger="state not in ('cancel', 'done') and scheduled_date &lt; current_date" string="Picking list" default_order="id desc">
                     <button name="button_validate" attrs="{'invisible': ['|', '|',('is_admin_approved', '=', False),
-                    		('state', '!=', 'assigned')]}" groups="odoo_marketplace.marketplace_seller_group" string="Pack" type="object" class="oe_highlight"/>
+                    		('state', '!=', 'assigned')]}" string="Pack" type="object" class="oe_highlight"/>
                     <field name="origin"/>              
                     <field name="partner_id" string="Buyer"/>
 					<field name="marketplace_seller_id" string="Seller" groups="odoo_marketplace.marketplace_officer_group"/>
@@ -247,7 +247,7 @@
                     <button name="action_assign" attrs="{'invisible': [('show_check_availability', '=', False)]}" string="Check Availability" type="object" class="oe_highlight" groups="odoo_marketplace.marketplace_seller_group"/>
 
 					<button name="button_validate" attrs="{'invisible': ['|', '|',('is_admin_approved', '=', False),
-                    		('state', '!=', 'assigned')]}" groups="odoo_marketplace.marketplace_seller_group" string="Deliver Now" type="object" class="oe_highlight"/>
+                    		('state', '!=', 'assigned')]}" string="Deliver Now" type="object" class="oe_highlight"/>
                     		
 <!--                     <button name="set_as_hold" string="Set as Hold" attrs="{'invisible': ['|', ('hold_reason', '=', False), ('hold_state', '=', True)]}"  type="object"/> -->
                     <button name="make_ready" string="Make Ready" attrs="{'invisible': ['|', ('hold_state', '!=', True), ('state', '!=', 'assigned')]}"  type="object"/>
@@ -315,7 +315,8 @@
                             <field name="location_id" options="{'no_create': True}" groups="stock.group_stock_multi_locations" attrs="{'invisible': [('picking_type_code', '=', 'incoming')]}"/>
                             <field name="location_dest_id" options="{'no_create': True}" groups="stock.group_stock_multi_locations" attrs="{'invisible': [('picking_type_code', '=', 'outgoing')]}"/>
                             <field name="journal_id" string="Payment Type" attrs="{ 'readonly': ['|',('state', '=', 'done'),('payment_provider', '=', 'transfer')]}" />
-		                    <field name="receivable_amount" string="To Receive" attrs="{'invisible': ['|',('journal_id', '=', False),('state', '=', 'done')]}" />
+		                    <field name="receivable_amount" string="To Receive(Product)" attrs="{'invisible': ['|',('journal_id', '=', False),('state', '=', 'done')]}" />
+		                    <field name="delivery_amount" string="To Receive(Delivery)" attrs="{'invisible': ['|',('journal_id', '=', False),('state', '=', 'done')]}" />
 		                    <field name="paid_amount" attrs="{'invisible': [('journal_id', '=', False)],  'readonly': ['|',('state', '=', 'done'),('payment_provider', '=', 'transfer')]}" />
 		                    
 		                    <field name="payment_remark" attrs="{'invisible': [('journal_id', '=', False)], 'readonly': ['|',('state', '=', 'done'),('payment_provider', '=', 'transfer')]}" />
@@ -470,7 +471,7 @@
                     <button name="action_assign" attrs="{'invisible': [('show_check_availability', '=', False)]}" string="Check Availability" type="object" class="oe_highlight" groups="odoo_marketplace.marketplace_seller_group"/>
 
 					<button name="button_validate" attrs="{'invisible': ['|', '|',('is_admin_approved', '=', False),
-                    		('state', '!=', 'assigned')]}" groups="odoo_marketplace.marketplace_seller_group" string="Pick" type="object" class="oe_highlight"/>
+                    		('state', '!=', 'assigned')]}" string="Pick" type="object" class="oe_highlight"/>
                     		
 <!--                     <button name="set_as_hold" string="Set as Hold" attrs="{'invisible': ['|', ('hold_reason', '=', False), ('hold_state', '=', True)]}"  type="object"/> -->
                     <button name="make_ready" string="Make Ready" attrs="{'invisible': ['|', ('hold_state', '!=', True), ('state', '!=', 'assigned')]}"  type="object"/>
@@ -683,7 +684,7 @@
                     <button name="action_assign" attrs="{'invisible': [('show_check_availability', '=', False)]}" string="Check Availability" type="object" class="oe_highlight" groups="odoo_marketplace.marketplace_seller_group"/>
 
 					<button name="button_validate" attrs="{'invisible': ['|', '|',('is_admin_approved', '=', False),
-                    		('state', '!=', 'assigned')]}" groups="odoo_marketplace.marketplace_seller_group" string="Pack" type="object" class="oe_highlight"/>
+                    		('state', '!=', 'assigned')]}" string="Pack" type="object" class="oe_highlight"/>
                     		
 <!--                     <button name="set_as_hold" string="Set as Hold" attrs="{'invisible': ['|', ('hold_reason', '=', False), ('hold_state', '=', True)]}"  type="object"/> -->
                     <button name="make_ready" string="Make Ready" attrs="{'invisible': ['|', ('hold_state', '!=', True), ('state', '!=', 'assigned')]}"  type="object"/>
@@ -938,7 +939,7 @@
             <field name="res_model">stock.picking</field>
             <field name="type">ir.actions.act_window</field>
             <field name="view_mode">tree,form,kanban</field>
-            <field name="domain">[('picking_type_id','=', 3 ), ('state','in', ('assigned','hold')), ('is_admin_approved','=', True ), ('ready_to_pick','=', True )]</field>
+            <field name="domain">[('picking_type_id','=', 3 ), ('state','in', ('assigned','done','cancel','hold')), ('is_admin_approved','=', True ), ('ready_to_pick','=', True )]</field>
             <field name="context">{'search_default_by_origin': 1, 'search_default_by_marketplace_seller_id': 1}</field>
 	        <field name="view_ids" eval="[(5, 0, 0),
 		    	(0, 0, {'sequence': 2, 'view_mode': 'kanban', 'view_id': ref('pick_picking_stock_kanban_view_for_mp')}),
@@ -986,7 +987,7 @@
             <field name="res_model">stock.picking</field>
             <field name="type">ir.actions.act_window</field>
             <field name="view_mode">tree,form,kanban</field>
-            <field name="domain">[('picking_type_id','=', 4 ), ('state','in', ('assigned','hold')), ('is_admin_approved','=', True )]</field>
+            <field name="domain">[('picking_type_id','=', 4 ), ('state','in', ('assigned','done','cancel','hold')), ('is_admin_approved','=', True )]</field>
             <field name="context">{'search_default_by_origin': 1, 'search_default_by_marketplace_seller_id': 1}</field>
 	        <field name="view_ids" eval="[(5, 0, 0),
 		    	(0, 0, {'sequence': 2, 'view_mode': 'kanban', 'view_id': ref('pack_picking_stock_kanban_view_for_mp')}),
@@ -1034,7 +1035,7 @@
             <field name="res_model">stock.picking</field>
             <field name="type">ir.actions.act_window</field>
             <field name="view_mode">tree,form,kanban</field>
-            <field name="domain">[('picking_type_id','=', 2 ), ('state','in', ('assigned','hold')),('is_admin_approved','=', True )]</field>
+            <field name="domain">[('picking_type_id','=', 2 ), ('state','in', ('assigned','done','cancel','hold')),('is_admin_approved','=', True )]</field>
             <field name="context">{'search_default_groupby_state': 1}</field>
 	        <field name="view_ids" eval="[(5, 0, 0),
 		    	(0, 0, {'sequence': 2, 'view_mode': 'kanban', 'view_id': ref('do_picking_stock_kanban_view_for_mp')}),

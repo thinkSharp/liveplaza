@@ -71,8 +71,9 @@ class WebsiteSale(WebsiteSale):
                 'website_sale_order': order,
                 'order': order,
             }
-        else:
-            return "Please select payment screenshot from your device and upload."  #"NotFound() #raise Warning(_("Please select payment screenshot from your device and upload."))
+            
+        # else:
+        #     return "Please select payment screenshot from your device and upload."  #"NotFound() #raise Warning(_("Please select payment screenshot from your device and upload."))
         
         sale_sorder_id = request.session.get('sale_last_order_id')
         if sale_sorder_id:

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-<data>
-    <record id="group_operation_operator" model="res.groups">
-        <field name="name">Operation Operator (arc)</field>
-    </record>
-    <record id="group_operation_supervisor" model="res.groups">
-        <field name="name">Operation Supervisor (arc)</field>
-    </record>
-</data>
+    <data>
+        <record id="group_operation_operator" model="res.groups">
+            <field name="name">Operation Operator (arc)</field>
+        </record>
+        <record id="group_operation_supervisor" model="res.groups">
+            <field name="name">Operation Supervisor (arc)</field>
+            <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+        </record>
+    </data>
 </odoo>

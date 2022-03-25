@@ -8,10 +8,11 @@
                 <tree string="Quotation" class="o_sale_order" decoration-bf="message_needaction==True" decoration-muted="state=='cancel'" multi_edit="1">
                     <button name="action_ready_to_pick" string="Make Ready" class="btn-primary" type="object" attrs="{'invisible': [('state', 'not in', ['approve_by_admin'])]}"/>
                     <field name="message_needaction" invisible="1"/>
-                    <field name="name" string="Quotation Number" readonly="1"/>
+                    <field name="name" string="Order Number" readonly="1"/>
+                    <field name="products" string="Products" readonly="1" />
                     <field name="create_date" string="Create Date"/>
-                    <field name="commitment_date"/>
-                    <field name="expected_date"/>
+                    <field name="commitment_date" optional="hide"/>
+                    <field name="expected_date" optional="hide"/>
                     <field name="partner_id" readonly="1" />
                     <field name="user_id" optional="show"/>
                     <field name="team_id" optional="hide"/>
@@ -60,9 +61,9 @@
 	                <field name="state" widget="statusbar" statusbar_visible="draft,sent,sale,approve_by_admin,ready_to_pick"/>
 	            </xpath>
 
-                <xpath expr="//field[@name='order_line']" position="replace">
-	                <field name="order_line" widget="section_and_note_one2many" mode="tree,kanban" attrs="{'readonly': [('state', 'in', ('sale','approve_by_admin','ready_to_pick','done','cancel'))]}" />
-	            </xpath>        
+                <xpath expr="//tree/field[@name='name']" position="after">
+                    <field name="marketplace_seller_id" readonly="1" groups="odoo_marketplace.marketplace_officer_group" string="Seller"/>
+                </xpath>      
 	            
 	            	            
 	            <xpath expr="//button[@name='action_confirm']" position="replace">
@@ -85,6 +86,10 @@
 	                    <field name="payment_upload_name" invisible="1" />
 	                </page>
 	            </xpath>
+
+                <xpath expr="//field[@widget='section_and_note_one2many']" position="attributes">
+					<attribute name="attrs" >{'readonly': [('state', 'in', ('sale', 'approve_by_admin'))]}</attribute>
+				</xpath>
 	            
 	        </field>
 	    </record>
@@ -153,5 +158,13 @@
             action="prepaid_action_orders"
             parent="sale.sale_order_menu"
             sequence="2" groups="sales_team.group_sale_salesman"/>
-            
+
+        <menuitem id="sale.menu_sale_order"
+            name="Orders"
+            action="sale.action_orders"
+            parent="sale.sale_order_menu"
+            sequence="1" groups="sales_team.group_sale_salesman"/>
+
+
+    
 </odoo>
