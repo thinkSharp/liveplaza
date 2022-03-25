@@ -9,9 +9,9 @@
         <menuitem id="wk_seller_dashboard" name="Seller Dashboard" groups="odoo_marketplace.marketplace_draft_seller_group" web_icon="odoo_marketplace,static/description/icon.png" sequence="8"/>
             <menuitem id="wk_seller_dashboard_menu1" name="Sellers" parent="wk_seller_dashboard" groups="odoo_marketplace.marketplace_draft_seller_group" sequence="1"/>
                 <menuitem id="wk_seller_dashboard_menu1_sub_menu1" name="Sellers" parent="wk_seller_dashboard_menu1" action="wk_seller_action" sequence="1" groups="odoo_marketplace.marketplace_draft_seller_group"/>
-                <menuitem id="wk_seller_dashboard_menu1_sub_menu2" name="Shops" parent="wk_seller_dashboard_menu1" action="odoo_marketplace.wk_seller_shop_action" sequence="2" groups="odoo_marketplace.group_marketplace_seller_shop,odoo_marketplace.marketplace_officer_group"/>
-                <menuitem action="odoo_marketplace.action_seller_review" name="Seller Reviews" id="menu_seller_review" parent="wk_seller_dashboard_menu1" sequence="3" groups="marketplace_officer_group"/>
-                <menuitem action="odoo_marketplace.action_seller_recommendation" name="Seller Recommendations" id="menu_seller_recommendations" parent="wk_seller_dashboard_menu1" sequence="4" groups="marketplace_officer_group"/>
+                <menuitem id="wk_seller_dashboard_menu1_sub_menu2" name="Shops" parent="wk_seller_dashboard_menu1" action="odoo_marketplace.wk_seller_shop_action" sequence="2" groups="odoo_marketplace.group_marketplace_seller_shop,odoo_marketplace.marketplace_officer_group,access_rights_customization.group_operation_supervisor"/>
+                <menuitem action="odoo_marketplace.action_seller_review" name="Seller Reviews" id="menu_seller_review" parent="wk_seller_dashboard_menu1" sequence="3" groups="marketplace_officer_group,access_rights_customization.group_operation_supervisor"/>
+                <menuitem action="odoo_marketplace.action_seller_recommendation" name="Seller Recommendations" id="menu_seller_recommendations" parent="wk_seller_dashboard_menu1" sequence="4" groups="marketplace_officer_group,access_rights_customization.group_operation_supervisor"/>
                 <menuitem id="wk_seller_dashboard_menu1_sub_menu3" name="Seller Invoices" parent="wk_seller_dashboard_menu1" action=""/>
 
             <menuitem id="wk_seller_dashboard_menu3" name="Sales" parent="wk_seller_dashboard" groups="odoo_marketplace.marketplace_seller_group" sequence="2"/>
