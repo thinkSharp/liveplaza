@@ -189,6 +189,7 @@
 						<field name="invoice_status" optional="show"/>
 						<field name="state" invisible="1"/>
 						<field name="activity_exception_decoration" widget="activity_exception"/>
+                        <field name="payment_provider" readonly="1"/>
                 	</tree>
 				</xpath>
 
