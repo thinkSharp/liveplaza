@@ -20,11 +20,21 @@
           </div>
 
 
+<!--          <div t-if="current_stream_object.host == 'facebook'">-->
+
+<!--            <div class="fb-video mb16 d-none d-md-block" id="fb_livestream" t-att-data-href="current_stream_url" data-width="1200" data-height="500" data-allowfullscreen="true" data-autoplay="false" data-show-captions="true" data-show-text="true">-->
+<!--            </div>-->
+<!--            <div class="fb-video mb16 d-block d-md-none d-lg-none" id="mobile_fb_livestream" t-att-data-href="current_stream_url" data-width="auto" data-height="450" data-allowfullscreen="true" data-autoplay="false" data-show-captions="false"-->
+<!--              data-show-text="false">-->
+<!--            </div>-->
+<!--          </div>-->
+
+
           <div t-if="current_stream_object.host == 'facebook'">
 
-            <div class="fb-video mb16 d-none d-md-block" id="fb_livestream" t-att-data-href="current_stream_url" data-width="1200" data-height="500" data-allowfullscreen="true" data-autoplay="false" data-show-captions="true" data-show-text="true">
+            <div class="fb-video mb16 d-none d-md-block" id="fb_livestream" t-att-data-href="current_stream_url" data-width="1200" data-height="500" data-allowfullscreen="false" data-autoplay="false" data-show-captions="true" data-show-text="true">
             </div>
-            <div class="fb-video mb16 d-block d-md-none d-lg-none" id="mobile_fb_livestream" t-att-data-href="current_stream_url" data-width="auto" data-height="450" data-allowfullscreen="true" data-autoplay="false" data-show-captions="false"
+            <div class="fb-video mb16 d-block d-md-none d-lg-none" id="mobile_fb_livestream" t-att-data-href="current_stream_url" data-width="auto" data-height="450" data-allowfullscreen="false" data-autoplay="false" data-show-captions="false"
               data-show-text="false">
             </div>
           </div>
