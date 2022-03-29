@@ -77,7 +77,7 @@
 
 
                                 <tr>
-                                    <td colspan="2" class="text-center"><span>ဝယ်ယူအားပေးမှုအတွက် ကျေးဇူးတင်ပါသည်။</span></td>
+                                    <td  colspan="2" rowspan="2" class="text-center"><img src="report_customization/static/src/img/myanmar.png" alt="Image" style="width:300px"/></td>
                                     <td style="border:1px solid black; border-collapse: collapse;" colspan="2" name="td_amount_untaxed_label" class="text-center"><strong>Subtotal</strong></td>
                                     <td style="border:1px solid black; border-collapse: collapse;" name="td_amount_untaxed" class="text-right">
                                         <span style="padding:15px;" t-field="o.sale_id.amount_untaxed"/>
@@ -86,12 +86,13 @@
 
 
                                  <tr>
-                                     <td colspan="2" class="text-center"><span>ကောင်းသောနေ့လေး ဖြစ်ပါစေ။</span></td>
                                     <td style="border:1px solid black; border-collapse: collapse;" colspan="2" name="td_amount_total_label" class="text-center"><strong>Total</strong></td>
                                     <td style="border:1px solid black; border-collapse: collapse;" colspan="2" name="td_amount_total" class="text-right">
                                         <span style="padding:15px;" t-field="o.sale_id.amount_total"/>
                                     </td>
                                 </tr>
+
+
                             </tbody>
                         </table>
 
