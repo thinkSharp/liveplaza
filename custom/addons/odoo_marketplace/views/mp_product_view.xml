@@ -421,6 +421,7 @@
 			<field name="name">seller.product.template.tree</field>
 			<field name="model">product.product</field>
 			<field name="arch" type="xml">
+				<tree>
 					<field name="display_name" string="Product Name"/>
 					<field name="marketplace_seller_id" string="Seller" groups="odoo_marketplace.marketplace_officer_group,access_rights_customization.group_operation_supervisor"/>
 					<field name="qty_available"/>
