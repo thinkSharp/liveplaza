@@ -37,19 +37,19 @@ class ResPartner(models.Model):
     @api.model
     def _set_payment_method(self):
         return_list = []
-        payment_method_cheque_id = None
+        payment_method_cash_id = None
         try:
-            payment_method_cheque_id = self.env['ir.model.data'].get_object_reference(
-                'odoo_marketplace', 'marketplace_seller_payment_method_data2')
-            if payment_method_cheque_id:
-                return_list.append(payment_method_cheque_id[1])
+            payment_method_cash_id = self.env['ir.model.data'].get_object_reference(
+                'odoo_marketplace', 'marketplace_seller_payment_method_data1')
+            if payment_method_cash_id:
+                return_list.append(payment_method_cash_id[1])
         except Exception as e:
             _logger.info("~~~~~~~~~~Exception~~~~~~~~%r~~~~~~~~~~~~~~~~~",e)
             pass
         try:
             payment_method_bank_transfer_id = self.env['ir.model.data'].get_object_reference(
                 'odoo_marketplace', 'marketplace_seller_payment_method_data5')
-            if payment_method_cheque_id:
+            if payment_method_cash_id:
                 return_list.append(payment_method_bank_transfer_id[1])
         except Exception as e:
             _logger.info("~~~~~~~~~~Exception~~~~~~~~%r~~~~~~~~~~~~~~~~~",e)

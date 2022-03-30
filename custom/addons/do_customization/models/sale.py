@@ -39,6 +39,19 @@ class SaleOrder(models.Model):
             ('cancel', 'Cancelled'),
             ], string='Status', readonly=True, copy=False, index=True, tracking=3, default='draft')
 
+    products = fields.Char(string="Products", compute='get_products_string')
+
+    @api.depends('order_line')
+    def get_products_string(self):
+        for rec in self:
+            products = ''
+            for line in rec.order_line:
+                if not line.is_delivery:
+                    products += line.product_id.name + ' (' + str(int(line.product_qty)) + '), '
+            rec.update({
+                'products': products or '',
+            })
+
     def action_confirm(self):
         self.ensure_one()
         res = super(SaleOrder, self).action_confirm()
