@@ -33,6 +33,7 @@ class ResPartner(models.Model):
     # Default methods
     phone = fields.Char(required=True)
 
+
     @api.model
     def _set_payment_method(self):
         return_list = []
@@ -62,6 +63,8 @@ class ResPartner(models.Model):
 
     # Fields declaration
 
+
+    super_seller = fields.Boolean(string="Super Seller", default=False)
     seller = fields.Boolean(string="Is a Seller", help="Check this box if the contact is marketplace seller.", copy=False, track_visibility='onchange')
     payment_method = fields.Many2many("seller.payment.method", string="Payment Methods",
                                       help="It's you're accepted payment method, which will be used by admin during sending the payment.", default=_set_payment_method)
