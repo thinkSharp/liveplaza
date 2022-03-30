@@ -109,8 +109,16 @@ class SellerLiveStream(models.Model):
     def update_promoted_product_ids(self):
         for rec in self:
             if rec.seller_id:
+                print('Res', rec.seller_id)
                 if rec.promoted_product_ids:
                     rec.promoted_product_ids = False
+
+                if rec.seller_id.super_seller:
+                    return {'domain': {'promoted_product_ids': [
+                                                                ('status', '=', 'approved'),
+                                                                ('marketplace_seller_id', '!=', False)
+                    ]}}
+
                 return {'domain': {'promoted_product_ids': [('marketplace_seller_id','=',rec.seller_id.id),('status','=','approved'),('marketplace_seller_id','!=',False)]}}
             else:
                 rec.promoted_product_ids = False
