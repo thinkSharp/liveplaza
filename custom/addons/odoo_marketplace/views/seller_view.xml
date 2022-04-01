@@ -78,7 +78,7 @@
                                     <field name="country_id" placeholder="Country" class="oe_no_button" options='{"no_open": True, "no_create": True}' attrs="{'readonly':[('state', '!=', 'new')]}"/>
                                 </div>
                                 <field name="website" widget="url" placeholder="e.g. www.odoo.com" attrs="{'readonly':[('state', '!=', 'new')]}"/>
-                                <field name="super_seller"/>
+                                <field name="super_seller" groups="odoo_marketplace.marketplace_officer_group"/>
                             </group>
                             <group>
                                 <field name="phone" placeholder="e.g. +3281813700" attrs="{'readonly':[('state', '!=', 'new')]}"/>
