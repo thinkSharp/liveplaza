@@ -14,11 +14,11 @@
                 <menuitem action="odoo_marketplace.action_seller_recommendation" name="Seller Recommendations" id="menu_seller_recommendations" parent="wk_seller_dashboard_menu1" sequence="4" groups="marketplace_officer_group,access_rights_customization.group_operation_supervisor"/>
                 <menuitem id="wk_seller_dashboard_menu1_sub_menu3" name="Seller Invoices" parent="wk_seller_dashboard_menu1" action=""/>
 
-            <menuitem id="wk_seller_dashboard_menu3" name="Sales" parent="wk_seller_dashboard" groups="odoo_marketplace.marketplace_seller_group" sequence="2"/>
-                <menuitem id="wk_seller_dashboard_menu3_sub_menu2" name="Orders" sequence="2" parent="wk_seller_dashboard_menu3" action="wk_seller_slae_order_line_action" groups="odoo_marketplace.marketplace_seller_group" />
+<!--            <menuitem id="wk_seller_dashboard_menu3" name="Sales" parent="wk_seller_dashboard" groups="odoo_marketplace.marketplace_seller_group" sequence="2"/>-->
+<!--                <menuitem id="wk_seller_dashboard_menu3_sub_menu2" name="Orders" sequence="2" parent="wk_seller_dashboard_menu3" action="wk_seller_slae_order_line_action" groups="odoo_marketplace.marketplace_seller_group" />-->
                 <!-- <menuitem id="wk_seller_payment_pay_to_seller" name="Pay To Seller" sequence="4" parent="odoo_marketplace.wk_seller_dashboard_menu3" action="wk_pay_to_seller_payment_wizard_action" groups="odoo_marketplace.marketplace_manager_group"/>
                 <menuitem id="wk_seller_payment_request" name="Request For Payment" sequence="4" parent="odoo_marketplace.wk_seller_dashboard_menu3" action="wk_seller_payment_wizard_action" groups="odoo_marketplace.marketplace_seller_group"/> -->
-                <menuitem id="wk_seller_payment_method" name="Seller Payments" sequence="5" parent="odoo_marketplace.wk_seller_dashboard_menu3" action="wk_seller_payment_action"/>
+                <menuitem id="wk_seller_payment_method" name="Seller Payments" sequence="5" parent="do_customization.menu_orders_ecommerce_do_id" action="wk_seller_payment_action"/>
                 <!-- <menuitem id="wk_seller_order_analysis" name="Order Analysis" sequence="7" parent="odoo_marketplace.wk_seller_dashboard_menu3" action="odoo_marketplace.wk_seller_sale_order_line_analysis_action" groups="odoo_marketplace.marketplace_seller_group"/> -->
 
             <menuitem id="wk_seller_dashboard_menu2" name="Products" parent="wk_seller_dashboard" groups="odoo_marketplace.marketplace_seller_group" sequence="3"/>
