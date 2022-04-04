@@ -209,7 +209,7 @@ class ResPartner(models.Model):
     def _compute_sol_count(self):
         """ """
         for obj in self:
-            obj.sol_count = len(self.env["sale.order.line"].search([("marketplace_seller_id", "=", obj.id),('state','in',['sale','done'])]))
+            obj.sol_count = len(self.env["sale.order.line"].search([("marketplace_seller_id", "=", obj.id),('state','in',['approve_by_admin','ready_to_pick','sale','done'])]))
 
     def _get_product_variant_group_info(self):
         for obj in self:
@@ -809,10 +809,23 @@ class ResPartner(models.Model):
     def seller_sales_count(self):
         # Calculate seller total sales count
         sales_count = 0
-        all_products = self.env['product.template'].sudo().search(
-            [("marketplace_seller_id", "=", self.sudo().id)])
-        for prod in all_products.with_user(SUPERUSER_ID):
-            sales_count += prod.sales_count
+
+        domain = [
+            ("marketplace_seller_id", "=", self.sudo().id),
+            ('state', 'in', ['approve_by_admin', 'ready_to_pick', 'sale', 'done'])
+        ]
+        SaleOrder = self.env['sale.order.line'].search(domain)
+
+        # all_products = request.env['product.template'].sudo().search(
+        #     [("marketplace_seller_id", "=", seller.sudo().id)])
+        # for prod in all_products.with_user(SUPERUSER_ID):
+        #     sales_count += prod.sales_count
+
+        for s in SaleOrder:
+            sales_count += s.product_qty
+
+        # sales_count = SaleOrder.search_count(domain)
+
         return sales_count
 
     def seller_products_count(self):
