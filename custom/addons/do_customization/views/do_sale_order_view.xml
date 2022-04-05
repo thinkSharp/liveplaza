@@ -145,7 +145,7 @@
             </field>
         </record> 
         
-	    <menuitem action="action_orders_ecommerce_do" id="menu_orders_ecommerce_do_id" parent="odoo_marketplace.wk_seller_dashboard" name="Sales by Seller" groups="odoo_marketplace.marketplace_draft_seller_group" sequence="1"/>
+	    <menuitem action="action_orders_ecommerce_do" id="menu_orders_ecommerce_do_id" parent="odoo_marketplace.wk_seller_dashboard_menu3" name="Sales by Seller" groups="odoo_marketplace.marketplace_draft_seller_group" sequence="1"/>
 	    
 	    <menuitem id="cod_sale_order_menu"
             name="COD Orders"
