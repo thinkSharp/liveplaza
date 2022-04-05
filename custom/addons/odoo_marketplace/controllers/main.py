@@ -348,21 +348,10 @@ class MarketplaceSellerProfile(http.Controller):
         # Calculate seller total sales count
         sales_count = 0
 
-        domain = [
-            ("marketplace_seller_id", "=", seller.sudo().id),
-            ('state', 'in', ['approve_by_admin', 'ready_to_pick', 'sale', 'done'])
-        ]
-        SaleOrder = request.env['sale.order.line'].search(domain)
-
-        # all_products = request.env['product.template'].sudo().search(
-        #     [("marketplace_seller_id", "=", seller.sudo().id)])
-        # for prod in all_products.with_user(SUPERUSER_ID):
-        #     sales_count += prod.sales_count
-
-        for s in SaleOrder:
-            sales_count += s.product_qty
-
-        # sales_count = SaleOrder.search_count(domain)
+        all_products = request.env['product.template'].sudo().search(
+            [("marketplace_seller_id", "=", seller.sudo().id)])
+        for prod in all_products.with_user(SUPERUSER_ID):
+            sales_count += prod.sales_count
 
         attrib_list = request.httprequest.args.getlist('attrib')
         url_for_keep = url
@@ -639,21 +628,10 @@ class MarketplaceSellerShop(http.Controller):
         # Calculate seller total sales count
         sales_count = 0
 
-        domain = [
-            ("marketplace_seller_id", "=", seller.sudo().id),
-            ('state', 'in', ['approve_by_admin', 'ready_to_pick', 'sale', 'done'])
-        ]
-        SaleOrder = request.env['sale.order.line'].search(domain)
-
-        # all_products = request.env['product.template'].sudo().search(
-        #     [("marketplace_seller_id", "=", seller.sudo().id)])
-        # for prod in all_products.with_user(SUPERUSER_ID):
-        #     sales_count += prod.sales_count
-
-        for s in SaleOrder:
-            sales_count += s.product_qty
-
-        # sales_count = SaleOrder.search_count(domain)
+        all_products = request.env['product.template'].sudo().search(
+            [("marketplace_seller_id", "=", seller.sudo().id)])
+        for prod in all_products.with_user(SUPERUSER_ID):
+            sales_count += prod.sales_count
 
         attrib_list = request.httprequest.args.getlist('attrib')
         url_for_keep = '/seller/shop/' + str(shop_obj.url_handler)
