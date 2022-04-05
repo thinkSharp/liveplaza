@@ -807,21 +807,10 @@ class ResPartner(models.Model):
         # Calculate seller total sales count
         sales_count = 0
 
-        domain = [
-            ("marketplace_seller_id", "=", self.sudo().id),
-            ('state', 'in', ['approve_by_admin', 'ready_to_pick', 'sale', 'done'])
-        ]
-        SaleOrder = self.env['sale.order.line'].search(domain)
-
-        # all_products = request.env['product.template'].sudo().search(
-        #     [("marketplace_seller_id", "=", seller.sudo().id)])
-        # for prod in all_products.with_user(SUPERUSER_ID):
-        #     sales_count += prod.sales_count
-
-        for s in SaleOrder:
-            sales_count += s.product_qty
-
-        # sales_count = SaleOrder.search_count(domain)
+        all_products = self.env['product.template'].sudo().search(
+            [("marketplace_seller_id", "=", self.sudo().id)])
+        for prod in all_products.with_user(SUPERUSER_ID):
+            sales_count += prod.sales_count
 
         return sales_count
 
