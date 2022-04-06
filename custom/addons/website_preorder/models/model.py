@@ -55,7 +55,8 @@ class Website(models.Model):
         if product_obj and product_obj.type != 'service':
             if self.get_pre_order(product_obj) and product_obj.minimum_qty:
                 quantity = quantity - product_obj.minimum_qty
-        return quantity
+        # return quantity
+        return product_obj.virtual_available - product_obj.minimum_qty
 
     @api.model
     def get_preorder_product_stock_qty(self,product_obj):
