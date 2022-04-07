@@ -161,7 +161,9 @@
                             </page>
                             <page string="Payment">
                                 <group>
-                                    <field name="payment_method" widget="many2many_tags" readonly="1" options="{'no_create': True}" attrs="{'invisible':[('seller','=',False)]}" groups="odoo_marketplace.marketplace_seller_group"/>
+<!--                                    <field name="payment_method" widget="many2many_tags" readonly="1" options="{'no_create': True}" attrs="{'invisible':[('seller','=',False)]}" groups="odoo_marketplace.marketplace_seller_group"/>-->
+                                    <field name="payment_method" widget="many2many_tags" readonly="1" options="{'no_create': True}" attrs="{'invisible':[('seller','=',False)]}" />
+
                                 </group>
                                 <group col="4">
                                     <field name="total_mp_payment"/>
