@@ -18,7 +18,7 @@ class ResPartner(models.Model):
         return self.env['res.groups'].search([('name', '=', 'Seller Tier 1 (arc)')], limit=1).id
 
     group_id = fields.Many2one(
-        'res.groups', 'Users Group', ondelete='cascade',
+        'res.groups', 'Users Group', read=['odoo_marketplace.marketplace_seller_group'], ondelete='cascade',
         domain=[("name", "in", ("Seller Tier 1 (arc)", "Seller Tier 2 (arc)", "Seller Tier 3 (arc)"))],
         default=_default_user_group)
 
