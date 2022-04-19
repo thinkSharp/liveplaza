@@ -68,7 +68,7 @@ odoo.define('otp_sms_auth.wk_otp', function (require) {
 //            if (!mobile) {
 //                alert(mobile+"Please enter a mobile n");
 //                $('#wk_error').remove();
-//                $(".field-confirm_password").after("<p id='wk_error' class='alert alert-danger'>Please enter a mobile no.</p>");
+//                $(".field-confirm_password").after("<p id='wk_error' class='alert alert-danger'>Please enter a mobile no </p>");
 //            }
 //        });
     });

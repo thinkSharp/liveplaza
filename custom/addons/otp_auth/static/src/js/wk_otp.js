@@ -17,10 +17,9 @@ odoo.define('otp_auth.wk_otp', function (require) {
             if($(this).closest('form').hasClass('oe_reset_password_form')){
                 ValidUser = 1;
             }
-            var login = $('input:radio[name="radio-register"]:checked');
+            var login = $('input[name="radio-register"]:checked').val();
             var email = $('#login').val();
             var phone = $('#login').val();
-
             if(login == "radioemail")
             {
                 if (email) {

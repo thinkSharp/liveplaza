@@ -114,8 +114,8 @@ class AuthSignupHome(AuthSignupHome):
     @http.route(['/generate/otp'], type='json', auth="public", methods=['POST'], website=True)
     def generate_otp(self, **kwargs):
         mobile = kwargs.get('mobile')
-        if not mobile:
-            return [0, _("Please enter a mobile no"), 0]
+        # if not mobile:
+        #     return [0, _("Please enter a mobile no"), 0]
         res = super(AuthSignupHome, self).generate_otp(**kwargs)
         otp_notification_mode = request.env['ir.default'].sudo().get(
             'website.otp.settings', 'otp_notification_mode')
@@ -138,7 +138,7 @@ class AuthSignupHome(AuthSignupHome):
         mobile = kwargs.get('mobile')
         userObj = request.env["res.users"].sudo().search(
             [("mobile", "=", mobile)])
-        if userObj:
+        if userObj and mobile:
             message = [
                 0, _("Another user is already registered using this mobile no."), 0]
         if not message:
