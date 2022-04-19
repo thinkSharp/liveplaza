@@ -35,4 +35,25 @@
             <hr id="smsotp" style="display: none;"/>
         </xpath>
     </template>
+
+    <template id="buyer_signup_form_inherit" inherit_id="auth_signup.fields">
+        <xpath expr="//label[@for='login']" position="before" >
+            <div style="margin-bottom: 20px;">
+                <label class="radio-container wk_login">Email ID
+                    <input type="radio" value="radioemail" name="radio-register"/>
+                    <span class="otpcheck"></span>
+                </label>
+                <label class="radio-container wk_login">Mobile No
+                    <input type="radio" value="radiomobile" name="radio-register"/>
+                    <span class="otpcheck"></span>
+                </label>
+            </div>
+
+            <div class="">
+                <label for="mobile" class="control-label">Mobile No</label>
+<!--                <input type="text" name="mobile" t-att-value="mobile" id="mobile" class="form-control" autocapitalize="off"/>-->
+            </div>
+        </xpath>
+    </template>
+
 </odoo>

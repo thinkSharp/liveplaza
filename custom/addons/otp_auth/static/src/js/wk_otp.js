@@ -17,17 +17,36 @@ odoo.define('otp_auth.wk_otp', function (require) {
             if($(this).closest('form').hasClass('oe_reset_password_form')){
                 ValidUser = 1;
             }
+            var login = $('input:radio[name="radio-register"]:checked');
             var email = $('#login').val();
-            if (email) {
-                if(validateEmail(email)) {
-                    generateOtp(ValidUser);
+            var phone = $('#login').val();
+
+            if(login == "radioemail")
+            {
+                if (email) {
+                    if(validateEmail(email)) {
+                        generateOtp(ValidUser);
+                    } else {
+                        $('#wk_error').remove();
+                        $(".field-confirm_password").after("<p id='wk_error' class='alert alert-danger'>Please enter a valid email address.</p>");
+                    }
                 } else {
                     $('#wk_error').remove();
-                    $(".field-confirm_password").after("<p id='wk_error' class='alert alert-danger'>Please enter a valid email address.</p>");
+                    $(".field-confirm_password").after("<p id='wk_error' class='alert alert-danger'>Please enter an email address.</p>");
                 }
-            } else {
-                $('#wk_error').remove();
-                $(".field-confirm_password").after("<p id='wk_error' class='alert alert-danger'>Please enter an email address.</p>");
+            }
+            else {
+                if (phone) {
+                    if(validatePhone(phone)) {
+                        generateOtp(ValidUser);
+                    } else {
+                        $('#wk_error').remove();
+                        $(".field-confirm_password").after("<p id='wk_error' class='alert alert-danger'>Please enter a valid phone number.</p>");
+                    }
+                } else {
+                    $('#wk_error').remove();
+                    $(".field-confirm_password").after("<p id='wk_error' class='alert alert-danger'>Please enter a phone number.</p>");
+                }
             }
         });
         $(this).on('click', '.wk_resend', function(e) {
@@ -41,6 +60,13 @@ odoo.define('otp_auth.wk_otp', function (require) {
         var mailRegex = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
         return mailRegex.test(emailId);
     };
+
+    function validatePhone(phone) {
+        if(isNaN(phone))
+            return false;
+        else
+            return true;
+    }
 
     function getInterval(otpTimeLimit) {
         var countDown = otpTimeLimit;
