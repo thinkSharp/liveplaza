@@ -106,9 +106,9 @@ class AuthSignupHome(Website):
         if not qcontext.get('token') and not qcontext.get('signup_enabled'):
             raise werkzeug.exceptions.NotFound()
 
-        if login:
-            if not str(login).isdigit():
-                qcontext["error"] = _("Phone number should not contain character.")
+        # if login:
+        #     if not str(login).isdigit():
+        #         qcontext["error"] = _("Phone number should not contain character.")
 
         if 'error' not in qcontext and request.httprequest.method == 'POST':
             try:
