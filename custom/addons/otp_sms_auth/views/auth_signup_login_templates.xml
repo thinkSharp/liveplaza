@@ -11,11 +11,11 @@
 
     <template id="wk_auth_signup_mobile_fields" inherit_id="auth_signup.fields" name="OTP SMS Fields" priority="20">
         <xpath expr="//div[@class='form-group field-password pt-2']" position="before">
-<!--            <div class="form-group field-mobile" id="wkmobile">-->
-<!--                <label for="mobile" class="control-label">Mobile</label>-->
-<!--                <input id="mobile" name="mobile" class="form-control" placeholder="e.g. 05XXXXXXXX"-->
-<!--                    type="text"/>-->
-<!--            </div>-->
+            <div class="form-group field-mobile" id="wkmobile">
+                <label for="mobile" class="control-label">Mobile</label>
+                <input id="mobile" name="mobile" class="form-control" placeholder="e.g. 09XXXXXXXX"
+                    type="text"/>
+            </div>
             <t t-set='shipping_address' t-value="request.env['ir.default'].sudo().get('res.config.settings', 'shipping_address')"/>
             <t t-if="not shipping_address">
                 <div class="form-group field-country">

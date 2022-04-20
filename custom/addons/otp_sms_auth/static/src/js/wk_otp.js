@@ -22,9 +22,9 @@ odoo.define('otp_sms_auth.wk_otp', function (require) {
         $('input:radio[name="radio-register"]').change(function() {
             if ($(this).val() == 'radioemail') {
                 $('label[for=login]').show();
-                $('label[for=mobile]').hide();
+                $('label[for=phone]').hide();
             } else if ($(this).val() == 'radiomobile') {
-                $('label[for=mobile]').show();
+                $('label[for=phone]').show();
                 $('label[for=login]').hide();
             }
         });
@@ -63,14 +63,14 @@ odoo.define('otp_sms_auth.wk_otp', function (require) {
             generateSMSLoginOtp();
         });
 
-//        $('.wk_send').on('click', function(e) {
-//            var mobile = $('#mobile').val();
-//            if (!mobile) {
-//                alert(mobile+"Please enter a mobile n");
-//                $('#wk_error').remove();
-//                $(".field-confirm_password").after("<p id='wk_error' class='alert alert-danger'>Please enter a mobile no </p>");
-//            }
-//        });
+        $('.wk_send').on('click', function(e) {
+            var mobile = $('#mobile').val();
+            if (!mobile) {
+                alert(mobile+"Please enter a mobile number");
+                $('#wk_error').remove();
+                $(".field-confirm_password").after("<p id='wk_error' class='alert alert-danger'>Please enter a mobile no </p>");
+            }
+        });
     });
 
     function generateSMSLoginOtp() {
