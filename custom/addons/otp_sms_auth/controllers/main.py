@@ -138,7 +138,7 @@ class AuthSignupHome(AuthSignupHome):
         mobile = kwargs.get('mobile')
         userObj = request.env["res.users"].sudo().search(
             [("mobile", "=", mobile)])
-        if userObj and mobile:
+        if userObj:
             message = [
                 0, _("Another user is already registered using this mobile no."), 0]
         if not message:

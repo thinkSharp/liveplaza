@@ -48,7 +48,6 @@
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='title']" position="after">
                     <field name="seller_subscription_id" required="1"/>
-                    <field name="group_id"/> <!--attrs="{'invisible': [('state', '=', 'new')]}"-->
                 </xpath>
             </field>
         </record>

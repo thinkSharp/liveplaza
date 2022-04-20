@@ -109,24 +109,12 @@ class SellerLiveStream(models.Model):
     def update_promoted_product_ids(self):
         for rec in self:
             if rec.seller_id:
-                # print('Res', rec.seller_id)
-                print('I am here Seller')
                 if rec.promoted_product_ids:
                     rec.promoted_product_ids = False
-
-                if rec.seller_id.super_seller:
-                    print("I am superseller")
-                    return {'domain': {'promoted_product_ids': [
-                                                                ('status', '=', 'approved'),
-                                                                ('marketplace_seller_id', '!=', False)
-                    ]}}
-
                 return {'domain': {'promoted_product_ids': [('marketplace_seller_id','=',rec.seller_id.id),('status','=','approved'),('marketplace_seller_id','!=',False)]}}
             else:
-                print("I am here else.")
                 rec.promoted_product_ids = False
                 return {'domain': {'promoted_product_ids': [('marketplace_seller_id','in',self.env['seller.live.stream'].compute_login_userid()),('status','=','approved'),('marketplace_seller_id','!=',False)]}}
-
 
     def write(self, vals):
         if self.website_published:
