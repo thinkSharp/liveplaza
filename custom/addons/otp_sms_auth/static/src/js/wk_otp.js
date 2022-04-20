@@ -18,6 +18,17 @@ odoo.define('otp_sms_auth.wk_otp', function (require) {
                 $('label[for=login], input#login').hide();
             }
         });
+
+        $('input:radio[name="radio-register"]').change(function() {
+            if ($(this).val() == 'radioemail') {
+                $('label[for=login]').show();
+                $('label[for=phone]').hide();
+            } else if ($(this).val() == 'radiomobile') {
+                $('label[for=phone]').show();
+                $('label[for=login]').hide();
+            }
+        });
+
         $('.wk_next_btn').on('click', function(e) {
             $(".field-login-option").hide();
             $(".field-mobile").hide();
@@ -55,9 +66,9 @@ odoo.define('otp_sms_auth.wk_otp', function (require) {
         $('.wk_send').on('click', function(e) {
             var mobile = $('#mobile').val();
             if (!mobile) {
-                alert(mobile+"Please enter a mobile n");
+                alert(mobile+"Please enter a mobile number");
                 $('#wk_error').remove();
-                $(".field-confirm_password").after("<p id='wk_error' class='alert alert-danger'>Please enter a mobile no.</p>");
+                $(".field-confirm_password").after("<p id='wk_error' class='alert alert-danger'>Please enter a mobile no </p>");
             }
         });
     });
