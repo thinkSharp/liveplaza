@@ -20,12 +20,28 @@ odoo.define('otp_sms_auth.wk_otp', function (require) {
         });
 
         $('input:radio[name="radio-register"]').change(function() {
+            document.getElementById('login').value = "";
             if ($(this).val() == 'radioemail') {
                 $('label[for=login]').show();
                 $('label[for=phone]').hide();
+                $('input#mobile').prop("readonly", false);
+                document.getElementById('login').value = "";
+                document.getElementById('mobile').value = "";
+                if($('input#mobile').val() == "") {
+                    $('input#login').change(function() {
+                        $('input#mobile').val("");
+                    });
+                }
+
             } else if ($(this).val() == 'radiomobile') {
                 $('label[for=phone]').show();
                 $('label[for=login]').hide();
+                $('input#mobile').prop("readonly", true);
+                document.getElementById('login').value = "";
+                document.getElementById('mobile').value = "";
+                $('input#login').change(function() {
+                    $('input#mobile').val($('input#login').val());
+                });
             }
         });
 
