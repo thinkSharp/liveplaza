@@ -83,7 +83,7 @@
                     <filter name="order_delivered" string="Order Delivered" domain="[('condition','=','order_delivered')]" help="Order Delivered" />
                     <filter name="invoice_vaildate" string="Invoice Validate" domain="[('condition','=','invoice_vaildate')]" help="Invoice Validate" />
                     <filter name="invoice_paid" string="Invoice Paid" domain="[('condition','=','invoice_paid')]" help="Invoice Paid" />
-                    <filter name="inventory_almost_empty" string="Inventory Almost Empty" domain="[('condition','=','inventory_almost_empty')]" help="Inventory Almost Empty" />
+                    <filter name="inventory_almost_empty" string="Inventory Almost Empty" domain="[('condition','=','inventory_almost_empty')]" help="Inventory Almost Empty" /><!-- -->
                     <filter name="global" string="Global" domain="[('globally_access','=',True)]" help="Global Template" />
                     <filter name="inactive" string="Archived" domain="[('active','=',False)]"/>
                     <group expand="0" string="Group by...">

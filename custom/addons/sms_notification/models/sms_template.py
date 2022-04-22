@@ -111,7 +111,7 @@ class SmsTemplate(models.Model):
                     model_id = self.env['ir.model'].search(
                         [('model', '=', 'product.product')])
                     obj.model_id = model_id.id if model_id else False
-                    obj.lang = '${object.partner_id.lang}'
+                    obj.lang = 'en_US'
             else:
                 obj.model_id = False
                 obj.lang = False

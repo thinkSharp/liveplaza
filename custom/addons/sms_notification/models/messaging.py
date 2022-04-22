@@ -233,8 +233,6 @@ class AccountMove(models.Model):
 class ProductProduct(models.Model):
     _inherit = "product.product"
 
-    partner_id = fields.Many2one("res.partner", "Seller")
-
     def inventory_check(self):
         product_obj = self.env['product.product'].search([('active', '=', True)])
         for pobj in product_obj:
