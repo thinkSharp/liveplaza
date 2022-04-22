@@ -13,7 +13,8 @@
                                 <field name="picking_vendor"/>
                             </group>
                             <group>
-                                <field name="picking_method_ids" widget="many2many_tags" attrs="{'invisible':[('picking_vendor', '=', False)]}"/>
+                                <field name="picking_method_domain" invisible="1"/>
+                                <field name="picking_method_ids" widget="many2many_tags" domain="picking_method_domain" attrs="{'invisible':[('picking_vendor', '=', False)]}"/>
                             </group>
                             <group>
                                 <!-- <field name="partner_ranking" attrs="{'invisible':[('picking_vendor', '=', False)]}"/> -->
@@ -28,7 +29,8 @@
                                 <field name="active_delivery" attrs="{'invisible':[('delivery_vendor', '=', False)]}" />
                             </group>
                             <group>
-                                <field name="delivery_method_ids" widget="many2many_tags" attrs="{'invisible':[('delivery_vendor', '=', False)]}"/>
+                                <field name="delivery_method_domain" invisible="1"/>
+                                <field name="delivery_method_ids" widget="many2many_tags" domain="delivery_method_domain" attrs="{'invisible':[('delivery_vendor', '=', False)]}"/>
                             </group>
                             <group>
                                 <!-- <field name="partner_ranking" attrs="{'invisible':[('picking_vendor', '=', False)]}"/> -->

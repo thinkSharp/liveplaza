@@ -33,22 +33,23 @@ class ResPartner(models.Model):
     # Default methods
     phone = fields.Char(required=True)
 
+
     @api.model
     def _set_payment_method(self):
         return_list = []
-        payment_method_cheque_id = None
+        payment_method_cash_id = None
         try:
-            payment_method_cheque_id = self.env['ir.model.data'].get_object_reference(
-                'odoo_marketplace', 'marketplace_seller_payment_method_data2')
-            if payment_method_cheque_id:
-                return_list.append(payment_method_cheque_id[1])
+            payment_method_cash_id = self.env['ir.model.data'].get_object_reference(
+                'odoo_marketplace', 'marketplace_seller_payment_method_data1')
+            if payment_method_cash_id:
+                return_list.append(payment_method_cash_id[1])
         except Exception as e:
             _logger.info("~~~~~~~~~~Exception~~~~~~~~%r~~~~~~~~~~~~~~~~~",e)
             pass
         try:
             payment_method_bank_transfer_id = self.env['ir.model.data'].get_object_reference(
                 'odoo_marketplace', 'marketplace_seller_payment_method_data5')
-            if payment_method_cheque_id:
+            if payment_method_cash_id:
                 return_list.append(payment_method_bank_transfer_id[1])
         except Exception as e:
             _logger.info("~~~~~~~~~~Exception~~~~~~~~%r~~~~~~~~~~~~~~~~~",e)
@@ -62,6 +63,8 @@ class ResPartner(models.Model):
 
     # Fields declaration
 
+
+    super_seller = fields.Boolean(string="Super Seller", default=False)
     seller = fields.Boolean(string="Is a Seller", help="Check this box if the contact is marketplace seller.", copy=False, track_visibility='onchange')
     payment_method = fields.Many2many("seller.payment.method", string="Payment Methods",
                                       help="It's you're accepted payment method, which will be used by admin during sending the payment.", default=_set_payment_method)
@@ -206,7 +209,7 @@ class ResPartner(models.Model):
     def _compute_sol_count(self):
         """ """
         for obj in self:
-            obj.sol_count = len(self.env["sale.order.line"].search([("marketplace_seller_id", "=", obj.id),('state','in',['sale','done'])]))
+            obj.sol_count = len(self.env["sale.order.line"].search([("marketplace_seller_id", "=", obj.id),('state','in',['approve_by_admin','ready_to_pick','sale','done'])]))
 
     def _get_product_variant_group_info(self):
         for obj in self:
@@ -815,10 +818,12 @@ class ResPartner(models.Model):
     def seller_sales_count(self):
         # Calculate seller total sales count
         sales_count = 0
+
         all_products = self.env['product.template'].sudo().search(
             [("marketplace_seller_id", "=", self.sudo().id)])
         for prod in all_products.with_user(SUPERUSER_ID):
             sales_count += prod.sales_count
+
         return sales_count
 
     def seller_products_count(self):

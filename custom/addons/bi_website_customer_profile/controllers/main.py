@@ -122,11 +122,11 @@ class customerprofile(CustomerPortal):
         shipping_address = request.env['res.partner'].sudo().search(
             [('id', '=', post['id']), ('type', '=', 'delivery')], limit=1)
         
-        township = request.env['res.country.township'].sudo().search(
-            [('id', '=', post['township_id'])])
+        # township = request.env['res.country.township'].sudo().search(
+        #     [('id', '=', post['township_id'])])
 
         if shipping_address:
-            shipping_address.write({
+            shipping_address.update({
                 'name': post['name'],
                 'city': post['city'],
                 # disabled by KMS
@@ -137,7 +137,8 @@ class customerprofile(CustomerPortal):
                 'mobile': post['mobile'],
                 'email': post['email'],
                 'township_id': post['township_id'],
-                'state_id': township.state_id.id,
+                # 'state_id': township.state_id.id,
+                'state_id': post['state_id'],
                 'country_id': int(post['country_id']),
             })
         else:
@@ -156,10 +157,56 @@ class customerprofile(CustomerPortal):
                 'mobile': post['mobile'],
                 'email': post['email'],
                 'township_id': post['township_id'],
-                'state_id': township.state_id.id,
+                # 'state_id': township.state_id.id,
+                'state_id': post['state_id'],
                 'country_id': int(post['country_id']),
             })
         return request.render("bi_website_customer_profile.shipping_address_thankyou")
+
+    @http.route(['/billing_address/thankyou'], type='http', auth="public", website=True)
+    def edit_your_billing_address(self, **post):
+        billing_address = request.env['res.partner'].sudo().search(
+            [('id', '=', post['id']), ('type', '=', 'invoice')], limit=1)
+
+        # township = request.env['res.country.township'].sudo().search(
+        #     [('id', '=', post['township_id'])])
+
+        if billing_address:
+            billing_address.update({
+                'name': post['name'],
+                'city': post['city'],
+                # disabled by KMS
+                # 'zip': post['zip'],
+                'street': post['street'],
+                'street2': post['street2'],
+                'phone': post['phone'],
+                'mobile': post['mobile'],
+                'email': post['email'],
+                'township_id': post['township_id'],
+                # 'state_id': township.state_id.id,
+                'state_id': post['state_id'],
+                'country_id': int(post['country_id']),
+            })
+        else:
+            partner_obj = request.env['res.partner'].sudo().search(
+                [('id', '=', post['id'])])
+            billing_address = partner_obj.child_ids.create({
+                'type': 'invoice',
+                'parent_id': partner_obj.id,
+                'name': post['name'],
+                'city': post['city'],
+                # disabled by KMS
+                # 'zip': post['zip'],
+                'street': post['street'],
+                'street2': post['street2'],
+                'phone': post['phone'],
+                'mobile': post['mobile'],
+                'email': post['email'],
+                'township_id': post['township_id'],
+                'state_id': post['state_id'],
+                'country_id': int(post['country_id']),
+            })
+        return request.render("bi_website_customer_profile.billing_address_thankyou")
 
     @http.route(['/my/billing_address/edit', '/my/billing_address/edit/<int:bl_id>'], type='http', auth="public", website=True)
     def partner_billing_address_edit(self, bl_id=False, **kwargs):
@@ -181,49 +228,6 @@ class customerprofile(CustomerPortal):
         except:
             return request.redirect('/error_page/billing')
 
-    @http.route(['/billing_address/thankyou'], type='http', auth="public", website=True)
-    def edit_your_billing_address(self, **post):
-        billing_address = request.env['res.partner'].sudo().search(
-            [('id', '=', post['id']), ('type', '=', 'invoice')], limit=1)
-        
-        township = request.env['res.country.township'].sudo().search(
-            [('id', '=', post['township_id'])])
-
-        if billing_address:
-            billing_address.write({
-                'name': post['name'],
-                'city': post['city'],
-                # disabled by KMS
-                # 'zip': post['zip'],
-                'street': post['street'],
-                'street2': post['street2'],
-                'phone': post['phone'],
-                'mobile': post['mobile'],
-                'email': post['email'],
-                'township_id': post['township_id'],
-                'state_id': township.state_id.id,
-                'country_id': int(post['country_id']),
-            })
-        else:
-            partner_obj = request.env['res.partner'].sudo().search(
-                [('id', '=', post['id'])])
-            billing_address = partner_obj.child_ids.create({
-                'type': 'invoice',
-                'parent_id': partner_obj.id,
-                'name': post['name'],
-                'city': post['city'],
-                # disabled by KMS
-                # 'zip': post['zip'],
-                'street': post['street'],
-                'street2': post['street2'],
-                'phone': post['phone'],
-                'mobile': post['mobile'],
-                'email': post['email'],
-                'township_id': post['township_id'],
-                'state_id': township.state_id.id,
-                'country_id': int(post['country_id']),
-            })
-        return request.render("bi_website_customer_profile.billing_address_thankyou")
 
     @http.route(['/error_page/shipping'], type='http', auth="public", website=True)
     def error_shipping_address(self, **post):

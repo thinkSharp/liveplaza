@@ -14,10 +14,10 @@ from odoo.exceptions import except_orm, Warning, RedirectWarning, UserError
 class WebsiteSale(Website_Sale):
     
     def _get_mandatory_billing_fields(self):
-        return ["name", "street", "city", "country_id","township_id"]
+        return ["name", "street", "country_id","township_id"]
 
     def _get_mandatory_shipping_fields(self):
-        return ["name", "street", "city", "country_id","township_id"]
+        return ["name", "street",  "country_id","township_id"]
 
     def _get_search_order(self, post):
         order = post.get('order') or 'website_sequence DESC'
@@ -85,7 +85,6 @@ class WebsiteSale(Website_Sale):
         values, errors = {}, {}
 
         partner_id = int(kw.get('partner_id', -1))
-
 
 
         # IF PUBLIC ORDER

@@ -382,12 +382,12 @@ main #wrap, main{
             right: 0;
             left: 0;
             bottom: 0;
-            @media #{$sm-mobile} {
-              position: static;
-              &.display-hover{
-                display: none;
-              }
-            }
+//             @media #{$sm-mobile} {
+//               position: static;
+//               &.display-hover{
+//                 display: none;
+//               }
+//             }
           }
           img{
             height: 100%;
