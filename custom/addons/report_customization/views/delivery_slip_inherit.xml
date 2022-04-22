@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<template id="delivery_slip_inherit" inherit_id="stock.report_delivery_document">
+
+        <xpath expr="//t" position="replace">
+            <div t-call="web.html_container">
+                <div t-call="report_customization.external_layout">
+                    <t t-set="o" t-value="o.with_context(lang=o.partner_id.lang)" />
+
+                    <div class="page">
+                        <div>
+                            <span>Email: <a href="mailto:customer.service@liveplaza.co">customer.service@liveplaza.co</a></span>
+                        </div>
+                        <div>
+                            <span>Hotline: 09-442766814 / 09-442766876</span>
+                        </div>
+                        <div>
+                            <a href="https://liveplaza.online/">https://liveplaza.online/</a>
+                        </div>
+
+                        <table style="width:100%; margin-top:20px;" name="info">
+                            <tbody>
+                                <tr>
+                                    <td>Name:</td>
+                                    <td><span t-field="o.sale_id.partner_id.name"/></td>
+                                    <td>Invoice No:</td>
+                                    <td><span t-field="o.origin"/></td>
+                                </tr>
+                                <tr>
+                                    <td>Address:</td>
+                                    <td>
+                                        <span t-field="o.buyer_street"/>
+                                        <span>,</span><br></br>
+                                        <t t-if="o.buyer_street2">
+                                         <span t-field="o.buyer_street2"/>
+                                         <span>,</span><br></br>
+                                        </t>
+                                        <span t-field="o.buyer_township_id.name"/>
+                                        <span>,</span>
+                                        <span t-field="o.buyer_state_id.name"/>
+
+                                    </td>
+                                    <td>Date:</td>
+                                    <td><span t-field="o.sale_id.create_date"/></td>
+                                </tr>
+                                <tr>
+                                    <td>Ph No:</td>
+                                    <td><span t-field="o.sale_id.partner_id.phone"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+
+                        <table  style="width:100%; margin-top:50px"  name="stock_move_table">
+                            <thead>
+                                <tr>
+                                    <th colspan="5" style="border:1px solid black; border-collapse: collapse;" class="text-center">Product Description</th>
+                                </tr>
+                                <tr>
+                                    <th colspan="2" style="border:1px solid black; border-collapse: collapse;" name="th_product" class="text-center"><strong>Description</strong></th>
+                                    <th style="border:1px solid black; border-collapse: collapse;" name="th_price" class="text-center"><strong>Price</strong></th>
+                                    <th style="border:1px solid black; border-collapse: collapse;" name="th_quantity" class="text-center"><strong>Qty</strong></th>
+                                    <th style="border:1px solid black; border-collapse: collapse;" name="th_amount" class="text-center"><strong>Amount</strong></th>
+                                </tr>
+                            </thead>
+                            <tbody style="min-height:200px;">
+
+                                <t t-set="lines" t-value="o.move_lines.filtered(lambda x: x.product_uom_qty)"/>
+<!--                                <tr style="min-height:200px" t-foreach="lines" t-as="move">-->
+                                <tr style="min-height:200px" t-foreach="o.sale_id.order_line" t-as="move">
+                                    <td colspan="2" style="border:1px solid black; border-collapse: collapse;" name="td_product"><span t-field="move.product_id.name" style="padding:15px;" /></td>
+                                    <td style="border:1px solid black; border-collapse: collapse;" name="td_price" class="text-right"><span t-field="move.price_reduce"  style="padding:15px;"/></td>
+                                    <td style="border:1px solid black; border-collapse: collapse;" name="td_quantity" class="text-right"><span t-field="move.product_qty" style="padding:15px;"/></td>
+                                    <td style="border:1px solid black; border-collapse: collapse;" name="td_amount" class="text-right"><span t-field="move.price_subtotal" style="padding:15px;"/></td>
+                                </tr>
+
+
+
+                                <tr>
+                                    <td  colspan="2" rowspan="2" class="text-center"><img src="report_customization/static/src/img/myanmar.png" alt="Image" style="width:300px"/></td>
+                                    <td style="border:1px solid black; border-collapse: collapse;" colspan="2" name="td_amount_untaxed_label" class="text-center"><strong>Subtotal</strong></td>
+                                    <td style="border:1px solid black; border-collapse: collapse;" name="td_amount_untaxed" class="text-right">
+                                        <span style="padding:15px;" t-field="o.sale_id.amount_untaxed"/>
+                                    </td>
+                                </tr>
+
+
+                                 <tr>
+                                    <td style="border:1px solid black; border-collapse: collapse;" colspan="2" name="td_amount_total_label" class="text-center"><strong>Total</strong></td>
+                                    <td style="border:1px solid black; border-collapse: collapse;" colspan="2" name="td_amount_total" class="text-right">
+                                        <span style="padding:15px;" t-field="o.sale_id.amount_total"/>
+                                    </td>
+                                </tr>
+
+
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </template>
+</odoo>

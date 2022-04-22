@@ -12,6 +12,7 @@
                     <field name="delivery_carrier_ids" widget="many2many_tags" />
                     <field name="delivery_price" />
                     <field name="state_id" />
+                    <field name="cod_availability" />
                 </tree>
             </field>
         </record>

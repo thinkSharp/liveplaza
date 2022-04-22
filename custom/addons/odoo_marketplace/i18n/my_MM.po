@@ -738,8 +738,9 @@ msgstr ""
 msgid "Active"
 msgstr "တက်ကြွသည်။"
 
-#. module: odoo_marketplace
+#. modules: odoo_marketplace, wk_review
 #: model_terms:ir.ui.view,arch_db:odoo_marketplace.mp_seller_review_information
+#: model_terms:ir.ui.view,arch_db:wk_review.wk_review
 msgid "Add Review"
 msgstr "အကြံပြုစာ ထည့်မယ်"
 
@@ -780,10 +781,13 @@ msgstr ""
 msgid "All"
 msgstr "အားလုံး"
 
-#. module: odoo_marketplace
+#. module: odoo_marketplace, website_sale
 #: model:ir.actions.act_window,name:odoo_marketplace.wk_seller_product_template_all_products_action
 #: model_terms:ir.ui.view,arch_db:odoo_marketplace.mp_seller_profile
 #: model_terms:ir.ui.view,arch_db:odoo_marketplace.mp_seller_shop
+#: code:addons/product/models/product_pricelist.py:0
+#: model:ir.model.fields.selection,name:product.selection__product_pricelist_item__applied_on__3_global
+#: model_terms:ir.ui.view,arch_db:website_sale.products_categories
 msgid "All Products"
 msgstr "ကုန်ပစ္စည်းအားလုံး"
 
@@ -1717,8 +1721,18 @@ msgstr "ဖျက်သည်။"
 msgid "Delivered Qty"
 msgstr "ပို့ရမည့် ပစ္စည်းအရေအတွက်"
 
-#. module: odoo_marketplace
+#. modules: stock, delivery, sale_stock, shipping_per_product,
+#. picking_and_delivery_vendor, marketplace_shipping_per_product, base,
+#. odoo_marketplace
+#: model:ir.module.category,name:base.module_category_operations_inventory_delivery
+#: model_terms:ir.ui.view,arch_db:base.view_partner_form
+#: model:ir.ui.menu,name:delivery.menu_delivery
+#: model_terms:ir.ui.view,arch_db:marketplace_shipping_per_product.add_delivery_wk_seller_product_template_form_view
 #: model_terms:ir.ui.view,arch_db:odoo_marketplace.wk_seller_product_order_line_form_view
+#: model_terms:ir.ui.view,arch_db:picking_and_delivery_vendor.picking_method_in_marketplace_order_form
+#: model_terms:ir.ui.view,arch_db:sale_stock.view_order_form_inherit_sale_stock
+#: model_terms:ir.ui.view,arch_db:shipping_per_product.inherit_product_template_form_view
+#: model:ir.model.fields.selection,name:stock.selection__stock_picking_type__code__outgoing
 msgid "Delivery"
 msgstr "ပစ္စည်းများကိုပို့ဆောင်ခြင်း"
 
@@ -3594,7 +3608,7 @@ msgstr "စကားဝှက်"
 
 #. module: odoo_marketplace
 #: model_terms:ir.ui.view,arch_db:odoo_marketplace.wk_pay_to_seller_payment_wizard_form_view
-msgid "Pay Now"
+msgid "Check out"
 msgstr "ယခုငွေပေးချေမည်"
 
 #. module: odoo_marketplace
@@ -3833,7 +3847,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:odoo_marketplace.mp_product_product_form_view
 #: model_terms:ir.ui.view,arch_db:odoo_marketplace.wk_seller_product_template_form_view
 msgid "Price"
-msgstr "စျေးနှုန်း"
+msgstr "ဈေးနှုန်း"
 
 #. module: odoo_marketplace
 #: model_terms:ir.ui.view,arch_db:odoo_marketplace.mp_product_product_kanban_view
@@ -5762,8 +5776,38 @@ msgstr "ယနေ့"
 msgid "Today Activities"
 msgstr ""
 
-#. module: odoo_marketplace
+#. modules: web, analytic, website_booking_system, mobikul, hr_org_chart,
+#. sale, accounting_pdf_reports, base, account, hr_expense, odoo_marketplace,
+#. website_preorder
+#. openerp-web
+#: model:ir.model.fields,field_description:account.field_account_bank_statement_cashbox__total
+#: model:ir.model.fields,field_description:account.field_account_invoice_report__amount_total
+#: model:ir.model.fields,field_description:account.field_account_move__amount_total
+#: model:ir.model.fields,field_description:account.field_account_move_line__price_total
+#: model_terms:ir.ui.view,arch_db:account.view_invoice_tree
+#: model_terms:ir.ui.view,arch_db:account.view_move_form
+#: model_terms:ir.ui.view,arch_db:account.view_move_tree
+#: model_terms:ir.ui.view,arch_db:accounting_pdf_reports.report_agedpartnerbalance
+#: model_terms:ir.ui.view,arch_db:analytic.view_account_analytic_line_tree
+#: model_terms:ir.ui.view,arch_db:base.layout_preview
+#: model:ir.model.fields,field_description:hr_expense.field_hr_expense__total_amount
+#: code:addons/hr_org_chart/static/src/xml/hr_org_chart.xml:0
+#: code:addons/mobikul/controllers/main.py:0
+#: code:addons/mobikul/tool/service.py:0
 #: model_terms:ir.ui.view,arch_db:odoo_marketplace.wk_seller_product_order_line_tree_view
+#: model:ir.model.fields,field_description:sale.field_report_all_channels_sales__price_total
+#: model:ir.model.fields,field_description:sale.field_sale_order__amount_total
+#: model:ir.model.fields,field_description:sale.field_sale_order_line__price_total
+#: model:ir.model.fields,field_description:sale.field_sale_report__price_total
+#: model_terms:ir.ui.view,arch_db:sale.portal_my_orders
+#: model_terms:ir.ui.view,arch_db:sale.portal_my_quotations
+#: model_terms:ir.ui.view,arch_db:sale.view_order_line_tree
+#: code:addons/web/static/src/js/views/graph/graph_renderer.js:0
+#: code:addons/web/static/src/js/views/pivot/pivot_model.js:0
+#: code:addons/web/static/src/js/views/pivot/pivot_model.js:0
+#: model_terms:ir.ui.view,arch_db:website_booking_system.wk_booking_product_order_line_tree_view
+#: model_terms:ir.ui.view,arch_db:website_preorder.preorder_quotation
+#, python-format
 msgid "Total"
 msgstr "စုစုပေါင်း"
 
@@ -6061,6 +6105,18 @@ msgstr "အကြံပြုစာ ရေးမယ်"
 msgid "WRITE YOUR REVIEW"
 msgstr "အကြံပြုစာ ရေးမယ်"
 
+#. module: wk_review
+#: model_terms:ir.ui.view,arch_db:wk_review.wk_review
+msgid "Write your review"
+msgstr "အကြံပြုစာ ရေးမယ်"
+
+#. module: wk_review
+#: model_terms:ir.ui.view,arch_db:wk_review.wk_review
+msgid ""
+"Write Your Review<sup><i class=\"fa fa-asterisk fa-icon-smaller\" "
+"style=\"color:red\"/></sup>"
+msgstr "သင်၏အကြံပြုချက်"
+
 #. module: odoo_marketplace
 #: model_terms:ir.ui.view,arch_db:odoo_marketplace.wk_mp_stock_picking_search_fiew
 msgid "Waiting Availability"
@@ -6186,8 +6242,9 @@ msgstr "ရောင်းသူကိုအကြံပြု ထောက်�
 msgid "Write Comment"
 msgstr ""
 
-#. module: odoo_marketplace
+#. modules: odoo_marketplace, wk_review
 #: model_terms:ir.ui.view,arch_db:odoo_marketplace.mp_seller_review_information
+#: model_terms:ir.ui.view,arch_db:wk_review.wk_review
 msgid "Write Your review..."
 msgstr "အကြံပြုစာ ရေးမယ်"
 
@@ -6206,9 +6263,17 @@ msgstr ""
 msgid "Write note..."
 msgstr ""
 
-#. module: odoo_marketplace
+#. modules: odoo_marketplace, wk_review
 #: model_terms:ir.ui.view,arch_db:odoo_marketplace.mp_seller_review_information
+#: model_terms:ir.ui.view,arch_db:wk_review.wk_review
 msgid "Write review title"
+msgstr "အကြံပြုချက် ခေါင်းစဉ်ရေးရန်"
+
+#. module: wk_review
+#: model_terms:ir.ui.view,arch_db:wk_review.wk_review
+msgid ""
+"Write Review Title<sup><i class=\"fa fa-asterisk fa-icon-smaller\" "
+"style=\"color:red\"/></sup>"
 msgstr "အကြံပြုချက် ခေါင်းစဉ်ရေးရန်"
 
 #. module: odoo_marketplace
@@ -6368,9 +6433,18 @@ msgid ""
 "product, a consumable or a service you offer to customers."
 msgstr ""
 
-#. module: odoo_marketplace
+#. modules: auth_signup, odoo_marketplace
+#: model_terms:ir.ui.view,arch_db:auth_signup.fields
+#: model_terms:ir.ui.view,arch_db:auth_signup.reset_password
 #: model_terms:ir.ui.view,arch_db:odoo_marketplace.seller_signup_fields
 msgid "Your Email"
+msgstr "သင်၏အီးမေးလ်"
+
+#. module: wk_review
+#: model_terms:ir.ui.view,arch_db:wk_review.wk_review
+msgid ""
+"Your Email<sup><i class=\"fa fa-asterisk fa-icon-smaller\" "
+"style=\"color:red\"/></sup>"
 msgstr "သင်၏အီးမေးလ်"
 
 #. module: odoo_marketplace
@@ -6378,9 +6452,23 @@ msgstr "သင်၏အီးမေးလ်"
 msgid "Your Id"
 msgstr ""
 
-#. module: odoo_marketplace
+#. modules: auth_signup, odoo_marketplace, website_form, website_crm
+#. openerp-web
+#: model_terms:ir.ui.view,arch_db:auth_signup.fields
 #: model_terms:ir.ui.view,arch_db:odoo_marketplace.seller_signup_fields
+#: code:addons/website_crm/static/src/xml/website_crm.xml:0
+#: model_terms:ir.ui.view,arch_db:website_crm.contactus_form
+#: code:addons/website_form/static/src/xml/website_form.xml:0
+#: model_terms:ir.ui.view,arch_db:website_form.contactus_form
+#, python-format
 msgid "Your Name"
+msgstr "သင်၏ အမည်"
+
+#. module: wk_review
+#: model_terms:ir.ui.view,arch_db:wk_review.wk_review
+msgid ""
+"Your Name<sup><i class=\"fa fa-asterisk fa-icon-smaller\" "
+"style=\"color:red\"/></sup>"
 msgstr "သင်၏ အမည်"
 
 #. module: odoo_marketplace
@@ -6799,3 +6887,183 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:odoo_marketplace.mp_product_product_form_view
 msgid "⇒ Update"
 msgstr ""
+
+#. modules: website_sale, accounting_pdf_reports
+#: model:ir.model.fields,field_description:accounting_pdf_reports.field_account_report_general_ledger__sortby
+#: model_terms:ir.ui.view,arch_db:website_sale.sort
+msgid "Sort by"
+msgstr "ပစ္စည်းများကိုစီရန်"
+
+#. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.sort
+msgid "Catalog price: High to Low"
+msgstr "ဈေးနှုန်းဇယား (များရာမှ နည်းရာသို့)"
+
+#. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.sort
+msgid "Catalog price: Low to High"
+msgstr "ဈေးနှုန်းဇယား (နည်းရာမှ များရာသို့)"
+
+#. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.sort
+msgid "Name: A to Z"
+msgstr "ပစ္စည်းအမည်များ A မှ Z"
+
+#. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.sort
+msgid "Name: Z to A"
+msgstr "ပစ္စည်းအမည်များ Z မှ A"
+
+#. module: website_sale_stock
+#. openerp-web
+#: code:addons/website_sale_stock/static/src/xml/website_sale_stock_product_availability.xml:0
+#, python-format
+msgid "In stock"
+msgstr "ပစ္စည်းအသင့်ရှိ"
+
+#. module: website_stock
+#: model:website.stock.config.settings,wk_in_stock_msg:website_stock.stock_config_setting_1
+msgid "In Stock!!!"
+msgstr "ပစ္စည်းအသင့်ရှိ"
+
+#. module: website_stock
+#: model:website.stock.config.settings,wk_out_of_stock_msg:website_stock.stock_config_setting_1
+msgid "Out of Stock!!!"
+msgstr "ပစ္စည်းမရှိတော့ပါ"
+
+#. module: sale_product_configurator
+#: model_terms:ir.ui.view,arch_db:sale_product_configurator.optional_product_items
+msgid "<i class=\"fa fa-shopping-cart add-optionnal-item\"/> Add to cart"
+msgstr "စျေးခြင်းထဲထည့်မယ်"
+
+#. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.header
+msgid ""
+"<i class=\"fa fa-shopping-cart\"/>\n"
+"                    My Cart"
+msgstr "စျေးခြင်းတောင်း"
+
+#. modules: website_sale, website_stock
+#: model_terms:ir.ui.view,arch_db:website_sale.product
+#: model_terms:ir.ui.view,arch_db:website_stock.website_stock_show
+msgid "<i class=\"fa fa-shopping-cart\"/> Add to Cart"
+msgstr "စျေးခြင်းထဲထည့်မယ်"
+
+#. module: website_sale_comparison
+#: model_terms:ir.ui.view,arch_db:website_sale_comparison.product_compare
+msgid "<i class=\"fa fa-shopping-cart\"/>&amp;nbsp;Add to Cart"
+msgstr "စျေးခြင်းထဲထည့်မယ်"
+
+#. modules: website_sale_product_configurator, sale_management
+#. openerp-web
+#: model_terms:ir.ui.view,arch_db:sale_management.sale_order_portal_content_inherit_sale_management
+#: code:addons/website_sale_product_configurator/static/src/js/website_sale_options.js:0
+#, python-format
+msgid "Add to cart"
+msgstr "စျေးခြင်းထဲထည့်မယ်"
+
+#. modules: website_sale, website_preorder
+#. openerp-web
+#: model_terms:ir.ui.view,arch_db:website_preorder.website_stock_show_inherit
+#: code:addons/website_sale/static/src/xml/website_sale_recently_viewed.xml:0
+#, python-format
+msgid "Add to Cart"
+msgstr "စျေးခြင်းထဲထည့်မယ်"
+
+#. module: website_sale_comparison
+#: model_terms:ir.ui.view,arch_db:website_sale_comparison.product_add_to_compare
+msgid "<span class=\"fa fa-exchange\"/> Add to compare"
+msgstr "ယှဉ်ကြည့်မယ်"
+
+#. module: website_sale_wishlist
+#: model_terms:ir.ui.view,arch_db:website_sale_wishlist.product_add_to_wishlist
+msgid ""
+"<span class=\"fa fa-heart\" role=\"img\" aria-label=\"Add to wishlist\"/> "
+"Add to wishlist"
+msgstr "ခေတ္တ သိမ်းထားရန်"
+
+#. module: website_sale_wishlist
+#: model_terms:ir.ui.view,arch_db:website_sale_wishlist.add_to_wishlist
+msgid "Add to Wishlist"
+msgstr "ခေတ္တ သိမ်းထားရန်"
+
+#. module: wk_review
+#: model_terms:ir.ui.view,arch_db:wk_review.wk_review
+msgid "<u>Add Your Review</u>"
+msgstr "မှတ်ချက်ပေးရန်"
+
+#. module: website_sale_product_configurator
+#. openerp-web
+#: code:addons/website_sale_product_configurator/static/src/js/website_sale_options.js:0
+#, python-format
+msgid "Continue Shopping"
+msgstr "စျေးဆက်ဝယ်မယ်"
+
+#. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.cart
+msgid ""
+"<span class=\"fa fa-chevron-left\"/>\n"
+"                                        <span class=\"\">Continue Shopping</span>"
+msgstr "စျေးဆက်ဝယ်မယ်"
+
+#. module: theme_xtremo
+#: model_terms:theme.ir.ui.view,arch:theme_xtremo.xt_add_text_shopping_cart
+#: model_terms:theme.ir.ui.view,arch:theme_xtremo.xt_cart_summary_header
+msgid "Shopping Cart"
+msgstr "ဈေးခြင်း"
+
+#. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.short_cart_summary
+msgid "Order Total"
+msgstr "အော်ဒါစုစုပေါင်း"
+
+#. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.wizard_checkout
+msgid "Review Order"
+msgstr "အော်ဒါပြန်စစ်မယ်"
+
+#. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.wizard_checkout
+msgid "Confirm Order"
+msgstr "အော်ဒါအတည်ပြုမည်"
+
+#. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.payment
+msgid "Confirm Order <span class=\"fa fa-chevron-right\"/>"
+msgstr "အော်ဒါအတည်ပြုမည်"
+
+#. module: website_booking_system
+#: model_terms:ir.ui.view,arch_db:website_booking_system.booking_and_reservation_modal_temp
+msgid "<span>Total: </span>"
+msgstr "စုစုပေါင်း"
+
+#. modules: website_sale, sale_product_configurator
+#: model_terms:ir.ui.view,arch_db:sale_product_configurator.configure_optional_products
+#: model_terms:ir.ui.view,arch_db:website_sale.confirmation
+#: model_terms:ir.ui.view,arch_db:website_sale.total
+msgid "<strong>Total:</strong>"
+msgstr "စုစုပေါင်း"
+
+#. modules: website_sale_delivery, shipping_per_product
+#: model_terms:ir.ui.view,arch_db:shipping_per_product.sol_cart_delivery
+#: model_terms:ir.ui.view,arch_db:website_sale_delivery.cart_delivery
+msgid "Delivery:"
+msgstr "ပစ္စည်းများကိုပို့ဆောင်ခြင်း"
+
+#. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.payment
+msgid "Return to Cart"
+msgstr "စျေးဝယ်ခြင်းသို့ပြန်သွားမည်"
+
+#. module: website_sale
+#: model_terms:ir.ui.view,arch_db:website_sale.checkout
+msgid ""
+"<i class=\"fa fa-chevron-left\"/>\n"
+"                                    <span>Return to Cart</span>"
+msgstr "စျေးဝယ်ခြင်းသို့ပြန်သွားမည်"
+
+#. modules: sale, website_sale
+#: model_terms:ir.ui.view,arch_db:sale.sale_order_portal_template
+#: model_terms:ir.ui.view,arch_db:website_sale.payment
+msgid "Pay with"
+msgstr "ငွေပေးမယ်"

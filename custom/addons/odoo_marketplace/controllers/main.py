@@ -105,8 +105,10 @@ class AuthSignupHome(Website):
         login = qcontext.get("login")
         if not qcontext.get('token') and not qcontext.get('signup_enabled'):
             raise werkzeug.exceptions.NotFound()
-        if not str(login).isdigit():
-            qcontext["error"] = _("Phone number should not contain character.")
+
+        # if login:
+        #     if not str(login).isdigit():
+        #         qcontext["error"] = _("Phone number should not contain character.")
 
         if 'error' not in qcontext and request.httprequest.method == 'POST':
             try:
@@ -129,11 +131,15 @@ class AuthSignupHome(Website):
                 qcontext['error'] = e.name or e.value
 
             except (SignupError, AssertionError) as e:
+
                 if request.env["res.users"].sudo().search([("login", "=", qcontext.get("login"))]):
-                    if (login.isdigit()):
+                    info = qcontext.get("login")
+                    print('Info', info)
+                    if info.isdigit():
                         qcontext["error"] = _("Another user is already registered using this phone number.")
                     else:
                         qcontext["error"] = _("Another user is already registered using this email address.")
+
                 else:
                     _logger.error("%s", e)
                     qcontext['error'] = _("Could not create a new account.")
@@ -156,8 +162,11 @@ class AuthSignupHome(Website):
             login = qcontext.get("login")
 
         email = str(kw.get("login"))
-        if (not "@" in email) or (email[-1] == "@"):
-            qcontext["error"] = _("Your email format is incorrect")
+        if email != 'None':
+            if("@" not in email) or (email[-1] == "@"):
+                qcontext["error"] = _("Your email format is incorrect")
+
+
 
         if kw.get("name", False):
             if 'error' not in qcontext and request.httprequest.method == 'POST':
@@ -173,14 +182,23 @@ class AuthSignupHome(Website):
                     except UserError as e:
                         qcontext['error'] = e.name or e.value
                     except (SignupError, AssertionError) as e:
-                        if request.env["res.users"].sudo().search([("login", "=", qcontext.get("login"))]):
-                            if (login.isdigit()):
+                        user_exist = request.env["res.users"].sudo().search([("login", "=", qcontext.get("login"))])
+                        name_exist = request.env["res.partner"].sudo().search([("name", "=", qcontext.get("name")), ("seller","=","true")])
+                        info = qcontext.get("login")
+                        print('Info', info)
+                        if user_exist:
+                            if info.isdigit():
                                 qcontext["error"] = _("Another user is already registered using this phone number.")
                             else:
                                 qcontext["error"] = _("Another user is already registered using this email address.")
+
+                        elif name_exist:
+                            qcontext['error'] = _("Your name is already taken.")
+
                         else:
                             _logger.error("%s", e)
-                            qcontext['error'] = _("Your name is already taken..")
+                            print('e..................', e)
+                            qcontext['error'] = _(e)
 
 
 
@@ -329,6 +347,7 @@ class MarketplaceSellerProfile(http.Controller):
 
         # Calculate seller total sales count
         sales_count = 0
+
         all_products = request.env['product.template'].sudo().search(
             [("marketplace_seller_id", "=", seller.sudo().id)])
         for prod in all_products.with_user(SUPERUSER_ID):
@@ -608,8 +627,9 @@ class MarketplaceSellerShop(http.Controller):
 
         # Calculate seller total sales count
         sales_count = 0
+
         all_products = request.env['product.template'].sudo().search(
-            [("marketplace_seller_id", "=", shop_obj.sudo().seller_id.id)])
+            [("marketplace_seller_id", "=", seller.sudo().id)])
         for prod in all_products.with_user(SUPERUSER_ID):
             sales_count += prod.sales_count
 

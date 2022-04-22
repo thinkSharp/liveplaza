@@ -25,6 +25,7 @@ class StockPicking(models.Model):
     journal_id = fields.Many2one('account.journal', string='Journal', ondelete='cascade',  domain="[('type', 'in', ('bank', 'cash')), ('company_id', '=', company_id)]")
     paid_amount = fields.Float('Paid Amount', store=True)
     receivable_amount = fields.Float('Receivable Amount', compute='_compute_receivable')
+    delivery_amount = fields.Float('Receivable Amount', compute='_compute_receivable')
     payment_remark = fields.Text('Remark for Payment', store=True, copy=False)
     required_condition = fields.Boolean('Condition', default=False, readonly=True)
     delivery_payment_id = fields.Many2one('delivery.payment', 'Delivery Payment', ondelete='cascade')    
@@ -91,15 +92,19 @@ class StockPicking(models.Model):
                 delivery_amount = delivery_line.price_subtotal                        
             
             for line in lines:
-                receivable_amount += line.price_subtotal
+                for pick_data in self.move_line_ids_without_package:
+                    if pick_data.product_id == line.product_id:
+                        receivable_amount += line.price_subtotal
                 
             if not payments:
                 self.write({
-                    'receivable_amount': receivable_amount + delivery_amount,
+                    'receivable_amount': receivable_amount,
+                    'delivery_amount': delivery_amount,
                 })
             else:
                 self.write({
                     'receivable_amount': receivable_amount,
+                    'delivery_amount':  delivery_amount,
                 })
     
     @api.onchange('journal_id')

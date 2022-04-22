@@ -1,20 +1,3 @@
-# -*- coding: utf-8 -*-
-#################################################################################
-# Author      : Webkul Software Pvt. Ltd. (<https://webkul.com/>)
-# Copyright(c): 2015-Present Webkul Software Pvt. Ltd.
-# License URL : https://store.webkul.com/license.html/
-# All Rights Reserved.
-#
-#
-#
-# This program is copyright property of the author mentioned above.
-# You can`t redistribute it and/or modify it.
-#
-#
-# You should have received a copy of the License along with this program.
-# If not, see <https://store.webkul.com/license.html/>
-#################################################################################
-
 import werkzeug
 import odoo
 from odoo.addons.auth_signup.models.res_users import SignupError
@@ -71,6 +54,10 @@ class WebsiteSale(WebsiteSale):
                 'website_sale_order': order,
                 'order': order,
             }
+            
+        # else:
+        #     return "Please select payment screenshot from your device and upload."  #"NotFound() #raise Warning(_("Please select payment screenshot from your device and upload."))
+        
         sale_sorder_id = request.session.get('sale_last_order_id')
         if sale_sorder_id:
             sorder = request.env['sale.order'].sudo().browse(sale_sorder_id)

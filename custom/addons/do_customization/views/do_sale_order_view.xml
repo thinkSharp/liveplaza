@@ -1,88 +1,179 @@
 <odoo>
 
-<!-- 		<record id="view_quotation_tree_do" model="ir.ui.view"> -->
-<!--             <field name="name">sale.order.tree</field> -->
-<!--             <field name="model">sale.order</field> -->
-<!--             <field name="priority">4</field> -->
-<!--             <field name="arch" type="xml"> -->
-<!--                 <tree string="Quotation" class="o_sale_order" decoration-bf="message_needaction==True" decoration-muted="state=='cancel'" multi_edit="1"> -->
-<!--                     <field name="message_needaction" invisible="1"/> -->
-<!--                     <field name="name" string="Quotation Number" readonly="1"/> -->
-<!--                     <field name="create_date" string="Create Date"/> -->
-<!--                     <field name="commitment_date"/> -->
-<!--                     <field name="expected_date"/> -->
-<!--                     <field name="partner_id" readonly="1" /> -->
-<!--                     <field name="user_id" optional="show"/> -->
-<!--                     <field name="team_id" optional="hide"/> -->
-<!--                     <field name="company_id" groups="base.group_multi_company" optional="show" readonly="1"/> -->
-<!--                     <field name="amount_untaxed" sum="Total Tax Excluded" widget="monetary" optional="hide"/> -->
-<!--                     <field name="amount_tax" sum="Tax Total" widget="monetary" optional="hide"/> -->
-<!--                     <field name="amount_total" sum="Total Tax Included" widget="monetary" optional="show"/> -->
-<!--                     <field name="currency_id" invisible="1"/> -->
-<!--                     <field name="state" optional="show"/> -->
-<!--                     <field name="invoice_status" optional="hide"/> -->
-<!--                     <field name="activity_exception_decoration" widget="activity_exception"/> -->
-<!--                 </tree> -->
-<!--             </field> -->
-<!--         </record> -->
+		<record id="view_quotation_tree_do" model="ir.ui.view">
+            <field name="name">sale.order.tree</field>
+            <field name="model">sale.order</field>
+            <field name="priority">4</field>
+            <field name="arch" type="xml">
+                <tree string="Quotation" class="o_sale_order" decoration-bf="message_needaction==True" decoration-muted="state=='cancel'" multi_edit="1">
+                    <button name="action_ready_to_pick" string="Make Ready" class="btn-primary" type="object" attrs="{'invisible': [('state', 'not in', ['approve_by_admin'])]}"/>
+                    <field name="message_needaction" invisible="1"/>
+                    <field name="name" string="Order Number" readonly="1"/>
+                    <field name="products" string="Products" readonly="1" />
+                    <field name="create_date" string="Create Date"/>
+                    <field name="commitment_date" optional="hide"/>
+                    <field name="expected_date" optional="hide"/>
+                    <field name="partner_id" readonly="1" />
+                    <field name="user_id" optional="show"/>
+                    <field name="team_id" optional="hide"/>
+                    <field name="company_id" groups="base.group_multi_company" optional="show" readonly="1"/>
+                    <field name="amount_untaxed" sum="Total Tax Excluded" widget="monetary" optional="hide"/>
+                    <field name="amount_tax" sum="Tax Total" widget="monetary" optional="hide"/>
+                    <field name="amount_total" sum="Total Tax Included" widget="monetary" optional="show"/>
+                    <field name="currency_id" invisible="1"/>
+                    <field name="state" optional="show"/>
+                    <field name="invoice_status" optional="hide"/>
+                    <field name="activity_exception_decoration" widget="activity_exception"/>
+                    <field name="payment_provider" readonly="1"/>
+                </tree>
+            </field>
+        </record>
         
-<!-- 		<record id="view_sales_order_filter_ecommerce_do" model="ir.ui.view"> -->
-<!-- 	        <field name="name">sale.order.ecommerce.search.view</field> -->
-<!-- 	        <field name="model">sale.order</field> -->
-<!-- 	        <field name="inherit_id" ref="website_sale.view_sales_order_filter_ecommerce"/> -->
-<!-- 	        <field name="mode">primary</field>  -->
-<!-- 	        <field name="arch" type="xml"> -->
-<!-- 	            <xpath expr="//filter[@name='order_confirmed']" position="replace"> -->
-<!-- 	                <filter string="Approved by Admin" name="order_confirmed" domain="[('state', '=', 'approve_by_admin')]"/> -->
-<!-- 	            </xpath> -->
-<!-- 	        </field> -->
-<!-- 	    </record> -->
+        <record id="inherit_view_do_quotation_tree" model="ir.ui.view">
+            <field name="name">sale.order.tree.inherit.do</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_quotation_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='state']" position="before">
+                    <field name="payment_provider" readonly="1"/>
+                </xpath>
+            </field>
+        </record>
+        
+		<record id="view_sales_order_filter_ecommerce_do" model="ir.ui.view">
+	        <field name="name">sale.order.ecommerce.search.view</field>
+	        <field name="model">sale.order</field>
+	        <field name="inherit_id" ref="website_sale.view_sales_order_filter_ecommerce"/>
+	        <field name="mode">primary</field> 
+	        <field name="arch" type="xml">
+	            <xpath expr="//filter[@name='order_confirmed']" position="replace">
+	                <filter string="Approved by Admin" name="order_confirmed" domain="[('state', '=', 'approve_by_admin')]"/>
+	            </xpath>
+	        </field>
+	    </record>           
             
 	    <record id="do_sale_order_transaction_form" model="ir.ui.view">
 	        <field name="name">do.sale.order</field>
 	        <field name="model">sale.order</field>
 	        <field name="inherit_id" ref="sale.view_order_form"/>
 	        <field name="arch" type="xml">
-<!-- 	            <xpath expr="//field[@name='state']" position="replace"> -->
-<!-- 	                <field name="state" widget="statusbar" statusbar_visible="draft,sent,sale,approve_by_admin"/> -->
-<!-- 	            </xpath> -->
+	            <xpath expr="//field[@name='state']" position="replace">
+	                <field name="state" widget="statusbar" statusbar_visible="draft,sent,sale,approve_by_admin,ready_to_pick"/>
+	            </xpath>
+
+                <xpath expr="//tree/field[@name='name']" position="after">
+                    <field name="marketplace_seller_id" readonly="1" groups="odoo_marketplace.marketplace_officer_group" string="Seller"/>
+                </xpath>      
 	            
-<!-- 	            <xpath expr="//button[@name='action_confirm']" position="replace"> -->
-<!-- 	                <button name="action_admin" id="action_admin" string="Approve by Admin" class="btn-primary" type="object" attrs="{'invisible': [('state', 'not in', ['sale'])]}"/> -->
-<!-- 	                <button name="action_seller" id="action_seller" string="Approve by Seller" class="btn-primary" type="object" invisible="1"/> -->
-<!-- 	            </xpath>	             -->
+	            	            
+	            <xpath expr="//button[@name='action_confirm']" position="replace">
+	                <button name="action_admin" id="action_admin" string="Approve by Admin" class="btn-primary" type="object" attrs="{'invisible': [('state', 'not in', ['sale'])]}"/>
+	                <button name="action_ready_to_pick" id="action_ready_to_pick" string="Make Ready" class="btn-primary" type="object" attrs="{'invisible': [('state', 'not in', ['approve_by_admin'])]}"/>
+	            </xpath>	            
 	            
-<!-- 	            <xpath expr="//button[@name='action_cancel']" position="replace"> -->
-<!--                     <button name="action_cancel" states="draft,sent,sale,approve_by_admin" type="object" string="Cancel"/> -->
-<!-- 	            </xpath> -->
-<!-- 	            <xpath expr="//button[@name='action_draft']" position="replace"> -->
-<!--                     <button name="action_draft" states="cancel" type="object" string="Set to Quotation"/> -->
-<!-- 	            </xpath> -->
+	            <xpath expr="//button[@name='action_cancel']" position="replace">
+                    <button name="action_cancel" states="draft,sent,sale,approve_by_admin" type="object" string="Cancel"/>
+	            </xpath>
+	            <xpath expr="//field[@name='payment_term_id']" position="after">
+                    <field name="payment_provider" readonly="1"/>
+	            </xpath>
+	            <xpath expr="//button[@name='action_draft']" position="replace">
+                    <button name="action_draft" states="cancel" type="object" string="Set to Quotation"/>
+	            </xpath>
 	            <xpath expr="//notebook" position="inside">
 	                <page name='payments' string="Payments">
 						<field name="payment_upload" filename="payment_upload_name" widget="image" attrs="{'readonly': [('state', '=', 'sale')]}" />
 	                    <field name="payment_upload_name" invisible="1" />
 	                </page>
 	            </xpath>
+
+                <xpath expr="//field[@widget='section_and_note_one2many']" position="attributes">
+					<attribute name="attrs" >{'readonly': [('state', 'in', ('sale', 'approve_by_admin'))]}</attribute>
+				</xpath>
 	            
 	        </field>
 	    </record>
     
-<!-- 	    <record id="action_orders_ecommerce_do" model="ir.actions.act_window"> -->
-<!-- 	        <field name="name">Orders</field> -->
-<!-- 	        <field name="res_model">sale.order</field> -->
-<!-- 	        <field name="view_mode">tree,form,kanban,activity</field> -->
-<!-- 	        <field name="domain">[('state','in', ('approve_by_admin','done','cancel')), ('website_id', '!=', False)]</field> -->
-<!-- 	        <field name="context">{'search_default_order_confirmed': 1}</field> -->
-<!-- 	        <field name="search_view_id" ref="view_sales_order_filter_ecommerce_do"/> -->
-<!-- 	        <field name="view_id" ref="view_quotation_tree_do"/>	 -->
-<!-- 	        <field name="help" type="html"> -->
-<!-- 	            <p class="o_view_nocontent_empty_folder"> -->
-<!-- 	                There is no confirmed order from the website -->
-<!-- 	            </p> -->
-<!-- 	        </field> -->
-<!-- 	    </record> -->
+	    <record id="action_orders_ecommerce_do" model="ir.actions.act_window">
+	        <field name="name">Orders</field>
+	        <field name="res_model">sale.order</field>
+	        <field name="view_mode">tree,form,kanban,activity</field>
+	        <field name="domain">[('state','in', ('approve_by_admin','ready_to_pick','done','cancel')), ('website_id', '!=', False)]</field>
+	        <field name="context">{'search_default_order_confirmed': 1}</field>
+	        <field name="search_view_id" ref="view_sales_order_filter_ecommerce_do"/>
+	        <field name="view_id" ref="view_quotation_tree_do"/>	
+	        <field name="help" type="html">
+	            <p class="o_view_nocontent_empty_folder">
+	                There is no confirmed order from the website
+	            </p>
+	        </field>
+	    </record>	    
 	    
-<!-- 	    <menuitem action="action_orders_ecommerce_do" id="menu_orders_ecommerce_do_id" parent="odoo_marketplace.wk_seller_dashboard" name="Sales by Seller" groups="odoo_marketplace.marketplace_draft_seller_group" sequence="1"/> -->
+	   <record id="cod_action_orders" model="ir.actions.act_window">
+            <field name="name">COD Sales Orders</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.order</field>
+            <field name="view_mode">tree,kanban,form,calendar,pivot,graph,activity</field>
+            <field name="search_view_id" ref="sale.sale_order_view_search_inherit_sale"/>
+            <field name="context">{}</field>
+            <field name="domain">[('payment_provider', '=', 'cash_on_delivery')]</field>
+            <field name="view_id" ref="inherit_view_do_quotation_tree"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new quotation, the first step of a new sale!
+                </p><p>
+                    Once the quotation is confirmed, it becomes a sales order.<br/> You will be able to create an invoice and collect the payment.
+                </p>
+            </field>
+        </record> 
+        
+        <record id="prepaid_action_orders" model="ir.actions.act_window">
+            <field name="name">Prepaid Sales Orders</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.order</field>
+            <field name="view_mode">tree,kanban,form,calendar,pivot,graph,activity</field>
+            <field name="search_view_id" ref="sale.sale_order_view_search_inherit_sale"/>
+            <field name="context">{}</field>
+            <field name="domain">[('payment_provider', '=', 'transfer')]</field>
+            <field name="view_id" ref="inherit_view_do_quotation_tree"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new quotation, the first step of a new sale!
+                </p><p>
+                    Once the quotation is confirmed, it becomes a sales order.<br/> You will be able to create an invoice and collect the payment.
+                </p>
+            </field>
+        </record> 
+        
+	    <menuitem action="action_orders_ecommerce_do" id="menu_orders_ecommerce_do_id" parent="odoo_marketplace.wk_seller_dashboard_menu3" name="Sales by Seller" groups="odoo_marketplace.marketplace_draft_seller_group" sequence="1"/>
 	    
+	    <menuitem id="cod_sale_order_menu"
+            name="COD Orders"
+            action="cod_action_orders"
+            parent="sale.sale_order_menu"
+            sequence="2" groups="sales_team.group_sale_salesman"/>
+            
+        <menuitem id="prepaid_sale_order_menu"
+            name="Prepaid Orders"
+            action="prepaid_action_orders"
+            parent="sale.sale_order_menu"
+            sequence="2" groups="sales_team.group_sale_salesman"/>
+
+        <menuitem id="sale.menu_sale_order"
+            name="Orders"
+            action="sale.action_orders"
+            parent="sale.sale_order_menu"
+            sequence="1" groups="sales_team.group_sale_salesman"/>
+
+        <record id="view_order_tree" model="ir.ui.view">
+            <field name="name">sale.order.tree.inherit.website.sale</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="products" readonly="1" optional="show"/>
+                </xpath>
+            </field>
+        </record>
+    
 </odoo>
