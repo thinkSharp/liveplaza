@@ -61,7 +61,8 @@ class SmsTemplate(models.Model):
                                   ('order_delivered', 'Order Delivered'),
                                   ('invoice_vaildate', 'Invoice Validate'),
                                   ('invoice_paid', 'Invoice Paid'),
-                                  ('order_cancel', 'Order Cancelled')], string="Conditions", help="Condition on which the template has been applied.")
+                                  ('order_cancel', 'Order Cancelled'),
+                                  ('inventory_almost_empty', 'Inventory Almost Empty')], string="Conditions", help="Condition on which the template has been applied.")
     model_id = fields.Many2one(
         'ir.model', 'Applies to', compute="onchange_condition", help="The kind of document with this template can be used. Note if not selected then it will consider normal(global) template.", store=True)
     model = fields.Char(related="model_id.model", string='Related Document Model',
@@ -104,6 +105,11 @@ class SmsTemplate(models.Model):
                 elif obj.condition in ['invoice_vaildate', 'invoice_paid']:
                     model_id = self.env['ir.model'].search(
                         [('model', '=', 'account.move')])
+                    obj.model_id = model_id.id if model_id else False
+                    obj.lang = '${object.partner_id.lang}'
+                elif obj.condition in ['inventory_almost_empty']:
+                    model_id = self.env['ir.model'].search(
+                        [('model', '=', 'product.product')])
                     obj.model_id = model_id.id if model_id else False
                     obj.lang = '${object.partner_id.lang}'
             else:
@@ -174,6 +180,16 @@ class SmsTemplate(models.Model):
                     'group_type': 'individual',
                     'auto_delete': sms_tmpl.auto_delete,
                     'msg': sms_tmpl.with_context(ctx).get_body_data(obj, obj.partner_id) if obj else sms_tmpl.sms_body_html,
+                    'template_id': False
+                })
+            elif sms_tmpl.condition == 'inventory_almost_empty':
+                sms_sms_obj = self.env["wk.sms.sms"].create({
+                    'sms_gateway_config_id': gateway_id.id,
+                    'partner_id': obj.product_tmpl_id.marketplace_seller_id.id if obj else False,
+                    'to': mob_no,
+                    'group_type': 'individual',
+                    'auto_delete': sms_tmpl.auto_delete,
+                    'msg': sms_tmpl.with_context(ctx).get_body_data(obj, obj.product_tmpl_id.marketplace_seller_id) if obj else sms_tmpl.sms_body_html,
                     'template_id': False
                 })
             else:
