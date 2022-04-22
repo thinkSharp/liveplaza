@@ -16,15 +16,14 @@
 
 from odoo import models, fields, api, _
 
-
 import logging
+
 _logger = logging.getLogger(__name__)
 
 
 class SaleOrder(models.Model):
     _inherit = "sale.order"
 
-    
     # def action_confirm(self):
     #     self.ensure_one()
     #     res = super(SaleOrder, self).action_confirm()
@@ -146,6 +145,7 @@ class SaleOrder(models.Model):
                                                'journal_id': self.get_portal_last_transaction().acquirer_id.journal_id.id })
                 
     
+
     # def action_cancel(self):
     #     res = super(SaleOrder, self).action_cancel()
     #     sms_template_objs = self.env["wk.sms.template"].sudo().search(
@@ -160,7 +160,6 @@ class SaleOrder(models.Model):
     #
     #     return res
 
-    
     # def write(self, vals):
     #     result = super(SaleOrder, self).write(vals)
     #     for res in self:
@@ -179,7 +178,6 @@ class SaleOrder(models.Model):
 class StockPicking(models.Model):
     _inherit = "stock.picking"
 
-    
     # def write(self, vals):
     #     result = super(StockPicking, self).write(vals)
     #     for res in self:
@@ -200,11 +198,9 @@ class StockPicking(models.Model):
     #                 mobile, sms_template_obj, obj=self)
 
 
-
 class AccountMove(models.Model):
     _inherit = "account.move"
 
-    
     # def write(self, vals):
     #     result = super(AccountMove, self).write(vals)
     #     for res in self:
@@ -232,4 +228,31 @@ class AccountMove(models.Model):
     #             if mobile:
     #                 sms_template_obj.send_sms_using_template(
     #                             mobile, sms_template_obj, obj=self)
+
+
+class ProductProduct(models.Model):
+    _inherit = "product.product"
+
+    partner_id = fields.Many2one("res.partner", "Seller")
+
+    def inventory_check(self):
+        product_obj = self.env['product.product'].search([('active', '=', True)])
+        for pobj in product_obj:
+            quant_obj = self.env['stock.quant'].search([('product_id', '=', pobj.id), ('quantity', '>', 0), ('location_id', '=', 8)])
+            for qobj in quant_obj:
+                if qobj.quantity < 4:
+                    self.send_inventory_warning_message(qobj.product_id.product_tmpl_id.marketplace_seller_id, pobj)
+
+
+    # method to send msg to warn that inventory is almost empty
+    def send_inventory_warning_message(self, partner_id, product_obj):
+        sms_template_objs = self.env["wk.sms.template"].sudo().search(
+            [('condition', '=', 'inventory_almost_empty'), ('globally_access', '=', False)])
+        for sms_template_obj in sms_template_objs:
+            mobile = sms_template_obj._get_partner_mobile(partner_id)
+            if mobile:
+                sms_template_obj.send_sms_using_template(
+                    mobile, sms_template_obj, obj=product_obj)
+
+
 
