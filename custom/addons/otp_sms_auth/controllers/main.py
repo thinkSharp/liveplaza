@@ -121,10 +121,15 @@ class AuthSignupHome(AuthSignupHome):
                 return [0, _("Please enter a valid mobile number"), 0]
 
         res = super(AuthSignupHome, self).generate_otp(**kwargs)
+
+
         otp_notification_mode = request.env['ir.default'].sudo().get(
             'website.otp.settings', 'otp_notification_mode')
+
+
         if otp_notification_mode != 'email':
             if mobile and res:
+
                 if otp_notification_mode == 'both':
                     res[1] = "{} and Mobile No: {}".format(res[1], mobile)
                 elif otp_notification_mode == 'sms':
@@ -163,3 +168,4 @@ class AuthSignupHome(AuthSignupHome):
         test = request.env['send.otp'].sms_send_otp(
             mobile, userName, otp, phone_code)
         return res
+
