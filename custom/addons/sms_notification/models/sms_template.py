@@ -58,6 +58,7 @@ class SmsTemplate(models.Model):
         string="Global", help="if enable then it will consider normal(global) template.You can use it while sending the bulk message. If not enable the you have to select condition on which the template applies.")
     condition = fields.Selection([('order_placed', 'Order Placed'),
                                   ('order_confirm', 'Order Confirmed'),
+                                  ('reset_password', 'Reset Password'),
                                   ('order_delivered', 'Order Delivered'),
                                   ('invoice_vaildate', 'Invoice Validate'),
                                   ('invoice_paid', 'Invoice Paid'),
@@ -105,6 +106,11 @@ class SmsTemplate(models.Model):
                 elif obj.condition in ['invoice_vaildate', 'invoice_paid']:
                     model_id = self.env['ir.model'].search(
                         [('model', '=', 'account.move')])
+                    obj.model_id = model_id.id if model_id else False
+                    obj.lang = '${object.partner_id.lang}'
+                elif obj.condition in ['reset_password']:
+                    model_id = self.env['ir.model'].search(
+                        [('model', '=', 'res.users')])
                     obj.model_id = model_id.id if model_id else False
                     obj.lang = '${object.partner_id.lang}'
                 elif obj.condition in ['inventory_almost_empty']:
@@ -182,6 +188,14 @@ class SmsTemplate(models.Model):
                     'msg': sms_tmpl.with_context(ctx).get_body_data(obj, obj.partner_id) if obj else sms_tmpl.sms_body_html,
                     'template_id': False
                 })
+            elif sms_tmpl.condition == 'reset_password':
+                sms_sms_obj = self.env["wk.sms.sms"].create({
+                    'sms_gateway_config_id': gateway_id.id,
+                    'partner_id': obj.partner_id.id if obj else False,
+                    'to': mob_no,
+                    'group_type': 'individual',
+                    'auto_delete': sms_tmpl.auto_delete,
+                    'msg': sms_tmpl.with_context(ctx).get_body_data(obj, obj.partner_id) if obj else sms_tmpl.sms_body_html,
             elif sms_tmpl.condition == 'inventory_almost_empty':
                 sms_sms_obj = self.env["wk.sms.sms"].create({
                     'sms_gateway_config_id': gateway_id.id,
@@ -199,7 +213,7 @@ class SmsTemplate(models.Model):
                     'to': mob_no,
                     'group_type': 'individual',
                     'auto_delete': sms_tmpl.auto_delete,
-                    'msg': sms_tmpl.with_context(ctx).get_body_data(sms_tmpl, uid) or sms_tmpl.sms_body_html,
+                    'msg': sms_tmpl.get_body_data(sms_tmpl, uid) or sms_tmpl.sms_body_html,
                     'template_id': False
                 })
             return sms_sms_obj.send_sms_via_gateway(
