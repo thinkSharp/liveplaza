@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<odoo>
+    <data noupdate="1">
+        <record id="sms_template_for_inventory_almost_empty" model="wk.sms.template">
+            <field name="name">SMS notification to seller when inventory is almost empty</field>
+            <field name="condition">inventory_almost_empty</field>
+            <field name="auto_delete" eval="True"/>
+            <field name="sms_body_html"><![CDATA[
+              Hello ${object.product_tmpl_id.marketplace_seller_id.name}, your inventory is almost empty.
+              REFERENCES
+              Product: ${object.display_name}
+              Product Left: ${object.qty_available}
+                            ]]>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -15,6 +15,7 @@ import werkzeug
 import json
 from odoo.addons.auth_oauth.controllers.main import OAuthLogin
 from odoo.addons.auth_signup.models.res_users import SignupError
+from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
 
@@ -119,14 +120,59 @@ class AuthSignupHome(AuthSignupHome):
                 _logger.info(
                     "Password reset attempt for <%s> by user <%s> from %s",
                     login, request.env.user.login, request.httprequest.remote_addr)
-                request.env['res.users'].sudo().reset_password(login)
-                qcontext['message'] = _("An email has been sent with credentials to reset your password")
+
+                if login.isdigit():
+                    request.env['send.otp'].sudo().sms_send_reset_password(login, "Reset Password", False)
+                    qcontext['message'] = _("A message has been sent with credentials to reset your password ###")
+                else:
+                    request.env['res.users'].sudo().reset_password(login)
+                    qcontext['message'] = _("An email has been sent with credentials to reset your password ###")
             except SignupError:
                 qcontext['error'] = _("Could not reset your password")
                 _logger.exception('error when resetting password')
             except Exception as e:
                 qcontext['error'] = str(e)
         return qcontext
+
+    @http.route('/web/reset_password', type='http', auth='public', website=True, sitemap=False)
+    def web_auth_reset_password(self, *args, **kw):
+        qcontext = self.get_auth_signup_qcontext()
+
+        if not qcontext.get('token') and not qcontext.get('reset_password_enabled'):
+            raise werkzeug.exceptions.NotFound()
+
+        if 'error' not in qcontext and request.httprequest.method == 'POST':
+            try:
+                if qcontext.get('token'):
+                    self.do_signup(qcontext)
+                    return self.web_login(*args, **kw)
+                else:
+                    login = qcontext.get('login')
+                    assert login, _("No login provided.")
+                    _logger.info(
+                        "Password reset attempt for <%s> by user <%s> from %s",
+                        login, request.env.user.login, request.httprequest.remote_addr)
+
+                    if login.isdigit():
+                        if not request.env["res.users"].sudo().search([("login", "=", login)]):
+                            raise Exception(_("This phone number is not registered"))
+                        request.env['res.users'].sudo().sms_send_reset_password(login, False)
+                        qcontext['message'] = _("A message has been sent with credentials to reset your password ***")
+                    else:
+                        request.env['res.users'].sudo().reset_password(login)
+                        qcontext['message'] = _("An email has been sent with credentials to reset your password ***")
+
+            except UserError as e:
+                qcontext['error'] = e.name or e.value
+            except SignupError:
+                qcontext['error'] = _("Could not reset your password")
+                _logger.exception('error when resetting password')
+            except Exception as e:
+                qcontext['error'] = str(e)
+
+        response = request.render('auth_signup.reset_password', qcontext)
+        response.headers['X-Frame-Options'] = 'DENY'
+        return response
 
 
 
