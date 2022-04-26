@@ -15,8 +15,7 @@ import pyotp
 
 import logging
 
-_logger = logging.getLogger(__name__)
-
+_logger=logging.getLogger(__name__)
 
 class AuthSignupHome(Home):
 
@@ -24,7 +23,7 @@ class AuthSignupHome(Home):
     def generate_otp(self, **kwargs):
         email = kwargs.get('email')
         if email:
-            if int(kwargs.get('validUser', 0)) == 0:
+            if int(kwargs.get('validUser',0))==0:
                 message = self.checkExistingUser(**kwargs)
             else:
                 message = [1, _("Thanks for the registration."), 0]
@@ -32,13 +31,8 @@ class AuthSignupHome(Home):
                 otpdata = self.getOTPData()
                 otp = otpdata[0]
                 otp_time = otpdata[1]
-
-                if email.isdigit():
-                    request.env['ir.default'].sudo().set('website.otp.settings', 'otp_notification_mode', 'sms')
-                else:
-                    request.env['ir.default'].sudo().set('website.otp.settings', 'otp_notification_mode', 'email')
-                    self.sendOTP(otp, **kwargs)
-                    message = [1, _("OTP has been sent to given Email Address : {}".format(email)), otp_time]
+                self.sendOTP(otp, **kwargs)
+                message = [1, _("OTP has been sent to given Email Address *** : {}".format(email)), otp_time]
         else:
             message = [0, _("Please enter an email address"), 0]
         return message
@@ -61,30 +55,33 @@ class AuthSignupHome(Home):
     def verify_otp(self, otp=False):
         totp = int(request.session.get('otpobj'))
         if otp.isdigit():
-            return True if totp == int(otp) else False
+            return True if totp==int(otp) else False
         else:
             return False
+
+    
 
     @http.route(website=True, auth="public", sitemap=False)
     def web_login(self, redirect=None, *args, **kw):
         response = super(AuthSignupHome, self).web_login(redirect=redirect, *args, **kw)
 
         totp = request.session.get('otploginobj')
-        password = kw.get('password', '***')
-        if kw.get('radio-otp') == 'radiotp':
-            request.session['radio-otp'] = 'radiotp'
+        password = kw.get('password','***')
+        if kw.get('radio-otp')=='radiotp' :
+            request.session['radio-otp']='radiotp'
             if totp and totp.isdigit() and password.isdigit():
                 if int(totp) != int(password):
                     response.qcontext['error'] = _("Incorrect OTP")
             else:
                 response.qcontext['error'] = _("Incorrect OTP")
         else:
-            request.session['radio-otp'] = 'radiotp'
+            request.session['radio-otp']='radiotp'
         return response
+       
 
     @http.route('/web/signup', type='http', auth='public', website=True, sitemap=False)
     def web_auth_signup(self, *args, **kw):
-        request.session['radio-otp'] = 'radiopwd'
+        request.session['radio-otp']='radiopwd'
         if not kw.get('login'):
             return super(AuthSignupHome, self).web_auth_signup(*args, **kw)
         if kw.get('otp'):
@@ -112,16 +109,11 @@ class AuthSignupHome(Home):
                 otp = otpdata[0]
                 otp_time = otpdata[1]
                 request.env['send.otp'].email_send_otp(email, False, otp)
-                message = {"email": {'status': 1,
-                                     'message': _("OTP has been sent to given Email Address ### : {}.".format(email)),
-                                     'otp_time': otp_time, 'email': email}}
+                message = {"email":{'status':1, 'message':_("OTP has been sent to given Email Address ### : {}.".format(email)), 'otp_time':otp_time, 'email':email}}
             else:
-                message = {"email": {'status': 0, 'message': _(
-                    "Failed to send OTP !! Please ensure that you have given correct Email Address."), 'otp_time': 0,
-                                     'email': email}}
+                message = {"email":{'status':0, 'message':_("Failed to send OTP !! Please ensure that you have given correct Email Address."), 'otp_time':0, 'email':email}}
         else:
-            message = {"email": {'status': 0, 'message': _("Failed to send OTP !! Please enter an email address."),
-                                 'otp_time': 0, 'email': False}}
+            message = {"email":{'status':0, 'message':_("Failed to send OTP !! Please enter an email address."), 'otp_time':0, 'email':False}}
         return message
 
     def getOTPData(self):
@@ -129,7 +121,7 @@ class AuthSignupHome(Home):
         otp_time = int(otp_time)
         if otp_time < 30:
             otp_time = 30
-        # Extra Time added to process OTP
+        #Extra Time added to process OTP
         main_otp_time = otp_time
         totp = pyotp.TOTP(pyotp.random_base32(), interval=main_otp_time)
         otp = totp.now()
@@ -137,4 +129,3 @@ class AuthSignupHome(Home):
         request.session['otploginobj'] = otp
         request.session['otpobj'] = otp
         return [otp, otp_time]
-
