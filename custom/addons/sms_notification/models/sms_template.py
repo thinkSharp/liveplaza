@@ -58,6 +58,7 @@ class SmsTemplate(models.Model):
         string="Global", help="if enable then it will consider normal(global) template.You can use it while sending the bulk message. If not enable the you have to select condition on which the template applies.")
     condition = fields.Selection([('order_placed', 'Order Placed'),
                                   ('order_confirm', 'Order Confirmed'),
+                                  ('reset_password', 'Reset Password'),
                                   ('order_delivered', 'Order Delivered'),
                                   ('invoice_vaildate', 'Invoice Validate'),
                                   ('invoice_paid', 'Invoice Paid'),
@@ -106,6 +107,12 @@ class SmsTemplate(models.Model):
                         [('model', '=', 'account.move')])
                     obj.model_id = model_id.id if model_id else False
                     obj.lang = '${object.partner_id.lang}'
+                elif obj.condition in ['reset_password']:
+                    model_id = self.env['ir.model'].search(
+                        [('model', '=', 'res.users')])
+                    obj.model_id = model_id.id if model_id else False
+                    obj.lang = '${object.partner_id.lang}'
+
             else:
                 obj.model_id = False
                 obj.lang = False
@@ -144,11 +151,17 @@ class SmsTemplate(models.Model):
     
     def get_body_data(self, obj, partner_id=None):
         self.ensure_one()
+        print("user obj = " + str(obj))
         lang_to_rids = self._get_ids_per_lang(obj.ids)
+        print("lang_to_rids")
+        print(lang_to_rids)
         all_bodies = {}
         for lang, rids in lang_to_rids.items():
             template = self.with_context(lang=lang)
             all_bodies.update(template._render_template(template.sms_body_html, self.model, rids))
+            print("all_bodies")
+            print(all_bodies)
+        print("obj.id" + str(obj.id))
         return all_bodies.get(obj.id)
 
     @api.model
@@ -161,12 +174,45 @@ class SmsTemplate(models.Model):
         if not sms_gateway:
             gateway_id = self.env["sms.mail.server"].search(
                 [], order='sequence asc', limit=1)
+            print("gateway_id = ")
+            print(gateway_id)
         else:
             gateway_id = sms_gateway
+            print("gateway_id = ")
+            print(gateway_id)
         if mob_no and sms_tmpl:
+            print("mob_no and sms template ")
+            print(mob_no,sms_tmpl)
             ctx = dict(self._context or {})
             uid = self.sudo()._uid
             if sms_tmpl.condition == 'order_confirm':
+                sms_sms_obj = self.env["wk.sms.sms"].create({
+                    'sms_gateway_config_id': gateway_id.id,
+                    'partner_id': obj.partner_id.id if obj else False,
+                    'to': mob_no,
+                    'group_type': 'individual',
+                    'auto_delete': sms_tmpl.auto_delete,
+                    'msg': sms_tmpl.with_context(ctx).get_body_data(obj, obj.partner_id) if obj else sms_tmpl.sms_body_html,
+                    'template_id': False
+                })
+            elif sms_tmpl.condition == 'reset_password':
+                print("obj.partner_id.id")
+                print(obj.partner_id.id)
+                print(mob_no)
+                print(sms_tmpl.auto_delete)
+                print("sms_tmpl.sms_body_html")
+                print(sms_tmpl.sms_body_html)
+                print("sms_tmpl")
+                print(sms_tmpl)
+                print("uid = " + str(uid))
+                if obj:
+                    print("sms_tmpl.with_context(ctx).get_body_data(sms_tmpl, uid)")
+                    print(sms_tmpl.with_context(ctx).get_body_data(obj, obj.partner_id))
+                else:
+                    print("sms_tmpl.sms_body_html")
+                    print(sms_tmpl.sms_body_html)
+                # print("sms_tmpl.with_context(ctx).get_body_data(obj, obj.partner_id) if obj else sms_tmpl.sms_body_html")
+                # print(sms_tmpl.with_context(ctx).get_body_data(obj, obj.partner_id) if obj else sms_tmpl.sms_body_html)
                 sms_sms_obj = self.env["wk.sms.sms"].create({
                     'sms_gateway_config_id': gateway_id.id,
                     'partner_id': obj.partner_id.id if obj else False,
@@ -183,9 +229,11 @@ class SmsTemplate(models.Model):
                     'to': mob_no,
                     'group_type': 'individual',
                     'auto_delete': sms_tmpl.auto_delete,
-                    'msg': sms_tmpl.with_context(ctx).get_body_data(sms_tmpl, uid) or sms_tmpl.sms_body_html,
+                    'msg': sms_tmpl.get_body_data(sms_tmpl, uid) or sms_tmpl.sms_body_html,
                     'template_id': False
                 })
+            print("sms_sms_obj")
+            print(sms_sms_obj)
             return sms_sms_obj.send_sms_via_gateway(
                 sms_sms_obj.msg, [sms_sms_obj.to], from_mob=None, sms_gateway=gateway_id)
         return False
