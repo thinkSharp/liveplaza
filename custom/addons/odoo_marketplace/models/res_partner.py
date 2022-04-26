@@ -33,6 +33,7 @@ class ResPartner(models.Model):
     # Default methods
     phone = fields.Char(required=True)
 
+
     @api.model
     def _set_payment_method(self):
         return_list = []
@@ -62,6 +63,8 @@ class ResPartner(models.Model):
 
     # Fields declaration
 
+
+    super_seller = fields.Boolean(string="Super Seller", default=False)
     seller = fields.Boolean(string="Is a Seller", help="Check this box if the contact is marketplace seller.", copy=False, track_visibility='onchange')
     payment_method = fields.Many2many("seller.payment.method", string="Payment Methods",
                                       help="It's you're accepted payment method, which will be used by admin during sending the payment.", default=_set_payment_method)
@@ -510,17 +513,26 @@ class ResPartner(models.Model):
         for seller in self.filtered(lambda o: o.seller == True):
             seller_user = self.env["res.users"].sudo().search([('partner_id', '=', seller.id)])
             pending_seller_group_obj = self.env.ref('odoo_marketplace.marketplace_draft_seller_group')
-            seller_group_obj = self.env.ref('odoo_marketplace.marketplace_seller_group')
+            if self.group_id.name == 'Seller Tier 1 (arc)':
+                seller_group_obj = self.env.ref('access_rights_customization.group_seller_tier_one')
+            elif self.group_id.name == 'Seller Tier 2 (arc)':
+                seller_group_obj = self.env.ref('access_rights_customization.group_seller_tier_two')
+            elif self.group_id.name == 'Seller Tier 3 (arc)':
+                seller_group_obj = self.env.ref('access_rights_customization.group_seller_tier_three')
+            else:
+                seller_group_obj = self.env.ref('access_rights_customization.group_seller_tier_one')
             if set_to_group == "seller":
                 for user in seller_user:
-                #First check seller user realy belongs to draft seller group(marketplace_draft_seller_group) or not
+                    # First check seller user realy belongs to draft seller group(marketplace_draft_seller_group) or not
                     if user.has_group("odoo_marketplace.marketplace_draft_seller_group"):
-                    # Remove seller user from draft seller group(marketplace_draft_seller_group)
+                        # Remove seller user from draft seller group(marketplace_draft_seller_group)
                         pending_seller_group_obj.sudo().write({"users": [(3, user.id, 0)]})
                         # Add seller user to seller group(marketplace_seller_group)
                         seller_group_obj.sudo().write({"users": [(4, user.id, 0)]})
-                else:
-                    _logger.info(_("~~~~~~~~~~Seller does not belongs to draft seller group. So you can't change seller group to seller group."))
+                    else:
+                        seller_group_obj.sudo().write({"users": [(4, user.id, 0)]})
+                    # else:
+                    #    _logger.info(_("~~~~~~~~~~Seller does not belongs to draft seller group. So you can't change seller group to seller group."))
             elif set_to_group == "not_seller":
                 for suser in seller_user:
                 #First check seller user realy belongs to seller group(marketplace_seller_group) or not
