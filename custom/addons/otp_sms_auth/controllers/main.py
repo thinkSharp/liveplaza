@@ -53,7 +53,8 @@ class AuthSignupHome(AuthSignupHome):
         res = res if res else {}
         if otp_notification_mode != 'email':
             mobile = kwargs.get('mobile')
-            if mobile:
+            login = kwargs.get('login')
+            if login.isdigit():
                 userObj = request.env["res.users"].sudo().search(
                     [("mobile", "=", mobile)])
                 if userObj:
