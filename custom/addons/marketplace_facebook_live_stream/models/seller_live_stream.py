@@ -14,6 +14,7 @@
 # You should have received a copy of the License along with this program.
 # If not, see <https://store.webkul.com/license.html/>
 #################################################################################
+# Resolve Conflict Production Server
 
 from odoo import models, fields, api, _
 from datetime import datetime, timedelta

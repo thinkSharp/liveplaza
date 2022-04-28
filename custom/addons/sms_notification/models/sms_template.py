@@ -214,7 +214,7 @@ class SmsTemplate(models.Model):
                     'to': mob_no,
                     'group_type': 'individual',
                     'auto_delete': sms_tmpl.auto_delete,
-                    'msg': sms_tmpl.get_body_data(sms_tmpl, uid) or sms_tmpl.sms_body_html,
+                    'msg': sms_tmpl.with_context(ctx).get_body_data(sms_tmpl, uid) or sms_tmpl.sms_body_html,
                     'template_id': False
                 })
             return sms_sms_obj.send_sms_via_gateway(

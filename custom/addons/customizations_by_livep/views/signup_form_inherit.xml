@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?> <!-- -->
 
 <odoo>
     <template id="buyer_signup_form_inherit" inherit_id="auth_signup.fields">

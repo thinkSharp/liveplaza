@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?> <!-- -->
 <odoo>
 <data>
     <record id="group_seller_tier_three" model="res.groups">
