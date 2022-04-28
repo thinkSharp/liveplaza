@@ -13,6 +13,8 @@
 # You should have received a copy of the License along with this program.
 # If not, see <https://store.webkul.com/license.html/>
 #################################################################################
+# Resolve Conflict Production Server
+
 {
   "name"                 :  "Odoo Multi Vendor Marketplace",
   "summary"              :  """Start your marketplace in odoo with Odoo Multi-Vendor Marketplace. Allow        Multiple sellers to sell their products on your marketplace website.""",

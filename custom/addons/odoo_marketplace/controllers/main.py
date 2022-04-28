@@ -15,6 +15,8 @@
 # If not, see <https://store.webkul.com/license.html/>
 #################################################################################
 
+# Resolve Conflict Production Server
+
 import werkzeug
 import odoo
 from odoo.addons.auth_signup.models.res_users import SignupError
