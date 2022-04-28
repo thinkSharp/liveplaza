@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*- --
 
 from odoo import fields, http, tools, _
 from odoo.http import request

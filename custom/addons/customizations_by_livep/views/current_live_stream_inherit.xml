@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?> <!-- -->
 <odoo>
   <template id="product_page_live_stream_template_inherit" inherit_id="marketplace_facebook_live_stream.product_page_live_stream_template">
     <xpath expr="//div[@class='carousel-inner mp_product_page_carousel_height']" position="replace">

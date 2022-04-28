@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?> <!-- -->
 <odoo>
 
     <menuitem name="Reporting" id="marketplace_report_root" parent="odoo_marketplace.wk_seller_dashboard" groups="odoo_marketplace.marketplace_manager_group" sequence="8" />
