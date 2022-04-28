@@ -106,6 +106,7 @@ class FacebookMerchantShop(models.Model):
     enable_token = fields.Boolean(string="Token Enabled", help="Enbale if you want to secure publicly access Feed URL")
     feed_token = fields.Char(string="Token")
     update_image = fields.Boolean(string="Want to update the image/multi image at facebook catalog")
+    my_product_dicts = fields.Text(help="Store the current product_dicts and compare and check there are any changes.")
 
     @api.onchange('enable_token')
     def onchange_enable_token(self):
@@ -277,6 +278,14 @@ class FacebookMerchantShop(models.Model):
 
         return self._wrap2xml(final_dict)
 
+    def _get_my_products_dict(self):
+        field_mapping_lines_ids=self.field_mapping_id.field_mapping_line_ids
+        final_dict={}
+        products = self._get_product_detail(field_mapping_lines_ids.ids)
+        final_dict['entry'] = self._get_product_mapping(products,field_mapping_lines_ids)
+
+        return final_dict
+
     def _store_data(self,final_xml):
 
         name=str(self.name)+"/"+str(Datetime.now())
@@ -299,14 +308,30 @@ class FacebookMerchantShop(models.Model):
         })
 
     def create_xml(self, **kw):
-        final_xml=self._get_dict()
-        self._store_data(final_xml)
-        message="Attachment is Created Please enter the following URL to the Facebook Catalog :-"+self.feed_url
-        if not kw.get('cron'):
-            _logger.info("Hey Attachment is Created Manually")
-            return self.env['wk.wizard.message'].genrated_message(message=message,name='Message')
-        else:
-            _logger.info("Hey!!! Cron of FB Shop Executed and the Attachment is created")
+        # preparing the required format
+        current_product_dicts = self._get_my_products_dict()
+        current_product_dicts = current_product_dicts['entry']
+        for product in current_product_dicts:
+            del product['additional_image_link']
+            del product['g:image_link']
+        print('Current Product Dicts', current_product_dicts)
+        current_product_dicts = str(current_product_dicts)
+
+        previous_product_dicts = self.my_product_dicts
+        print('Previous Product Dicts', previous_product_dicts)
+        print("Is Equal", str(current_product_dicts) == previous_product_dicts)
+
+        if current_product_dicts != previous_product_dicts:
+            self.my_product_dicts = current_product_dicts
+
+            final_xml = self._get_dict()
+            self._store_data(final_xml)
+            message="Attachment is Created Please enter the following URL to the Facebook Catalog :-"+self.feed_url
+            if not kw.get('cron'):
+                _logger.info("Hey Attachment is Created Manually")
+                return self.env['wk.wizard.message'].genrated_message(message=message,name='Message')
+            else:
+                _logger.info("Hey!!! Cron of FB Shop Executed and the Attachment is created")
 
     def create_cron(self):
         if(not self.crone_id):
@@ -318,7 +343,11 @@ class FacebookMerchantShop(models.Model):
                 "model_id":model_id,
                 "state":"code",
                 "code":code,
-                "doall":False
+                "doall":False,
+                "numbercall": -1,
+                "active": True,
+                "interval_number": 1,
+                "interval_type": "minutes"
                 })
             self.crone_id=crone_rec.id
         else:

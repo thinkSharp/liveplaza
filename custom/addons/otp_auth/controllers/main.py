@@ -32,7 +32,7 @@ class AuthSignupHome(Home):
                 otp = otpdata[0]
                 otp_time = otpdata[1]
                 self.sendOTP(otp, **kwargs)
-                message = [1, _("OTP has been sent to given Email Address *** : {}".format(email)), otp_time]
+                message = [1, _("OTP has been sent to given Email Address : {}".format(email)), otp_time]
         else:
             message = [0, _("Please enter an email address"), 0]
         return message
@@ -48,7 +48,8 @@ class AuthSignupHome(Home):
     def sendOTP(self, otp, **kwargs):
         user_name = kwargs.get('userName')
         email = kwargs.get('email')
-        request.env['send.otp'].email_send_otp(email, user_name, otp)
+        if not email.isdigit():
+            request.env['send.otp'].email_send_otp(email, user_name, otp)
         return True
 
     @http.route(['/verify/otp'], type='json', auth="public", methods=['POST'], website=True)

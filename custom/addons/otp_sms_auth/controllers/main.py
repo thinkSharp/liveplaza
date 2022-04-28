@@ -53,7 +53,8 @@ class AuthSignupHome(AuthSignupHome):
         res = res if res else {}
         if otp_notification_mode != 'email':
             mobile = kwargs.get('mobile')
-            if mobile:
+            login = kwargs.get('login')
+            if login.isdigit():
                 userObj = request.env["res.users"].sudo().search(
                     [("mobile", "=", mobile)])
                 if userObj:
@@ -114,6 +115,7 @@ class AuthSignupHome(AuthSignupHome):
     @http.route(['/generate/otp'], type='json', auth="public", methods=['POST'], website=True)
     def generate_otp(self, **kwargs):
         mobile = kwargs.get('mobile')
+        email = kwargs.get('email')
         if not mobile:
             return [0, _("Please enter a mobile number"), 0]
         else:
@@ -126,7 +128,13 @@ class AuthSignupHome(AuthSignupHome):
         if otp_notification_mode != 'email':
             if mobile and res:
                 if otp_notification_mode == 'both':
-                    res[1] = "{} and Mobile No: {}".format(res[1], mobile)
+                    if email.isdigit():
+                        res[1] = "OTP has been sent to given Mobile No: {}".format(
+                            mobile)
+                        res[0] = 1
+                    else:
+                        res[1] = "{}" .format(res[1])
+                    # res[1] = "{} and Mobile No: {}".format(res[1], mobile)
                 elif otp_notification_mode == 'sms':
                     res[1] = "OTP has been sent to given Mobile No: {}".format(
                         mobile)
@@ -152,6 +160,7 @@ class AuthSignupHome(AuthSignupHome):
 
     def sendOTP(self, otp, **kwargs):
         res = super(AuthSignupHome, self).sendOTP(otp, **kwargs)
+        email = kwargs.get('email')
         userName = kwargs.get('userName')
         mobile = kwargs.get('mobile')
         country = kwargs.get('country')
@@ -160,6 +169,9 @@ class AuthSignupHome(AuthSignupHome):
             country = int(country)
             countryObj = request.env['res.country'].sudo().browse(country)
             phone_code = countryObj.phone_code
-        test = request.env['send.otp'].sms_send_otp(
-            mobile, userName, otp, phone_code)
+
+        if email.isdigit():
+            request.env['send.otp'].sms_send_otp(
+                mobile, userName, otp, phone_code)
+
         return res

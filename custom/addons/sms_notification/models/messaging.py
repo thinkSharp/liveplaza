@@ -15,6 +15,7 @@
 ##########################################################################
 
 from odoo import models, fields, api, _
+from odoo.http import request
 
 import logging
 
@@ -230,6 +231,42 @@ class AccountMove(models.Model):
     #                             mobile, sms_template_obj, obj=self)
 
 
+class ResUsers(models.Model):
+
+    _inherit = "res.users"
+
+    def sms_send_reset_password(self, mobile, phone_code):
+        otp_notification_mode = self.env['ir.default'].sudo().get(
+            'website.otp.settings', 'otp_notification_mode')
+        userObj = self.env["res.users"].sudo().search([("login", "=", mobile)], limit=1)
+        userName = userObj.name
+        if otp_notification_mode != 'email':
+            try:
+                if not userObj:
+                    userObj = self.env["res.users"].sudo().search(
+                        [("mobile", "=", mobile)], limit=1)
+                    userName = userObj.name
+                sms_template_objs = self.env["wk.sms.template"].sudo().search(
+                    [('condition', '=', 'reset_password'), ('globally_access', '=', False)])
+                if mobile:
+                    for sms_template_obj in sms_template_objs:
+                        ctx = dict(sms_template_obj._context or {})
+                        ctx['name'] = userName or 'User'
+                        if phone_code:
+                            if mobile[:1] == '0':
+                                mobile = "+{}{}".format(phone_code, mobile[1:])
+                            elif "+" not in mobile:
+                                mobile = "+{}{}".format(phone_code, mobile)
+                        (sms_template_obj, (ctx))
+
+                        sms_template_obj.with_context(ctx).send_sms_using_template(
+                            mobile, sms_template_obj, obj=userObj)
+                        
+            except Exception as e:
+                _logger.info("---Exception raised : %r while sending reset password confirmation", e)
+
+        return self
+      
 class ProductProduct(models.Model):
     _inherit = "product.product"
 

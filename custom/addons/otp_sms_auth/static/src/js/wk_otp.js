@@ -24,6 +24,7 @@ odoo.define('otp_sms_auth.wk_otp', function (require) {
             if ($(this).val() == 'radioemail') {
                 $('label[for=login]').show();
                 $('label[for=phone]').hide();
+                $('#wkmobile').show();
                 $('input#mobile').prop("readonly", false);
                 document.getElementById('login').value = "";
                 document.getElementById('mobile').value = "";
@@ -36,6 +37,7 @@ odoo.define('otp_sms_auth.wk_otp', function (require) {
             } else if ($(this).val() == 'radiomobile') {
                 $('label[for=phone]').show();
                 $('label[for=login]').hide();
+                $('#wkmobile').hide();
                 $('input#mobile').prop("readonly", true);
                 document.getElementById('login').value = "";
                 document.getElementById('mobile').value = "";
