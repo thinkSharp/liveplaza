@@ -117,7 +117,7 @@
 
 		<record id="wk_seller_product_template_kanban_view" model="ir.ui.view">
 			<field name="name">Seller.Product.template.kanban</field>
-			<field name="model">product.product</field>
+			<field name="model">product.template</field>
 			<field name="arch" type="xml">
 				<kanban quick_create="false" create="true" edit="false" disable_draggable="true">
 					<field name="id"/>
@@ -145,13 +145,13 @@
 								<div class="oe_kanban_content oe_kanban_details">
 									<div id="product_name">
 										<a type="open">
-											<b><field name="display_name"/></b>
+											<b><field name="name"/></b>
 										</a>
 									</div>
 									<div>
 										<div class="o_kanban_image">
 											<a type="open">
-												<img alt="Product Image" t-att-src="kanban_image('product.product', 'image_128', record.id.raw_value)"/>
+												<img alt="Product Image" t-att-src="kanban_image('product.template', 'image_128', record.id.raw_value)"/>
 											</a>
 										</div>
 										<div name="tags">
@@ -178,9 +178,6 @@
 												</li>
 												<li>Quantity:
 													<field name="qty_available"></field>
-												</li>
-												<li>Forecast Quantity:
-													<field name="virtual_available"></field>
 												</li>
 												<li>Price:
 													<field name="lst_price"></field>
@@ -420,13 +417,14 @@
 
 		<record id="wk_seller_product_template_tree_view" model="ir.ui.view">
 			<field name="name">seller.product.template.tree</field>
-			<field name="model">product.product</field>
+			<field name="model">product.template</field>
 			<field name="arch" type="xml">
-				<tree>
-					<field name="display_name" string="Product Name"/>
+				<tree string="Product" decoration-success="status=='approved'" decoration-warning="status=='pending'" decoration-primary="status=='draft'" decoration-danger="status=='rejected'">
+					<field name="name" string="Product Name"/>
 					<field name="marketplace_seller_id" string="Seller" groups="odoo_marketplace.marketplace_officer_group,access_rights_customization.group_operation_supervisor"/>
+					<!-- <field name="categ_id"/> -->
+					<field name="type"/>
 					<field name="qty_available"/>
-					<field name="virtual_available"/>
 					<field name="status"/>
 					<field name="uom_id" invisible="1"/>
 				</tree>
@@ -662,7 +660,7 @@
 		<record id="wk_seller_product_template_approved_products_action" model="ir.actions.act_window">
 			<field name="name">Seller Approved Products</field>
 			<field name="type">ir.actions.act_window</field>
-			<field name="res_model">product.product</field>
+			<field name="res_model">product.template</field>
 			<field name="binding_view_types">form</field>
 			<field name="domain">[('status','=','approved'),('marketplace_seller_id','in',['get_marketplace_seller_id()'])]</field>
 			<field name="view_mode">kanban,tree,form</field>
