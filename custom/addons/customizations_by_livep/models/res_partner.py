@@ -14,6 +14,14 @@ class ResPartner(models.Model):
     sales_type = fields.Selection(
         [('products', 'Products'), ('services', 'Services'), ('products_services', 'Products and Services')], 'Sales Type', default='products', store=True)
 
+    def _default_user_group(self):
+        return self.env['res.groups'].search([('name', '=', 'Seller Tier 1 (arc)')], limit=1).id
+
+    group_id = fields.Many2one(
+        'res.groups', 'Users Group', read=['odoo_marketplace.marketplace_seller_group'], ondelete='cascade',
+        domain=[("name", "in", ("Seller Tier 1 (arc)", "Seller Tier 2 (arc)", "Seller Tier 3 (arc)"))],
+        default=_default_user_group)
+
     def approve(self):
         self.ensure_one()
         if self.seller:

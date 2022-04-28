@@ -136,7 +136,7 @@ class ProductTemplate(models.Model):
             'target': action.target,
             'context': "{'default_product_id': " + str(product_ids[0]) + "}",
             'res_model': action.res_model,
-            'domain': [('state', 'in', ['sale', 'done']), ('product_id.product_tmpl_id', '=', self.id)],
+            'domain': [('state', 'in', ['approve_by_admin','ready_to_pick','sale', 'done', ]), ('product_id.product_tmpl_id', '=', self.id)],
         }
 
     def pending_qty_stock_request(self):
@@ -311,7 +311,7 @@ class ProductProduct(models.Model):
             'target': action.target,
             'context': "{'default_product_id': " + str(self.id) + "}",
             'res_model': action.res_model,
-            'domain': [('state', 'in', ['sale', 'done']), ('product_id', '=', self.id)],
+            'domain': [('state', 'in', ['approve_by_admin','ready_to_pick','sale', 'done']), ('product_id', '=', self.id)],
         }
 
     def pending_qty_stock_request(self):
@@ -326,3 +326,13 @@ class ProductProduct(models.Model):
                 'res_id' : pending_stock.id,
                 'target':'current',
             }
+
+
+class SaleReport(models.Model):
+    _inherit = 'sale.report'
+
+    @api.model
+    def _get_done_states(self):
+        list = super(SaleReport, self)._get_done_states()
+        list.extend(['approve_by_admin', 'ready_to_pick'])
+        return list
