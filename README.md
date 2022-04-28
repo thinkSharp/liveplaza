@@ -13,7 +13,7 @@ Python 3.6 Setup
 ----
 ```bash
 [options]
-admin_passwd = $aDm!N@JuZZy12$akcder
+admin_passwd = Chunny12$akcder
 addons_path = /home/ec2-user/odoo_backup/odoo/odoo-server/addons,/home/ec2-user/odoo_backup/odoo/odoo-server/odoo/addons,/home/ec2-user/odoo_backup/odoo/custom/addons,/home/ec2-user/odoo_backup/odoo/custom/themes
 db_host = localhost
 db_port = 5432

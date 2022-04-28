@@ -108,9 +108,9 @@ class AuthSignupHome(Website):
         if not qcontext.get('token') and not qcontext.get('signup_enabled'):
             raise werkzeug.exceptions.NotFound()
 
-        # if login:
-        #     if not str(login).isdigit():
-        #         qcontext["error"] = _("Phone number should not contain character.")
+        if login:
+            if not str(login).isdigit():
+                qcontext["error"] = _("Phone number should not contain character.")
 
         if 'error' not in qcontext and request.httprequest.method == 'POST':
             try:
@@ -349,7 +349,6 @@ class MarketplaceSellerProfile(http.Controller):
 
         # Calculate seller total sales count
         sales_count = 0
-
         all_products = request.env['product.template'].sudo().search(
             [("marketplace_seller_id", "=", seller.sudo().id)])
         for prod in all_products.with_user(SUPERUSER_ID):
@@ -629,9 +628,8 @@ class MarketplaceSellerShop(http.Controller):
 
         # Calculate seller total sales count
         sales_count = 0
-
         all_products = request.env['product.template'].sudo().search(
-            [("marketplace_seller_id", "=", seller.sudo().id)])
+            [("marketplace_seller_id", "=", shop_obj.sudo().seller_id.id)])
         for prod in all_products.with_user(SUPERUSER_ID):
             sales_count += prod.sales_count
 

@@ -65,7 +65,7 @@
 	    <record id="show_seller_product_rule" model="ir.rule">
 	        <field name="name">Seller Product Only</field>
 	        <field name="model_id" ref="model_product_template"/>
-	        <field name="domain_force">[(1,'=',1)]</field>
+	        <field name="domain_force">[('marketplace_seller_id','=',user.partner_id.id)]</field>
 	        <field name="groups" eval="[(4, ref('marketplace_seller_group'))]"/>
 	    </record>
 
@@ -202,19 +202,19 @@
 			<field name="name">Seller's All Products Officer</field>
 			<field name="model_id" ref="model_product_template"/>
 			<field name="domain_force">[(1,'=',1)]</field>
-			<field name="groups" eval="[(4, ref('marketplace_officer_group'))]"/>
+			<field name="groups" eval="[(4, ref('marketplace_officer_group')), (4, ref('access_rights_customization.group_operation_operator')), (4, ref('access_rights_customization.group_operation_supervisor'))]"/>
 		</record>
 		<record id="officer_show_all_seller_product_product_rule" model="ir.rule">
 			<field name="name">Seller's All Product Variants Officer</field>
 			<field name="model_id" ref="product.model_product_product"/>
 			<field name="domain_force">[(1,'=',1)]</field>
-			<field name="groups" eval="[(4, ref('marketplace_officer_group'))]"/>
+			<field name="groups" eval="[(4, ref('marketplace_officer_group')), (4, ref('access_rights_customization.group_operation_operator')), (4, ref('access_rights_customization.group_operation_supervisor'))]"/>
 		</record>
 		<record id="officer_show_sale_order_lines_of_sellers" model="ir.rule">
 			<field name="name">Officer Sale order line of Seller's product</field>
 			<field name="model_id" ref="model_sale_order_line"/>
 			<field name="domain_force">[('marketplace_seller_id','!=',False)]</field>
-			<field name="groups" eval="[(4, ref('marketplace_officer_group'))]"/>
+			<field name="groups" eval="[(4, ref('marketplace_officer_group')), (4, ref('access_rights_customization.group_operation_operator')), (4, ref('access_rights_customization.group_operation_supervisor'))]"/>
 		</record>
 		<record id="officer_show_sales_order_to_mp_manager" model="ir.rule">
 			<field name="name">Sales Order For MP Officer</field>
@@ -224,7 +224,7 @@
 			<field name="perm_read" eval="1"/>
 			<field name="perm_create" eval="0"/>
 			<field name="perm_unlink" eval="0"/>
-			<field name="groups" eval="[(4, ref('marketplace_officer_group'))]"/>
+			<field name="groups" eval="[(4, ref('marketplace_officer_group')), (4, ref('access_rights_customization.group_operation_operator')), (4, ref('access_rights_customization.group_operation_supervisor'))]"/>
 		</record>
 		<record id="officer_show_all_sellers_rule" model="ir.rule">
 			<field name="name">Officer Show all sellers</field>
@@ -232,19 +232,19 @@
 			<field name="domain_force">[(1, '=', 1)]</field>
 			<field name="perm_write" eval="1"/>
 			<field name="perm_read" eval="1"/>
-			<field name="groups" eval="[(4, ref('marketplace_officer_group'))]"/>
+			<field name="groups" eval="[(4, ref('marketplace_officer_group')), (4, ref('access_rights_customization.group_operation_operator')), (4, ref('access_rights_customization.group_operation_supervisor'))]"/>
 		</record>
 		<record id="officer_show_all_seller_payments_rule" model="ir.rule">
 			<field name="name">Officer All Seller's payments</field>
 			<field name="model_id" ref="model_seller_payment"/>
 			<field name="domain_force">[]</field>
-			<field name="groups" eval="[(4, ref('marketplace_officer_group'))]"/>
+			<field name="groups" eval="[(4, ref('marketplace_officer_group')), (4, ref('access_rights_customization.group_operation_operator')), (4, ref('access_rights_customization.group_operation_supervisor'))]"/>
 		</record>
 		<record id="officer_show_all_sellers_inventory_rule" model="ir.rule">
 			<field name="name">Officer All Seller's Inventory</field>
 			<field name="model_id" ref="model_marketplace_stock"/>
 			<field name="domain_force">[]</field>
-			<field name="groups" eval="[(4, ref('marketplace_officer_group'))]"/>
+			<field name="groups" eval="[(4, ref('marketplace_officer_group')), (4, ref('access_rights_customization.group_operation_operator')), (4, ref('access_rights_customization.group_operation_supervisor'))]"/>
 		</record>
 		<record id="officer_show_all_sellers_stock_move_only_rule" model="ir.rule">
 			<field name="name">Seller's All Stock Move Officer</field>
@@ -256,19 +256,19 @@
 			<field name="name">Seller's All Stock Move Line Officer</field>
 			<field name="model_id" ref="stock.model_stock_move_line"/>
 			<field name="domain_force">[]</field>
-			<field name="groups" eval="[(4, ref('marketplace_officer_group'))]"/>
+			<field name="groups" eval="[(4, ref('marketplace_officer_group')), (4, ref('access_rights_customization.group_operation_operator')), (4, ref('access_rights_customization.group_operation_supervisor'))]"/>
 		</record>
 		<record id="officer_show_seller_delivery_order_rule" model="ir.rule">
 			<field name="name">Seller's All Delivery order Officer</field>
 			<field name="model_id" ref="model_stock_picking"/>
 			<field name="domain_force">[]</field>
-			<field name="groups" eval="[(4, ref('marketplace_officer_group'))]"/>
+			<field name="groups" eval="[(4, ref('marketplace_officer_group')), (4, ref('access_rights_customization.group_operation_operator')), (4, ref('access_rights_customization.group_operation_supervisor'))]"/>
 		</record>
 		<record id="officer_show_seller_shop_rule" model="ir.rule">
 			<field name="name">Seller's Shop Officer</field>
 			<field name="model_id" ref="model_seller_shop"/>
 			<field name="domain_force">[]</field>
-			<field name="groups" eval="[(4, ref('marketplace_officer_group'))]"/>
+			<field name="groups" eval="[(4, ref('marketplace_officer_group')), (4, ref('access_rights_customization.group_operation_operator')), (4, ref('access_rights_customization.group_operation_supervisor'))]"/>
 		</record>
 
         <record id="show_manager_product_invoice_move_line_rule" model="ir.rule">
@@ -279,7 +279,7 @@
             <field name="perm_read" eval="1"/>
             <field name="perm_create" eval="1"/>
             <field name="perm_unlink" eval="1"/>
-            <field name="groups" eval="[(4, ref('marketplace_officer_group'))]"/>
+            <field name="groups" eval="[(4, ref('marketplace_officer_group')), (4, ref('access_rights_customization.group_operation_operator')), (4, ref('access_rights_customization.group_operation_supervisor'))]"/>
         </record>
 
 	    <!-- Manager group rules -->
@@ -288,21 +288,21 @@
 	        <field name="name">Seller's All Products</field>
 	        <field name="model_id" ref="model_product_template"/>
 	        <field name="domain_force">[(1,'=',1)]</field>
-	        <field name="groups" eval="[(4, ref('marketplace_manager_group'))]"/>
+	        <field name="groups" eval="[(4, ref('marketplace_manager_group')), (4, ref('access_rights_customization.group_operation_operator')), (4, ref('access_rights_customization.group_operation_supervisor'))]"/>
 	    </record>
 
 	    <record id="show_all_seller_product_product_rule" model="ir.rule">
 	        <field name="name">Seller's All Product Variants</field>
 	        <field name="model_id" ref="product.model_product_product"/>
 	        <field name="domain_force">[(1,'=',1)]</field>
-	        <field name="groups" eval="[(4, ref('marketplace_manager_group'))]"/>
+	        <field name="groups" eval="[(4, ref('marketplace_manager_group')), (4, ref('access_rights_customization.group_operation_operator')), (4, ref('access_rights_customization.group_operation_supervisor'))]"/>
 	    </record>
 
 	    <record id="show_sale_order_lines_of_sellers" model="ir.rule">
 	        <field name="name">Sale order line of Seller's product</field>
 	        <field name="model_id" ref="model_sale_order_line"/>
 	        <field name="domain_force">[('marketplace_seller_id','!=',False)]</field>
-	        <field name="groups" eval="[(4, ref('marketplace_manager_group'))]"/>
+	        <field name="groups" eval="[(4, ref('marketplace_manager_group')), (4, ref('access_rights_customization.group_operation_operator')), (4, ref('access_rights_customization.group_operation_supervisor'))]"/>
 	    </record>
 
 		<record id="show_sales_order_to_mp_manager" model="ir.rule">
@@ -313,7 +313,7 @@
 	        <field name="perm_read" eval="1"/>
 	        <field name="perm_create" eval="0"/>
 	        <field name="perm_unlink" eval="0"/>
-	        <field name="groups" eval="[(4, ref('marketplace_manager_group'))]"/>
+	        <field name="groups" eval="[(4, ref('marketplace_manager_group')), (4, ref('access_rights_customization.group_operation_operator')), (4, ref('access_rights_customization.group_operation_supervisor'))]"/>
 	    </record>
 
 	    <record id="show_all_sellers_rule" model="ir.rule">
@@ -322,44 +322,44 @@
 	        <field name="domain_force">[(1, '=', 1)]</field>
 	        <field name="perm_write" eval="1"/>
 	        <field name="perm_read" eval="1"/>
-	        <field name="groups" eval="[(4, ref('marketplace_manager_group'))]"/>
+	        <field name="groups" eval="[(4, ref('marketplace_manager_group')), (4, ref('access_rights_customization.group_operation_operator')), (4, ref('access_rights_customization.group_operation_supervisor'))]"/>
 	    </record>
 	    <record id="show_all_seller_payments_rule" model="ir.rule">
 	        <field name="name">All Seller's payments</field>
 	        <field name="model_id" ref="model_seller_payment"/>
 	        <field name="domain_force">[]</field>
-	        <field name="groups" eval="[(4, ref('marketplace_manager_group'))]"/>
+	        <field name="groups" eval="[(4, ref('marketplace_manager_group')), (4, ref('access_rights_customization.group_operation_operator')), (4, ref('access_rights_customization.group_operation_supervisor'))]"/>
 	    </record>
 	    <record id="show_all_sellers_inventory_rule" model="ir.rule">
 	        <field name="name">All Seller's Inventory</field>
 	        <field name="model_id" ref="model_marketplace_stock"/>
 	        <field name="domain_force">[]</field>
-	        <field name="groups" eval="[(4, ref('marketplace_manager_group'))]"/>
+	        <field name="groups" eval="[(4, ref('marketplace_manager_group')), (4, ref('access_rights_customization.group_operation_operator')), (4, ref('access_rights_customization.group_operation_supervisor'))]"/>
 	    </record>
 	    <record id="show_all_sellers_stock_move_only_rule" model="ir.rule">
 	        <field name="name">Seller's All Stock Move</field>
 	        <field name="model_id" ref="stock.model_stock_move"/>
 	        <field name="domain_force">[]</field>
-	        <field name="groups" eval="[(4, ref('marketplace_manager_group'))]"/>
+	        <field name="groups" eval="[(4, ref('marketplace_manager_group')), (4, ref('access_rights_customization.group_operation_operator')), (4, ref('access_rights_customization.group_operation_supervisor'))]"/>
 	    </record>
 		<record id="show_all_sellers_stock_move_line_rule_manager" model="ir.rule">
 	        <field name="name">Seller's All Stock Move Line</field>
 	        <field name="model_id" ref="stock.model_stock_move_line"/>
 	        <field name="domain_force">[]</field>
-	        <field name="groups" eval="[(4, ref('marketplace_manager_group'))]"/>
+	        <field name="groups" eval="[(4, ref('marketplace_manager_group')), (4, ref('access_rights_customization.group_operation_operator')), (4, ref('access_rights_customization.group_operation_supervisor'))]"/>
 	    </record>
 	    <record id="show_seller_delivery_order_rule" model="ir.rule">
 	        <field name="name">Seller's All Delivery order</field>
 	        <field name="model_id" ref="model_stock_picking"/>
 	        <field name="domain_force">[]</field>
-	        <field name="groups" eval="[(4, ref('marketplace_manager_group'))]"/>
+	        <field name="groups" eval="[(4, ref('marketplace_manager_group')), (4, ref('access_rights_customization.group_operation_operator')), (4, ref('access_rights_customization.group_operation_supervisor'))]"/>
 	    </record>
 
 	    <record id="show_seller_shop_rule" model="ir.rule">
 	        <field name="name">Seller's Shop</field>
 	        <field name="model_id" ref="model_seller_shop"/>
 	        <field name="domain_force">[]</field>
-	        <field name="groups" eval="[(4, ref('marketplace_manager_group'))]"/>
+	        <field name="groups" eval="[(4, ref('marketplace_manager_group')), (4, ref('access_rights_customization.group_operation_operator')), (4, ref('access_rights_customization.group_operation_supervisor'))]"/>
 	    </record>
 	</data>
 

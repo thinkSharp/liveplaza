@@ -155,10 +155,8 @@ class SellerShop(models.Model):
     def seller_sales_count(self):
         # Calculate seller total sales count
         sales_count = 0
-
         all_products = self.env['product.template'].sudo().search(
-            [("marketplace_seller_id", "=", self.sudo().id)])
-
+            [("marketplace_seller_id", "=", self.seller_id.sudo().id)])
         for prod in all_products.with_user(SUPERUSER_ID):
             sales_count += prod.sales_count
         return sales_count

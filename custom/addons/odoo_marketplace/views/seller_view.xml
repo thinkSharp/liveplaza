@@ -80,7 +80,6 @@
                                     <field name="country_id" placeholder="Country" class="oe_no_button" options='{"no_open": True, "no_create": True}' attrs="{'readonly':[('state', '!=', 'new')]}"/>
                                 </div>
                                 <field name="website" widget="url" placeholder="e.g. www.odoo.com" attrs="{'readonly':[('state', '!=', 'new')]}"/>
-                                <field name="super_seller" groups="odoo_marketplace.marketplace_officer_group"/>
                             </group>
                             <group>
                                 <field name="phone" placeholder="e.g. +3281813700" attrs="{'readonly':[('state', '!=', 'new')]}"/>
@@ -163,9 +162,7 @@
                             </page>
                             <page string="Payment">
                                 <group>
-<!--                                    <field name="payment_method" widget="many2many_tags" readonly="1" options="{'no_create': True}" attrs="{'invisible':[('seller','=',False)]}" groups="odoo_marketplace.marketplace_seller_group"/>-->
-                                    <field name="payment_method" widget="many2many_tags" readonly="1" options="{'no_create': True}" attrs="{'invisible':[('seller','=',False)]}" />
-
+                                    <field name="payment_method" widget="many2many_tags" readonly="1" options="{'no_create': True}" attrs="{'invisible':[('seller','=',False)]}" groups="odoo_marketplace.marketplace_seller_group"/>
                                 </group>
                                 <group col="4">
                                     <field name="total_mp_payment"/>
