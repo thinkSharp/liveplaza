@@ -13,7 +13,7 @@
         <xpath expr="//div[@class='form-group field-password pt-2']" position="before">
             <div class="form-group field-mobile" id="wkmobile">
                 <label for="mobile" class="control-label">Mobile</label>
-                <input id="mobile" name="mobile" class="form-control" placeholder="e.g. 05XXXXXXXX"
+                <input id="mobile" name="mobile" class="form-control" placeholder="e.g. 09XXXXXXXX"
                     type="text"/>
             </div>
             <t t-set='shipping_address' t-value="request.env['ir.default'].sudo().get('res.config.settings', 'shipping_address')"/>
