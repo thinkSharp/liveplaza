@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="mp_commission_wizard_form" model="ir.ui.view">
+            <field name="name">mp.commission.wizardform</field>
+            <field name="model">mp.commission.wizard</field>
+            <field name="arch" type="xml">
+              <form string="Marketplace Commissions">
+                <group>
+                  <group>
+                    <field name="start_date"/>
+                    <field name="marketplace_seller_id"/>
+                  </group>
+                  <group>
+                    <field name="end_date"/>
+                  </group>
+                </group>
+                <footer>
+                  <button name="generate_order_report" string="Generate" type="object" class="btn-primary"/>
+                  <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+              </form>
+            </field>
+        </record>
+        
+        <record id="mp_commission_wizard_action" model="ir.actions.act_window">
+            <field name="name">Marketplace Orders</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">mp.commission.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="mp_commission_wizard_form"/>
+            <field name="target">new</field>
+        </record>
+        
+        <menuitem id="mp_commission_result_wizard_menu" name="Marketplace Commissions Report" action="mp_commission_wizard_action" parent="customizations_by_livep.marketplace_report_root" sequence="5"/>
+
+          
+        <record id="mp_commission_result_tree" model="ir.ui.view">
+            <field name="name">Marketplace Commissions</field>
+            <field name="model">mp.commission.result</field>
+            <field name="arch" type="xml">
+                <tree string="Marketplace Commissions" create="false">
+                    <field name="mp_seller_name"/>
+                    
+                    <field name="start_date"/>
+                    <field name="end_date"/>
+                    <field name="report_date"/>
+                    
+                    <field name="mp_commission_amount"/>
+                    <field name="mp_total_mp_payment"/>
+                    <field name="mp_paid_mp_payment"/>
+                    <field name="mp_balance_mp_payment"/>
+                </tree>
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -37,6 +37,20 @@
                             </group>
                         </group>
                     </page>
+                    <page name="payment_info" string="Payment Info" attrs="{'invisible':[('delivery_vendor', '=', False)]}">
+						<group>
+							<group string="Delivery Fees Collection via Prepaid">
+								<field name="delivery_payable_by_company"/>
+								<field name="deli_com_paid"/>
+								<field name="deli_com_balance"/>
+							</group>
+							<group string="Sale Order Collection via COD">
+								<field name="total_mp_payable_by_vendor"/>
+								<field name="mp_vendor_paid"/>
+								<field name="mp_vendor_balance"/>
+							</group>
+						</group>
+					</page>
                 </page>
             </field>
         </record>

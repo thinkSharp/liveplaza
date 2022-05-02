@@ -78,7 +78,9 @@ class Picking(models.Model):
         @return: True
         """
         self._check_company()
-
+        seller_payment = self.env['seller.payment']
+        account_payment = self.env['account.payment']
+        
         todo_moves = self.mapped('move_lines').filtered(lambda self: self.state in ['draft', 'waiting', 'partially_available', 'assigned', 'confirmed'])
         # Check if there are ops not linked to moves yet
         for pick in self:
@@ -135,9 +137,171 @@ class Picking(models.Model):
             self.write({'pack_date': fields.Datetime.now()})
         elif self.picking_type_id.name == 'Delivery Orders':
             self.write({'delivery_date': fields.Datetime.now()})
-            
+            sp_obj = seller_payment.create(self.prepare_seller_payment_vals())
+            if sp_obj:
+                sp_obj.do_validate()
+                sp_obj.do_Confirm_and_view_invoice()
+                sp_obj.invoice_id.sudo().action_post()
+                #account_payment_dict = sp_obj.invoice_id.sudo().action_invoice_register_payment()
+
+                if sp_obj.invoice_id.is_inbound():
+                    domain = [('payment_type', '=', 'inbound')]
+                else:
+                    domain = [('payment_type', '=', 'outbound')]
+                
+                invoices = self.env['account.move'].browse(sp_obj.invoice_id.id).filtered(lambda move: move.is_invoice(include_receipts=True))
+                
+                values = {
+                        'journal_id': self.journal_id.id,                        
+                        'payment_date': sp_obj.date,
+                        'payment_method_id': self.env['account.payment.method'].search(domain, limit=1).id,
+                        'communication': sp_obj.invoice_id.name,
+                        'invoice_ids': [(6, 0, invoices.ids)],
+                        'payment_type': 'outbound',
+                        'partner_type': 'seller',
+                        'amount': abs(sp_obj.invoice_id.amount_total),
+                        'currency_id': sp_obj.invoice_id.currency_id.id,
+                        'partner_id': sp_obj.invoice_id.commercial_partner_id.id,
+                    }
+                #acc_payment_id = account_payment.create(values)                
+                #acc_payment_id.sudo().post()
+                
+                sp_obj.invoice_id.sudo().post()
+                sp_obj.do_paid()        
+
         self._send_confirmation_email()
         return True
+
+    def button_validate(self):
+        self.ensure_one()        
+        
+        if not self.move_lines and not self.move_line_ids:
+            raise UserError(_('Please add some items to move.'))
+
+        # Clean-up the context key at validation to avoid forcing the creation of immediate
+        # transfers.
+        ctx = dict(self.env.context)
+        ctx.pop('default_immediate_transfer', None)
+        self = self.with_context(ctx)
+
+        # add user as a follower
+        self.message_subscribe([self.env.user.partner_id.id])
+
+        # If no lots when needed, raise error
+        picking_type = self.picking_type_id
+        precision_digits = self.env['decimal.precision'].precision_get('Product Unit of Measure')
+        no_quantities_done = all(float_is_zero(move_line.qty_done, precision_digits=precision_digits) for move_line in self.move_line_ids.filtered(lambda m: m.state not in ('done', 'cancel')))
+        no_reserved_quantities = all(float_is_zero(move_line.product_qty, precision_rounding=move_line.product_uom_id.rounding) for move_line in self.move_line_ids)
+        if no_reserved_quantities and no_quantities_done:
+            raise UserError(_('You cannot validate a transfer if no quantites are reserved nor done. To force the transfer, switch in edit more and encode the done quantities.'))
+
+        if picking_type.use_create_lots or picking_type.use_existing_lots:
+            lines_to_check = self.move_line_ids
+            if not no_quantities_done:
+                lines_to_check = lines_to_check.filtered(
+                    lambda line: float_compare(line.qty_done, 0,
+                                               precision_rounding=line.product_uom_id.rounding)
+                )
+
+            for line in lines_to_check:
+                product = line.product_id
+                if product and product.tracking != 'none':
+                    if not line.lot_name and not line.lot_id:
+                        raise UserError(_('You need to supply a Lot/Serial number for product %s.') % product.display_name)
+
+        # Propose to use the sms mechanism the first time a delivery
+        # picking is validated. Whatever the user's decision (use it or not),
+        # the method button_validate is called again (except if it's cancel),
+        # so the checks are made twice in that case, but the flow is not broken
+        sms_confirmation = self._check_sms_confirmation_popup()
+        if sms_confirmation:
+            return sms_confirmation
+
+        if no_quantities_done:
+            view = self.env.ref('stock.view_immediate_transfer')
+            wiz = self.env['stock.immediate.transfer'].create({'pick_ids': [(4, self.id)]})
+            return {
+                'name': _('Immediate Transfer?'),
+                'type': 'ir.actions.act_window',
+                'view_mode': 'form',
+                'res_model': 'stock.immediate.transfer',
+                'views': [(view.id, 'form')],
+                'view_id': view.id,
+                'target': 'new',
+                'res_id': wiz.id,
+                'context': self.env.context,
+            }
+
+        if self._get_overprocessed_stock_moves() and not self._context.get('skip_overprocessed_check'):
+            view = self.env.ref('stock.view_overprocessed_transfer')
+            wiz = self.env['stock.overprocessed.transfer'].create({'picking_id': self.id})
+            return {
+                'type': 'ir.actions.act_window',
+                'view_mode': 'form',
+                'res_model': 'stock.overprocessed.transfer',
+                'views': [(view.id, 'form')],
+                'view_id': view.id,
+                'target': 'new',
+                'res_id': wiz.id,
+                'context': self.env.context,
+            }
+
+        # Check backorder should check for other barcodes
+        if self._check_backorder():
+            return self.action_generate_backorder_wizard()
+        self.action_done()
+        return
+    
+    def prepare_seller_payment_vals(self):        
+    
+        payable_to_seller = 0
+        so_line_id = self.env['sale.order.line'].search([('order_id', '=', self.env['sale.order'].search([('name', '=', self.origin)]).id )])  
+        
+        for sol_data in so_line_id:
+            if self.marketplace_seller_id.id == sol_data.marketplace_seller_id.id:
+                payable_to_seller += (sol_data.price_subtotal - sol_data.commission_amount)
+            
+        return {'state': 'draft',
+                'name': 'NEW',
+                'date': self.scheduled_date,
+                'payment_type': 'cr',
+                'seller_id': self.marketplace_seller_id.id,
+                'payment_mode': 'order_paid',
+                'memo': self.origin or '',
+                'payable_amount': payable_to_seller,
+                'payment_method': False,
+                'description': 'Payable amount to seller' + self.marketplace_seller_id.name or '',
+                'message_attachment_count': 0,
+            }
+        
+    def compute_receivable_delivery(self):
+
+        lines = self.mapped('sale_id.order_line').filtered(lambda lines: lines.marketplace_seller_id.id == self.marketplace_seller_id.id)
+        delivery_amount = 0.0
+        receivable_amount = 0.0
+        if lines:
+            payments = self.env['account.move'].search([('ref', '=', self.sale_id.name)])            
+            delivery_domain = [('order_id', '=', self.sale_id.id), ('is_delivery', '=', True)]
+            delivery_line = self.env['sale.order.line'].search(delivery_domain)            
+            
+            if delivery_line:
+                delivery_amount = delivery_line.price_subtotal                        
+            
+            for line in lines:
+                for pick_data in self.move_line_ids_without_package:
+                    if pick_data.product_id == line.product_id:
+                        receivable_amount += line.price_subtotal
+                
+            if not payments:
+                self.write({
+                    'receivable_amount_stored': receivable_amount,
+                    'delivery_amount_stored': delivery_amount,
+                })
+            else:
+                self.write({
+                    'receivable_amount_stored': receivable_amount,
+                    'delivery_amount_stored':  delivery_amount,
+                })
     
     @api.onchange('scheduled_date')
     def _onchange_scheduled_date(self):

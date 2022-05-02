@@ -94,6 +94,8 @@ class ResPartner(models.Model):
                                       'ir.default'].get('res.config.settings', 'mp_auto_approve_qty'), copy=False)
     total_mp_payment = fields.Monetary(
         string="Total Amount", compute="_calculate_mp_related_payment", currency_field='seller_currency_id')
+    total_commission_payment: object = fields.Monetary(
+        string="Total Commission", compute="_calculate_mp_related_payment", currency_field='seller_currency_id')
     paid_mp_payment = fields.Monetary(string="Paid Amount", compute="_calculate_mp_related_payment", currency_field='seller_currency_id')
     balance_mp_payment = fields.Monetary(string="Balance Amount", compute="_calculate_mp_related_payment", currency_field='seller_currency_id')
     available_amount = fields.Monetary(string="Avalibale Amount", compute="_calculate_mp_related_payment", currency_field='seller_currency_id')

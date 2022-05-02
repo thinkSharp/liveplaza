@@ -6,3 +6,4 @@ delivery_method_manager,delivery.method.manager,model_delivery_method,base.group
 pickup_report_manager,pickup.report.manager,model_pickup_report,base.group_user,1,1,1,1
 delivery_report_manager,delivery.report.manager,model_delivery_report,base.group_user,1,1,1,1
 delivery_payment_manager,delivery.payment.manager,model_delivery_payment,base.group_user,1,1,1,1
+delivery_payment_method_admin,delivery.payment.method,model_delivery_payment_method,base.group_user,1,1,1,1

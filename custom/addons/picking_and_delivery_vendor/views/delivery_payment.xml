@@ -6,25 +6,34 @@
         <field name="arch" type="xml">
             <form string="Delivery Payment Form">
                 <header>
-                    <button name="post_payment" string="Post" type="object" attrs="{'invisible': [('payment_state', '!=', 'draft')]}" class="oe_highlight" groups="picking_and_delivery_vendor.delivery_vendor_group"/>
-                    <field name="payment_state" widget="statusbar" statusbar_visible="draft,done"/>
+                    <button name="post_payment" string="Post" type="object" attrs="{'invisible': [('payment_state', '!=', 'draft')]}" 
+                    		class="oe_highlight" groups="picking_and_delivery_vendor.delivery_vendor_group"/>
+                    <button name="done_payment" string="Done" type="object" attrs="{'invisible': [('payment_state', 'in', ['draft','done'])]}" 
+                    		class="oe_highlight" groups="picking_and_delivery_vendor.delivery_vendor_group"/>
+                    <field name="payment_state" widget="statusbar" statusbar_visible="draft,confirm,done"/>
                 </header>
                 <sheet>
                     <group>
                         <label for="name" string="Ref : " />
                         <field name="name" />
                         <group>
-                            <field name="mp_orders" widget="many2many_tags" options="{'no_create_edit': True}" attrs="{'readonly': [('payment_state', '=', 'done')]}" />
-                            <field name="receivable_amount" attrs="{'invisible': [('payment_state', '!=', 'draft')]}"/>
-                            <field name="total_amount" attrs="{'readonly': [('payment_state', '=', 'done')]}" />
-                            <field name="required_condition" invisible="1" />
+							<field name="vendor_id" attrs="{'readonly': [('payment_state', '=', 'done')]}" />
+							<field name="payment_mode" attrs="{'readonly': [('payment_state', '!=', 'draft')]}"/>
+                            <field name="total_amount" attrs="{'readonly': [('payment_state', '=', 'done')]}" />                           
+                            <field name="acc_payment_id"/>
                         </group>
                         <group>
-                            <field name="vendor_id" attrs="{'readonly': [('payment_state', '=', 'done')]}" />
                             <field name="pay_date" attrs="{'readonly': [('payment_state', '=', 'done')]}" />
-                            <field name="memo" attrs="{'required': [('required_condition', '=', True)], 'readonly': [('payment_state', '=', 'done')]}" />
+                            <field name="payment_method" attrs="{'readonly': [('payment_state', '!=', 'draft')]}"/>                          
+                            <field name="memo" attrs="{'readonly': [('payment_state', '=', 'done')]}" />
+                            
                         </group>
                     </group>
+                    <notebook>
+                        <page name="description" string="Description">
+                            <field name="description" placeholder="Information About Payment"/>
+                        </page>
+                    </notebook>
                 </sheet>
             </form>
         </field>
@@ -36,9 +45,8 @@
         <field name="arch" type="xml">
             <tree string="Delivery Payment Tree">
                 <field name="name"/>
-                <field name="mp_orders" widget="many2many_tags" />
                 <field name="total_amount" />
-                <field name="vendor_id" invisible="1" />
+                <field name="vendor_id" />
                 <field name="pay_date" />
             </tree>
         </field>
@@ -50,7 +58,6 @@
         <field name="arch" type="xml">
             <search string="Delivery Ppayment Report Search">
                 <field name="name" />
-                <field name="mp_orders" />
                 <field name="vendor_id"/>
             </search>
         </field>
@@ -69,6 +76,45 @@
         </field>
     </record>
 
-    <menuitem name="Delivery Payment" id="delivery_payment_menu" parent="odoo_marketplace.wk_seller_dashboard_menu4" groups="picking_and_delivery_vendor.delivery_vendor_group" action="action_delivery_payment" sequence="4" />
+	<record id="lp_delivery_payment_method_form_view" model="ir.ui.view">
+        <field name="name">delivery.payment.method</field>
+        <field name="model">delivery.payment.method</field>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <form string="Payment Method">
+                <group>
+                    <field name="name" placeholder="Payment Method"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="lp_delivery_payment_method_tree_view" model="ir.ui.view">
+        <field name="name">delivery.payment.method</field>
+        <field name="model">delivery.payment.method</field>
+        <field name="mode">primary</field>
+        <field name="arch" type="xml">
+            <tree string="Payment Method">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="delivery_payment_method_action" model="ir.actions.act_window">
+        <field name="name">Delivery Payment Method</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">delivery.payment.method</field>
+        <field name="binding_view_types">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="lp_delivery_payment_method_tree_view"/>
+    </record>
+    
+    <menuitem action="action_delivery_payment" id="delivery_payment_menu" parent="do_customization.stock_do_menu_inventory" 
+    	sequence="6" name="Delivery Payments"/>
+	
+	<menuitem action="delivery_payment_method_action" id="lp_delivery_payment_method" parent="do_customization.stock_do_menu_inventory" 
+		sequence="7" name="Delivery Payment Methods"/>
+
+<!--     <menuitem name="Delivery Payment" id="delivery_payment_menu" parent="odoo_marketplace.wk_seller_dashboard_menu4" groups="picking_and_delivery_vendor.delivery_vendor_group" action="action_delivery_payment" sequence="4" /> -->
 
 </odoo>
