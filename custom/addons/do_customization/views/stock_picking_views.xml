@@ -888,6 +888,7 @@
 				<search string="Search Stock Request">
                     <field name="marketplace_seller_id" string="Seller"/>
                     <field name="state" string="Status"/>
+                    <field name="origin" string="Order Number"/>
 					<group string="Group By">
 						<filter string="SO Number" context="{'group_by':'origin'}" name="by_origin" groups="odoo_marketplace.marketplace_officer_group"/>
 						<filter string="Seller" context="{'group_by':'marketplace_seller_id'}" name="by_marketplace_seller_id" groups="odoo_marketplace.marketplace_officer_group"/>
