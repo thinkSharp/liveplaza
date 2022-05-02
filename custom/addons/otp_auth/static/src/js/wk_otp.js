@@ -4,17 +4,19 @@
 
 odoo.define('otp_auth.wk_otp', function (require) {
     "use strict";
-    
+
     var ajax = require('web.ajax');
     $(document).ready(function() {
         var ValidUser = 0;
         if ($('#otpcounter').get(0)) {
             $("#otpcounter").html("<a class='btn btn-link pull-left wk_send' href='#'>Send OTP</a>");
             $(":submit").attr("disabled", true);
+            $(":submit").css("display", "none");
+            $(".btn-sm").css("width", "100%");
             $("#otp").css("display","none");
             $( ".oe_signup_form" ).wrapInner( "<div class='container' id='wk_container'></div>");
         }
-        
+
         $('.wk_send').on('click', function(e) {
             if($(this).closest('form').hasClass('oe_reset_password_form')){
                 ValidUser = 1;
@@ -73,7 +75,7 @@ odoo.define('otp_auth.wk_otp', function (require) {
         var countDown = otpTimeLimit;
         var x = setInterval(function() {
             countDown = countDown - 1;
-            $("#otpcounter").html("OTP will expire in " + countDown + " seconds.");            
+            $("#otpcounter").html("OTP will expire in " + countDown + " seconds.");
             if (countDown < 0) {
                 clearInterval(x);
                 $("#otpcounter").html("<a class='btn btn-link pull-right wk_resend position-relative' href='#'>Resend OTP</a>");
@@ -91,7 +93,7 @@ odoo.define('otp_auth.wk_otp', function (require) {
         $("div#wk_loader").addClass('show');
         $('#wk_error').remove();
         $('.alert.alert-danger').remove();
-        
+
         ajax.jsonRpc("/generate/otp", 'call', {'email':email, 'userName':userName, 'mobile':mobile, 'country':country_id,'validUser':ValidUser})
             .then(function (data) {
                 if (data[0] == 1) {
@@ -100,6 +102,8 @@ odoo.define('otp_auth.wk_otp', function (require) {
                     getInterval(data[2]);
                     $("#wkotp").after("<p id='wk_error' class='alert alert-success'>" +data[1] + "</p>");
                     $("#otp").css("display","");
+                    $(":submit").css("display", "");
+
                     $('#otp').after($('#otpcounter'));
                 } else {
                     $("div#wk_loader").removeClass('show');
