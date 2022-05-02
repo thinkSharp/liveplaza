@@ -123,10 +123,10 @@ class AuthSignupHome(AuthSignupHome):
 
                 if login.isdigit():
                     request.env['send.otp'].sudo().sms_send_reset_password(login, "Reset Password", False)
-                    qcontext['message'] = _("A message has been sent with credentials to reset your password ###")
+                    qcontext['message'] = _("A message has been sent with credentials to reset your password")
                 else:
                     request.env['res.users'].sudo().reset_password(login)
-                    qcontext['message'] = _("An email has been sent with credentials to reset your password ###")
+                    qcontext['message'] = _("An email has been sent with credentials to reset your password")
             except SignupError:
                 qcontext['error'] = _("Could not reset your password")
                 _logger.exception('error when resetting password')
@@ -155,12 +155,12 @@ class AuthSignupHome(AuthSignupHome):
 
                     if login.isdigit():
                         if not request.env["res.users"].sudo().search([("login", "=", login)]):
-                            raise Exception(_("This phone number is not registered"))
+                            raise Exception(_("Reset password: invalid phone number or email"))
                         request.env['res.users'].sudo().sms_send_reset_password(login, False)
-                        qcontext['message'] = _("A message has been sent with credentials to reset your password ***")
+                        qcontext['message'] = _("A message has been sent with credentials to reset your password")
                     else:
                         request.env['res.users'].sudo().reset_password(login)
-                        qcontext['message'] = _("An email has been sent with credentials to reset your password ***")
+                        qcontext['message'] = _("An email has been sent with credentials to reset your password")
 
             except UserError as e:
                 qcontext['error'] = e.name or e.value
