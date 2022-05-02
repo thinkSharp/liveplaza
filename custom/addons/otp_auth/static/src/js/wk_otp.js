@@ -11,6 +11,8 @@ odoo.define('otp_auth.wk_otp', function (require) {
         if ($('#otpcounter').get(0)) {
             $("#otpcounter").html("<a class='btn btn-link pull-left wk_send' href='#'>Send OTP</a>");
             $(":submit").attr("disabled", true);
+            $(":submit").css("display", "none");
+            $(".btn-sm").css("width", "100%");
             $("#otp").css("display","none");
             $( ".oe_signup_form" ).wrapInner( "<div class='container' id='wk_container'></div>");
         }
@@ -100,6 +102,8 @@ odoo.define('otp_auth.wk_otp', function (require) {
                     getInterval(data[2]);
                     $("#wkotp").after("<p id='wk_error' class='alert alert-success'>" +data[1] + "</p>");
                     $("#otp").css("display","");
+                    $(":submit").css("display", "");
+
                     $('#otp').after($('#otpcounter'));
                 } else {
                     $("div#wk_loader").removeClass('show');
