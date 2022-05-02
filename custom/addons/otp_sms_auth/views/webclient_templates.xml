@@ -22,6 +22,23 @@
         </xpath>
     </template>
 
+<!--    reset password form - Show successful message on same page-->
+    <template id="reset_password_inherit" inherit_id="auth_signup.reset_password">
+        <xpath expr="//label[@for='login']" position="replace">
+            <label for="login" class="col-form-label">Email or Phone</label>
+        </xpath>
+        <xpath expr="//div[@t-if='message']" position="replace">
+            <p class="alert alert-success" t-if="message" role="status"
+               style="max-width: 40%; text-align: center; margin: auto; margin-top: 20px; color: #007bff;">
+                <t t-esc="message"/>
+            </p>
+            <a class="btn btn-link float-right" role="button" style="display: none;"></a>
+        </xpath>
+        <xpath expr="//form[@class='oe_reset_password_form']" position="attributes">
+            <attribute name="t-if"></attribute>
+        </xpath>
+    </template>
+
     <template id="wk_web_mobile_login" inherit_id="web.login" name="OTP SMS Login" priority="20">
 <!--        <xpath expr="//div[@class='form-group field-login']" position="before">-->
 <!--            <t t-set='enable_signin_auth' t-value="request.env['ir.default'].sudo().get('website.otp.settings', 'signin_auth')"/>-->
@@ -48,7 +65,7 @@
 <!--                </div>-->
 <!--            </t>-->
 <!--        </xpath>-->
-        
+
     </template>
 <!--    <template id="wk_wk_web_login_inherit" inherit_id="otp_auth.wk_web_login" name="OTP SMS Login">-->
 <!--        <xpath expr="//div[@class='form-group field-otp-option']" position="before">-->
