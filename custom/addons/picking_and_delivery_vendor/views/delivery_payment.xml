@@ -83,7 +83,9 @@
         <field name="arch" type="xml">
             <form string="Payment Method">
                 <group>
-                    <field name="name" placeholder="Payment Method"/>
+                    <group>
+                		<field name="name" placeholder="Payment Method"/>
+                	</group>
                 </group>
             </form>
         </field>

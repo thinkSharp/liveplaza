@@ -61,24 +61,28 @@ class MarketplaceDeliveryWizard(models.TransientModel):
     def _calculate_delivery_payment(self,vendor_id, start_date, end_date):
         for obj in vendor_id:
             if obj.delivery_vendor:
+                so_list = []
                 delivery_payable_by_company = total_mp_payable_by_vendor = mp_vendor_paid = deli_com_paid = 0
 
                 picking_type_id = self.env["stock.picking.type"].search([("name", "=", 'Delivery Orders')])
-                spicking_obj = self.env["stock.picking"].search([ ("vendor_id", "=", obj.id), ('create_date', '>=', start_date), ('create_date', '<=', end_date),
+                spicking_obj = self.env["stock.picking"].search([ ("vendor_id", "=", obj.id), ("state", "=", "done"),
                                                     ("picking_type_id", "=", self.env["stock.picking.type"].search([("name", "=", 'Delivery Orders')]).id )])
                 for do_line in spicking_obj:
-                     if do_line.state == "done":
-                         so_id = self.env["sale.order"].search([("name", "=", do_line.origin)])
-                         if so_id:
-                             sol_objs = self.env["sale.order.line"].search([("order_id", "=", so_id.id )])
-                             for sol_line in sol_objs:
-                                 if sol_line.order_id.payment_provider == "transfer":
-                                     if sol_line.is_delivery:
-                                          delivery_payable_by_company += abs(sol_line.price_subtotal)
-                                 elif sol_line.order_id.payment_provider == "cash_on_delivery":
-                                     if not sol_line.is_delivery:
-                                         total_mp_payable_by_vendor += abs(sol_line.price_subtotal)
-                                     
+                    if do_line.origin not in so_list:
+                        so_id = self.env["sale.order"].search([("name", "=", do_line.origin)])
+                        if so_id and so_id.payment_provider == "transfer":
+                            sol_objs = self.env["sale.order.line"].search([("order_id", "=", so_id.id )])
+                            for sol_line in sol_objs:
+                                if sol_line.is_delivery:
+                                    delivery_payable_by_company += abs(sol_line.price_subtotal)
+                                    so_list.append(do_line.origin)
+                        elif so_id and so_id.payment_provider == "cash_on_delivery":
+                            sol_objs = self.env["sale.order.line"].search([("order_id", "=", so_id.id )])
+                            for sol_line in sol_objs:
+                                if not sol_line.is_delivery:
+                                    total_mp_payable_by_vendor += abs(sol_line.price_subtotal)
+                                    so_list.append(do_line.origin)
+                         
                 do_payment_objs = self.env["delivery.payment"].search([("vendor_id", "=", obj.id), ("payment_state", "not in",["draft", "confirm"])])
                 for do_payment in do_payment_objs:
                     #Calculate total marketplace payment for seller

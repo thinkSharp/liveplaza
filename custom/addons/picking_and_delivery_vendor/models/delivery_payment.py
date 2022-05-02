@@ -46,7 +46,7 @@ class DeliveryPayment(models.Model):
             'currency_id' : self.env.user.company_id.currency_id.id,
             'payment_method_id' : '1',    
         }
-                                    
+        acc_payment_id = self.env['account.payment'].sudo().create(vals)                            
         if acc_payment_id:
             self.write({
                 'payment_state': 'confirm',
