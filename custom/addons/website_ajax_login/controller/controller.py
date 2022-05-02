@@ -5,6 +5,7 @@
 #
 #################################################################################
 from odoo.http import route,request
+from odoo import models
 import logging
 from odoo import http,SUPERUSER_ID
 from odoo.addons.auth_signup.controllers.main import AuthSignupHome
@@ -153,9 +154,10 @@ class AuthSignupHome(AuthSignupHome):
                         "Password reset attempt for <%s> by user <%s> from %s",
                         login, request.env.user.login, request.httprequest.remote_addr)
 
+                    if not request.env["res.users"].sudo().search([("login", "=", login)]):
+                        raise Exception(_("Reset password: invalid phone number or email"))
+
                     if login.isdigit():
-                        if not request.env["res.users"].sudo().search([("login", "=", login)]):
-                            raise Exception(_("Reset password: invalid phone number or email"))
                         request.env['res.users'].sudo().sms_send_reset_password(login, False)
                         qcontext['message'] = _("A message has been sent with credentials to reset your password")
                     else:
@@ -205,3 +207,5 @@ class OAuthLogin(OAuthLogin):
         if werkzeug.urls.url_parse(url).path.find('/web') != 0:
             request.params['redirect'] = url
         return self.list_providers()
+
+
