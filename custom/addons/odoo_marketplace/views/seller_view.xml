@@ -171,6 +171,7 @@
                                     <field name="total_mp_payment"/>
                                     <field name="paid_mp_payment"/>
                                     <field name="balance_mp_payment"/>
+                                    <field name="total_commission_payment"/>
                                     <field name="seller_currency_id" groups="odoo_marketplace.marketplace_officer_group"/>
                                 </group>
                             </page>

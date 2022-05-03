@@ -28,7 +28,18 @@ class ResPartner(models.Model):
     def _calculate_mp_related_payment(self):
         for obj in self:
             if obj.seller:
-                total_mp_payment = paid_mp_payment = cashable_amount = 0
+                total_mp_payment = paid_mp_payment = cashable_amount = total_commission_payment = 0
+                
+                sol_objs = self.env["sale.order.line"].search([("marketplace_seller_id", "=", obj.id), ("is_delivery", "=", False)])
+                picking_type_id = self.env["stock.picking.type"].search([("name", "=", 'Delivery Orders')])
+                
+                for sol_line in sol_objs:
+                    spicking_obj = self.env["stock.picking"].search([("origin", "=", sol_line.order_id.name), ("marketplace_seller_id", "=", obj.id),
+                                                                       ("picking_type_id", "=", self.env["stock.picking.type"].search([("name", "=", 'Delivery Orders')]).id )])
+                    for sp_line in spicking_obj:
+                        if sp_line.state == "done":
+                            total_commission_payment += abs(sol_line.admin_commission)
+                
                 seller_payment_objs = self.env["seller.payment"].search([("seller_id", "=", obj.id), ("state", "not in",["draft", "requested"])])
                 for seller_payment in seller_payment_objs:
                     #Calculate total marketplace payment for seller
@@ -62,10 +73,12 @@ class ResPartner(models.Model):
 
                 #Calculate marketplace available payment for seller
                 obj.available_amount = (round(decimal.Decimal(obj.balance_mp_payment), 2))
+                obj.total_commission_payment = total_commission_payment
             else:
                 obj.total_mp_payment = 0
                 obj.paid_mp_payment = 0
                 obj.cashable_amount = 0
                 obj.balance_mp_payment = 0
                 obj.available_amount = 0
+                obj.total_commission_payment = total_commission_payment
 
