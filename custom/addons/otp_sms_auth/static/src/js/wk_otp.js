@@ -2,13 +2,14 @@
 /* See LICENSE file for full copyright and licensing details. */
 odoo.define('otp_sms_auth.wk_otp', function (require) {
     "use strict";
-    
+
     var otp_auth = require('otp_auth.wk_otp');
     var ajax = require('web.ajax');
     $(document).ready(function() {
         if (!$(this).find('#wkmobile label[for=mobile], input#mobile').text()) {
             $('label[for=mobile], input#mobile').hide();
         }
+
         $('input:radio[name="radio-login"]').change(function() {
             if ($(this).val() == 'radiemail') {
                 $('label[for=login], input#login').show();
@@ -19,6 +20,29 @@ odoo.define('otp_sms_auth.wk_otp', function (require) {
             }
         });
 
+        var val = $('input[name="radio-register"]:checked').val();
+        if(val == "radioemail") {
+            $('label[for=login]').show();
+            $('label[for=phone]').hide();
+            $('input#mobile').prop("readonly", false);
+            $('#wkmobile').show();
+            var mobile_value = $('input#mobile').val();
+            if($(this).val() == "radioemail") {
+                $('input#login').change(function() {
+                    $('input#mobile').val(mobile_value);
+                });
+            }
+        }
+        else {
+            $('label[for=phone]').show();
+            $('label[for=login]').hide();
+            $('input#mobile').prop("readonly", true);
+            $('#wkmobile').hide();
+            $('input#login').change(function() {
+                $('input#mobile').val($('input#login').val());
+            });
+        }
+
         $('input:radio[name="radio-register"]').change(function() {
             document.getElementById('login').value = "";
             if ($(this).val() == 'radioemail') {
@@ -28,7 +52,8 @@ odoo.define('otp_sms_auth.wk_otp', function (require) {
                 $('input#mobile').prop("readonly", false);
                 document.getElementById('login').value = "";
                 document.getElementById('mobile').value = "";
-                if($('input#mobile').val() == "") {
+                var mobile_value = $('input#mobile').val();
+                if($(this).val() == "radioemail") {
                     $('input#login').change(function() {
                         $('input#mobile').val("");
                     });
@@ -41,9 +66,12 @@ odoo.define('otp_sms_auth.wk_otp', function (require) {
                 $('input#mobile').prop("readonly", true);
                 document.getElementById('login').value = "";
                 document.getElementById('mobile').value = "";
-                $('input#login').change(function() {
-                    $('input#mobile').val($('input#login').val());
-                });
+                if($(this).val() == "radiomobile") {
+                    $('input#login').change(function() {
+                        $('input#mobile').val($('input#login').val());
+                    });
+                }
+
             }
         });
 
@@ -81,14 +109,14 @@ odoo.define('otp_sms_auth.wk_otp', function (require) {
             generateSMSLoginOtp();
         });
 
-        $('.wk_send').on('click', function(e) {
-            var mobile = $('#mobile').val();
-            if (!mobile) {
-                alert(mobile+"Please enter a mobile number");
-                $('#wk_error').remove();
-                $(".field-confirm_password").after("<p id='wk_error' class='alert alert-danger'>Please enter a mobile no </p>");
-            }
-        });
+//        $('.wk_send').on('click', function(e) {
+//            var mobile = $('#mobile').val();
+//            if (!mobile) {
+//                alert(mobile+"Please enter a mobile number");
+//                $('#wk_error').remove();
+//                $(".field-confirm_password").after("<p id='wk_error' class='alert alert-danger'>Please enter a mobile no </p>");
+//            }
+//        });
     });
 
     function generateSMSLoginOtp() {
@@ -126,7 +154,7 @@ odoo.define('otp_sms_auth.wk_otp', function (require) {
         // } else {
         //     $("div#wk_loader").removeClass('show');
         // }
-        
+
     }
 
     function getUserEmail() {
@@ -155,7 +183,7 @@ odoo.define('otp_sms_auth.wk_otp', function (require) {
                         $(".field-otp-option").after("<p id='wk_error' class='alert alert-danger'>" +data.message + "</p>");
                     }
                 });
-        }        
+        }
     }
 
     function getUserData() {

@@ -155,7 +155,7 @@ class AuthSignupHome(AuthSignupHome):
                         login, request.env.user.login, request.httprequest.remote_addr)
 
                     if not request.env["res.users"].sudo().search([("login", "=", login)]):
-                        raise Exception(_("Reset password: invalid phone number or email"))
+                        raise Exception(_("Phone number or Email is not registered."))
 
                     if login.isdigit():
                         request.env['res.users'].sudo().sms_send_reset_password(login, False)
