@@ -85,6 +85,12 @@ class FacebookShop(models.Model):
                 raise UserError(_('Catalog with this Content language already exists'))
         return super(FacebookShop,self).write(vals)
 
+
+    def method_direct_trigger(self):
+        self.crone_id.method_direct_trigger()
+
+
+
 class FacebookAttachment(models.Model):
     _inherit = 'fb.attachment.mapping'
 

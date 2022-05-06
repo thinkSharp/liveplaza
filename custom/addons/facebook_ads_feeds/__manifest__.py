@@ -35,7 +35,8 @@ Catalog in Facebook""",
                              'base',
                              'website_sale',
                              'wk_wizard_messages',
-                             'stock'
+                             'stock',
+                             'odoo_marketplace'
                             ],
   "data"                 :  [
                              'security/ir.model.access.csv',
