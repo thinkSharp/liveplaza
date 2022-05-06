@@ -186,7 +186,6 @@ odoo.define('otp_auth.wk_otp', function (require) {
                 var otp = $(this).val();
                 ajax.jsonRpc("/verify/otp", 'call', {'otp':otp})
                     .then(function (data) {
-                        alert(data['otp']);
                         if (data) {
                             $(":submit").unbind('click');
                             $('#otp').after("<i class='fa fa-check-circle wkcheck' aria-hidden='true'></i>");
