@@ -94,7 +94,8 @@ class FacebookMerchantShop(models.Model):
     field_mapping_id = fields.Many2one(comodel_name="fb.field.mappning",string="Field Mapping",domain=[('active','=',True)],required=True)
     product_selection_type = fields.Selection([('domain','Domain'),('manual','Manual'),('category','Category')],default = "domain",string="Product Select Way",help="Select wether you want to select the product manually or with the help of domain")
     domain_input = fields.Char(string="Domain",default="[]", help="Domain Filter:- Using this only filtered products will generate inside feed xml.")
-    limit = fields.Integer(string="Limit",default=10, help="Product Limit:- Selected limit product will generate inside feed xml.")
+    limit = fields.Integer(string="Limit",default=10000, help="Product Limit:- Selected limit product will generate inside feed xml.")
+
     product_ids_rel = fields.Many2many(comodel_name='product.template', relation='fb_shop_product_rel', column1='facebook_id', column2='product_id',domain=_get_default_domain , string="Products")
     public_categ_ids = fields.Many2many(comodel_name='product.public.category', relation='fb_shop_public_category_rel', column1='facebook_id', column2='prod_cat_id', string="Category")
     mapping_count=fields.Integer(srting="Total Mappings",compute="_mapping_count")
@@ -161,7 +162,9 @@ class FacebookMerchantShop(models.Model):
         context.update({'pricelist': self.pricelist_id.id,'website_id':self.website_id.id,'lang': self.content_language_id.code,'warehouse':self.warehouse_id.id if self. warehouse_id else False})
         limit = 0
         if(sel_type == 'domain'):
-            domain = safe_eval(self.domain_input)
+            # domain = safe_eval(self.domain_input)
+            domain = [('marketplace_seller_id', '=', self.marketplace_seller_id.id), ('exclude_from_fb', '=', False),]
+            # print('domain', domain)
             final_domain=self._get_final_domain(domain=domain)
             limit = self.limit
 

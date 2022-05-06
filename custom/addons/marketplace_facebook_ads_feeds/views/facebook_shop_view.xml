@@ -44,14 +44,25 @@
             <xpath expr="//field[@name='crone_id']" position="attributes">
                 <attribute name="options">{'no_open':True}</attribute>
             </xpath>
-            <xpath expr="//page[@name='cron_detail']" position="attributes">
+
+            <xpath expr="//field[@name='crone_id']" position="before">
+                <button name="method_direct_trigger" type="object" string="Run Manually" class="oe_highlight" style="margin-bottom:20px"/>
+
+            </xpath>
+
+<!--            <xpath expr="//page[@name='cron_detail']" position="attributes">-->
+<!--                <attribute name="invisible">1</attribute>-->
+<!--            </xpath>-->
+
+            <xpath expr="//page[@name='product_selection_way']" position="attributes">
                 <attribute name="invisible">1</attribute>
             </xpath>
             <xpath expr="//field[@name='product_ids_rel']" position="attributes">
+
                 <attribute name="context">{
                     'tree_view_ref' : 'odoo_marketplace.wk_seller_product_template_tree_view',
                     'form_view_ref': 'odoo_marketplace.wk_seller_product_template_form_view',}</attribute>
-                <attribute name="domain">[('marketplace_seller_id','=',marketplace_seller_id),('status','=','approved')]</attribute>
+                <attribute name="domain">[('marketplace_seller_id','=',marketplace_seller_id),('status','=','approved'), ('exclude_from_fb', '=', False)]</attribute>
                 <attribute name="options">{'no_create_edit': True,'no_create': True,'no_quick_create':True,'no_open':True}</attribute>
             </xpath>
         </field>
