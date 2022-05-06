@@ -12,6 +12,7 @@ from odoo.http import request
 from odoo.addons.web.controllers.main import ensure_db, Home
 from odoo.addons.otp_auth.controllers.main import AuthSignupHome
 from odoo import http
+from odoo.exceptions import UserError
 import pyotp
 import datetime as dt
 import logging

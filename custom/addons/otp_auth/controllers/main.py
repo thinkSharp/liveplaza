@@ -110,7 +110,7 @@ class AuthSignupHome(Home):
                 otp = otpdata[0]
                 otp_time = otpdata[1]
                 request.env['send.otp'].email_send_otp(email, False, otp)
-                message = {"email":{'status':1, 'message':_("OTP has been sent to given Email Address ### : {}.".format(email)), 'otp_time':otp_time, 'email':email}}
+                message = {"email":{'status':1, 'message':_("OTP has been sent to given Email Address : {}.".format(email)), 'otp_time':otp_time, 'email':email}}
             else:
                 message = {"email":{'status':0, 'message':_("Failed to send OTP !! Please ensure that you have given correct Email Address."), 'otp_time':0, 'email':email}}
         else:
@@ -126,7 +126,6 @@ class AuthSignupHome(Home):
         main_otp_time = otp_time
         totp = pyotp.TOTP(pyotp.random_base32(), interval=main_otp_time)
         otp = totp.now()
-
         request.session['otploginobj'] = otp
         request.session['otpobj'] = otp
         return [otp, otp_time]
