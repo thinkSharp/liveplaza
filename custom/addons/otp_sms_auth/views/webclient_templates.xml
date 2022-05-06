@@ -6,11 +6,11 @@
         <xpath expr="//label[@for='login']" position="before">
             <div style="margin-bottom: 20px;">
                 <label class="radio-container wk_login">Email
-                    <input type="radio" value="radioemail" name="radio-register" />
+                    <input type="radio" value="radioemail" name="radio-register" checked="1" />
                     <span class="otpcheck"></span>
                 </label>
                 <label class="radio-container wk_login">Mobile Number
-                    <input type="radio" value="radiomobile" name="radio-register" checked="1"/>
+                    <input type="radio" value="radiomobile" name="radio-register" />
                     <span class="otpcheck"></span>
                 </label>
             </div>
