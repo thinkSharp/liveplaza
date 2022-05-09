@@ -42,6 +42,7 @@ odoo.define('otp_auth.wk_otp', function (require) {
             else {
                 input.push(email, name, country, pwd, confirm_pwd);
                 input2.push("Mobile number", "Name", "Country", "Password", "Confirm Password");
+                phone = email;
             }
 
 
@@ -59,6 +60,10 @@ odoo.define('otp_auth.wk_otp', function (require) {
             else if (empty_field_count == 1) {
                 $('#wk_error').remove();
                 $(".field-confirm_password").after("<p id='wk_error' class='alert alert-danger'>Please fill out the required field '" + empty_field + "' </p>");
+            }
+            else if (phone.length < 9 || phone.length > 11) {
+                $('#wk_error').remove();
+                $(".field-confirm_password").after("<p id='wk_error' class='alert alert-danger'>Phone number length must be between 9 and 11.</p>");
             }
             else {
                 if(login == "radioemail")

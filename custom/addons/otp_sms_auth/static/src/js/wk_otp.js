@@ -25,6 +25,7 @@ odoo.define('otp_sms_auth.wk_otp', function (require) {
             $('label[for=login]').show();
             $('label[for=phone]').hide();
             $('input#mobile').prop("readonly", false);
+            $('input#login').attr("placeholder", "");
             $('#wkmobile').show();
             var mobile_value = $('input#mobile').val();
             if($(this).val() == "radioemail") {
@@ -37,6 +38,7 @@ odoo.define('otp_sms_auth.wk_otp', function (require) {
             $('label[for=phone]').show();
             $('label[for=login]').hide();
             $('input#mobile').prop("readonly", true);
+            $('input#login').attr("placeholder", "e.g. 09XXXXXXXX");
             $('#wkmobile').hide();
             $('input#login').change(function() {
                 $('input#mobile').val($('input#login').val());
@@ -48,6 +50,7 @@ odoo.define('otp_sms_auth.wk_otp', function (require) {
             if ($(this).val() == 'radioemail') {
                 $('label[for=login]').show();
                 $('label[for=phone]').hide();
+                $('input#login').attr("placeholder", "");
                 $('#wkmobile').show();
                 $('input#mobile').prop("readonly", false);
                 document.getElementById('login').value = "";
@@ -55,13 +58,14 @@ odoo.define('otp_sms_auth.wk_otp', function (require) {
                 var mobile_value = $('input#mobile').val();
                 if($(this).val() == "radioemail") {
                     $('input#login').change(function() {
-                        $('input#mobile').val("");
+                        $('input#mobile').val(mobile_value);
                     });
                 }
 
             } else if ($(this).val() == 'radiomobile') {
                 $('label[for=phone]').show();
                 $('label[for=login]').hide();
+                $('input#login').attr("placeholder", "e.g. 09XXXXXXXX");
                 $('#wkmobile').hide();
                 $('input#mobile').prop("readonly", true);
                 document.getElementById('login').value = "";
