@@ -115,7 +115,7 @@ class SmsTemplate(models.Model):
                     obj.lang = '${object.partner_id.lang}'
                 elif obj.condition in ['inventory_almost_empty']:
                     model_id = self.env['ir.model'].search(
-                        [('model', '=', 'product.product')])
+                        [('model', '=', 'res.partner')])
                     obj.model_id = model_id.id if model_id else False
                     obj.lang = 'en_US'
             else:
@@ -200,11 +200,11 @@ class SmsTemplate(models.Model):
             elif sms_tmpl.condition == 'inventory_almost_empty':
                 sms_sms_obj = self.env["wk.sms.sms"].create({
                     'sms_gateway_config_id': gateway_id.id,
-                    'partner_id': obj.product_tmpl_id.marketplace_seller_id.id if obj else False,
+                    'partner_id': obj.id if obj else False,
                     'to': mob_no,
                     'group_type': 'individual',
                     'auto_delete': sms_tmpl.auto_delete,
-                    'msg': sms_tmpl.with_context(ctx).get_body_data(obj, obj.product_tmpl_id.marketplace_seller_id) if obj else sms_tmpl.sms_body_html,
+                    'msg': sms_tmpl.with_context(ctx).get_body_data(obj, obj) if obj else sms_tmpl.sms_body_html,
                     'template_id': False
                 })
             else:

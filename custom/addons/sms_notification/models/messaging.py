@@ -267,27 +267,61 @@ class ResUsers(models.Model):
 
         return self
       
-class ProductProduct(models.Model):
-    _inherit = "product.product"
+class ResPartner(models.Model):
+    _inherit = "res.partner"
+
+    inventory_empty_product = fields.Text(string='Inventory Empty Product')
 
     def inventory_check(self):
-        product_obj = self.env['product.product'].search([('active', '=', True)])
-        for pobj in product_obj:
-            quant_obj = self.env['stock.quant'].search([('product_id', '=', pobj.id), ('quantity', '>', 0), ('location_id', '=', 8)])
-            for qobj in quant_obj:
-                if qobj.quantity < 4:
-                    self.send_inventory_warning_message(qobj.product_id.product_tmpl_id.marketplace_seller_id, pobj)
+        smsList = []
+        seller_obj = self.env['res.partner'].search([('seller', '=', True), ('active', '=', True)])
+        self.min_qty = self.env['ir.default'].get('res.config.settings', 'min_qty_for_sms_warning')
+
+        for sobj in seller_obj:
+            product_tmpl_obj = self.env['product.template'].search([('marketplace_seller_id', '=', sobj.id)])
+            p_tmpl_list = []
+
+            for p_tmpl_obj in product_tmpl_obj:
+                p_tmpl_list.append(p_tmpl_obj.id)
+
+            product_obj = self.env['product.product'].search([('active', '=', True), ('product_tmpl_id', 'in', p_tmpl_list)])
+
+            for pobj in product_obj:
+                quant_obj = self.env['stock.quant'].search([('product_id', '=', pobj.id), ('quantity', '>', 0), ('location_id', '=', 8)])
+                for qobj in quant_obj:
+                    if qobj.quantity < self.min_qty:
+                        qdict = {"seller_id": sobj, "product_id": pobj}
+                        smsList.append(qdict)
+
+        sms_seller = []
+        for smslist in smsList:
+            seller_id = smslist.get('seller_id')
+            if seller_id not in sms_seller:
+                sms_seller.append(seller_id)
+
+        for s_obj in sms_seller:
+            sms_product = []
+            sms_product_msg = 'Almost Out of Stock Product(s): '
+
+            for sms_list in smsList:
+                if sms_list.get('seller_id').id == s_obj.id:
+                    sms_product.append(sms_list.get('product_id'))
+
+            for sms_p in sms_product:
+                sms_product_msg += sms_p.name + ':' + ' ' + str(sms_p.qty_available) + ' ' + '|' + ' '
+            s_obj.write({'inventory_empty_product':sms_product_msg})
+            self.send_inventory_warning_message(s_obj, s_obj)
 
 
     # method to send msg to warn that inventory is almost empty
-    def send_inventory_warning_message(self, partner_id, product_obj):
+    def send_inventory_warning_message(self, partner_id, seller_obj):
         sms_template_objs = self.env["wk.sms.template"].sudo().search(
             [('condition', '=', 'inventory_almost_empty'), ('globally_access', '=', False)])
         for sms_template_obj in sms_template_objs:
             mobile = sms_template_obj._get_partner_mobile(partner_id)
             if mobile:
                 sms_template_obj.send_sms_using_template(
-                    mobile, sms_template_obj, obj=product_obj)
+                    mobile, sms_template_obj, obj=seller_obj)
 
 
 

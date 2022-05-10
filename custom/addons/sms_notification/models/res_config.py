@@ -22,6 +22,9 @@ class ResConfigSettings(models.TransientModel):
     _inherit = "res.config.settings"
     # _description = "Res config for Twilio "
 
+    min_qty_for_sms_warning = fields.Float(string='Minimum Quantity for Inventory SMS Warning',
+                                           help='Set the minimum quantity to send warning SMS to Seller when inventory is below that quantity.')
+
     def _check_twilio(self):
         result = self.env['ir.module.module'].search(
             [('name', '=', 'twilio_gateway')])
@@ -160,8 +163,10 @@ class ResConfigSettings(models.TransientModel):
     @api.model
     def get_values(self):
         res = super(ResConfigSettings, self).get_values()
+        min_qty_for_sms_warning = self.env['ir.default'].get('res.config.settings', 'min_qty_for_sms_warning')
         ICPSudo = self.env['ir.config_parameter'].sudo()
         res.update(
+            min_qty_for_sms_warning=min_qty_for_sms_warning,
             is_phone_code_enable=ICPSudo.get_param(
                 'sms_notification.is_phone_code_enable',False),
 
@@ -171,6 +176,7 @@ class ResConfigSettings(models.TransientModel):
     
     def set_values(self):
         super(ResConfigSettings, self).set_values()
+        self.env['ir.default'].sudo().set('res.config.settings', 'min_qty_for_sms_warning', self.min_qty_for_sms_warning)
         ICPSudo = self.env['ir.config_parameter'].sudo()
         ICPSudo.set_param(
             "sms_notification.is_phone_code_enable", self.is_phone_code_enable)
