@@ -18,6 +18,14 @@
             <attribute name="style">margin-bottom: 0.5em</attribute>
         </xpath>
 
+        <xpath expr="//label[@for='login']" position="attributes">
+            <attribute name="id">signup_login</attribute>
+        </xpath>
+
+        <xpath expr="//input[@id='login']" position="attributes">
+            <attribute name="for">signup_login</attribute>
+        </xpath>
+
     </template>
 
 
@@ -41,9 +49,10 @@
 <!--        </xpath>-->
 <!--    </template>-->
 
-<!--    <template id="login_form_inherit" inherit_id="web.login">-->
-<!--        <xpath expr="//label[@for='login']" position="replace" >-->
-<!--            <label for="login">Email or Phone</label>-->
-<!--        </xpath>-->
-<!--    </template>-->
+    <template id="login_form_inherit" inherit_id="web.login">
+        <xpath expr="//label[@for='login']" position="replace" >
+            <label for="login">Email or Phone</label>
+        </xpath>
+    </template>
+
 </odoo>

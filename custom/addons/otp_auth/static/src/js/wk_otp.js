@@ -84,7 +84,7 @@ odoo.define('otp_auth.wk_otp', function (require) {
                             }
                         } else {
                             $('#wk_error').remove();
-                            $(".field-confirm_password").after("<p id='wk_error' class='alert alert-danger'>Please enter a valid email address. *** </p>");
+                            $(".field-confirm_password").after("<p id='wk_error' class='alert alert-danger'>Please enter a valid email address.</p>");
                         }
                     } else {
                         $('#wk_error').remove();
