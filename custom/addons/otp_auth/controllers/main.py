@@ -42,7 +42,10 @@ class AuthSignupHome(Home):
         user_obj = request.env["res.users"].sudo().search([("login", "=", email)])
         message = [1, _("Thanks for the registration."), 0]
         if user_obj:
-            message = [0, _("Another user is already registered using this email address."), 0]
+            if email.isdigit():
+                message = [0, _("Another user is already registered using this phone number."), 0]
+            else:
+                message = [0, _("Another user is already registered using this email address."), 0]
         return message
 
     def sendOTP(self, otp, **kwargs):

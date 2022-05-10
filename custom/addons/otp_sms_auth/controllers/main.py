@@ -126,8 +126,9 @@ class AuthSignupHome(AuthSignupHome):
         res = super(AuthSignupHome, self).generate_otp(**kwargs)
         otp_notification_mode = request.env['ir.default'].sudo().get(
             'website.otp.settings', 'otp_notification_mode')
+        print("res = " , res)
         if otp_notification_mode != 'email':
-            if mobile and res:
+            if not res:
                 if otp_notification_mode == 'both':
                     if email.isdigit():
                         res[1] = "OTP has been sent to given Mobile Number: {}".format(
@@ -149,6 +150,12 @@ class AuthSignupHome(AuthSignupHome):
         if otp_notification_mode != 'sms':
             message = super(AuthSignupHome, self).checkExistingUser(**kwargs)
         mobile = kwargs.get('mobile')
+        login = kwargs.get('login')
+        email = kwargs.get('email')
+        if login:
+            print("login = " + login)
+        if email:
+            print("email = " + email)
         userObj = request.env["res.users"].sudo().search(
             [("mobile", "=", mobile)])
         if userObj and mobile:
