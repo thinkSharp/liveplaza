@@ -131,6 +131,25 @@
                             </div>
                         </div>
                 </xpath>
+                <xpath expr="//div[hasclass('settings')]" position="inside" >
+                    <div class="app_settings_block" data-string="Inventory" string="Inventory" data-key="stock" groups="stock.group_stock_manager">>
+                        <h2>Minimum Quantity</h2>
+                        <div class="row mt16 o_settings_container">
+                            <div class="col-12 col-lg-6 o_setting_box" title="Minimum Quantity of Products to send SMS warning to Sellers when Inventory is below that Quantity">
+                                <div class="o_setting_left_pane"/>
+                                <div class="o_setting_right_pane">
+                                    <label for="min_qty_for_sms_warning" string='Minimum Quantity for Inventory SMS Warning'/>
+                                    <div class="text-muted">
+                                        Minimum Quantity of Products to send SMS warning to Sellers when Inventory is below that Quantity
+                                    </div>
+                                    <div class="text-muted">
+                                        <field name="min_qty_for_sms_warning" class="oe_inline" help='Set the minimum quantity to send warning SMS to Seller when inventory is below that quantity.'/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
             </field>
         </record>       
     </data>
