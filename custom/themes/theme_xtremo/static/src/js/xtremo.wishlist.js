@@ -6,6 +6,7 @@ var wSaleUtils = require('website_sale.utils');
 var VariantMixin = require('sale.VariantMixin');
 var old_wishlist = require('website_sale_wishlist.wishlist');
 var utils = require('web.utils');
+var session = require('web.session');
 var wishlist = publicWidget.registry.ProductWishlist;
 
     $(document).ready(function() {
@@ -13,7 +14,15 @@ var wishlist = publicWidget.registry.ProductWishlist;
      });
 
      function updateWishlistView () {
-        var wishlist_products = JSON.parse(utils.get_cookie("wishlist_products") || "[]");
+        var user = (session.user_id);
+        var user_str = user.toString();
+        if(user == false) {
+            user_str = "guest";
+        }
+        if(utils.get_cookie(user_str) == null) {
+            utils.set_cookie(user_str,  '[]');
+        }
+        var wishlist_products = JSON.parse(utils.get_cookie(user_str) || "[]");
         var sup = $("#my_wish sup");
         if (wishlist_products.length >= 0) {
             $('.o_wsale_my_wish').show();
@@ -43,6 +52,11 @@ publicWidget.registry.ProductWishlist = publicWidget.Widget.extend(VariantMixin,
     init: function (parent) {
         this._super.apply(this, arguments);
         this.wishlistProductIDs = [];
+
+        utils.set_cookie("guest", '[]');
+
+        this.guest_wishlist = [];
+
     },
     /**
      * Gets the current wishlist items.
@@ -59,7 +73,6 @@ publicWidget.registry.ProductWishlist = publicWidget.Widget.extend(VariantMixin,
         }).then(function (res) {
             self.wishlistProductIDs = JSON.parse(res);
         });
-
         return Promise.all([def, wishDef]);
     },
     /**
@@ -69,8 +82,9 @@ publicWidget.registry.ProductWishlist = publicWidget.Widget.extend(VariantMixin,
      * @override
      */
     start: function () {
+        var user = session.user_id.toString();
+        var wishlist_products = JSON.parse(utils.get_cookie(session.user_id.toString()) || "[]");
         var def = this._super.apply(this, arguments);
-
         this._updateWishlistView();
         // trigger change on only one input
         if (this.$('input.js_product_change').length) { // manage "List View of variants"
@@ -115,26 +129,46 @@ publicWidget.registry.ProductWishlist = publicWidget.Widget.extend(VariantMixin,
 
         productReady.then(function (productId) {
             productId = parseInt(productId, 10);
+            if(session.user_id != false) {
 
-            if (productId && !_.contains(self.wishlistProductIDs, productId)) {
-                return self._rpc({
-                    route: '/shop/wishlist/add',
-                    params: {
-                        product_id: productId,
-                    },
-                }).then(function () {
-                    var $navButton = wSaleUtils.getNavBarButton('.o_wsale_my_wish');
-                    self.wishlistProductIDs.push(productId);
-                    utils.set_cookie("wishlist_products", "", -1);
-                    utils.set_cookie("wishlist_products", JSON.stringify(self.wishlistProductIDs), false);
-                    self._updateWishlistView();
-                    wSaleUtils.animateClone($navButton, $el.closest('form'), 25, 40);
-                }).guardedCatch(function () {
-                    $el.prop("disabled", false).removeClass('disabled');
-                });
+                if (productId && !_.contains(self.wishlistProductIDs, productId)) {
+                    return self._rpc({
+                        route: '/shop/wishlist/add',
+                        params: {
+                            product_id: productId,
+                        },
+                    }).then(function () {
+                        var $navButton = wSaleUtils.getNavBarButton('.o_wsale_my_wish');
+                        self.wishlistProductIDs.push(productId);
+                        utils.set_cookie((session.user_id).toString(), "", -1);
+                        utils.set_cookie((session.user_id).toString(), JSON.stringify(self.wishlistProductIDs), false);
+                        self._updateWishlistView();
+                        wSaleUtils.animateClone($navButton, $el.closest('form'), 25, 40);
+                    }).guardedCatch(function () {
+                        $el.prop("disabled", false).removeClass('disabled');
+                    });
+                }
             }
-        }).guardedCatch(function () {
-            $el.prop("disabled", false).removeClass('disabled');
+            else {
+                if (productId && !_.contains(self.guest_wishlist, productId)) {
+
+                    return self._rpc({
+                        route: '/shop/wishlist/add',
+                        params: {
+                            product_id: productId,
+                        },
+                    }).then(function () {
+                        var $navButton = wSaleUtils.getNavBarButton('.o_wsale_my_wish');
+                        self.guest_wishlist.push(productId);
+                        utils.set_cookie("guest", "", -1);
+                        utils.set_cookie("guest", JSON.stringify(self.guest_wishlist), false);
+                        self._updateWishlistView();
+                        wSaleUtils.animateClone($navButton, $el.closest('form'), 25, 40);
+                    }).guardedCatch(function () {
+                        $el.prop("disabled", false).removeClass('disabled');
+                    });
+                }
+            }
         });
     },
     /**
@@ -142,11 +176,23 @@ publicWidget.registry.ProductWishlist = publicWidget.Widget.extend(VariantMixin,
      */
 
     _updateWishlistView: function () {
-        if (this.wishlistProductIDs.length >= 0) {
-            $('.o_wsale_my_wish').show();
-            $('.my_wish_quantity').text(this.wishlistProductIDs.length);
-        } else {
-            $('.o_wsale_my_wish').hide();
+        var guest_products = JSON.parse(utils.get_cookie("guest") || "[]");
+        var user_products = JSON.parse(utils.get_cookie(session.user_id.toString()) || "[]");
+        if(session.user_id == false) {
+            if (this.guest_wishlist.length >= 0) {
+                $('.o_wsale_my_wish').show();
+                $('.my_wish_quantity').text(this.guest_wishlist.length);
+            } else {
+                $('.o_wsale_my_wish').hide();
+            }
+        }
+        else {
+            if (this.wishlistProductIDs.length >= 0) {
+                $('.o_wsale_my_wish').show();
+                $('.my_wish_quantity').text(this.wishlistProductIDs.length);
+            } else {
+                $('.o_wsale_my_wish').hide();
+            }
         }
     },
     /**
@@ -165,15 +211,30 @@ publicWidget.registry.ProductWishlist = publicWidget.Widget.extend(VariantMixin,
             $(tr).hide();
         });
 
-        this.wishlistProductIDs = _.without(this.wishlistProductIDs, product);
-        utils.set_cookie("wishlist_products", JSON.stringify(this.wishlistProductIDs), false);
-        if (this.wishlistProductIDs.length === 0) {
-            if (deferred_redirect) {
-                deferred_redirect.then(function () {
-                    self._redirectNoWish();
-                });
+        if(session.user_id == false){
+            this.guest_wishlist = _.without(this.guest_wishlist, product);
+            utils.set_cookie("guest", JSON.stringify(self.guest_wishlist), false);
+            if (this.guest_wishlist.length === 0) {
+                if (deferred_redirect) {
+                    deferred_redirect.then(function () {
+                        self._redirectNoWish();
+                    });
+                }
             }
         }
+        else {
+            this.wishlistProductIDs = _.without(this.wishlistProductIDs, product);
+            utils.set_cookie((session.user_id).toString(), JSON.stringify(self.wishlistProductIDs), false);
+            if (this.wishlistProductIDs.length === 0) {
+                if (deferred_redirect) {
+                    deferred_redirect.then(function () {
+                        self._redirectNoWish();
+                    });
+                }
+            }
+        }
+
+
         this._updateWishlistView();
     },
     /**
@@ -232,10 +293,21 @@ publicWidget.registry.ProductWishlist = publicWidget.Widget.extend(VariantMixin,
      * @private
      */
     _onClickMyWish: function () {
-        if (this.wishlistProductIDs.length === 0) {
-            this._updateWishlistView();
-            this._redirectNoWish();
-            return;
+        if(session.user_id == false) {
+            utils.set_cookie("guest", JSON.stringify(self.guest_wishlist), false);
+            if (this.guest_wishlist.length === 0) {
+                this._updateWishlistView();
+                this._redirectNoWish();
+                return;
+            }
+        }
+        else {
+            utils.set_cookie((session.user_id).toString(), JSON.stringify(self.wishlistProductIDs), false);
+            if (this.wishlistProductIDs.length === 0) {
+                this._updateWishlistView();
+                this._redirectNoWish();
+                return;
+            }
         }
         window.location = '/shop/wishlist';
     },
@@ -254,10 +326,19 @@ publicWidget.registry.ProductWishlist = publicWidget.Widget.extend(VariantMixin,
         var $input = $(ev.target);
         var $parent = $input.closest('.js_product');
         var $el = $parent.find("[data-action='o_wishlist']");
-        if (!_.contains(this.wishlistProductIDs, parseInt($input.val(), 10))) {
-            $el.prop("disabled", false).removeClass('disabled').removeAttr('disabled');
-        } else {
-            $el.prop("disabled", true).addClass('disabled').attr('disabled', 'disabled');
+        if(session.user_id == false) {
+            if (!_.contains(this.guest_wishlist, parseInt($input.val(), 10))) {
+                $el.prop("disabled", false).removeClass('disabled').removeAttr('disabled');
+            } else {
+                $el.prop("disabled", true).addClass('disabled').attr('disabled', 'disabled');
+            }
+        }
+        else {
+            if (!_.contains(this.wishlistProductIDs, parseInt($input.val(), 10))) {
+                $el.prop("disabled", false).removeClass('disabled').removeAttr('disabled');
+            } else {
+                $el.prop("disabled", true).addClass('disabled').attr('disabled', 'disabled');
+            }
         }
         $el.data('product-product-id', parseInt($input.val(), 10));
     },
@@ -268,11 +349,19 @@ publicWidget.registry.ProductWishlist = publicWidget.Widget.extend(VariantMixin,
     _onChangeProduct: function (ev) {
         var productID = ev.currentTarget.value;
         var $el = $(ev.target).closest('.js_add_cart_variants').find("[data-action='o_wishlist']");
-
-        if (!_.contains(this.wishlistProductIDs, parseInt(productID, 10))) {
-            $el.prop("disabled", false).removeClass('disabled').removeAttr('disabled');
-        } else {
-            $el.prop("disabled", true).addClass('disabled').attr('disabled', 'disabled');
+        if(session.user_id == false) {
+            if (!_.contains(this.guest_wishlist, parseInt(productID, 10))) {
+                $el.prop("disabled", false).removeClass('disabled').removeAttr('disabled');
+            } else {
+                $el.prop("disabled", true).addClass('disabled').attr('disabled', 'disabled');
+            }
+        }
+        else {
+            if (!_.contains(this.wishlistProductIDs, parseInt(productID, 10))) {
+                $el.prop("disabled", false).removeClass('disabled').removeAttr('disabled');
+            } else {
+                $el.prop("disabled", true).addClass('disabled').attr('disabled', 'disabled');
+            }
         }
         $el.data('product-product-id', productID);
     },
@@ -296,3 +385,4 @@ publicWidget.registry.ProductWishlist = publicWidget.Widget.extend(VariantMixin,
     },
 });
 });
+
