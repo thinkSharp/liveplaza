@@ -150,14 +150,8 @@ class AuthSignupHome(AuthSignupHome):
         if otp_notification_mode != 'sms':
             message = super(AuthSignupHome, self).checkExistingUser(**kwargs)
         mobile = kwargs.get('mobile')
-        login = kwargs.get('login')
-        email = kwargs.get('email')
-        if login:
-            print("login = " + login)
-        if email:
-            print("email = " + email)
         userObj = request.env["res.users"].sudo().search(
-            [("mobile", "=", mobile)])
+            [("login", "=", mobile)])
         if userObj and mobile:
             message = [
                 0, _("Another user is already registered using this mobile number."), 0]

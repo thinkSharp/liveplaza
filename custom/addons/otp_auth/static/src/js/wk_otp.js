@@ -9,7 +9,7 @@ odoo.define('otp_auth.wk_otp', function (require) {
     $(document).ready(function() {
         var ValidUser = 0;
         if ($('#otpcounter').get(0)) {
-            $("#otpcounter").html("<a class='btn btn-link pull-left wk_send' href='#'>Send OTP</a>");
+            $("#otpcounter").html("<center><a class='btn btn-link wk_send' href='#'>Send OTP</a></center>");
 //            $(":submit").attr("disabled", true);
             $(":submit").css("display", "none");
             $(".btn-sm").css("width", "100%");
@@ -145,8 +145,9 @@ odoo.define('otp_auth.wk_otp', function (require) {
             $("#otpcounter").html("OTP will expire in " + countDown + " seconds.");
             if (countDown < 0) {
                 clearInterval(x);
-                $("#otpcounter").html("<a class='btn btn-link pull-right wk_resend position-relative' href='#'>Resend OTP</a>");
+                $("#otpcounter").html('');
                 $("#otpcounter").append('<span>Otp is expire.Please Click on resend button</span>');
+                $("#otpcounter").after("<center><a class='btn btn-link wk_resend' href='#'>Resend OTP</a></center>");
 //                $(":submit").attr("disabled", true);
                 $(":submit").click(function(ev){
                     $('#wk_error').remove();
@@ -171,6 +172,7 @@ odoo.define('otp_auth.wk_otp', function (require) {
                 if (data[0] == 1) {
                     $("div#wk_loader").removeClass('show');
                     $('.wk_send').remove();
+                    $('.wk_resend').remove();
                     getInterval(data[2]);
                     $("#wkotp").after("<p id='wk_error' class='alert alert-success'>" +data[1] + "</p>");
                     $("#otp").css("display","");
