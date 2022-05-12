@@ -42,6 +42,7 @@
       <script type="text/javascript" src="/theme_xtremo/static/src/js/theme.js" />
       <script type="text/javascript" src="/theme_xtremo/static/src/js/home.js" />
       <script type="text/javascript" src="/theme_xtremo/static/src/js/xtremo.sale.comparison.js" />
+      <script type="text/javascript" src="/theme_xtremo/static/src/js/xtremo.wishlist.js" />
       <script type="text/javascript" src="/theme_xtremo/static/src/js/xtremo.sale.cart.js" />
       <script type="text/javascript" src="/theme_xtremo/static/src/js/shop.js" />
       <script type="text/javascript" src="/theme_xtremo/static/src/js/lazzy_loading.js" />
