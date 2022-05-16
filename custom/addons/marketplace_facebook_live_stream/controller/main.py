@@ -146,3 +146,10 @@ class WebsiteSale(WebsiteSale):
             values.update({'stream_id':stream_id})
 
         return request.render('marketplace_facebook_live_stream.wk_live_stream',values)
+
+
+
+class your_class(http.Controller):
+    @http.route(['/livestreams'], type='http', auth='public', website=True)
+    def show_custom_webpage(self, **kw):
+        return request.render('marketplace_facebook_live_stream.backend_livestreams', {})
