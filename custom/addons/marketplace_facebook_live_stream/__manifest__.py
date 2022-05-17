@@ -35,6 +35,7 @@
     'views/current_livestream_template.xml',
     'views/seller_profile_template.xml',
     'views/inherit_product_template.xml',
+    'views/backend_livestreams.xml'
   ],
   "application" : True,
   "installable" : True,
