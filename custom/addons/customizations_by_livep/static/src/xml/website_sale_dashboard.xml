@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+    <templates>
+        <t t-extend="website.dashboard_header">
+            <t t-jquery="div.o_dashboard_common" t-operation="inner">
+                <div class="col-12 o_box" t-if="widget.dashboards_data.sales.summary.order_unpaid_count || widget.dashboards_data.sales.summary.order_to_invoice_count || widget.dashboards_data.sales.summary.payment_to_capture_count || widget.dashboards_data.sales.summary.order_carts_abandoned_count">
+                    <div t-if="widget.dashboards_data.sales.summary.order_unpaid_count" class="o_inner_box o_dashboard_action" title="Confirm orders when you get paid." name="website_sale.action_unpaid_orders_ecommerce">
+                        <div class="o_highlight"><t t-esc="widget.dashboards_data.sales.summary.order_unpaid_count"/></div>
+                        Unpaid Orders
+                    </div>
+                    <div t-if="widget.dashboards_data.sales.summary.order_to_invoice_count" class="o_inner_box o_dashboard_action" title="Generate an invoice from orders ready for invoicing." name="website_sale.sale_order_action_to_invoice">
+                        <div class="o_highlight"><t t-esc="widget.dashboards_data.sales.summary.order_to_invoice_count"/></div>
+                        Orders to Invoice
+                    </div>
+                    <div t-if="widget.dashboards_data.sales.summary.payment_to_capture_count" class="o_inner_box o_dashboard_action" title="Capture order payments when the delivery is completed." name="payment.action_payment_transaction">
+                        <div class="o_highlight"><t t-esc="widget.dashboards_data.sales.summary.payment_to_capture_count"/></div>
+                        Payments to Capture
+                    </div>
+                    <div t-if="widget.dashboards_data.sales.summary.order_carts_abandoned_count" class="o_inner_box o_dashboard_action" title="Send a recovery email to visitors who haven't completed their order." name="website_sale.action_abandoned_orders_ecommerce">
+                        <div class="o_highlight"><t t-esc="widget.dashboards_data.sales.summary.order_carts_abandoned_count"/></div>
+                        Abandoned Carts
+                    </div>
+                </div>
+            </t>
+        </t>
+    </templates>
