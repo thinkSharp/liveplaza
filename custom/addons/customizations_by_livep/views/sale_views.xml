@@ -73,4 +73,18 @@
 
     <menuitem name="Sales Report" id="sales_report" parent="marketplace_report_root" groups="odoo_marketplace.marketplace_manager_group" action="action_sales_report" sequence="1" />
 
+    <record id="website_sale.sale_order_action_to_invoice" model="ir.actions.act_window">
+        <field name="name">Orders To Invoice</field>
+        <field name="res_model">sale.order</field>
+        <field name="view_mode">tree,form,kanban</field>
+        <field name="domain">[('state', 'in', ('sale', 'approved_by_admin', 'ready_to_pick', 'done')), ('invoice_status', '=', 'no'), ('website_id', '!=', False)]</field>
+        <field name="context">{'show_sale': True, 'search_default_order_confirmed': 1, 'create': False}</field>
+        <field name="search_view_id" ref="website_sale.view_sales_order_filter_ecommerce"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_empty_folder">
+                You don't have any order to invoice from the website
+            </p>
+        </field>
+    </record>
+
 </odoo>
