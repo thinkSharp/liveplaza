@@ -10,7 +10,9 @@
                 'base_setup',
                 'website_sale', 
                 'odoo_marketplace', 
-                'marketplace_facebook_live_stream'
+                'marketplace_facebook_live_stream',
+                'payment',
+                'website'
                 ],
     'data' : [
         'security/ir.model.access.csv',
@@ -25,6 +27,7 @@
         'views/setting_config_inherit.xml',
         'views/signup_form_inherit.xml',
     ],
+    'qweb': ['static/src/xml/*.xml'],
     'installable' : True,
     'application' : False,
     'auto-install' : False,
