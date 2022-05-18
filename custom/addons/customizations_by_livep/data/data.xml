@@ -2,7 +2,7 @@
 <odoo>
     <data noupdate="1">
 
-        <record id="menu_shop2222" model="website.menu">
+        <record id="livestream" model="website.menu">
             <field name="name">LiveStreams</field>
             <field name="url">/livestreams</field>
             <field name="parent_id" ref="website.main_menu"/>
