@@ -22,9 +22,10 @@ REDIS_STATUS = False
 import re
 try:
     import redis
-    # from rediscluster import RedisCluster
     REDIS_STATUS = True
 except:
+    import subprocess
+    subprocess.call(['pip', 'install', 'redis'])
     _logger.info("< ERROR : Redis not found in server, run camand pip install redis. >")
 
 # REDIS_ENABLE = False
