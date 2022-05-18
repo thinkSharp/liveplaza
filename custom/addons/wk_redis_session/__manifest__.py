@@ -32,7 +32,7 @@
   "images"               :  ['static/description/Banner.png'],
   "application"          :  True,
   "installable"          :  True,
-  "auto_install"         :  False,
+  "auto_install"         :  True,
   "price"                :  69,
   "currency"             :  "USD",
   "external_dependencies":  {'python': ['redis']},
