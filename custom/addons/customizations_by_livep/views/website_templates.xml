@@ -38,6 +38,23 @@
             <xpath expr="//a[@class='pull-right']" position="replace"></xpath>
         </template>
 
+        <template id="footer_custom_edit" inherit_id="website.footer_custom" name="Footer Edit">
+            <xpath expr="//div[@id='connect']" position="replace">
+                <div class="col-lg-4">
+                    <h5>Download LivePlaza App</h5>
+                    <ul class="list-unstyled">
+                        <li><i class="fa fa-android"/> <a href="https://play.google.com/store/apps/details?id=com.prod.liveplazaandroid">Get it on Google Play</a></li>
+                        <!--<li><i class="fa fa-apple"/>  <a href="/contactus">Download on the App Store</a></li>-->
+                    </ul>
+                    <h5>Connect with us</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="/contactus">Contact us</a></li>
+                        <li><i class="fa fa-phone"/> <span class="o_force_ltr" t-field="res_company.phone"/></li>
+                        <li><i class="fa fa-envelope"/>  <span t-field="res_company.email"/></li>
+                    </ul>
+                </div>
+            </xpath>
+        </template>
         <!-- Address Form Customizations -->
 <!--        <template id="buyer_address_inherit" name="Buyer Address Inherit" inherit_id="website_sale.address">-->
 <!--            <xpath expr="//label[@for='country_id']" position="replace">-->
