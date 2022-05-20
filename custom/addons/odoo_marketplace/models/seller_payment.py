@@ -14,6 +14,7 @@
 # You should have received a copy of the License along with this program.
 # If not, see <https://store.webkul.com/license.html/>
 #################################################################################
+# Resolve Conflict Production Server
 
 
 from odoo import models, fields, api, _
@@ -335,8 +336,9 @@ class SellerPayment(models.Model):
 
     def do_paid(self):
         for rec in self:
-            rec.invoice_id.signal_workflow("invoice_open")
-            rec.state = "posted"
+            #rec.invoice_id.signal_workflow("invoice_open")
+            if rec.invoice_id.invoice_payment_state == "paid":
+                rec.state = "posted"
 
     def copy(self, default=None):
         raise Warning(_("You can not duplicate seller paymnet."))

@@ -18,6 +18,8 @@ from odoo import _
 from odoo.exceptions import UserError
 
 import logging
+# Resolve Conflict Production Server
+
 _logger = logging.getLogger(__name__)
 
 def check_mp_officer(method):

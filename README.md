@@ -9,6 +9,7 @@ Python 3.6 Setup
  - Go to Folder odoo-server and open odoo.conf file.
  - Paste the text inside the config file
 
+
 ----
 ```bash
 [options]

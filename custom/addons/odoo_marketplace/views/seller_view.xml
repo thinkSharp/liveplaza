@@ -2,6 +2,8 @@
 <!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
 <!-- See LICENSE file for full copyright and licensing details. -->
 <!-- License URL : https://store.webkul.com/license.html/ -->
+<!-- Resolve Conflict Production Server-->
+
 <odoo>
     <data>
         <record id="wk_seller_form_view" model="ir.ui.view">
@@ -11,9 +13,9 @@
             <field name="arch" type="xml">
                 <form string="Product" create="0">
                     <header invisible="not context.get('default_seller')">
-                        <button name="%(odoo_marketplace.wk_seller_payment_wizard_action)d" string="Request For Payment" type="action" states="approved" groups="odoo_marketplace.marketplace_seller_group" invisible="1"  class="btn-primary"/>
-                        <button name="approve" string="Approve" type="object" states="pending" groups="odoo_marketplace.marketplace_officer_group" class="btn-primary"/>
-                        <button name="%(odoo_marketplace.wk_seller_statsu_reason_wizard_action)d" string="Deny" type="action" states="pending,approved" groups="odoo_marketplace.marketplace_officer_group" />
+                        <button name="%(odoo_marketplace.wk_seller_payment_wizard_action)d" string="Request For Payment" type="action" states="approved" groups="odoo_marketplace.marketplace_seller_group,access_rights_customization.group_operation_supervisor" invisible="1"  class="btn-primary"/>
+                        <button name="approve" string="Approve" type="object" states="pending" groups="odoo_marketplace.marketplace_officer_group,access_rights_customization.group_operation_supervisor" class="btn-primary"/>
+                        <button name="%(odoo_marketplace.wk_seller_statsu_reason_wizard_action)d" string="Deny" type="action" states="pending,approved" groups="odoo_marketplace.marketplace_officer_group,access_rights_customization.group_operation_supervisor" />
                         <button name="set_to_pending" string="Request For Approval" type="object" states="new,denied" class="btn-primary"/>
                         <field name="state" widget="statusbar" statusbar_visible="new,pending,approved,denied"/>
                     </header>
@@ -104,7 +106,7 @@
                         <!-- Edited by KMS -->
                         <!-- <notebook groups="odoo_marketplace.marketplace_seller_group"> -->
                         <notebook>
-                            <page string="General" groups="odoo_marketplace.marketplace_officer_group">
+                            <page string="General" groups="access_rights_customization.group_operation_supervisor,access_rights_customization.group_operation_operator">
                                 <h2 style="margin-bottom: 0;padding: 0.25rem 16px;background-color: #e9ecef;font-size: 15px;font-weight: bold;"
                                     groups="odoo_marketplace.marketplace_officer_group"> Default Settings </h2>
                                 <br/>

@@ -190,3 +190,35 @@ class Website(Website):
             redirect = '/shop'
             return http.redirect_with_hash(redirect)
         return response
+
+
+class WebsiteSaleWishlist(WebsiteSale):
+
+    @http.route(['/shop/wishlist/add'], type='json', auth="public", website=True)
+    def add_to_wishlist(self, product_id, price=False, **kw):
+        if not price:
+            pricelist_context, pl = self._get_pricelist_context()
+            p = request.env['product.product'].with_context(pricelist_context, display_default_code=False).browse(product_id)
+            price = p._get_combination_info_variant()['price']
+
+        Wishlist = request.env['product.wishlist']
+        if request.website.is_public_user():
+            Wishlist = Wishlist.sudo()
+            partner_id = False
+        else:
+            partner_id = request.env.user.partner_id.id
+
+        wish_id = Wishlist._add_to_wishlist(
+            pl.id,
+            pl.currency_id.id,
+            request.website.id,
+            price,
+            product_id,
+            partner_id
+        )
+        print("partner_id = " + str(partner_id))
+
+        # if not partner_id:
+        #     request.session['wishlist_ids'] = request.session.get('wishlist_ids', []) + [wish_id.id]
+
+        return wish_id

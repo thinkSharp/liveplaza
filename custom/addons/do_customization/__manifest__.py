@@ -29,6 +29,8 @@
         'views/stock_picking_views.xml',
         'views/templates.xml',
         'views/res_partner.xml',
+        'views/sol_seller_view.xml',
+        'data/account_data.xml',
     ],
 
     'qweb': [

@@ -94,18 +94,19 @@ class FacebookMerchantShop(models.Model):
     field_mapping_id = fields.Many2one(comodel_name="fb.field.mappning",string="Field Mapping",domain=[('active','=',True)],required=True)
     product_selection_type = fields.Selection([('domain','Domain'),('manual','Manual'),('category','Category')],default = "domain",string="Product Select Way",help="Select wether you want to select the product manually or with the help of domain")
     domain_input = fields.Char(string="Domain",default="[]", help="Domain Filter:- Using this only filtered products will generate inside feed xml.")
-    limit = fields.Integer(string="Limit",default=10, help="Product Limit:- Selected limit product will generate inside feed xml.")
+    limit = fields.Integer(string="Limit",default=10000, help="Product Limit:- Selected limit product will generate inside feed xml.")
+
     product_ids_rel = fields.Many2many(comodel_name='product.template', relation='fb_shop_product_rel', column1='facebook_id', column2='product_id',domain=_get_default_domain , string="Products")
     public_categ_ids = fields.Many2many(comodel_name='product.public.category', relation='fb_shop_public_category_rel', column1='facebook_id', column2='prod_cat_id', string="Category")
     mapping_count=fields.Integer(srting="Total Mappings",compute="_mapping_count")
     crone_id=fields.Many2one(comodel_name='ir.cron',string="Cron Detail",readonly=True)
-    multi_images = fields.Boolean(string="Want to sync Multi Images at facebook catalog")
-    sync_product_variant = fields.Boolean(string="Want to sync product variants at facebook catalog")
+    multi_images = fields.Boolean(string="Want to sync Multi Images at facebook catalog", default=True)
+    sync_product_variant = fields.Boolean(string="Want to sync product variants at facebook catalog", default=True)
     warehouse_id = fields.Many2one('stock.warehouse', string="Warehouse", help="If it's set then selected warehouse quantity will get fetched else all quantity will fetch.")
     feeds_security = fields.Selection([('automatic','Automatic'),('manual','Manual')], string="Feed Security", default="automatic")
     enable_token = fields.Boolean(string="Token Enabled", help="Enbale if you want to secure publicly access Feed URL")
     feed_token = fields.Char(string="Token")
-    update_image = fields.Boolean(string="Want to update the image/multi image at facebook catalog")
+    update_image = fields.Boolean(string="Want to update the image/multi image at facebook catalog", default=True)
     my_product_dicts = fields.Text(help="Store the current product_dicts and compare and check there are any changes.")
 
     @api.onchange('enable_token')
@@ -161,7 +162,9 @@ class FacebookMerchantShop(models.Model):
         context.update({'pricelist': self.pricelist_id.id,'website_id':self.website_id.id,'lang': self.content_language_id.code,'warehouse':self.warehouse_id.id if self. warehouse_id else False})
         limit = 0
         if(sel_type == 'domain'):
-            domain = safe_eval(self.domain_input)
+            # domain = safe_eval(self.domain_input)
+            domain = [('marketplace_seller_id', '=', self.marketplace_seller_id.id), ('exclude_from_fb', '=', False),]
+            # print('domain', domain)
             final_domain=self._get_final_domain(domain=domain)
             limit = self.limit
 

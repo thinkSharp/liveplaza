@@ -64,9 +64,10 @@ class SignupVerifyEmail(AuthSignupHome):
                 .sudo()
                 .search([("login", "=", qcontext.get("login"))])
             ):
-                qcontext["error"] = _(
-                    "Another user is already registered using this email" " address."
-                )
+                if qcontext.get("login").isdigit():
+                    qcontext["error"] = _("Another user is already registered using this phone number.")
+                else:
+                    qcontext["error"] = _("Another user is already registered using this email address.")
             else:
                 # Agnostic message for security
                 qcontext["error"] = _(

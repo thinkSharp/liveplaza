@@ -26,6 +26,7 @@
         'views/checkout_template_inherit.xml',
         'views/setting_config_inherit.xml',
         'views/signup_form_inherit.xml',
+        'data/data.xml'
     ],
     'qweb': ['static/src/xml/*.xml'],
     'installable' : True,

@@ -886,6 +886,7 @@
 			<field name="priority" eval="100"/>
 			<field name="arch" type="xml">
 				<search string="Search Stock Request">
+                    <field name="origin" string="Order Number"/>
                     <field name="marketplace_seller_id" string="Seller"/>
                     <field name="state" string="Status"/>
 					<group string="Group By">

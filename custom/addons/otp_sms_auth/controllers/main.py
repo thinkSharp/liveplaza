@@ -12,6 +12,7 @@ from odoo.http import request
 from odoo.addons.web.controllers.main import ensure_db, Home
 from odoo.addons.otp_auth.controllers.main import AuthSignupHome
 from odoo import http
+from odoo.exceptions import UserError
 import pyotp
 import datetime as dt
 import logging
@@ -69,16 +70,16 @@ class AuthSignupHome(AuthSignupHome):
                     if rest < otp_time:
                         otp_time = int(otp_time - rest)
                     if errorSMS:
-                        msg = "Failed to send OTP !! Please ensure that you have given correct Mobile No.<br/><center>or</center> <br/><p class='alert alert-danger'> Reason: {}</p>".format(
+                        msg = "Failed to send OTP !! Please ensure that you have given correct Mobile Number.<br/><center>or</center> <br/><p class='alert alert-danger'> Reason: {}</p>".format(
                             errorSMS)
                         res['mobile'] = {'status': 0, 'message': _(
                             msg), 'otp_time': 0, 'email': False}
                     else:
-                        res['mobile'] = {'status': 1, 'message': _("OTP has been sent to given Mobile No. : {}.".format(
+                        res['mobile'] = {'status': 1, 'message': _("OTP has been sent to given Mobile Number. : {}.".format(
                             mobile)), 'otp_time': otp_time, 'email': loginId}
                 else:
                     res['mobile'] = {'status': 0, 'message': _(
-                        "Failed to send OTP !! Please ensure that you have given correct Mobile No."), 'otp_time': 0, 'email': False}
+                        "Failed to send OTP !! Please ensure that you have given correct Mobile Number."), 'otp_time': 0, 'email': False}
         if not kwargs.get('email') and res.get('email', {}).get('status') == 0:
             res['email'] = {'status': 0, 'message': _(
                 "Failed to send OTP !! Please ensure that you have given correct email ID."), 'otp_time': 0, 'email': False}
@@ -99,17 +100,17 @@ class AuthSignupHome(AuthSignupHome):
             login = userObj.login if userObj else False
 
         if login and mobile:
-            resp = {'status': 1, 'message': _("Mobile No. : {}.".format(
+            resp = {'status': 1, 'message': _("Mobile Number. : {}.".format(
                 mobile)), 'mobile': mobile, 'login': login}
         elif not login and mobile:
             resp = {'status': 0, 'message': _(
-                "Failed to login !! Please ensure that you have given correct Mobile No."), 'mobile': mobile, 'login': False}
+                "Failed to login !! Please ensure that you have given correct Mobile Number."), 'mobile': mobile, 'login': False}
         elif not mobile and login:
             resp = {'status': 0, 'message': _(
                 "Failed to login !! Please ensure that you have given correct login ID."), 'mobile': False, 'login': login}
         else:
             resp = {'status': 0, 'message': _(
-                "Failed to login !! Please enter a mobile no./login ID"), 'mobile': False, 'login': False}
+                "Failed to login !! Please enter a mobile number./login ID"), 'mobile': False, 'login': False}
         return resp
 
     @http.route(['/generate/otp'], type='json', auth="public", methods=['POST'], website=True)
@@ -125,18 +126,19 @@ class AuthSignupHome(AuthSignupHome):
         res = super(AuthSignupHome, self).generate_otp(**kwargs)
         otp_notification_mode = request.env['ir.default'].sudo().get(
             'website.otp.settings', 'otp_notification_mode')
+        print("res = " , res)
         if otp_notification_mode != 'email':
-            if mobile and res:
+            if not res:
                 if otp_notification_mode == 'both':
                     if email.isdigit():
-                        res[1] = "OTP has been sent to given Mobile No: {}".format(
+                        res[1] = "OTP has been sent to given Mobile Number: {}".format(
                             mobile)
                         res[0] = 1
                     else:
                         res[1] = "{}" .format(res[1])
                     # res[1] = "{} and Mobile No: {}".format(res[1], mobile)
                 elif otp_notification_mode == 'sms':
-                    res[1] = "OTP has been sent to given Mobile No: {}".format(
+                    res[1] = "OTP has been sent to given Mobile Number: {}".format(
                         mobile)
                     res[0] = 1
         return res
@@ -149,10 +151,10 @@ class AuthSignupHome(AuthSignupHome):
             message = super(AuthSignupHome, self).checkExistingUser(**kwargs)
         mobile = kwargs.get('mobile')
         userObj = request.env["res.users"].sudo().search(
-            [("mobile", "=", mobile)])
+            [("login", "=", mobile)])
         if userObj and mobile:
             message = [
-                0, _("Another user is already registered using this mobile no."), 0]
+                0, _("Another user is already registered using this mobile number."), 0]
         if not message:
             message = [
                 0, _("OTP can't send because email OTP notification is not enabled."), 0]

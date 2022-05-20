@@ -15,6 +15,8 @@
 # If not, see <https://store.webkul.com/license.html/>
 #################################################################################
 
+# Resolve Conflict Production Server
+
 import werkzeug
 import odoo
 from odoo.addons.auth_signup.models.res_users import SignupError
@@ -629,7 +631,7 @@ class MarketplaceSellerShop(http.Controller):
         sales_count = 0
 
         all_products = request.env['product.template'].sudo().search(
-            [("marketplace_seller_id", "=", seller.sudo().id)])
+            [("marketplace_seller_id", "=", shop_obj.sudo().seller_id.id)])
         for prod in all_products.with_user(SUPERUSER_ID):
             sales_count += prod.sales_count
 

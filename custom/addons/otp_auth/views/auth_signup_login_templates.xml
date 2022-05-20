@@ -15,7 +15,7 @@
             <t t-if="enable_signup_auth == 1">
                 <t t-set='otp_type' t-value="request.env['ir.default'].sudo().get('website.otp.settings', 'otp_type')"/>
                 <div class="form-group" id="wkotp">
-                    <input id="otp" name="otp" class="form-control" placeholder="Enter OTP"
+                    <input id="otp" name="otp" class="form-control" placeholder="Enter OTP" value=""
                         required="required" t-att-type="'password' if otp_type=='3' else 'text'" maxlength="6"/>
                 </div>
             </t>

@@ -2,6 +2,7 @@
 <!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
 <!-- See LICENSE file for full copyright and licensing details. -->
 <!-- License URL : https://store.webkul.com/license.html/ -->
+<!-- Resolve Conflict Production Server-->
 
 <odoo>
 	<data>
@@ -14,6 +15,7 @@
                         <button name="do_validate" string="Validate" type="object" states="draft" groups="odoo_marketplace.marketplace_officer_group" class="btn-primary"/>
                         <button name="do_Confirm_and_view_invoice" string="Confirm &amp; View Invoice" type="object" states="requested" groups="odoo_marketplace.marketplace_officer_group" class="btn-primary"/>
                         <button name="view_invoice" string="View Invoice" type="object" groups="odoo_marketplace.marketplace_officer_group" class="btn-primary" attrs="{'invisible':[('invoice_id','=',False)]}"/>
+                        <button name="do_paid" string="Post" type="object" states="confirm" groups="odoo_marketplace.marketplace_officer_group" class="btn-primary"/>
                         <field name="state" widget="statusbar" statusbar_visible="draft,requested"/>
                     </header>
                     <sheet>
