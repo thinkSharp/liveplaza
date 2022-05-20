@@ -269,7 +269,7 @@
 			<field name="name">Writeable Carrier</field>
 			<field name="model">stock.picking</field>
 			<field name="inherit_id" ref="odoo_marketplace.marketplace_picking_stock_modified_form_view"/>
-			<field name="groups_id" eval="[(6, 0, [ref('odoo_marketplace.marketplace_officer_group') ]) ])]"/>
+			<field name="groups_id" eval="[(6, 0, [ref('odoo_marketplace.marketplace_officer_group') ])]"/>
 			<field name="arch" type="xml">
                 <field name="priority" position="attributes">
 					<attribute name="readonly">0</attribute>
@@ -587,7 +587,7 @@
             <field name="name">Marketplace Stock Add Seller Group By For MP Manager</field>
             <field name="model">marketplace.stock</field>
             <field name="inherit_id" ref="odoo_marketplace.wk_marketplace_stock_search_view"/>
-            <field name="groups_id" eval="[(6, 0, [ref('odoo_marketplace.marketplace_officer_group') ]) ])]"/>
+            <field name="groups_id" eval="[(6, 0, [ref('odoo_marketplace.marketplace_officer_group') ])]"/>
             <field name="arch" type="xml">
 				<group position="inside">
 					<filter string="Locations" name="locations_filter" context="{'group_by':'location_id'}" groups="odoo_marketplace.marketplace_officer_group"/>
@@ -634,7 +634,7 @@
             <field name="name">Stock Move Add Seller Group By For MP Manager</field>
             <field name="model">stock.move</field>
             <field name="inherit_id" ref="odoo_marketplace.wk_mp_stock_move_search_fiew"/>
-            <field name="groups_id" eval="[(6, 0, [ref('odoo_marketplace.marketplace_officer_group') ]) ])]"/>
+            <field name="groups_id" eval="[(6, 0, [ref('odoo_marketplace.marketplace_officer_group') ])]"/>
             <field name="arch" type="xml">
 				<group position="inside">
 					<filter string="Seller" context="{'group_by':'marketplace_seller_id'}" name="by_marketplace_seller_id" groups="odoo_marketplace.marketplace_officer_group"/>
@@ -688,7 +688,7 @@
             <field name="name">Stock Move Add Seller Group By For MP Manager</field>
             <field name="model">stock.picking</field>
             <field name="inherit_id" ref="odoo_marketplace.wk_mp_stock_picking_search_fiew"/>
-            <field name="groups_id" eval="[(6, 0, [ref('odoo_marketplace.marketplace_officer_group') ]) ])]"/>
+            <field name="groups_id" eval="[(6, 0, [ref('odoo_marketplace.marketplace_officer_group') ])]"/>
             <field name="arch" type="xml">
 				<group position="inside">
 					<filter string="Seller" context="{'group_by':'marketplace_seller_id'}" name="by_marketplace_seller_id" groups="odoo_marketplace.marketplace_officer_group"/>

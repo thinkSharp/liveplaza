@@ -68,7 +68,7 @@
             <field name="name">Add Seller Group By For MP Manager</field>
             <field name="model">product.template</field>
             <field name="inherit_id" ref="odoo_marketplace.wk_product_template_seller_filter"/>
-            <field name="groups_id" eval="[(6, 0, [ref('odoo_marketplace.marketplace_officer_group') ]) ])]"/>
+            <field name="groups_id" eval="[(6, 0, [ref('odoo_marketplace.marketplace_officer_group') ])]"/>
             <field name="arch" type="xml">
 				<filter name="pending_product_filter" position="after">
 					<filter string="Seller" context="{'group_by':'marketplace_seller_id'}" name="by_marketplace_seller_id" groups="odoo_marketplace.marketplace_officer_group"/>

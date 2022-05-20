@@ -448,7 +448,7 @@
         <record id="wk_seller_view_filter" model="ir.ui.view">
             <field name="name">Sellers By Status</field>
             <field name="model">res.partner</field>
-            <field name="groups_id" eval="[(6, 0, [ref('odoo_marketplace.marketplace_officer_group') ]) ])]"/>
+            <field name="groups_id" eval="[(6, 0, [ref('odoo_marketplace.marketplace_officer_group') ])]"/>
             <field name="arch" type="xml">
                 <search string="Search">
                     <field name="name" filter_domain="['|','|',('display_name','ilike',self),('ref','=',self),('email','ilike',self)]"/>
