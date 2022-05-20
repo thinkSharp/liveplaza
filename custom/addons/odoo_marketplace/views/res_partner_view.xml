@@ -14,7 +14,7 @@
                 <page name="sales_purchases" position="inside">
                     <field name="customer_rank" invisible="1"/>
                     <group>
-                        <group col="4" groups="odoo_marketplace.marketplace_manager_group,access_rights_customization.group_operation_supervisor">
+                        <group col="4" groups="odoo_marketplace.marketplace_manager_group">
                             <separator string="Marketplace" colspan="4"/>
                             <field name="seller" readonly="1" colspan="2"/>
                             <button colspan="2" name="register_partner_as_a_seller" class="btn btn-xs oe_highlight" type="object" string="Register as Seller" attrs="{'invisible':[('seller','=',True)]}"/>
@@ -32,14 +32,14 @@
                  <sheet>
                      <field name="image_1920" widget="image" class="oe_avatar" options="{&quot;preview_image&quot;: &quot;image_medium&quot;, &quot;size&quot;: [90, 90]}"/>
                      <div class="oe_title">
-                         <field name="is_company" groups="odoo_marketplace.marketplace_officer_group,access_rights_customization.group_operation_supervisor"/>
-                         <field name="commercial_partner_id" groups="odoo_marketplace.marketplace_officer_group,access_rights_customization.group_operation_supervisor"/>
+                         <field name="is_company" groups="odoo_marketplace.marketplace_officer_group"/>
+                         <field name="commercial_partner_id" groups="odoo_marketplace.marketplace_officer_group"/>
                          <field name="company_type" widget="radio" class="oe_edit_only" options="{'horizontal': true}"/>
                         <h1>
                             <field name="name" default_focus="1" placeholder="Name" attrs="{'required' : [('type', '=', 'contact')]}"/>
                         </h1>
                         <div class="o_row">
-                            <field name="parent_id" placeholder="Company" domain="[('is_company', '=', True)]" attrs="{'invisible': ['|', '&amp;', ('is_company','=', True),('parent_id', '=', False),('company_name', '!=', False),('company_name', '!=', '')]}" groups="odoo_marketplace.marketplace_officer_group,access_rights_customization.group_operation_supervisor"/>
+                            <field name="parent_id" placeholder="Company" domain="[('is_company', '=', True)]" attrs="{'invisible': ['|', '&amp;', ('is_company','=', True),('parent_id', '=', False),('company_name', '!=', False),('company_name', '!=', '')]}" groups="odoo_marketplace.marketplace_officer_group"/>
                             <field name="company_name" attrs="{'invisible': ['|', '|', ('company_name', '=', False), ('company_name', '=', ''), ('is_company', '=', True)]}"/>
                         <button name="create_company" type="object" string="Create company" class="btn btn-sm oe_edit_only fa fa-external-link btn btn-link " attrs="{'invisible': ['|', '|', ('is_company','=', True), ('company_name', '=', ''), ('company_name', '=', False)]}"/>
                          </div>
@@ -60,7 +60,7 @@
                                  <field name="country_id" placeholder="Country" class="o_address_country" options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}" attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}"/>
                              </div>
                              <field name="vat" placeholder="e.g. BE0477472701"/>
-                             <field name="category_id" widget="many2many_tags" placeholder="Tags..." options="{'no_create_edit': True}" groups="odoo_marketplace.marketplace_officer_group,access_rights_customization.group_operation_supervisor"/>
+                             <field name="category_id" widget="many2many_tags" placeholder="Tags..." options="{'no_create_edit': True}" groups="odoo_marketplace.marketplace_officer_group"/>
                         </group>
                         <group>
                             <field name="function" placeholder="e.g. Sales Director" attrs="{'invisible': [('is_company','=', True)]}"/>
@@ -74,7 +74,7 @@
                         </group>
                      </group>
                      <notebook colspan="4">
-                        <page string="Contacts &amp; Addresses" autofocus="autofocus" groups="odoo_marketplace.marketplace_officer_group,access_rights_customization.group_operation_supervisor">
+                        <page string="Contacts &amp; Addresses" autofocus="autofocus" groups="odoo_marketplace.marketplace_officer_group">
                             <field name="child_ids" mode="kanban" context="{'default_parent_id': active_id, 'default_street': street, 'default_street2': street2, 'default_city': city, 'default_state_id': state_id, 'default_zip': zip, 'default_country_id': country_id, 'default_lang': lang,}">
                                 <kanban>
                                     <field name="color"/>
@@ -170,7 +170,7 @@
                                 </form>
                             </field>
                         </page>
-                        <page name="internal_notes" string="Internal Notes" groups="odoo_marketplace.marketplace_officer_group,access_rights_customization.group_operation_supervisor">
+                        <page name="internal_notes" string="Internal Notes" groups="odoo_marketplace.marketplace_officer_group">
                             <field name="comment" placeholder="Internal note..."/>
                         </page>
                      </notebook>

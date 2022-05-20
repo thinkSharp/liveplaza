@@ -68,10 +68,10 @@
             <field name="name">Add Seller Group By For MP Manager</field>
             <field name="model">product.template</field>
             <field name="inherit_id" ref="odoo_marketplace.wk_product_template_seller_filter"/>
-            <field name="groups_id" eval="[(6, 0, [ref('odoo_marketplace.marketplace_officer_group') ]), (6, 0, [ref('access_rights_customization.group_operation_supervisor') ])]"/>
+            <field name="groups_id" eval="[(6, 0, [ref('odoo_marketplace.marketplace_officer_group') ]) ])]"/>
             <field name="arch" type="xml">
 				<filter name="pending_product_filter" position="after">
-					<filter string="Seller" context="{'group_by':'marketplace_seller_id'}" name="by_marketplace_seller_id" groups="odoo_marketplace.marketplace_officer_group,access_rights_customization.group_operation_supervisor"/>
+					<filter string="Seller" context="{'group_by':'marketplace_seller_id'}" name="by_marketplace_seller_id" groups="odoo_marketplace.marketplace_officer_group"/>
 				</filter>
             </field>
         </record>
@@ -189,7 +189,7 @@
 													Seller:
 												</b>
 												<field name="marketplace_seller_id"></field>
-												<a type="open" groups="odoo_marketplace.marketplace_officer_group,access_rights_customization.group_operation_supervisor">
+												<a type="open" groups="odoo_marketplace.marketplace_officer_group">
 													<img alt="Seller Image" t-att-src="kanban_image('res.partner', 'image_128', record.marketplace_seller_id.raw_value)" t-att-title="record.marketplace_seller_id.value" width="24" height="24" class="oe_kanban_avatar pull-right"/>
 												</a>
 											</ul>
@@ -258,7 +258,7 @@
 												Seller:
 											</b>
 											<field name="marketplace_seller_id"></field>
-											<a type="open" groups="odoo_marketplace.marketplace_officer_group,access_rights_customization.group_operation_supervisor">
+											<a type="open" groups="odoo_marketplace.marketplace_officer_group">
 												<img alt="Seller Image" t-att-src="kanban_image('res.partner', 'image_128', record.marketplace_seller_id.raw_value)" t-att-title="record.marketplace_seller_id.value" width="24" height="24" class="oe_kanban_avatar pull-right"/>
 											</a>
 										</ul>
@@ -305,8 +305,8 @@
 								<group>
 									<group>
 										<field name="type" attrs="{'readonly' : [('status', 'in', ['approved', 'rejected'])]}"/>
-										<field name="categ_id" required="1" options="{'no_create': True}" class="oe_inline" groups="odoo_marketplace.marketplace_officer_group,access_rights_customization.group_operation_supervisor"/>
-										<field name="marketplace_seller_id" required="1" attrs="{'readonly': [('status', 'in', ('approved','rejected'))]}" domain="[('seller', '=', True), ('state', '=', 'approved')]" options="{'no_create': True}" context="{'form_view_ref': 'odoo_marketplace.wk_seller_form_view'}" groups="odoo_marketplace.marketplace_officer_group,access_rights_customization.group_operation_supervisor"/>
+										<field name="categ_id" required="1" options="{'no_create': True}" class="oe_inline" groups="odoo_marketplace.marketplace_officer_group"/>
+										<field name="marketplace_seller_id" required="1" attrs="{'readonly': [('status', 'in', ('approved','rejected'))]}" domain="[('seller', '=', True), ('state', '=', 'approved')]" options="{'no_create': True}" context="{'form_view_ref': 'odoo_marketplace.wk_seller_form_view'}" groups="odoo_marketplace.marketplace_officer_group"/>
 										<field name="currency_id" invisible="1"/>
 									</group>
 									<group>
@@ -314,12 +314,12 @@
                                         <field name="taxes_id" widget="many2many_tags" context="{'default_type_tax_use':'sale'}" options="{'no_create': True}"/>
 										<field name="barcode" attrs="{'invisible': [('product_variant_count', '&gt;', 1)]}"/>
 										<field name="hs_code"/>
-										<field name="default_code" attrs="{'invisible': [('product_variant_count', '&gt;', 1)]}" groups="odoo_marketplace.marketplace_officer_group,access_rights_customization.group_operation_supervisor"/>
+										<field name="default_code" attrs="{'invisible': [('product_variant_count', '&gt;', 1)]}" groups="odoo_marketplace.marketplace_officer_group"/>
                                         <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
 									</group>
 								</group>
-								<separator string="Internal Notes" colspan="4" groups="odoo_marketplace.marketplace_officer_group,access_rights_customization.group_operation_supervisor"/>
-								<field name="description" placeholder="This note is only for internal purposes." groups="odoo_marketplace.marketplace_officer_group,access_rights_customization.group_operation_supervisor"/>
+								<separator string="Internal Notes" colspan="4" groups="odoo_marketplace.marketplace_officer_group"/>
+								<field name="description" placeholder="This note is only for internal purposes." groups="odoo_marketplace.marketplace_officer_group"/>
 							</page>
 							<page string="Sales">
                                 <group groups="product.group_product_pricelist" name="pricelists">
@@ -411,7 +411,7 @@
 					</sheet>
 					<div class="oe_chatter">
 						<field name="message_follower_ids" widget="mail_followers"/>
-						<field name="activity_ids" widget="mail_activity" groups="odoo_marketplace.marketplace_officer_group,access_rights_customization.group_operation_supervisor"/>
+						<field name="activity_ids" widget="mail_activity" groups="odoo_marketplace.marketplace_officer_group"/>
 						<field name="message_ids" widget="mail_thread"/>
 					</div>
 				</form>
@@ -424,7 +424,7 @@
 			<field name="arch" type="xml">
 				<tree>
 					<field name="display_name" string="Product Name"/>
-					<field name="marketplace_seller_id" string="Seller" groups="odoo_marketplace.marketplace_officer_group,access_rights_customization.group_operation_supervisor"/>
+					<field name="marketplace_seller_id" string="Seller" groups="odoo_marketplace.marketplace_officer_group"/>
 					<field name="qty_available"/>
 					<field name="virtual_available"/>
 					<field name="status"/>
@@ -484,8 +484,8 @@
 				<form string="Product">
 					<header>
 						<button name="set_pending" type="object" string="Request To Approve" attrs="{'invisible':[('status', 'in', ('pending','approved','rejected'))]}" class="btn-primary"/>
-						<button name="approved" type="object" string="Approve" attrs="{'invisible':[('status', 'in', ('draft','approved','rejected',False))]}" groups="odoo_marketplace.marketplace_officer_group,access_rights_customization.group_operation_supervisor" class="btn-primary"/>
-						<button name="reject" type="object" string="Reject" attrs="{'invisible':[('status', 'in', ('draft','rejected', False))]}" groups="odoo_marketplace.marketplace_officer_group,access_rights_customization.group_operation_supervisor"/>
+						<button name="approved" type="object" string="Approve" attrs="{'invisible':[('status', 'in', ('draft','approved','rejected',False))]}" groups="odoo_marketplace.marketplace_officer_group" class="btn-primary"/>
+						<button name="reject" type="object" string="Reject" attrs="{'invisible':[('status', 'in', ('draft','rejected', False))]}" groups="odoo_marketplace.marketplace_officer_group"/>
 						<button name="send_to_draft" type="object" attrs="{'invisible':[('status', 'in', ('pending','approved','draft', False))]}" string="Send To Draft"/>
 						<button string="Variant Prices" type="action" name="%(odoo_marketplace.mp_product_template_attribute_value_action)d" attrs="{'invisible': [('product_variant_count', '&lt;=', 1)]}" groups="product.group_product_variant"/>
 						<field name="status" widget="statusbar" statusbar_visible="draft,pending,approved,rejected"/>
@@ -519,8 +519,8 @@
 								<group>
 									<group>
 										<field name="type" attrs="{'readonly' : [('status', 'in', ['approved', 'rejected'])]}"/>
-										<field name="categ_id" required="1" options="{'no_create': True}" class="oe_inline" groups="odoo_marketplace.marketplace_officer_group,access_rights_customization.group_operation_supervisor"/>
-                                        <field name="marketplace_seller_id" required="1" attrs="{'readonly': [('status', 'in', ('approved','rejected'))]}" domain="[('seller', '=', True), ('state', '=', 'approved')]" options="{'no_create': True}" context="{'form_view_ref': 'odoo_marketplace.wk_seller_form_view'}" groups="odoo_marketplace.marketplace_officer_group,access_rights_customization.group_operation_supervisor"/>
+										<field name="categ_id" required="1" options="{'no_create': True}" class="oe_inline" groups="odoo_marketplace.marketplace_officer_group"/>
+                                        <field name="marketplace_seller_id" required="1" attrs="{'readonly': [('status', 'in', ('approved','rejected'))]}" domain="[('seller', '=', True), ('state', '=', 'approved')]" options="{'no_create': True}" context="{'form_view_ref': 'odoo_marketplace.wk_seller_form_view'}" groups="odoo_marketplace.marketplace_officer_group"/>
 										<field name="currency_id" invisible="1"/>
 									</group>
 									<group>
@@ -528,11 +528,11 @@
                                         <field name="taxes_id" widget="many2many_tags" context="{'default_type_tax_use':'sale'}" options="{'no_create': True}"/>
 										<field name="barcode" attrs="{'invisible': [('product_variant_count', '&gt;', 1)]}"/>
 										<field name="hs_code"/>
-										<field name="default_code" attrs="{'invisible': [('product_variant_count', '&gt;', 1)]}" groups="odoo_marketplace.marketplace_officer_group,access_rights_customization.group_operation_supervisor"/>
+										<field name="default_code" attrs="{'invisible': [('product_variant_count', '&gt;', 1)]}" groups="odoo_marketplace.marketplace_officer_group"/>
 									</group>
 								</group>
-								<separator string="Internal Notes" colspan="4" groups="odoo_marketplace.marketplace_officer_group,access_rights_customization.group_operation_supervisor"/>
-								<field name="description" placeholder="This note is only for internal purposes." groups="odoo_marketplace.marketplace_officer_group,access_rights_customization.group_operation_supervisor"/>
+								<separator string="Internal Notes" colspan="4" groups="odoo_marketplace.marketplace_officer_group"/>
+								<field name="description" placeholder="This note is only for internal purposes." groups="odoo_marketplace.marketplace_officer_group"/>
 							</page>
 							<page name="variants" string="Variants" groups="product.group_product_variant">
 								<field name="attribute_line_ids" widget="one2many_list" context="{'show_attribute': False}">
@@ -625,7 +625,7 @@
 					</sheet>
 					<div class="oe_chatter">
 						<field name="message_follower_ids" widget="mail_followers"/>
-						<field name="activity_ids" widget="mail_activity" groups="odoo_marketplace.marketplace_officer_group,access_rights_customization.group_operation_supervisor"/>
+						<field name="activity_ids" widget="mail_activity" groups="odoo_marketplace.marketplace_officer_group"/>
 						<!-- <field name="message_ids" widget="mail_thread"/> -->
 					</div>
 				</form>
