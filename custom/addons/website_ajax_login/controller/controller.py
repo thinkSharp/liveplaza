@@ -169,7 +169,7 @@ class AuthSignupHome(AuthSignupHome):
                         raise Exception(_("Phone number or Email is not registered."))
 
                     if login.isdigit():
-                        request.env['res.users'].sudo().sms_send_reset_password(login, False)
+                        request.env['res.users'].sudo().reset_password_sms(login) #request.env['res.users'].sudo().sms_send_reset_password(login, False)
                         qcontext['message'] = _("A message has been sent with credentials to reset your password")
                     else:
                         request.env['res.users'].sudo().reset_password(login)
