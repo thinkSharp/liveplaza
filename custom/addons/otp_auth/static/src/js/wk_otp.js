@@ -10,11 +10,12 @@ odoo.define('otp_auth.wk_otp', function (require) {
         var ValidUser = 0;
         if ($('#otpcounter').get(0)) {
             $("#otpcounter").html("<center><a class='btn btn-link wk_send' href='#'>Send OTP</a></center>");
+            $(".field-confirm_password").after("<p class='alert alert-info'>OTP will be sent to your registered Email or Phone number. Please Click Send OTP button and use OTP code in order to complete the registration. </p>");
 //            $(":submit").attr("disabled", true);
             $(":submit").css("display", "none");
             $(".btn-sm").css("width", "100%");
             $("#otp").css("display","none");
-            $( ".oe_signup_form" ).wrapInner( "<div class='container' id='wk_container'></div>");
+//            $( ".oe_signup_form" ).wrapInner( "<div class='container' id='wk_container'></div>");
         }
 
         $('.wk_send').on('click', function(e) {

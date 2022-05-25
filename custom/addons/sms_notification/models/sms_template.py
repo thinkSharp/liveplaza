@@ -197,6 +197,10 @@ class SmsTemplate(models.Model):
                     'auto_delete': sms_tmpl.auto_delete,
                     'msg': sms_tmpl.with_context(ctx).get_body_data(obj, obj.partner_id) if obj else sms_tmpl.sms_body_html,
                 })
+                if sms_sms_obj.msg:
+                    url_msg = sms_sms_obj.msg.replace("&amp;", "&")
+                    sms_sms_obj.sudo().write({'msg': url_msg })
+                    
             elif sms_tmpl.condition == 'inventory_almost_empty':
                 sms_sms_obj = self.env["wk.sms.sms"].create({
                     'sms_gateway_config_id': gateway_id.id,

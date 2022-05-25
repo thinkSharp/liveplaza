@@ -16,6 +16,8 @@
 
 from odoo import models, fields, api, _
 from odoo.http import request
+from odoo.addons.auth_signup.models.res_partner import SignupError, now
+from datetime import datetime, timedelta 
 
 import logging
 
@@ -235,6 +237,98 @@ class ResUsers(models.Model):
 
     _inherit = "res.users"
 
+    def reset_password_sms(self, login):
+        """ retrieve the user corresponding to login (login or email),
+            and reset their password
+        """
+        users = self.search([('login', '=', login)])
+        if not users:
+            users = self.search([('email', '=', login)])
+        if len(users) != 1:
+            raise Exception(_('Reset password: invalid username or email'))
+        return users.action_reset_password_sms(login)
+    
+    def action_reset_password_sms(self, login):
+        """ create signup token for each user, and send their signup url by email """
+        # prepare reset password signup
+        create_mode = bool(self.env.context.get('create_user'))
+
+        # no time limit for initial invitation, only for reset password        
+        reset_link_limit = datetime.now() + timedelta(hours=3)  #Fix reset password time limit for 3 hrs
+        expiration = False if create_mode else reset_link_limit  #expiration = False if create_mode else now(days=+1)
+        
+        self.mapped('partner_id').signup_prepare(signup_type="reset", expiration=expiration)
+
+        # send email to users with their signup url
+        template = False
+        if create_mode:
+            try:
+                template = self.env.ref('auth_signup.set_password_email', raise_if_not_found=False)
+            except ValueError:
+                pass
+        if not template:
+            template = self.env.ref('auth_signup.reset_password_email')
+        assert template._name == 'mail.template'
+
+        template_values = {
+            'email_to': '${object.email|safe}',
+            'email_cc': False,
+            'auto_delete': True,
+            'partner_to': False,
+            'scheduled_date': False,
+        }
+        template.write(template_values)
+
+        for user in self:
+            if login.isdigit():
+                self.sms_send_reset_password(login, False)
+            else:
+                if not user.email:
+                    raise UserError(_("Cannot send email: user %s has no email address.") % user.name)
+                with self.env.cr.savepoint():
+                    force_send = not(self.env.context.get('import_file', False))
+                    template.with_context(lang=user.lang).send_mail(user.id, force_send=force_send, raise_exception=True)
+                _logger.info("Password reset email sent for user <%s> to <%s>", user.login, user.email)
+
+    def action_reset_password(self):
+        """ create signup token for each user, and send their signup url by email """
+        # prepare reset password signup
+        create_mode = bool(self.env.context.get('create_user'))
+
+        # no time limit for initial invitation, only for reset password
+        reset_link_limit = datetime.now() + timedelta(hours=3)  #Fix reset password time limit for 3 hrs
+        expiration = False if create_mode else reset_link_limit  #expiration = False if create_mode else now(days=+1)
+
+        self.mapped('partner_id').signup_prepare(signup_type="reset", expiration=expiration)
+
+        # send email to users with their signup url
+        template = False
+        if create_mode:
+            try:
+                template = self.env.ref('auth_signup.set_password_email', raise_if_not_found=False)
+            except ValueError:
+                pass
+        if not template:
+            template = self.env.ref('auth_signup.reset_password_email')
+        assert template._name == 'mail.template'
+
+        template_values = {
+            'email_to': '${object.email|safe}',
+            'email_cc': False,
+            'auto_delete': True,
+            'partner_to': False,
+            'scheduled_date': False,
+        }
+        template.write(template_values)
+
+        for user in self:
+            if not user.email:
+                raise UserError(_("Cannot send email: user %s has no email address.") % user.name)
+            with self.env.cr.savepoint():
+                force_send = not(self.env.context.get('import_file', False))
+                template.with_context(lang=user.lang).send_mail(user.id, force_send=force_send, raise_exception=True)
+            _logger.info("Password reset email sent for user <%s> to <%s>", user.login, user.email)
+            
     def sms_send_reset_password(self, mobile, phone_code):
         otp_notification_mode = self.env['ir.default'].sudo().get(
             'website.otp.settings', 'otp_notification_mode')
