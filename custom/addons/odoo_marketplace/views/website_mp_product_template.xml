@@ -104,9 +104,22 @@
 
 			<t t-set="combination_info" t-value="product._get_combination_info(only_template=True, add_qty=add_qty or 1, pricelist=pricelist)"/>
 
+			<t t-set="config_setting" t-value="website.get_config_settings_values()"/>
+            <t t-set="color_array" t-value="website.get_message_color(config_setting)"/>
+            <t t-set="not_float" t-value="True"/>
+            <t t-set="product_quantity" t-value="website.get_product_stock_qty(product.sudo(), config_setting.get('wk_stock_type'))" />
+
 			<form action="/shop/cart/update" method="post" class="card oe_product_cart"
 				t-att-data-publish="product.website_published and 'on' or 'off'"
 				itemscope="itemscope" itemtype="http://schema.org/Product">
+
+				<div class="stock-panel">
+					<t t-if="product.product_variant_ids">
+						<t t-set="product_obj" t-value="product.product_variant_ids[0]" />
+						<t t-call="website_stock.show_stock_msg" />
+					</t>
+            	</div>
+
 				<div class="card-body p-1 oe_product_image">
 					<input type="hidden" name="csrf_token" t-att-value="request.csrf_token()" />
 					<div class="ribbon-wrapper">
