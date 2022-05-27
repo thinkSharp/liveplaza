@@ -7,3 +7,4 @@ from . import delivery_carrier
 from . import sale
 from . import seller_live_stream_inherit
 from . import setting_config_inherit
+from . import feeling_products

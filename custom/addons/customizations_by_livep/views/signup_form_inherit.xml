@@ -4,7 +4,11 @@
     <template id="signup_inherit_assets_frontend" inherit_id="website.assets_frontend">
         <xpath expr="." position="inside">
             <script src="/customizations_by_livep/static/src/js/seek_password.js" type="text/javascript"></script>
-            <link rel="stylesheet" href="/customizations_by_livep/static/src/css/fontawesome.css"/>
+            <script src="/customizations_by_livep/static/src/js/scroll_feeling_products.js" type="text/javascript"></script>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+            <script src="http://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+            <link rel="stylesheet" type="text/scss" href="/customizations_by_livep/static/src/css/fontawesome.css"/>
+            <link rel="stylesheet" type="text/scss" href="/customizations_by_livep/static/src/css/style.css"/>
         </xpath>
     </template>
 
