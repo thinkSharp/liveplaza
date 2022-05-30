@@ -196,7 +196,7 @@ class WebsiteSale (WebsiteSale):
     @http.route(['/home'], type='http', auth='public', website=True)
     def home(self, **kw):
         feeling = request.env['feeling.products'].search([('website_published', '=', 'True')])
-        # feeling = ["happy", "sad"]
+        
         values = {
             'feeling': feeling
         }
@@ -210,33 +210,17 @@ class WebsiteSale (WebsiteSale):
         # '''/shop/category/<model("product.public.category"):category>/page/<int:page>''',
         '''/shop/<model("feeling.products"):feeling>'''
     ], type='http', auth="public", website=True)
-    # def shop2(self, feeling=None, page=0, category=None, search='', ppg=False, **post):
-    #     # Product =
-    #     cat_domain = []
-    #     categ_ids = request.env['feeling.products'].search([('id', '=', int(feeling))], limit=1).feeling_product_categories
-    #     for cat in categ_ids:
-    #         cat_domain.append(('categ_id', '=', int(cat)))
-    #
-    #     Product = request.env['product.template'].with_context(bin_size=True).search(cat_domain)
-    #     print("Product = ", Product)
-    #
-    #     result = super(WebsiteSale, self).shop(page=page, category=category, search=search, ppg=ppg, **post)
-    #     return result
 
     def feelingshop(self, feeling=None, page=0, category=None, search='', ppg=False, **post):
         add_qty = int(post.get('add_qty', 1))
         cat_domain = []
         categ_ids = request.env['feeling.products'].search([('id', '=', int(feeling))]).feeling_product_categories
-        print(categ_ids)
-        print("length = ", len(categ_ids))
         for cat in categ_ids:
             cat_domain.append(int(cat))
 
-        print("cat_domain = ", cat_domain)
 
         Category = request.env['product.public.category']
         if category:
-            print("category = ", category)
             category = Category.search([('id', '=', int(category))], limit=1)
             if not category or not category.can_access_from_current_website():
                 raise NotFound()
@@ -275,12 +259,8 @@ class WebsiteSale (WebsiteSale):
             post['attrib'] = attrib_list
 
         # Product = request.env['product.template'].search([('sale_ok', '=', True)])
-        # print("product len = ", len(Product))
-        # print(Product)
 
         Product = request.env['product.template'].search([('public_categ_ids', 'in', cat_domain)])
-        print("### product len = ", len(Product))
-        print(Product)
 
         search_product = Product.search([('public_categ_ids','in', cat_domain)], order=WebsiteSale._get_search_order(WebsiteSale, post))
         website_domain = request.website.website_domain()
@@ -376,7 +356,6 @@ class WebsiteSaleWishlist(WebsiteSale):
             product_id,
             partner_id
         )
-        print("partner_id = " + str(partner_id))
 
         # if not partner_id:
         #     request.session['wishlist_ids'] = request.session.get('wishlist_ids', []) + [wish_id.id]
