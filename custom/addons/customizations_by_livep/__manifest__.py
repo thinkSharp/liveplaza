@@ -26,6 +26,8 @@
         'views/checkout_template_inherit.xml',
         'views/setting_config_inherit.xml',
         'views/signup_form_inherit.xml',
+        'views/feeling_products.xml',
+        'views/feeling_products_web_view.xml',
         'data/data.xml'
     ],
     'qweb': ['static/src/xml/*.xml'],

@@ -56,21 +56,21 @@
           <t t-set="enable_left_column" t-value="True"/>
         </xpath>
         <xpath expr="//div[@id='products_grid_before']" position="inside">
-          <form t-att-action="filter_price.get('filter-url')" id="select_price_range">
-            <h6 class="mb-2">Price Filter</h6>
-            <div>
-              <input class="xtremo-range-slider" type="hidden" t-att-value="'{},{}'.format(filter_price.get('min-price'),filter_price.get('max-price'))"/>
-              <div class="message">
-                <strong>OR</strong>
-                <strong>You can enter the range here</strong>
-              </div>
-              <div class="xt-custom-price-range">
-                <div><input name="min-price" class="xt-min-price form-control" t-att-value-price="filter_price.get('min_limit') or '0'" type="number" /></div>
-                <div><input name="max-price" class="xt-max-price form-control" t-att-value-price="filter_price.get('max_limit')" type="number" /></div>
-              </div>
-              <button class="btn btn-secondary" type="submit">Apply</button>
-            </div>
-          </form>
+<!--          <form t-att-action="filter_price.get('filter-url')" id="select_price_range">-->
+<!--            <h6 class="mb-2">Price Filter</h6>-->
+<!--            <div>-->
+<!--              <input class="xtremo-range-slider" type="hidden" t-att-value="'{},{}'.format(filter_price.get('min-price'),filter_price.get('max-price'))"/>-->
+<!--              <div class="message">-->
+<!--                <strong>OR</strong>-->
+<!--                <strong>You can enter the range here</strong>-->
+<!--              </div>-->
+<!--              <div class="xt-custom-price-range">-->
+<!--                <div><input name="min-price" class="xt-min-price form-control" t-att-value-price="filter_price.get('min_limit') or '0'" type="number" /></div>-->
+<!--                <div><input name="max-price" class="xt-max-price form-control" t-att-value-price="filter_price.get('max_limit')" type="number" /></div>-->
+<!--              </div>-->
+<!--              <button class="btn btn-secondary" type="submit">Apply</button>-->
+<!--            </div>-->
+<!--          </form>-->
         </xpath>
       </template>
 

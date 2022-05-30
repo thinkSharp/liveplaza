@@ -2,3 +2,10 @@ id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_res_country_township_user,access.res.country.township.user,model_res_country_township,base.group_portal,1,1,0,0
 access_res_country_township_manager,access.res.country.township.manager,model_res_country_township,base.group_user,1,1,1,1
 access_res_country_township_public,access.res.country.township.public,model_res_country_township,,1,1,0,0
+
+
+feeling_supervisor,feeling.products.supervisor,model_feeling_products,access_rights_customization.group_operation_supervisor,1,1,1,1
+feeling_operator,feeling.products.operator,model_feeling_products,access_rights_customization.group_operation_operator,1,1,1,1
+feeling_user,feeling.products.user,model_feeling_products,base.group_user,1,0,0,0
+feeling_user,feeling.products.user,model_feeling_products,base.group_portal,1,0,0,0
+feeling_user,feeling.products.user,model_feeling_products,,1,0,0,0
