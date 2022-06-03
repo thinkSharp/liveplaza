@@ -14,7 +14,7 @@
 				<script type="text/javascript" src="/website_daily_deals/static/src/js/daily_deals.js"></script>
 			</xpath>
 		</template>
-		<template id="header" inherit_id="website.layout" name="Header Daily Deals" customize_show="True" active="True">
+		<!--<template id="header" inherit_id="website.layout" name="Header Daily Deals" customize_show="True" active="True">
 			<xpath expr="//header//ul[@id='top_menu']/li" position="after">
 				<li  class="nav-item">
 					<a class="nav-link" href="/daily/deals">
@@ -22,7 +22,7 @@
 					</a>
 				</li>
 			</xpath>
-		</template>
+		</template>-->
 		<template id="daily_deals_page" name="Daily Deals">
 			<t t-call="website.layout">
 				<div id="wrap" class="website_daily_deals oe_website_sale">
