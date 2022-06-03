@@ -3,13 +3,13 @@
     <data noupdate="0">
 
         <!-- 'Sell' to 'Create Seller Shop'  target="_blank"-->
-        <template id="sell_link_in_header_inherit" inherit_id="odoo_marketplace.sell_link_in_header">
+        <!-- <template id="sell_link_in_header_inherit" inherit_id="odoo_marketplace.sell_link_in_header">
             <xpath expr="//a[@role='menuitem']" position="replace">
                 <a t-attf-class="nav-link #{'active' if request.httprequest.path == '/seller' else ''}" role="menuitem" href="/seller">
                     <t>Create Seller Shop</t>
                 </a>
             </xpath>
-        </template>
+        </template>-->
 
         <!-- Hide Country in Seller sign up and replaced with subscription plan -->
         <template id="seller_sign_up_inherit" inherit_id="odoo_marketplace.mp_seller_signup">
