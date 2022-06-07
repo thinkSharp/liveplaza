@@ -8,16 +8,17 @@
                 <div t-if="live_streams" class="container mt32 mb32">
                     <div t-if="live_streams.filtered(lambda stream: stream.start_stream_datetime &lt; datetime.datetime.now() and stream.end_stream_datetime &gt; datetime.datetime.now())" class="pl-2" >
                         <strong>
-                            <p class="ml-2" style="display: inline;font-style: italic;color: blue;">Current</p>
-                            <span class="px-1" style="display: inline; background: red;width: 50px;color: #FFFFFF;">LIVE</span>
+                            <p class="ml-2" style="display: inline;font-style: italic;color: blue;font-size: 20px;">Current</p>
+                            <span class="px-1" style="display: inline; background: red;width: 50px;color: #FFFFFF;font-size: 20px;">LIVE</span>
                         </strong>
                     </div>
                     <div t-else="">
                         <strong>
-                            <p class="ml-2" style="display: inline;font-style: italic;color: blue;">Current</p>
-                            <span class="px-1" style="display: inline; background: red;width: 50px;color: #FFFFFF;">LIVE</span>
+                            <p class="ml-2" style="display: inline;font-style: italic;color: blue;font-size: 20px;">Current</p>
+                            <span class="px-1" style="display: inline; background: red;width: 50px;color: #FFFFFF;font-size: 20px;">LIVE</span>
                         </strong>
-                        <p> There is no current livestream </p>
+                        <p>There is no current livestream </p>
+                        <br></br>
                     </div>
                     <div class="owl-carousel owl-theme live_stream_owl_carousel mb-2" id="wk_live_stream_carousel">
                         <t t-foreach="live_streams" t-as="stream">
@@ -40,14 +41,14 @@
                     </div>
                     <div t-if="live_streams.filtered(lambda stream: stream.start_stream_datetime &gt; datetime.datetime.now())" class="mb-1 mt32">
                         <strong>
-                            <p class="ml-2" style="display: inline;font-style: italic;color: blue;">Upcoming</p>
-                            <span class="px-1" style="display: inline; background: red;width: 50px;color: #FFFFFF;">LIVE</span>
+                            <p class="ml-2" style="display: inline;font-style: italic;color: blue;font-size: 20px;">Upcoming</p>
+                            <span class="px-1" style="display: inline; background: red;width: 50px;color: #FFFFFF;font-size: 20px;">LIVE</span>
                         </strong>
                     </div>
                     <div t-else="">
                         <strong>
-                            <p class="ml-2" style="display: inline;font-style: italic;color: blue;">Upcoming</p>
-                            <span class="px-1" style="display: inline; background: red;width: 50px;color: #FFFFFF;">LIVE</span>
+                            <p class="ml-2" style="display: inline;font-style: italic;color: blue;font-size: 20px;">Upcoming</p>
+                            <span class="px-1" style="display: inline; background: red;width: 50px;color: #FFFFFF;font-size: 20px;">LIVE</span>
                         </strong>
                         <p> There is no upcoming livestream </p>
                     </div>
@@ -72,16 +73,17 @@
                     </div>
                     <div t-if="live_streams.filtered(lambda stream: stream.end_stream_datetime &lt; datetime.datetime.now())" class="mb-1 mt32">
                         <strong>
-                            <p class="ml-2" style="display: inline;font-style: italic;color: blue;">Previous</p>
-                            <span class="px-1" style="display: inline; background: red;width: 50px;color: #FFFFFF;">LIVE</span>
+                            <p class="ml-2" style="display: inline;font-style: italic;color: blue;font-size: 20px;">Previous</p>
+                            <span class="px-1" style="display: inline; background: red;width: 50px;color: #FFFFFF;font-size: 20px;">LIVE</span>
                         </strong>
                     </div>
                     <div t-else="">
                         <strong>
-                            <p class="ml-2" style="display: inline;font-style: italic;color: blue;">Previous</p>
-                            <span class="px-1" style="display: inline; background: red;width: 50px;color: #FFFFFF;">LIVE</span>
+                            <p class="ml-2" style="display: inline;font-style: italic;color: blue;font-size: 20px;">Previous</p>
+                            <span class="px-1" style="display: inline; background: red;width: 50px;color: #FFFFFF;font-size: 20px;">LIVE</span>
                         </strong>
                         <p> There is no previous livestream </p>
+                        <br></br>
                     </div>
                     <div class="owl-carousel owl-theme live_stream_owl_carousel mb-2" id="wk_upcoming_stream_carousel">
                         <t t-foreach="live_streams" t-as="stream">
