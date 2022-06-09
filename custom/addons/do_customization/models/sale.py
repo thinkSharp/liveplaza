@@ -40,6 +40,7 @@ class SaleOrder(models.Model):
             ], string='Status', readonly=True, copy=False, index=True, tracking=3, default='draft')
 
     products = fields.Char(string="Products", compute='get_products_string')
+    selected_checkout = fields.Boolean(string='Selected For Checkout', defalut=False)
 
     @api.depends('order_line')
     def get_products_string(self):
@@ -54,6 +55,13 @@ class SaleOrder(models.Model):
 
     def action_confirm(self):
         self.ensure_one()
+
+        order = self.env['sale.order.line'].search([('order_id', '=', self.id)])
+
+        for o in order:
+            if not o.selected_checkout:
+                o.unlink()
+
         res = super(SaleOrder, self).action_confirm()
         self.write({'payment_provider': self.get_portal_last_transaction().acquirer_id.provider})
         if self.get_portal_last_transaction().acquirer_id.provider == 'cash_on_delivery' and self.state == 'sale':

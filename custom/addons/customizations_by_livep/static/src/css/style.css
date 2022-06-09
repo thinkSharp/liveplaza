@@ -177,3 +177,8 @@
         margin: 0 2%;
     }
 }
+
+/* select products from cart and checkout */
+#select-product {
+    font-size: 18px;
+}

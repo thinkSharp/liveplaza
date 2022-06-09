@@ -75,7 +75,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr t-foreach="pro_lines" t-as="line">
+                    <tr t-foreach="cart_sale_order" t-as="line">
                         <td class='' colspan="2" t-if="not line.product_id.product_tmpl_id"></td>
                         <td class='td-img' t-if="line.product_id.product_tmpl_id">
                             <span t-field="line.product_id.image_128" t-options="{'widget': 'image', 'class': 'rounded'}" />
@@ -98,37 +98,50 @@
             </table>
         </template>
 
-        <template id="sol_cart_summary_delivery" inherit_id="website_sale.cart_summary">
-            <xpath expr="//div[hasclass('toggle_summary_div', 'd-none', 'd-xl-block')]" position="after">
-                <div t-if="is_payment_page" class="toggle_summary_div d-none d-xl-block d-block" style="max-width: unset;">
-                    <table class="table" id="cart_products" t-if="website_sale_order and website_sale_order.website_order_line">
-                        <t t-set="website_o_lines" t-value="website_sale_order.get_lines_with_or_without_delivery()"/>
-                        <tr>
-                            <td colspan="4" style="padding-top: 22px;">
-                                <t t-set="pro_lines" t-value="website_o_lines.get('s_lines')"/>
-                                <t t-if="pro_lines" t-call="shipping_per_product.order_lines_section_with_delivery">
+<!--        Delivery Method select option box in /shop/payment page -->
+        <template id="sol_select_delivery_option">
+            <div t-if="is_payment_page" class="toggle_summary_div d-none d-xl-block d-block" style="max-width: unset;">
+                <table class="table" id="cart_products" t-if="website_sale_order and website_sale_order.website_order_line">
+                    <t t-set="website_o_lines" t-value="website_sale_order.get_lines_with_or_without_delivery()"/>
+                    <tr>
+                        <td colspan="4" style="padding-top: 22px;">
+                            <t t-set="pro_lines" t-value="website_o_lines.get('s_lines')"/>
+                            <t t-if="pro_lines" t-call="shipping_per_product.order_lines_section_with_delivery">
+                                <t t-set="sol_deliveries" t-value="d_section.get_delivery_carrier_ids()"/>
+                            </t>
+                            <t t-foreach="website_o_lines['m_ol']" t-as="d_section">
+                                <t t-call="shipping_per_product.order_lines_section_with_delivery">
+                                    <t t-set="pro_lines" t-value="d_section"/>
                                     <t t-set="sol_deliveries" t-value="d_section.get_delivery_carrier_ids()"/>
                                 </t>
-                                <t t-foreach="website_o_lines['m_ol']" t-as="d_section">
-                                    <t t-call="shipping_per_product.order_lines_section_with_delivery">
-                                        <t t-set="pro_lines" t-value="d_section"/>
-                                        <t t-set="sol_deliveries" t-value="d_section.get_delivery_carrier_ids()"/>
-                                    </t>
-                                </t>
-                                <t t-set="pro_lines" t-value="website_o_lines.get('no_ol')"/>
-                                <t t-if="pro_lines" t-call="shipping_per_product.order_lines_section_with_delivery">
-                                    <t t-set="sol_deliveries" t-value="website_sale_order._get_delivery_methods()"/>
-                                </t>
-                            </td>
-                        </tr>
-                    </table>
-                    <t t-call="website_sale.total">
-                        <t t-set='redirect'>/shop/payment</t>
-                    </t>
-                </div>
+                            </t>
+                            <t t-set="pro_lines" t-value="website_o_lines.get('no_ol')"/>
+                            <t t-if="pro_lines" t-call="shipping_per_product.order_lines_section_with_delivery">
+                                <t t-set="sol_deliveries" t-value="website_sale_order._get_delivery_methods()"/>
+                            </t>
+                        </td>
+                    </tr>
+                </table>
+                <t t-call="website_sale.total">
+                    <t t-set='redirect'>/shop/payment</t>
+                </t>
+            </div>
+        </template>
+
+        <template id="sol_cart_summary_delivery" inherit_id="website_sale.cart_summary">
+            <xpath expr="//div[hasclass('toggle_summary_div', 'd-none', 'd-xl-block')]" position="after">
+                <t t-call="shipping_per_product.sol_select_delivery_option" />
             </xpath>
             <xpath expr="//div[hasclass('toggle_summary_div', 'd-none', 'd-xl-block')]" position="attributes">
                 <attribute name="t-if">not is_payment_page</attribute>
+            </xpath>
+        </template>
+
+        <template id="sol_cart_summary_delivery_shop_payment" inherit_id="customizations_by_livep.cart_lines_shop_payment_page">
+            <xpath expr="//div[hasclass('toggle_summary_div', 'd-none', 'd-xl-block')]" position="replace">
+                <t t-call="shipping_per_product.sol_select_delivery_option">
+                    <t t-set="is_payment_page" t-value="true" />
+                </t>
             </xpath>
         </template>
 
