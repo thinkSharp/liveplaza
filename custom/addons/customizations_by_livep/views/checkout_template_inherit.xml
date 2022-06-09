@@ -124,9 +124,20 @@
         </xpath>
     </template>
 
+
+    <template id="cod_not_available_alert" inherit_id="website_sale.payment">
+            <xpath expr="//div[@id='payment_method']" position="before">
+                    <div class="empty_sol_del_error alert alert-danger" role="alert" t-att-style="'display: block;' if(order.contain_service == True) else 'display: none;'">
+                        Cash on Delivery(COD) is not available for Service Product.
+                    </div>
+            </xpath>
+    </template>
+
+
     <template id="payment_show_cod_only_for_Yangon" inherit_id="payment.payment_tokens_list">
         <xpath expr="//div[@class='card-body o_payment_acquirer_select']" position="replace">
-            <div t-att-style="'display: none;' if(acq.display_as == 'Cash on Delivery' and order.partner_shipping_id.township_id.cod_availability == False) else 'display: block;'" class="card-body o_payment_acquirer_select">
+            <div t-att-style="'display: none;' if((acq.display_as == 'Cash on Delivery' and order.partner_shipping_id.township_id.cod_availability == False) or (acq.display_as == 'Cash on Delivery' and order.contain_service == True)) else 'display: block;'" class="card-body o_payment_acquirer_select">
+
                 <label>
                     <t t-if="acq.payment_flow == 'form'">
                         <input type="radio" t-att-data-acquirer-id="acq.id"

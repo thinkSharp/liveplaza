@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id='ticket_list_view' model='ir.ui.view'>
+        <field name="name">ticket.list.view</field>
+        <field name="model">ticket</field>
+        <field name="arch" type="xml">
+            <tree  create="false">
+                <field name="ticket_code" string="Code"/>
+                <field name="state"/>
+                <field name="seller"/>
+                <field name="customer"/>
+                <field name="sale_order"/>
+                <field name="product"/>
+
+            </tree>
+        </field>
+    </record>
+
+    <record id='ticket_form_view' model='ir.ui.view'>
+        <field name="name">ticket.form.view</field>
+        <field name="model">ticket</field>
+        <field name="arch" type="xml">
+            <form  create="false" edit="false">
+                <sheet>
+
+                    <button name="action_validate" type="object" class="oe_read_only oe_highlight" string="Redeem" attrs="{'invisible':[('state', '!=', 'active')]}" style="margin-bottom:15px"/>
+                    <header>
+                        <field name="state" widget="statusbar" statusbar_visible="active,used,expired"/>
+                    </header>
+                    <h1>
+                        <field name='ticket_code' string="Code"/>
+                    </h1>
+                    <group>
+                        <group>
+                            <field name="seller"/>
+                            <field name="customer"/>
+                        </group>
+
+                        <group>
+                            <field name="sale_order"/>
+                            <field name="product"/>
+                        </group>
+                    </group>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="ticket_action" model="ir.actions.act_window">
+         <field name="name">Codes</field>
+        <field name="res_model">ticket</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+        (0, 0, {'view_mode': 'tree', 'view_id': ref('ticket_list_view')}),
+         (0, 0, {'view_mode': 'form', 'view_id': ref('ticket_form_view')})
+         ]"/>
+    </record>
+
+
+    <menuitem id='tickets' name='Redeem Code' action='ticket_action' parent='odoo_marketplace.wk_seller_dashboard_menu2'/>
+
+</odoo>
