@@ -3,13 +3,13 @@
     <data noupdate="0">
 
         <!-- 'Sell' to 'Create Seller Shop'  target="_blank"-->
-        <template id="sell_link_in_header_inherit" inherit_id="odoo_marketplace.sell_link_in_header">
+        <!-- <template id="sell_link_in_header_inherit" inherit_id="odoo_marketplace.sell_link_in_header">
             <xpath expr="//a[@role='menuitem']" position="replace">
                 <a t-attf-class="nav-link #{'active' if request.httprequest.path == '/seller' else ''}" role="menuitem" href="/seller">
                     <t>Create Seller Shop</t>
                 </a>
             </xpath>
-        </template>
+        </template>-->
 
         <!-- Hide Country in Seller sign up and replaced with subscription plan -->
         <template id="seller_sign_up_inherit" inherit_id="odoo_marketplace.mp_seller_signup">
@@ -39,6 +39,109 @@
         </template>
 
         <template id="footer_custom_edit" inherit_id="website.footer_custom" name="Footer Edit">
+            <xpath expr="//section" position="replace">
+                <section class="s_text_block pt16 pb8">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-4">
+                            <h5>Information</h5>
+                            <ul class="list-unstyled">
+                                <li>
+                                  <a href="/">Home</a>
+                                </li>
+                                <li>
+                                  <a href="/contactus">Contact us</a>
+                                </li>
+                                <li>
+                                  <a href="/aboutus">About us</a>
+                                </li>
+                                <li t-if="not user_id._is_public()" id="o_logout">
+                                  <a t-attf-href="/web/session/logout?redirect=/" >Logout</a>
+                                </li>
+                            </ul>
+                            <p>
+                                ကျွန်တော်တို့ LIVEPlaza သည် ရောင်းသူ ဝယ်သူ တစ်နေရာထဲ တွင် အဆင်ပြေချောမွေ့ စွာ ရောင်းဝယ်နိုင်သော online platform တစ်ခု ဖြစ်ပါသည်။ ထို့ကြောင့် ပစ္စည်းရောင်းချမှု အတွက် အမှန်တကယ် တာဝန်ရှိ မှုသည် ရောင်းချသူ ၌ သာ တာဝန်ရှိပါသည်။<br></br>
+                            </p>
+                            <p><br></br></p>
+                            </div>
+                            <div class="col-lg-4 order-md-4 order-lg-4 order-4" id="connect">
+                                <h5>Connect with us</h5>
+                                <ul class="list-unstyled">
+                                    <li>
+                                      <a href="/contactus">Contact us</a>
+                                    </li>
+                                    <li>
+                                      <i class="fa fa-phone"/>
+                                      <span t-field="res_company.phone"/>
+                                    </li>
+                                    <li>
+                                      <i class="fa fa-envelope"/>
+                                      <span t-field="res_company.email"/>
+                                    </li>
+                                </ul>
+                                <p>
+                                    <a t-if="website.social_facebook" t-att-href="website.social_facebook" class="btn btn-sm btn-link">
+                                      <i class="fa fa-2x fa-facebook-square"/>
+                                    </a>
+                                    <a t-if="website.social_twitter" t-att-href="website.social_twitter" class="btn btn-sm btn-link">
+                                      <i class="fa fa-2x fa-twitter"/>
+                                    </a>
+                                    <a t-if="website.social_linkedin" t-att-href="website.social_linkedin" class="btn btn-sm btn-link">
+                                      <i class="fa fa-2x fa-linkedin"/>
+                                    </a>
+                                    <a t-if="website.social_youtube" t-att-href="website.social_youtube" class="btn btn-sm btn-link">
+                                      <i class="fa fa-2x fa-youtube-play"/>
+                                    </a>
+                                    <!-- <a t-if="website.social_googleplus" t-att-href="website.social_googleplus" class="btn btn-sm btn-link" rel="publisher">
+                                      <i class="fa fa-2x fa-google-plus-square"/>
+                                    </a> -->
+                                    <a t-if="website.social_github" t-att-href="website.social_github" class="btn btn-sm btn-link">
+                                      <i class="fa fa-2x fa-github"/>
+                                    </a>
+                                    <a t-if="website.social_instagram" t-att-href="website.social_instagram" class="btn btn-sm btn-link">
+                                      <i class="fa fa-2x fa-instagram"/>
+                                    </a>
+                                </p>
+                                <div class="xtremo-payment-icon">
+                                    <t t-call="theme_xtremo.xtremo_payment_icons" />
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <h5>Social Media</h5>
+                                <ul class="list-unstyled">
+                                    <li>
+                                        <a class="btn-sm" href="https://www.facebook.com/LIVEPlaza">
+                                            <i class="fa fa-2x fa-facebook-square"/>
+                                        </a>
+                                        <a class="btn-sm" href="https://www.youtube.com/channel/UCTw9CmxAFn999LiEkn_sHRw">
+                                            <i class="fa fa-2x fa-youtube-play"/>
+                                        </a>
+                                        <a class="btn-sm" href="https://instagram.com/live_plaza?utm_medium=copy_link">
+                                            <i class="fa fa-2x fa-instagram"/>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        Viber Customer Service number - 09799657849
+                                        <br></br>
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-user"/>
+                                        Telegram
+                                        <a href="https://t.me/LIVEPlaza">https://t.me/LIVEPlaza</a>
+                                    </li>
+                                    <li>
+                                        အရောင်းအဝယ် ကုန်ပစ္စည်း များအတွက် ပစ္စည်းအာမခံ မှု နဲ့ ပစ္စည်းအငြင်းပွားဖွယ် ပြဿနာတစုံတရာ အတွက်သည် ရောင်းချသူ ၌ သာ အလုံးစုံတာဝန်ရှိပါသည်။
+                                    </li>
+                                    <li>
+                                        သို့သော် ရောင်းချသူ နဲ့ ဝယ်ယူသူ အကြား အငြင်းပွားဖွယ် ပြဿနာ တစုံတရာ ဖြစ်ပေါ်လာ လျှင် ကျွန်ုပ်တို့ service team မှ ကူညီဆောင်ရွက်ပေးနိုင်ရန် အဆင့်သင့်ရှိနေပါသည်။
+                                        <br></br>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </xpath>
             <xpath expr="//div[@id='connect']" position="replace">
                 <div class="col-lg-4">
                     <h5>Download LivePlaza App</h5>

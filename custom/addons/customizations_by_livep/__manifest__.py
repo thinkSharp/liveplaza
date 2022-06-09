@@ -29,6 +29,7 @@
         'views/feeling_products.xml',
         'views/feeling_products_web_view.xml',
         'views/select_checkout_products.xml',
+        'views/xtremo_copy.xml',
         'data/data.xml'
     ],
     'qweb': ['static/src/xml/*.xml'],

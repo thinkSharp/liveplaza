@@ -7,7 +7,7 @@
 <odoo>
 	<data noupdate="0">
         <!-- Seller Landing Page....... -->
-		 <template id="sell_link_in_header" inherit_id="portal.portal_show_sign_in">
+		 <!--<template id="sell_link_in_header" inherit_id="portal.portal_show_sign_in">
 			<xpath expr="//li[hasclass('divider')]" position="after">
 				<t t-if="website.mp_show_sell_menu_header">
                     <t t-set="sell_page_label" t-value="website.mp_sell_page_label"/>
@@ -23,7 +23,7 @@
 			<xpath expr="//li[hasclass('divider')]" position="attributes">
 				<attribute name="class">divider hidden-xs</attribute>
 			</xpath>
-		</template>
+		</template>-->
 
         <template id="wk_mp_seller_landing_page" name="Sell Landing Page">
 			<t t-call="website.layout">
