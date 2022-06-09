@@ -41,13 +41,13 @@
 
     </xpath>
 
-    <xpath expr="//div[@id='products_grid'][last()]" position="inside">
-        <div class="products_pager form-inline justify-content-center mt-3" style="display: block;">
-            <div class="cp-spinner cp-round"></div>
-            <div id="wk_loader">Load More Products</div>
-<!--            <div>Load More Products</div>-->
-        </div>
-    </xpath>
+<!--    <xpath expr="//div[@id='products_grid'][last()]" position="inside">-->
+<!--        <div class="products_pager form-inline justify-content-center mt-3" style="display: block;">-->
+<!--            <div class="cp-spinner cp-round"></div>-->
+<!--            <div id="wk_loader">Load More Products</div>-->
+<!--&lt;!&ndash;            <div>Load More Products</div>&ndash;&gt;-->
+<!--        </div>-->
+<!--    </xpath>-->
 
 
 
