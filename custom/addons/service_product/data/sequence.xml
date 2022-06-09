@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <!-- Sequences for service.request -->
+    <record id="seq_service_request" model="ir.sequence">
+        <field name="name">ServiceRequest Sequence</field>
+        <field name="code">service.request.sequence</field>
+        <field name="prefix">SR-</field>
+        <field name="padding">4</field>
+    </record>
+
+</odoo>
