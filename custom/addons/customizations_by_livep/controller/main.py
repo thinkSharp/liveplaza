@@ -179,6 +179,7 @@ class WebsiteSale(Website_Sale):
         }
         return request.render("website_sale.address", render_values)
 
+            "daily_deals": request.env['website.deals'].sudo().get_valid_deals(),
 
 class Website(Website):
 
@@ -216,7 +217,6 @@ class WebsiteSaleWishlist(WebsiteSale):
             product_id,
             partner_id
         )
-        print("partner_id = " + str(partner_id))
 
         # if not partner_id:
         #     request.session['wishlist_ids'] = request.session.get('wishlist_ids', []) + [wish_id.id]

@@ -80,6 +80,7 @@
 						 	<group >
 	                            <field name="item_to_show" widget="radio" attrs="{'invisible':[('overide_config','=',False)]}"/>
 								<field name="display_products_as" widget="radio" attrs="{'invisible':['|',('item_to_show','=','banner_only'),('overide_config','=',False)]}" />
+								<field name="display_on_homepage" attrs="{'invisible':[('overide_config','=',False)]}"/>
 							</group>
 							<group >
 								<field name="d_state_after_expire" widget="radio" attrs="{'invisible':[('overide_config','=',False)]}"/>
