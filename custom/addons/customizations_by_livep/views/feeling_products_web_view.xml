@@ -33,7 +33,7 @@
                   <t t-call="theme_xtremo.xtremo_banner_with_category" />
                   <t t-call="customizations_by_livep.feeling_products_categories" />
                   <t t-call="customizations_by_livep.homepage_flash_sales_displays" />
-                  <t t-call="theme_xtremo.xtremo_featured_product" />
+<!--                   <t t-call="theme_xtremo.xtremo_featured_product" /> -->
                   <t t-call="theme_xtremo.xtremo_featured_top_sale" />
                   <t t-call="theme_xtremo.xtremo_featured_rated" />
               </div>
