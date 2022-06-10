@@ -22,7 +22,7 @@ class ServiceProductRequest(models.Model):
         ('rejected', 'Rejected'),
     ], string='Status', readonly=True, copy=False, index=True, default='draft')
 
-    seller = fields.Many2one("res.partner", string="Seller", default=lambda self: self.env.user.partner_id.id if self.env.user.partner_id and self.env.user.partner_id.seller else self.env['res.partner'])
+    seller = fields.Many2one("res.partner", string="Seller", default=lambda self: self.env.user.partner_id.id if self.env.user.partner_id and self.env.user.partner_id.seller else self.env['res.partner'], required=True)
     product_ids = fields.One2many('service.request.product', 'product_request_id', string='Service Products')
     no_products = fields.Integer(readonly=True, default=0)
 
