@@ -180,7 +180,7 @@ class WebsiteSale(Website_Sale):
             'phone': phone
         }
         return request.render("website_sale.address", render_values)
-
+      
     # @http.route([
     #     '''/shop''',
     #     '''/shop/page/<int:page>''',
@@ -198,7 +198,8 @@ class WebsiteSale (WebsiteSale):
         feeling = request.env['feeling.products'].search([('website_published', '=', 'True')])
         
         values = {
-            'feeling': feeling
+            'feeling': feeling,
+            'daily_deals': request.env['website.deals'].sudo().get_valid_deals(),
         }
         return request.render('customizations_by_livep.homepage', values)
 
@@ -329,7 +330,6 @@ class WebsiteSale (WebsiteSale):
         else:
             return request.render("website_sale.products", values)
 
-
 class Website(Website):
 
     @http.route(website=True, auth="public", sitemap=False)
@@ -340,6 +340,7 @@ class Website(Website):
             redirect = '/shop'
             return http.redirect_with_hash(redirect)
         return response
+      
 
 
 class WebsiteSaleWishlist(WebsiteSale):
