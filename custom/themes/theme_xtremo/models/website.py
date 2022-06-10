@@ -55,7 +55,7 @@ class Website(models.Model):
             limit = config.no_of_products
             total_products = self.env['product.template'].sudo().search([
                     ("website_published", "=", True),
-                    ('xtremo_avg_rating', '>=', average_rating)], limit=limit)
+                    ('average_rating', '>=', average_rating)], limit=limit)
             name = config.name
 
         if not total_products:
