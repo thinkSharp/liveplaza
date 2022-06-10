@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <data>
+      <template id="feeling_products_assets_frontend" inherit_id="website.assets_frontend">
+        <xpath expr="." position="inside">
+            <link rel="stylesheet" type="text/scss" href="/customizations_by_livep/static/src/css/style.css"/>
+        </xpath>
+    </template>
+
+      <template id="feeling_products_categories" name="Feeling Product Categories">
+          <t t-if="len(feeling) > 0">
+          <section class="container">
+               <div class="oe_structure oe_empty feeling_div">
+                   <p class="feeling_title">How are you feeling today?</p>
+                    <div class="feeling_outer_box" id="scroll_x">
+                          <t t-foreach="feeling" t-as="f" >
+                                  <a class="feeling_category" t-attf-href="/shop/feeling/#{ slug(f) }">
+                                      <p class="feeling_text"><t t-esc="f.name"></t></p>
+                                          <span t-field="f.feeling_emoji"
+                                        t-options="{'widget': 'image', 'preview_image': 'feeling_emoji' }"
+                                        class="feeling_emoji d-flex h-100 justify-content-center align-items-center"/>
+                                  </a>
+                          </t>
+                    </div>
+               </div>
+          </section>
+          </t>
+      </template>
+
+      <template id="homepage" name="Home" inherit_id="website.homepage">
+          <xpath expr="//div[@id='wrap']" position="replace">
+              <div id="wrap" class="oe_structure oe_empty">
+                  <t t-call="theme_xtremo.xtremo_banner_with_category" />
+                  <t t-call="customizations_by_livep.feeling_products_categories" />
+                  <t t-call="theme_xtremo.xtremo_featured_product" />
+                  <t t-call="theme_xtremo.xtremo_featured_top_sale" />
+                  <t t-call="theme_xtremo.xtremo_featured_rated" />
+              </div>
+          </xpath>
+      </template>
+
+  </data>
+</odoo>

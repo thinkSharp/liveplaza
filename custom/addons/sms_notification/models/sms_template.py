@@ -21,7 +21,6 @@ from os.path import isdir
 from html.parser import HTMLParser
 from odoo import _, api, fields, models, tools
 
-
 _logger = logging.getLogger(__name__)
 
 
@@ -55,7 +54,8 @@ class SmsTemplate(models.Model):
     name = fields.Char('Name', required=True)
     auto_delete = fields.Boolean("Auto Delete")
     globally_access = fields.Boolean(
-        string="Global", help="if enable then it will consider normal(global) template.You can use it while sending the bulk message. If not enable the you have to select condition on which the template applies.")
+        string="Global",
+        help="if enable then it will consider normal(global) template.You can use it while sending the bulk message. If not enable the you have to select condition on which the template applies.")
     condition = fields.Selection([('order_placed', 'Order Placed'),
                                   ('order_confirm', 'Order Confirmed'),
                                   ('reset_password', 'Reset Password'),
@@ -63,9 +63,13 @@ class SmsTemplate(models.Model):
                                   ('invoice_vaildate', 'Invoice Validate'),
                                   ('invoice_paid', 'Invoice Paid'),
                                   ('order_cancel', 'Order Cancelled'),
-                                  ('inventory_almost_empty', 'Inventory Almost Empty')], string="Conditions", help="Condition on which the template has been applied.")
+                                  ('inventory_almost_empty', 'Inventory Almost Empty'),
+                                  ('ticket_ready', 'Ticket Ready')], string="Conditions",
+                                 help="Condition on which the template has been applied.")
     model_id = fields.Many2one(
-        'ir.model', 'Applies to', compute="onchange_condition", help="The kind of document with this template can be used. Note if not selected then it will consider normal(global) template.", store=True)
+        'ir.model', 'Applies to', compute="onchange_condition",
+        help="The kind of document with this template can be used. Note if not selected then it will consider normal(global) template.",
+        store=True)
     model = fields.Char(related="model_id.model", string='Related Document Model',
                         store=True, readonly=True)
     sms_body_html = fields.Text('Body', translate=True, sanitize=False,
@@ -103,6 +107,12 @@ class SmsTemplate(models.Model):
                         [('model', '=', 'stock.picking')])
                     obj.model_id = model_id.id if model_id else False
                     obj.lang = '${object.partner_id.lang}'
+                elif obj.condition in ['ticket_ready']:
+                    model_id = self.env['ir.model'].search(
+                        [('model', '=', 'ticket')])
+                    obj.model_id = model_id.id if model_id else False
+                    obj.lang = '${object.sale_order.partner_id.lang}'
+
                 elif obj.condition in ['invoice_vaildate', 'invoice_paid']:
                     model_id = self.env['ir.model'].search(
                         [('model', '=', 'account.move')])
@@ -140,7 +150,7 @@ class SmsTemplate(models.Model):
         else:
             rendered_langs = self._render_template(self.lang, self.model, res_ids)
             results = dict((res_id, self.with_context(lang=lang) if lang else self)
-                for res_id, lang in rendered_langs.items())
+                           for res_id, lang in rendered_langs.items())
 
         return results
 
@@ -153,7 +163,6 @@ class SmsTemplate(models.Model):
 
         return tpl_to_rids
 
-    
     def get_body_data(self, obj, partner_id=None):
         self.ensure_one()
         lang_to_rids = self._get_ids_per_lang(obj.ids)
@@ -185,9 +194,25 @@ class SmsTemplate(models.Model):
                     'to': mob_no,
                     'group_type': 'individual',
                     'auto_delete': sms_tmpl.auto_delete,
-                    'msg': sms_tmpl.with_context(ctx).get_body_data(obj, obj.partner_id) if obj else sms_tmpl.sms_body_html,
+                    'msg': sms_tmpl.with_context(ctx).get_body_data(obj,
+                                                                    obj.partner_id) if obj else sms_tmpl.sms_body_html,
                     'template_id': False
                 })
+
+            elif sms_tmpl.condition == 'ticket_ready':
+                print("Obj Print............", obj)
+                print("partner", obj.sale_order.partner_id)
+                sms_sms_obj = self.env["wk.sms.sms"].create({
+                    'sms_gateway_config_id': gateway_id.id,
+                    'partner_id': obj.sale_order.partner_id.id if obj else False,
+                    'to': mob_no,
+                    'group_type': 'individual',
+                    'auto_delete': sms_tmpl.auto_delete,
+                    'msg': sms_tmpl.with_context(ctx).get_body_data(obj,
+                                                                    obj.sale_order.partner_id) if obj else sms_tmpl.sms_body_html,
+                    'template_id': False
+                })
+
             elif sms_tmpl.condition == 'reset_password':
                 sms_sms_obj = self.env["wk.sms.sms"].create({
                     'sms_gateway_config_id': gateway_id.id,
@@ -195,8 +220,15 @@ class SmsTemplate(models.Model):
                     'to': mob_no,
                     'group_type': 'individual',
                     'auto_delete': sms_tmpl.auto_delete,
-                    'msg': sms_tmpl.with_context(ctx).get_body_data(obj, obj.partner_id) if obj else sms_tmpl.sms_body_html,
+                    'msg': sms_tmpl.with_context(ctx).get_body_data(obj,
+                                                                    obj.partner_id) if obj else sms_tmpl.sms_body_html,
                 })
+
+
+                if sms_sms_obj.msg:
+                    url_msg = sms_sms_obj.msg.replace("&amp;", "&")
+                    sms_sms_obj.sudo().write({'msg': url_msg})
+
             elif sms_tmpl.condition == 'inventory_almost_empty':
                 sms_sms_obj = self.env["wk.sms.sms"].create({
                     'sms_gateway_config_id': gateway_id.id,

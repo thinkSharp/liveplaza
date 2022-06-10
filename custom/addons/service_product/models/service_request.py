@@ -6,17 +6,13 @@ import datetime
 
 class ProductTemplateAttributeLineInherit(models.Model):
     _inherit = "product.template.attribute.line"
-    requested_product_tmpl_id = fields.Many2one('product.request.product')
-
-    # To create product variants without product_template
-    product_tmpl_id = fields.Many2one('product.template', string="Product Template", ondelete='cascade', required=False, index=True)
+    requested_service_product_tmpl_id = fields.Many2one('service.request.product')
 
 
 
-
-class ProductRequest(models.Model):
-    _name = 'product.request'
-    _description = 'Product requests from vendors to sale on website.'
+class ServiceProductRequest(models.Model):
+    _name = 'service.request'
+    _description = 'Service Product Requests from vendors to sale on website.'
     
     name = fields.Char(string='Request', required=True, copy=False, index=True, readonly=True, default=lambda self: _('New'))
     state = fields.Selection([
@@ -27,14 +23,14 @@ class ProductRequest(models.Model):
     ], string='Status', readonly=True, copy=False, index=True, default='draft')
 
     seller = fields.Many2one("res.partner", string="Seller", default=lambda self: self.env.user.partner_id.id if self.env.user.partner_id and self.env.user.partner_id.seller else self.env['res.partner'], required=True)
-    product_ids = fields.One2many('product.request.product', 'product_request_id', string='Products')
+    product_ids = fields.One2many('service.request.product', 'product_request_id', string='Service Products')
     no_products = fields.Integer(readonly=True, default=0)
 
 
     def action_request(self):
-        super(ProductRequest, self).write({'state': 'requested'})
+        super(ServiceProductRequest, self).write({'state': 'requested'})
 
-        product_tmpl_ids_query = "select product_tmpl_id from product_request_product where product_request_id=%s"
+        product_tmpl_ids_query = "select product_tmpl_id from service_request_product where product_request_id=%s"
         self.env.cr.execute(product_tmpl_ids_query, (self.id,))
         product_tmpl_ids = self.env.cr.fetchall()
 
@@ -54,9 +50,9 @@ class ProductRequest(models.Model):
         return True
 
     def action_approve(self):
-        super(ProductRequest, self).write({'state': 'approved'})
+        super(ServiceProductRequest, self).write({'state': 'approved'})
 
-        product_tmpl_ids_query = "select product_tmpl_id from product_request_product where product_request_id=%s"
+        product_tmpl_ids_query = "select product_tmpl_id from service_request_product where product_request_id=%s"
         self.env.cr.execute(product_tmpl_ids_query, (self.id,))
         product_tmpl_ids = self.env.cr.fetchall()
 
@@ -76,9 +72,9 @@ class ProductRequest(models.Model):
 
 
     def action_reject(self):
-        super(ProductRequest, self).write({'state': 'rejected'})
+        super(ServiceProductRequest, self).write({'state': 'rejected'})
 
-        product_tmpl_ids_query = "select product_tmpl_id from product_request_product where product_request_id=%s"
+        product_tmpl_ids_query = "select product_tmpl_id from service_request_product where product_request_id=%s"
         self.env.cr.execute(product_tmpl_ids_query, (self.id,))
         product_tmpl_ids = self.env.cr.fetchall()
 
@@ -150,8 +146,8 @@ class ProductRequest(models.Model):
     @api.model
     def create(self, vals):
         if vals.get('name', _('New')) == _('New'):
-            vals['name'] = self.env['ir.sequence'].next_by_code('request.sequence') or _('New')
-        result = super(ProductRequest, self).create(vals)
+            vals['name'] = self.env['ir.sequence'].next_by_code('service.request.sequence') or _('New')
+        result = super(ServiceProductRequest, self).create(vals)
         return result
 
 
@@ -159,7 +155,7 @@ class ProductRequest(models.Model):
 
 
 
-class Product(models.Model):
+class ServiceProduct(models.Model):
 
 
     @api.model
@@ -172,10 +168,10 @@ class Product(models.Model):
 
 
 
-    _name = "product.request.product"
-    _description = "Products"
+    _name = "service.request.product"
+    _description = "Service Products"
 
-    name = fields.Char(required=True, string='Product Name')
+    name = fields.Char(required=True, string='Service Product Name')
     categ_ids = fields.Many2many('product.public.category', string='Product Category', required=True)
     list_price = fields.Float(required=True, string='Product Price')
     quantity = fields.Integer(required=True, string='Product Quantity')
@@ -189,11 +185,11 @@ class Product(models.Model):
     description = fields.Html(string='Product Description')
     returnable = fields.Boolean(readonly=True, default=True)
     auto_publish = fields.Boolean(readonly=True, default=True)
-    product_request_id = fields.Many2one('product.request', ondelete='cascade')
-    admin_request_id = fields.Many2one('admin.product.request', ondelete='cascade')
+    product_request_id = fields.Many2one('service.request', ondelete='cascade')
+    admin_request_id = fields.Many2one('service.admin.product.request', ondelete='cascade')
 
     attribute_line_ids = fields.One2many('product.template.attribute.line', 'requested_product_tmpl_id', string='Variants')
-    product_variant_lines = fields.One2many('product.request.product.variant.lines', 'product_variant_id', string='Products', required=True)
+    product_variant_lines = fields.One2many('service.request.product.variant.lines', 'product_variant_id', string='Products', required=True)
     seller = fields.Many2one("res.partner", string="Seller", default=lambda self: self.env.user.partner_id.id if self.env.user.partner_id and self.env.user.partner_id.seller else self.env['res.partner'])
 
     has_variant = fields.Selection([
@@ -266,7 +262,9 @@ class Product(models.Model):
                     'public_categ_ids': line.categ_ids,
                     'invoice_policy': 'order',
                     'alternative_product_ids': vals['alternative'],
-                    'inventory_availability': 'always'
+                    'inventory_availability': 'always',
+                    'is_service': True
+
                 }
 
                 product_tmpl_obj = self.env['product.template'].create(product_vals)
@@ -292,7 +290,7 @@ class Product(models.Model):
 
             product_obj =self.env['product.product'].search([('product_tmpl_id', '=', self.product_tmpl_id)])
             for pobj in product_obj:
-                self.env['product.request.product.variant.lines'].sudo().create({
+                self.env['service.request.product.variant.lines'].sudo().create({
                     'product_id': pobj.id,
                     'product_variant_id': self.id,
                     'price': pobj.lst_price,
@@ -394,11 +392,11 @@ class Product(models.Model):
 
 
 class Product_Variants_Lines(models.Model):
-    _name = "product.request.product.variant.lines"
+    _name = "service.request.product.variant.lines"
     _description = "Product Variants Request"
 
     
-    product_variant_id = fields.Many2one('product.request.product', string='Products')
+    product_variant_id = fields.Many2one('service.request.product', string='Products')
     product_id = fields.Many2one('product.product', readonly=True)
     quantity = fields.Integer()
     price = fields.Float(readonly=True)
@@ -415,7 +413,7 @@ class Product_Variants_Lines(models.Model):
 
 
 class AdminProductRequest(models.Model):
-    _name = 'admin.product.request'
+    _name = 'service.admin.product.request'
     _description = 'Product requests from admin as a vendor to sale on website.'
 
     name = fields.Char(string='Request', required=True, copy=False, index=True, readonly=True,

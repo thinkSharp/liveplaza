@@ -1,0 +1,151 @@
+<section style="overflow-wrap: break-word;text-align: center;">
+    <h2 class="oe_slogan" style="color:#003366;">Redis Session Store</h2>
+    <h3 class="oe_slogan" style="margin-top: -25px;">Stores the session in Redis in spite of in Filesystem in werkzeug
+        to increase the performance of cache.</h3>
+    <h6 class="oe_slogan" style="color:#003366;margin-top: -25px;">Advantage:-It will help to store and manage the
+        session more easier and faster as the sessions are manage in main memory only </h6>
+
+</section>
+
+
+<section class="well" style="overflow-wrap: break-word;text-align: center;">
+    <h3 class="oe_slogan" style="color:#003366;font-weight: 500;">About Redis</h3>
+    <p style="font-size: 15px;">Redis is an in-memory data structure store, used as a database, cache and message
+        broker. It supports data structures such as strings, hashes, lists, sets, sorted sets with range queries,
+        bitmaps, hyperloglogs, geospatial indexes with radius queries and streams. Redis has built-in replication, Lua
+        scripting, LRU eviction, transactions and different levels of on-disk persistence, and provides high
+        availability via Redis Sentinel and automatic partitioning with Redis Cluster.</p>
+
+
+    <h3 class="oe_slogan" style="color:#003366;font-weight: 500;">Why Redis ??</h3>
+    <ol style="text-align:left;">
+        <li>
+            <p style="font-size: 15px;"><strong>Exceptionally Fast :</strong> Redis is very fast and can perform about
+                110000 SETs per second, about 81000 GETs per second. You can use the redis-benchmark utility for doing
+                the same on your machine.</p>
+        </li>
+        <li>
+            <p style="font-size: 15px;"><strong>Supports Rich data types :</strong> Redis natively supports most of the
+                datatypes that most developers already know like list, set, sorted set, hashes. This makes it very easy
+                to solve a variety of problems because we know which problem can be handled better by which data type.</p>
+        </li>
+        <li>
+            <p style="font-size: 15px;"><strong>Operations are atomic :</strong> All the Redis operations are atomic,
+                which ensures that if two clients concurrently access Redis server will get the updated value.</p>
+        </li>
+    </ol>
+    <div style="display: inline-block;margin-top: -40px;">
+    </div>
+
+    <h3 class="oe_slogan" style="color:#003366;font-weight: 500;">Completely configure your Redis extension</h3>
+
+    <ol style="font-size: 15px;text-align: left">
+        <li>
+            <p style="font-size: 18px;">Firstly install the redis</p>
+            <p style="font-size: 15px;">Steps to install redis in debian or ubuntu based server:-</p>
+            <ul>
+                <li>
+                    <strong>
+                        sudo apt-get update <br />
+                        sudo apt install redis-server
+                    </strong>
+                </li>
+                <li> these commands will install redis in the server <br />
+                    and bydefault the connection host will be (localhost/127.0.0.1) <br />
+                    and port will be 6379 on which redis work <br />
+
+                </li>
+                <li> You can run the redis by
+                    <strong> redis-cli </strong>
+                    and get all keys by <strong>KEYS *</strong>
+                      <p style="font-size:13px;"><u><i>Note: At the beginning there will be empty list of Keys</i></u></p>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <p style="font-size: 18px;">Then install redis liberary for Python by command <strong>pip3 install redis</strong></p>
+        </li>
+        <li>
+            <p style="font-size: 18px;">Then in server config file add following things:-</p>
+            <ul>
+                <li><strong>server_wide_modules=web,base,wk_redis_session</strong><br />
+                    it will install wk_redis_session first<br />
+                </li>
+                <li> <strong>redis_session=True</strong><br />
+                    it will let the odoo session store in redis if we type redis_session to be True else it will let
+                    werkzeug to store
+                    the session in .local file session<br />
+                </li>
+                <li>
+                    condfigurations of redis session:-<br />
+                    <ul>
+                        <li>
+                            <strong>redis_host = </strong> host ip of redis bydefault it will store <strong> localhost</strong><br />
+                        </li>
+                        <li>
+                            <strong>redis_port = </strong> port number of redis bydefault it will store <strong> 6379
+                            </strong><br />
+                        </li>
+                        <li>
+                            <strong>redis_expire = </strong> expiry of the session in seconds bydefault session will
+                            expires in <strong>5 days </strong> <i>(432000 Seconds)</i> <br />
+                        </li>
+                        <li>
+                            <u> <i>if your redis server have ssl mode then you will have to pass the path of ssl
+                                    certificate file </i></u>
+                            <br />For Example:- <br />
+                            <strong>redis_ssl_ca_certs = </strong> path of ssl certs(if having) bydefult it is <strong>
+                                None </strong> <br />
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+    </ol>
+
+    <h3 class="oe_slogan" style="color:#003366;font-weight: 500;">Additional Feature</h3>
+    <p style="font-size: 15px;">
+      You can convert the Werkzeug Files Session into Redis Session so that the person who has logged in in your website didn't get logged out when your redis session store begins
+      <a href = "send_to_redis.png" target="new">
+                        <img class="oe_picture oe_screenshot" src="send_to_redis.png" alt="Enter the Shop Details" style="width: 98%;justify-content: center">
+                      </a>
+    </p>
+
+</section>
+<section class="oe_container oe_dark">
+    <div class='oe_row'>
+        <div class="oe_span12">
+            <h2 class='oe_slogan'>Complimentary Support</h2>
+            <p style="text-align:center;">
+                You will get 90 days free support for any doubt, queries, and bug fixing (not including data recovery)
+                or any type of issue related to this module.
+            </p>
+        </div>
+    </div>
+    <div class="oe_row oe_spaced">
+        <div class="oe_span12">
+            <h2 class="oe_slogan">Help and Support</h2>
+        </div>
+        <div class="oe_slogan oe_spaced">
+            <img src="icon-help.png">
+            <span><a onMouseOver="this.style.color='#AC1EE0'" onMouseOut="this.style.color='#7c7bad'" style="color:#7c7bad;"
+                    target="_blank" href="http://support.webkul.com/en/customer/create-ticket/">Help</a></span>
+            <img src="icon-support.png">
+            <span><a onMouseOver="this.style.color='#AC1EE0'" onMouseOut="this.style.color='#7c7bad'" style="color:#7c7bad;"
+                    target="_blank" href="http://support.webkul.com/en/customer/create-ticket/">Support</a></span>
+            <img src="icon-features.png">
+            <span><a onMouseOver="this.style.color='#AC1EE0'" onMouseOut="this.style.color='#7c7bad'" style="color:#7c7bad;"
+                    target="_blank" href="http://support.webkul.com/en/customer/create-ticket/">Request new Features</a></span>
+        </div>
+    </div>
+</section>
+
+
+
+<section class="oe_container">
+    <div class="oe_span12">
+        <!-- Piwik Image Tracker-->
+        <!-- <img src="http://odooimg.webkul.com/analytics/piwik/piwik.php?idsite=3&rec=1&action_name=AFFILIATE-FAQ&url=https://apps.openerp.com/apps/modules/12.0/affiliate_faq&uid=affiliate_faq" style="border:0" alt="" /> -->
+        <!-- End Piwik -->
+    </div>
+</section>

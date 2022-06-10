@@ -26,7 +26,7 @@
         'view/frontend_assets.xml',
         'security/ir.model.access.csv',
         'view/customization.xml',
-        'view/shop.xml',
+        # 'view/shop.xml',
         'view/product.xml',
         'view/cart.xml',
         'view/checkout.xml',
