@@ -271,87 +271,83 @@
             </xpath>
         </template>
 
-         <template id="homepage_flash_sales_display" inherit_id="website.homepage" name="Flash Sales on Homepage" active="True" customize_show="True">
-            <data inherit_id="website.homepage">
-               <xpath expr="//div[@id='wrap']" position="after">
-                   <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
-                   <div class="container">
-                        <div class='row deal_main_row' t-foreach="daily_deals" t-as="deal">
-                            <t t-if="deal.display_on_homepage">
-                                <div t-attf-class="col-12 pt16 pb16 deal_main_div #{'blur' if deal.state_after_expiration()== 'blur' else ''}" t-if="deal.state_after_expiration()!= 'delete'" >
-                                    <input name="deal_id" type="hidden" t-att-value="deal.id"/>
-                                    <input name="end_date" type="hidden" t-att-value="datetime.datetime.strftime(deal.end_date,'%Y/%m/%d %H:%M:%S')"/>
-                                    <t t-set="msg_before_offset" t-value="deal.get_message_before_expiry_and_offset()['offset']"/>
-                                    <input t-if="msg_before_offset" name="msg_before_offset" type="hidden" t-att-value="datetime.datetime.strftime(msg_before_offset,'%Y/%m/%d %H:%M:%S')"/>
-                                    <input name="state" type="hidden" t-att-value="deal.state"/>
-                                    <div class="d-flex justify-content-between aline-items-center pt8">
-                                        <div class="d-flex align-items-center">
-                                            <h2 t-field="deal.name" class="deal_name text-uppercase">Deal Name</h2>
-                                        </div>
-                                        <div class="countdown d-flex align-items-center">
-                                            <ul class="deal_countdown_timer deal_name">
-                                                <li><p class="m-0">Ending in</p></li>
-                                                <li><span class="days"></span> <p class="days_text"></p></li>
-                                                <li class="seperator"> </li>
-                                                <li><span class="hours"></span> <p class="hours_text"> hrs</p></li>
-                                                <li class="seperator"> </li>
-                                                <li><span class="minutes"></span> <p class="minutes_text"> min</p></li>
-                                                <li class="seperator"> </li>
-                                                <li><span class="seconds"></span> <p class="seconds_text"> sec</p></li>
-                                            </ul>
-                                        </div>
+         <template id="homepage_flash_sales_displays" name="Flash Sales on Homepage" active="True" customize_show="True">
+              <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+              <div class="container">
+                   <div class='row deal_main_row' t-foreach="daily_deals" t-as="deal">
+                       <t t-if="deal.display_on_homepage">
+                           <div t-attf-class="col-12 pt16 pb16 deal_main_div #{'blur' if deal.state_after_expiration()== 'blur' else ''}" t-if="deal.state_after_expiration()!= 'delete'" >
+                               <input name="deal_id" type="hidden" t-att-value="deal.id"/>
+                               <input name="end_date" type="hidden" t-att-value="datetime.datetime.strftime(deal.end_date,'%Y/%m/%d %H:%M:%S')"/>
+                               <t t-set="msg_before_offset" t-value="deal.get_message_before_expiry_and_offset()['offset']"/>
+                               <input t-if="msg_before_offset" name="msg_before_offset" type="hidden" t-att-value="datetime.datetime.strftime(msg_before_offset,'%Y/%m/%d %H:%M:%S')"/>
+                               <input name="state" type="hidden" t-att-value="deal.state"/>
+                               <div class="d-flex justify-content-between aline-items-center pt8">
+                                   <div class="d-flex align-items-center">
+                                       <h2 t-field="deal.name" class="deal_name text-uppercase">Deal Name</h2>
+                                   </div>
+                                   <div class="countdown d-flex align-items-center">
+                                       <ul class="deal_countdown_timer deal_name">
+                                           <li><p class="m-0">Ending in</p></li>
+                                           <li><span class="days"></span> <p class="days_text"></p></li>
+                                           <li class="seperator"> </li>
+                                           <li><span class="hours"></span> <p class="hours_text"> hrs</p></li>
+                                           <li class="seperator"> </li>
+                                           <li><span class="minutes"></span> <p class="minutes_text"> min</p></li>
+                                           <li class="seperator"> </li>
+                                           <li><span class="seconds"></span> <p class="seconds_text"> sec</p></li>
+                                       </ul>
+                                   </div>
 
-                                    </div>
-                                    <!-- Banner  -->
-                                    <div class="deal_banner_description row mt24 mb8 m-0">
-                                        <div t-attf-class="d_banner col-md-7 col-12 p-0 #{'banner_icon' if not deal.is_deal_banner_shown() else''}">
-                                            <a t-if="deal.is_deal_banner_shown()">
-                                                <span t-field="deal.banner" t-options='{"widget": "image"}'/>
-                                            </a>
-                                        </div>
-                                        <div class="d_description_div col-md-5 col-12">
-                                            <div>
-                                                <h4 class="m-0" t-field="deal.title"></h4>
-                                                <div class="description">
-                                                    <span class="text-muted" t-field="deal.description"/>
-                                                    <span t-if="msg_after_exp" t-esc="msg_after_exp"/>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                               </div>
+                               <!-- Banner  -->
+                               <div class="deal_banner_description row mt24 mb8 m-0">
+                                   <div t-attf-class="d_banner col-md-7 col-12 p-0 #{'banner_icon' if not deal.is_deal_banner_shown() else''}">
+                                       <a t-if="deal.is_deal_banner_shown()">
+                                           <span t-field="deal.banner" t-options='{"widget": "image"}'/>
+                                       </a>
+                                   </div>
+                                   <div class="d_description_div col-md-5 col-12">
+                                       <div>
+                                           <h4 class="m-0" t-field="deal.title"></h4>
+                                           <div class="description">
+                                               <span class="text-muted" t-field="deal.description"/>
+                                               <span t-if="msg_after_exp" t-esc="msg_after_exp"/>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
 
-                                    <!-- Products  -->
-                                    <t t-set="display_as" t-value="deal.get_display_products_as()"/>
-                                    <div class="deal_products" t-if="deal.pricelist_items and deal.is_deal_product_shown()">
-                                        <!-- Slider View  -->
-                                        <div t-if="display_as and display_as=='slider'" class="deals_owl_carousel owl-carousel">
-                                            <div t-foreach="deal.pricelist_items" t-as="deal_item" >
-                                                <t t-call="customizations_by_livep.deal_product_template_homepage"/>
-                                            </div>
-                                        </div>
-                                        <!-- Grid View -->
-                                        <div  t-if="display_as and display_as=='grid'" class="deals_grid_view row m-0">
-                                            <t t-foreach="deal.pricelist_items" t-as="deal_item">
-                                                <t t-call="customizations_by_livep.deal_product_template_homepage"/>
-                                            </t>
-                                        </div>
-                                    </div>
-                                    <!--<t t-set="msg_before_exp" t-value="deal.get_message_before_expiry_and_offset()['message']"/>
-                                    <div class="row d-flex align-items justify-content-center m-0" t-if="msg_before_exp">
-                                        <div class="expiry_message col-12">
-                                            <p t-esc="msg_before_exp" class="msg_before_exp"/>
-                                        </div>
-                                    </div>
-                                    <t t-set="msg_after_exp" t-value="deal.get_message_after_expiry()"/>
-                                    <div class="expiry_message" t-if="msg_after_exp">
-                                        <span t-if="msg_after_exp" t-esc="msg_after_exp"/>
-                                    </div>-->
-                                </div>
-                            </t>
-                        </div>
+                               <!-- Products  -->
+                               <t t-set="display_as" t-value="deal.get_display_products_as()"/>
+                               <div class="deal_products" t-if="deal.pricelist_items and deal.is_deal_product_shown()">
+                                   <!-- Slider View  -->
+                                   <div t-if="display_as and display_as=='slider'" class="deals_owl_carousel owl-carousel">
+                                       <div t-foreach="deal.pricelist_items" t-as="deal_item" >
+                                           <t t-call="customizations_by_livep.deal_product_template_homepage"/>
+                                       </div>
+                                   </div>
+                                   <!-- Grid View -->
+                                   <div  t-if="display_as and display_as=='grid'" class="deals_grid_view row m-0">
+                                       <t t-foreach="deal.pricelist_items" t-as="deal_item">
+                                           <t t-call="customizations_by_livep.deal_product_template_homepage"/>
+                                       </t>
+                                   </div>
+                               </div>
+                               <!--<t t-set="msg_before_exp" t-value="deal.get_message_before_expiry_and_offset()['message']"/>
+                               <div class="row d-flex align-items justify-content-center m-0" t-if="msg_before_exp">
+                                   <div class="expiry_message col-12">
+                                       <p t-esc="msg_before_exp" class="msg_before_exp"/>
+                                   </div>
+                               </div>
+                               <t t-set="msg_after_exp" t-value="deal.get_message_after_expiry()"/>
+                               <div class="expiry_message" t-if="msg_after_exp">
+                                   <span t-if="msg_after_exp" t-esc="msg_after_exp"/>
+                               </div>-->
+                           </div>
+                       </t>
                    </div>
-               </xpath>
-            </data>
+              </div>
         </template>
 
         <template id="deal_product_template_homepage" name="Website Daily Deal Product Template Homepage">
