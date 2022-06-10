@@ -75,18 +75,12 @@
 }
 
 .feeling_header {
-    position: relative;
-    width: 95%;
-    padding: 2% 0;
+    width: 75%;
+    padding: 3% 0;
 }
 
 .feeling_header h4 {
     text-align: center;
-    margin: 0;
-    position: absolute;
-    top: 50%;
-    -ms-transform: translateY(-50%);
-    transform: translate(40%, -50%);
 }
 
 #outer {

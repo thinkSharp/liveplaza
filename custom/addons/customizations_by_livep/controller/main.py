@@ -208,16 +208,18 @@ class WebsiteSale (WebsiteSale):
         # '''/shop/page/<int:page>''',
         # '''/shop/category/<model("product.public.category"):category>''',
         # '''/shop/category/<model("product.public.category"):category>/page/<int:page>''',
-        '''/shop/<model("feeling.products"):feeling>'''
+        '''/shop/feeling/<model("feeling.products"):feeling>''',
+        '''/shop/feeling/<model("feeling.products"):feeling>/page/<int:page>'''
     ], type='http', auth="public", website=True)
 
-    def feelingshop(self, feeling=None, page=0, category=None, search='', ppg=False, **post):
+    def feelingShop(self, feeling=None, page=0, category=None, search='', ppg=False, **post):
+        # if feeling is None:
+        #     return super(WebsiteSale, self).shop(**post)
         add_qty = int(post.get('add_qty', 1))
         cat_domain = []
         categ_ids = request.env['feeling.products'].search([('id', '=', int(feeling))]).feeling_product_categories
         for cat in categ_ids:
             cat_domain.append(int(cat))
-
 
         Category = request.env['product.public.category']
         if category:
@@ -260,9 +262,11 @@ class WebsiteSale (WebsiteSale):
 
         # Product = request.env['product.template'].search([('sale_ok', '=', True)])
 
-        Product = request.env['product.template'].search([('public_categ_ids', 'in', cat_domain)])
+        Product = request.env['product.template'].search([('public_categ_ids', 'in', cat_domain),
+                                                          ('sale_ok', '=', True), ('website_published', '=', True)])
 
-        search_product = Product.search([('public_categ_ids','in', cat_domain)], order=WebsiteSale._get_search_order(WebsiteSale, post))
+        search_product = Product.search([('public_categ_ids','in', cat_domain), ('sale_ok', '=', True), ('website_published', '=', True)],
+                                        order=WebsiteSale._get_search_order(WebsiteSale, post))
         website_domain = request.website.website_domain()
         categs_domain = [('parent_id', '=', False)] + website_domain
         if search:
@@ -273,8 +277,8 @@ class WebsiteSale (WebsiteSale):
             search_categories = Category
         categs = Category.search(categs_domain)
 
-        if category:
-            url = "/shop/category/%s" % slug(category)
+        if feeling:
+            url = "/shop/feeling/%s" % slug(feeling)
 
         product_count = len(search_product)
         pager = request.website.pager(url=url, total=product_count, page=page, step=ppg, scope=7, url_args=post)
@@ -317,7 +321,13 @@ class WebsiteSale (WebsiteSale):
         }
         if category:
             values['main_object'] = category
-        return request.render("website_sale.products", values)
+        if values.get("pager").get('page_end').get('num') < page:
+            return "none"
+        elif post.get("test"):
+            view = request.render("theme_xtremo.wk_lazy_list_product_item", values)
+            return view
+        else:
+            return request.render("website_sale.products", values)
 
 
 class Website(Website):
