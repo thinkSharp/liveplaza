@@ -51,8 +51,9 @@
                             <span class="px-1" style="display: inline; background: red;width: 50px;color: #FFFFFF;font-size: 20px;">LIVE</span>
                         </strong>
                         <p> There is no upcoming livestream </p>
+                        <br></br>
                     </div>
-                    <div class="deal_products">
+                    <div class="deal_products" t-if="live_streams.filtered(lambda stream: stream.start_stream_datetime &gt; datetime.datetime.now())">
                         <div class="owl-carousel owl-theme live_stream_owl_carousel mb-2" id="wk_upcoming_stream_carousel">
                             <t t-foreach="live_streams" t-as="stream">
                                 <t t-set="num" t-value="int(12/len(live_streams))"/>
@@ -87,7 +88,7 @@
                         <p> There is no previous livestream </p>
                         <br></br>
                     </div>
-                    <div class="deal_products">
+                    <div class="deal_products" t-if="live_streams.filtered(lambda stream: stream.end_stream_datetime &lt; datetime.datetime.now())">
                         <div class="owl-carousel owl-theme live_stream_owl_carousel mb-2" id="wk_upcoming_stream_carousel">
                             <t t-foreach="live_streams" t-as="stream">
                                 <t t-set="num" t-value="int(12/len(live_streams))"/>
