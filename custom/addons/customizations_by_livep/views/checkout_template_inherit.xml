@@ -127,7 +127,7 @@
 
     <template id="cod_not_available_alert" inherit_id="website_sale.payment">
             <xpath expr="//div[@id='payment_method']" position="before">
-                    <div class="empty_sol_del_error alert alert-danger" role="alert" t-att-style="'display: block;' if(order.contain_service == True) else 'display: none;'">
+                    <div class="empty_sol_del_error alert  alert-info" role="alert" t-att-style="'display: block;' if(order.contain_service == True) else 'display: none;'">
                         Cash on Delivery(COD) is not available for Service Product.
                     </div>
             </xpath>
