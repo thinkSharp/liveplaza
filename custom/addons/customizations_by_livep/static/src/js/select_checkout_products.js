@@ -32,12 +32,6 @@ odoo.define('customizations_by_livep.cart', function(require) {
         'click #place_order': '_is_checked_products',
     },
 
-
-
-    start: function() {
-//        this._onClickCheckbox();
-    },
-
     //--------------------------------------------------------------------------
     // Handlers
     //--------------------------------------------------------------------------
@@ -108,7 +102,6 @@ odoo.define('customizations_by_livep.cart', function(require) {
             )
           return false;
         }
-
     },
 
     _displayError: function (title, message) {

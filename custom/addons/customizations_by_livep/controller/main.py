@@ -74,8 +74,13 @@ class WebsiteSale(Website_Sale):
 
     @http.route(['/shop/address'], type='http', methods=['GET', 'POST'], auth="public", website=True, sitemap=False)
     def address(self, **kw):
+
         Partner = request.env['res.partner'].with_context(show_address=1).sudo()
         order = request.website.sale_get_order()
+        checked_list = request.website.get_checked_sale_order_line(order.website_order_line)
+
+        if len(checked_list) <= 0:
+            return request.redirect('/shop')
 
         redirection = Website_Sale.checkout_redirection(Website_Sale, order)
         if redirection:
@@ -211,7 +216,6 @@ class WebsiteSale (WebsiteSale):
         '''/shop/feeling/<model("feeling.products"):feeling>''',
         '''/shop/feeling/<model("feeling.products"):feeling>/page/<int:page>'''
     ], type='http', auth="public", website=True)
-
     def feelingShop(self, feeling=None, page=0, category=None, search='', ppg=False, **post):
         # if feeling is None:
         #     return super(WebsiteSale, self).shop(**post)
@@ -329,10 +333,20 @@ class WebsiteSale (WebsiteSale):
         else:
             return request.render("website_sale.products", values)
 
+    @http.route(['/shop/checkout'], type='http', auth='public', website=True)
+    def checkout(self, **post):
+        order = request.website.sale_get_order()
+        checked_list = request.website.get_checked_sale_order_line(order.website_order_line)
+
+        if len(checked_list) <= 0:
+            return request.redirect('/shop')
+
+        return super(WebsiteSale, self).checkout(**post)
+
     @http.route(['/shop/checkout/select/products'], type='json', auth='public', website=True)
     def selectProduct(self, orderLineId):
-        print("HELLO ---------------------------------------")
         order = request.website.sale_get_order()
+        order_copy = order.copy()
 
         orderLine = order.website_order_line.search([('id', '=', orderLineId)])
 
@@ -354,9 +368,7 @@ class WebsiteSale (WebsiteSale):
                     })
 
         checked_list = request.website.get_checked_sale_order_line(order.website_order_line)
-        print("#### checked list")
         print(checked_list)
-        print("order amount = ", order.checked_amount_total)
 
     @http.route(['/shop/cart'], type='http', auth="public", website=True, sitemap=False)
     def cart(self, access_token=None, revive='', **post):

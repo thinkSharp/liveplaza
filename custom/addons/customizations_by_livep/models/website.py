@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*- --
 
 from odoo import api, fields, models, _
-
+from odoo.http import request
 
 class Website(models.Model):
     _inherit = 'website'
@@ -40,6 +40,12 @@ class Website(models.Model):
             idList.append(o.id)
 
         return idList
+
+    def sale_replace(self, order):
+        request.session.update({
+            'sale_order_id': order,
+            'website_sale_current_pl': False,
+        })
 
     # def get_checked_sale_order_line(self):
     #     order = self.sale_get_order()

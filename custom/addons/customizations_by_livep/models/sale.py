@@ -36,12 +36,10 @@ class SaleOrder(models.Model):
         for order in self:
             checked_amount_untaxed = checked_amount_tax = 0.0
             for line in order.order_line:
-                if line.selected_checkout == True:
-                    print("True True True True True")
+                if line.selected_checkout:
                     checked_amount_untaxed += line.price_subtotal
                     checked_amount_tax += line.price_tax
-                else:
-                    print("False False False False False")
+
             order.update({
                 'checked_amount_untaxed': checked_amount_untaxed,
                 'checked_amount_tax': checked_amount_tax,

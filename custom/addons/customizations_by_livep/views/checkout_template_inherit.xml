@@ -103,13 +103,7 @@
         </xpath>
     </template>
 
-    <template id="process_checkout_change_label" inherit_id="website_sale.short_cart_summary">
-        <xpath position="replace" expr="//a[@class='btn btn-secondary float-right d-none d-xl-inline-block']">
-            <a role="button" t-if="website_sale_order and website_sale_order.website_order_line" class="btn btn-secondary float-right d-none d-xl-inline-block" href="/shop/checkout?express=1">
-                <span>Place Order</span>
-            </a>
-        </xpath>
-    </template>
+
 
     <template id="pay_now_change_label" inherit_id="website_sale.payment">
         <xpath expr="//a[@class='btn btn-primary a-submit']" position="replace">

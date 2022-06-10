@@ -17,6 +17,7 @@
 import dateutil
 from datetime import datetime
 
+import requests
 from odoo import models, fields, api, _
 from odoo.addons.website_sale_stock.models.sale_order import SaleOrder as WebsiteSaleStock
 import logging
@@ -57,6 +58,11 @@ class SaleOrder(models.Model):
         self.ensure_one()
 
         order = self.env['sale.order.line'].search([('order_id', '=', self.id)])
+        order_copy = self.copy()
+
+        for o in order_copy.website_order_line:
+            if o.selected_checkout:
+                o.unlink()
 
         for o in order:
             if not o.is_delivery:
@@ -67,7 +73,12 @@ class SaleOrder(models.Model):
         self.write({'payment_provider': self.get_portal_last_transaction().acquirer_id.provider})
         if self.get_portal_last_transaction().acquirer_id.provider == 'cash_on_delivery' and self.state == 'sale':
             self.action_admin()
-    
+
+        self.env['website'].sale_replace(order_copy.id)
+        # for o in self.order_copy:
+        #     if o.selected_checkout:
+        #         o.unlink()
+
         return res
     
     def action_admin(self):
