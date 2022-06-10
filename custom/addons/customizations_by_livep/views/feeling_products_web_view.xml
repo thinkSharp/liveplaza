@@ -14,7 +14,7 @@
                    <p class="feeling_title">How are you feeling today?</p>
                     <div class="feeling_outer_box" id="scroll_x">
                           <t t-foreach="feeling" t-as="f" >
-                                  <a class="feeling_category" t-attf-href="/shop/#{ slug(f) }">
+                                  <a class="feeling_category" t-attf-href="/shop/feeling/#{ slug(f) }">
                                       <p class="feeling_text"><t t-esc="f.name"></t></p>
                                           <span t-field="f.feeling_emoji"
                                         t-options="{'widget': 'image', 'preview_image': 'feeling_emoji' }"

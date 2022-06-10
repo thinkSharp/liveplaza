@@ -2,52 +2,52 @@
 <odoo>
 
   <template id="theme_xtremo_products_count" inherit_id="website_sale.products" name="checking" priority="1">
-<!--    <xpath expr="//div[@id='products_grid']/div[hasclass('o_wsale_products_grid_table_wrapper')]" position="before">-->
-<!--        <div class="xt_outer_container ">-->
-<!--            <div  class="xt_container ">-->
-<!--                <t t-set="xt_product" t-value="'All Products'" />-->
-<!--                <ul id="xt_category">-->
-<!--                    <li t-foreach="all_categories" t-as="xt_category">-->
-<!--                        <t t-if="xt_category.get('url')">-->
-<!--                            <a t-att-href="xt_category.get('url')">-->
-<!--                                <span><t t-esc="xt_category.get('name')" /></span>-->
-<!--                            </a>-->
-<!--                            <i class="fa fa-chevron-right" />-->
-<!--                        </t>-->
-<!--                        <t t-if="not xt_category.get('url')">-->
-<!--                            <t t-set="xt_product" t-value="xt_category.get('name')" />-->
-<!--                            <span class="final"><t t-esc="xt_category.get('name')" /></span>-->
-<!--                        </t>-->
-<!--                    </li>-->
-<!--                </ul>-->
-<!--                <h3 class="xt_product_count_heading"><t t-esc="xt_product" /></h3>-->
-<!--                <p style="font-size: 13px; font-weight: bold;">Showing-->
-<!--                    <t t-set="total_product" t-value="len(products)" />-->
-<!--                    <t t-set="current_product_list" t-value="(pager['page']['num']-1)*total_product if pager['page_count']!=pager['page']['num'] else search_count-total_product" />-->
-<!--                    <span class="xt_product_count"><t t-esc="(current_product_list+1) if total_product else '0'" /></span> To-->
-<!--                    <span class="xt_product_count xt_product_count-to"><t t-esc="current_product_list+total_product" /></span> of-->
-<!--                    <span class="xt_product_count"><t t-esc="search_count" /></span> Products-->
-<!--                </p>-->
-<!--                <div class="clr"></div>-->
-<!--            </div>-->
-<!--            <div class="feeling_header">-->
-<!--                <t t-if="feeling">-->
-<!--                    <t t-if="search_count > 0" >-->
-<!--                        <h4>Hope you feel better! Here is the suggestion to help your <t t-esc="feeling.feeling_noun" /> </h4>-->
-<!--                    </t>-->
-<!--                </t>-->
-<!--            </div>-->
-<!--        </div>-->
-
-<!--    </xpath>-->
-
-    <xpath expr="//div[@id='products_grid'][last()]" position="inside">
-        <div class="products_pager form-inline justify-content-center mt-3" style="display: block;">
-            <div class="cp-spinner cp-round"></div>
-            <div id="wk_loader">Load More Products</div>
-<!--            <div>Load More Products</div>-->
+    <xpath expr="//div[@id='products_grid']/div[hasclass('o_wsale_products_grid_table_wrapper')]" position="before">
+        <div class="xt_outer_container ">
+            <div  class="xt_container ">
+                <t t-set="xt_product" t-value="'All Products'" />
+                <ul id="xt_category">
+                    <li t-foreach="all_categories" t-as="xt_category">
+                        <t t-if="xt_category.get('url')">
+                            <a t-att-href="xt_category.get('url')">
+                                <span><t t-esc="xt_category.get('name')" /></span>
+                            </a>
+                            <i class="fa fa-chevron-right" />
+                        </t>
+                        <t t-if="not xt_category.get('url')">
+                            <t t-set="xt_product" t-value="xt_category.get('name')" />
+                            <span class="final"><t t-esc="xt_category.get('name')" /></span>
+                        </t>
+                    </li>
+                </ul>
+                <h3 class="xt_product_count_heading"><t t-esc="xt_product" /></h3>
+                <p style="font-size: 13px; font-weight: bold;">Showing
+                    <t t-set="total_product" t-value="len(products)" />
+                    <t t-set="current_product_list" t-value="(pager['page']['num']-1)*total_product if pager['page_count']!=pager['page']['num'] else search_count-total_product" />
+                    <span class="xt_product_count"><t t-esc="(current_product_list+1) if total_product else '0'" /></span> To
+                    <span class="xt_product_count xt_product_count-to"><t t-esc="current_product_list+total_product" /></span> of
+                    <span class="xt_product_count"><t t-esc="search_count" /></span> Products
+                </p>
+                <div class="clr"></div>
+            </div>
+            <div class="feeling_header">
+                <t t-if="feeling">
+                    <t t-if="search_count > 0" >
+                        <h4>Hope you feel better! Here is the suggestion to help your <t t-esc="feeling.feeling_noun" /> </h4>
+                    </t>
+                </t>
+            </div>
         </div>
+
     </xpath>
+
+<!--    <xpath expr="//div[@id='products_grid'][last()]" position="inside">-->
+<!--        <div class="products_pager form-inline justify-content-center mt-3" style="display: block;">-->
+<!--            <div class="cp-spinner cp-round"></div>-->
+<!--            <div id="wk_loader">Load More Products</div>-->
+<!--&lt;!&ndash;            <div>Load More Products</div>&ndash;&gt;-->
+<!--        </div>-->
+<!--    </xpath>-->
 
 
 
