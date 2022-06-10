@@ -13,11 +13,6 @@
 
     </template>
 
-<!--    <template id="cart_summary_shop_payment_page" inherit_id="website_sale.cart_summary">-->
-<!--        <xpath expr="//tr[@t-foreach='website_sale_order.website_order_line']" position="replace">-->
-<!--            <t t-call="cart_lines_shop_payment_page" />-->
-<!--        </xpath>-->
-<!--    </template>-->
 
 <!--   New template to show only checked products on /shop/payment page-->
     <template id="cart_lines_shop_payment_page">
@@ -69,16 +64,26 @@
         </div>
     </template>
 
-
-
-
-
-<!--        To show only checked products on /shop/payment page-->
+<!--  To show only checked products on /shop/payment page -->
     <template id="payment_inherit" inherit_id="website_sale.payment">
         <xpath expr="//t[@t-call='website_sale.cart_summary']" position="replace">
             <t t-call="customizations_by_livep.cart_lines_shop_payment_page">
 <!--                <t t-set="is_payment_page" t-value="true"/>-->
             </t>
+        </xpath>
+
+    </template>
+
+<!--   To show total amount in cart_summary of payment confirmation page  -->
+    <template id="cart_summary_payment_confirmation" inherit_id="website_sale.confirmation">
+        <xpath expr="//t[@t-call='website_sale.cart_summary']" position="replace">
+            <div class="col-12 col-xl-auto">
+                <t t-set="website_sale_order" t-value="order"/>
+                <t t-call="website_sale.cart_summary">
+                    <t t-set="hide_coupon">1</t>
+                    <t t-set="is_confirm_page" t-value="True" />
+                </t>
+            </div>
         </xpath>
     </template>
 
@@ -94,8 +99,14 @@
         </xpath>
 
         <xpath expr="//strong[@t-field='website_sale_order.amount_total']" position="replace">
-            <strong t-field="website_sale_order.checked_amount_total" class="monetary_field"
+            <t t-if="is_confirm_page">
+                <strong t-field="website_sale_order.amount_total" class="monetary_field"
                               t-options='{"widget": "monetary", "display_currency": website_sale_order.pricelist_id.currency_id}'/>
+            </t>
+            <t t-else="">
+                <strong t-field="website_sale_order.checked_amount_total" class="monetary_field"
+                              t-options='{"widget": "monetary", "display_currency": website_sale_order.pricelist_id.currency_id}'/>
+            </t>
         </xpath>
     </template>
 

@@ -329,6 +329,66 @@ class WebsiteSale (WebsiteSale):
         else:
             return request.render("website_sale.products", values)
 
+    @http.route(['/shop/checkout/select/products'], type='json', auth='public', website=True)
+    def selectProduct(self, orderLineId):
+        print("HELLO ---------------------------------------")
+        order = request.website.sale_get_order()
+
+        orderLine = order.website_order_line.search([('id', '=', orderLineId)])
+
+        for o in order.website_order_line:
+            if o.id == orderLineId:
+                if orderLine.selected_checkout == False:
+                    orderLine.update({'selected_checkout': True})
+                    order.update({
+                        'checked_amount_untaxed': order.checked_amount_untaxed,
+                        'checked_amount_tax': order.checked_amount_tax,
+                        'checked_amount_total': order.checked_amount_untaxed + order.checked_amount_tax,
+                    })
+                else:
+                    orderLine.update({'selected_checkout': False})
+                    order.update({
+                        'checked_amount_untaxed': order.checked_amount_untaxed,
+                        'checked_amount_tax': order.checked_amount_tax,
+                        'checked_amount_total': order.checked_amount_untaxed + order.checked_amount_tax,
+                    })
+
+        checked_list = request.website.get_checked_sale_order_line(order.website_order_line)
+        print("#### checked list")
+        print(checked_list)
+        print("order amount = ", order.checked_amount_total)
+
+    @http.route(['/shop/cart'], type='http', auth="public", website=True, sitemap=False)
+    def cart(self, access_token=None, revive='', **post):
+        result = super(WebsiteSale, self).cart(**post)
+
+        order = request.website.sale_get_order()
+        checked_list = request.website.get_checked_sale_order_line(order.website_order_line)
+        order_id_list = request.website.get_sale_order_id_list()
+
+        result.qcontext.update({
+            'cart_sale_order': checked_list,
+            'order_id_list': order_id_list,
+        })
+
+        return result
+
+    # To show only checked products on /shop/payment page
+    @http.route(['/shop/payment'], type='http', auth="public", website=True, sitemap=False)
+    def payment(self, **post):
+
+        result = super(WebsiteSale, self).payment(**post)
+
+        order = request.website.sale_get_order()
+        checked_list = request.website.get_checked_sale_order_line(order.website_order_line)
+        order_id_list = request.website.get_sale_order_id_list()
+
+        result.qcontext.update({
+            'cart_sale_order': checked_list,
+            'order_id_list': order_id_list,
+        })
+        return result
+
 
 class Website(Website):
 

@@ -17,8 +17,6 @@ class Website(models.Model):
     def get_checked_sale_order_line(self, order):
         # sale_order = self.env['sale.order'].with_context().sudo().browse(sale_order_id).exists() if sale_order_id else None
         checked_list = []
-        print("order = ", order)
-        print(type(order))
         if isinstance(order, list):
             for line in order:
                 line_tmp = self.env['sale.order.line'].sudo().browse(int(line))
@@ -26,14 +24,12 @@ class Website(models.Model):
                 if line_tmp.selected_checkout == True:
                     checked_list.append(line_tmp.id)
 
-            print("from rpc = ", checked_list)
 
         else:
             for line in order:
                 if line.selected_checkout == True:
                     checked_list.append(line)
 
-        print(checked_list)
         return checked_list
 
     def get_sale_order_id_list(self):

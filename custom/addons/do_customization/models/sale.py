@@ -59,8 +59,9 @@ class SaleOrder(models.Model):
         order = self.env['sale.order.line'].search([('order_id', '=', self.id)])
 
         for o in order:
-            if not o.selected_checkout:
-                o.unlink()
+            if not o.is_delivery:
+                if not o.selected_checkout:
+                    o.unlink()
 
         res = super(SaleOrder, self).action_confirm()
         self.write({'payment_provider': self.get_portal_last_transaction().acquirer_id.provider})
