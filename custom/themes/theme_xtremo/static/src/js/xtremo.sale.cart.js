@@ -96,8 +96,8 @@ odoo.define('xtremo.sale.cart', function (require) {
         't_button': `<a role="button" class="btn btn-primary" href="/shop/cart">${ _t("View Cart") }</a>
                      <a role="button" class="btn btn-secondary" href="/shop/checkout">${ _t("Checkout") }</a>`
       };
-//      var html = $(core.qweb.render('theme_xtremo.dynamic_modal', res));
-//      $('main').append(html);
+      var html = $(core.qweb.render('theme_xtremo.dynamic_modal', res));
+      $('main').append(html);
     },
 
     _onMouseEnter: function (ev) {
