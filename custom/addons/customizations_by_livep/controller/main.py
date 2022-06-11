@@ -346,7 +346,6 @@ class WebsiteSale (WebsiteSale):
     @http.route(['/shop/checkout/select/products'], type='json', auth='public', website=True)
     def selectProduct(self, orderLineId):
         order = request.website.sale_get_order()
-        order_copy = order.copy()
 
         orderLine = order.website_order_line.search([('id', '=', orderLineId)])
 
