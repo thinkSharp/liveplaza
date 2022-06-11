@@ -107,7 +107,18 @@ class SaleOrder(models.Model):
                 if not pickup_zone:
                     raise Warning("Need to setup pickup zone for seller township %s" % seller_township.name)
 
+            # picking_type_id = self.env['stock.picking.type'].search([('name', '=', 'Pick')])
+            # picking_objs = self.env['stock.picking'].search([('origin', '=', self.name), ('picking_type_id', '=', picking_type_id.id)])
+            # print(picking_objs)
+            #
+            # picking_type_id = self.env['stock.picking.type'].search([('name', '=', 'Pack')])
+            # picking_objs = self.env['stock.picking'].search(
+            #     [('origin', '=', self.name), ('picking_type_id', '=', picking_type_id.id)])
+            # print(picking_objs)
+
+            for picking_data in picking_objs:
                 if picking_data.picking_type_id.name == 'Pick':
+                    print('picking..........................')
                     picking_data.write({'payment_provider': self.get_portal_last_transaction().acquirer_id.provider,
                                         'is_admin_approved': True,
                                         'vendor_id': picking_vendor_obj.id or None,
@@ -115,30 +126,51 @@ class SaleOrder(models.Model):
                                         'pickup_person_id': pickup_person or None,
                                         'hold_state': False})
 
+                    if self.all_service_ticket and picking_data.state == 'assigned':
+                        pick_movel_objs = self.env['stock.move.line'].search([('picking_id', '=', picking_data.id)])
+                        for mv_line in pick_movel_objs:
+                            mv_line.write({"qty_done": mv_line.product_uom_qty})
+
+                        self.action_ready_to_pick()
+                        picking_data.button_validate()
+
+
                     # if self.get_portal_last_transaction().acquirer_id.provider != 'cash_on_delivery':
                     #    picking_data.write({'payment_upload': self.payment_upload,
                     #                       'paid_amount': self.get_portal_last_transaction().amount,
                     #                       'payment_remark': self.get_portal_last_transaction().reference,
                     #                       'journal_id': self.get_portal_last_transaction().acquirer_id.journal_id.id })
+            for picking_data in picking_objs:
 
-                elif picking_data.picking_type_id.name == 'Pack':
+                if picking_data.picking_type_id.name == 'Pack':
+                    print("pack............................")
                     picking_data.write({'payment_provider': self.get_portal_last_transaction().acquirer_id.provider,
                                         'is_admin_approved': True,
                                         'hold_state': False})
 
+                    if self.all_service_ticket and picking_data.state == 'assigned':
+                        pack_movel_objs = self.env['stock.move.line'].search([('picking_id', '=', picking_data.id)])
+                        for mv_line in pack_movel_objs:
+                            mv_line.write({"qty_done": mv_line.product_uom_qty})
+
+                        picking_data.button_validate()
+
                     # if self.get_portal_last_transaction().acquirer_id.provider != 'cash_on_delivery':
                     #    picking_data.write({'payment_upload': self.payment_upload,
                     #                       'paid_amount': self.get_portal_last_transaction().amount,
                     #                       'payment_remark': self.get_portal_last_transaction().reference,
                     #                       'journal_id': self.get_portal_last_transaction().acquirer_id.journal_id.id })
 
-                elif picking_data.picking_type_id.name == 'Delivery Orders':
+            for picking_data in picking_objs:
+                if picking_data.picking_type_id.name == 'Delivery Orders':
+                    print("delivery...........................")
                     picking_data.write({'payment_provider': self.get_portal_last_transaction().acquirer_id.provider,
                                         'is_admin_approved': True,
                                         'vendor_id': delivery_vendor_obj.id or None,
                                         'delivery_method_id': delivery_zone.id or None,
                                         'delivery_person_id': delivery_person or None,
                                         'hold_state': False})
+
 
                     if self.get_portal_last_transaction().acquirer_id.provider != 'cash_on_delivery':
                         picking_data.write({'payment_upload': self.payment_upload,
@@ -151,6 +183,13 @@ class SaleOrder(models.Model):
                             'paid_amount': self.get_portal_last_transaction().amount,
                             'payment_remark': self.get_portal_last_transaction().reference,
                             'journal_id': self.get_portal_last_transaction().acquirer_id.journal_id.id})
+
+                    if self.all_service_ticket and picking_data.state == 'assigned':
+                        delivery_movel_objs = self.env['stock.move.line'].search([('picking_id', '=', picking_data.id)])
+                        for mv_line in delivery_movel_objs:
+                            mv_line.write({"qty_done": mv_line.product_uom_qty})
+
+                        picking_data.button_validate()
 
     # def action_cancel(self):
     #     res = super(SaleOrder, self).action_cancel()
