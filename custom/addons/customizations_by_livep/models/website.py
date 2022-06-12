@@ -41,10 +41,16 @@ class Website(models.Model):
 
         return idList
 
-    def sale_replace(self, order):
+    def sale_replace(self, sale_order_id, website_sale_current_pl):
         request.session.update({
-            'sale_order_id': order,
-            'website_sale_current_pl': False,
+            'sale_order_id': sale_order_id,
+            'website_sale_current_pl': website_sale_current_pl,
+        })
+        
+    def newlp_so_website(self, order):
+        request.session.update({
+            'newlp_sale_order_id': order.id,
+            'newlp_website_sale_current_pl': order.pricelist_id.id,
         })
 
     # def get_checked_sale_order_line(self):

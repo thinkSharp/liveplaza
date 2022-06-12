@@ -56,12 +56,11 @@ class SaleOrder(models.Model):
 
     def action_confirm(self):
         self.ensure_one()
-
         order = self.env['sale.order.line'].search([('order_id', '=', self.id)])
         order_copy = self.copy()
 
         for o in order_copy.website_order_line:
-            if o.selected_checkout:
+            if o.selected_checkout or o.is_delivery:
                 o.unlink()
 
         for o in order:
@@ -74,7 +73,8 @@ class SaleOrder(models.Model):
         if self.get_portal_last_transaction().acquirer_id.provider == 'cash_on_delivery' and self.state == 'sale':
             self.action_admin()
 
-        self.env['website'].sale_replace(order_copy.id)
+        if order_copy and self.state in ('sale','approve_by_admin'):
+            self.env['website'].newlp_so_website(order_copy)
         # for o in self.order_copy:
         #     if o.selected_checkout:
         #         o.unlink()
