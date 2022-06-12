@@ -425,14 +425,14 @@ class AdminProductRequest(models.Model):
     ], string='Status', readonly=True, copy=False, index=True, default='draft')
     seller = fields.Many2one("res.partner", string="Seller", default=lambda self: self.env.user.partner_id.id if self.env.user.partner_id and self.env.user.partner_id.seller else self.env['res.partner'])
 
-    product_ids = fields.One2many('product.request.product', 'admin_request_id', string='Products')
+    product_ids = fields.One2many('service.request.product', 'admin_request_id', string='Products')
     no_products = fields.Integer(readonly=True, default=0)
 
 
     def action_approve(self):
         super(AdminProductRequest, self).write({'state': 'approved'})
 
-        product_tmpl_ids_query = "select product_tmpl_id from product_request_product where admin_request_id=%s"
+        product_tmpl_ids_query = "select product_tmpl_id from service_request_product where admin_request_id=%s"
         self.env.cr.execute(product_tmpl_ids_query, (self.id,))
         product_tmpl_ids = self.env.cr.fetchall()
         print(product_tmpl_ids)
