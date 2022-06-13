@@ -123,7 +123,7 @@ class SaleOrder(models.Model):
     @api.depends('order_line')
     def _compute_contain_service(self):
         for so in self:
-            so.contain_service = any(line.product_id.is_service == True for line in so.order_line)
+            so.contain_service = any((line.selected_checkout and line.product_id.is_service == True) for line in so.order_line)
 
     @api.depends('order_line')
     def _compute_all_service_ticket(self):
