@@ -18,7 +18,7 @@ from odoo import models, fields, api, _
 from odoo.http import request
 from odoo.addons.auth_signup.models.res_partner import SignupError, now
 from datetime import datetime, timedelta
-
+from odoo.exceptions import ValidationError,UserError, Warning
 import logging
 
 _logger = logging.getLogger(__name__)
@@ -68,57 +68,46 @@ class SaleOrder(models.Model):
             picking_vendor_obj = self.env['res.partner'].search(
                 [('picking_vendor', '=', True), ('is_default', '=', True)], limit=1)
 
-            delivery_vendor_obj.delivery_method_ids
-            picking_vendor_obj.picking_method_ids
-
-            for picking_data in picking_objs:
-
-                seller_township = picking_data.marketplace_seller_id.township_id
-                if not seller_township:
-                    raise Warning("Township cannot be empty for seller %s" % picking_data.marketplace_seller_id.name)
-                buyer_township = picking_data.partner_id.township_id
-                if not buyer_township:
-                    raise Warning("Township cannot be empty for buyer %s" % picking_data.partner_id.name)
-
-                pick_all_zone = self.env['picking.method'].search([])
-                pickup_zone = None
-                delivery_zone = None
-                pickup_person = None
-                delivery_person = None
-
-                for zone in picking_vendor_obj.picking_method_ids:
-                    if seller_township in zone.township_ids:
-                        pickup_zone = zone
-
-                        for pickup_person_data in picking_vendor_obj.child_ids:
-                            if pickup_zone in pickup_person_data.picking_method_ids:
-                                pickup_person = pickup_person_data.id
-
-                for d_zone in delivery_vendor_obj.delivery_method_ids:
-                    if buyer_township in d_zone.township_ids:
-                        delivery_zone = d_zone
-
-                        for delivery_person_data in delivery_vendor_obj.child_ids:
-                            if delivery_zone in delivery_person_data.delivery_method_ids:
-                                delivery_person = delivery_person_data.id
-
-                if not delivery_zone:
-                    raise Warning("Need to setup delivery zone for buyer township %s" % buyer_township.name)
-                if not pickup_zone:
-                    raise Warning("Need to setup pickup zone for seller township %s" % seller_township.name)
-
-            # picking_type_id = self.env['stock.picking.type'].search([('name', '=', 'Pick')])
-            # picking_objs = self.env['stock.picking'].search([('origin', '=', self.name), ('picking_type_id', '=', picking_type_id.id)])
-            # print(picking_objs)
-            #
-            # picking_type_id = self.env['stock.picking.type'].search([('name', '=', 'Pack')])
-            # picking_objs = self.env['stock.picking'].search(
-            #     [('origin', '=', self.name), ('picking_type_id', '=', picking_type_id.id)])
-            # print(picking_objs)
-
             for picking_data in picking_objs:
                 if picking_data.picking_type_id.name == 'Pick':
+
                     print('picking..........................')
+
+                    seller_township = picking_data.marketplace_seller_id.township_id
+                    if not seller_township:
+                        raise Warning(
+                            "Township cannot be empty for seller %s" % picking_data.marketplace_seller_id.name)
+                    buyer_township = picking_data.partner_id.township_id
+                    if not buyer_township:
+                        raise Warning("Township cannot be empty for buyer %s" % picking_data.partner_id.name)
+
+                    pick_all_zone = self.env['picking.method'].search([])
+                    pickup_zone = None
+                    delivery_zone = None
+                    pickup_person = None
+                    delivery_person = None
+
+                    for zone in picking_vendor_obj.picking_method_ids:
+                        if seller_township in zone.township_ids:
+                            pickup_zone = zone
+
+                            for pickup_person_data in picking_vendor_obj.child_ids:
+                                if pickup_zone in pickup_person_data.picking_method_ids:
+                                    pickup_person = pickup_person_data.id
+
+                    for d_zone in delivery_vendor_obj.delivery_method_ids:
+                        if buyer_township in d_zone.township_ids:
+                            delivery_zone = d_zone
+
+                            for delivery_person_data in delivery_vendor_obj.child_ids:
+                                if delivery_zone in delivery_person_data.delivery_method_ids:
+                                    delivery_person = delivery_person_data.id
+
+                    if not delivery_zone:
+                        raise Warning("Need to setup delivery zone for buyer township %s" % buyer_township.name)
+                    if not pickup_zone:
+                        raise Warning("Need to setup pickup zone for seller township %s" % seller_township.name)
+
                     picking_data.write({'payment_provider': self.get_portal_last_transaction().acquirer_id.provider,
                                         'is_admin_approved': True,
                                         'vendor_id': picking_vendor_obj.id or None,
@@ -131,9 +120,9 @@ class SaleOrder(models.Model):
                         for mv_line in pick_movel_objs:
                             mv_line.write({"qty_done": mv_line.product_uom_qty})
 
-                        self.action_ready_to_pick()
+                        if self.state != 'ready_to_pick':
+                            self.action_ready_to_pick()
                         picking_data.button_validate()
-
 
                     # if self.get_portal_last_transaction().acquirer_id.provider != 'cash_on_delivery':
                     #    picking_data.write({'payment_upload': self.payment_upload,
@@ -170,7 +159,6 @@ class SaleOrder(models.Model):
                                         'delivery_method_id': delivery_zone.id or None,
                                         'delivery_person_id': delivery_person or None,
                                         'hold_state': False})
-
 
                     if self.get_portal_last_transaction().acquirer_id.provider != 'cash_on_delivery':
                         picking_data.write({'payment_upload': self.payment_upload,
@@ -460,5 +448,4 @@ class ResPartner(models.Model):
             if mobile:
                 sms_template_obj.send_sms_using_template(
                     mobile, sms_template_obj, obj=seller_obj)
-
 
