@@ -31,5 +31,32 @@
             <field name="padding">5</field>
             <field name="implementation">standard</field>
         </record>
+        <record id="sequence_payment_delivery_invoice" model="ir.sequence">
+			<field name="name">Payments delivery invoices sequence</field>
+			<field name="code">delivery.payment.delivery.invoice</field>
+			<field name="prefix">DELIVERY.OUT/%(range_year)s/</field>
+			<field eval="1" name="number_next"/>
+			<field eval="1" name="number_increment"/>
+			<field eval="True" name="use_date_range"/>
+			<field name="padding">4</field>
+		</record>
+		<record id="sequence_payment_delivery_refund" model="ir.sequence">
+			<field name="name">Payments delivery refunds sequence</field>
+			<field name="code">delivery.payment.delivery.refund</field>
+			<field name="prefix">DELIVERY.IN/%(range_year)s/</field>
+			<field eval="1" name="number_next"/>
+			<field eval="1" name="number_increment"/>
+			<field eval="True" name="use_date_range"/>
+			<field name="padding">4</field>
+		</record>
+		<record id="sequence_payment_supplier_refund" model="ir.sequence">
+			<field name="name">Account Payment Supplier Refunds sequence</field>
+			<field name="code">account.payment.supplier.refund</field>
+			<field name="prefix">SUPPLIERY.IN/%(range_year)s/</field>
+			<field eval="1" name="number_next"/>
+			<field eval="1" name="number_increment"/>
+			<field eval="True" name="use_date_range"/>
+			<field name="padding">4</field>
+		</record>
     </data>
 </odoo>

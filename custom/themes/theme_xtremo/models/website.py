@@ -63,7 +63,8 @@ class Website(models.Model):
                     ("website_published", "=", True)], limit=6)
         return {
                 "name": (name or "Top Rated Products"),
-                "featured_products": total_products
+                "featured_products": total_products,
+                "top_rated_config": config
                 }
 
     def get_all_top_sale_products(self):

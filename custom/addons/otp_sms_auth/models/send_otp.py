@@ -60,7 +60,7 @@ class SendOtp(models.TransientModel):
                             mobile, sms_template_obj, obj=None)
                             
                         ###
-                        import pdb; pdb.set_trace()
+                        #import pdb; pdb.set_trace()
                         ###
 
                         return response

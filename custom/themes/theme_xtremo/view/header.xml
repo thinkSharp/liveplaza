@@ -158,7 +158,7 @@
           <xpath expr="//ul[@id='xtremo_top_menu']/li[@id='my_cart']" position="before">
             <t t-if="request.env.ref('website_sale_wishlist.add_to_wishlist').active">
               <t t-set='wishcount' t-value="len(request.env['product.wishlist'].current())"/>
-              <li id="my_wish" class="nav-item" t-att-style="not wishcount and 'display:none;'">
+              <li id="my_wish" class="nav-item">
                 <a href="/shop/wishlist" class="nav-link">
                   <i class="fa fa-heart"/>
                   <sup t-attf-class="my_wish_quantity o_animate_blink badge badge-primary">

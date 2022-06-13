@@ -11,6 +11,17 @@ odoo.define('xtremo.comparison', function (require) {
   var ajax = require('web.ajax');
   var website_sale_utils = require('website_sale.utils');
   var old_compare = require('website_sale_comparison.comparison');
+  var session = require('web.session');
+  var user_id = session.user_id;
+  var user;
+  if(user_id == false) {
+    user = "guest_compare";
+  }
+  else {
+    user = user_id + "_compare";
+    utils.set_cookie("guest_compare", '[]', false);
+  }
+
 
   publicWidget.registry.ProductComparison = publicWidget.registry.ProductComparison.extend({
     events: {}
@@ -38,7 +49,7 @@ odoo.define('xtremo.comparison', function (require) {
       var html = $(core.qweb.render('theme_xtremo.dynamic_modal', res));
       $('main').append(html);
       var computeCompare = ref._callCompare;
-      var product_ids = JSON.parse(utils.get_cookie('comparelist_product_ids') || '[]');
+      var product_ids = JSON.parse(utils.get_cookie(user) || '[]');
       var proceed = ref._validRequest(product_ids.length, 0, false);
        $("#xtremo_comparision_modal").find('.modal-footer a').hide();
       if (proceed){
@@ -47,7 +58,7 @@ odoo.define('xtremo.comparison', function (require) {
       $('.o_add_compare, .js_main_product .o_add_compare_dyn').off('click').on('click', function(ev){
         ev.preventDefault();
         var product_id = parseInt($(this).attr('data-product-product-id'));
-        var cookie = JSON.parse(utils.get_cookie('comparelist_product_ids') || '[]');
+        var cookie = JSON.parse(utils.get_cookie(user) || '[]');
         var presents = cookie.indexOf(product_id) > -1 ;
         var proceed = ref._validRequest(1, cookie.length, presents);
         if (((! presents) || (cookie.length <= 0)) && proceed){
@@ -74,7 +85,7 @@ odoo.define('xtremo.comparison', function (require) {
         ).then(function (data) {
          var $el = $("#xtremo_comparision_modal .modal-body");
          cookie = data.cookies
-         utils.set_cookie('comparelist_product_ids', cookie, false);
+         utils.set_cookie(user, cookie, false);
          delete data.cookies;
          var html = "";
          for (let [key, value] of Object.entries(data)) {
@@ -98,13 +109,13 @@ odoo.define('xtremo.comparison', function (require) {
       return function(ev){
         ev.preventDefault();
         ev.stopPropagation();
-        var cookie = JSON.parse(utils.get_cookie('comparelist_product_ids') || '[]');
+        var cookie = JSON.parse(utils.get_cookie(user) || '[]');
         var product_id = parseInt($(this).attr('data-product_product_id'));
         if (cookie.indexOf(product_id) >= 0){
           cookie.splice(cookie.indexOf(product_id), 1);
           $(this).parents('.o_product_row').remove();
         }
-        utils.set_cookie("comparelist_product_ids", JSON.stringify(cookie), false);
+        utils.set_cookie(user, JSON.stringify(cookie), false);
         $("#xtremo_comparision_modal .modal-body").find('.alert').remove();
         ref._setCompareButtonUrl(cookie);
         ref._validRequest(cookie.length, 0, false);

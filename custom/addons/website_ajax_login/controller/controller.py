@@ -5,6 +5,7 @@
 #
 #################################################################################
 from odoo.http import route,request
+from odoo import models
 import logging
 from odoo import http,SUPERUSER_ID
 from odoo.addons.auth_signup.controllers.main import AuthSignupHome
@@ -16,6 +17,8 @@ import json
 from odoo.addons.auth_oauth.controllers.main import OAuthLogin
 from odoo.addons.auth_signup.models.res_users import SignupError
 from odoo.exceptions import UserError
+import re
+
 
 _logger = logging.getLogger(__name__)
 
@@ -123,16 +126,23 @@ class AuthSignupHome(AuthSignupHome):
 
                 if login.isdigit():
                     request.env['send.otp'].sudo().sms_send_reset_password(login, "Reset Password", False)
-                    qcontext['message'] = _("A message has been sent with credentials to reset your password ###")
+                    qcontext['message'] = _("A message has been sent with credentials to reset your password")
                 else:
                     request.env['res.users'].sudo().reset_password(login)
-                    qcontext['message'] = _("An email has been sent with credentials to reset your password ###")
+                    qcontext['message'] = _("An email has been sent with credentials to reset your password")
             except SignupError:
                 qcontext['error'] = _("Could not reset your password")
                 _logger.exception('error when resetting password')
             except Exception as e:
                 qcontext['error'] = str(e)
         return qcontext
+
+    def validateEmail(self, email):
+        regex = re.compile(r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+')
+        if re.fullmatch(regex, email):
+            return True
+        else:
+            return False
 
     @http.route('/web/reset_password', type='http', auth='public', website=True, sitemap=False)
     def web_auth_reset_password(self, *args, **kw):
@@ -153,14 +163,17 @@ class AuthSignupHome(AuthSignupHome):
                         "Password reset attempt for <%s> by user <%s> from %s",
                         login, request.env.user.login, request.httprequest.remote_addr)
 
+                    if not ((login.isdigit() and (len(login) >= 9 and len(login) <= 11)) or self.validateEmail(login)):
+                        raise Exception(_("Phone number or Email format is incorrect."))
+                    if not request.env["res.users"].sudo().search([("login", "=", login)]):
+                        raise Exception(_("Phone number or Email is not registered."))
+
                     if login.isdigit():
-                        if not request.env["res.users"].sudo().search([("login", "=", login)]):
-                            raise Exception(_("This phone number is not registered"))
-                        request.env['res.users'].sudo().sms_send_reset_password(login, False)
-                        qcontext['message'] = _("A message has been sent with credentials to reset your password ***")
+                        request.env['res.users'].sudo().reset_password_sms(login) #request.env['res.users'].sudo().sms_send_reset_password(login, False)
+                        qcontext['message'] = _("A message has been sent with credentials to reset your password")
                     else:
                         request.env['res.users'].sudo().reset_password(login)
-                        qcontext['message'] = _("An email has been sent with credentials to reset your password ***")
+                        qcontext['message'] = _("An email has been sent with credentials to reset your password")
 
             except UserError as e:
                 qcontext['error'] = e.name or e.value

@@ -16,3 +16,4 @@ class ProductInherit(models.Model):
     brand = fields.Char(string="Brand")
     gtin = fields.Char(string="Gtin")
     mpn = fields.Char(string="Mpn No.")
+    exclude_from_fb = fields.Boolean(string="Exclude from facebook")

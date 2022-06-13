@@ -6,10 +6,8 @@
             <field name="condition">inventory_almost_empty</field>
             <field name="auto_delete" eval="True"/>
             <field name="sms_body_html"><![CDATA[
-              Hello ${object.product_tmpl_id.marketplace_seller_id.name}, your inventory is almost empty.
-              REFERENCES
-              Product: ${object.display_name}
-              Product Left: ${object.qty_available}
+              Hello ${object.name}, your inventory is almost empty.
+              ${object.inventory_empty_product}
                             ]]>
             </field>
         </record>

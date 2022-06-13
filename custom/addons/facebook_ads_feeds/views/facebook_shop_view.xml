@@ -52,7 +52,7 @@
                         <field name="feed_token" invisible="1"/>
                         <field name="feed_url"/>
                       </group>
-                      <div class="text-danger">
+                      <div class="text-info">
                         <p>Automatic: Feed URL will be accessible publicly and can be used inside the Facebook catalog for regular fetch.</p>
                         <p>Manual: Feed URL will not be accessible publicly and XML feed will be uploaded manually on the Facebook catalog.</p>
                         <p>If you will re-generate token enabled feed URL then you will have to update on Facebook too.</p>
@@ -66,6 +66,7 @@
                     <group attrs="{'invisible': [('product_selection_type', '=', 'category')]}">
                       <group attrs="{'invisible' : [('product_selection_type', '!=', 'domain')]}" >
                         <field name="domain_input" attrs="{'invisible': [('product_selection_type', '!=', 'domain')],'required': [('product_selection_type', '=', 'domain')]}"/>
+                        <field name="domain_input" invisible="1"/>
                         <field name="limit" attrs="{'invisible': [('product_selection_type', '!=', 'domain')],'required': [('product_selection_type', '=', 'domain')]}"/>
                     </group>
                         <field name="product_ids_rel" attrs="{'invisible': [('product_selection_type', '!=', 'manual')]}">
@@ -73,8 +74,8 @@
                 <field name="default_code"/>
                 <field name="name" />
                 <field name="lst_price" />
-            </tree>
-        </field>
+                        </tree>
+                    </field>
 
                     </group>
                     <group attrs="{'invisible': [('product_selection_type', '!=', 'category')]}">
@@ -85,7 +86,7 @@
                     <group>
                     <field name="crone_id" attrs="{'invisible': [('crone_id', '=', False)]}"/>
                   </group>
-                  <button class="oe_button" string="Create Cron" name="create_cron" type="object" icon="fa-folder-open" attrs="{'invisible': [('crone_id', '!=', False)]}"/>
+                  <button class="oe_highlight" string="Create Cron" name="create_cron" type="object" icon="fa-folder-open" attrs="{'invisible': [('crone_id', '!=', False)]}"/>
                   </page>
                   </notebook>
 

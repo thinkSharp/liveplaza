@@ -336,8 +336,9 @@ class SellerPayment(models.Model):
 
     def do_paid(self):
         for rec in self:
-            rec.invoice_id.signal_workflow("invoice_open")
-            rec.state = "posted"
+            #rec.invoice_id.signal_workflow("invoice_open")
+            if rec.invoice_id.invoice_payment_state == "paid":
+                rec.state = "posted"
 
     def copy(self, default=None):
         raise Warning(_("You can not duplicate seller paymnet."))

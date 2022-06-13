@@ -15,7 +15,7 @@
                     <field name="name"/>
                     <field name="location_dest_id" invisible="1" />
                     <field name="partner_id" string="Customer"/>
-					<field name="marketplace_seller_id" string="Seller" groups="odoo_marketplace.marketplace_officer_group,access_rights_customization.group_operation_supervisor,access_rights_customization.group_operation_operator"/>
+					<field name="marketplace_seller_id" string="Seller" groups="odoo_marketplace.marketplace_officer_group"/>
                     <field name="date" invisible="1"/>
                     <field name="scheduled_date"/>
                     <field name="origin"/>
@@ -61,7 +61,7 @@
 								<div class="o_kanban_record_bottom">
                                     <div class="oe_kanban_bottom_left">
 										<strong groups="odoo_marketplace.marketplace_officer_group"> Seller: </strong>
-										<field name="marketplace_seller_id" groups="odoo_marketplace.marketplace_officer_group,access_rights_customization.group_operation_supervisor,access_rights_customization.group_operation_operator"/>
+										<field name="marketplace_seller_id" groups="odoo_marketplace.marketplace_officer_group"/>
 									</div>
                                     <div class="oe_kanban_bottom_right">
                                     </div>
@@ -94,7 +94,7 @@
                     <button name="%(stock.act_stock_return_picking)d" string="Return" attrs="{'invisible': ['|', ('state', '!=', 'done'), ('is_locked', '=', False)]}" type="action" groups="odoo_marketplace.marketplace_seller_group"/>
                     <button name="action_cancel" attrs="{'invisible': ['|', ('state', 'not in', ('assigned', 'confirmed', 'partially_available', 'draft', 'waiting')), ('is_locked', '=', False)]}" string="Cancel" groups="odoo_marketplace.marketplace_seller_group" type="object"/>
                     <field name="picking_type_code" invisible="1"/>
-                    <button name="do_unreserve" string="Unreserve" groups="odoo_marketplace.marketplace_officer_group,access_rights_customization.group_operation_supervisor,access_rights_customization.group_operation_operator" type="object" attrs="{'invisible': ['|', '|', '|', '|', ('picking_type_code', '=', 'incoming'), ('immediate_transfer', '=', True), ('is_locked', '=', False), '&amp;', ('state', 'not in', ('assigned', 'partially_available')), ('move_type', '!=', 'one'), '&amp;', ('state', 'not in', ('assigned', 'partially_available', 'confirmed')), ('move_type', '=', 'one')]}"/>
+                    <button name="do_unreserve" string="Unreserve" groups="odoo_marketplace.marketplace_officer_group" type="object" attrs="{'invisible': ['|', '|', '|', '|', ('picking_type_code', '=', 'incoming'), ('immediate_transfer', '=', True), ('is_locked', '=', False), '&amp;', ('state', 'not in', ('assigned', 'partially_available')), ('move_type', '!=', 'one'), '&amp;', ('state', 'not in', ('assigned', 'partially_available', 'confirmed')), ('move_type', '=', 'one')]}"/>
                     <field name="show_operations" invisible="1" readonly="1"/>
                     <field name="show_reserved" invisible="1" readonly="1"/>
                     <field name="move_line_exist" invisible="1"/>
@@ -158,7 +158,7 @@
                     </group>
                     <notebook>
                         <!-- Reservation hidden -->
-                        <page string="Detailed Operations" attrs="{'invisible': ['|', ('show_operations', '=', False), ('show_reserved', '=', True)]}" groups="odoo_marketplace.marketplace_officer_group,access_rights_customization.group_operation_supervisor,access_rights_customization.group_operation_operator">
+                        <page string="Detailed Operations" attrs="{'invisible': ['|', ('show_operations', '=', False), ('show_reserved', '=', True)]}" groups="odoo_marketplace.marketplace_officer_group">
                             <field name="move_line_nosuggest_ids" 
                                    attrs="{'readonly': ['|', '|', ('show_operations', '=', False), ('state', '=', 'cancel'), '&amp;', ('state', '=', 'done'), ('is_locked', '=', True)]}"
                                    context="{'tree_view_ref': 'stock.view_stock_move_line_detailed_operation_tree', 'default_picking_id': id, 'default_location_id': location_id, 'default_location_dest_id': location_dest_id, 'default_company_id': company_id}"/>
@@ -169,7 +169,7 @@
                         </page>
 
                         <!-- Reservation displayed -->
-                        <page string="Detailed Operations"  attrs="{'invisible': ['|', ('show_operations', '=', False), ('show_reserved', '=', False)]}" groups="odoo_marketplace.marketplace_officer_group,access_rights_customization.group_operation_supervisor,access_rights_customization.group_operation_operator">
+                        <page string="Detailed Operations"  attrs="{'invisible': ['|', ('show_operations', '=', False), ('show_reserved', '=', False)]}" groups="odoo_marketplace.marketplace_officer_group">
                             <field name="move_line_ids_without_package" options="{'no_create': True}"  readonly="1"                                
                                    context="{'tree_view_ref': 'stock.view_stock_move_line_detailed_operation_tree', 'default_picking_id': id, 'default_location_id': location_id, 'default_location_dest_id': location_dest_id, 'default_company_id': company_id}"/>
                             <field name="package_level_ids_details" context="{'default_location_id': location_id, 'default_location_dest_id': location_dest_id, 'default_company_id': company_id}" attrs="{'readonly': [('state', '=', 'done')], 'invisible': ['|', ('picking_type_entire_packs', '=', False), ('show_operations', '=', False)]}" />
@@ -269,7 +269,7 @@
 			<field name="name">Writeable Carrier</field>
 			<field name="model">stock.picking</field>
 			<field name="inherit_id" ref="odoo_marketplace.marketplace_picking_stock_modified_form_view"/>
-			<field name="groups_id" eval="[(6, 0, [ref('odoo_marketplace.marketplace_officer_group') ]), (6, 0, [ref('access_rights_customization.group_operation_supervisor') ])]"/>
+			<field name="groups_id" eval="[(6, 0, [ref('odoo_marketplace.marketplace_officer_group') ])]"/>
 			<field name="arch" type="xml">
                 <field name="priority" position="attributes">
 					<attribute name="readonly">0</attribute>
@@ -302,7 +302,7 @@
                     <field name="picking_type_id" invisible="1"/>
                     <field name="create_date" invisible="1" groups="base.group_no_one"/>
                     <field name="product_id"/>
-					<field name="marketplace_seller_id" groups="odoo_marketplace.marketplace_officer_group,access_rights_customization.group_operation_supervisor,access_rights_customization.group_operation_operator"/>
+					<field name="marketplace_seller_id" groups="odoo_marketplace.marketplace_officer_group"/>
                     <field name="location_id" groups="stock.group_stock_multi_locations" string="From"/>
                     <field name="location_dest_id" groups="stock.group_stock_multi_locations" string="To"/>
                     <field name="product_uom_qty"/>
@@ -341,8 +341,8 @@
                                 <div class="o_kanban_record_body"/>
                                 <div class="o_kanban_record_bottom">
                                     <div class="oe_kanban_bottom_left">
-										<strong groups="odoo_marketplace.marketplace_officer_group,access_rights_customization.group_operation_supervisor,access_rights_customization.group_operation_operator"> Seller: </strong>
-										<field name="marketplace_seller_id" groups="odoo_marketplace.marketplace_officer_group,access_rights_customization.group_operation_supervisor,access_rights_customization.group_operation_operator"/>
+										<strong groups="odoo_marketplace.marketplace_officer_group"> Seller: </strong>
+										<field name="marketplace_seller_id" groups="odoo_marketplace.marketplace_officer_group"/>
 									</div>
                                     <div class="oe_kanban_bottom_right">
                                         <span><field name="product_uom_qty"/></span>
@@ -433,8 +433,8 @@
 			<field name="arch" type="xml">
 				<tree string="Marketplace Product Stock" decoration-success="state=='approved'" decoration-warning="state=='requested'" decoration-primary="state=='draft'" decoration-danger="state=='rejected'">
 					<field name="product_temp_id"/>
-					<field name='product_id' groups="odoo_marketplace.marketplace_officer_group,access_rights_customization.group_operation_supervisor,access_rights_customization.group_operation_operator" invisible="1"/>
-					<field name='marketplace_seller_id' groups="odoo_marketplace.marketplace_officer_group,access_rights_customization.group_operation_supervisor,access_rights_customization.group_operation_operator"/>
+					<field name='product_id' groups="odoo_marketplace.marketplace_officer_group" invisible="1"/>
+					<field name='marketplace_seller_id' groups="odoo_marketplace.marketplace_officer_group"/>
 					<field name='new_quantity'/>
 					<!-- <field name='location_id' groups="odoo_marketplace.marketplace_officer_group"/> -->
 					<field name='state'/>
@@ -478,8 +478,8 @@
                                 </div>
 								<div class="o_kanban_record_bottom">
                                     <div class="oe_kanban_bottom_left">
-										<strong groups="odoo_marketplace.marketplace_officer_group,access_rights_customization.group_operation_supervisor,access_rights_customization.group_operation_operator"> Seller: </strong>
-										<field name="marketplace_seller_id" groups="odoo_marketplace.marketplace_officer_group,access_rights_customization.group_operation_supervisor,access_rights_customization.group_operation_operator"/>
+										<strong groups="odoo_marketplace.marketplace_officer_group"> Seller: </strong>
+										<field name="marketplace_seller_id" groups="odoo_marketplace.marketplace_officer_group"/>
 									</div>
                                     <div class="oe_kanban_bottom_right">
 										<t t-esc="record.create_date.value and record.create_date.value.split(' ')[0] or False"/>
@@ -499,8 +499,8 @@
 				<form string="Marketplace Product Stock">
 					<header>
 						<button name="request" string="Request" type="object" states="draft" class="btn-primary" invisible="context.get('mp_stock', False)"/>
-						<button name="approve" string="Approve" type="object" states="requested" groups="odoo_marketplace.marketplace_officer_group,access_rights_customization.group_operation_supervisor,access_rights_customization.group_operation_operator" class="btn-primary"/>
-						<button name="reject" string="Reject" type="object" states="requested" groups="odoo_marketplace.marketplace_officer_group,access_rights_customization.group_operation_supervisor,access_rights_customization.group_operation_operator"/>
+						<button name="approve" string="Approve" type="object" states="requested" groups="odoo_marketplace.marketplace_officer_group" class="btn-primary"/>
+						<button name="reject" string="Reject" type="object" states="requested" groups="odoo_marketplace.marketplace_officer_group"/>
 						<button name="set_2_draft" string="Set to Draft" type="object" states="rejected" class="btn-primary"/>
 						<field name="state" widget="statusbar" statusbar_visible="draft,requested,approved,rejected"/>
 					</header>
@@ -517,9 +517,9 @@
 								attrs="{'readonly':[('state', 'not in', ('draft'))]}"
 								domain="[('marketplace_seller_id', '!=', False),('status','=','approved')]"/>
 							<field name='product_id' options="{'no_create_edit': True, 'no_quick_create':True, 'no_open': True}" required="1" attrs="{'readonly':[('state', 'not in', ('draft'))]}" domain="[('marketplace_seller_id', '!=', False),('status','=','approved')]"/>
-							<field name='marketplace_seller_id' readonly="1" options="{'no_open': True}" groups="odoo_marketplace.marketplace_officer_group,access_rights_customization.group_operation_supervisor,access_rights_customization.group_operation_operator"/>
+							<field name='marketplace_seller_id' readonly="1" options="{'no_open': True}" groups="odoo_marketplace.marketplace_officer_group"/>
 							<field name='new_quantity' attrs="{'readonly':[('state', 'not in', ('draft','requested'))]}"/>
-							<field name='location_id' groups="odoo_marketplace.marketplace_officer_group,access_rights_customization.group_operation_supervisor,access_rights_customization.group_operation_operator" options="{'no_open': True}" attrs="{'readonly':[('state', 'not in', ('draft'))]}"/>
+							<field name='location_id' groups="odoo_marketplace.marketplace_officer_group" options="{'no_open': True}" attrs="{'readonly':[('state', 'not in', ('draft'))]}"/>
 							<field name='create_date' attrs="{'invisible': [('create_date', '=', False)]}" readonly="1"/>
 							<field name="note" placeholder="Write note..." attrs="{'readonly':[('state', 'not in', ('draft'))]}"/>
 						</group>
@@ -555,7 +555,7 @@
             <field name="inherit_id" ref="stock.view_picking_form"/>
             <field name="arch" type="xml">
                 <field name="origin" position="after">
-                    <field name="marketplace_seller_id" groups="odoo_marketplace.marketplace_officer_group,access_rights_customization.group_operation_supervisor,access_rights_customization.group_operation_operator" attrs="{'invisible':[('marketplace_seller_id','=',False)]}"/>
+                    <field name="marketplace_seller_id" groups="odoo_marketplace.marketplace_officer_group" attrs="{'invisible':[('marketplace_seller_id','=',False)]}"/>
                 </field>
             </field>
         </record>
@@ -587,11 +587,11 @@
             <field name="name">Marketplace Stock Add Seller Group By For MP Manager</field>
             <field name="model">marketplace.stock</field>
             <field name="inherit_id" ref="odoo_marketplace.wk_marketplace_stock_search_view"/>
-            <field name="groups_id" eval="[(6, 0, [ref('odoo_marketplace.marketplace_officer_group') ]), (6, 0, [ref('access_rights_customization.group_operation_supervisor') ]), (6, 0, [ref('access_rights_customization.group_operation_operator') ])]"/>
+            <field name="groups_id" eval="[(6, 0, [ref('odoo_marketplace.marketplace_officer_group') ])]"/>
             <field name="arch" type="xml">
 				<group position="inside">
-					<filter string="Locations" name="locations_filter" context="{'group_by':'location_id'}" groups="odoo_marketplace.marketplace_officer_group,access_rights_customization.group_operation_supervisor,access_rights_customization.group_operation_operator"/>
-					<filter string="Seller" context="{'group_by':'marketplace_seller_id'}" name="by_marketplace_seller_id" groups="odoo_marketplace.marketplace_officer_group,access_rights_customization.group_operation_supervisor,access_rights_customization.group_operation_operator"/>
+					<filter string="Locations" name="locations_filter" context="{'group_by':'location_id'}" groups="odoo_marketplace.marketplace_officer_group"/>
+					<filter string="Seller" context="{'group_by':'marketplace_seller_id'}" name="by_marketplace_seller_id" groups="odoo_marketplace.marketplace_officer_group"/>
 				</group>
             </field>
         </record>
@@ -634,10 +634,10 @@
             <field name="name">Stock Move Add Seller Group By For MP Manager</field>
             <field name="model">stock.move</field>
             <field name="inherit_id" ref="odoo_marketplace.wk_mp_stock_move_search_fiew"/>
-            <field name="groups_id" eval="[(6, 0, [ref('odoo_marketplace.marketplace_officer_group') ]), (6, 0, [ref('access_rights_customization.group_operation_supervisor') ]), (6, 0, [ref('access_rights_customization.group_operation_operator') ])]"/>
+            <field name="groups_id" eval="[(6, 0, [ref('odoo_marketplace.marketplace_officer_group') ])]"/>
             <field name="arch" type="xml">
 				<group position="inside">
-					<filter string="Seller" context="{'group_by':'marketplace_seller_id'}" name="by_marketplace_seller_id" groups="odoo_marketplace.marketplace_officer_group,access_rights_customization.group_operation_supervisor,access_rights_customization.group_operation_operator"/>
+					<filter string="Seller" context="{'group_by':'marketplace_seller_id'}" name="by_marketplace_seller_id" groups="odoo_marketplace.marketplace_officer_group"/>
 				</group>
             </field>
         </record>
@@ -678,7 +678,7 @@
                         <filter string="Expected Date" name="groupby_exp_date" domain="[]"  context="{'group_by':'scheduled_date'}"/>
                         <filter string="Origin" domain="[]" name="groupby_origin" context="{'group_by':'origin'}"/>
                         <filter string="Operation Type" name="picking_type" domain="[]" context="{'group_by':'picking_type_id'}"/>
-                        <filter string="Procurement Group" name="groupby_procurement" domain="[]" context="{'group_by':'group_id'}" groups="odoo_marketplace.marketplace_officer_group,access_rights_customization.group_operation_supervisor,access_rights_customization.group_operation_operator"/>
+                        <filter string="Procurement Group" name="groupby_procurement" domain="[]" context="{'group_by':'group_id'}" groups="odoo_marketplace.marketplace_officer_group"/>
                     </group>
 				</search>
 			</field>
@@ -688,10 +688,10 @@
             <field name="name">Stock Move Add Seller Group By For MP Manager</field>
             <field name="model">stock.picking</field>
             <field name="inherit_id" ref="odoo_marketplace.wk_mp_stock_picking_search_fiew"/>
-            <field name="groups_id" eval="[(6, 0, [ref('odoo_marketplace.marketplace_officer_group') ]), (6, 0, [ref('access_rights_customization.group_operation_supervisor') ]), (6, 0, [ref('access_rights_customization.group_operation_operator') ])]"/>
+            <field name="groups_id" eval="[(6, 0, [ref('odoo_marketplace.marketplace_officer_group') ])]"/>
             <field name="arch" type="xml">
 				<group position="inside">
-					<filter string="Seller" context="{'group_by':'marketplace_seller_id'}" name="by_marketplace_seller_id" groups="odoo_marketplace.marketplace_officer_group,access_rights_customization.group_operation_supervisor,access_rights_customization.group_operation_operator"/>
+					<filter string="Seller" context="{'group_by':'marketplace_seller_id'}" name="by_marketplace_seller_id" groups="odoo_marketplace.marketplace_officer_group"/>
 				</group>
             </field>
         </record>

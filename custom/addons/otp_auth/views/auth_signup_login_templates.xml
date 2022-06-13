@@ -15,14 +15,14 @@
             <t t-if="enable_signup_auth == 1">
                 <t t-set='otp_type' t-value="request.env['ir.default'].sudo().get('website.otp.settings', 'otp_type')"/>
                 <div class="form-group" id="wkotp">
-                    <input id="otp" name="otp" class="form-control" placeholder="Enter OTP"
+                    <input id="otp" name="otp" class="form-control" placeholder="Enter OTP" value=""
                         required="required" t-att-type="'password' if otp_type=='3' else 'text'" maxlength="6"/>
                 </div>
             </t>
         </xpath>
     </template>
 
-    <template id="wk_auth_reset_pswd" inherit_id="auth_signup.reset_password" name="OTP Reset password" priority="20">
+<!--     <template id="wk_auth_reset_pswd" inherit_id="auth_signup.reset_password" name="OTP Reset password" priority="20">
         <xpath expr="//button[@type='submit']" position="before">
             <t t-if="token">
                 <t t-set='enable_signup_auth' t-value="request.env['ir.default'].sudo().get('website.otp.settings', 'signup_auth')"/>
@@ -32,7 +32,7 @@
                 <div id="wk_loader"/>
             </t>
         </xpath>
-    </template>
+    </template> -->
 
     <template id="wk_auth_signup" inherit_id="auth_signup.signup" name="OTP Signup" priority="20">
         <xpath expr="//button[@type='submit']" position="before">

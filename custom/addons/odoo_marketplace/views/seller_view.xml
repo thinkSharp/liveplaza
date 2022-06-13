@@ -13,7 +13,7 @@
             <field name="arch" type="xml">
                 <form string="Product" create="0">
                     <header invisible="not context.get('default_seller')">
-                        <button name="%(odoo_marketplace.wk_seller_payment_wizard_action)d" string="Request For Payment" type="action" states="approved" groups="odoo_marketplace.marketplace_seller_group,access_rights_customization.group_operation_supervisor" class="btn-primary"/>
+                        <button name="%(odoo_marketplace.wk_seller_payment_wizard_action)d" string="Request For Payment" type="action" states="approved" groups="odoo_marketplace.marketplace_seller_group,access_rights_customization.group_operation_supervisor" invisible="1"  class="btn-primary"/>
                         <button name="approve" string="Approve" type="object" states="pending" groups="odoo_marketplace.marketplace_officer_group,access_rights_customization.group_operation_supervisor" class="btn-primary"/>
                         <button name="%(odoo_marketplace.wk_seller_statsu_reason_wizard_action)d" string="Deny" type="action" states="pending,approved" groups="odoo_marketplace.marketplace_officer_group,access_rights_customization.group_operation_supervisor" />
                         <button name="set_to_pending" string="Request For Approval" type="object" states="new,denied" class="btn-primary"/>
@@ -106,9 +106,9 @@
                         <!-- Edited by KMS -->
                         <!-- <notebook groups="odoo_marketplace.marketplace_seller_group"> -->
                         <notebook>
-                            <page string="General" attrs="{'invisible':[('seller','=',True)]}" groups="odoo_marketplace.marketplace_seller_group">
+                            <page string="General" groups="access_rights_customization.group_operation_supervisor,access_rights_customization.group_operation_operator">
                                 <h2 style="margin-bottom: 0;padding: 0.25rem 16px;background-color: #e9ecef;font-size: 15px;font-weight: bold;"
-                                    groups="odoo_marketplace.marketplace_officer_group,access_rights_customization.group_operation_supervisor"> Default Settings </h2>
+                                    groups="odoo_marketplace.marketplace_officer_group"> Default Settings </h2>
                                 <br/>
                                 <div class="card card-header mb16" style="font-size: 14px;font-weight:bold;" attrs="{'invisible':[('set_seller_wise_settings','=',True)]}">
                                     <div>The default configuration settings can be checked from here
@@ -117,9 +117,9 @@
                                             class="oe_link seller_globel_config" string="⇒ Click to view"/>
                                      </div>
                                 </div>
-                                <div groups="odoo_marketplace.marketplace_officer_group,access_rights_customization.group_operation_supervisor">
-                                    <field name="set_seller_wise_settings" groups="odoo_marketplace.marketplace_officer_group,access_rights_customization.group_operation_supervisor" readonly="1"  help="Check if you want to override seller's default settings else default settings will apply."/>
-                                    <label for="set_seller_wise_settings" string="Over-ride seller's default settings" class="oe_inline mr8" groups="odoo_marketplace.marketplace_officer_group,access_rights_customization.group_operation_supervisor"/>
+                                <div groups="odoo_marketplace.marketplace_officer_group">
+                                    <field name="set_seller_wise_settings" groups="odoo_marketplace.marketplace_officer_group" readonly="1"  help="Check if you want to override seller's default settings else default settings will apply."/>
+                                    <label for="set_seller_wise_settings" string="Over-ride seller's default settings" class="oe_inline mr8" groups="odoo_marketplace.marketplace_officer_group"/>
                                 </div>
                                 <div class="mb16 seller_default_config" attrs="{'invisible':[('set_seller_wise_settings','=',False)]}">
                                     <group name="payment_terms" string="Payment Terms" groups="odoo_marketplace.marketplace_seller_group">
@@ -137,7 +137,7 @@
                                             <field name="next_payment_request" string="Minimum gap for next payment request" class="oe_inline" attrs="{'readonly':[('set_seller_wise_settings','=',False)],'required':[('set_seller_wise_settings','!=',False)]}" readonly="1"/> Days
                                         </div>
                                     </group>
-                                    <group groups="odoo_marketplace.marketplace_officer_group,access_rights_customization.group_operation_supervisor">
+                                    <group groups="odoo_marketplace.marketplace_officer_group">
                                         <group name="approval_settings" string="Approval Settings">
                                             <field name="auto_product_approve" attrs="{'readonly':[('set_seller_wise_settings','=',False)]}"/>
                                             <field name="auto_approve_qty" attrs="{'readonly':[('set_seller_wise_settings','=',False)]}"/>
@@ -171,6 +171,7 @@
                                     <field name="total_mp_payment"/>
                                     <field name="paid_mp_payment"/>
                                     <field name="balance_mp_payment"/>
+                                    <field name="total_commission_payment"/>
                                     <field name="seller_currency_id" groups="odoo_marketplace.marketplace_officer_group"/>
                                 </group>
                             </page>
@@ -387,7 +388,7 @@
             <field name="name">Readonly Commission</field>
             <field name="model">res.partner</field>
             <field name="inherit_id" ref="odoo_marketplace.wk_seller_form_view"/>
-            <field name="groups_id" eval="[(6, 0, [ref('odoo_marketplace.marketplace_officer_group') ]), (6, 0, [ref('access_rights_customization.group_operation_supervisor') ])]"/>
+            <field name="groups_id" eval="[(6, 0, [ref('odoo_marketplace.marketplace_officer_group') ])]"/>
             <field name="arch" type="xml">
                 <field name='set_seller_wise_settings' position="attributes">
                     <attribute name="readonly">0</attribute>
@@ -447,7 +448,7 @@
         <record id="wk_seller_view_filter" model="ir.ui.view">
             <field name="name">Sellers By Status</field>
             <field name="model">res.partner</field>
-            <field name="groups_id" eval="[(6, 0, [ref('odoo_marketplace.marketplace_officer_group') ]), (6, 0, [ref('access_rights_customization.group_operation_supervisor') ])]"/>
+            <field name="groups_id" eval="[(6, 0, [ref('odoo_marketplace.marketplace_officer_group') ])]"/>
             <field name="arch" type="xml">
                 <search string="Search">
                     <field name="name" filter_domain="['|','|',('display_name','ilike',self),('ref','=',self),('email','ilike',self)]"/>
@@ -463,8 +464,8 @@
                             />
                     <filter string="Unpublished" domain="[('website_published','=',False)]" name="unpublished_on_website"/>
                     <group string="Group By">
-                        <filter string="Status" context="{'group_by':'state'}" name="seller_status_filter" groups="odoo_marketplace.marketplace_officer_group,access_rights_customization.group_operation_supervisor"/>
-                        <filter string="By Month" context="{'group_by':'create_date'}" name="seller_create_date_filter" groups="odoo_marketplace.marketplace_officer_group,access_rights_customization.group_operation_supervisor"/>
+                        <filter string="Status" context="{'group_by':'state'}" name="seller_status_filter" groups="odoo_marketplace.marketplace_officer_group"/>
+                        <filter string="By Month" context="{'group_by':'create_date'}" name="seller_create_date_filter" groups="odoo_marketplace.marketplace_officer_group"/>
                     </group>
                 </search>
             </field>

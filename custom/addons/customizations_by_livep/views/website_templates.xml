@@ -3,13 +3,13 @@
     <data noupdate="0">
 
         <!-- 'Sell' to 'Create Seller Shop'  target="_blank"-->
-        <template id="sell_link_in_header_inherit" inherit_id="odoo_marketplace.sell_link_in_header">
+        <!-- <template id="sell_link_in_header_inherit" inherit_id="odoo_marketplace.sell_link_in_header">
             <xpath expr="//a[@role='menuitem']" position="replace">
                 <a t-attf-class="nav-link #{'active' if request.httprequest.path == '/seller' else ''}" role="menuitem" href="/seller">
                     <t>Create Seller Shop</t>
                 </a>
             </xpath>
-        </template>
+        </template>-->
 
         <!-- Hide Country in Seller sign up and replaced with subscription plan -->
         <template id="seller_sign_up_inherit" inherit_id="odoo_marketplace.mp_seller_signup">
@@ -38,6 +38,126 @@
             <xpath expr="//a[@class='pull-right']" position="replace"></xpath>
         </template>
 
+        <template id="footer_custom_edit" inherit_id="website.footer_custom" name="Footer Edit">
+            <xpath expr="//section" position="replace">
+                <section class="s_text_block pt16 pb8">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-4">
+                            <h5>Information</h5>
+                            <ul class="list-unstyled">
+                                <li>
+                                  <a href="/">Home</a>
+                                </li>
+                                <li>
+                                  <a href="/contactus">Contact us</a>
+                                </li>
+                                <li>
+                                  <a href="/aboutus">About us</a>
+                                </li>
+                                <li t-if="not user_id._is_public()" id="o_logout">
+                                  <a t-attf-href="/web/session/logout?redirect=/" >Logout</a>
+                                </li>
+                            </ul>
+                            <p>
+                                ကျွန်တော်တို့ LIVEPlaza သည် ရောင်းသူ ဝယ်သူ တစ်နေရာထဲ တွင် အဆင်ပြေချောမွေ့ စွာ ရောင်းဝယ်နိုင်သော online platform တစ်ခု ဖြစ်ပါသည်။ ထို့ကြောင့် ပစ္စည်းရောင်းချမှု အတွက် အမှန်တကယ် တာဝန်ရှိ မှုသည် ရောင်းချသူ ၌ သာ တာဝန်ရှိပါသည်။<br></br>
+                            </p>
+                            <p><br></br></p>
+                            </div>
+                            <div class="col-lg-4 order-md-4 order-lg-4 order-4" id="connect">
+                                <h5>Connect with us</h5>
+                                <ul class="list-unstyled">
+                                    <li>
+                                      <a href="/contactus">Contact us</a>
+                                    </li>
+                                    <li>
+                                      <i class="fa fa-phone"/>
+                                      <span t-field="res_company.phone"/>
+                                    </li>
+                                    <li>
+                                      <i class="fa fa-envelope"/>
+                                      <span t-field="res_company.email"/>
+                                    </li>
+                                </ul>
+                                <p>
+                                    <a t-if="website.social_facebook" t-att-href="website.social_facebook" class="btn btn-sm btn-link">
+                                      <i class="fa fa-2x fa-facebook-square"/>
+                                    </a>
+                                    <a t-if="website.social_twitter" t-att-href="website.social_twitter" class="btn btn-sm btn-link">
+                                      <i class="fa fa-2x fa-twitter"/>
+                                    </a>
+                                    <a t-if="website.social_linkedin" t-att-href="website.social_linkedin" class="btn btn-sm btn-link">
+                                      <i class="fa fa-2x fa-linkedin"/>
+                                    </a>
+                                    <a t-if="website.social_youtube" t-att-href="website.social_youtube" class="btn btn-sm btn-link">
+                                      <i class="fa fa-2x fa-youtube-play"/>
+                                    </a>
+                                    <!-- <a t-if="website.social_googleplus" t-att-href="website.social_googleplus" class="btn btn-sm btn-link" rel="publisher">
+                                      <i class="fa fa-2x fa-google-plus-square"/>
+                                    </a> -->
+                                    <a t-if="website.social_github" t-att-href="website.social_github" class="btn btn-sm btn-link">
+                                      <i class="fa fa-2x fa-github"/>
+                                    </a>
+                                    <a t-if="website.social_instagram" t-att-href="website.social_instagram" class="btn btn-sm btn-link">
+                                      <i class="fa fa-2x fa-instagram"/>
+                                    </a>
+                                </p>
+                                <div class="xtremo-payment-icon">
+                                    <t t-call="theme_xtremo.xtremo_payment_icons" />
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <h5>Social Media</h5>
+                                <ul class="list-unstyled">
+                                    <li>
+                                        <a class="btn-sm" href="https://www.facebook.com/LIVEPlaza">
+                                            <i class="fa fa-2x fa-facebook-square"/>
+                                        </a>
+                                        <a class="btn-sm" href="https://www.youtube.com/channel/UCTw9CmxAFn999LiEkn_sHRw">
+                                            <i class="fa fa-2x fa-youtube-play"/>
+                                        </a>
+                                        <a class="btn-sm" href="https://instagram.com/live_plaza?utm_medium=copy_link">
+                                            <i class="fa fa-2x fa-instagram"/>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        Viber Customer Service number - 09799657849
+                                        <br></br>
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-user"/>
+                                        Telegram
+                                        <a href="https://t.me/LIVEPlaza">https://t.me/LIVEPlaza</a>
+                                    </li>
+                                    <li>
+                                        အရောင်းအဝယ် ကုန်ပစ္စည်း များအတွက် ပစ္စည်းအာမခံ မှု နဲ့ ပစ္စည်းအငြင်းပွားဖွယ် ပြဿနာတစုံတရာ အတွက်သည် ရောင်းချသူ ၌ သာ အလုံးစုံတာဝန်ရှိပါသည်။
+                                    </li>
+                                    <li>
+                                        သို့သော် ရောင်းချသူ နဲ့ ဝယ်ယူသူ အကြား အငြင်းပွားဖွယ် ပြဿနာ တစုံတရာ ဖြစ်ပေါ်လာ လျှင် ကျွန်ုပ်တို့ service team မှ ကူညီဆောင်ရွက်ပေးနိုင်ရန် အဆင့်သင့်ရှိနေပါသည်။
+                                        <br></br>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </xpath>
+            <xpath expr="//div[@id='connect']" position="replace">
+                <div class="col-lg-4">
+                    <h5>Download LivePlaza App</h5>
+                    <ul class="list-unstyled">
+                        <li><i class="fa fa-android"/> <a href="https://play.google.com/store/apps/details?id=com.prod.liveplazaandroid">Get it on Google Play</a></li>
+                        <!--<li><i class="fa fa-apple"/>  <a href="/contactus">Download on the App Store</a></li>-->
+                    </ul>
+                    <h5>Connect with us</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="/contactus">Contact us</a></li>
+                        <li><i class="fa fa-phone"/> <span class="o_force_ltr" t-field="res_company.phone"/></li>
+                        <li><i class="fa fa-envelope"/>  <span t-field="res_company.email"/></li>
+                    </ul>
+                </div>
+            </xpath>
+        </template>
         <!-- Address Form Customizations -->
 <!--        <template id="buyer_address_inherit" name="Buyer Address Inherit" inherit_id="website_sale.address">-->
 <!--            <xpath expr="//label[@for='country_id']" position="replace">-->
@@ -150,6 +270,117 @@
                 </select>
             </xpath>
         </template>
+
+         <template id="homepage_flash_sales_displays" name="Flash Sales on Homepage" active="True" customize_show="True">
+              <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+              <div class="container">
+                   <div class='row deal_main_row' t-foreach="daily_deals" t-as="deal">
+                       <t t-if="deal.display_on_homepage">
+                           <div t-attf-class="col-12 pt16 pb16 deal_main_div #{'blur' if deal.state_after_expiration()== 'blur' else ''}" t-if="deal.state_after_expiration()!= 'delete'" >
+                               <input name="deal_id" type="hidden" t-att-value="deal.id"/>
+                               <input name="end_date" type="hidden" t-att-value="datetime.datetime.strftime(deal.end_date,'%Y/%m/%d %H:%M:%S')"/>
+                               <t t-set="msg_before_offset" t-value="deal.get_message_before_expiry_and_offset()['offset']"/>
+                               <input t-if="msg_before_offset" name="msg_before_offset" type="hidden" t-att-value="datetime.datetime.strftime(msg_before_offset,'%Y/%m/%d %H:%M:%S')"/>
+                               <input name="state" type="hidden" t-att-value="deal.state"/>
+                               <div class="d-flex justify-content-between aline-items-center pt8">
+                                   <div class="d-flex align-items-center">
+                                       <h2 t-field="deal.name" class="deal_name text-uppercase">Deal Name</h2>
+                                   </div>
+                                   <div class="countdown d-flex align-items-center">
+                                       <ul class="deal_countdown_timer deal_name">
+                                           <li><p class="m-0">Ending in</p></li>
+                                           <li><span class="days"></span> <p class="days_text"></p></li>
+                                           <li class="seperator"> </li>
+                                           <li><span class="hours"></span> <p class="hours_text"> hrs</p></li>
+                                           <li class="seperator"> </li>
+                                           <li><span class="minutes"></span> <p class="minutes_text"> min</p></li>
+                                           <li class="seperator"> </li>
+                                           <li><span class="seconds"></span> <p class="seconds_text"> sec</p></li>
+                                       </ul>
+                                   </div>
+
+                               </div>
+                               <!-- Banner  -->
+                               <div class="deal_banner_description row mt24 mb8 m-0">
+                                   <div t-attf-class="d_banner col-md-7 col-12 p-0 #{'banner_icon' if not deal.is_deal_banner_shown() else''}">
+                                       <a t-if="deal.is_deal_banner_shown()">
+                                           <span t-field="deal.banner" t-options='{"widget": "image"}'/>
+                                       </a>
+                                   </div>
+                                   <div class="d_description_div col-md-5 col-12">
+                                       <div>
+                                           <h4 class="m-0" t-field="deal.title"></h4>
+                                           <div class="description">
+                                               <span class="text-muted" t-field="deal.description"/>
+                                               <span t-if="msg_after_exp" t-esc="msg_after_exp"/>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+
+                               <!-- Products  -->
+                               <t t-set="display_as" t-value="deal.get_display_products_as()"/>
+                               <div class="deal_products" t-if="deal.pricelist_items and deal.is_deal_product_shown()">
+                                   <!-- Slider View  -->
+                                   <div t-if="display_as and display_as=='slider'" class="deals_owl_carousel owl-carousel">
+                                       <div t-foreach="deal.pricelist_items" t-as="deal_item" >
+                                           <t t-call="customizations_by_livep.deal_product_template_homepage"/>
+                                       </div>
+                                   </div>
+                                   <!-- Grid View -->
+                                   <div  t-if="display_as and display_as=='grid'" class="deals_grid_view row m-0">
+                                       <t t-foreach="deal.pricelist_items" t-as="deal_item">
+                                           <t t-call="customizations_by_livep.deal_product_template_homepage"/>
+                                       </t>
+                                   </div>
+                               </div>
+                               <!--<t t-set="msg_before_exp" t-value="deal.get_message_before_expiry_and_offset()['message']"/>
+                               <div class="row d-flex align-items justify-content-center m-0" t-if="msg_before_exp">
+                                   <div class="expiry_message col-12">
+                                       <p t-esc="msg_before_exp" class="msg_before_exp"/>
+                                   </div>
+                               </div>
+                               <t t-set="msg_after_exp" t-value="deal.get_message_after_expiry()"/>
+                               <div class="expiry_message" t-if="msg_after_exp">
+                                   <span t-if="msg_after_exp" t-esc="msg_after_exp"/>
+                               </div>-->
+                           </div>
+                       </t>
+                   </div>
+              </div>
+        </template>
+
+        <template id="deal_product_template_homepage" name="Website Daily Deal Product Template Homepage">
+			<t t-set="product_tmpl_id" t-value="deal_item.product_tmpl_id if deal_item.product_tmpl_id else deal_item.product_id.product_tmpl_id"/>
+			<div t-attf-class="deal_item #{'col-12 col-sm-6 col-md-3 col-lg-2 p-0' if display_as and display_as=='grid' else ''}">
+				<div class='div_img'>
+					<a t-att-href="'/shop/product/%s' % product_tmpl_id.id">
+						<span itemprop="image" t-field="product_tmpl_id.image_1920" t-options="{'widget': 'image', 'preview_image': 'image_1024' if product_image_big else 'image_256'}" t-att-alt="product_tmpl_id.name"/>
+					</a>
+					<div class="item_mask">
+						<button type="button" role="button" class="btn btn-default deal_product_quick_view"  title="Quick View" t-att-product-template-id="product_tmpl_id.id">Quick View</button>
+						<a t-att-href="'/shop/product/%s' % product_tmpl_id.id" type="button" role="button" class="btn btn-default"  title="Quick View" t-att-product-template-id="product_tmpl_id.id">Choose Options</a>
+					</div>
+				</div>
+				<div class="deal_item_details">
+					<div class="product_name">
+						<a t-att-href="'/shop/product/%s' % product_tmpl_id.id" itemprop="name" t-field="product_tmpl_id.name"/>
+					</div>
+					<div class="discounted_price">
+						<span t-esc="deal_item.discounted_price" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>
+					</div>
+                    <!--<div>
+						<div class="actual_price">
+							<del class="text-danger mr8" t-esc="deal_item.actual_price" t-options="{'widget': 'monetary', 'display_currency': pricelist.currency_id, 'from_currency': website.currency_id}" />|
+						</div>
+						<div  class="deal_discount">
+							<span t-esc="deal_item.actual_price - deal_item.discounted_price" t-options="{'widget': 'monetary', 'display_currency': pricelist.currency_id, 'from_currency': website.currency_id}"/>
+							<span> OFF</span>
+						</div>
+					</div>-->
+				</div>
+			</div>
+		</template>
 
     </data>
 </odoo>

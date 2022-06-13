@@ -67,6 +67,10 @@ class SaleOrder(models.Model):
         for order in self:
             order.message_subscribe(partner_ids=order.partner_id.ids)
         if self.write({'state': 'approve_by_admin'}):
+            
+            for sol_data in self.env['sale.order.line'].search([('order_id','=',self.id)]):
+                sol_data.write({'sol_state': 'approve_by_admin'})
+                
             picking_objs = self.env['stock.picking'].search([('origin','=',self.name)])
             delivery_vendor_obj = self.env['res.partner'].search([('delivery_vendor','=', True),('is_default','=', True)], limit=1)
             picking_vendor_obj = self.env['res.partner'].search([('picking_vendor','=', True),('is_default','=', True)], limit=1)
@@ -162,6 +166,10 @@ class SaleOrder(models.Model):
             order.message_subscribe(partner_ids=order.partner_id.ids)
     
         if self.write({'state': 'ready_to_pick'}):
+            
+            for sol_data in self.env['sale.order.line'].search([('order_id','=',self.id)]):
+                sol_data.write({'sol_state': 'ready_to_pick'})
+                
             picking_obj = self.env['stock.picking'].search([('origin','=',self.name)])
             picking_obj.write({'payment_provider': self.get_portal_last_transaction().acquirer_id.provider,
                                'ready_to_pick': True,
@@ -169,6 +177,25 @@ class SaleOrder(models.Model):
             
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
+
+    parent_payment_provider = fields.Selection(related='order_id.payment_provider', store=True, readonly=True)
+    
+    state = fields.Selection([
+            ('draft', 'Quotation'),
+            ('sent', 'Quotation Sent'),
+            ('sale', 'Sales Order'),
+            ('approve_by_admin', 'Approved by Admin'),
+            ('ready_to_pick', 'Ready to Pick'),
+            ('done', 'Done'),
+            ('cancel', 'Cancelled'),
+        ], related='order_id.state', string='Order Status', readonly=True, copy=False, store=True, default='draft')
+    
+    sol_state = fields.Selection([            
+            ('approve_by_admin', 'Approved by Admin'),
+            ('ready_to_pick', 'Ready to Pick'),
+            ('done', 'Locked'),
+            ('cancel', 'Cancelled'),
+            ], string='Order Status', readonly=True, copy=False, store=True, default='approve_by_admin')
 
     @api.depends('qty_invoiced', 'qty_delivered', 'product_uom_qty', 'order_id.state')
     def _get_to_invoice_qty(self):
@@ -184,3 +211,44 @@ class SaleOrderLine(models.Model):
                     line.qty_to_invoice = line.qty_delivered - line.qty_invoiced
             else:
                 line.qty_to_invoice = 0
+
+    def action_ready_to_pick(self):
+        
+        is_ready_to_pick = True
+        
+        if self.filtered(lambda sol: sol.state != 'approve_by_admin'):
+            raise UserError(_('Only sale order lines can be marked as sent directly.'))
+        for order in self:
+            order.order_id.message_subscribe(partner_ids=order.order_id.partner_id.ids)
+        
+        if self.write({'state': 'ready_to_pick', 'sol_state': 'ready_to_pick'}):
+            
+            for sol_data in self.env['sale.order.line'].search([('order_id','=',self.order_id.id)]):
+                if sol_data.state not in ['ready_to_pick', 'cancel'] and not sol_data.is_delivery:
+                    is_ready_to_pick = False
+                
+            if is_ready_to_pick:
+                self.order_id.write({'state': 'ready_to_pick'})
+                
+            picking_obj = self.env['stock.picking'].search([('origin','=',self.order_id.name), ('marketplace_seller_id','=',self.marketplace_seller_id.id)])
+            picking_obj.write({'payment_provider': self.order_id.get_portal_last_transaction().acquirer_id.provider,
+                               'ready_to_pick': True,
+                               'hold_state': False })
+
+    def button_cancel(self):
+        
+        is_to_update = True #is_to_update parent sale order to ready_to_pick
+        
+        for rec in self:
+            #pickings = rec.mapped('order_id.picking_ids').filtered(lambda picking: picking.marketplace_seller_id.id == rec.marketplace_seller_id.id)
+            #pickings.action_cancel()            
+            rec.write({'sol_state': 'cancel','state': 'cancel', 'marketplace_state': 'cancel'})
+            
+            for sol_data in self.env['sale.order.line'].search([('order_id','=',rec.order_id.id)]):
+                if sol_data.state not in ['ready_to_pick', 'cancel'] and not sol_data.is_delivery:
+                    is_to_update = False
+                    
+            if is_to_update:
+                self.order_id.write({'state': 'ready_to_pick'})
+                if rec.marketplace_state == "cancel" and rec.sol_state == 'cancel':
+                    rec.write({'state': 'cancel'})

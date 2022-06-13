@@ -94,6 +94,8 @@ class ResPartner(models.Model):
                                       'ir.default'].get('res.config.settings', 'mp_auto_approve_qty'), copy=False)
     total_mp_payment = fields.Monetary(
         string="Total Amount", compute="_calculate_mp_related_payment", currency_field='seller_currency_id')
+    total_commission_payment: object = fields.Monetary(
+        string="Total Commission", compute="_calculate_mp_related_payment", currency_field='seller_currency_id')
     paid_mp_payment = fields.Monetary(string="Paid Amount", compute="_calculate_mp_related_payment", currency_field='seller_currency_id')
     balance_mp_payment = fields.Monetary(string="Balance Amount", compute="_calculate_mp_related_payment", currency_field='seller_currency_id')
     available_amount = fields.Monetary(string="Avalibale Amount", compute="_calculate_mp_related_payment", currency_field='seller_currency_id')
@@ -370,6 +372,12 @@ class ResPartner(models.Model):
                         raise UserError(_("Url already registered!"))
                     vals["url_handler"] = (vals.get('url_handler').lower().replace(" ","-") or rec.url_handler.lower().replace(" ","-") or "") if vals.get('url_handler') else ""
                     # vals['url'] = base_url + (vals.get('url_handler') or "")
+                #to add company_id to seller when registration.
+                website_company = self.env['website'].search([],limit=1)
+                if website_company:
+                    if website_company.company_id:
+                        vals["company_id"] = website_company.company_id.id        
+        
         res = super(ResPartner, self).write(vals)
         for rec in self:
             if rec.seller and change_state_to == "approved":
