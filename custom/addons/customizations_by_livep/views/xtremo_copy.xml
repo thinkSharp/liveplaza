@@ -33,7 +33,7 @@
             <div class="feeling_header">
                 <t t-if="feeling">
                     <t t-if="search_count > 0" >
-                        <h4>Hope you feel better! Here is the suggestion to help your <t t-esc="feeling.feeling_noun" /> </h4>
+                        <h4><t t-esc="feeling.feeling_noun" /> </h4>
                     </t>
                 </t>
             </div>
