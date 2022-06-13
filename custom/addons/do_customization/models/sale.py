@@ -75,9 +75,9 @@ class SaleOrder(models.Model):
 
         if order_copy and self.state in ('sale','approve_by_admin'):
             self.env['website'].newlp_so_website(order_copy)
-        # for o in self.order_copy:
-        #     if o.selected_checkout:
-        #         o.unlink()
+
+
+        order_copy.amount_delivery = 0
 
         return res
     
