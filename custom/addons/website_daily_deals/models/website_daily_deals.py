@@ -56,7 +56,6 @@ class WebsiteDeals(models.Model):
 	state = fields.Selection([('draft','Draft'),('validated','In Progress'),('expired','Expired'),('cancel','Cancelled')],'State', default='draft')
 	deal_pricelist = fields.Many2one('product.pricelist','Pricelist',required=True,default=_get_default_pricelist)
 	overide_config = fields.Boolean('Override Default Configuration')
-
 	start_date = fields.Datetime('Start Date', required=True, default=datetime.now()+ timedelta(days=-1))
 	end_date = fields.Datetime('End Date', required=True, default=datetime.now() + timedelta(days=1))
 
@@ -131,7 +130,7 @@ class WebsiteDeals(models.Model):
 			self.set_to_expired()
 
 
-	@api.model
+
 	def cancel_deal(self):
 		self.state = 'cancel'
 		self._update_deal_items()
