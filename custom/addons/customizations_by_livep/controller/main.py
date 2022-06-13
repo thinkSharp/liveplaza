@@ -74,7 +74,6 @@ class WebsiteSale(Website_Sale):
 
     @http.route(['/shop/address'], type='http', methods=['GET', 'POST'], auth="public", website=True, sitemap=False)
     def address(self, **kw):
-
         Partner = request.env['res.partner'].with_context(show_address=1).sudo()
         order = request.website.sale_get_order()
         checked_list = request.website.get_checked_sale_order_line(order.website_order_line)
@@ -203,7 +202,8 @@ class WebsiteSale (WebsiteSale):
         feeling = request.env['feeling.products'].search([('website_published', '=', 'True')])
         
         values = {
-            'feeling': feeling
+            'feeling': feeling,
+            'daily_deals': request.env['website.deals'].sudo().get_valid_deals(),
         }
         return request.render('customizations_by_livep.homepage', values)
 
@@ -216,6 +216,7 @@ class WebsiteSale (WebsiteSale):
         '''/shop/feeling/<model("feeling.products"):feeling>''',
         '''/shop/feeling/<model("feeling.products"):feeling>/page/<int:page>'''
     ], type='http', auth="public", website=True)
+
     def feelingShop(self, feeling=None, page=0, category=None, search='', ppg=False, **post):
         # if feeling is None:
         #     return super(WebsiteSale, self).shop(**post)
@@ -427,12 +428,12 @@ class Website(Website):
             if order and order.state in ('sale','approve_by_admin'):
                 newlp_sale_order_id = request.session.get('newlp_sale_order_id')
                 newlp_website_sale_current_pl = request.session.get('newlp_website_sale_current_pl')
-                request.env['website'].sale_replace(newlp_sale_order_id, newlp_website_sale_current_pl)                
-                
+                request.env['website'].sale_replace(newlp_sale_order_id, newlp_website_sale_current_pl)
+
             return request.render("website_sale.confirmation", {'order': order})
         else:
             return request.redirect('/shop')
-            
+
 class WebsiteSaleWishlist(WebsiteSale):
 
     @http.route(['/shop/wishlist/add'], type='json', auth="public", website=True)

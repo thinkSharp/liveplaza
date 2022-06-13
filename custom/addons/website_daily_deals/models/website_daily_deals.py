@@ -73,7 +73,7 @@ class WebsiteDeals(models.Model):
 	show_message_after_expiry = fields.Boolean('Show Message After Expiry', help="Do you want to show the message after the expiry date of the deal.")
 	message_after_expiry = fields.Char('Message After Expiry', help="The message you want to show in the website when deal is expired.",default='Opps!! This deal has been expired.')
 	d_state_after_expire = fields.Selection([('blur','Blur'),('delete','Delete')],'What to do with deal after Expiry', default='blur', help="What do you want to do with deal after expiration.Either you can blur the deals in website or delete a deal from website")
-
+	display_on_homepage = fields.Boolean(string='Display on Homepage', default=False)
 
 
 

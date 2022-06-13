@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<odoo>
+    <data noupdate="1">
+        <record id="sms_template_for_ticket" model="wk.sms.template">
+            <field name="name">SMS notification to customer when service code is generated</field>
+            <field name="condition">ticket_ready</field>
+            <field name="auto_delete" eval="True"/>
+            <field name="sms_body_html"><![CDATA[
+              Hello ${object.customer.name}. Here is your Service Code Information:
+              REFERENCES
+              Order number: ${object.sale_order.name}
+              Order date: ${format_datetime(object.sale_order.date_order, tz=user.tz, dt_format='M/d/Y, H:mm:ss')}
+              Code: ${object.ticket_code}
+              Product:  ${object.product.name}
+              Shop: ${object.seller.name}
+               ]]>
+            </field>
+        </record>
+    </data>
+</odoo>

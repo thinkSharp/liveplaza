@@ -6,9 +6,9 @@
 
     <template id="xtremo_home_page_feature">
       <t t-set="fname" t-value="xt_products.name if xt_products else 'Top Feature Products'" />
-      <t t-set="xt_product" t-value="xt_products.product_ids if xt_products else request.env['product.template'].search([('website_published', '=', True), ('sale_ok', '=', True)], limit=6)" />
-        <div id="xtremo_home_header"><h4><t t-esc="fname" /></h4></div>
-        <div class="owl-carousel owl-theme">
+      <t t-set="xt_product" t-value="xt_products.product_ids if xt_products else None " />
+        <div id="xtremo_home_header" t-if="xt_products"><h4><t t-esc="fname" /></h4></div>
+        <div class="owl-carousel owl-theme" t-if="xt_products">
           <t t-foreach="xt_product" t-as="product">
             <div class="xt_products carousel-item active" >
               <a t-attf-href="/shop/product/#{ slug(product) }">
@@ -51,16 +51,14 @@
     </template>
 
     <template id="xtremo_home_page_top_rated">
-      <t t-if="len(xt_products.get('featured_products'))">
+      <t t-if="xt_products.get('top_rated_config').is_publish">
         <div id="xtremo_home_header">
           <h4>
             <t t-esc="xt_products.get('name') if xt_products.get('name') else 'Top Rated Products'" />
           </h4>
         </div>
-        <t t-set="xt_product" t-value="request.env['product.template'].search([('website_published', '=', True), ('sale_ok', '=', True)], limit=6)" />
         <div class="owl-carousel owl-theme">
-<!--          <t t-foreach="xt_products.get('featured_products')" t-as="product">-->
-          <t t-foreach="xt_product" t-as="product">
+          <t t-foreach="xt_products.get('featured_products')" t-as="product">
             <div class="carousel-item active" >
               <a t-attf-href="/shop/product/#{ slug(product) }">
                 <div class="p-container">
@@ -84,9 +82,9 @@
 
     <template id="xtremo_home_page_top_sales">
       <t t-set="fname" t-value="xt_products.name if xt_products else 'Top Sale Products'" />
-      <t t-set="xt_product" t-value="xt_products.product_ids if xt_products else request.env['product.template'].search([('website_published', '=', True), ('sale_ok', '=', True)], limit=6)" />
-        <div id="xtremo_home_header"><h4><t t-esc="fname" /></h4></div>
-        <div class="owl-carousel owl-theme">
+      <t t-set="xt_product" t-value="xt_products.product_ids if xt_products.product_ids else None " />
+        <div id="xtremo_home_header" t-if="xt_products"><h4><t t-esc="fname" /></h4></div>
+        <div class="owl-carousel owl-theme" t-if="xt_products">
           <t t-foreach="xt_product" t-as="product">
             <div class="carousel-item active" >
               <a t-attf-href="/shop/product/#{ slug(product) }">

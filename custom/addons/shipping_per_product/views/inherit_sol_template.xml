@@ -28,7 +28,7 @@
 <!--ယခု Promotion ကာလ အတွင်း မှာယူပါက ရန်ကုန် နှင့် မန္တလေးမြို့တွင်း ပို့ဆောင်ခ အခမဲ့ဖြင့် ပို့ဆောင်ပေးနေပါသည်။ နယ်မှ ဝယ်ယူသူများ အတွက်လည်း ကားဂိတ် ရောက်သည် အထိ ပို့ဆောင်ခမယူပဲ ပို့ဆောင်ပေးနေပါသည် (မှတ်ချက်-ဝယ်ယူသူမှကားဂိတ်၌တန်ဆာခရှင်းပြီးပစ္စည်းထုတ်ယူပေးပါရန်)</span>-->
 <!--                </td>-->
 <!--            </tr>-->
-           <tr>
+           <tr>  <!--t-att-style="'display: none;' if(order.all_service_ticket == True) else 'display: block;'" -->
                 <t t-set="line" t-value="pro_lines[0]"/>
                 <td colspan="4" style="padding:0;border: 0;">
                     <div class="sol_delivery_carrier">
@@ -39,7 +39,7 @@
                         <input type="hidden" class="line_delivery_name" t-att-name="'line_delivery_name_%i' % line.id" value="" autocomplete="off"/>
                         <ul class="list-group" style="margin-bottom: 0;border: 0;">
                             <t t-if="deliveries" t-foreach="deliveries" t-as="delivery">
-                                <li class="list-group-item" style="border: 0;">
+                                <li class="list-group-item" style="border: 0;" >  <!-- t-att-style="'display: none;' if(order.contain_service == True) else 'display: block;'"-->
                                     <input t-att-value="delivery.id" t-att-id="'delivery_%i_%i' % (line.id,delivery.id)" type="radio" t-att-name="'delivery_type_%i' % line.id" autocomplete="off"/>
                                     <label class="label-optional" t-field="delivery.name" t-att-for="'delivery_%i_%i' % (line.id,delivery.id)"/>
                                     <t t-if="delivery.delivery_type == 'fixed'">
@@ -93,7 +93,7 @@
                             <span t-field="line.price_reduce_taxinc" style="white-space: nowrap;" t-options="{'widget': 'monetary', 'display_currency': website_sale_order.currency_id}" groups="account.group_show_line_subtotals_tax_included" />
                         </td>
                     </tr>
-                    <t t-if="sol_deliveries" t-call="shipping_per_product.sol_delivery_carriers"/>
+                    <t t-if="sol_deliveries and order.all_service_ticket == False" t-call="shipping_per_product.sol_delivery_carriers"/>
                 </tbody>
             </table>
         </template>

@@ -1,0 +1,7 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+service_request,service_request,model_service_request,,1,1,1,1
+service_request_product,service_request_product,model_service_request_product,,1,1,1,1
+service_request_product_variant_lines,service_request_product_variant_lines,model_service_request_product_variant_lines,,1,1,1,1
+service_admin_product_request,service_admin_product_request,model_service_admin_product_request,,1,1,1,1
+service_mp_access_product_template_attribute_line,mp.product.template.attribute.line,product.model_product_template_attribute_line,odoo_marketplace.marketplace_seller_group,1,1,1,1
+service_ticket,service_ticket,model_ticket,,1,1,1,1
