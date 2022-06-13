@@ -128,4 +128,10 @@ class SaleOrder(models.Model):
     @api.depends('order_line')
     def _compute_all_service_ticket(self):
         for so in self:
-            so.all_service_ticket = all(line.selected_checkout or line.product_id.is_service == True for line in so.order_line)
+            for line in so.order_line:
+                if line.selected_checkout and (not line.product_id.is_service):
+                    so.all_service_ticket = False
+                    break
+                    # so.all_service_ticket = all(line.product_id.is_service == True for line in so.order_line)
+            else:
+                so.all_service_ticket = True

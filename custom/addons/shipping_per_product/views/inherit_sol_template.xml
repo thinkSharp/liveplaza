@@ -93,7 +93,7 @@
                             <span t-field="line.price_reduce_taxinc" style="white-space: nowrap;" t-options="{'widget': 'monetary', 'display_currency': website_sale_order.currency_id}" groups="account.group_show_line_subtotals_tax_included" />
                         </td>
                     </tr>
-                    <t t-if="sol_deliveries and order.all_service_ticket == True" t-call="shipping_per_product.sol_delivery_carriers"/>
+                    <t t-if="sol_deliveries and order.all_service_ticket == False" t-call="shipping_per_product.sol_delivery_carriers"/>
                 </tbody>
             </table>
         </template>
