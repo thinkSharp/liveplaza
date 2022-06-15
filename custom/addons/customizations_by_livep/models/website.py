@@ -15,22 +15,32 @@ class Website(models.Model):
         return  townships
 
     def get_checked_sale_order_line(self, order):
-        # sale_order = self.env['sale.order'].with_context().sudo().browse(sale_order_id).exists() if sale_order_id else None
         checked_list = []
+        
         if isinstance(order, list):
             for line in order:
                 line_tmp = self.env['sale.order.line'].sudo().browse(int(line))
-                print(line_tmp)
-                if line_tmp.selected_checkout == True:
+                if line_tmp.selected_checkout:
                     checked_list.append(line_tmp.id)
-
-
         else:
             for line in order:
-                if line.selected_checkout == True:
+                if line.selected_checkout:
                     checked_list.append(line)
 
         return checked_list
+
+    def get_checked_sale_order_line_length(self):
+        order = self.sale_get_order()
+        checked_len = 0
+
+        for o in order.website_order_line:
+            if o.selected_checkout:
+                checked_len += 1
+
+        if checked_len == 0:
+            return "0"
+
+        return checked_len
 
     def get_sale_order_id_list(self):
         order = self.sale_get_order()
@@ -53,12 +63,3 @@ class Website(models.Model):
             'newlp_website_sale_current_pl': order.pricelist_id.id,
         })
 
-    # def get_checked_sale_order_line(self):
-    #     order = self.sale_get_order()
-    #     checked_list = []
-    #
-    #     for o in order.website_order_line:
-    #         if o.selected_checkout == True:
-    #             checked_list.append(o)
-    #
-    #     return checked_list

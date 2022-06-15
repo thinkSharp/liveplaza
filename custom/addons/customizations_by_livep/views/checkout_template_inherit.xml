@@ -114,7 +114,7 @@
         </xpath>
 
         <xpath expr="//t[@t-set='submit_txt']" position="replace">
-            <t t-set="submit_txt">Check out</t>
+            <t t-set="submit_txt">Confirm</t>
         </xpath>
     </template>
 

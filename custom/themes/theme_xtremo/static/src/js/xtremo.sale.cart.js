@@ -73,6 +73,9 @@ odoo.define('xtremo.sale.cart', function (require) {
   var _t = core._t;
   var publicWidget = require('web.public.widget');
   var ajax=require('web.ajax');
+  var _t = core._t;
+  var Dialog = require('web.Dialog');
+  var rpc = require('web.rpc');
 
   publicWidget.registry.websiteSaleCartLink = publicWidget.registry.websiteSaleCartLink.extend({
     selector: '.o_affix_enabled #xtremo_top_menu #my_cart a[href$="/shop/cart"]',
@@ -80,7 +83,8 @@ odoo.define('xtremo.sale.cart', function (require) {
     read_events: {
         'mouseenter': '_onMouseEnter',
         'mouseleave': '_onMouseLeave',
-//        'click': '_onClick',
+        'click': '_onClick',
+//        $('#checkout-modal').on('click', funCheckedProduct);
     },
     start: function () {
       this._super.apply(this);
@@ -93,11 +97,13 @@ odoo.define('xtremo.sale.cart', function (require) {
       var res = {
         "t_id": "xtremo_cart_modal",
         "t_header": _t("My Shopping Cart"),
-        't_button': `<a role="button" class="btn btn-primary" href="/shop/cart">${ _t("View Cart") }</a>
-                     <a role="button" class="btn btn-secondary" href="/shop/checkout">${ _t("Checkout") }</a>`
+//        't_button': `<a role="button" class="btn btn-primary" href="/shop/cart">${ _t("View Cart") }</a>
+//                     <a role="button" id="checkout-modal"
+//                     class="btn btn-secondary" href="/shop/checkout">${ _t("Checkout") }</a>`
       };
-//      var html = $(core.qweb.render('theme_xtremo.dynamic_modal', res));
-//      $('main').append(html);
+      var html = $(core.qweb.render('theme_xtremo.dynamic_modal', res));
+      $('main').append(html);
+
     },
 
     _onMouseEnter: function (ev) {
@@ -105,16 +111,16 @@ odoo.define('xtremo.sale.cart', function (require) {
         return;
     },
 
-//    _onClick: function (ev) {
-//      var ref = this;
-//      ev.preventDefault();
-//      if(window.screen.width <= 767){
-//        window.location.href = '/shop/cart';
-//        return;
-//      }
-//      ref._callApi(ref, false);
-//      ev.stopPropagation();
-//    },
+    _onClick: function (ev) {
+      var ref = this;
+      ev.preventDefault();
+      if(window.screen.width <= 767){
+        window.location.href = '/shop/cart';
+        return;
+      }
+      ref._callApi(ref, false);
+      ev.stopPropagation();
+    },
 
     _callApi: function (ref, refresh) {
       $.get("/shop/cart", {
@@ -136,8 +142,10 @@ odoo.define('xtremo.sale.cart', function (require) {
           }
           var funDelete = ref._deleteProduct();
           $el.on('click', ".js_delete_product", funDelete);
+          var funCheckedProduct = ref._is_checked_products();
+          $el.on('click', "#checkout-modal", funCheckedProduct);
           var qty = $el.find('.cart_line:first').length > 0 ? $el.find('.cart_line:first').attr('cart_qty') : 0;
-          $("#xtremo_top_menu #my_cart .my_cart_quantity").text(qty);
+//          $("#xtremo_top_menu #my_cart .my_cart_quantity").text(qty);
       });
     },
 
@@ -157,7 +165,30 @@ odoo.define('xtremo.sale.cart', function (require) {
           ev.stopPropagation();
         })
       }
-    }
+    },
+
+    _is_checked_products: function() {
+       return function(ev){
+            var order_len = $(ev.currentTarget).data('order-length');
+
+            if(order_len <= 0) {
+               displayError(
+                    _t('No product selected'),
+                    _t('Go to Cart and select at least one product')
+                );
+                return false;
+            }
+       }
+
+       function displayError(title, message) {
+            return new Dialog(null, {
+                title: _t('Warning: ') + _.str.escapeHTML(title),
+                size: 'medium',
+                $content: "<p>" + (_.str.escapeHTML(message) || "") + "</p>" ,
+                buttons: [
+                {text: _t('Ok'), close: true}]}).open();
+           }
+    },
 
   });
 

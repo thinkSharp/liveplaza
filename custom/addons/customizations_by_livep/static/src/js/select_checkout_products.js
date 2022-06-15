@@ -15,13 +15,6 @@ odoo.define('customizations_by_livep.cart', function(require) {
 
     var qweb = core.qweb;
 
-    $(document).ready(function() {
-//        $('#place_order').click(function() {
-////            doSomethingCool();
-//            return false; // cancel the event
-//        });
-    });
-
     publicWidget.registry.websiteSaleCart = publicWidget.Widget.extend({
     selector: '.oe_website_sale .oe_cart',
     events: {
