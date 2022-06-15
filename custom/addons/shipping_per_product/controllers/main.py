@@ -30,6 +30,9 @@ class ProductShipping(http.Controller):
             sol_delivery_amount = sum(lines.mapped('delivery_charge'))
             # sol_delivery_amount = float_round(sol_delivery_amount, 2)
             new_total_delivery_amount = order.get_total_sol_delivery_price()
+            order.checked_amount_total += new_total_delivery_amount
+            # order.amount_total += new_total_delivery_amount
+
             # new_total_delivery_amount = float_round(new_total_delivery_amount, 2)
             return {
                 'status': order.delivery_rating_success,
@@ -38,9 +41,9 @@ class ProductShipping(http.Controller):
                 'is_free_delivery': not bool(order.amount_delivery),
                 'sol_delivery_amount': Monetary.value_to_html(sol_delivery_amount, {'display_currency': currency}),
                 'new_amount_delivery': Monetary.value_to_html(new_total_delivery_amount, {'display_currency': currency}),
-                'new_amount_untaxed': Monetary.value_to_html(order.amount_untaxed, {'display_currency': currency}),
-                'new_amount_tax': Monetary.value_to_html(order.amount_tax, {'display_currency': currency}),
-                'new_amount_total': Monetary.value_to_html(order.amount_total, {'display_currency': currency}),
+                'new_amount_untaxed': Monetary.value_to_html(order.checked_amount_untaxed, {'display_currency': currency}),
+                'new_amount_tax': Monetary.value_to_html(order.checked_amount_tax, {'display_currency': currency}),
+                'new_amount_total': Monetary.value_to_html(order.checked_amount_total, {'display_currency': currency}),
             }
         return {}
 
