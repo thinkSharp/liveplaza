@@ -179,6 +179,13 @@
         <xpath expr="//t[@t-call='website_sale.cart_summary']" position="replace">
             <t t-call="customizations_by_livep.cart_summary_checked_list" />
         </xpath>
+
+        <xpath expr="//a[@href='/shop/confirm_order']" position="replace">
+            <a role="button" href="/shop/confirm_order" class="btn btn-primary mb32">
+                <span>Next</span>
+                <i class="fa fa-chevron-right"/>
+            </a>
+        </xpath>
     </template>
 
     <template id="address_page_inherit" inherit_id="website_sale.address">
