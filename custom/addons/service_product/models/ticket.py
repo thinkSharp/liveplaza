@@ -19,9 +19,18 @@ class Ticket(models.Model):
     customer = fields.Many2one("res.partner", string="Buyer", readonly=True)
     sale_order = fields.Many2one("sale.order", string="Sale Order", readonly=True)
     product = fields.Many2one("product.product", string="Product", readonly=True)
+
+
+
     # expiration =
     def action_validate(self):
         super(Ticket, self).write({'state': 'used'})
+
+    @api.depends('partner_id')
+    def _get_partner(self):
+        partner = self.env['res.users'].browse(self.env.uid).partner_id
+        for rec in self:
+            rec.partner_id = partner.id
 
 
 class SaleOrder(models.Model):
@@ -123,9 +132,15 @@ class SaleOrder(models.Model):
     @api.depends('order_line')
     def _compute_contain_service(self):
         for so in self:
-            so.contain_service = any(line.product_id.is_service == True for line in so.order_line)
+            so.contain_service = any((line.selected_checkout and line.product_id.is_service == True) for line in so.order_line)
 
     @api.depends('order_line')
     def _compute_all_service_ticket(self):
         for so in self:
-            so.all_service_ticket = all(line.product_id.is_service == True for line in so.order_line)
+            for line in so.order_line:
+                if line.selected_checkout and (not line.product_id.is_service):
+                    so.all_service_ticket = False
+                    break
+                    # so.all_service_ticket = all(line.product_id.is_service == True for line in so.order_line)
+            else:
+                so.all_service_ticket = True

@@ -312,7 +312,7 @@
                                            <h4 class="m-0" t-field="deal.title"></h4>
                                            <div class="description">
                                                <span class="text-muted" t-field="deal.description"/>
-                                               <span t-if="msg_after_exp" t-esc="msg_after_exp"/>
+                                               <span t-if="deal.get_message_before_expiry_and_offset()['message']" t-esc="deal.get_message_before_expiry_and_offset()['message']"/>
                                            </div>
                                        </div>
                                    </div>
@@ -334,16 +334,27 @@
                                        </t>
                                    </div>
                                </div>
+                               <div t-else="">
+                                    <section>
+                                        <div class="container">
+                                            <div class="row s_nb_column_fixed">
+                                                <div class="col-lg-12 s_title pt16 pb16" style="text-align: center;">
+                                                    <h1 t-esc="page_header"> There is no product set for this deal. </h1>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </section>
+                               </div>
                                <!--<t t-set="msg_before_exp" t-value="deal.get_message_before_expiry_and_offset()['message']"/>
                                <div class="row d-flex align-items justify-content-center m-0" t-if="msg_before_exp">
                                    <div class="expiry_message col-12">
                                        <p t-esc="msg_before_exp" class="msg_before_exp"/>
                                    </div>
-                               </div>
+                               </div>-->
                                <t t-set="msg_after_exp" t-value="deal.get_message_after_expiry()"/>
                                <div class="expiry_message" t-if="msg_after_exp">
                                    <span t-if="msg_after_exp" t-esc="msg_after_exp"/>
-                               </div>-->
+                               </div>
                            </div>
                        </t>
                    </div>

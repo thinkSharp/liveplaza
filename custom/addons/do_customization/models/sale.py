@@ -17,6 +17,7 @@
 import dateutil
 from datetime import datetime
 
+import requests
 from odoo import models, fields, api, _
 from odoo.addons.website_sale_stock.models.sale_order import SaleOrder as WebsiteSaleStock
 import logging
@@ -40,6 +41,7 @@ class SaleOrder(models.Model):
             ], string='Status', readonly=True, copy=False, index=True, tracking=3, default='draft')
 
     products = fields.Char(string="Products", compute='get_products_string')
+    selected_checkout = fields.Boolean(string='Selected For Checkout', defalut=False)
 
     @api.depends('order_line')
     def get_products_string(self):
@@ -54,11 +56,29 @@ class SaleOrder(models.Model):
 
     def action_confirm(self):
         self.ensure_one()
+        order = self.env['sale.order.line'].search([('order_id', '=', self.id)])
+        order_copy = self.copy()
+
+        for o in order_copy.website_order_line:
+            if o.selected_checkout or o.is_delivery:
+                o.unlink()
+
+        for o in order:
+            if not o.is_delivery:
+                if not o.selected_checkout:
+                    o.unlink()
+
         res = super(SaleOrder, self).action_confirm()
         self.write({'payment_provider': self.get_portal_last_transaction().acquirer_id.provider})
         if self.get_portal_last_transaction().acquirer_id.provider == 'cash_on_delivery' and self.state == 'sale':
             self.action_admin()
-    
+
+        if order_copy and self.state in ('sale','approve_by_admin'):
+            self.env['website'].newlp_so_website(order_copy)
+
+
+        order_copy.amount_delivery = 0
+
         return res
     
     def action_admin(self):
