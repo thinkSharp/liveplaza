@@ -57,9 +57,9 @@
 							<div class="oe_structure">
 							<section>
 								<div class="container">
-									<div class="row s_nb_column_fixed">
+									<div t-if="not daily_deals" class="row s_nb_column_fixed">
 										<div class="col-lg-12 s_title pt16 pb16" style="text-align: center;">
-											<h1 t-esc="page_header"> </h1>
+											<h1 t-esc="page_header"> There is no deal and offer right now. Come back again later. </h1>
 										</div>
 									</div>
 								</div>
@@ -126,6 +126,11 @@
 													<t t-call="website_daily_deals.deal_product_template"/>
 												</t>
 											</div>
+										</div>
+										<div t-else="">
+											<center>
+												<h1> There is no product set for this deal. </h1>
+											</center>
 										</div>
 										<t t-set="msg_before_exp" t-value="deal.get_message_before_expiry_and_offset()['message']"/>
 										<div class="row d-flex align-items justify-content-center m-0" t-if="msg_before_exp">

@@ -171,3 +171,32 @@
         margin: 0 2%;
     }
 }
+
+/* select products from cart and checkout */
+#select-product {
+    font-size: 18px;
+}
+
+/* style for cart modal popover */
+
+.cart_modal_table {
+    border-collapse: separate;
+    border-spacing: 5px 20px;
+}
+
+.cart_modal_table .td {
+    padding: 20px;
+    margin-bottom: 10px;
+}
+
+.width_50 {
+    width: 50%;
+}
+
+.cart-modal-footer {
+    position: sticky;
+    bottom: 0;
+    background: rgba(252, 252, 252, 1) !important;
+}
+
+

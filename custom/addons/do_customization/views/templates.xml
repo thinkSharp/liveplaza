@@ -51,13 +51,14 @@
                                 
 								<t t-if="order.get_portal_last_transaction().acquirer_id.name != 'Cash on Delivery'">
                                 	<div class="card mt-3 fa-border">
-			                            <h5 style="margin-top:5px;"> <Strong> Upload payment screenshot for prepaid payment.</Strong></h5>
+			                            <h5 style="margin-top:5px;"> <Strong> Upload Payment Screenshot only with image file format.</Strong></h5>
 										<form action="/shop/payment/uploaded" method="post" class="s_website_form form-horizontal container-fluid mt32" enctype="multipart/form-data" id="file_upload_form">
 											<div t-attf-class="form-group">
 						                        <div class="col-md-7 col-sm-8">
 						                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
 						                            <input type="hidden" name="sale_order_id" t-att-value="order.id"/>
-						                            <input type="file" required="required" name="attachment" class="file" multiple="true" data-show-upload="true" data-show-caption="true" lass="binary" data-show-preview="true" id="order.id"/>
+						                            <input type="file" required="required" name="attachment" accept="image/*" class="file" multiple="true" data-show-upload="true" 
+						                            	data-show-caption="true" lass="binary" id="ssImage" placeholder="Image file format: JPG JPEG PNG GIF TIFF RAW" onchange="return fileValidation()"/>
 						                            <button type="submit" name="payment_upload_name" style="margin-top:20px;margin-right:20px" class="btn btn-primary mb32">
 						                                Submit Screenshot
 						                            </button>
@@ -66,6 +67,25 @@
 	                                    </form>	                               
 		                        	</div>
                                 </t>
+
+                                <script>
+							        function fileValidation() {
+							            var fileInput =
+							                document.getElementById('ssImage');
+							             
+							            var filePath = fileInput.value;
+							         
+							            // Allowing file type
+							            var allowedExtensions =
+											/(\.jpeg|\.jpg|\.png|\.raw|\.tiff|\.gif)$/i;
+							             
+							            if (!allowedExtensions.exec(filePath)) {
+							                alert('Please upload payment screenshot only with image file type.');
+							                fileInput.value = '';
+							                return false;
+							            }
+							        }
+							    </script>
 
                                 <t t-call="website_sale.payment_confirmation_status"/>
 

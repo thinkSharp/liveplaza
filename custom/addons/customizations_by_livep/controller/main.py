@@ -76,6 +76,10 @@ class WebsiteSale(Website_Sale):
     def address(self, **kw):
         Partner = request.env['res.partner'].with_context(show_address=1).sudo()
         order = request.website.sale_get_order()
+        checked_list = request.website.get_checked_sale_order_line(order.website_order_line)
+
+        if len(checked_list) <= 0:
+            return request.redirect('/shop')
 
         redirection = Website_Sale.checkout_redirection(Website_Sale, order)
         if redirection:
@@ -180,7 +184,7 @@ class WebsiteSale(Website_Sale):
             'phone': phone
         }
         return request.render("website_sale.address", render_values)
-      
+
     # @http.route([
     #     '''/shop''',
     #     '''/shop/page/<int:page>''',
@@ -330,6 +334,74 @@ class WebsiteSale (WebsiteSale):
         else:
             return request.render("website_sale.products", values)
 
+    @http.route(['/shop/checkout'], type='http', auth='public', website=True)
+    def checkout(self, **post):
+        order = request.website.sale_get_order()
+        checked_list = request.website.get_checked_sale_order_line(order.website_order_line)
+
+        if len(checked_list) <= 0:
+            return request.redirect('/shop')
+
+        return super(WebsiteSale, self).checkout(**post)
+
+    @http.route(['/shop/checkout/select/products'], type='json', auth='public', website=True)
+    def selectProduct(self, orderLineId):
+        order = request.website.sale_get_order()
+
+        orderLine = order.website_order_line.search([('id', '=', orderLineId)])
+
+        for o in order.website_order_line:
+            if o.id == orderLineId:
+                if orderLine.selected_checkout == False:
+                    orderLine.update({'selected_checkout': True})
+                    order.update({
+                        'checked_amount_untaxed': order.checked_amount_untaxed,
+                        'checked_amount_tax': order.checked_amount_tax,
+                        'checked_amount_total': order.checked_amount_untaxed + order.checked_amount_tax,
+                    })
+                else:
+                    orderLine.update({'selected_checkout': False})
+                    order.update({
+                        'checked_amount_untaxed': order.checked_amount_untaxed,
+                        'checked_amount_tax': order.checked_amount_tax,
+                        'checked_amount_total': order.checked_amount_untaxed + order.checked_amount_tax,
+                    })
+
+        checked_list = request.website.get_checked_sale_order_line(order.website_order_line)
+        print(checked_list)
+
+    @http.route(['/shop/cart'], type='http', auth="public", website=True, sitemap=False)
+    def cart(self, access_token=None, revive='', **post):
+        result = super(WebsiteSale, self).cart(**post)
+
+        order = request.website.sale_get_order()
+        checked_list = request.website.get_checked_sale_order_line(order.website_order_line)
+        order_id_list = request.website.get_sale_order_id_list()
+
+        result.qcontext.update({
+            'cart_sale_order': checked_list,
+            'order_id_list': order_id_list,
+        })
+
+        return result
+
+    # To show only checked products on /shop/payment page
+    @http.route(['/shop/payment'], type='http', auth="public", website=True, sitemap=False)
+    def payment(self, **post):
+
+        result = super(WebsiteSale, self).payment(**post)
+
+        order = request.website.sale_get_order()
+        checked_list = request.website.get_checked_sale_order_line(order.website_order_line)
+        order_id_list = request.website.get_sale_order_id_list()
+
+        result.qcontext.update({
+            'cart_sale_order': checked_list,
+            'order_id_list': order_id_list,
+        })
+        return result
+
+
 class Website(Website):
 
     @http.route(website=True, auth="public", sitemap=False)
@@ -340,8 +412,27 @@ class Website(Website):
             redirect = '/shop'
             return http.redirect_with_hash(redirect)
         return response
-      
 
+    @http.route(['/shop/confirmation'], type='http', auth="public", website=True, sitemap=False)
+    def payment_confirmation(self, **post):
+        """ End of checkout process controller. Confirmation is basically seing
+        the status of a sale.order. State at this point :
+
+         - should not have any context / session info: clean them
+         - take a sale.order id, because we request a sale.order and are not
+           session dependant anymore
+        """
+        sale_order_id = request.session.get('sale_last_order_id')
+        if sale_order_id:
+            order = request.env['sale.order'].sudo().browse(sale_order_id)
+            if order and order.state in ('sale','approve_by_admin'):
+                newlp_sale_order_id = request.session.get('newlp_sale_order_id')
+                newlp_website_sale_current_pl = request.session.get('newlp_website_sale_current_pl')
+                request.env['website'].sale_replace(newlp_sale_order_id, newlp_website_sale_current_pl)
+
+            return request.render("website_sale.confirmation", {'order': order})
+        else:
+            return request.redirect('/shop')
 
 class WebsiteSaleWishlist(WebsiteSale):
 

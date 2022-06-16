@@ -23,16 +23,28 @@ class AuthSignupHome(Home):
     def generate_otp(self, **kwargs):
         email = kwargs.get('email')
         if email:
-            if int(kwargs.get('validUser',0))==0:
-                message = self.checkExistingUser(**kwargs)
+            if '@' in email:
+                if int(kwargs.get('validUser',0))==0:
+                    message = self.checkExistingUser(**kwargs)
+                else:
+                    message = [1, _("Thanks for the registration."), 0]
+                if message[0] != 0:
+                    otpdata = self.getOTPData()
+                    otp = otpdata[0]
+                    otp_time = otpdata[1]
+                    self.sendOTP(otp, **kwargs)
+                    message = [1, _("OTP has been sent to given Email Address : {}".format(email)), otp_time]
             else:
-                message = [1, _("Thanks for the registration."), 0]
-            if message[0] != 0:
-                otpdata = self.getOTPData()
-                otp = otpdata[0]
-                otp_time = otpdata[1]
-                self.sendOTP(otp, **kwargs)
-                message = [1, _("OTP has been sent to given Email Address : {}".format(email)), otp_time]
+                if int(kwargs.get('validUser',0))==0:
+                    message = self.checkExistingUser(**kwargs)
+                else:
+                    message = [1, _("Thanks for the registration."), 0]
+                if message[0] != 0:
+                    otpdata = self.getOTPData()
+                    otp = otpdata[0]
+                    otp_time = otpdata[1]
+                    self.sendOTP(otp, **kwargs)
+                    message = [1, _("OTP has been sent to given Mobile Number : {}".format(email)), otp_time]
         else:
             message = [0, _("Please enter an email address"), 0]
         return message

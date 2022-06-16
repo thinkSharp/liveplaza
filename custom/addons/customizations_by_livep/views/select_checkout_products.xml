@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <template id="select_checkout_products" inherit_id="website_sale.cart_lines">
+
+        <xpath expr="//th[@class='td-img']" position="before">
+            <th></th>
+        </xpath>
+
+        <xpath expr="//td[@colspan='2']" position="before">
+            <td> <input t-att-checked="line.selected_checkout" type="checkbox" id="select-product" name="checked_list"
+                                   t-att-data-order-id="line.id" class="btn btn-link d-md-inline-block" /></td>
+        </xpath>
+
+    </template>
+
+    <template id="cart_modal" inherit_id="website_sale.cart_popover" >
+        <xpath expr="//t[@t-foreach='website_sale_order.website_order_line']" position="replace">
+            <table class="cart_modal_table">
+                <tbody>
+                    <t t-foreach="website_sale_order.website_order_line" t-as="line">
+                        <tr t-att-class="'optional_product info' if line.linked_line_id else None">
+                            <t t-if="line.selected_checkout">
+                                <td colspan="3" ><input checked="checked" type="checkbox" disabled="disabled"
+                                       t-att-data-order-id="line.id" class="btn btn-link d-md-inline-block" />
+                                </td>
+                            </t>
+                            <t t-else=""> <td colspan="3"></td> </t>
+
+                            <td align="center" t-if="line.product_id.product_tmpl_id" class='td-img'>
+                                <span t-field="line.product_id.image_128" t-options="{'widget': 'image', 'qweb_img_responsive': False, 'class': 'rounded o_image_64_max'}" />
+                            </td>
+                            <td class="width_50">
+                                <div class="col-9">
+                                    <div>
+                                        <t t-call="website_sale.cart_line_product_link">
+                                            <span class="h6" t-esc="line.name_short" />
+                                        </t>
+                                    </div>
+                                    Qty: <t t-esc="int(line.product_uom_qty) == line.product_uom_qty and int(line.product_uom_qty) or line.product_uom_qty" />
+                                </div>
+                            </td>
+                        </tr>
+                    </t>
+                </tbody>
+            </table>
+
+        </xpath>
+        <xpath expr="//div[@class='text-center']" position="after">
+            <div class="modal-footer cart-modal-footer">
+                <a role="button" class="btn btn-primary" href="/shop/cart">View Cart</a>
+                 <a role="button" id="checkout-modal" t-att-data-order-length="request.website.get_checked_sale_order_line_length()"
+                 class="btn btn-secondary" href="/shop/checkout">Checkout</a>
+            </div>
+        </xpath>
+    </template>
+
+<!--    <template id="cart_summary_inherit" inherit_id="website_sale.cart_summary">-->
+<!--        <xpath expr="//tr[@t-foreach='website_sale_order.website_order_line']" position="attributes">-->
+<!--            <attribute name="t-foreach">'cart_sale_order' if checked_list else 'website_sale_order.website_order_line' </attribute>-->
+
+<!--        </xpath>-->
+<!--    </template>-->
+
+
+<!--   New template to show only checked products on /shop/payment page-->
+    <template id="cart_lines_shop_payment_page">
+        <div class="card">
+            <div class="card-body p-xl-0">
+                <div class="toggle_summary d-xl-none">
+                    <b>Your order: </b> <span t-field="website_sale_order.amount_total" t-options='{"widget": "monetary", "display_currency": website_sale_order.pricelist_id.currency_id}'/>
+                    <span class='fa fa-chevron-down fa-border float-right' role="img" aria-label="Details" title="Details"></span>
+                </div>
+                <div t-if="not website_sale_order or not website_sale_order.website_order_line" class="alert alert-info">
+                    Your cart is empty!
+                </div>
+                <div class="toggle_summary_div d-none d-xl-block">
+                    <table class="table table-striped table-sm" id="cart_products" t-if="website_sale_order and website_sale_order.website_order_line">
+                        <thead>
+                            <tr>
+                                <th class="border-top-0 td-img">Product</th>
+                                <th class="border-top-0"></th>
+                                <th class="border-top-0 td-qty">Quantity</th>
+                                <th class="border-top-0 text-center td-price">Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="website_sale_order.website_order_line" t-as="line">
+                                <t t-if="line.selected_checkout">
+                                    <td class='' colspan="2" t-if="not line.product_id.product_tmpl_id"></td>
+                                    <td class='td-img text-center' t-if="line.product_id.product_tmpl_id">
+                                        <span t-field="line.product_id.image_128" t-options="{'widget': 'image', 'qweb_img_responsive': False, 'class': 'rounded o_image_64_max'}" />
+                                    </td>
+                                    <td class='td-product_name' t-if="line.product_id.product_tmpl_id">
+                                        <div>
+                                            <strong t-field="line.name_short" />
+                                        </div>
+                                    </td>
+                                    <td class='td-qty'>
+                                        <div t-esc="line.product_uom_qty" />
+                                    </td>
+                                    <td class="text-center td-price">
+                                    <span t-field="line.price_reduce_taxexcl" style="white-space: nowrap;" t-options="{'widget': 'monetary', 'display_currency': website_sale_order.currency_id}" groups="account.group_show_line_subtotals_tax_excluded" />
+                                    <span t-field="line.price_reduce_taxinc" style="white-space: nowrap;" t-options="{'widget': 'monetary', 'display_currency': website_sale_order.currency_id}" groups="account.group_show_line_subtotals_tax_included" />
+                                </td>
+                                </t>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <t t-call="website_sale.total">
+                        <t t-set='redirect' t-value="redirect or '/shop/payment'"></t>
+                    </t>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <template id="cart_summary_checked_list">
+        <div class="card">
+            <div class="card-body p-xl-0">
+                <div class="toggle_summary d-xl-none">
+                    <b>Your order: </b> <span t-field="website_sale_order.amount_total" t-options='{"widget": "monetary", "display_currency": website_sale_order.pricelist_id.currency_id}'/>
+                    <span class='fa fa-chevron-down fa-border float-right' role="img" aria-label="Details" title="Details"></span>
+                </div>
+                <div t-if="not website_sale_order or not website_sale_order.website_order_line" class="alert alert-info">
+                    Your cart is empty!
+                </div>
+                <div class="toggle_summary_div d-none d-xl-block">
+                    <table class="table table-striped table-sm" id="cart_products" t-if="website_sale_order and website_sale_order.website_order_line">
+                        <thead>
+                            <tr>
+                                <th class="border-top-0 td-img">Product</th>
+                                <th class="border-top-0"></th>
+                                <th class="border-top-0 td-qty">Quantity</th>
+                                <th class="border-top-0 text-center td-price">Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="website_sale_order.website_order_line" t-as="line">
+                                <t t-if="line.selected_checkout">
+                                    <td class='' colspan="2" t-if="not line.product_id.product_tmpl_id"></td>
+                                    <td class='td-img text-center' t-if="line.product_id.product_tmpl_id">
+                                        <span t-field="line.product_id.image_128" t-options="{'widget': 'image', 'qweb_img_responsive': False, 'class': 'rounded o_image_64_max'}" />
+                                    </td>
+                                    <td class='td-product_name' t-if="line.product_id.product_tmpl_id">
+                                        <div>
+                                            <strong t-field="line.name_short" />
+                                        </div>
+                                    </td>
+                                    <td class='td-qty'>
+                                        <div t-esc="line.product_uom_qty" />
+                                    </td>
+                                    <td class="text-center td-price">
+                                    <span t-field="line.price_reduce_taxexcl" style="white-space: nowrap;" t-options="{'widget': 'monetary', 'display_currency': website_sale_order.currency_id}" groups="account.group_show_line_subtotals_tax_excluded" />
+                                    <span t-field="line.price_reduce_taxinc" style="white-space: nowrap;" t-options="{'widget': 'monetary', 'display_currency': website_sale_order.currency_id}" groups="account.group_show_line_subtotals_tax_included" />
+                                </td>
+                                </t>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <t t-call="website_sale.total">
+                        <t t-set='redirect' t-value="redirect or '/shop/payment'"></t>
+                    </t>
+                </div>
+            </div>
+        </div>
+    </template>
+
+<!--  To show only checked products on /shop/payment page -->
+    <template id="payment_inherit" inherit_id="website_sale.payment">
+        <xpath expr="//t[@t-call='website_sale.cart_summary']" position="replace">
+            <t t-call="customizations_by_livep.cart_lines_shop_payment_page">
+                <t t-set="is_payment_page" t-value="true"/>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="checkout_page_inherit" inherit_id="website_sale.checkout">
+        <xpath expr="//t[@t-call='website_sale.cart_summary']" position="replace">
+            <t t-call="customizations_by_livep.cart_summary_checked_list" />
+        </xpath>
+
+        <xpath expr="//a[@href='/shop/confirm_order']" position="replace">
+            <a role="button" href="/shop/confirm_order" class="btn btn-primary mb32">
+                <span>Next</span>
+                <i class="fa fa-chevron-right"/>
+            </a>
+        </xpath>
+    </template>
+
+    <template id="address_page_inherit" inherit_id="website_sale.address">
+        <xpath expr="//t[@t-call='website_sale.cart_summary']" position="replace">
+            <t t-call="customizations_by_livep.cart_summary_checked_list">
+                <t t-set="hide_coupon">True</t>
+                <t t-set="redirect">/shop/address</t>
+
+            </t>
+        </xpath>
+    </template>
+
+<!--   To show total amount in cart_summary of payment confirmation page  -->
+    <template id="cart_summary_payment_confirmation" inherit_id="website_sale.confirmation">
+        <xpath expr="//t[@t-call='website_sale.cart_summary']" position="replace">
+            <div class="col-12 col-xl-auto">
+                <t t-set="website_sale_order" t-value="order"/>
+                <t t-call="website_sale.cart_summary">
+                    <t t-set="hide_coupon">1</t>
+                    <t t-set="is_confirm_page" t-value="True" />
+                </t>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="total_inherit" inherit_id="website_sale.total">
+        <xpath expr="//span[@t-field='website_sale_order.amount_untaxed']" position="replace">
+             <span t-field="website_sale_order.checked_amount_untaxed" class="monetary_field" style="white-space: nowrap;"
+                   t-options="{'widget': 'monetary', 'display_currency': website_sale_order.currency_id}"/>
+        </xpath>
+
+        <xpath expr="//span[@t-field='website_sale_order.amount_tax']" position="replace">
+            <span t-field="website_sale_order.checked_amount_tax" class="monetary_field" style="white-space: nowrap;"
+                  t-options="{'widget': 'monetary', 'display_currency': website_sale_order.currency_id}" />
+        </xpath>
+
+        <xpath expr="//strong[@t-field='website_sale_order.amount_total']" position="replace">
+            <t t-if="is_confirm_page">
+                <strong t-field="website_sale_order.amount_total" class="monetary_field"
+                              t-options='{"widget": "monetary", "display_currency": website_sale_order.pricelist_id.currency_id}'/>
+            </t>
+            <t t-else="">
+                <strong t-field="website_sale_order.checked_amount_total" class="monetary_field"
+                              t-options='{"widget": "monetary", "display_currency": website_sale_order.pricelist_id.currency_id}'/>
+            </t>
+        </xpath>
+    </template>
+
+</odoo>
