@@ -21,10 +21,10 @@ import re
 from urllib.parse import urlencode
 
 
-PPG = 10000000  # Products Per Page
+PPG = 20  # Products Per Page
 PPR = 4   # Products Per Row
 
-SPG = 100000  # Shops/sellers Per Page
+SPG = 20  # Shops/sellers Per Page
 SPR = 4   # Shops/sellers Per Row
 
 

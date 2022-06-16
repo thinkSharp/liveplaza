@@ -77,7 +77,7 @@
 
     </template>
 
-    <template id="theme_products_grid_view_inherit" inherit_id="website_sale.products" name="Inherit Product grid View Inherit">
+    <template id="theme_products_grid_view_inherit" inherit_id="website_sale.products">
         <xpath expr="//div[hasclass('products_pager')][last()]" position="replace">
           <div t-if="bins" class="products_pager form-inline justify-content-center mt-3 mb-3">
             <div id="wk_loader" t-att-category="category.id if category else 'none'"><span />
@@ -88,21 +88,48 @@
         </xpath>
     </template>
 
-    <template id="shop_page_products_grid_view_inherit" inherit_id="odoo_marketplace.mp_seller_profile">
+<!--  Load More Button for seller/profile page  -->
+    <template id="seller_profile_load_more_btn" inherit_id="odoo_marketplace.mp_seller_profile">
+        <xpath expr="//div[hasclass('products_pager')][last()]" position="replace">
+          <div t-if="bins" class="products_pager form-inline justify-content-center mt-3 mb-3">
+            <div id="wk_loader" t-att-category="category.id if category else 'none'"><span />
+                <button
+                   class="btn btn-secondary">Load More Products</button>
+                <p>loading ...</p>
+            </div>
+          </div>
+        </xpath>
+
+    </template>
+
+<!--    Load More Button for sellers/list page -->
+    <template id="sellers_list_load_more_btn" inherit_id="odoo_marketplace.sellers_list">
         <xpath expr="//div[hasclass('products_pager')][last()]" position="before">
           <div t-if="bins" class="products_pager form-inline justify-content-center mt-3 mb-3">
             <div id="wk_loader" t-att-category="category.id if category else 'none'"><span />
-                <form method="get" t-attf-action="/seller/profile/#{seller.sudo().id}/page/2">
-                    <button
-                       class="btn btn-secondary">Load More Products</button>
-                    <p>loading ...</p>
-                </form>
-
+                <button
+                   class="btn btn-secondary">Load More Shops</button>
+                <p>loading ...</p>
             </div>
           </div>
         </xpath>
     </template>
 
+<!--  To show products count text correctly on seller/profile page, All Products Tab -->
+    <template id="product_count_seller_profile_page" inherit_id="odoo_marketplace.mp_seller_profile">
+        <xpath expr="//a[@href='#seller_all_prod']" position="replace">
+            <a href="#seller_all_prod" class="nav-link active" data-toggle="tab">
+                <span>
+                    All Products
+                    <span class='badge badge-pill badge-secondary'>
+                        <span class="xt_product_count xt_product_count-to"><t t-esc="len(products)"/></span>
+                        Out Of
+                        <t t-esc="product_count"/>
+                    </span>
+                </span>
+            </a>
+        </xpath>
+    </template>
 
 
     <template id="pay_now_change_label" inherit_id="website_sale.payment">
