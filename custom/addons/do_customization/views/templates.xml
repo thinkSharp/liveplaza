@@ -51,7 +51,7 @@
                                 
 								<t t-if="order.get_portal_last_transaction().acquirer_id.name != 'Cash on Delivery'">
                                 	<div class="card mt-3 fa-border">
-			                            <h5 style="margin-top:5px;"> <Strong> Upload payment screenshot for prepaid payment.</Strong></h5>
+			                            <h5 style="margin-top:5px;"> <Strong> Upload Payment Screenshot only with image file format.</Strong></h5>
 										<form action="/shop/payment/uploaded" method="post" class="s_website_form form-horizontal container-fluid mt32" enctype="multipart/form-data" id="file_upload_form">
 											<div t-attf-class="form-group">
 						                        <div class="col-md-7 col-sm-8">
@@ -66,6 +66,25 @@
 	                                    </form>	                               
 		                        	</div>
                                 </t>
+
+                                <script>
+							        function fileValidation() {
+							            var fileInput =
+							                document.getElementById('ssImage');
+							             
+							            var filePath = fileInput.value;
+							         
+							            // Allowing file type
+							            var allowedExtensions =
+											/(\.jpeg|\.jpg|\.png|\.raw|\.tiff|\.gif)$/i;
+							             
+							            if (!allowedExtensions.exec(filePath)) {
+							                alert('Please upload payment screenshot only with image file type.');
+							                fileInput.value = '';
+							                return false;
+							            }
+							        }
+							    </script>
 
                                 <t t-call="website_sale.payment_confirmation_status"/>
 

@@ -37,26 +37,26 @@ class WebsiteSale(WebsiteSale):
         values = {}
         
         if post.get('attachment',False):
-            name = post.get('attachment').filename      
-            file = post.get('attachment')
-            sale_order_id = post.get('sale_order_id')
-            attachment = file.read() 
-            image_64_encode = base64.encodestring(attachment)
-            #image_64_decode = base64.decodestring(image_64_encode)
-            order = request.env['sale.order'].sudo().browse(sale_order_id).exists()
-            sale_order_objs = request.env['sale.order'].sudo().search([("id", "=", int(sale_order_id))])
-            
-            if sale_order_objs:
-                for sale_order_obj in sale_order_objs:
-                    sale_order_obj.sudo().write({'payment_upload': image_64_encode, 'payment_upload_name': name})
-                    
-            values = {
-                'website_sale_order': order,
-                'order': order,
-            }
-            
-        # else:
-        #     return "Please select payment screenshot from your device and upload."  #"NotFound() #raise Warning(_("Please select payment screenshot from your device and upload."))
+            name = post.get('attachment').filename
+            if name and name.lower().endswith(('.png', '.jpeg', '.gif','jpg','tiff','raw')):   
+                file = post.get('attachment')
+                sale_order_id = post.get('sale_order_id')
+                attachment = file.read() 
+                image_64_encode = base64.encodestring(attachment)
+                #image_64_decode = base64.decodestring(image_64_encode)
+                order = request.env['sale.order'].sudo().browse(sale_order_id).exists()
+                sale_order_objs = request.env['sale.order'].sudo().search([("id", "=", int(sale_order_id))])
+                
+                if sale_order_objs:
+                    for sale_order_obj in sale_order_objs:
+                        sale_order_obj.sudo().write({'payment_upload': image_64_encode, 'payment_upload_name': name})
+                        
+                values = {
+                    'website_sale_order': order,
+                    'order': order,
+                }
+            else:
+                return request.redirect('/shop/confirmation')
         
         sale_sorder_id = request.session.get('sale_last_order_id')
         if sale_sorder_id:
