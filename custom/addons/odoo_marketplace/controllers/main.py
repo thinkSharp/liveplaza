@@ -40,10 +40,10 @@ import re
 from urllib.parse import urlencode
 
 
-PPG = 10000  # Products Per Page
+PPG = 20  # Products Per Page
 PPR = 4   # Products Per Row
 
-SPG = 1000  # Shops/sellers Per Page
+SPG = 20  # Shops/sellers Per Page
 SPR = 4   # Shops/sellers Per Row
 
 
@@ -364,11 +364,13 @@ class MarketplaceSellerProfile(http.Controller):
 
         product_count = request.env["product.template"].sudo().search_count([('sale_ok', '=', True), ('status', '=', "approved"), ("website_published", "=", True), ("id", "in", seller_product_ids.ids)])
         pager = request.website.pager(url=url, total=product_count, page=page, step=ppg, scope=7, url_args=post)
-        products = request.env["product.template"].sudo().search(
-            [('sale_ok', '=', True), ('status', '=', "approved"), ("website_published", "=", True),
-             ("id", "in", seller_product_ids.ids)])
+        # products = request.env["product.template"].sudo().search(
+        #     [('sale_ok', '=', True), ('status', '=', "approved"), ("website_published", "=", True),
+        #      ("id", "in", seller_product_ids.ids)])
 
-        # products = env['product.template'].sudo().search([('sale_ok', '=', True), ('status', '=', "approved"), ("website_published", "=", True), ("marketplace_seller_id", "=", seller.id)], limit=ppg, offset=pager['offset'], order='website_sequence desc')
+        products = env['product.template'].sudo().search([('sale_ok', '=', True), ('status', '=', "approved"),
+                  ("website_published", "=", True), ("marketplace_seller_id", "=", seller.id)],
+                                                     limit=ppg, offset=pager['offset'], order='website_sequence desc')
 
         from_currency = env['res.users'].sudo().browse(uid).company_id.currency_id
         to_currency = pricelist.currency_id
@@ -380,9 +382,9 @@ class MarketplaceSellerProfile(http.Controller):
             'seller': seller,
             'search': search,
             'rows': PPR,
-            'bins': TableCompute().process(products, 10000, PPR),
+            'bins': TableCompute().process(products, ppg, PPR),
             # 'bins': products,
-            'ppg': 10000,
+            'ppg': ppg,
             'ppr': PPR,
             'pager': pager,
             'products': products,
@@ -393,7 +395,14 @@ class MarketplaceSellerProfile(http.Controller):
             "already_recommend" : recommend_id.recommend_state if recommend_id else None,
             "product_count": int(product_count),
         }
-        return request.render("odoo_marketplace.mp_seller_profile", values)
+
+        if values.get("pager").get('page_end').get('num') < page:
+            return "none"
+        elif post.get("test"):
+            view = request.render("theme_xtremo.wk_lazy_list_product_item", values)
+            return view
+        else:
+            return request.render("odoo_marketplace.mp_seller_profile", values)
 
     @http.route('/seller/profile/recently-product/', type='json', auth="public", website=True)
     def seller_profile_recently_product(self, seller_id, page=0, category=None, search='', ppg=False, **post):
@@ -462,6 +471,7 @@ class MarketplaceSellerProfile(http.Controller):
             "pricelist": pricelist,
             'seller_obj': seller_obj,
         }
+        
         return request.env.ref('odoo_marketplace.shop_recently_product').render(values, engine='ir.qweb')
 
     @http.route(['/marketplace/image/<int:partner_id>/<model_name>/<field_name>'], type='http', auth="public", website=True)
@@ -498,7 +508,7 @@ class MarketplaceSellerProfile(http.Controller):
         return domain
 
     @http.route([
-        '/sellers/list/',
+        '/sellers/list',
         '/sellers/list/page/<int:page>',
     ], type='http', auth="public", website=True)
     def load_mp_all_seller(self, page=0, search='', ppg=False, **post):
@@ -526,21 +536,27 @@ class MarketplaceSellerProfile(http.Controller):
         seller_count = seller_obj.sudo().search_count(domain)
         total_active_seller = seller_obj.sudo().search_count(self._get_seller_search_domain(""))
         pager = request.website.pager(url=url, total=seller_count, page=page, step=ppg, scope=7, url_args=post)
-        seller_objs = seller_obj.sudo().search(domain, limit=False, offset=pager['offset'], order=self._get_search_order(post))
+        seller_objs = seller_obj.sudo().search(domain, limit=ppg, offset=pager['offset'], order=self._get_search_order(post))
 
         values = {
             'search': search,
             'pager': pager,
             'seller_objs': seller_objs,
             'search_count': seller_count,  # common for all searchbox
-            'bins': TableCompute().process(seller_objs, 1000, PPR),
-            'ppg': 1000,
+            'bins': TableCompute().process(seller_objs, ppg, PPR),
+            'ppg': ppg,
             'ppr': PPR,
             'rows': SPR,
             'keep': keep,
             'total_active_seller': total_active_seller,
         }
-        return request.render("odoo_marketplace.sellers_list", values)
+        if values.get("pager").get('page_end').get('num') < page:
+            return "none"
+        elif post.get("test"):
+            view = request.render("theme_xtremo.wk_lazy_list_sellers", values)
+            return view
+        else:
+            return request.render("odoo_marketplace.sellers_list", values)
 
     @http.route(['/seller/change_sequence'], type='json', auth="public")
     def change_sequence(self, id, sequence):

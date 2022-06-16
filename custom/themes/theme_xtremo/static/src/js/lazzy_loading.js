@@ -22,9 +22,9 @@ odoo.define('theme.xtremo.lazy_loading', function (require) {
               $ref.page += 1;
               var href = window.location.href;
               var replace="";
-              if(!href.includes('/shop')){
-                href+='shop';
-              }
+//              if(!href.includes('/shop')){
+//                href+='shop';
+//              }
               if (href.indexOf("?") > -1 && href.indexOf("?") > href.indexOf("#") && href.indexOf("#") > -1){
                 replace = href.substring(href.indexOf("#"),href.indexOf("?"));
               }else if(href.indexOf("#") > -1){
@@ -36,16 +36,27 @@ odoo.define('theme.xtremo.lazy_loading', function (require) {
               } else {
                 href = `${ href[0] }/page/${ $ref.page }?view=list`;
               }
-              $ref._callProducts(href, $ref);
+              if(href.includes('/sellers/list')){
+                $ref._callProducts(href, $ref, "seller");
+              }
+              else{
+                $ref._callProducts(href, $ref, "product");
+              }
+
       },
 
-      _callProducts: function (href, $ref) {
+      _callProducts: function (href, $ref, type) {
         $.get( href,{"test":href}, function (data){
           if (data == 'none') {
             var html = `<i class="fa fa-exclamation-triangle"></i><br/><strong>You've reached the end.</strong>`;
             $ref.$target.html(html);
           } else {
-            $("#products_grid tbody tr:last").after(data);
+            if(type == "seller"){
+                $("#sellers_grid tbody tr:last").after(data);
+            }
+            else{
+                $("#products_grid tbody tr:last").after(data);
+            }
             $ref._loader("none", "block");
           }
           $('.xt_product_count-to').text($('#products_grid .oe_product_cart').length);
