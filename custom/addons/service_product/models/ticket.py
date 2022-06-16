@@ -19,9 +19,18 @@ class Ticket(models.Model):
     customer = fields.Many2one("res.partner", string="Buyer", readonly=True)
     sale_order = fields.Many2one("sale.order", string="Sale Order", readonly=True)
     product = fields.Many2one("product.product", string="Product", readonly=True)
+
+
+
     # expiration =
     def action_validate(self):
         super(Ticket, self).write({'state': 'used'})
+
+    @api.depends('partner_id')
+    def _get_partner(self):
+        partner = self.env['res.users'].browse(self.env.uid).partner_id
+        for rec in self:
+            rec.partner_id = partner.id
 
 
 class SaleOrder(models.Model):

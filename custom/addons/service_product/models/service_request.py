@@ -10,6 +10,7 @@ class ProductTemplateAttributeLineInherit(models.Model):
 
 
 
+
 class ServiceProductRequest(models.Model):
     _name = 'service.request'
     _description = 'Service Product Requests from vendors to sale on website.'
@@ -92,6 +93,19 @@ class ServiceProductRequest(models.Model):
             '''
         return True
 
+
+    def action_reset_requested(self):
+        super(ServiceProductRequest, self).write({'state': 'requested'})
+
+        product_tmpl_ids_query = "select product_tmpl_id from service_request_product where product_request_id=%s"
+        self.env.cr.execute(product_tmpl_ids_query, (self.id,))
+        product_tmpl_ids = self.env.cr.fetchall()
+
+        for product_tmpl_id in product_tmpl_ids:
+            print('Product Delete..........................')
+            print('Product template Id', product_tmpl_id)
+            self.env["product.template"].search([('id', '=', product_tmpl_id)]).write({'status': 'pending'})
+
     @api.constrains('product_ids')
     def _check_product_ids(self):
         print(len(self.product_ids))
@@ -143,6 +157,7 @@ class ServiceProductRequest(models.Model):
             raise exceptions.ValidationError(_('Before Saving,\n' + string))
 
 
+
     @api.model
     def create(self, vals):
         if vals.get('name', _('New')) == _('New'):
@@ -188,9 +203,9 @@ class ServiceProduct(models.Model):
     product_request_id = fields.Many2one('service.request', ondelete='cascade')
     admin_request_id = fields.Many2one('service.admin.product.request', ondelete='cascade')
 
-    attribute_line_ids = fields.One2many('product.template.attribute.line', 'requested_product_tmpl_id', string='Variants')
+    attribute_line_ids = fields.One2many('product.template.attribute.line', 'requested_service_product_tmpl_id', string='Variants')
     product_variant_lines = fields.One2many('service.request.product.variant.lines', 'product_variant_id', string='Products', required=True)
-    seller = fields.Many2one("res.partner", string="Seller", default=lambda self: self.env.user.partner_id.id if self.env.user.partner_id and self.env.user.partner_id.seller else self.env['res.partner'])
+    seller = fields.Many2one("res.partner", string="Seller", default=lambda self: self.env.user.partner_id.id if self.env.user.partner_id and self.env.user.partner_id.seller else self.env['res.partner'], required=True)
 
     has_variant = fields.Selection([
         ('yes', 'Yes'),
@@ -384,7 +399,15 @@ class ServiceProduct(models.Model):
 
 
 
-
+    def unlink(self):
+        products = self.env['product.product'].search([('product_tmpl_id', '=', self.product_tmpl_id)])
+        for product in products:
+            stock_quants = self.env['stock.quant'].search([('product_id', '=', product.id)])
+            for stock_quant in stock_quants:
+                stock_quant.unlink()
+            product.unlink()
+        print("Unlinked......")
+        return super().unlink()
 
 
 
@@ -423,7 +446,7 @@ class AdminProductRequest(models.Model):
         ('draft', 'Draft'),
         ('approved', 'Approved'),
     ], string='Status', readonly=True, copy=False, index=True, default='draft')
-    seller = fields.Many2one("res.partner", string="Seller", default=lambda self: self.env.user.partner_id.id if self.env.user.partner_id and self.env.user.partner_id.seller else self.env['res.partner'])
+    seller = fields.Many2one("res.partner", string="Seller", default=lambda self: self.env.user.partner_id.id if self.env.user.partner_id and self.env.user.partner_id.seller else self.env['res.partner'], required=True)
 
     product_ids = fields.One2many('service.request.product', 'admin_request_id', string='Products')
     no_products = fields.Integer(readonly=True, default=0)

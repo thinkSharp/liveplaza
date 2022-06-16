@@ -4,7 +4,7 @@
         <field name="name">admin.product.request.list.view</field>
         <field name="model">product.request</field>
         <field name="arch" type="xml">
-            <tree export_xlsx="false" create="false" edit="false" default_order='name desc'>
+            <tree export_xlsx="false" create="false" edit="false" delete="false" default_order='name desc'>
                 <field name='name'/>
                 <field name="seller" string="Seller"/>
                 <field name="no_products"/>
@@ -18,10 +18,11 @@
         <field name="name">admin.product.request.form.view</field>
         <field name="model">product.request</field>
         <field name="arch" type="xml">
-            <form create="false" edit="false">
+            <form create="false" delete="false">
                 <sheet>
                     <button name="action_approve" type="object" class="oe_highlight" string="Approve" attrs="{'invisible':[('state', '!=', 'requested')]}" style="margin-bottom:15px;margin-right:15px"/>
                     <button name="action_reject" type="object"  string="Reject" attrs="{'invisible':[('state', '!=', 'requested')]}"  style="margin-bottom:15px;margin-right:15px"/>
+                    <button name="action_reset_requested" type="object"  class="oe_highlight" string="Reset to Requested" attrs="{'invisible':[('state', '!=', 'rejected')]}"  style="margin-bottom:15px;margin-right:15px"/>
                     <header>
                         <field name="state" widget="statusbar" statusbar_visible="draft,requested,approved,rejected"/>
                     </header>
@@ -30,7 +31,7 @@
                     </h1>
                     <group>
                         <group>
-                            <field name='seller' string="Seller"/>
+                            <field name='seller' string="Seller" readonly="1"/>
                         </group>
                         <group>
                             <field name='create_date' string='Request Date:'/>
@@ -39,7 +40,7 @@
                     <notebook>
                         <page string="Products">
                             <group>
-                                <field name="product_ids" attrs="{'readonly':[('state', '!=', 'draft')]}"/>
+                                <field name="product_ids" attrs="{'readonly':[('state', '!=', 'rejected')]}"/>
                             </group>
                         </page>
                     </notebook>
@@ -52,7 +53,7 @@
         <field name="name">product.request.list.view</field>
         <field name="model">product.request</field>
         <field name="arch" type="xml">
-            <tree default_order='name desc'>
+            <tree default_order='name desc' delete="false">
                 <field name='name'/>
                 <field name="seller" string="Seller" readonly="1"/>
                 <field name="no_products" string="Product Numbers"/>
@@ -66,7 +67,7 @@
         <field name="name">product.request.form.view</field>
         <field name="model">product.request</field>
         <field name="arch" type="xml">
-            <form>
+            <form delete="false">
                 <sheet>
                     <button name="action_request" type="object" class="oe_read_only oe_highlight" string="Request for Approval" attrs="{'invisible':[('state', '!=', 'draft')]}" style="margin-bottom:15px"/>
                     <header>
@@ -100,7 +101,7 @@
         <field name="name">admin.product.request.list.view</field>
         <field name="model">admin.product.request</field>
         <field name="arch" type="xml">
-            <tree default_order='name desc'>
+            <tree default_order='name desc' delete="false">
                 <field name='name'/>
                 <field name="seller" string="Seller" readonly="1"/>
                 <field name="no_products" string="Product Numbers"/>
@@ -114,7 +115,7 @@
         <field name="name">admin.product.request.form.view</field>
         <field name="model">admin.product.request</field>
         <field name="arch" type="xml">
-            <form>
+            <form delete="false">
 
                 <sheet>
                      <button name="action_approve" type="object" class="oe_read_only oe_highlight" string="Approve" attrs="{'invisible':[('state', '=', 'approved')]}" style="margin-bottom:15px"/>
