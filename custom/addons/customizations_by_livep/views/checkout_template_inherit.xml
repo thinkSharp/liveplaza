@@ -90,7 +90,7 @@
 
 <!--  Load More Button for seller/profile page  -->
     <template id="seller_profile_load_more_btn" inherit_id="odoo_marketplace.mp_seller_profile">
-        <xpath expr="//div[hasclass('products_pager')][last()]" position="replace">
+        <xpath expr="//t[@t-call='odoo_marketplace.shop_recently_product']" position="after">
           <div t-if="bins" class="products_pager form-inline justify-content-center mt-3 mb-3">
             <div id="wk_loader" t-att-category="category.id if category else 'none'"><span />
                 <button
