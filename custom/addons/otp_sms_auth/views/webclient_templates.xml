@@ -98,9 +98,9 @@
 
 <!--    reset password form - Show successful message on same page-->
     <template id="reset_password_inherit" inherit_id="auth_signup.reset_password">
-        <xpath expr="//label[@for='login']" position="replace">
+<!--         <xpath expr="//label[@for='login']" position="replace">
             <label for="login" class="col-form-label">Email or Phone</label>
-        </xpath>
+        </xpath> -->
         <xpath expr="//div[@t-if='message']" position="replace">
             <p class="alert alert-success" t-if="message" role="status"
                style="max-width: 40%; text-align: center; margin: auto; margin-top: 20px; color: #007bff;">
@@ -108,9 +108,9 @@
             </p>
             <a class="btn btn-link float-right" role="button" style="display: none;"></a>
         </xpath>
-        <xpath expr="//form[@class='oe_reset_password_form']" position="attributes">
+<!--         <xpath expr="//form[@class='oe_reset_password_form']" position="attributes">
             <attribute name="t-if"></attribute>
-        </xpath>
+        </xpath> -->
     </template>
 
 
