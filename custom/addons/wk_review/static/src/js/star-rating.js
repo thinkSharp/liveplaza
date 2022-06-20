@@ -233,6 +233,7 @@
             addCss($el, 'form-control hide');
             self.$clearElement = isEmpty(options.clearElement) ? null : $(options.clearElement);
             self.$captionElement = isEmpty(options.captionElement) ? null : $(options.captionElement);
+
             if (self.$rating === undefined && self.$container === undefined) {
                 self.$rating = $(document.createElement("div")).html('<div class="rating-stars"></div>');
                 self.$container = $(document.createElement("div"));
@@ -275,8 +276,12 @@
             } else {
                 css += isEmpty(self.ratingClass) ? ' rating-uni' : ' ' + self.ratingClass;
             }
+            var href = window.location.href;
             self.$rating.attr('class', css);
-            self.$rating.attr('data-content', stars);
+//            self.$rating.attr('style', 'display: none;');
+            if(href.includes('/seller/profile')){
+                self.$rating.attr('data-content', stars);
+            }
             self.$stars.attr('data-content', stars);
             css = self.rtl ? 'star-rating-rtl' : 'star-rating';
             self.$container.attr('class', css + ' rating-' + self.size);
