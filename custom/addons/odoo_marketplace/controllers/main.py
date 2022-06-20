@@ -992,7 +992,7 @@ class SellerReview(http.Controller):
     def check_seller_review(self, seller_id, **kwargs):
         return_message = ""
         sol_objs = request.env["sale.order.line"].sudo().search(
-            [("product_id.marketplace_seller_id", "=", seller_id), ("order_id.partner_id", "=", request.env.user.partner_id.id), ("order_id.state", "in", ["sale", "done"])])
+            [("product_id.marketplace_seller_id", "=", seller_id), ("order_id.partner_id", "=", request.env.user.partner_id.id), ("order_id.state", "not in", ["draft", "sent", "cancel"])])
         for_seller_total_review_obj = request.env["seller.review"].sudo().search(
             [('marketplace_seller_id', '=', seller_id), ('partner_id', '=', request.env.user.partner_id.id)])
 

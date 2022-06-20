@@ -415,7 +415,7 @@
 					<div class="wk_ribbon badge badge-danger p-1">Best Seller</div>
 				</div>
 				<div class="row col-xs-12 ml0 mr0" style="padding:10px;">
-					<div class="col-xs-5" style="padding:0px">
+					<div class="col-xs-5" style="padding:0px; margin-right: 10%; margin-bottom: 3%">
 						<div style="">
 							<a itemprop="url" t-attf-href="/seller/profile/#{seller_obj.sudo().url_handler if seller_obj.sudo().url_handler else seller_obj.sudo().id}">
     							<span
