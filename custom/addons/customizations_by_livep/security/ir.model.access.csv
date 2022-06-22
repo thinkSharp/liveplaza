@@ -9,3 +9,4 @@ feeling_operator,feeling.products.operator,model_feeling_products,access_rights_
 feeling_user,feeling.products.user,model_feeling_products,base.group_user,1,0,0,0
 feeling_user,feeling.products.user,model_feeling_products,base.group_portal,1,0,0,0
 feeling_user,feeling.products.user,model_feeling_products,,1,0,0,0
+feeling_manager,feeling.products.manager,model_feeling_products,odoo_marketplace.marketplace_manager_group,1,1,1,1
