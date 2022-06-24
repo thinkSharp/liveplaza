@@ -92,9 +92,9 @@
 							          </ul>
 							        </div>
 							      </div>
-										<!-- <div>
+										<div>
 											<canvas id="wk_charts"></canvas>
-										</div> -->
+										</div>
 									</div>
 
 
@@ -110,7 +110,7 @@
               <t t-if="total_viewed &lt; len(total_reviews)">
               	<div class="row">
                 	<div class="col-md-12 col-sm-12 col-xs-12">
-                		<button id="morebtn" class="btn btn-load-more btn-lg btn-block load-more">Load More...</button>
+                		<button id="morebtn" class="btn btn-load-more btn-lg btn-block load-more">See More ...</button>
                 	</div>
               	</div>
               </t>
@@ -175,20 +175,20 @@
 						</div>
         	</xpath>
 		</template>
-		<template id="product_review" inherit_id="website_sale.products_item" active="True" customize_show="True" name="Product Review">
-	        <xpath expr="//div[hasclass('product_price')]" position="after" >
-	        	<div class="tot-rating" data-toggle="popover" style="width:250px;">
-	        		<input type='hidden'  name="review_id" t-att-value="product.avg_review()" id="wk_rating_star"/>
-	        		<input type='hidden' name="user_reviews" t-att-value="len(product.user_review)"/>
-	        		<t t-set="user_reviews" t-value="len(product.user_review)"/>
-	        		<t t-set="val" t-value="product.avg_review()"/>
-		 			<t t-if="val != 0" >
-				    	<input id="input-5a" class="rating form-control d-none"  t-attf-value="#{product.avg_review()}" data-show-clear="false" data-show-caption="false" data-min="0" data-max="5" data-step="0.1" data-readonly="true" data-size="xxs" data-symbol="&#xf005;" data-glyphicon="false" data-rating-class="rating-fa"/>
-				    	<span>(<t t-esc="user_reviews"/> Ratings)</span>
-					</t>
-				</div>
-			</xpath>
-      	</template>
+<!--		<template id="product_review" inherit_id="website_sale.products_item" active="True" customize_show="True" name="Product Review">-->
+<!--	        <xpath expr="//div[hasclass('product_price')]" position="after" >-->
+<!--	        	<div class="tot-rating" data-toggle="popover" style="width:250px;">-->
+<!--	        		<input type='hidden'  name="review_id" t-att-value="product.avg_review()" id="wk_rating_star"/>-->
+<!--	        		<input type='hidden' name="user_reviews" t-att-value="len(product.user_review)"/>-->
+<!--	        		<t t-set="user_reviews" t-value="len(product.user_review)"/>-->
+<!--	        		<t t-set="val" t-value="product.avg_review()"/>-->
+<!--		 			<t t-if="val != 0" >-->
+<!--				    	<input id="input-5a" class="rating form-control d-none"  t-attf-value="#{product.avg_review()}" data-show-clear="false" data-show-caption="false" data-min="0" data-max="5" data-step="0.1" data-readonly="true" data-size="xxs" data-symbol="&#xf005;" data-glyphicon="false" data-rating-class="rating-fa"/>-->
+<!--				    	<span>(<t t-esc="user_reviews"/> Ratings)</span>-->
+<!--					</t>-->
+<!--				</div>-->
+<!--			</xpath>-->
+<!--      	</template>-->
 
       	<template id="wk_review_template">
 			<t t-foreach="review_ids" t-as="message">
@@ -235,25 +235,26 @@
 											<span class="col-md-2 col-xs-4 rating-tag" style="padding-right:0px !important;">
 												Rating:  	<span class="user-rating"><t t-esc="message.rating"/>/5</span>
 											</span>
-											<div class="col-md-2 col-xs-8" style="padding-right:0px !important;">
-												<input
-																id="star-readonly"
-																class="rating form-control d-none"
-																t-attf-value="#{message.rating}"
-																data-show-clear="false"
-																data-show-caption="false"
-																data-min="0"
-																data-max="5"
-																data-step="0.1"
-																data-readonly="true"
-																data-size="xs"
-																data-symbol="&#xf005;"
-																data-glyphicon="false"
-																data-rating-class="rating-fa"/>
+											<!-- Product Review List-->
+											<div class="th_product_rating" style="margin-right: 1rem; margin-top: 0.5rem;">
+												<t t-set="res" t-value="request.env['product.template'].get_each_product_rating(message.rating)"/>
+												<div class="o_website_rating_static">
+													<t t-foreach="range(0, res.get('val_integer',0))" t-as="num">
+														<i class="fa fa-star" role="img" aria-label="One star" title="One star"></i>
+													</t>
+													<t t-if="res.get('val_decimal')">
+														<i class="fa fa-star-half-o" role="img" aria-label="Half a star" title="Half a star"></i>
+													</t>
+													<t t-foreach="range(0, res.get('empty_star',0))" t-as="num" role="img" t-attf-aria-label="#{empty_star} on 5" t-attf-title="#{empty_star} on 5">
+														<i class="fa fa-star-o"></i>
+													</t>
+											   </div>
 											</div>
+
 											<div class="col-md-6 d-none d-sm-block" style="padding-right:0px !important;padding-left:0px !important; margin-top:6px;">
 												<span class="fa fa-clock-o"/>
-												<abbr class="timeago review-time-ago" t-att-title="product.get_review_current_time(message.id)"></abbr>
+												<abbr class=" review-time-ago"><t t-esc="request.env['product.template'].get_product_review_current_time(message.id)"/> </abbr>
+<!--												<abbr class="timeago review-time-ago" t-att-title="product.get_review_current_time(message.id)"></abbr>-->
 											</div>
 										</div>
 										<div class="row">
