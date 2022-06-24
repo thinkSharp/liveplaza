@@ -16,6 +16,7 @@
 #################################################################################
 # Resolve Conflict Production Server
 
+import math
 from odoo import models, fields, api, _
 from odoo.exceptions import UserError, ValidationError
 from random import randint
@@ -106,6 +107,43 @@ class SellerReview(models.Model):
     def _get_default_color(self):
         color_index = randint(0, 20)
         return colors_dict[color_index]
+
+    @api.model
+    def _seller_avg_rating(self):
+        total_rating = 0
+        for review in self:
+            total_rating += review.rating
+
+        print("total rating = ", total_rating, "   total review = ", len(self))
+        if(len(self) <= 0):
+            return 0.0
+
+        avg_rating = float(total_rating / len(self))
+        return avg_rating
+
+    @api.model
+    def get_seller_rating(self, seller):
+        res = {}
+
+        if seller:
+            val = self._seller_avg_rating()
+            decimal = (val - math.floor(val))
+            decimal = round(decimal, 1)
+            if decimal == .5:
+                val = math.floor(val) + .5
+            elif (decimal < .3) or (decimal > .7):
+                val = round(val)
+            else:
+                val = math.floor(val) + .5
+            res.update({
+                'val_integer': math.floor(val),
+                'val_decimal': val - math.floor(val),
+                'empty_star': 5 - (math.floor(val) + math.ceil(val - math.floor(val))),
+                # 'count': seller.total_start_rating_count
+            })
+
+        return res
+
 
     title = fields.Char(string='Title', translate=True, required=True, copy=False)
     active = fields.Boolean(string="Active", default=True)

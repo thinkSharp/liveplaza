@@ -20,6 +20,9 @@ from odoo import tools, api
 from datetime import datetime, timedelta
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
+import math
+import time
+import datetime
 
 
 class ProductTemplate(models.Model):
@@ -54,15 +57,36 @@ class ProductTemplate(models.Model):
             review_ids = self.env["user.review"].search(
                 [('template_id', '=', product_id), ('website_published', '=', True)]).mapped("rating")
             vals = {
-                "1":review_ids.count(1),
-                "2":review_ids.count(2),
-                "3":review_ids.count(3),
-                "4":review_ids.count(4),
-                "5":review_ids.count(5),
+                "1": review_ids.count(1),
+                "2": review_ids.count(2),
+                "3": review_ids.count(3),
+                "4": review_ids.count(4),
+                "5": review_ids.count(5),
             }
             return vals
         else:
             return {}
+
+    def get_each_product_rating(self, rating):
+        res = {}
+
+        if rating:
+            val = rating
+            decimal = (val - math.floor(val))
+            decimal = round(decimal, 1)
+            if decimal == .5:
+                val = math.floor(val) + .5
+            elif (decimal < .3) or (decimal > .7):
+                val = round(val)
+            else:
+                val = math.floor(val) + .5
+            res.update({
+                'val_integer': math.floor(val),
+                'val_decimal': val - math.floor(val),
+                'empty_star': 5 - (math.floor(val) + math.ceil(val - math.floor(val))),
+                # 'count': seller.total_start_rating_count
+            })
+            return res
 
     def fetch_active_review2(self, product_id, offset=0, limit=False):
         review_ids = self.env["user.review"].search(
@@ -116,11 +140,59 @@ class ProductTemplate(models.Model):
 
     @api.model
     def get_review_current_time(self, review_id):
+        print("In get_review_current_time")
         review_pool = self.env["user.review"]
         if review_id:
             review_obj = review_pool.browse(review_id)
             iso_format = review_obj.create_date.strftime('%Y-%m-%dT%H:%M:%SZ')
             return iso_format
+
+    def get_product_review_current_time(self, review_id):
+        review_pool = self.env["user.review"]
+        if review_id:
+            review_obj = review_pool.browse(review_id)
+            today = datetime.datetime.now()
+            iso_format = review_obj.create_date.strftime('%Y-%m-%dT%H:%M:%SZ')
+            print("iso_format = ", iso_format)
+
+            timestamp_obj = datetime.datetime.strptime(iso_format,
+                                                       "%Y-%m-%dT%H:%M:%SZ")
+
+            time_dif = today - timestamp_obj
+            seconds = int(time_dif.total_seconds())
+            days = time_dif.days
+
+            hours = (seconds // 3600)
+            minutes = ((seconds - hours * 3600) // 60)
+            years = days // 365
+            months = (days - years * 365) // 31
+
+            time_ago = ""
+
+            if days == 0:
+                if hours > 0:
+                    time_ago += str(hours) + " hour" + self.check_singular(hours) + " ago"
+                else:
+                    if minutes == 0:
+                        time_ago += "Just Now"
+                    else:
+                        time_ago += str(minutes) + " minute" + self.check_singular(minutes) + " ago"
+            else:
+                if years > 0:
+                    time_ago += str(years) + " year" + self.check_singular(years)
+                elif months > 0:
+                    time_ago += str(months) + " month" + self.check_singular(months)
+                else:
+                    time_ago += str(days) + " day" + self.check_singular(days)
+                time_ago += " ago"
+
+            return time_ago
+
+    def check_singular(self, number):
+        if number > 1:
+            return 's'
+        else:
+            return''
 
     def action_avg_review_fun(self):
         self.ensure_one()
@@ -246,7 +318,7 @@ class UserReview(models.Model):
             'base', 'static/img', 'company_image.png' if is_company else 'avatar.png')
         with open(img_path, 'rb') as f:
             image = f.read()
-        return tools.image_process(base64.b64encode(image),size=(1024, 1024),colorize=True)
+        return tools.image_process(base64.b64encode(image), size=(1024, 1024), colorize=True)
 
     title = fields.Char(string='Title', required=True)
     active = fields.Boolean(string="Active", default=True)
@@ -318,7 +390,7 @@ class UserReview(models.Model):
 class ReviewLikeDislike(models.Model):
     _name = "review.like.dislike"
     _order = "create_date DESC"
-    _description ="Review Like Dislike"
+    _description = "Review Like Dislike"
 
     customer_id = fields.Many2one('res.users', string='User')
     name = fields.Char(related='customer_id.name', string="Customer")

@@ -418,8 +418,14 @@ section#product_full_spec{
   #morebtn{
     color: $th-color;
     background-color: white;
-    text-align: left;
-    width: 10%;
+    text-align: center;
+    width: 80%;
+    margin: 0 auto;
+    margin-bottom: 5%;
+    &:hover{
+        color: white;
+        background-color: $th-color;
+    }
     @media #{$mobile}{
       width: 100%;
       border: 0px solid white;
@@ -441,7 +447,7 @@ section#product_full_spec{
   }
   #review-list{
     padding-left: 0px;
-    margin-bottom: 0px;
+    margin-bottom: 1 rem;
   }
   #display-all-review{
     margin-top: 16px !important;
@@ -466,6 +472,7 @@ section#product_full_spec{
       }
       &#all-review{
         border-top: 1px solid $border;
+        margin-bottom: 10px;
         .review_div{
           .review-by-name-mobile{
             color: $mn-text;

@@ -101,14 +101,16 @@
             <t t-foreach="range(0, res.get('empty_star',0))" t-as="num" role="img" t-attf-aria-label="#{empty_star} on 5" t-attf-title="#{empty_star} on 5">
               <i class="fa fa-star-o"></i>
             </t>
-            <span t-if="show_review_tag" class="rating_val"><b> ( <t t-esc="res.get('count',0)"/> Reviews )</b></span>
+            <span t-if="show_review_tag" class="rating_val"><b> ( <t t-esc="len(product.user_review)"/> Ratings )</b></span>
           </div>
         </div>
       </template>
 
       <template id="xtremo_product_rating_custom" customize_show="True" active="False" inherit_id="website_sale.products_item" name="Shop Products Rating">
         <xpath expr="//form//div[hasclass('product_price')]" position="after">
-          <t t-call="xtremo_base.theme_xtremo_product_rating_star" />
+          <t t-call="xtremo_base.theme_xtremo_product_rating_star">
+            <t t-set="show_review_tag" t-value="True" />
+          </t>
         </xpath>
       </template>
 
