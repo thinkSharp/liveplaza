@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 	<data>
-		<template id="daily_deals_homepage_assets_frontend" inherit_id="website.assets_frontend">
+		<!--<template id="daily_deals_homepage_assets_frontend" inherit_id="website.assets_frontend">
 			<xpath expr="." position="inside">
 
 				<link rel="stylesheet" href="/customizations_by_livep/static/src/OwlCarousel2/dist/assets/owl.carousel.css"/>
@@ -11,7 +11,7 @@
 				<link rel="stylesheet" href="/customizations_by_livep/static/src/scss/website_daily_deals.scss"/>
 				<script type="text/javascript" src="/customizations_by_livep/static/src/js/daily_deals.js"></script>
 			</xpath>
-		</template>
+		</template>-->
 
         <template id="homepage_flash_sales_displays" name="Flash Sales on Homepage" active="True" customize_show="True">
               <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
