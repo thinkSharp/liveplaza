@@ -1,6 +1,8 @@
-sudo systemctl stop liveplaza.service
+sudo kill -9 $(sudo lsof -t -i:80)
 
 sudo service nginx stop
+
+sudo systemctl stop liveplaza.service
 
 sudo rm -rf /home/ec2-user/liveplaza
 

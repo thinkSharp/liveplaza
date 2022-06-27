@@ -19,7 +19,7 @@
         'website_theme_install',
         'website_sale_wishlist',
         'website_sale_comparison',
-        'xtremo_base'
+        'xtremo_base','customizations_by_livep'
     ],
     'data': [
 #         'static/src/xml/xtremo_dynamic_modal.xml',

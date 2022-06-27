@@ -179,6 +179,9 @@ body {
 .fa {
     color: $primaryColor !important;
 }
+nav ul li a .fa {
+    color: white !important;
+}
 .o_form_uri, .oe_kanban_action_a {
     color: $primaryColor_trans !important;
     span {

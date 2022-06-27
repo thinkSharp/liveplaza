@@ -408,6 +408,7 @@
 			</t>
 		</template>
 
+
         <!-- Seller item -->
 		<template id="seller_list_item" name="Seller List Item">
 			<div itemscope="itemscope">
@@ -415,7 +416,7 @@
 					<div class="wk_ribbon badge badge-danger p-1">Best Seller</div>
 				</div>
 				<div class="row col-xs-12 ml0 mr0" style="padding:10px;">
-					<div class="col-xs-5" style="padding:0px">
+					<div class="col-xs-5" style="padding:0px; margin-right: 10%; margin-bottom: 3%">
 						<div style="">
 							<a itemprop="url" t-attf-href="/seller/profile/#{seller_obj.sudo().url_handler if seller_obj.sudo().url_handler else seller_obj.sudo().id}">
     							<span
@@ -508,6 +509,7 @@
 							<div class="hidden" id="seller_grid_before"></div>
 							<div class="col" id="sellers_grid">
 								<div t-if="bins" class="o_wsale_products_grid_table_wrapper">
+
 									<table class="table table-borderless m-0" t-att-data-ppg="ppg" t-att-data-ppr="ppr"
 										id="seller_table" style="table-layout:fixed;">
 	                                    <colgroup t-ignore="true">
@@ -515,9 +517,12 @@
 	                                    </colgroup>
 										<tbody>
 											<tr t-foreach="bins" t-as="tr_sellers">
+
 												<t t-foreach="tr_sellers" t-as="td_seller">
 													<t t-if="td_seller">
+
 														<t t-set="seller_obj" t-value="td_seller['product']"/>
+
 														<td
 															t-att-seller_id="seller_obj.id"
 															t-att-colspan="td_seller['x'] != 1 and td_seller['x']"
@@ -559,20 +564,21 @@
 				<div class="" style="padding-right: 0px;">
 					<t t-set="val" t-value="seller_obj.avg_review()"/>
 					<t t-set="seller_reviews" t-value="len(seller_obj.fetch_active_review(seller_obj.sudo().id))"/>
-					<input
-						id="input-5a"
-						class="rating form-control d-none col-md-2"
-						t-attf-value="#{seller_obj.avg_review()}"
-						data-show-clear="false"
-						data-show-caption="false"
-						data-min="0"
-						data-max="5"
-						data-step="0.1"
-						data-readonly="true"
-						data-size="xxs"
-						data-symbol="&#xf005;"
-						data-glyphicon="false"
-						data-rating-class="rating-fa"/>
+					<t t-set="seller_rating" t-value="request.env['seller.review'].sudo().search([('marketplace_seller_id', '=', seller_obj.id)])" />
+					<div class="th_product_rating">
+						<t t-set="res" t-value="seller_rating.get_seller_rating(seller_obj)"/>
+						<div class="o_website_rating_static">
+							<t t-foreach="range(0, res.get('val_integer',0))" t-as="num">
+								<i class="fa fa-star" role="img" aria-label="One star" title="One star"></i>
+							</t>
+							<t t-if="res.get('val_decimal')">
+								<i class="fa fa-star-half-o" role="img" aria-label="Half a star" title="Half a star"></i>
+							</t>
+							<t t-foreach="range(0, res.get('empty_star',0))" t-as="num" role="img" t-attf-aria-label="#{empty_star} on 5" t-attf-title="#{empty_star} on 5">
+								<i class="fa fa-star-o"></i>
+							</t>
+					    </div>
+					</div>
 					<span style="color: #777777;">(<t t-esc="seller_reviews"/>)</span>
 				</div>
 			</xpath>
