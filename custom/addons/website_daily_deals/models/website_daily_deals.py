@@ -78,8 +78,8 @@ class WebsiteDeals(models.Model):
 
 	@api.model
 	def create(self,vals):
-		if not vals.get('banner'):
-			raise UserError('No banner chosen, please choose a banner before saving.')
+		#if not vals.get('banner'):
+		#	raise UserError('No banner chosen, please choose a banner before saving.')
 		return super(WebsiteDeals , self).create(vals)
 
 	@api.model

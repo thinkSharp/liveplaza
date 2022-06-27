@@ -94,43 +94,47 @@
 
 										</div>
 										<!-- Banner  -->
-										<div class="deal_banner_description row mt24 mb8 m-0">
-											<div t-attf-class="d_banner col-md-7 col-12 p-0 #{'banner_icon' if not deal.is_deal_banner_shown() else''}">
-												<a t-if="deal.is_deal_banner_shown()">
-													<span t-field="deal.banner" t-options='{"widget": "image"}'/>
-												</a>
-											</div>
-											<div class="d_description_div col-md-5 col-12">
-												<div>
-													<h4 class="m-0" t-field="deal.title"></h4>
-													<div class="description">
-														<span class="text-muted" t-field="deal.description"/>
-														<span t-if="msg_after_exp" t-esc="msg_after_exp"/>
+										<div t-if="deal.banner">
+											<div class="deal_banner_description row mt24 mb8 m-0">
+												<div t-attf-class="d_banner col-md-7 col-12 p-0 #{'banner_icon' if not deal.is_deal_banner_shown() else''}">
+													<a t-if="deal.is_deal_banner_shown()">
+														<span t-field="deal.banner" t-options='{"widget": "image"}'/>
+													</a>
+												</div>
+												<div class="d_description_div col-md-5 col-12">
+													<div>
+														<h4 class="m-0" t-field="deal.title"></h4>
+														<div class="description">
+															<span class="text-muted" t-field="deal.description"/>
+															<span t-if="msg_after_exp" t-esc="msg_after_exp"/>
+														</div>
 													</div>
 												</div>
 											</div>
 										</div>
 
 										<!-- Products  -->
-										<t t-set="display_as" t-value="deal.get_display_products_as()"/>
-										<div class="deal_products" t-if="deal.pricelist_items and deal.is_deal_product_shown()">
-											<!-- Slider View  -->
-											<div t-if="display_as and display_as=='slider'" class="deals_owl_carousel owl-carousel">
-												<div t-foreach="deal.pricelist_items" t-as="deal_item" >
-													<t t-call="website_daily_deals.deal_product_template"/>
+										<div t-if="deal.state!='expired'">
+											<t t-set="display_as" t-value="deal.get_display_products_as()"/>
+											<div class="deal_products" t-if="deal.pricelist_items and deal.is_deal_product_shown()">
+												<!-- Slider View  -->
+												<div t-if="display_as and display_as=='slider'" class="deals_owl_carousel owl-carousel">
+													<div t-foreach="deal.pricelist_items" t-as="deal_item" >
+														<t t-call="website_daily_deals.deal_product_template"/>
+													</div>
+												</div>
+												<!-- Grid View -->
+												<div  t-if="display_as and display_as=='grid'" class="deals_grid_view row m-0">
+													<t t-foreach="deal.pricelist_items" t-as="deal_item">
+														<t t-call="website_daily_deals.deal_product_template"/>
+													</t>
 												</div>
 											</div>
-											<!-- Grid View -->
-											<div  t-if="display_as and display_as=='grid'" class="deals_grid_view row m-0">
-												<t t-foreach="deal.pricelist_items" t-as="deal_item">
-													<t t-call="website_daily_deals.deal_product_template"/>
-												</t>
+											<div t-else="">
+												<center>
+													<h1> There is no product set for this deal. </h1>
+												</center>
 											</div>
-										</div>
-										<div t-else="">
-											<center>
-												<h1> There is no product set for this deal. </h1>
-											</center>
 										</div>
 										<t t-set="msg_before_exp" t-value="deal.get_message_before_expiry_and_offset()['message']"/>
 										<div class="row d-flex align-items justify-content-center m-0" t-if="msg_before_exp">
@@ -181,5 +185,6 @@
 				</div>
 			</div>
 		</template>
+
 	</data>
 </odoo>

@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*- --
+# -*- coding: utf-8 -*-
 
 {
     'name' : 'Customizations by LiveP',
@@ -12,13 +12,15 @@
                 'odoo_marketplace', 
                 'marketplace_facebook_live_stream',
                 'payment',
-                'website'
+                'website',
+                'website_daily_deals'
                 ],
     'data' : [
         'security/ir.model.access.csv',
         'views/seller_views.xml',
         'views/township_views.xml',
         'views/website_templates.xml',
+        'views/daily_deals_homepage.xml',
         'views/delivery_carrier_views.xml',
         'views/sale_views.xml',
         'views/current_live_stream_inherit.xml',
@@ -28,6 +30,7 @@
         'views/signup_form_inherit.xml',
         'views/feeling_products.xml',
         'views/feeling_products_web_view.xml',
+        'views/select_checkout_products.xml',
         'views/xtremo_copy.xml',
         'data/data.xml'
     ],
