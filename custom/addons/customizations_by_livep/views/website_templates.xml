@@ -387,5 +387,15 @@
 			</div>
 		</template>
 
+        <template id="localization_meta_tag" inherit_id="web.layout" name="Web layout">
+            <xpath expr="html/head" position="inside">
+
+                    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"/>
+
+
+            </xpath>
+        </template>
+
+
     </data>
 </odoo>
