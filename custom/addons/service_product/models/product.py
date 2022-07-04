@@ -5,6 +5,15 @@ class ProductInherit(models.Model):
     _inherit = 'product.template'
 
     is_service = fields.Boolean(string="Service Type", default=False)
+    expiration_policy = state = fields.Selection([
+        ('0', 'No expired'),
+        ('1', '1 day'),
+        ('7', '1 week'),
+        ('30', '1 month'),
+        ('90', '3 months'),
+        ('180', '6 months'),
+        ('365', '1 year'),
+    ], string='Expiration Policy', default='0')
 
     def delete_discard_products(self):
         pending_products = self.env["product.template"].search([('status', '=', "draft"), ('type', '=', "product")])

@@ -11,6 +11,7 @@
               Order number: ${object.sale_order.name}
               Order date: ${format_datetime(object.sale_order.date_order, tz=user.tz, dt_format='M/d/Y, H:mm:ss')}
               Code: ${object.ticket_code}
+              Expiration Date: ${object.expiration_date}
               Product:  ${object.product.name}
               Shop: ${object.seller.name}
                ]]>
