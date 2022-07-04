@@ -202,7 +202,15 @@ class ServiceProduct(models.Model):
     auto_publish = fields.Boolean(readonly=True, default=True)
     product_request_id = fields.Many2one('service.request', ondelete='cascade')
     admin_request_id = fields.Many2one('service.admin.product.request', ondelete='cascade')
-
+    expiration_policy = state = fields.Selection([
+        ('0', 'No expired'),
+        ('1', '1 day'),
+        ('7', '1 week'),
+        ('30', '1 month'),
+        ('90', '3 months'),
+        ('180', '6 months'),
+        ('365', '1 year'),
+    ], string='Expiration Policy', default='0')
     attribute_line_ids = fields.One2many('product.template.attribute.line', 'requested_service_product_tmpl_id', string='Variants')
     product_variant_lines = fields.One2many('service.request.product.variant.lines', 'product_variant_id', string='Products', required=True)
     seller = fields.Many2one("res.partner", string="Seller", default=lambda self: self.env.user.partner_id.id if self.env.user.partner_id and self.env.user.partner_id.seller else self.env['res.partner'], required=True)
@@ -260,6 +268,7 @@ class ServiceProduct(models.Model):
                     'returnable': line.returnable,
                     'auto_publish': line.auto_publish,
                     'product_request_id': line.product_request_id,
+
                 }
                 # print('action_variant_vals', vals)
 
@@ -278,7 +287,8 @@ class ServiceProduct(models.Model):
                     'invoice_policy': 'order',
                     'alternative_product_ids': vals['alternative'],
                     'inventory_availability': 'always',
-                    'is_service': True
+                    'is_service': True,
+                    'expiration_policy': line.expiration_policy,
 
                 }
 
