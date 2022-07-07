@@ -47,7 +47,7 @@
                                         </div>
 
                                         <h6 class="deal_seller_name" style="margin-left: 1rem;">&#032; SOLD BY &#032;
-                                                    <span> <i class="fa fa-user" /> &#032; <t t-esc="deal.userName"/> </span>  </h6>
+                                                    <span> <i class="fa fa-user" /> &#032; <t t-esc="deal.seller_name"/> </span>  </h6>
                                         <!-- Banner  -->
                                         <div t-if="deal.banner">
                                             <div class="deal_banner_description row mt24 mb8 m-0">
