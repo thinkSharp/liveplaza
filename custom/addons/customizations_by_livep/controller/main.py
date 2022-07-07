@@ -204,6 +204,7 @@ class WebsiteSale (WebsiteSale):
         values = {
             'feeling': feeling,
             'daily_deals': request.env['website.deals'].sudo().get_valid_deals(),
+            'homepage_deals': request.env['website.deals'].sudo().get_homepage_deals(),
         }
         return request.render('customizations_by_livep.homepage', values)
 
