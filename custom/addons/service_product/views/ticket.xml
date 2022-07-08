@@ -6,21 +6,28 @@
         <field name="model">ticket</field>
         <field name="arch" type="xml">
             <tree  create="false">
-                <field name="ticket_code" string="Code"/>
+                <field name="mobile"/>
                 <field name="expiration_date"/>
                 <field name="state"/>
                 <field name="seller"/>
                 <field name="customer"/>
-                <field name="sale_order"/>
-                <field name="product"/>
-                <field name="resent_times"/>
-
+                <field name="product" string="Service Product"/>
             </tree>
         </field>
     </record>
 
-    <record id='ticket_form_view' model='ir.ui.view'>
-        <field name="name">ticket.form.view</field>
+    <record id='ticket_search_view' model='ir.ui.view'>
+        <field name="name">ticket.search.view</field>
+        <field name="model">ticket</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="mobile"/>
+            </search>
+        </field>
+    </record>
+
+    <record id='ticket_search_form_view' model='ir.ui.view'>
+        <field name="name">ticket.search.form.view</field>
         <field name="model">ticket</field>
         <field name="arch" type="xml">
             <form  create="false" edit="false">
@@ -33,11 +40,12 @@
                         <field name="state" widget="statusbar" statusbar_visible="active,used,expired"/>
                     </header>
                     <h1>
-                        <field name='ticket_code' string="Code"/>
+                        <field name='ticket_code' string="Service Code"/>
                     </h1>
                     <group>
                         <group>
                             <field name="expiration_date"/>
+                            <field name="mobile"/>
                         </group>
                         <group>
                             <field name="seller"/>
@@ -46,7 +54,7 @@
 
                         <group>
                             <field name="sale_order"/>
-                            <field name="product"/>
+                            <field name="product" string="Service Product"/>
                         </group>
 
                          <group>
@@ -59,6 +67,58 @@
         </field>
     </record>
 
+     <record id='ticket_form_view' model='ir.ui.view'>
+        <field name="name">ticket.form.view</field>
+        <field name="model">ticket</field>
+        <field name="arch" type="xml">
+            <form  create="false" edit="false">
+                <sheet>
+                    <button name="action_resend" type="object" class="oe_read_only oe_highlight" string="Resend SMS"  style="margin-bottom:15px; margin-left: 20px"/>
+                    <group>
+                        <group>
+                            <field name="expiration_date"/>
+                            <field name="mobile"/>
+                        </group>
+                        <group>
+                            <field name="seller"/>
+                            <field name="customer"/>
+                        </group>
+
+                        <group>
+                            <field name="sale_order"/>
+                            <field name="product" string="Service Product"/>
+                        </group>
+
+                         <group>
+                            <field name="resent_times"/>
+                        </group>
+                    </group>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+     <record id='ticket_search_wizard_view' model='ir.ui.view'>
+        <field name="name">ticket.search.wizard</field>
+        <field name="model">ticket.wizard</field>
+        <field name="arch" type="xml">
+            <form  string="Ticket Search">
+               <group>
+                   <group>
+                        <field name="ticket_code"/>
+                        <field name="mobile"/>
+                        <field name="seller" groups="odoo_marketplace.marketplace_manager_group"/>
+                   </group>
+               </group>
+                <footer>
+                  <button name="search_ticket" string="Search" type="object" class="btn-primary"/>
+                  <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
     <record id="ticket_action" model="ir.actions.act_window">
          <field name="name">Codes</field>
         <field name="res_model">ticket</field>
@@ -67,10 +127,19 @@
         (0, 0, {'view_mode': 'tree', 'view_id': ref('ticket_list_view')}),
          (0, 0, {'view_mode': 'form', 'view_id': ref('ticket_form_view')})
          ]"/>
-         <field name="domain">[('seller','in',['get_marketplace_seller_id()'])]</field>
+<!--         <field name="domain">[('seller','in',['get_marketplace_seller_id()'])]</field>-->
+    </record>
+
+     <record id="ticket_search_action" model="ir.actions.act_window">
+        <field name="name">Service Code Search</field>
+        <field name="res_model">ticket.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="ticket_search_wizard_view"/>
+         <field name="target">new</field>
+
     </record>
 
 
-    <menuitem id='tickets' name='Redeem Code' action='ticket_action' parent='odoo_marketplace.wk_seller_dashboard_menu2'/>
-
+    <menuitem id='search_tickets' name='Redeem Code' action='ticket_search_action' parent='odoo_marketplace.wk_seller_dashboard_menu2'/>
+    <menuitem id='tickets' name='Resend Code' action='ticket_action' parent='odoo_marketplace.wk_seller_dashboard_menu2'/>
 </odoo>
