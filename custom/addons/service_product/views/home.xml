@@ -1,0 +1,11 @@
+<odoo>
+    <data>
+
+        <template id="portal_my_home_inherit" inherit_id='portal.portal_my_home'>
+                <xpath expr="//div[@class='o_portal_my_home']" position="after">
+                    <br></br>
+                    <h6>For Ticket Information, please contact : 09442766814, 09 442766876</h6>
+                </xpath>
+        </template>
+    </data>
+</odoo>

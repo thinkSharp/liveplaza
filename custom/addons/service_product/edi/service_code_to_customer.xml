@@ -19,8 +19,8 @@
               <p>REFERENCES</p>
               <p>Order number: ${object.sale_order.name}</p>
               <p>Order date: ${format_datetime(object.sale_order.date_order, tz=user.tz, dt_format='M/d/Y, H:mm:ss')},</p>
-              <p>Code: ${object.ticket_code}</p>
-              <p>Product:  ${object.product.name}</p>
+              <p>Service Code: ${object.ticket_code}</p>
+              <p>Service Product:  ${object.product.name}</p>
               <p>Shop: ${object.seller.name}</p>
                 ]]>
             </field>

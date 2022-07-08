@@ -205,11 +205,11 @@ class ServiceProduct(models.Model):
     expiration_policy = state = fields.Selection([
         ('0', 'No expired'),
         ('1', '1 day'),
-        ('7', '1 week'),
-        ('30', '1 month'),
-        ('90', '3 months'),
-        ('180', '6 months'),
-        ('365', '1 year'),
+        ('7', '7 days'),
+        ('30', '30 days'),
+        ('90', '90 days'),
+        ('180', '180 days'),
+        ('365', '365 days'),
     ], string='Expiration Policy', default='0')
     attribute_line_ids = fields.One2many('product.template.attribute.line', 'requested_service_product_tmpl_id', string='Variants')
     product_variant_lines = fields.One2many('service.request.product.variant.lines', 'product_variant_id', string='Products', required=True)
