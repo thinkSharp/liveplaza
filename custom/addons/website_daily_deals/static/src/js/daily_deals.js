@@ -56,8 +56,6 @@ odoo.define("website_daily_deals.daily_deals_js", function (require) {
 
         $(".daily_deals_owl_carousel").owlCarousel(deal_options);
 
-        alert($('.owl-carousel--nested .owl-item').length);
-
         $(".owl-carousel--nested").owlCarousel({
           nav: true,
           dots: true,
