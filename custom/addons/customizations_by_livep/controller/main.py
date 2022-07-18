@@ -2,7 +2,7 @@
 
 from odoo import fields, http, tools, _
 from odoo.http import request
-
+from odoo.osv import expression
 from werkzeug.exceptions import Forbidden, NotFound
 from odoo.addons.website.controllers.main import QueryURL
 
@@ -25,6 +25,20 @@ class WebsiteSale(Website_Sale):
         order = post.get('order') or 'website_sequence DESC'
 #         or 'qty_available ASC'
         return 'is_published desc, %s, id desc' % order
+
+    def _get_search_faq_domain(self, search):
+        domains = []
+        if search:
+            for srch in search.split(" "):
+                subdomains = [
+                    [('question', 'ilike', srch)],
+                    [('answer', 'ilike', srch)]
+                ]
+                domains.append(expression.OR(subdomains))
+
+        return expression.AND(domains)
+
+
     
 #     @http.route(['/shop/address'], type='http', methods=['GET', 'POST'], auth="public", website=True, sitemap=False)
 #     def address(self, **kw):
