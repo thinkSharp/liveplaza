@@ -14,6 +14,9 @@ from odoo.addons.website_mail.controllers.main import WebsiteMail
 from odoo.addons.website.controllers.main import Website
 from odoo.addons.portal.controllers.web import Home
 from odoo.exceptions import UserError, ValidationError
+from odoo.osv import expression
+from odoo.tools.misc import formatLang, format_date, get_lang
+
 import logging
 _logger = logging.getLogger(__name__)
 import urllib.parse as urlparse
@@ -66,3 +69,33 @@ class WebsiteSale(WebsiteSale):
             return request.redirect('/shop')
         
         #return request.render("odoo_marketplace.confirmation_payment_ss", values)  #request.redirect('/shop/confirmation') #
+
+    @http.route('/faq', type='http', auth='public', website=True)
+    def faq(self, search='', lang=None,  **post):
+
+        faqs = request.env['website.faq'].search([('website_published', '=', True)])
+        faq_categories = request.env['faq.category'].search([('website_published', '=', True)])
+
+        domains = self._get_search_faq_domain(search)
+
+        search_faq = faqs.search(domains)
+
+        # current_lang = request.session._uid and request.session.get_context().get('lang', 'en_US') or 'en_US'
+        # print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ curent language = ", current_lang)
+
+        lang = get_lang(request.env)
+        print("######################## selected language = ", lang.name)
+
+        if lang.name.__contains__("Burmese"):
+            myanmar = True
+        else:
+            myanmar = False
+
+        values = {
+            'myanmar': myanmar,
+            'faq_categories': faq_categories,
+            'faqs': search_faq,
+            'domain': domains
+        }
+
+        return request.render("do_customization.faq", values)

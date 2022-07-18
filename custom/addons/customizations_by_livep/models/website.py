@@ -2,9 +2,14 @@
 
 from odoo import api, fields, models, _
 from odoo.http import request
+from odoo.osv import expression
 
 class Website(models.Model):
     _inherit = 'website'
+
+    def append_domain(self, domain, new_domain):
+        domain.append(new_domain)
+        return expression.AND(domain)
 
     def get_subscription_plans(self):
         sub_plans = self.env['subscription.plan'].sudo().search([('id','=',8)])

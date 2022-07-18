@@ -24,12 +24,14 @@
     ],
     'data': [
         #'security/stock_security.xml',
-        #'security/ir.model.access.csv',
+        'security/ir.model.access.csv',
         'views/do_sale_order_view.xml',
         'views/stock_picking_views.xml',
         'views/templates.xml',
         'views/res_partner.xml',
         'views/sol_seller_view.xml',
+        'views/faq.xml',
+        'views/faq_web_view.xml',
         'data/account_data.xml',
     ],
 

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="faq_tree_view" >
+            <field name="name">faq.tree</field>
+            <field name="model">website.faq</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="question" />
+                    <field name="answer"/>
+                    <field name="question_myanmar" />
+                    <field name="answer_myanmar"/>
+                    <field name="parent_id" />
+                    <field name="sequence" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="faq_action" model="ir.actions.act_window">
+            <field name="name">FAQ</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">website.faq</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="faq_tree_view"/>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Define a new faq
+              </p>
+            </field>
+        </record>
+
+        <menuitem id="faq_menu" name="FAQ" parent="website_sale.menu_product_settings" action="faq_action"/>
+
+        <record id="faq_form_view" model="ir.ui.view">
+            <field name="name">faq.form</field>
+            <field name="model">website.faq</field>
+            <field name="arch" type="xml">
+                <form string="Website FAQ">
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="toggle_website_published" type="object" class="oe_stat_button" icon="fa-globe">
+                                <div class="o_stat_info published o_form_field">
+                                    <field name="website_published" widget="website_publish_button"/>
+                                </div>
+                            </button>
+                        </div>
+                        <group>
+                            <field name="question" string="Question"/>
+                            <field name="answer" string="Answer"/>
+                        </group>
+                        <group>
+                            <field name="question_myanmar" />
+                            <field name="answer_myanmar"/>
+                        </group>
+                        <group>
+                            <field name="parent_id" />
+                            <field name="sequence" string="Sequence"/>
+                        </group>
+
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="faq_category_tree_view" >
+            <field name="name">faq.category.tree</field>
+            <field name="model">faq.category</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name" />
+                    <field name="sequence" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="faq_category_action" model="ir.actions.act_window">
+            <field name="name">FAQ Category</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">faq.category</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="faq_category_tree_view"/>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Define a new faq caategory
+              </p>
+            </field>
+        </record>
+
+        <menuitem id="faq_category_menu" name="FAQ Category" parent="website_sale.menu_product_settings" action="faq_category_action"/>
+
+        <record id="faq_category_form_view" model="ir.ui.view">
+            <field name="name">faq.category.form</field>
+            <field name="model">faq.category</field>
+            <field name="arch" type="xml">
+                <form string="FAQ Categories">
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="toggle_website_published" type="object" class="oe_stat_button" icon="fa-globe">
+                                <div class="o_stat_info published o_form_field">
+                                    <field name="website_published" widget="website_publish_button"/>
+                                </div>
+                            </button>
+                        </div>
+                        <group>
+                            <field name="name" string="Name"/>
+                            <field name="sequence" string="sequence"/>
+                        </group>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

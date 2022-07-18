@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <template id="faq_assets_frontend" inherit_id="website.assets_frontend">
+            <xpath expr="." position="inside">
+                <script src="/do_customization/static/src/js/faq_search.js" type="text/javascript"></script>
+
+                <link rel="stylesheet" type="text/scss" href="/do_customization/static/src/css/style.css"/>
+<!--                <script src="/do_customization/static/src/js/faq_search.js" type="text/javascript"></script>-->
+
+            </xpath>
+        </template>
+
+        <template id="faq">
+            <t t-call="website.layout">
+                <t t-set="pageName" t-value="'faq'"/>
+                <div id="wrap" class="oe_structure oe_empty">
+                    <div class="outer_container">
+                        <div class="container help_outer">
+                            <h1 class="help_center"> Help Center </h1>
+                            <div class="input-group faq_search_outer" id="faq-search">
+                                <input type="text" id="faq-search-box" class="faq_search_box" placeholder="Search the questions here..."/>
+                                <div class="input-group-append testing">
+                                    <button type="button" class="faq_search_btn" >
+                                      <i class="fa fa-search">  </i>
+                                      <span>Search </span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="container faq_outer">
+                        <h2 class="faq_header">Frequently Asked Questions</h2>
+
+                        <t t-foreach="faq_categories" t-as="categ">
+                            <t t-set="domain_filter" t-value="request.env['website'].append_domain([domain], [('parent_id', '=', categ.name)])" />
+                            <t t-set="categ_faq" t-value="faqs.search(domain_filter)" />
+                            <div t-if="len(categ_faq) > 0" class="faq_categ_outer">
+                                <div class="faq_categ_accordion">
+                                    <h4><t t-esc="categ.name" /> </h4>
+                                    <span><i class="fa fa-angle-down faq_arrow"></i></span>
+                                </div>
+
+                                <div class="faq_categ_inner">
+                                    <t t-foreach="categ_faq" t-as="faq">
+                                        <div class="faq_box">
+                                            <div class="faq_accordian">
+                                                <t t-if="myanmar">
+                                                    <div class="faq_question" widget="html" t-field="faq.question_myanmar" />
+                                                    <span><i class="fa fa-angle-down faq_arrow"></i></span>
+                                                </t>
+                                                <t t-else="">
+                                                    <div class="faq_question" widget="html" t-field="faq.question" />
+                                                    <span><i class="fa fa-angle-down faq_arrow"></i></span>
+                                                </t>
+
+                                            </div>
+                                            <t t-if="myanmar">
+                                                <div widget="html" t-field="faq.answer_myanmar" class="faq_answer" />
+                                            </t>
+                                            <t t-else="">
+                                                <div widget="html" t-field="faq.answer" class="faq_answer" />
+                                            </t>
+                                        </div>
+                                    </t>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+            </t>
+        </template>
+    </data>
+</odoo>
