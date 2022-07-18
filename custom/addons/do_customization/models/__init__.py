@@ -5,3 +5,4 @@ from . import stock_picking
 from . import sale
 from . import res_partner
 from . import account_payment
+from . import faq
