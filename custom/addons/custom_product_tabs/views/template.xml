@@ -82,6 +82,13 @@
           <div class="oe_structure"/>
         </xpath>
 
+          <xpath expr="//li[@class='breadcrumb-item']" position="replace">
+              <li class="breadcrumb-item">
+                <a id="breadcrumb-item-parent" href="/shop/">Products</a>
+              </li>
+
+            </xpath>
+
       </template>
 </data>
 </openerp>
