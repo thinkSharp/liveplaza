@@ -561,7 +561,14 @@ class WebsiteSale (WebsiteSale):
         }
         if category:
             values['main_object'] = category
-        return request.render("website_sale.products", values)
+
+        if values.get("pager").get('page_end').get('num') < page:
+            return "none"
+        elif post.get("test"):
+            view = request.render("theme_xtremo.wk_lazy_list_product_item", values)
+            return view
+        else:
+            return request.render("website_sale.products", values)
 
     @http.route(['/shop/product/<model("product.template"):product>', '/service/<model("product.template"):product>'] , type='http', auth="public", website=True)
     def product(self, product, category='', search='', **kwargs):
