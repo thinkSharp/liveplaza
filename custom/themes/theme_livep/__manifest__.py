@@ -4,7 +4,9 @@
     'version': '1.0',
     'author': "Min Hein Khant",
     'category': 'Theme/eCommerce',
-    'depends': [],
+    'depends': ['theme_marketplace_xtremo', 'theme_xtremo'],
     'data': [
+        'views/frontend_assets.xml',
+        'views/customization.xml',
     ]
 }
