@@ -159,6 +159,7 @@ class WebsiteDeals(models.Model):
     def button_validate_the_deal(self):
         start_date = self.start_date
         end_date = self.end_date
+        print("end date = ", end_date)
         if start_date > end_date:
             raise UserError('End date can not be earlier than start date.')
         elif end_date > datetime.now():
@@ -174,22 +175,15 @@ class WebsiteDeals(models.Model):
     @api.model
     def get_valid_deals(self):
 
-        deals = self.search(['|', ('state', '=', 'validated'), ('state', '=', 'expired')]).sorted(
+        deals = self.search(['|', ('state', '=', 'validated'),
+                             '&', ('state', '=', 'expired'), ('d_state_after_expire', '!=', 'delete')]).sorted(
             lambda d: d.state == "expired")
-        print("len of all deals = ", len(deals))
 
         return deals
 
     @api.model
     def get_homepage_deals(self):
         deals = self.search([('state', 'in', ['validated']), ('display_on_homepage', '=', 'True')])
-
-        print("#################################################")
-        print(len(deals))
-        for d in deals:
-            print("name = ", d.name)
-            print("homepage = ", d.display_on_homepage)
-
         return deals
 
     @api.model
@@ -254,6 +248,19 @@ class WebsiteDeals(models.Model):
             config_value = self.env['ir.default'].sudo().get('website.daily.deals.conf', 'd_state_after_expire')
             return self.state == 'expired' and config_value and 'blur'
         return False
+
+    @api.onchange('datetime.now()')
+    def cancel_expired_deals(self):
+        if datetime.now() > self.end_date + timedelta(seconds=10):
+            self.cancel_deal()
+            return
+
+    @api.model
+    def cancel_expired_deals(self):
+        if datetime.now() > self.end_date + timedelta(seconds=10):
+            self.cancel_deal()
+            return
+
 
     @api.model
     def get_message_before_expiry_and_offset(self):

@@ -682,6 +682,7 @@ class WebsiteSale(http.Controller):
 
         # IF PUBLIC ORDER
         if order.partner_id.id == request.website.user_id.sudo().partner_id.id:
+            print("public order ****************************************************")
             mode = ('new', 'billing')
             can_edit_vat = True
             country_code = request.session['geoip'].get('country_code')
@@ -691,6 +692,7 @@ class WebsiteSale(http.Controller):
                 def_country_id = request.website.user_id.sudo().country_id
         # IF ORDER LINKED TO A PARTNER
         else:
+            print("not public order ****************************************************")
             if partner_id > 0:
                 if partner_id == order.partner_id.id:
                     mode = ('edit', 'billing')

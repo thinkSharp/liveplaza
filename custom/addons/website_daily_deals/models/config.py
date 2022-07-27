@@ -30,7 +30,7 @@ class WebsiteDailyDealsConfig(models.TransientModel):
 	unit_of_time = fields.Selection([('minutes','Minutes'),('hours','Hours'),('days','Days'),('weeks','Weeks'),('months','Months')],'Time Unit', default='hours')
 	show_message_after_expiry = fields.Boolean('Show Message After Expiry', help="Do you want to show the message after the expiry date of the deal.")
 	message_after_expiry = fields.Char('Message After Expiry', help="The message you want to show in the website when deal is expired.")
-	d_state_after_expire = fields.Selection([('blur','Blur'),('delete','Delete')],'What to do with deal after Expiry', default='blur', help="What do you want to do with deal after expiration.Either you can blur the deals in website or delete a deal from website")
+	d_state_after_expire = fields.Selection([('blur','Blur'),('delete','Delete')],'What to do with deal after Expiry', default='delete', help="What do you want to do with deal after expiration.Either you can blur the deals in website or delete a deal from website")
 
 	@api.model
 	def set_values(self):

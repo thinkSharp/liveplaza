@@ -80,13 +80,9 @@ class WebsiteSale(WebsiteSale):
 
         search_faq = faqs.search(domains)
 
-        # current_lang = request.session._uid and request.session.get_context().get('lang', 'en_US') or 'en_US'
-        # print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@ curent language = ", current_lang)
-
         lang = get_lang(request.env)
-        print("######################## selected language = ", lang.name)
 
-        if lang.name.__contains__("Burmese"):
+        if "burmese" in lang.name.lower():
             myanmar = True
         else:
             myanmar = False
@@ -95,7 +91,8 @@ class WebsiteSale(WebsiteSale):
             'myanmar': myanmar,
             'faq_categories': faq_categories,
             'faqs': search_faq,
-            'domain': domains
+            'domain': domains,
+            'search': search
         }
 
         return request.render("do_customization.faq", values)

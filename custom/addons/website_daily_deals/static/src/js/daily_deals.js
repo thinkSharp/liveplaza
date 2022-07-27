@@ -36,7 +36,6 @@ odoo.define("website_daily_deals.daily_deals_js", function (require) {
 
 		var deal_options = {
 			autoplay:true,
-			loop:true,
 			items:1,
 			nav:true,
             dots:true,
@@ -46,9 +45,7 @@ odoo.define("website_daily_deals.daily_deals_js", function (require) {
             navText: ["<i class='deal-left-right fa fa-angle-left'></i>","<i class='deal-left-right fa fa-angle-right'></i>"],
             autoWidth:false,
             thumbs: true,
-            // thumbImage: true,
             thumbsPrerendered: true,
-            rewind: true,
             mouseDrag: true,
             touchDrag: true,
             items: 1
