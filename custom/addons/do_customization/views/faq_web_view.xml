@@ -19,7 +19,7 @@
                         <div class="container help_outer">
                             <h1 class="help_center"> Help Center </h1>
                             <div class="input-group faq_search_outer" id="faq-search">
-                                <input type="text" id="faq-search-box" class="faq_search_box" placeholder="Search the questions here..."/>
+                                <input type="text" id="faq-search-box" t-att-value="search" class="faq_search_box" placeholder="Search the questions here..."/>
                                 <div class="input-group-append testing">
                                     <button type="button" class="faq_search_btn" >
                                       <i class="fa fa-search">  </i>

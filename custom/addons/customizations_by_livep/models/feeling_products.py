@@ -25,3 +25,8 @@ class FeelingProducts(models.Model):
         if self.sequence <= 0:
             raise ValidationError(_('Enter the sequence value greater than 0'))
 
+    @api.constrains('name')
+    def _check_name(self):
+        if self.name.isdigit():
+            raise ValidationError(_('The feeling name should be alphanumeric'))
+

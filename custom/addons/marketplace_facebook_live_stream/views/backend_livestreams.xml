@@ -20,25 +20,28 @@
                         <p>There is no current livestream </p>
                         <br></br>
                     </div>
-                    <div class="owl-carousel owl-theme live_stream_owl_carousel mb-2" id="wk_live_stream_carousel">
-                        <t t-foreach="live_streams" t-as="stream">
-                            <t t-set="num" t-value="int(12/len(live_streams))"/>
-                            <t t-if="stream.start_stream_datetime &lt; datetime.datetime.now() and stream.end_stream_datetime &gt; datetime.datetime.now()">
-                                <div class="item text-center">
-                                    <t t-if="stream.live_stream_banner">
-                                        <!-- <a target="_blank" itemprop="url" t-attf-href="#{stream.live_stream_url}"> -->
-                                        <a target="_blank" class="" t-attf-href="/livestream/#{stream.id}">
-                                            <img t-if="stream.live_stream_banner" t-attf-src="/web/image/seller.live.stream/#{stream.id}/live_stream_banner"
-                              t-att-alt="stream.name" class="img-responsive " style="max-height: 219px;"></img>
-                                        </a>
-                                        <h4>
-                                            <t t-esc="stream.name"/>
-                                        </h4>
-                                    </t>
-                                </div>
+                    <div class="deal_products" t-if="live_streams.filtered(lambda stream: stream.start_stream_datetime &lt; datetime.datetime.now() and stream.end_stream_datetime &gt; datetime.datetime.now())">
+                        <div class="owl-carousel owl-theme live_stream_owl_carousel mb-2" id="wk_live_stream_carousel">
+                            <t t-foreach="live_streams" t-as="stream">
+                                <t t-set="num" t-value="int(12/len(live_streams))"/>
+                                <t t-if="stream.start_stream_datetime &lt; datetime.datetime.now() and stream.end_stream_datetime &gt; datetime.datetime.now()">
+                                    <div class="item text-center">
+                                        <t t-if="stream.live_stream_banner">
+                                            <!-- <a target="_blank" itemprop="url" t-attf-href="#{stream.live_stream_url}"> -->
+                                            <a target="_blank" class="" t-attf-href="/livestream/#{stream.id}">
+                                                <img t-if="stream.live_stream_banner" t-attf-src="/web/image/seller.live.stream/#{stream.id}/live_stream_banner"
+                                  t-att-alt="stream.name" class="img-responsive " style="max-height: 219px;"></img>
+                                            </a>
+                                            <h4>
+                                                <t t-esc="stream.name"/>
+                                            </h4>
+                                        </t>
+                                    </div>
+                                </t>
                             </t>
-                        </t>
+                        </div>
                     </div>
+
                     <div t-if="live_streams.filtered(lambda stream: stream.start_stream_datetime &gt; datetime.datetime.now())" class="mb-1 mt32">
                         <strong>
                             <p class="ml-2" style="display: inline;font-style: italic;color: blue;font-size: 20px;">Upcoming</p>

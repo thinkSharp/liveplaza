@@ -32,11 +32,23 @@ class WebsiteSale(Website_Sale):
             for srch in search.split(" "):
                 subdomains = [
                     [('question', 'ilike', srch)],
-                    [('answer', 'ilike', srch)]
+                    [('answer', 'ilike', srch)],
+                    [('question_myanmar', 'ilike', srch)],
+                    [('answer_myanmar', 'ilike', srch)]
                 ]
                 domains.append(expression.OR(subdomains))
+        domains.append([('website_published', '=', True)])
 
         return expression.AND(domains)
+
+    # def get_deals_domain(self):
+    #     domain = []
+    #     subdomain = [
+    #         [('state', '=', 'validated')],
+    #         [('state', '=', 'expired')]
+    #     ]
+    #     domain.append(expression.OR(subdomain))
+    #     domain.append()
 
 
     
