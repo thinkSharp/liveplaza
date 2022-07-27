@@ -340,11 +340,11 @@
                                     </center>
                                </div>
                                <t t-set="msg_before_exp" t-value="deal.get_message_before_expiry_and_offset()['message']"/>
-                               <!--<div class="row d-flex align-items justify-content-center m-0" t-if="msg_before_exp">
+                               <div class="row d-flex align-items justify-content-center m-0" t-if="msg_before_exp">
                                    <div class="expiry_message col-12">
                                        <p t-esc="msg_before_exp" class="msg_before_exp"/>
                                    </div>
-                               </div>-->
+                               </div>
                                <t t-set="msg_after_exp" t-value="deal.get_message_after_expiry()"/>
                                <div class="expiry_message" t-if="msg_after_exp">
                                    <span t-if="msg_after_exp" t-esc="msg_after_exp"/>
@@ -386,6 +386,16 @@
 				</div>
 			</div>
 		</template>
+
+        <template id="localization_meta_tag" inherit_id="web.layout" name="Web layout">
+            <xpath expr="html/head" position="inside">
+
+                    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"/>
+
+
+            </xpath>
+        </template>
+
 
     </data>
 </odoo>

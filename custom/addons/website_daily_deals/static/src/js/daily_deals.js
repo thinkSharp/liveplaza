@@ -5,17 +5,64 @@ odoo.define("website_daily_deals.daily_deals_js", function (require) {
     var sAnimations = require('website.content.snippets.animation');
 
     $(document).ready(function() {
+
+        $('.owl-nav').removeClass('disabled');
+        $('.owl-item.hidden-deal-product').remove();
         // .............Daily Deal Slider...............................
-		var options = {
+//		var options = {
+//			autoplay:true,
+//			loop:true,
+//			items:5,
+//			nav:true,
+//            dots:true,
+//            nav:true,
+//            smartSpeed:1000,
+//            autoWidth:false,
+//            responsive:{
+//                0:{
+//                    items:1
+//                    },
+//                480:{
+//                    items:2
+//                },
+//                768 : {
+//                    items:3
+//                },
+//                998 : {
+//                    items:5
+//                }
+//            }
+//		}
+
+		var deal_options = {
 			autoplay:true,
-			loop:true,
-			items:5,
+			items:1,
 			nav:true,
             dots:true,
-            nav:true,
-            smartSpeed:1000,
+            smartSpeed:800,
+            autoplayTimeout: 4000,
+            autoplayHoverPause: true,
+            navText: ["<i class='deal-left-right fa fa-angle-left'></i>","<i class='deal-left-right fa fa-angle-right'></i>"],
             autoWidth:false,
-            responsive:{
+            thumbs: true,
+            thumbsPrerendered: true,
+            mouseDrag: true,
+            touchDrag: true,
+            items: 1
+		}
+
+        $(".daily_deals_owl_carousel").owlCarousel(deal_options);
+
+        $(".owl-carousel--nested").owlCarousel({
+          nav: true,
+          dots: true,
+          autoplay: false,
+          loop: false,
+          items: 5,
+          dots:true,
+          autoWidth: false,
+          navText: ["<i class='fa fa-angle-left'></i>","<i class='fa fa-angle-right'></i>"],
+          responsive:{
                 0:{
                     items:1
                     },
@@ -29,8 +76,8 @@ odoo.define("website_daily_deals.daily_deals_js", function (require) {
                     items:5
                 }
             }
-		}
-		$(".deals_owl_carousel").owlCarousel(options);
+        });
+
 
         $(".deal_main_div").each(function(){
             var end_date= $(this).find("input[name='end_date']").val();

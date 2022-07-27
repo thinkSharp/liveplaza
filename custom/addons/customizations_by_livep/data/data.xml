@@ -9,5 +9,12 @@
             <field name="sequence" type="int">10</field>
         </record>
 
+        <record id="service" model="website.menu">
+            <field name="name">Services</field>
+            <field name="url">/service</field>
+            <field name="parent_id" ref="website.main_menu"/>
+            <field name="sequence" type="int">3</field>
+        </record>
+
     </data>
 </odoo>

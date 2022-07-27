@@ -239,6 +239,9 @@
 
 
                         <group>
+                                <group><field name='expiration_policy'/></group>
+                        </group>
+                        <group>
                              <group><field name="has_variant" attrs="{'readonly':['|', ('is_variants_generated', '=', True), ('is_product_saved', '=', True)]}"/></group>
                         </group>
 

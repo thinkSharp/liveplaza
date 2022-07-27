@@ -589,6 +589,9 @@
 		this.settings = settings;
 		this.invalidate('settings');
 		this.trigger('changed', { property: { name: 'settings', value: this.settings } });
+
+		if (this._items.length > 0 && this.settings.items < this._items.length)
+		    this.settings.loop = true;
 	};
 
 	/**

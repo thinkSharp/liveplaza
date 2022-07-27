@@ -1,0 +1,11 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+
+faq_supervisor,website.faq.supervisor,model_website_faq,access_rights_customization.group_operation_supervisor,1,1,1,1
+faq_operator,website.faq.operator,model_website_faq,access_rights_customization.group_operation_operator,1,1,1,1
+faq_user,website.faq.user,model_website_faq,,1,0,0,0
+faq_manager,website.faq.manager,model_website_faq,odoo_marketplace.marketplace_manager_group,1,1,1,1
+
+faq_category_supervisor,faq.category.supervisor,model_faq_category,access_rights_customization.group_operation_supervisor,1,1,1,1
+faq_category_operator,faq.category.operator,model_faq_category,access_rights_customization.group_operation_operator,1,1,1,1
+faq_category_user,faq.category.user,model_faq_category,,1,0,0,0
+faq_category_manager,faq.category.manager,model_faq_category,odoo_marketplace.marketplace_manager_group,1,1,1,1

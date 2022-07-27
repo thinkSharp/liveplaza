@@ -18,7 +18,8 @@
         # 'views/product_template_inherit.xml',
         'data/sequence.xml',
         'views/ticket.xml',
-        'edi/service_code_to_customer.xml'
+        'edi/service_code_to_customer.xml',
+        'views/home.xml'
     ]
 
 }
