@@ -7,6 +7,6 @@
     'depends': ['theme_marketplace_xtremo', 'theme_xtremo'],
     'data': [
         'views/frontend_assets.xml',
-        'views/customization.xml',
+        'views/templates.xml',
     ]
 }
