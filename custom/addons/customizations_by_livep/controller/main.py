@@ -118,9 +118,9 @@ class WebsiteSale(Website_Sale):
 
         partner_id = int(kw.get('partner_id', -1))
 
-
         # IF PUBLIC ORDER
-        if order.partner_id.id == request.website.user_id.sudo().partner_id.id:
+        if order.partner_id.id == request.website.user_id.sudo().partner_id.id \
+                or request.env.user.id == request.website.user_id.sudo().partner_id.id:
             mode = ('new', 'billing')
             can_edit_vat = True
             country_code = request.session['geoip'].get('country_code')
@@ -623,9 +623,7 @@ class WebsiteSale (WebsiteSale):
                         'checked_amount_tax': order.checked_amount_tax,
                         'checked_amount_total': order.checked_amount_untaxed + order.checked_amount_tax,
                     })
-
-        checked_list = request.website.get_checked_sale_order_line(order.website_order_line)
-        print(checked_list)
+        # checked_list = request.website.get_checked_sale_order_line(order.website_order_line)
 
     @http.route(['/shop/cart'], type='http', auth="public", website=True, sitemap=False)
     def cart(self, access_token=None, revive='', **post):
@@ -635,9 +633,15 @@ class WebsiteSale (WebsiteSale):
         checked_list = request.website.get_checked_sale_order_line(order.website_order_line)
         order_id_list = request.website.get_sale_order_id_list()
 
+        if request.env.user.id == request.website.user_id.sudo().partner_id.id:
+            guest = True
+        else:
+            guest = False
+
         result.qcontext.update({
             'cart_sale_order': checked_list,
             'order_id_list': order_id_list,
+            'guest': guest,
         })
 
         return result
