@@ -96,3 +96,7 @@ class WebsiteSale(WebsiteSale):
         }
 
         return request.render("do_customization.faq", values)
+
+    @http.route('/create_seller_shop', type='http', auth='public', website=True)
+    def create_seller_shop(self, search='', lang=None, **post):
+        return request.render("do_customization.create_seller_shop")
