@@ -30,6 +30,69 @@
                 </field>
         	</field>
         </record>
+
+		<record id="product_pricelist_view_inherit_deals" model="ir.ui.view">
+            <field name="name">product.pricelist.form.inherit.deals</field>
+            <field name="model">product.pricelist</field>
+            <field name="inherit_id" ref="product.product_pricelist_view"/>
+            <field name="groups_id" eval="[(4, ref('product.group_sale_pricelist'))]"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='item_ids']/tree/field[@name='compute_price']" position="after">
+                	 <field name="group_id"/>
+                	 <field name="isGenerated" invisible="1"/>
+                	 <field name="isMulti_products" invisible="1"/>
+                	 <field name="isMulti_variants" invisible="1"/>
+                	  <field name="isMulti" invisible="1"/>
+                	 <field name="applied_on" invisible="1"/>
+                </xpath>
+                <xpath expr="//field[@name='item_ids']/tree/field[@name='name']" position="before">
+                	 <button name="save_multi_record" string="Generate"   class="oe_highlight" type="object" 
+                	 attrs="{'invisible':['|',('isGenerated', '=', True),('isMulti', '!=', True)]}"/>  
+                </xpath>
+            </field>
+        </record>
+        
+        <record id="product_pricelist_item_form_view_inherit" model="ir.ui.view">
+            <field name="name">product.pricelist.item.form.inherit</field>
+            <field name="model">product.pricelist.item</field>
+            <field name="inherit_id" ref="product.product_pricelist_item_form_view"/>
+            <field name="arch" type="xml">
+            	<xpath expr="//field[@name='product_tmpl_id']" position="after">
+            		<field name="isMulti_products"	attrs="{'invisible':[('applied_on', '!=', '1_product')]}"/>
+	                <field name="product_tmpl_ids" widget="many2many_tags" attrs="{
+                                'invisible':['|','|',('applied_on', '!=', '1_product'),('isMulti_products', '!=', True)],
+                                'required':[('applied_on', '=', '1_product'),('isMulti_products', '=', True)]}"
+                                options="{'no_create':1}"/>                   
+	            </xpath>
+	            
+	            <xpath expr="//field[@name='date_end']" position="after">
+            		<field name="group_id"/>                   
+	            </xpath>
+	            
+	            <xpath expr="//field[@name='product_tmpl_id']" position="replace">
+                    <field name="product_tmpl_id" attrs="{
+                                'invisible':['|','|',('applied_on', '!=', '1_product'), ('isMulti_products', '=', True)],
+                                'required':[('applied_on', '=', '1_product'), ('isMulti_products', '=', False)]}"
+                                options="{'no_create':1}"/>    
+	            </xpath>
+	            
+	            <xpath expr="//field[@name='product_id']" position="after">
+	            	<field name="isMulti_variants" attrs="{'invisible':[('applied_on', '!=', '0_product_variant')]}"/>
+	                <field name="product_ids" widget="many2many_tags" attrs="{
+                                'invisible':['|','|',('applied_on', '!=', '0_product_variant'), ('isMulti_variants', '!=', True)],
+                                'required':['|','|',('applied_on', '=', '0_product_variant'), ('isMulti_variants', '=', True)]}"
+                                options="{'no_create':1}"/>          
+	            </xpath>
+	            
+	            <xpath expr="//field[@name='product_id']" position="replace">
+                    <field name="product_id" attrs="{
+                                'invisible':['|','|',('applied_on', '!=', '0_product_variant'), ('isMulti_variants', '=', True)],
+                                'required':[('applied_on', '=', '0_product_variant'), ('isMulti_variants', '=', False)]}"
+                                options="{'no_create':1}"/>                    
+	            </xpath>                
+            </field>
+        </record>
+
         <record id="website_deals_tree_view" model="ir.ui.view">
             <field name="name">website.deals.tree</field>
             <field name="model">website.deals</field>
