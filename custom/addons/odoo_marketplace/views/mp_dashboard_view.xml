@@ -289,9 +289,9 @@
             <field name="binding_view_types">form</field>
             <field name="view_mode">kanban,tree,form,graph</field>
             <field name="domain">[('state', 'in', ('sale', 'approve_by_admin')), ('marketplace_seller_id','in',['get_marketplace_seller_id()'])]</field>
-            <field name="view_id" ref="do_customization.view_do_sale_order_line_tree_not_filtered"/>
+            <field name="view_id" ref="do_customization.view_do_sale_order_line_tree"/>
             <!-- <field name="groups_id" eval="[(6, 0, [ref('odoo_marketplace.marketplace_manager_group')])]"/> -->
-            <field name="context">{'search_default_by_marketplace_state': 1}</field>
+<!--            <field name="context">{'search_default_by_marketplace_state': 1}</field>-->
             <field name="search_view_id" ref="do_customization.do_seller_product_order_line_search_view"/>
             <field
                 name="view_ids"
@@ -310,9 +310,9 @@
             <field name="binding_view_types">form</field>
             <field name="view_mode">kanban,tree,form,graph</field>
             <field name="domain">[('state','=', 'ready_to_pick'), ('marketplace_seller_id','in',['get_marketplace_seller_id()'])]</field>
-            <field name="view_id" ref="do_customization.view_do_sale_order_line_tree_not_filtered"/>
+            <field name="view_id" ref="do_customization.view_do_sale_order_line_tree"/>
             <!-- <field name="groups_id" eval="[(6, 0, [ref('odoo_marketplace.marketplace_manager_group')])]"/> -->
-            <field name="context">{'search_default_by_marketplace_state': 1}</field>
+<!--            <field name="context">{'search_default_by_marketplace_state': 1}</field>-->
             <field name="search_view_id" ref="do_customization.do_seller_product_order_line_search_view"/>
             <field
                 name="view_ids"
@@ -331,9 +331,9 @@
             <field name="binding_view_types">form</field>
             <field name="view_mode">kanban,tree,form,graph</field>
             <field name="domain">[('state','=', 'done'), ('marketplace_seller_id','in',['get_marketplace_seller_id()'])]</field>
-            <field name="view_id" ref="do_customization.view_do_sale_order_line_tree_not_filtered"/>
+            <field name="view_id" ref="do_customization.view_do_sale_order_line_tree"/>
             <!-- <field name="groups_id" eval="[(6, 0, [ref('odoo_marketplace.marketplace_manager_group')])]"/> -->
-            <field name="context">{'search_default_by_marketplace_state': 1}</field>
+<!--            <field name="context">{'search_default_by_marketplace_state': 1}</field>-->
             <field name="search_view_id" ref="do_customization.do_seller_product_order_line_search_view"/>
             <field
                 name="view_ids"
