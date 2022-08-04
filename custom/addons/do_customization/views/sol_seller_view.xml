@@ -30,6 +30,29 @@
                 </tree>
             </field>
         </record>
+
+        <record id="view_do_sale_order_line_tree_not_filtered" model="ir.ui.view">
+            <field name="name">sale.order.line.not.filtered.tree</field>
+            <field name="model">sale.order.line</field>
+            <field name="priority">4</field>
+            <field name="arch" type="xml">
+                <tree string="Orders" class="o_sale_order" decoration-muted="state=='cancel'" multi_edit="1">
+                    <button name="action_ready_to_pick" string="Make Ready" class="btn-primary" type="object" />
+                    <field name="create_date" string="Create Date"/>
+                    <field name="order_id" string="Order Number"/>
+                    <field name="create_date" string="Create Date"/>
+                    <field name="order_partner_id"/>
+                    <field name="product_id"/>
+                    <field name="marketplace_seller_id" readonly="1" string="Seller"/>
+                    <field name="product_uom_qty" string="Qty"/>
+                    <field name="product_uom" string="Unit of Measure" groups="uom.group_uom"/>
+                    <field name="price_subtotal" sum="Total"/>
+                    <field name="state" />
+                    <field name="parent_payment_provider"/>
+
+                </tree>
+            </field>
+        </record>
         
         <record id="do_seller_product_order_line_form_view" model="ir.ui.view">
             <field name="name">seller.product.sale.order.form</field>
@@ -171,7 +194,7 @@
             </field>
         </record>
 
-        <record id="do_seller_slae_order_line_action" model="ir.actions.act_window">
+        <record id="do_seller_sale_order_line_action" model="ir.actions.act_window">
             <field name="name">Sale Order Line</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">sale.order.line</field>
@@ -184,7 +207,7 @@
             <field name="search_view_id" ref="do_seller_product_order_line_search_view"/>
             <field
                 name="view_ids"
-                eval="[(5, 0, 0),                    
+                eval="[(5, 0, 0),
                     (0, 0, {'sequence': 1, 'view_mode': 'tree', 'view_id': ref('do_customization.view_do_sale_order_line_tree')}),
                     (0, 0, {'sequence': 2, 'view_mode': 'kanban','view_id': ref('do_customization.do_seller_product_order_line_kanban_view')}),
                     (0, 0, {'sequence': 3, 'view_mode': 'form', 'view_id': ref('do_customization.do_seller_product_order_line_form_view')}),
@@ -192,7 +215,7 @@
                 ]"/>
         </record>
 
-	    <menuitem action="do_seller_slae_order_line_action" id="menu_orders_ecommerce_do_id_new" parent="odoo_marketplace.wk_seller_dashboard_menu3" name="Sales by Seller" groups="odoo_marketplace.marketplace_draft_seller_group" sequence="1"/>
+	    <menuitem action="do_seller_sale_order_line_action" id="menu_orders_ecommerce_do_id_new" parent="odoo_marketplace.wk_seller_dashboard_menu3" name="Sales by Seller" groups="odoo_marketplace.marketplace_draft_seller_group" sequence="1"/>
 
     </data>
 </odoo>
