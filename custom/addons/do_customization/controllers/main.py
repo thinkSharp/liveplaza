@@ -2,7 +2,7 @@ import werkzeug
 import odoo
 from odoo.addons.auth_signup.models.res_users import SignupError
 from odoo.addons.web.controllers.main import ensure_db
-from odoo import http
+from odoo import http, tools
 from odoo.http import request
 # from odoo.addons.web.controllers.main import binary_content
 import base64
@@ -34,6 +34,97 @@ SPR = 4   # Shops/sellers Per Row
 marketplace_domain = [('sale_ok', '=', True), ('state', '=', "approved")]
 
 class WebsiteSale(WebsiteSale):
+
+    def validatePhone(self, phone):
+        if phone[0] != '0':
+            return False
+        if len(phone) < 9:
+            return False
+        if len(phone) > 11:
+            return False
+        return True
+
+    def checkout_form_validate(self, mode, all_form_values, data):
+        # mode: tuple ('new|edit', 'billing|shipping')
+        # all_form_values: all values before preprocess
+        # data: values after preprocess
+        error = dict()
+        error_message = []
+
+        # Required fields from form
+        required_fields = [f for f in (all_form_values.get('field_required') or '').split(',') if f]
+        # Required fields from mandatory field function
+        required_fields += mode[1] == 'shipping' and self._get_mandatory_shipping_fields() or self._get_mandatory_billing_fields()
+        # Check if state required
+        country = request.env['res.country']
+        if data.get('country_id'):
+            country = country.browse(int(data.get('country_id')))
+            if 'state_code' in country.get_address_fields() and country.state_ids:
+                required_fields += ['state_id']
+
+        # error message for empty required fields
+        for field_name in required_fields:
+            if not data.get(field_name):
+                error[field_name] = 'missing'
+
+        #name validation
+        name = data.get('name')
+        if True in [n.isdigit() for n in name]:
+            error['name'] = 'invalid name'
+            error_message.append(_('Invalid name. No digit allowed.'))
+        if len(name) > 30:
+            error['name'] = 'invalid name'
+            error_message.append(_('Invalid name! Length is greater then 30.'))
+
+        #street validation
+        street = data.get('street')
+        if len(street) > 80:
+            error['street'] = 'street name too long'
+            error_message.append(_('Address is too long. Please use two lines.'))
+
+        # phone validation
+        phone = data.get('phone')
+        if phone and not self.validatePhone(phone):
+            error['phone'] = 'error'
+            error_message.append(_("Invalid Phone Number! Phone Number should start with '0' and length must be "
+                                       "between 9 and 11"))
+        # email validation
+        if data.get('email') and not tools.single_email_re.match(data.get('email')):
+            error["email"] = 'error'
+            error_message.append(_('Invalid Email! Please enter a valid email address.'))
+
+        # vat validation
+        Partner = request.env['res.partner']
+        if data.get("vat") and hasattr(Partner, "check_vat"):
+            if data.get("country_id"):
+                data["vat"] = Partner.fix_eu_vat_number(data.get("country_id"), data.get("vat"))
+            partner_dummy = Partner.new({
+                'vat': data['vat'],
+                'country_id': (int(data['country_id'])
+                               if data.get('country_id') else False),
+            })
+            try:
+                partner_dummy.check_vat()
+            except ValidationError:
+                error["vat"] = 'error'
+
+        if [err for err in error.values() if err == 'missing']:
+            if len(error.keys()) == 1:
+                for i in error.keys():
+                    if i == 'township_id':
+                        error.pop('township_id')
+                        error.update({'Township': 'missing'})
+                    elif i == 'country_id':
+                        error.pop('country_id')
+                        error.update({'Country': 'missing'})
+                    elif i == 'street':
+                        error.pop('street')
+                        error.update({'Address': 'missing'})
+                error_message.append(_('\n'.join("{}".format(k) for k in error.keys()) + ' is invalid'))
+            else:
+                error_message.append(_('Some required fields are empty or invalid.'))
+
+        return error, error_message
 
     @http.route('/shop/payment/uploaded', type='http', auth="public", website=True)
     def upload_files(self, **post):
@@ -96,3 +187,7 @@ class WebsiteSale(WebsiteSale):
         }
 
         return request.render("do_customization.faq", values)
+
+    @http.route('/create_seller_shop', type='http', auth='public', website=True)
+    def create_seller_shop(self, search='', lang=None, **post):
+        return request.render("do_customization.create_seller_shop")

@@ -32,6 +32,7 @@
         'views/sol_seller_view.xml',
         'views/faq.xml',
         'views/faq_web_view.xml',
+        'views/create_seller_shop.xml',
         'data/account_data.xml',
     ],
 

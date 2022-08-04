@@ -16,9 +16,11 @@
                     </header>
                     <sheet>
                        <group>
-                        <field name="sms_gateway_config_id" attrs="{'readonly':[('state','in',('sent','delivered'))]}"/>
+                            <field name="sms_gateway_config_id" attrs="{'readonly':[('state','in',('sent','delivered'))]}"/>
                             <field name="to" placeholder="Receiver Numbers" attrs="{'readonly':[('state','in',('sent','delivered'))]}"/>
+                            <field name="create_date" string="Created on"/>
                         </group>
+
                         <field name="auto_delete" help="Permanently delete this SMS after sendind it,to save space." attrs="{'readonly':[('state','in',('sent','delivered'))]}"/>
                         <label for="auto_delete" />
                         <notebook>
@@ -46,6 +48,7 @@
                     <field name="to"/>
                     <field name="msg"/>
                     <field name="state"/>
+                    <field name="create_date"/>
                     <button name="send_now" string="Send Now" type="object" icon="fa-paper-plane text-success" states="new" help="Send Now"/>
                     <button name="retry" string="Retry" type="object" icon="fa-repeat text-success" states="undelivered" help="Retry"/>
                 </tree>

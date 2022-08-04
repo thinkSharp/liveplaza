@@ -57,25 +57,35 @@ class marketplace_dashboard(models.Model):
                     obj = self.env['product.template'].search(
                         [('marketplace_seller_id', '!=', False), ('status', '=', 'approved')])
                 rec.count_product_approved = len(obj)
+                rec.count_product_ready = 0
             elif rec.state == 'seller':
                 obj = self.env['res.partner'].search(
                     [('seller', '=', True), ('state', '=', 'approved')])
                 rec.count_product_approved = len(obj)
+                rec.count_product_ready = 0
             elif rec.state == 'order':
                 if rec.is_seller:
                     user_obj = self.env['res.users'].browse(rec._uid)
+                    # obj = self.env['sale.order.line'].search( [('marketplace_seller_id', '=',
+                    # user_obj.partner_id.id), ('marketplace_state', '=', 'approved'),('state', 'not in', ('draft',
+                    # 'sent'))])
                     obj = self.env['sale.order.line'].search(
-                        [('marketplace_seller_id', '=',user_obj.partner_id.id), ('marketplace_state', '=', 'approved'),('state', 'not in', ('draft', 'sent'))])
+                        [('marketplace_seller_id', '=', user_obj.partner_id.id), ('state', '=', 'ready_to_pick')])
                 else:
+                    # obj = self.env['sale.order.line'].search( [('marketplace_seller_id', '!=', False),
+                    # ('marketplace_state', '=', 'approved'),('state', 'not in', ('draft', 'sent'))])
                     obj = self.env['sale.order.line'].search(
-                        [('marketplace_seller_id', '!=', False), ('marketplace_state', '=', 'approved'),('state', 'not in', ('draft', 'sent'))])
+                        [('marketplace_seller_id', '!=', False), ('state', '=', 'ready_to_pick')])
                 rec.count_product_approved = len(obj)
+                rec.count_product_ready = len(obj)
             elif rec.state == 'payment':
                 obj = self.env['seller.payment'].search(
                     [('seller_id', '!=', False), ('state', '=', 'posted')])
                 rec.count_product_approved = len(obj)
+                rec.count_product_ready = 0
             else:
                 rec.count_product_approved = 0
+                rec.count_product_ready = 0
 
     def _get_pending_count(self):
         for rec in self:
@@ -94,11 +104,16 @@ class marketplace_dashboard(models.Model):
             elif rec.state == 'order':
                 user_obj = self.env['res.users'].browse(rec._uid)
                 if rec.is_seller:
+                    # obj = self.env['sale.order.line'].search( [('marketplace_seller_id', '=',
+                    # user_obj.partner_id.id), ('marketplace_state', '=', 'new'),('state', 'not in', ('draft',
+                    # 'sent'))])
                     obj = self.env['sale.order.line'].search(
-                        [('marketplace_seller_id', '=',user_obj.partner_id.id), ('marketplace_state', '=', 'new'),('state', 'not in', ('draft', 'sent'))])
+                        [('marketplace_seller_id', '=', user_obj.partner_id.id), ('state', 'in', ('sale', 'approve_by_admin'))])
                 else:
+                    # obj = self.env['sale.order.line'].search( [('marketplace_seller_id', '!=', False),
+                    # ('marketplace_state', '=', 'new'),('state', 'not in', ('draft', 'sent'))])
                     obj = self.env['sale.order.line'].search(
-                        [('marketplace_seller_id', '!=', False), ('marketplace_state', '=', 'new'),('state', 'not in', ('draft', 'sent'))])
+                        [('marketplace_seller_id', '!=', False), ('state', 'in', ('sale', 'approve_by_admin'))])
                 rec.count_product_pending = len(obj)
             elif rec.state == 'payment':
                 obj = self.env['seller.payment'].search(
@@ -124,11 +139,16 @@ class marketplace_dashboard(models.Model):
             elif rec.state == 'order':
                 user_obj = self.env['res.users'].browse(rec._uid)
                 if rec.is_seller:
+                    # obj = self.env['sale.order.line'].search( [('marketplace_seller_id', '=',
+                    # user_obj.partner_id.id), ('marketplace_state', '=', 'shipped'),('state', 'not in', ('draft',
+                    # 'sent'))])
                     obj = self.env['sale.order.line'].search(
-                        [('marketplace_seller_id', '=',user_obj.partner_id.id), ('marketplace_state', '=', 'shipped'),('state', 'not in', ('draft', 'sent'))])
+                        [('marketplace_seller_id', '=', user_obj.partner_id.id), ('state', '=', 'done')])
                 else:
+                    # obj = self.env['sale.order.line'].search(
+                    #     [('marketplace_seller_id', '!=', False), ('marketplace_state', '=', 'shipped'),('state', 'not in', ('draft', 'sent'))])
                     obj = self.env['sale.order.line'].search(
-                        [('marketplace_seller_id', '!=', False), ('marketplace_state', '=', 'shipped'),('state', 'not in', ('draft', 'sent'))])
+                        [('marketplace_seller_id', '!=', False), ('state', '=', 'done')])
                 rec.count_product_rejected = len(obj)
             elif rec.state == 'payment':
                 obj = self.env['seller.payment'].search(
@@ -136,7 +156,6 @@ class marketplace_dashboard(models.Model):
                 rec.count_product_rejected = len(obj)
             else:
                 rec.count_product_rejected = 0
-
 
     color = fields.Integer(string='Color Index')
     name = fields.Char(string="Name", translate=True)
@@ -146,3 +165,4 @@ class marketplace_dashboard(models.Model):
     count_product_pending = fields.Integer(compute='_get_pending_count')
     count_product_rejected = fields.Integer(compute='_get_rejected_count')
     is_seller = fields.Boolean(compute="_is_seller_or_manager")
+
