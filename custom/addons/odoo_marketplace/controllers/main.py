@@ -152,6 +152,13 @@ class AuthSignupHome(Website):
         response.headers['X-Frame-Options'] = 'DENY'
         return response
 
+    def validateEmail(self, email):
+        regex = re.compile(r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+')
+        if re.fullmatch(regex, email):
+            return True
+        else:
+            return False
+
     @http.route('/seller/signup', type='http', auth="public", website=True)
     def seller_signup_form(self, *args, **kw):        
         qcontext = self.get_auth_signup_qcontext()
@@ -165,10 +172,8 @@ class AuthSignupHome(Website):
 
         email = str(kw.get("login"))
         if email != 'None':
-            if("@" not in email) or (email[-1] == "@"):
+            if not self.validateEmail(email):
                 qcontext["error"] = _("Your email format is incorrect")
-
-
 
         if kw.get("name", False):
             if 'error' not in qcontext and request.httprequest.method == 'POST':
