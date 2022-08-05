@@ -17,8 +17,8 @@
 
     <!--    Signup Form Inherit-->
     <template id="signup_form_inherit" inherit_id="auth_signup.fields">
-        <xpath expr="//div[@class='form-group field-password pt-2']" position="after">
-            <i class="fa fa-eye-slash" id="seekPassword" style="font-size: 20px; margin-bottom: 1em;"></i>
+        <xpath expr="//div[@class='form-group field-password pt-2']" position="inside">
+            <i class="fa fa-eye-slash" id="seekPassword" style="font-size: 20px; padding: 5px; margin-top: -33px; position: absolute; right: 0;"></i>
         </xpath>
 
         <xpath expr="//div[@class='form-group field-password pt-2']" position="attributes">
