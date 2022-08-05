@@ -7,3 +7,4 @@ from . import mp_delivery_vendor_receivable
 from . import stock_picking_return
 from . import mp_commission_report_wizard
 from . import mp_delivery_report_wizard
+from . import mp_websitedata_summary_report
