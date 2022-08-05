@@ -207,3 +207,10 @@
     margin-top: 30px;
 }
 
+.p-viewer {
+    padding: 5px;
+    margin-top: 30px;
+    position: absolute;
+    z-index: 10;
+    right: 0;
+}
