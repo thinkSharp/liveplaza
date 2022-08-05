@@ -60,6 +60,9 @@
         <xpath expr="//label[@for='login']" position="replace" >
             <label for="login">Email or Phone</label>
         </xpath>
+        <xpath expr="//input[@type='password']" position="before">
+                <i class="fa fa-eye-slash p-viewer" id="seekPassword" style="font-size: 20px;"></i>
+        </xpath>
     </template>
 
 </odoo>
