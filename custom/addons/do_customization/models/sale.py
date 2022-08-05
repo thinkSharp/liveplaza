@@ -19,6 +19,7 @@ from datetime import datetime
 
 import requests
 from odoo import models, fields, api, _
+from odoo.exceptions import UserError, ValidationError
 from odoo.addons.website_sale_stock.models.sale_order import SaleOrder as WebsiteSaleStock
 import logging
 _logger = logging.getLogger(__name__)

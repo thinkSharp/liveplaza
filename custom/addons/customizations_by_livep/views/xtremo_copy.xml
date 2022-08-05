@@ -26,7 +26,8 @@
                     <t t-set="current_product_list" t-value="(pager['page']['num']-1)*total_product if pager['page_count']!=pager['page']['num'] else search_count-total_product" />
                     <span class="xt_product_count"><t t-esc="(current_product_list+1) if total_product else '0'" /></span> To
                     <span class="xt_product_count xt_product_count-to"><t t-esc="current_product_list+total_product" /></span> of
-                    <span class="xt_product_count"><t t-esc="search_count" /></span> Products
+                    <span class="xt_product_count"><t t-esc="search_count" /></span>
+                    <span class="services-or-products">Products</span>
                 </p>
                 <div class="clr"></div>
             </div>

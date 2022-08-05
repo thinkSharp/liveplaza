@@ -296,7 +296,7 @@
             <field
                 name="view_ids"
                 eval="[(5, 0, 0),
-                    (0, 0, {'sequence': 1, 'view_mode': 'tree', 'view_id': ref('do_customization.view_do_sale_order_line_tree')}),
+                    (0, 0, {'sequence': 1, 'view_mode': 'tree', 'view_id': ref('do_customization.view_do_sale_order_line_tree_not_filtered')}),
                     (0, 0, {'sequence': 2, 'view_mode': 'kanban','view_id': ref('do_customization.do_seller_product_order_line_kanban_view')}),
                     (0, 0, {'sequence': 3, 'view_mode': 'form', 'view_id': ref('do_customization.do_seller_product_order_line_form_view')}),
                     (0, 0, {'sequence': 4, 'view_mode': 'graph', 'view_id': ref('do_customization.do_seller_product_order_line_graph_view')})
@@ -317,7 +317,7 @@
             <field
                 name="view_ids"
                 eval="[(5, 0, 0),
-                    (0, 0, {'sequence': 1, 'view_mode': 'tree', 'view_id': ref('do_customization.view_do_sale_order_line_tree')}),
+                    (0, 0, {'sequence': 1, 'view_mode': 'tree', 'view_id': ref('do_customization.view_do_sale_order_line_tree_not_filtered')}),
                     (0, 0, {'sequence': 2, 'view_mode': 'kanban','view_id': ref('do_customization.do_seller_product_order_line_kanban_view')}),
                     (0, 0, {'sequence': 3, 'view_mode': 'form', 'view_id': ref('do_customization.do_seller_product_order_line_form_view')}),
                     (0, 0, {'sequence': 4, 'view_mode': 'graph', 'view_id': ref('do_customization.do_seller_product_order_line_graph_view')})
@@ -338,7 +338,7 @@
             <field
                 name="view_ids"
                 eval="[(5, 0, 0),
-                    (0, 0, {'sequence': 1, 'view_mode': 'tree', 'view_id': ref('do_customization.view_do_sale_order_line_tree')}),
+                    (0, 0, {'sequence': 1, 'view_mode': 'tree', 'view_id': ref('do_customization.view_do_sale_order_line_tree_not_filtered')}),
                     (0, 0, {'sequence': 2, 'view_mode': 'kanban','view_id': ref('do_customization.do_seller_product_order_line_kanban_view')}),
                     (0, 0, {'sequence': 3, 'view_mode': 'form', 'view_id': ref('do_customization.do_seller_product_order_line_form_view')}),
                     (0, 0, {'sequence': 4, 'view_mode': 'graph', 'view_id': ref('do_customization.do_seller_product_order_line_graph_view')})
