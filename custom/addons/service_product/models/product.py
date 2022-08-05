@@ -1,5 +1,4 @@
 from odoo import fields, models, api, _, exceptions
-from odoo.addons.http_routing.models.ir_http import slug
 
 
 class ProductInherit(models.Model):
@@ -28,12 +27,3 @@ class ProductInherit(models.Model):
                     for stock_quant in stock_quants:
                         stock_quant.unlink()
                     product.unlink()
-
-    def _compute_website_url(self):
-        super(ProductInherit, self)._compute_website_url()
-        for product in self:
-            if product.is_service:
-                product.website_url = "/service/%s" % slug(product)
-
-            else:
-                product.website_url = "/shop/product/%s" % slug(product)

@@ -42,7 +42,6 @@
         'wizards/mp_delivery_vendor_receivable_view.xml',
         'wizards/mp_commission_report_wizard_view.xml',
         'wizards/mp_delivery_report_wizard_view.xml',
-        'wizards/mp_websitedata_summary_report_view.xml',
         'views/setting.xml'
         # Temporarily Removed
         # 'views/vendor_delivery.xml',

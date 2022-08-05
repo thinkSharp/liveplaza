@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
   <odoo>
-      <template id="backend_livestreams" name="LiveStreams">
+      <template id="backend_livestreams" name="Backend LiveStreams">
         <t t-call="website.layout">
           <t t-set="pageName" t-value="'livestreams'"/>
             <div id="wrap" class="oe_structure oe_empty">

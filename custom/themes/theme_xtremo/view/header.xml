@@ -39,7 +39,7 @@
         <div class="input-group">
           <div class="input-group-prepend">
             <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <span class="text" data="/shop/">All</span>
+              <span class="text" data="0">All Category</span>
               <span>
                 <i class="fa fa-angle-down">
                 </i>
@@ -52,9 +52,6 @@
               <t t-set="keep" t-value="request.website.get_all_categories().get('keep')" />
               <li class="dropdown-item">
                 <a href="/shop">All</a>
-              </li>
-              <li class="dropdown-item">
-                <a href="/service">Service</a>
               </li>
 
               <t t-set="categories" t-value="request.env['product.public.category'].search([('parent_id', '=', None)])" />
@@ -120,7 +117,7 @@
                   </a>
                   <div class="navbar-collapse" id="xtremo_top_menu_collapse">
                     <ul class="nav navbar-nav ml-auto text-right" id="xtremo_top_menu">
-                      <li class="nav-item xtremo_search hide-mobile open" t-ignore="true">
+                      <li class="nav-item xtremo_search hide-mobile" t-ignore="true">
                         <t t-call="theme_xtremo.xtremo_product_search" />
                       </li>
                       <li id="my_cart" t-attf-class="nav-item">
