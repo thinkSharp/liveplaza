@@ -113,6 +113,23 @@ odoo.define("theme_xtremo.main.js", function (require) {
     }
   });
 
+  $(document).ready(function(){
+    if(window.location.pathname.includes("/service")){
+      console.log("This is service");
+       $('button.dropdown-toggle span.text').html("Service");
+       $('button.dropdown-toggle span.text').attr("data","/service");
+
+        $('#breadcrumb-item-parent').html("Services");
+        $('#breadcrumb-item-parent').attr("href","/service");
+
+        $('h3.xt_product_count_heading').html("All Services");
+
+        $('span.services-or-products').html("Services");
+    }
+  });
+
+
+
 })
 
 odoo.define('xtremo.mega.menu', function (require) {

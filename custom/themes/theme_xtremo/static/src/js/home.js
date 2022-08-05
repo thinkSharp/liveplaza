@@ -5,9 +5,9 @@ odoo.define('xtremo.shop.advance.search', function (require) {
   var publicWidget = require('web.public.widget');
   var wSaleUtils = require('website_sale.utils');
 
-  $(document).on('click', "main", function(ev) {
-    $("#xtremo_top_menu .xtremo_search").removeClass("open");
-  });
+//  $(document).on('click', "main", function(ev) {
+//    $("#xtremo_top_menu .xtremo_search").removeClass("open");
+//  });
 
   publicWidget.registry.ProductWishlist = publicWidget.registry.ProductWishlist.extend({
     _addNewProducts: function ($el) {

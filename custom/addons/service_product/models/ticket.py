@@ -200,7 +200,7 @@ class SaleOrder(models.Model):
                                 print("TicketID", ticket, ticket.id)
                                 template.with_context(lang=ticket.customer.lang).send_mail(ticket.id, force_send=force_send,
                                                                                 raise_exception=True)
-                            _logger.info("Password reset email sent for user")
+                            # _logger.info("Password reset email sent for user")
 
 
 
