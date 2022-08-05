@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record model="ir.ui.view" id="doc_tree_view">
+            <field name="name">livep.documentation.tree</field>
+            <field name="model">livep.documentation</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_livepdoc" model="ir.actions.act_window">
+            <field name="name">Documentation</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">livep.documentation</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                Create a new Category
+              </p>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="doc_tree_view">
+            <field name="name">create.documents.tree</field>
+            <field name="model">create.documents</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="category" />
+                    <field name="title" />
+                    <field name="contents" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_contents" model="ir.actions.act_window">
+            <field name="name">Documents</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">create.documents</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                Create a new Document
+              </p>
+            </field>
+        </record>
+
+        <menuitem id="livep_documentation_menu" name="Documentation" action="action_contents" sequence="8" />
+
+        <menuitem id="create" name="Category" parent="livep_documentation_menu" action="action_livepdoc" sequence="1" />
+
+        <menuitem id="create_category" name="Create Category" parent="create" action="action_livepdoc" sequence="1" />
+
+        <menuitem id="create_document" name="Create Documents" parent="create" action="action_contents" sequence="2" />
+
+        <menuitem id="livep_documentation_sub_menu_3" name="Review" parent="livep_documentation_menu" sequence="2" />
+    </data>
+</odoo>

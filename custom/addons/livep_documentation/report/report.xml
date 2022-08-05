@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+    <data>
+
+        <record model="ir.actions.report" id="report_pdf_view">
+            <field name="name">Document PDF View</field>
+            <field name="model">create.documents</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">livep_documentation.report_pdf_document</field>
+            <field name="report_file">livep_documentation.report_pdf_document</field>
+            <field name="binding_model_id" ref="model_create_documents" />
+            <field name="binding_type">report</field>
+        </record>
+
+        <record model="ir.actions.report" id="report_web_view">
+            <field name="name">Document Web View</field>
+            <field name="model">create.documents</field>
+            <field name="report_type">qweb-html</field>
+            <field name="report_name">livep_documentation.report_webview_document</field>
+            <field name="report_file">livep_documentation.report_webview_document</field>
+            <field name="binding_model_id" ref="model_create_documents" />
+            <field name="binding_type">report</field>
+        </record>
+
+    </data>
+
+</odoo>
