@@ -395,7 +395,6 @@ class WebsiteSale (WebsiteSale):
 
         domain = self._get_search_domain(search, category, attrib_values)
         domain.append(('website_published', '=', True))
-        domain.append(('marketplace_seller_id', '!=', False))
         keep = QueryURL('/shop', category=category and int(category), search=search, attrib=attrib_list, order=post.get('order'))
 
         pricelist_context, pricelist = self._get_pricelist_context()
