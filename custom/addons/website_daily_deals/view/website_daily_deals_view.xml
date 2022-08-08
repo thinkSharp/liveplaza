@@ -217,8 +217,30 @@
 					                        <group>
 					                            <field name="deal_applied_on" widget="radio"/>
 												<field name="applied_on" widget="radio" attrs="{'invisible':1}"/>
-					                            <field name="product_tmpl_id" attrs="{'invisible':[('applied_on', '!=', '1_product')],'required':[('applied_on', '=', '1_product')]}" string="Product"/>
-					                            <field name="product_id" attrs="{'invisible':[('applied_on', '!=', '0_product_variant')],'required':[('applied_on', '=', '0_product_variant')]}" string="Product Variant"/>
+					                            
+<!-- 					                            <field name="product_tmpl_id" attrs="{'invisible':[('applied_on', '!=', '1_product')],'required':[('applied_on', '=', '1_product')]}" string="Product"/> -->
+					                            <field name="product_tmpl_id" attrs="{
+					                                'invisible':['|','|',('applied_on', '!=', '1_product'), ('isMulti_products', '=', True)],
+					                                'required':[('applied_on', '=', '1_product'), ('isMulti_products', '=', False)]}"
+					                                options="{'no_create':1}"/>					                            
+					                            <field name="isMulti_products"	attrs="{'invisible':[('applied_on', '!=', '1_product')]}"/>	                							
+	                							<field name="product_tmpl_ids" widget="many2many_tags" attrs="{
+					                                'invisible':['|','|',('applied_on', '!=', '1_product'),('isMulti_products', '!=', True)],
+					                                'required':[('applied_on', '=', '1_product'),('isMulti_products', '=', True)]}"
+					                                options="{'no_create':1}"/>
+					                            
+<!-- 					                            <field name="product_id" attrs="{'invisible':[('applied_on', '!=', '0_product_variant')],'required':[('applied_on', '=', '0_product_variant')]}" string="Product Variant"/> -->
+					                        	<field name="product_id" attrs="{
+					                                'invisible':['|','|',('applied_on', '!=', '0_product_variant'), ('isMulti_variants', '=', True)],
+					                                'required':[('applied_on', '=', '0_product_variant'), ('isMulti_variants', '=', False)]}"
+					                                options="{'no_create':1}"/>
+					                            <field name="isMulti_variants" attrs="{'invisible':[('applied_on', '!=', '0_product_variant')]}"/>
+								                <field name="product_ids" widget="many2many_tags" attrs="{
+					                                'invisible':['|','|',('applied_on', '!=', '0_product_variant'), ('isMulti_variants', '!=', True)],
+					                                'required':['|','|',('applied_on', '=', '0_product_variant'), ('isMulti_variants', '=', True)]}"
+					                                options="{'no_create':1}"/>
+					                                
+                                
 					                        </group>
 											<group>
 												<field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
@@ -236,6 +258,8 @@
 					                                <field name="currency_id" invisible="1"/>
 					                                <div attrs="{'invisible':[('compute_price', '!=', 'fixed')]}">
 					                                    <field name="fixed_price" nolabel= "1" widget='monetary' options="{'currency_field': 'currency_id'}"/></div>
+					                                <div attrs="{'invisible':[('compute_price', '!=', 'fixed_discount')]}">
+					                                    <field name="fixed_discount" nolabel= "1" widget='monetary' options="{'currency_field': 'currency_id'}"/></div>
 					                                <div attrs="{'invisible':[('compute_price', '!=', 'percentage')]}">
 					                                    <field name="percent_price" nolabel="1" class="oe_inline"/>%%
 					                                </div>
@@ -371,8 +395,30 @@
 					                        <group>
 					                            <field name="deal_applied_on" widget="radio"/>
 												<field name="applied_on" widget="radio" attrs="{'invisible':1}"/>
-					                            <field name="product_tmpl_id" attrs="{'invisible':[('applied_on', '!=', '1_product')],'required':[('applied_on', '=', '1_product')]}" string="Product"/>
-					                            <field name="product_id" attrs="{'invisible':[('applied_on', '!=', '0_product_variant')],'required':[('applied_on', '=', '0_product_variant')]}" string="Product Variant"/>
+					                            
+<!-- 					                            <field name="product_tmpl_id" attrs="{'invisible':[('applied_on', '!=', '1_product')],'required':[('applied_on', '=', '1_product')]}" string="Product"/> -->
+					                            <field name="product_tmpl_id" attrs="{
+					                                'invisible':['|','|',('applied_on', '!=', '1_product'), ('isMulti_products', '=', True)],
+					                                'required':[('applied_on', '=', '1_product'), ('isMulti_products', '=', False)]}"
+					                                options="{'no_create':1}"/>					                            
+					                            <field name="isMulti_products"	attrs="{'invisible':[('applied_on', '!=', '1_product')]}"/>	                							
+	                							<field name="product_tmpl_ids" widget="many2many_tags" attrs="{
+					                                'invisible':['|','|',('applied_on', '!=', '1_product'),('isMulti_products', '!=', True)],
+					                                'required':[('applied_on', '=', '1_product'),('isMulti_products', '=', True)]}"
+					                                options="{'no_create':1}"/>
+					                            
+<!-- 					                            <field name="product_id" attrs="{'invisible':[('applied_on', '!=', '0_product_variant')],'required':[('applied_on', '=', '0_product_variant')]}" string="Product Variant"/> -->
+					                        	<field name="product_id" attrs="{
+					                                'invisible':['|','|',('applied_on', '!=', '0_product_variant'), ('isMulti_variants', '=', True)],
+					                                'required':[('applied_on', '=', '0_product_variant'), ('isMulti_variants', '=', False)]}"
+					                                options="{'no_create':1}"/>
+					                            <field name="isMulti_variants" attrs="{'invisible':[('applied_on', '!=', '0_product_variant')]}"/>
+								                <field name="product_ids" widget="many2many_tags" attrs="{
+					                                'invisible':['|','|',('applied_on', '!=', '0_product_variant'), ('isMulti_variants', '!=', True)],
+					                                'required':['|','|',('applied_on', '=', '0_product_variant'), ('isMulti_variants', '=', True)]}"
+					                                options="{'no_create':1}"/>
+					                                
+                                
 					                        </group>
 											<group>
 												<field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
@@ -390,6 +436,8 @@
 					                                <field name="currency_id" invisible="1"/>
 					                                <div attrs="{'invisible':[('compute_price', '!=', 'fixed')]}">
 					                                    <field name="fixed_price" nolabel= "1" widget='monetary' options="{'currency_field': 'currency_id'}"/></div>
+					                                <div attrs="{'invisible':[('compute_price', '!=', 'fixed_discount')]}">
+					                                    <field name="fixed_discount" nolabel= "1" widget='monetary' options="{'currency_field': 'currency_id'}"/></div>
 					                                <div attrs="{'invisible':[('compute_price', '!=', 'percentage')]}">
 					                                    <field name="percent_price" nolabel="1" class="oe_inline"/>%%
 					                                </div>
