@@ -209,8 +209,9 @@
 
 .p-viewer {
     padding: 5px;
-    margin-top: 31px;
+    margin-top: -32px;
     position: absolute;
     z-index: 10;
     right: 0;
+    font-size: 20px;
 }
