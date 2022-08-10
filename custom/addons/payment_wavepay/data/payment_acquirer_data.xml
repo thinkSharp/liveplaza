@@ -1,0 +1,14 @@
+<odoo>
+    <data noupdate="1">
+        <record id="payment_acquirer_wavepay_merchant" model="payment.acquirer">
+            <field name="name">WavePay</field>
+            <field name="provider">wavepay</field>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="image_128" type="base64" file="payment_wavepay/static/description/icon.png"/>
+            <field name="view_template_id" ref="payment_wavepay_form"/>
+            <field name="state">test</field>
+            <field name="wavepay_merchant_id">Dummy</field>
+            <field name="wavepay_secret_key">Dummy</field>
+        </record>
+    </data>
+</odoo>
