@@ -18,30 +18,27 @@
 //  });
 // });
 
-// $(document).ready(function() {
 
-//     $("#seekPassword").click(function() {
-  
-//       var className = $("#icon").attr('class');
-//       className = className.indexOf('slash') !== -1 ? 'fa fa-eye' : 'fa fa-eye-slash'
-  
-//       $("#icon").attr('class', className);
-//       var input = $("#pass");
-  
-//       if (input.attr("type") == "text") {
-//         input.attr("type", "password");
-//       } else {
-//         input.attr("type", "text");
-//       }
-//     });
-  
-//   });
 
+
+//For register password and login password
   function mouseoverPass(obj) {
     var obj = document.getElementById('password');
     obj.type = "text";
   }
   function mouseoutPass(obj) {
     var obj = document.getElementById('password');
+    obj.type = "password";
+  }
+
+
+  
+//For confirm password 
+  function mouseoverPass2(obj) {
+    var obj = document.getElementById('confirm_password');
+    obj.type = "text";
+  }
+  function mouseoutPass2(obj) {
+    var obj = document.getElementById('confirm_password');
     obj.type = "password";
   }

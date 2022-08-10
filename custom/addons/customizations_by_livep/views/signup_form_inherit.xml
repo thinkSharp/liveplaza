@@ -23,8 +23,16 @@
             <!-- <i class="fa fa-eye-slash" id="seekPassword" style="font-size: 20px; padding: 5px; margin-top: -33px; position: absolute; right: 0;"></i> -->
         </xpath>
 
+        <xpath expr="//div[@class='form-group field-confirm_password']" position="inside">
+            <img src="" class="fa fa-eye-slash" onmouseover="mouseoverPass2();" onmouseout="mouseoutPass2();" style="font-size: 20px; padding: 5px; margin-top: -33px; position: absolute; right: 0;" />
+        </xpath>
+        
         <xpath expr="//div[@class='form-group field-password pt-2']" position="attributes">
             <attribute name="style">margin-bottom: 0.5em</attribute>
+        </xpath>
+
+        <xpath expr="//div[@class='form-group field-confirm_password']" position="attributes">
+            <attribute name="style">position: relative;</attribute>
         </xpath>
 
         <xpath expr="//label[@for='login']" position="attributes">
@@ -65,6 +73,21 @@
         <xpath expr="//input[@type='password']" position="after">
                 <img src="" class="fa fa-eye-slash p-viewer" onmouseover="mouseoverPass();" onmouseout="mouseoutPass();" />
         </xpath>
+    </template>
+
+    <template id="seller_signup_form_inherit" inherit_id="odoo_marketplace.seller_signup_fields">
+        <xpath expr="//div[@class='form-group field-password pt-2']" position="inside">
+            <img src="" class="fa fa-eye-slash" onmouseover="mouseoverPass();" onmouseout="mouseoutPass();" style="font-size: 20px; padding: 5px; margin-top: -33px; position: absolute; right: 0;" />
+        </xpath>
+
+        <xpath expr="//div[@class='form-group field-confirm_password']" position="inside">
+            <img src="" class="fa fa-eye-slash" onmouseover="mouseoverPass2();" onmouseout="mouseoutPass2();" style="font-size: 20px; padding: 5px; margin-top: -33px; position: absolute; right: 0;" />
+        </xpath>
+
+        <xpath expr="//div[@class='form-group field-confirm_password']" position="attributes">
+            <attribute name="style">position: relative;</attribute>
+        </xpath>
+        
     </template>
 
 </odoo>
