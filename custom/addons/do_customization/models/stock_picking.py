@@ -52,7 +52,8 @@ class Picking(models.Model):
             ('draft', 'Draft'),
             ('waiting', 'Waiting Another Operation'),
             ('confirmed', 'Waiting'),
-            ('assigned', 'Ready'),            
+            ('assigned', 'Ready'),
+            ('delivering', 'Delivering Now'),
             ('done', 'Done'),
             ('cancel', 'Cancelled'),
             ('hold', 'Hold'),
@@ -64,6 +65,10 @@ class Picking(models.Model):
     pick_date = fields.Datetime('Pick Date', store=True)
     pack_date = fields.Datetime('Pack Date', store=True)
     delivery_date = fields.Datetime('Delivery Date', store=True)
+
+    def deliver_now(self):
+        if self.state == 'assigned':
+            self.write({'state': 'delivering'})
     
     def do_hold(self):
         if self.state == 'hold':
