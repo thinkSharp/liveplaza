@@ -69,7 +69,11 @@
 			<field name="model">stock.picking</field>
 			<field name="arch" type="xml">
                 <tree create="0" decoration-info="state == 'draft'" decoration-muted="state == 'cancel'" decoration-danger="state not in ('cancel', 'done') and scheduled_date &lt; current_date" string="Picking list" default_order="id desc">
-                    
+                    <button name="deliver_now" attrs="{'invisible': ['|', '|',('is_admin_approved', '=', False),
+                    		('state', '!=', 'assigned')]}" string="Deliver Now" type="object" class="oe_highlight"/>
+<!--                    <button name="button_validate" attrs="{'invisible': ['|', '|',('is_admin_approved', '=', False),-->
+<!--                    		('state', '!=', 'delivering')]}" string="Done" type="object" class="oe_highlight"/>-->
+
                     <field name="origin"/>                                        
                     <field name="partner_id" string="Buyer"/>
                     <field name="buyer_street" />
@@ -88,6 +92,7 @@
                     <field name="state"/>
                     <field name="priority" invisible="1"/>
                     <field name="picking_type_id" invisible="1"/>
+                    <field name="is_admin_approved" invisible="1"/>
                 </tree>
             </field>
 		</record>
