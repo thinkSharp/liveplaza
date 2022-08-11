@@ -5,10 +5,4 @@
             <attribute name="t-att-minlength">password_minimum_length</attribute>
         </xpath>
     </template>
-    <template id="seller_fields" inherit_id="odoo_marketplace.seller_signup_fields"
-              name="Password policy data for auth_signup">
-        <xpath expr="//input[@name='password']" position="attributes">
-            <attribute name="t-att-minlength">password_minimum_length</attribute>
-        </xpath>
-    </template>
 </odoo>
