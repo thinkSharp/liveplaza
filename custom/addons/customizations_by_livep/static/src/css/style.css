@@ -207,3 +207,19 @@
     margin-top: 30px;
 }
 
+.p-viewer {
+    padding: 5px;
+    margin-top: -32px;
+    position: absolute;
+    z-index: 10;
+    right: 0;
+    font-size: 20px;
+}
+
+
+meter.o_password_meter {
+    position: revert !important;
+    height: 15px !important;
+    right: 5px !important;
+    width: -webkit-fill-available !important;
+} 
