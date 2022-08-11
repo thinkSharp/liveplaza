@@ -30,6 +30,77 @@
                 </field>
         	</field>
         </record>
+
+		<record id="product_pricelist_view_inherit_deals" model="ir.ui.view">
+            <field name="name">product.pricelist.form.inherit.deals</field>
+            <field name="model">product.pricelist</field>
+            <field name="inherit_id" ref="product.product_pricelist_view"/>
+            <field name="groups_id" eval="[(4, ref('product.group_sale_pricelist'))]"/>
+            <field name="arch" type="xml">
+            	<field name="item_ids" position="replace">
+                  <field name="item_ids" nolabel="1" context="{'default_base':'list_price'}" groups="product.group_product_pricelist">
+                      
+                      <tree string="Pricelist Items" decoration-info="isMulti_products == True or isMulti_variants == True" decoration-bf="isMulti_products == True or isMulti_variants == True" default_order="id"> 
+                          <field name="name" string="Applicable On"/>
+                          <field name="min_quantity"/>
+                          <field name="price" string="Price"/>
+                          <field name="date_start"/>
+                          <field name="date_end"/>
+                          <field name="base" invisible="1"/>
+                          <field name="price_discount" invisible="1"/>
+                          <field name="applied_on" invisible="1"/>
+                          <field name="compute_price" invisible="1"/>
+	                	  <field name="isMulti_products" invisible="1"/>
+	                	  <field name="isMulti_variants" invisible="1"/>
+	                	  <field name="applied_on" invisible="1"/>
+                      </tree>
+                  </field>
+                </field>
+             
+            </field>
+        </record>
+        
+        <record id="product_pricelist_item_form_view_inherit" model="ir.ui.view">
+            <field name="name">product.pricelist.item.form.inherit</field>
+            <field name="model">product.pricelist.item</field>
+            <field name="inherit_id" ref="product.product_pricelist_item_form_view"/>
+            <field name="arch" type="xml">
+            	<xpath expr="//field[@name='fixed_price']" position="after">
+            		<field name="fixed_discount" attrs="{'invisible':[('compute_price', '!=', 'fixed_discount')]}"/>                   
+	            </xpath>
+	           
+            	<xpath expr="//field[@name='product_tmpl_id']" position="after">
+            		<field name="isMulti_products"	attrs="{'invisible':[('applied_on', '!=', '1_product')]}"/>
+	                <field name="product_tmpl_ids" widget="many2many_tags" attrs="{
+                                'invisible':['|','|',('applied_on', '!=', '1_product'),('isMulti_products', '!=', True)],
+                                'required':[('applied_on', '=', '1_product'),('isMulti_products', '=', True)]}"
+                                options="{'no_create':1}"/>                   
+	            </xpath>
+	            
+	            <xpath expr="//field[@name='product_tmpl_id']" position="replace">
+                    <field name="product_tmpl_id" attrs="{
+                                'invisible':['|','|',('applied_on', '!=', '1_product'), ('isMulti_products', '=', True)],
+                                'required':[('applied_on', '=', '1_product'), ('isMulti_products', '=', False)]}"
+                                options="{'no_create':1}"/>    
+	            </xpath>
+	            
+	            <xpath expr="//field[@name='product_id']" position="after">
+	            	<field name="isMulti_variants" attrs="{'invisible':[('applied_on', '!=', '0_product_variant')]}"/>
+	                <field name="product_ids" widget="many2many_tags" attrs="{
+                                'invisible':['|','|',('applied_on', '!=', '0_product_variant'), ('isMulti_variants', '!=', True)],
+                                'required':['|','|',('applied_on', '=', '0_product_variant'), ('isMulti_variants', '=', True)]}"
+                                options="{'no_create':1}"/>          
+	            </xpath>
+	            
+	            <xpath expr="//field[@name='product_id']" position="replace">
+                    <field name="product_id" attrs="{
+                                'invisible':['|','|',('applied_on', '!=', '0_product_variant'), ('isMulti_variants', '=', True)],
+                                'required':[('applied_on', '=', '0_product_variant'), ('isMulti_variants', '=', False)]}"
+                                options="{'no_create':1}"/>                    
+	            </xpath>                
+            </field>
+        </record>
+
         <record id="website_deals_tree_view" model="ir.ui.view">
             <field name="name">website.deals.tree</field>
             <field name="model">website.deals</field>
@@ -146,8 +217,30 @@
 					                        <group>
 					                            <field name="deal_applied_on" widget="radio"/>
 												<field name="applied_on" widget="radio" attrs="{'invisible':1}"/>
-					                            <field name="product_tmpl_id" attrs="{'invisible':[('applied_on', '!=', '1_product')],'required':[('applied_on', '=', '1_product')]}" string="Product"/>
-					                            <field name="product_id" attrs="{'invisible':[('applied_on', '!=', '0_product_variant')],'required':[('applied_on', '=', '0_product_variant')]}" string="Product Variant"/>
+					                            
+<!-- 					                            <field name="product_tmpl_id" attrs="{'invisible':[('applied_on', '!=', '1_product')],'required':[('applied_on', '=', '1_product')]}" string="Product"/> -->
+					                            <field name="product_tmpl_id" attrs="{
+					                                'invisible':['|','|',('applied_on', '!=', '1_product'), ('isMulti_products', '=', True)],
+					                                'required':[('applied_on', '=', '1_product'), ('isMulti_products', '=', False)]}"
+					                                options="{'no_create':1}"/>					                            
+					                            <field name="isMulti_products"	attrs="{'invisible':[('applied_on', '!=', '1_product')]}"/>	                							
+	                							<field name="product_tmpl_ids" widget="many2many_tags" attrs="{
+					                                'invisible':['|','|',('applied_on', '!=', '1_product'),('isMulti_products', '!=', True)],
+					                                'required':[('applied_on', '=', '1_product'),('isMulti_products', '=', True)]}"
+					                                options="{'no_create':1}"/>
+					                            
+<!-- 					                            <field name="product_id" attrs="{'invisible':[('applied_on', '!=', '0_product_variant')],'required':[('applied_on', '=', '0_product_variant')]}" string="Product Variant"/> -->
+					                        	<field name="product_id" attrs="{
+					                                'invisible':['|','|',('applied_on', '!=', '0_product_variant'), ('isMulti_variants', '=', True)],
+					                                'required':[('applied_on', '=', '0_product_variant'), ('isMulti_variants', '=', False)]}"
+					                                options="{'no_create':1}"/>
+					                            <field name="isMulti_variants" attrs="{'invisible':[('applied_on', '!=', '0_product_variant')]}"/>
+								                <field name="product_ids" widget="many2many_tags" attrs="{
+					                                'invisible':['|','|',('applied_on', '!=', '0_product_variant'), ('isMulti_variants', '!=', True)],
+					                                'required':['|','|',('applied_on', '=', '0_product_variant'), ('isMulti_variants', '=', True)]}"
+					                                options="{'no_create':1}"/>
+					                                
+                                
 					                        </group>
 											<group>
 												<field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
@@ -165,6 +258,8 @@
 					                                <field name="currency_id" invisible="1"/>
 					                                <div attrs="{'invisible':[('compute_price', '!=', 'fixed')]}">
 					                                    <field name="fixed_price" nolabel= "1" widget='monetary' options="{'currency_field': 'currency_id'}"/></div>
+					                                <div attrs="{'invisible':[('compute_price', '!=', 'fixed_discount')]}">
+					                                    <field name="fixed_discount" nolabel= "1" widget='monetary' options="{'currency_field': 'currency_id'}"/></div>
 					                                <div attrs="{'invisible':[('compute_price', '!=', 'percentage')]}">
 					                                    <field name="percent_price" nolabel="1" class="oe_inline"/>%%
 					                                </div>
@@ -300,8 +395,30 @@
 					                        <group>
 					                            <field name="deal_applied_on" widget="radio"/>
 												<field name="applied_on" widget="radio" attrs="{'invisible':1}"/>
-					                            <field name="product_tmpl_id" attrs="{'invisible':[('applied_on', '!=', '1_product')],'required':[('applied_on', '=', '1_product')]}" string="Product"/>
-					                            <field name="product_id" attrs="{'invisible':[('applied_on', '!=', '0_product_variant')],'required':[('applied_on', '=', '0_product_variant')]}" string="Product Variant"/>
+					                            
+<!-- 					                            <field name="product_tmpl_id" attrs="{'invisible':[('applied_on', '!=', '1_product')],'required':[('applied_on', '=', '1_product')]}" string="Product"/> -->
+					                            <field name="product_tmpl_id" attrs="{
+					                                'invisible':['|','|',('applied_on', '!=', '1_product'), ('isMulti_products', '=', True)],
+					                                'required':[('applied_on', '=', '1_product'), ('isMulti_products', '=', False)]}"
+					                                options="{'no_create':1}"/>					                            
+					                            <field name="isMulti_products"	attrs="{'invisible':[('applied_on', '!=', '1_product')]}"/>	                							
+	                							<field name="product_tmpl_ids" widget="many2many_tags" attrs="{
+					                                'invisible':['|','|',('applied_on', '!=', '1_product'),('isMulti_products', '!=', True)],
+					                                'required':[('applied_on', '=', '1_product'),('isMulti_products', '=', True)]}"
+					                                options="{'no_create':1}"/>
+					                            
+<!-- 					                            <field name="product_id" attrs="{'invisible':[('applied_on', '!=', '0_product_variant')],'required':[('applied_on', '=', '0_product_variant')]}" string="Product Variant"/> -->
+					                        	<field name="product_id" attrs="{
+					                                'invisible':['|','|',('applied_on', '!=', '0_product_variant'), ('isMulti_variants', '=', True)],
+					                                'required':[('applied_on', '=', '0_product_variant'), ('isMulti_variants', '=', False)]}"
+					                                options="{'no_create':1}"/>
+					                            <field name="isMulti_variants" attrs="{'invisible':[('applied_on', '!=', '0_product_variant')]}"/>
+								                <field name="product_ids" widget="many2many_tags" attrs="{
+					                                'invisible':['|','|',('applied_on', '!=', '0_product_variant'), ('isMulti_variants', '!=', True)],
+					                                'required':['|','|',('applied_on', '=', '0_product_variant'), ('isMulti_variants', '=', True)]}"
+					                                options="{'no_create':1}"/>
+					                                
+                                
 					                        </group>
 											<group>
 												<field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
@@ -319,6 +436,8 @@
 					                                <field name="currency_id" invisible="1"/>
 					                                <div attrs="{'invisible':[('compute_price', '!=', 'fixed')]}">
 					                                    <field name="fixed_price" nolabel= "1" widget='monetary' options="{'currency_field': 'currency_id'}"/></div>
+					                                <div attrs="{'invisible':[('compute_price', '!=', 'fixed_discount')]}">
+					                                    <field name="fixed_discount" nolabel= "1" widget='monetary' options="{'currency_field': 'currency_id'}"/></div>
 					                                <div attrs="{'invisible':[('compute_price', '!=', 'percentage')]}">
 					                                    <field name="percent_price" nolabel="1" class="oe_inline"/>%%
 					                                </div>

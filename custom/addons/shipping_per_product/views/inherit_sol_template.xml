@@ -93,7 +93,7 @@
                             <span t-field="line.price_reduce_taxinc" style="white-space: nowrap;" t-options="{'widget': 'monetary', 'display_currency': website_sale_order.currency_id}" groups="account.group_show_line_subtotals_tax_included" />
                         </td>
                     </tr>
-                    <t t-if="sol_deliveries and order.all_service_ticket == False" t-call="shipping_per_product.sol_delivery_carriers"/>
+<!--                    <t t-if="sol_deliveries and order.all_service_ticket == False" t-call="shipping_per_product.sol_delivery_carriers"/>-->
                 </tbody>
             </table>
         </template>
@@ -105,20 +105,30 @@
                     <t t-set="website_o_lines" t-value="website_sale_order.get_lines_with_or_without_delivery()"/>
                     <tr>
                         <td colspan="4" style="padding-top: 22px;">
-                            <t t-set="pro_lines" t-value="website_o_lines.get('s_lines')"/>
-                            <t t-if="pro_lines" t-call="shipping_per_product.order_lines_section_with_delivery">
-                                <t t-set="sol_deliveries" t-value="d_section.get_delivery_carrier_ids()"/>
-                            </t>
-                            <t t-foreach="website_o_lines['m_ol']" t-as="d_section">
-                                <t t-call="shipping_per_product.order_lines_section_with_delivery">
-                                    <t t-set="pro_lines" t-value="d_section"/>
-                                    <t t-set="sol_deliveries" t-value="d_section.get_delivery_carrier_ids()"/>
+
+                            <t t-if="website_sale_order.all_service_ticket">
+                                <t t-set="pro_lines" t-value="website_o_lines.get('s_lines')"/>
+                                <t t-if="pro_lines" t-call="shipping_per_product.order_lines_section_with_delivery">
+                                    <t t-set="sol_deliveries" t-value="pro_lines.get_delivery_carrier_ids()"/>
                                 </t>
                             </t>
-                            <t t-set="pro_lines" t-value="website_o_lines.get('no_ol')"/>
-                            <t t-if="pro_lines" t-call="shipping_per_product.order_lines_section_with_delivery">
-                                <t t-set="sol_deliveries" t-value="website_sale_order._get_delivery_methods()"/>
+
+
+                            <t t-if="not website_sale_order.all_service_ticket">
+                                <t t-foreach="website_o_lines['m_ol']" t-as="d_section">
+                                    <t t-call="shipping_per_product.order_lines_section_with_delivery">
+                                        <t t-set="pro_lines" t-value="d_section"/>
+                                        <t t-set="sol_deliveries" t-value="d_section.get_delivery_carrier_ids()"/>
+                                    </t>
+                                </t>
+
+                                 <t t-set="pro_lines" t-value="website_o_lines.get('no_ol')"/>
+                                <t t-if="pro_lines" t-call="shipping_per_product.order_lines_section_with_delivery">
+                                    <t t-set="sol_deliveries" t-value="website_sale_order._get_delivery_methods()"/>
+                                </t>
                             </t>
+
+
                         </td>
                     </tr>
                 </table>
