@@ -57,27 +57,33 @@ class WebsiteSale(WebsiteSale):
             if float(get_quantity) >= temp:
                 return super(WebsiteSale, self).cart_update(product_id, add_qty, set_qty)
 
-    @http.route(['/shop/cart/update_json'], type='json', auth="public", methods=['POST'], website=True)
-    def cart_update_json(self, product_id, line_id=None, add_qty=None, set_qty=None, display=True):
-        sale_order_obj = request.registry.get('sale.order.line')
-        present_qty = self.get_present_qty(product_id, line_id)
-        get_quantity = request.website.stock_qty_validate(
-            product_id=int(product_id))
-        allow_order = request.website.check_if_allowed(int(product_id))
-        if add_qty:
-            quantity = float(add_qty) + float(present_qty)
-        elif set_qty:
-            quantity = float(set_qty)
-        else:
-            quantity = 0.0
-
-        if allow_order == 1:
-            return super(WebsiteSale, self).cart_update_json(product_id, line_id, add_qty, set_qty)
-
-        elif get_quantity >= quantity:
-            return super(WebsiteSale, self).cart_update_json(product_id, line_id, add_qty, set_qty)
-
-        return super(WebsiteSale, self).cart_update_json(product_id, line_id, None, present_qty)
+    # @http.route(['/shop/cart/update_json'], type='json', auth="public", methods=['POST'], website=True)
+    # def cart_update_json(self, product_id, line_id=None, add_qty=None, set_qty=None, display=True):
+    #     print("ID", product_id)
+    #     product = request.env["product.product"].search([('id', '=', product_id)])
+    #     print("Product", product)
+    #     print("product_id", product.id)
+    #     print(product.name)
+    #     if not product.is_booking_type:
+    #         sale_order_obj = request.registry.get('sale.order.line')
+    #         present_qty = self.get_present_qty(product_id, line_id)
+    #         get_quantity = request.website.stock_qty_validate(
+    #             product_id=int(product_id))
+    #         allow_order = request.website.check_if_allowed(int(product_id))
+    #         if add_qty:
+    #             quantity = float(add_qty) + float(present_qty)
+    #         elif set_qty:
+    #             quantity = float(set_qty)
+    #         else:
+    #             quantity = 0.0
+    #
+    #         if allow_order == 1:
+    #             return super(WebsiteSale, self).cart_update_json(product_id, line_id, add_qty, set_qty)
+    #
+    #         elif get_quantity >= quantity:
+    #             return super(WebsiteSale, self).cart_update_json(product_id, line_id, add_qty, set_qty)
+    #
+    #     return super(WebsiteSale, self).cart_update_json(product_id, line_id, None, present_qty)
 
     @http.route(['/shop/cart/update_json/msg'], type='json', auth="public", methods=['POST'], website=True)
     def cart_update_json_msg(self, product_id, line_id, add_qty=None, set_qty=None, display=True):
