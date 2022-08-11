@@ -190,7 +190,7 @@ class ProductTemplate(models.Model):
             if not obj.marketplace_seller_id:
                 raise Warning(_("Marketplace seller id is not assign to this product."))
             if obj.marketplace_seller_id.state == "approved":
-                obj.sudo().write({"status": "approved", "sale_ok": True})
+                obj.sudo().write({"status": "approved", "sale_ok": True, "website_published": True})
                 obj.check_state_send_mail()
                 if not obj.is_initinal_qty_set:
                     obj.set_initial_qty()

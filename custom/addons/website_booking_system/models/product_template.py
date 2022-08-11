@@ -141,7 +141,7 @@ class SaleOrderLine(models.Model):
 class ProductTemplate(models.Model):
     _inherit = 'product.template'
 
-    is_booking_type = fields.Boolean("Available for booking")
+    is_booking_type = fields.Boolean("Available for booking", default=True)
     br_start_date = fields.Date("Start Date")
     br_end_date = fields.Date("End Date")
     max_bk_qty = fields.Integer("Max Booking Qty")
@@ -247,6 +247,7 @@ class ProductTemplate(models.Model):
     def update_product_type_for_booking(self):
         if self.is_booking_type:
             self.type = 'service'
+
 
     def validate_booking_dates(self, start_date=None, end_date=None):
         if type(start_date) == str:
