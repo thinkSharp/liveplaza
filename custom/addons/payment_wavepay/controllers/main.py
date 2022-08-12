@@ -133,7 +133,7 @@ class WavePayController(http.Controller):
                 'frontend_result_url'    : base_url,
                 'backend_result_url'     : backend_result_url,
                 'amount'                 : amount,
-                'payment_description'    : 'payment ka description',
+                'payment_description'    : 'Payment for Order No.' + merchant_reference_id,
                 'merchant_name'          : partner_id.name,
                 'items'                  : json.dumps(items),
                 'hash'                   : hash_hmac(hashing_dict,acq.wavepay_secret_key)
