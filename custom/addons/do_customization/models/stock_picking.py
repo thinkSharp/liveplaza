@@ -20,7 +20,7 @@ class Picking(models.Model):
     _inherit = "stock.picking"
 
     payment_provider = fields.Selection(selection=[('manual', 'Custom Payment Form'),('transfer', 'Prepaid'),
-                                                    ('cash_on_delivery', 'COD')], string='Payment Type')
+                                                    ('cash_on_delivery', 'COD'),('wavepay', 'WavePay')], string='Payment Type')
     
     is_admin_approved = fields.Boolean('Admin Approved', default=False) 
     

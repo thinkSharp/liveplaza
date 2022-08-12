@@ -101,6 +101,7 @@ class WavePayController(http.Controller):
             amount                = str(int(tx.amount))
             backend_result_url    = base_url+_return_url
             merchant_reference_id = tx.sale_order_ids.name
+            payment_reference_id = tx.reference #New field added
 
             items = [
                 {
@@ -128,6 +129,7 @@ class WavePayController(http.Controller):
                 'merchant_id'            : merchant_id,
                 'order_id'               : order_id,
                 'merchant_reference_id'  : merchant_reference_id,
+                'payment_reference_id'   : payment_reference_id,
                 'frontend_result_url'    : base_url,
                 'backend_result_url'     : backend_result_url,
                 'amount'                 : amount,
