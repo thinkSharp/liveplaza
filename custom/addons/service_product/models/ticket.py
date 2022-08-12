@@ -212,13 +212,13 @@ class SaleOrder(models.Model):
     @api.depends('order_line')
     def _compute_contain_service(self):
         for so in self:
-            so.contain_service = any((line.selected_checkout and line.product_id.is_service == True) for line in so.order_line)
+            so.contain_service = any((line.selected_checkout and ( (line.product_id.is_service == True) or (line.product_id.type == "service"))) for line in so.order_line)
 
     @api.depends('order_line')
     def _compute_all_service_ticket(self):
         for so in self:
             for line in so.order_line:
-                if line.selected_checkout and (not line.product_id.is_service):
+                if line.selected_checkout and (not (line.product_id.is_service or line.product_id.is_booking_type)):
                     so.all_service_ticket = False
                     break
                     # so.all_service_ticket = all(line.product_id.is_service == True for line in so.order_line)

@@ -14,8 +14,19 @@
 # You should have received a copy of the License along with this program.
 # If not, see <https://store.webkul.com/license.html/>
 #################################################################################
+# Resolve Conflict Production Server
 
-from . import marketplace_config
-from . import models
-from . import sale
-from . import product_template
+import dateutil
+from datetime import datetime
+
+from odoo import models, fields, api, _
+from odoo.addons.website_sale_stock.models.sale_order import SaleOrder as WebsiteSaleStock
+import logging
+_logger = logging.getLogger(__name__)
+
+
+class SaleOrderLine(models.Model):
+    _inherit = 'sale.order.line'
+
+    marketplace_state = fields.Selection([("new","New"), ("approved","Approved") , ("shipped","Shipped"), ("cancel","Cancelled")], default="new", copy=False)
+    

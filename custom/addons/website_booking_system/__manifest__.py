@@ -39,7 +39,7 @@
         Reservation
         Booking and reservation""",
   "live_test_url"        :  "http://odoodemo.webkul.com/?module=website_booking_system",
-  "depends"              :  ['website_sale'],
+  "depends"              :  ['website_sale', 'website_stock'],
   "data"                 :  [
                              'security/ir.model.access.csv',
                              'views/booking_config_view.xml',
