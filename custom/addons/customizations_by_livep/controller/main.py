@@ -512,16 +512,16 @@ class WebsiteSale (WebsiteSale):
 
         Product = request.env['product.template'].with_context(bin_size=True)
 
-        bk_products = Product.search([('is_booking_type', '=', True)])
-        for pobj in bk_products:
-            print("Booking Products", bk_products)
-            if pobj.br_end_date < fields.Date.today():
-                pobj.website_published = False
-            else:
-                pobj.website_published = True
-
-        for pobj in bk_products:
-            print(pobj.website_published)
+        # bk_products = Product.search([('is_booking_type', '=', True)])
+        # for pobj in bk_products:
+        #     print("Booking Products", bk_products)
+        #     if pobj.br_end_date < fields.Date.today():
+        #         pobj.website_published = False
+        #     else:
+        #         pobj.website_published = True
+        #
+        # for pobj in bk_products:
+        #     print(pobj.website_published)
 
 
 
