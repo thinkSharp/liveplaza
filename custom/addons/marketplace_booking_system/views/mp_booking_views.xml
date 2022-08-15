@@ -23,9 +23,9 @@
                         <label for="is_booking_type"/>
                     </div>
                </field>
-                <field name="type" position="attributes">
-                    <attribute name="attrs">{'readonly': [('is_booking_type','=',True)]}</attribute>
-                </field>
+<!--                <field name="type" position="attributes">-->
+<!--                    <attribute name="attrs">{'readonly': [('is_booking_type','=',True)]}</attribute>-->
+<!--                </field>-->
                 <xpath expr="//notebook" position="inside">
                     <page name="booking_and_reservation" string="Booking &amp; Reservation" attrs="{'invisible':[('is_booking_type','=',False)]}">
                         <group>
