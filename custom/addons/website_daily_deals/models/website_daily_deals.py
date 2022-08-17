@@ -264,6 +264,8 @@ class ProductPricelistItem(models.Model):
                     if len(item.product_tmpl_ids) > 1:
                         if item.compute_price == 'fixed' and item.fixed_price > 0.0:
                             item.name = _("Product: %s and others for fixed price %s") % (p_temp_id.name,item.fixed_price)
+                        elif item.compute_price == 'fixed_discount':
+                            item.name = _("Product: %s and others for %s fixed discount") % (p_temp_id.name,item.fixed_discount)
                         elif item.compute_price == 'percentage':
                             item.name = _("Product: %s and others for %s percent") % (p_temp_id.name,item.percent_price)
                         else:
@@ -278,6 +280,8 @@ class ProductPricelistItem(models.Model):
                     if len(item.product_ids) > 1:
                         if item.compute_price == 'fixed' and item.fixed_price > 0.0:
                             item.name = _("Variant: %s and others for fixed price %s") % (p_variant_id.name,item.fixed_price)
+                        elif item.compute_price == 'fixed_discount':
+                            item.name = _("Product: %s and others for %s fixed discount") % (p_variant_id.name,item.fixed_discount)
                         elif item.compute_price == 'percentage':
                             item.name = _("Variant: %s and others for %s percent") % (p_variant_id.name,item.percent_price)
                         else:
