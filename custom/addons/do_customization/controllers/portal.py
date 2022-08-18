@@ -11,6 +11,8 @@ from odoo.addons.payment.controllers.portal import PaymentProcessing
 from odoo.addons.portal.controllers.mail import _message_post_helper
 from odoo.addons.portal.controllers.portal import CustomerPortal, pager as portal_pager, get_records_pager
 from odoo.osv import expression
+from datetime import datetime
+import datetime
 
 
 class CustomerPortal(CustomerPortal):
@@ -26,7 +28,7 @@ class CustomerPortal(CustomerPortal):
         ])
         order_count = SaleOrder.search_count([
             ('message_partner_ids', 'child_of', [partner.commercial_partner_id.id]),
-            ('state', 'in', ['approve_by_admin','ready_to_pick','sale', 'done'])
+            ('state', 'in', ['approve_by_admin', 'ready_to_pick', 'sale', 'done'])
         ])
 
         values.update({
@@ -43,7 +45,7 @@ class CustomerPortal(CustomerPortal):
 
         domain = [
             ('message_partner_ids', 'child_of', [partner.commercial_partner_id.id]),
-            ('state', 'in', ['approve_by_admin','ready_to_pick','sale', 'done'])
+            ('state', 'in', ['approve_by_admin', 'ready_to_pick', 'sale', 'done'])
         ]
 
         searchbar_sortings = {
@@ -74,6 +76,14 @@ class CustomerPortal(CustomerPortal):
         orders = SaleOrder.search(domain, order=sort_order, limit=self._items_per_page, offset=pager['offset'])
         request.session['my_orders_history'] = orders.ids[:100]
 
+        order_lines = []
+        product_ids = []
+        for o in orders:
+            for line in o.order_line:
+                if line.product_id not in product_ids:
+                    order_lines.append(line)
+                product_ids.append(line.product_id)
+
         values.update({
             'date': date_begin,
             'orders': orders.sudo(),
@@ -83,7 +93,133 @@ class CustomerPortal(CustomerPortal):
             'default_url': '/my/orders',
             'searchbar_sortings': searchbar_sortings,
             'sortby': sortby,
+            'order_lines': order_lines,
         })
-        return request.render("sale.portal_my_orders", values)
+        return request.render("do_customization.portal_my_orders_new", values)
+
+    @http.route(['/my/orders/<int:order_id>'], type='http', auth="public", website=True)
+    def portal_order_page(self, order_id, report_type=None, access_token=None, message=False, download=False, **kw):
+        try:
+            order_sudo = self._document_check_access('sale.order', order_id, access_token=access_token)
+        except (AccessError, MissingError):
+            return request.redirect('/my')
+
+        if report_type in ('html', 'pdf', 'text'):
+            return self._show_report(model=order_sudo, report_type=report_type,
+                                     report_ref='sale.action_report_saleorder', download=download)
+
+        # use sudo to allow accessing/viewing orders for public user
+        # only if he knows the private token
+        # Log only once a day
+        if order_sudo:
+            now = fields.Date.today().isoformat()
+            session_obj_date = request.session.get('view_quote_%s' % order_sudo.id)
+            if isinstance(session_obj_date, date):
+                session_obj_date = session_obj_date.isoformat()
+            if session_obj_date != now and request.env.user.share and access_token:
+                request.session['view_quote_%s' % order_sudo.id] = now
+                body = _('Quotation viewed by customer %s') % order_sudo.partner_id.name
+                _message_post_helper(
+                    "sale.order",
+                    order_sudo.id,
+                    body,
+                    token=order_sudo.access_token,
+                    message_type="notification",
+                    subtype="mail.mt_note",
+                    partner_ids=order_sudo.user_id.sudo().partner_id.ids,
+                )
+
+            picking = request.env["stock.picking"].search([('origin', '=', order_sudo.name)])
+
+        delivery_state = []
+        delivery_completion = []
+        delivery_progress = self.get_delivery_progress(order_sudo, delivery_state, delivery_completion)
+
+        values = {
+            'picking': picking,
+            'sale_order': order_sudo,
+            'delivery_progress': delivery_progress,
+            'message': message,
+            'token': access_token,
+            'return_url': '/shop/payment/validate',
+            'bootstrap_formatting': True,
+            'partner_id': order_sudo.partner_id.id,
+            'report_type': 'html',
+            'action': order_sudo._get_portal_return_action(),
+        }
+        if order_sudo.company_id:
+            values['res_company'] = order_sudo.company_id
+
+        if order_sudo.has_to_be_paid():
+            domain = expression.AND([
+                ['&', ('state', 'in', ['enabled', 'test']), ('company_id', '=', order_sudo.company_id.id)],
+                ['|', ('country_ids', '=', False), ('country_ids', 'in', [order_sudo.partner_id.country_id.id])]
+            ])
+            acquirers = request.env['payment.acquirer'].sudo().search(domain)
+
+            values['acquirers'] = acquirers.filtered(
+                lambda acq: (acq.payment_flow == 'form' and acq.view_template_id) or
+                            (acq.payment_flow == 's2s' and acq.registration_view_template_id))
+            values['pms'] = request.env['payment.token'].search([('partner_id', '=', order_sudo.partner_id.id)])
+            values['acq_extra_fees'] = acquirers.get_acquirer_extra_fees(order_sudo.amount_total,
+                                                                         order_sudo.currency_id,
+                                                                         order_sudo.partner_id.country_id.id)
+
+        if order_sudo.state in ('draft', 'sent', 'cancel'):
+            history = request.session.get('my_quotations_history', [])
+        else:
+            history = request.session.get('my_orders_history', [])
+        values.update(get_records_pager(history, order_sudo))
+
+        return request.render('do_customization.order_details_page', values)
+
+    def get_delivery_progress(self, order, delivery_state, delivery_completion):
+        delivery_progress = {'delivered': "complete", 'delivering': 'complete', 'packed': 'complete', 'picked': 'complete',
+                      'ordered': 'complete'}
+        status = order.delivery_status
+
+        for s, p in delivery_progress.items():
+            if s == status:
+                if s == 'delivering':
+                    delivery_progress[s] = 'current'
+                break
+            else:
+                delivery_progress[s] = 'not_yet'
+
+        for k, v in delivery_progress.items():
+            delivery_state.append(k)
+            delivery_completion.append(v)
+
+        delivery_state.reverse()
+        delivery_completion.reverse()
+
+        create_date = order.create_date.strftime("%d %b %Y - %H:%M")
+        if order.picking_date:
+            picking_date = order.picking_date.strftime("%d %b %Y - %H:%M")
+        else:
+            picking_date = ""
+
+        if order.packing_date:
+            packing_date = order.packing_date.strftime("%d %b %Y - %H:%M")
+        else:
+            packing_date = ""
+
+        if order.delivering_date:
+            delivering_date = order.delivering_date.strftime("%d %b %Y - %H:%M")
+        else:
+            delivering_date = ""
+
+        if order.delivered_date:
+            delivered_date = datetime.datetime.now().strftime("%d %b %Y - %H:%M")
+        else:
+            delivered_date = ""
+
+        delivery_progress = {state: {} for state in delivery_state}
+        delivery_dates = [create_date, picking_date, packing_date,
+                          delivering_date, delivered_date]
+
+        for i in range(len(delivery_state)):
+            delivery_progress[delivery_state[i]] = [delivery_completion[i], delivery_dates[i]]
+        return delivery_progress
 
 
