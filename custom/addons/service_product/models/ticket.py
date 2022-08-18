@@ -105,7 +105,7 @@ class TicketSearchWizard(models.TransientModel):
 class SaleOrder(models.Model):
     _inherit = "sale.order"
     contain_service = fields.Boolean("Service Ticket", compute="_compute_contain_service")
-    contain_product = fields.Boolean("Service Ticket", compute="_compute_contain_service")
+    contain_product = fields.Boolean("Contain Product", compute="_compute_contain_product")
     all_service_ticket = fields.Boolean("All Service Ticket", compute="_compute_all_service_ticket")
 
 
@@ -214,7 +214,12 @@ class SaleOrder(models.Model):
     def _compute_contain_service(self):
         for so in self:
             so.contain_service = any((line.selected_checkout and ( (line.product_id.is_service == True) or (line.product_id.type == "service"))) for line in so.order_line)
-            so.contain_product = any((line.selected_checkout and line.product_id.type == 'product' for line in so.order_line))
+
+
+    @api.depends('order_line')
+    def _compute_contain_product(self):
+        for so in self:
+            so.contain_product = any((line.selected_checkout and line.product_id.type == 'product' and line.product_id.is_service == False) for line in so.order_line)
 
 
     @api.depends('order_line')

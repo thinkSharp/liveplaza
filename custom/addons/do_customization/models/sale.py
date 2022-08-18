@@ -44,6 +44,20 @@ class SaleOrder(models.Model):
     products = fields.Char(string="Products", compute='get_products_string')
     selected_checkout = fields.Boolean(string='Selected For Checkout', defalut=False)
 
+    delivery_status = fields.Selection([
+        ('ordered', 'Ordered'),
+        ('picked', 'Picked'),
+        ('packed', 'Packed'),
+        ('delivering', 'Delivering'),
+        ('delivered', 'Delivered')
+    ], string='Delivery Status', readonly=True, copy=False, index=True, tracking=3,
+        default='ordered',)
+
+    picking_date = fields.Datetime('Picking Date', store=True, default="", readonly=True)
+    packing_date = fields.Datetime('Packing Date', store=True, default="", readonly=True)
+    delivering_date = fields.Datetime('Deliver Date', store=True, default="", readonly=True)
+    delivered_date = fields.Datetime('Delivered Date', store=True, default="", readonly=True)
+
     @api.depends('order_line')
     def get_products_string(self):
         for rec in self:

@@ -54,7 +54,7 @@ class SaleOrder(models.Model):
     _inherit = "sale.order"
 
     is_booking_type = fields.Boolean(string="Booking Order")
-    is_all_booking_type = fields.Boolean(default=False)
+    is_all_booking_type = fields.Boolean("All Booking Type", compute="_compute_is_all_booking_type")
     payment_start_date = fields.Datetime("Payment initiated time")
 
     def check_active_bk_transactions(self):
@@ -71,8 +71,17 @@ class SaleOrder(models.Model):
                 if any(line.product_id.is_booking_type == True for line in rec.order_line):
                     rec.is_booking_type = True
 
-                if all(line.product_id.is_booking_type == True for line in rec.order_line):
-                    rec.is_all_booking_type = True
+
+
+    @api.depends('order_line')
+    def _compute_is_all_booking_type(self):
+        for rec in self:
+            if all(line.product_id.is_booking_type == True for line in rec.order_line):
+                rec.is_all_booking_type = True
+
+            else:
+                rec.is_all_booking_type = False
+
 
 
 class SaleOrderLine(models.Model):
