@@ -54,6 +54,7 @@ Booking and reservation""",
                              'views/mp_booking_timeslots_view.xml',
                              'views/mp_booking_plans_view.xml',
                              'views/marketplace_config_view.xml',
+                             'views/booking_request_views.xml'
                             ],
   "images"               :  ['static/description/Banner.png'],
   "application"          :  True,
