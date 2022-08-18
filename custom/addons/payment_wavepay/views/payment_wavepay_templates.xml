@@ -1,0 +1,15 @@
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- "License URL : <https://store.webkul.com/license.html/>" -->
+<odoo>
+    <template id="payment_wavepay_form">
+        <input t-if='reference' type="hidden" name="reference" t-att-value="reference"/>
+        <input t-if='txId' id='wavepay_tx' type="hidden" name="txId" t-att-value="txId"/>
+        <input t-if='secretId' id='secret_Id' type="hidden" name="secretId" t-att-value="secretId"/>
+        <input t-if='merchantId' id='merchant_Id' type="hidden" name="secretId" t-att-value="secretId"/>
+
+        <script type="text/javascript" src='/payment_wavepay/static/src/js/payment_wavepay.js'></script>
+    </template>
+
+
+</odoo>

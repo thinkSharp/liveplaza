@@ -28,7 +28,7 @@ class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
     payment_provider = fields.Selection(selection=[('manual', 'Custom Payment Form'),('transfer', 'Prepaid'),
-                                                    ('cash_on_delivery', 'COD')], string='Payment Type')
+                                                    ('cash_on_delivery', 'COD'),('wavepay', 'WavePay')], string='Payment Type')
     payment_upload = fields.Binary(string='Upload Payment')
     payment_upload_name = fields.Char(string='Upload Payment')
     state = fields.Selection([
@@ -85,7 +85,7 @@ class SaleOrder(models.Model):
 
         res = super(SaleOrder, self).action_confirm()
         self.write({'payment_provider': self.get_portal_last_transaction().acquirer_id.provider})
-        if self.get_portal_last_transaction().acquirer_id.provider == 'cash_on_delivery' and self.state == 'sale':
+        if self.get_portal_last_transaction().acquirer_id.provider in ('wavepay','cash_on_delivery') and self.state == 'sale':
             self.action_admin()
 
         if order_copy and self.state in ('sale','approve_by_admin'):
