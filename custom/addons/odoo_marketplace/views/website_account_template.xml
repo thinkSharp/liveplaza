@@ -33,7 +33,7 @@
 			</div>
 		</template>
 
-		<template id="marketplace_dashboard_link" name="Link to Marketplace Dashboard" inherit_id="portal.frontend_layout">
+		<template id="marketplace_dashboard_link" name="Link to Marketplace Dashboard" inherit_id="portal.frontend_layout" active="False">
 			<xpath expr="//a[@id='o_logout']" position="before">
                 <t t-if="website.env.user.sudo().partner_id.seller">
 				    <a href="/my/marketplace" class="dropdown-item" role="menuitem" groups="odoo_marketplace.marketplace_draft_seller_group">Marketplace</a>

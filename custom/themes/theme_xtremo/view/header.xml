@@ -75,7 +75,7 @@
           </div>
         </div>
       </template>
-      <template id="xtremo_extra_menu_item_2" inherit_id="portal.frontend_layout" priority="0">
+      <template id="xtremo_extra_menu_item_2" inherit_id="portal.frontend_layout" priority="0" active="False">
         <xpath expr="//ul[@id='top_menu']/li/div/a[last()]" position="after">
           <div role="separator" class="dropdown-divider">
           </div>
@@ -110,7 +110,7 @@
             </div>
           </div>
         </template>
-        <template id="xtremo_header_default" inherit_id="portal.frontend_layout" name="header default">
+        <template id="xtremo_header_default" inherit_id="portal.frontend_layout" name="header default" active="False">
           <xpath expr="//header/nav" position="before">
             <div class="cart">
               <nav class="navbar navbar-expand-md navbar-light bg-light" id="xtremo">
@@ -157,7 +157,7 @@
             </div>
           </xpath>
         </template>
-        <template id="xtremo_whishlist_button" inherit_id="theme_xtremo.xtremo_header_default">
+        <template id="xtremo_whishlist_button" inherit_id="theme_xtremo.xtremo_header_default" active="False">
           <xpath expr="//ul[@id='xtremo_top_menu']/li[@id='my_cart']" position="before">
             <t t-if="request.env.ref('website_sale_wishlist.add_to_wishlist').active">
               <t t-set='wishcount' t-value="len(request.env['product.wishlist'].current())"/>

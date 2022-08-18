@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <data>
+    <template id="mutate_header" inherit_id="web.frontend_layout">
+      <xpath expr="//div[@id='wrapwrap']/header" position="replace">
+        <t t-call="website_livep.header" />
+      </xpath>
+    </template>
+
+    <template id="frontend_assets" inherit_id="web.assets_frontend">
+      <xpath expr="//link[last()]" position="after">
+        <link rel="stylesheet" type="text/css" href="/website_livep/static/src/css/style.css" />
+      </xpath>
+      <xpath expr="//script[last()]" position="after">
+        <script type="application/javascript" src="/website_livep/static/src/js/widgets.js"></script>
+      </xpath>
+    </template>
+  </data>
+</odoo>

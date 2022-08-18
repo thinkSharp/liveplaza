@@ -1,0 +1,60 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+<!--
+    <record model="ir.ui.view" id="website_livep.list">
+      <field name="name">website_livep list</field>
+      <field name="model">website_livep.website_livep</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="value"/>
+          <field name="value2"/>
+        </tree>
+      </field>
+    </record>
+-->
+
+    <!-- actions opening views on models -->
+<!--
+    <record model="ir.actions.act_window" id="website_livep.action_window">
+      <field name="name">website_livep window</field>
+      <field name="res_model">website_livep.website_livep</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+-->
+
+    <!-- server action to the one above -->
+<!--
+    <record model="ir.actions.server" id="website_livep.action_server">
+      <field name="name">website_livep server</field>
+      <field name="model_id" ref="model_website_livep_website_livep"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": model._name,
+        }
+      </field>
+    </record>
+-->
+
+    <!-- Top menu item -->
+<!--
+    <menuitem name="website_livep" id="website_livep.menu_root"/>
+-->
+    <!-- menu categories -->
+<!--
+    <menuitem name="Menu 1" id="website_livep.menu_1" parent="website_livep.menu_root"/>
+    <menuitem name="Menu 2" id="website_livep.menu_2" parent="website_livep.menu_root"/>
+-->
+    <!-- actions -->
+<!--
+    <menuitem name="List" id="website_livep.menu_1_list" parent="website_livep.menu_1"
+              action="website_livep.action_window"/>
+    <menuitem name="Server to list" id="website_livep" parent="website_livep.menu_2"
+              action="website_livep.action_server"/>
+-->
+  </data>
+</odoo>

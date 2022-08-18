@@ -10,7 +10,7 @@
 		</xpath>
 	</template>
 
-	<template id="my_account_profile" name="Link to Profile" inherit_id="portal.frontend_layout">
+	<template id="my_account_profile" name="Link to Profile" inherit_id="portal.frontend_layout" active="False">
 		<xpath expr="//a[@id='o_logout']" position="before">
 			<a href="/my/profile" role="menuitem" class="dropdown-item">My Profile</a>
 		</xpath>

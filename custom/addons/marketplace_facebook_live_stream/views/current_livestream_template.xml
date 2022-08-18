@@ -96,7 +96,7 @@
 	</div>
 	</template>
 
-	<template id="wk_live_stream" inherit_id="website.layout" name="Live Stream">
+	<template id="wk_live_stream" inherit_id="website.layout" name="Live Stream" active="False">
 		<xpath expr="//header" position="after">
 			<t t-if="stream_id">
 				<t t-set="current_stream_object" t-value="request.env['seller.live.stream'].sudo().search([('id','in',[stream_id])])" />
@@ -108,7 +108,3 @@
 		</xpath>
 	</template>
 </odoo>
-
-
-
-

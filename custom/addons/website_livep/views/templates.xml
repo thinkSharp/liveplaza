@@ -1,0 +1,288 @@
+<odoo>
+  <data>
+    <template id="search_path">
+      <option t-att-value="value">
+        <t t-esc="name" />
+      </option>
+    </template>
+
+    <template id="search_box">
+      <form class="search-box js-search-box">
+        <select class="js-search-path">
+          <t t-raw="0" />
+        </select>
+        <input type="text" class="js-search-text" placeholder="Search product..." />
+        <button class="lp-btn js-search-submit" data-type="solid">
+          <span class="svg-icon">
+            <svg aria-labelledby="search-label" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 27.951 27.951">
+              <title id="search-label">Search</title>
+              <g id="noun_Search_3565810" transform="translate(-1.999 -1.989)">
+                <g id="Group_5" data-name="Group 5">
+                  <path id="Path_5" data-name="Path 5" d="M29.71,28.29l-6.55-6.55a12,12,0,1,0-1.41,1.41L28.3,29.7a1,1,0,0,0,1.41-1.41ZM4,14A10,10,0,1,1,14,24,10,10,0,0,1,4,14Z"/>
+                </g>
+              </g>
+            </svg>
+          </span>
+        </button>
+      </form>
+    </template>
+
+    <template id="line">
+      <a t-att-href="product.website_url" class="product">
+        <span t-field="product.image_128" t-options="{'widget': 'image', 'class': 'product__image'}" />
+        <div class="product__info">
+          <div class="product__group">
+            <span class="product__main" t-esc="product_name" />
+            <span class="product__sub">Quality: <t t-esc="quantity" /></span>
+          </div>
+          <span class="product__price" t-esc="product_price" />
+        </div>
+      </a>
+    </template>
+
+    <template id="product_list_item">
+      <li class="product-list__item">
+        <t t-raw="0" />
+      </li>
+    </template>
+
+    <template id="product_list">
+      <ul role="list" class="product-list">
+        <t t-raw="0" />
+      </ul>
+    </template>
+
+    <template id="cart">
+      <t t-set="order_lines" t-value="website_sale_order and website_sale_order.website_order_line" />
+
+      <div t-if="not order_lines">
+        Your cart is empty.
+      </div>
+      <t t-if="order_lines" t-call="website_livep.product_list">
+        <t t-foreach="order_lines" t-as="line">
+          <t t-call="website_livep.product_list_item">
+            <button class="lp-btn product-list__remove js-cart-remove" t-att-data-cart-lid="line.id" t-att-data-cart-pid="line.product_id.id">
+              <span class="svg-icon" style="--svg-scale: 0.6;">
+                <svg aria-labelledby="remove-label" xmlns="http://www.w3.org/2000/svg" width="18.62" height="18.62" viewBox="0 0 18.62 18.62">
+                  <title id="remove-label">Remove</title>
+                  <g id="noun_Cross_1355963" transform="translate(0.1 0.1)">
+                    <path id="Path_125" data-name="Path 125" d="M10.64,9.21l7.553-7.578a1,1,0,0,0,0-1.43,1,1,0,0,0-1.43,0L9.21,7.78,1.632.226A1,1,0,0,0,.2.226a1,1,0,0,0,0,1.43L7.78,9.21.226,16.788a1,1,0,0,0,0,1.43,1,1,0,0,0,1.43,0L9.21,10.64l7.578,7.578a1.011,1.011,0,0,0,1.43-1.43Z"/>
+                  </g>
+                </svg>
+              </span>
+            </button>
+            <t t-call="website_livep.line">
+              <t t-set="product" t-value="line.product_id" />
+              <t t-set="product_name" t-value="line.name_short" />
+              <t t-set="quantity" t-value="line.product_uom_qty" />
+              <t t-set="product_price">7000 MMK</t>
+            </t>
+          </t>
+        </t>
+        <div class="invoice-line">
+          <span>Subtotal:</span>
+          <span t-field="website_sale_order.amount_untaxed" t-options="{'widget': 'monetary', 'display_currency': website_sale_order.currency_id}" />
+        </div> 
+        <div class="invoice-line" data-type="disabled">
+          <span>Delivery:</span>
+          <span>0 Ks</span>
+        </div>
+        <div class="invoice-line">
+          <span>Taxes:</span>
+          <span t-field="website_sale_order.amount_tax" t-options="{'widget': 'monetary', 'display_currency': website_sale_order.currency_id}" />
+        </div>
+        <div class="invoice-line" data-type="end">
+          <span>Total:</span>
+          <span t-field="website_sale_order.amount_total" t-options="{'widget': 'monetary', 'display_currency': website_sale_order.currency_id}" />
+        </div>
+        <a href="/shop/cart" class="lp-btn lp-btn-viewcart" data-type="outline">View Cart</a>
+        <a href="/shop/checkout" class="lp-btn lp-btn-checkout" data-type="solid">Checkout</a>
+      </t>
+    </template>
+
+    <template id="compare_list">
+      <ul role="list" class="product-list">
+        <t t-foreach="products" t-as="product">
+          <t t-set="combination_info" t-value="product._get_combination_info_variant()"/>
+          <li class="product-list__item">
+            <button class="btn product-list__remove">
+              <span class="svg-icon" style="--svg-scale: 0.6;">
+                <svg aria-labelledby="remove-label" xmlns="http://www.w3.org/2000/svg" width="18.62" height="18.62" viewBox="0 0 18.62 18.62">
+                  <title id="remove-label">Remove</title>
+                  <g id="noun_Cross_1355963" transform="translate(0.1 0.1)">
+                    <path id="Path_125" data-name="Path 125" d="M10.64,9.21l7.553-7.578a1,1,0,0,0,0-1.43,1,1,0,0,0-1.43,0L9.21,7.78,1.632.226A1,1,0,0,0,.2.226a1,1,0,0,0,0,1.43L7.78,9.21.226,16.788a1,1,0,0,0,0,1.43,1,1,0,0,0,1.43,0L9.21,10.64l7.578,7.578a1.011,1.011,0,0,0,1.43-1.43Z"/>
+                  </g>
+                </svg>
+              </span>
+            </button>
+            <a t-att-href="product.website_url" class="product">
+              <img class="product__image" t-att-src="website.image_url(product, 'image_128')" alt="Nike shoe" />
+              <div class="product__group">
+                <span class="product__sub" t-esc="combination_info['display_name']" />
+                <span class="product__price" t-esc="combination_info['price']" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"></span>
+              </div>
+            </a>
+          </li>
+        </t>
+      </ul>
+    </template>
+
+    <template id="header">
+      <header t-if="not no_header" id="top" data-anchor="true">
+        <t t-set="categories" t-value="request.env['product.public.category'].search([('parent_id', '=', None)])" />
+        <t t-set="website_sale_order" t-value="website.sale_get_order()" />
+
+        <section class="header-primary">
+          <div class="container">
+            <div class="header-wrapper">
+              <a href="/" class="brand">
+                <img class="logo-mobile" src="/website_livep/static/src/img/brand-mobile.svg" alt="Brand Logo" />
+                <img class="logo-desktop" src="/website_livep/static/src/img/brand-desktop.png" alt="Brand Logo" />
+              </a>
+              <t t-call="website_livep.search_box">
+                <t t-call="website_livep.search_path">
+                  <t t-set="name">All</t>
+                  <t t-set="value">/shop</t>
+                </t>
+                <t t-call="website_livep.search_path">
+                  <t t-set="name">Service</t>
+                  <t t-set="value">/service</t>
+                </t>
+                <t t-foreach="categories" t-as="ctg">
+                  <t t-call="website_livep.search_path">
+                    <t t-set="name" t-value="ctg.name" />
+                    <t t-set="value" t-value="'/shop/category/' + slug(ctg)" />
+                  </t>
+                </t>
+              </t>
+              <nav class="navbar-header">
+                <button class="lp-btn js-slidein-control" data-slidein-open="#compare-list-slidein">
+                  <span class="svg-icon">
+                    <svg aria-labelledby="compare-label" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21.77 21.77">
+                      <title id="compare-label">Compare</title>
+                      <g id="noun_Rotate_541260" transform="translate(-1 -1)">
+                        <g id="Group_124" data-name="Group 124" transform="translate(1 1)">
+                          <g id="Group_123" data-name="Group 123" transform="translate(0)">
+                            <g id="Group_122" data-name="Group 122">
+                              <path id="Path_130" data-name="Path 130" d="M10.734,0A10.819,10.819,0,0,0,0,10.9a10.945,10.945,0,0,0,4.088,8.562.483.483,0,0,0,.685-.082.5.5,0,0,0-.081-.7A9.948,9.948,0,0,1,.976,10.9,9.836,9.836,0,0,1,10.734.991a9.6,9.6,0,0,1,3.718.745.485.485,0,0,0,.637-.269A.5.5,0,0,0,14.825.82,10.56,10.56,0,0,0,10.734,0Z" transform="translate(0)"/>
+                              <path id="Path_131" data-name="Path 131" d="M10.891,21.824a10.819,10.819,0,0,0,10.734-10.9,10.945,10.945,0,0,0-4.085-8.56.483.483,0,0,0-.685.082.5.5,0,0,0,.08.7,9.948,9.948,0,0,1,3.715,7.782,9.836,9.836,0,0,1-9.759,9.911,9.6,9.6,0,0,1-3.72-.745.485.485,0,0,0-.637.269A.5.5,0,0,0,6.8,21,10.56,10.56,0,0,0,10.891,21.824Z" transform="translate(0.144 -0.054)"/>
+                              <path id="Path_132" data-name="Path 132" d="M17,2h4.879v.976h-3.9v3.9H17Z" transform="translate(-0.109 -0.048)"/>
+                              <path id="Path_133" data-name="Path 133" d="M0,0H4.879V.976H.976v3.9H0Z" transform="translate(4.879 19.818) rotate(180)"/>
+                            </g>
+                          </g>
+                        </g>
+                      </g>
+                    </svg>
+                  </span>
+                  <span class="lp-btn__badge">3</span>
+                </button>
+                <button class="lp-btn js-slidein-control" data-slidein-open="#shopping-cart-slidein">
+                  <span class="svg-icon">
+                    <svg aria-labelledby="cart-label" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 23.032 20.478">
+                      <title id="cart-label">Cart</title>
+                      <g id="noun_cart_2345544" transform="translate(-5.011 -10)">
+                        <g id="Group_1" data-name="Group 1" transform="translate(5.011 10)">
+                          <path id="Path_1" data-name="Path 1" d="M5.523,962.362a.512.512,0,0,0,0,1.024H8.69l2.7,12.75a.535.535,0,0,0,.536.56h12.8a.512.512,0,1,0,0-1.024H12.338l-.432-2.048H25.744a.529.529,0,0,0,.5-.4l1.792-7.679a.536.536,0,0,0-.5-.624H10.066l-.456-2.16a.528.528,0,0,0-.5-.4Zm4.759,3.584H26.9l-1.56,6.655H11.69Zm4.2,12.287a2.3,2.3,0,1,0,2.3,2.3A2.312,2.312,0,0,0,14.482,978.233Zm7.679,0a2.3,2.3,0,1,0,2.3,2.3A2.312,2.312,0,0,0,22.161,978.233Zm-7.679,1.024a1.28,1.28,0,1,1-1.28,1.28A1.272,1.272,0,0,1,14.482,979.256Zm7.679,0a1.28,1.28,0,1,1-1.28,1.28A1.272,1.272,0,0,1,22.161,979.256Z" transform="translate(-5.011 -962.362)"/>
+                        </g>
+                      </g>
+                    </svg>
+                  </span>
+                  <span t-if="website_sale_order and website_sale_order.cart_quantity" t-esc="website_sale_order.cart_quantity" class="lp-btn__badge js-cart-quantity" />
+                </button>
+                <a class="lp-btn" href="#">
+                  <span class="svg-icon">
+                    <svg aria-labelledby="wishlist-label" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21.505 18.739">
+                      <title id="wishlist-lable">Wish List</title>
+                      <g id="noun_Heart_1911793" transform="translate(-9.999 -17.752)">
+                        <g id="Group_2" data-name="Group 2" transform="translate(9.999 17.752)">
+                          <path id="Path_2" data-name="Path 2" d="M15.938,17.752a.374.374,0,0,0-.079.01h0a5.6,5.6,0,0,0-2.252.533A6.726,6.726,0,0,0,10.5,26.852a10.465,10.465,0,0,0,2.082,2.874,43.944,43.944,0,0,0,3.271,3.113c1.14.99,2.254,1.884,3.114,2.533.43.325.8.588,1.075.775.14.093.256.167.356.223a1.48,1.48,0,0,0,.143.072.478.478,0,0,0,.423,0,1.48,1.48,0,0,0,.143-.072c.1-.056.216-.13.356-.223.279-.187.645-.45,1.075-.775.86-.65,1.974-1.543,3.114-2.533a43.944,43.944,0,0,0,3.271-3.113A10.465,10.465,0,0,0,31,26.852,6.726,6.726,0,0,0,27.9,18.294a5.713,5.713,0,0,0-7.16,2.049,5.835,5.835,0,0,0-4.7-2.578L16,17.756v0C15.979,17.76,15.959,17.752,15.938,17.752Zm.008.872a5.119,5.119,0,0,1,4.463,2.65.388.388,0,0,0,.685,0,4.985,4.985,0,0,1,6.48-2.18,5.812,5.812,0,0,1,2.69,7.411,10.314,10.314,0,0,1-1.911,2.6,43.267,43.267,0,0,1-3.207,3.051c-1.125.977-2.227,1.861-3.071,2.5-.422.318-.779.575-1.037.748-.122.081-.217.14-.286.18-.069-.039-.164-.1-.286-.18-.258-.173-.616-.43-1.037-.748-.843-.637-1.946-1.521-3.071-2.5a43.269,43.269,0,0,1-3.207-3.051,10.314,10.314,0,0,1-1.911-2.6,5.812,5.812,0,0,1,2.69-7.411A4.841,4.841,0,0,1,15.947,18.624Z" transform="translate(-9.999 -17.752)"/>
+                        </g>
+                      </g>
+                    </svg>
+                  </span>
+                  <span class="lp-btn__badge">2</span>
+                </a>
+                <button class="lp-btn lp-btn-account">
+                  <span class="svg-icon" style="--svg-scale: 1.1;">
+                    <svg aria-labelledby="account-label" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                      <title id="account-label">Account</title>
+                      <g id="noun_account_644483" transform="translate(-61.665 49)">
+                        <g id="Group_3" data-name="Group 3" transform="translate(61.665 -49)">
+                          <path id="Path_4" data-name="Path 4" d="M17,7A10,10,0,1,0,27,17,10.011,10.011,0,0,0,17,7ZM10.972,23.941A.393.393,0,0,0,11,23.8a6,6,0,1,1,12,0,.4.4,0,0,0,.028.141,9.173,9.173,0,0,1-12.057,0Zm12.8-.72a6.809,6.809,0,0,0-4.9-5.953,3.6,3.6,0,1,0-3.746,0,6.808,6.808,0,0,0-4.9,5.953,9.2,9.2,0,1,1,13.542,0ZM17,17a2.8,2.8,0,1,1,2.8-2.8A2.8,2.8,0,0,1,17,17Z" transform="translate(-7 -7)"/>
+                        </g>
+                      </g>
+                    </svg>
+                  </span>
+                </button>
+              </nav>
+            </div>
+          </div>
+          <div id="shopping-cart-slidein" class="slidein" data-type="right">
+            <div class="slidein__wrapper">
+              <h3 class="slidein__title">
+                My Shopping Cart
+                <button data-slidein-close="#shopping-cart-slidein" class="lp-btn slidein__close js-slidein-control">
+                  <span class="svg-icon" style="--svg-scale: 0.9;">
+                    <svg aria-labelledby="close-label" xmlns="http://www.w3.org/2000/svg" width="18.62" height="18.62" viewBox="0 0 18.62 18.62">
+                      <title id="close-label">Close</title>
+                      <g id="noun_Cross_1355963" transform="translate(0.1 0.1)">
+                        <path id="Path_125" data-name="Path 125" d="M10.64,9.21l7.553-7.578a1,1,0,0,0,0-1.43,1,1,0,0,0-1.43,0L9.21,7.78,1.632.226A1,1,0,0,0,.2.226a1,1,0,0,0,0,1.43L7.78,9.21.226,16.788a1,1,0,0,0,0,1.43,1,1,0,0,0,1.43,0L9.21,10.64l7.578,7.578a1.011,1.011,0,0,0,1.43-1.43Z"/>
+                      </g>
+                    </svg>
+                  </span>
+                </button>
+              </h3>
+              <div class="slidein__body js-cart">
+                Please make sure javascipt is enabled.
+              </div>
+            </div>
+          </div>
+          <div id="compare-list-slidein" class="slidein" data-type="right">
+            <div class="slidein__wrapper">
+              <h3 class="slidein__title">
+                My Compare List
+                <button data-slidein-close="#compare-list-slidein" class="btn slidein__close js-slidein-control">
+                  <span class="svg-icon" style="--svg-scale: 0.9;">
+                    <svg aria-labelledby="close-label" xmlns="http://www.w3.org/2000/svg" width="18.62" height="18.62" viewBox="0 0 18.62 18.62">
+                      <title id="close-label">Close</title>
+                      <g id="noun_Cross_1355963" transform="translate(0.1 0.1)">
+                        <path id="Path_125" data-name="Path 125" d="M10.64,9.21l7.553-7.578a1,1,0,0,0,0-1.43,1,1,0,0,0-1.43,0L9.21,7.78,1.632.226A1,1,0,0,0,.2.226a1,1,0,0,0,0,1.43L7.78,9.21.226,16.788a1,1,0,0,0,0,1.43,1,1,0,0,0,1.43,0L9.21,10.64l7.578,7.578a1.011,1.011,0,0,0,1.43-1.43Z"/>
+                      </g>
+                    </svg>
+                  </span>
+                </button>
+              </h3>
+              <div class="slidein__body js-compare-list">
+                Please make sure javascript is enabled.
+              </div>
+            </div>
+          </div>
+        </section>
+        <section class="navbar-wrapper">
+          <div class="container">
+            <nav class="navbar-main">
+              <div id="menu">
+                <ul role="list" class="menu-main">
+                  <t t-foreach="website.menu_id.child_id" t-as="submenu">
+                    <t t-set="has_visible_submenu" t-value="(submenu.is_mega_menu and submenu.is_visible) or submenu.child_id.filtered(lambda menu: menu.is_visible)"/>
+                    <li t-if="submenu.is_visible and not has_visible_submenu" 
+                      t-att-class="'active' if submenu.clean_url() and unslug_url(request.httprequest.path) == unslug_url(submenu.clean_url()) else ''">
+                      <a t-att-href="submenu.clean_url()"
+                        t-att-target="'_blank' if submenu.new_window else None">
+                        <span t-field="submenu.name" />
+                      </a>
+                    </li>
+                  </t>
+                </ul>
+                <ul role="list">
+                  <li><button class="lp-btn">Categories</button></li>
+                  <li><a href="#" class="lp-btn">ENG</a></li>
+                </ul>
+              </div>
+            </nav>
+          </div>
+        </section>
+      </header>
+    </template>
+  </data>
+</odoo>

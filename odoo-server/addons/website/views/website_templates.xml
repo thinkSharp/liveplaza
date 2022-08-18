@@ -258,7 +258,8 @@
         <t t-call-assets="website.assets_editor" t-css="false" groups="website.group_website_publisher" lazy_load="True"/>
     </xpath>
 
-    <xpath expr="//header" position="attributes">
+    <!-- Temporary -->
+    <!-- <xpath expr="//header" position="attributes">
         <attribute name="data-name">Header</attribute>
     </xpath>
     <xpath expr="//header//a[hasclass('navbar-brand')]" position="replace">
@@ -280,7 +281,7 @@
                 <t t-set="link_class" t-value="'nav-link'"/>
             </t>
         </t>
-    </xpath>
+    </xpath> -->
 
     <xpath expr="//div[hasclass('o_footer_copyright')]//span[@t-field='res_company.name']" position="after">
         <t t-call="website.language_selector"/>
@@ -313,9 +314,9 @@
     <xpath expr="//div[@id='wrapwrap']" position="attributes">
         <attribute name="t-attf-class" add="#{'o_header_overlay' if 'header_overlay' in main_object and main_object.header_overlay else ''}" separator=" "/>
     </xpath>
-    <xpath expr="//header" position="attributes">
+    <!-- <xpath expr="//header" position="attributes">
         <attribute name="t-attf-class" add="#{main_object.header_color if 'header_color' in main_object else ''}" separator=" "/>
-    </xpath>
+    </xpath> -->
 </template>
 
 <template id="brand_promotion" inherit_id="web.brand_promotion" name="Brand Promotion">
@@ -329,7 +330,7 @@
     </xpath>
 </template>
 
-<template id="layout_logo_show" inherit_id="website.layout" name="Show Logo">
+<template id="layout_logo_show" inherit_id="website.layout" name="Show Logo" active="False">
     <xpath expr="//header//a[hasclass('navbar-brand')]" position="replace">
         <a href="/" class="navbar-brand logo">
             <span t-field="website.logo" t-options="{'widget': 'image'}" role="img" t-att-aria-label="'Logo of %s' % website.name" t-att-title="website.name" />
@@ -337,7 +338,7 @@
     </xpath>
 </template>
 
-<template id="affix_top_menu" inherit_id="website.layout" name="Fixed Top Menu">
+<template id="affix_top_menu" inherit_id="website.layout" name="Fixed Top Menu" active="False">
     <xpath expr="//header" position="attributes">
         <attribute name="t-attf-class" add="#{'o_affix_enabled'}" separator=" "/>
     </xpath>

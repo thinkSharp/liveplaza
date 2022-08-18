@@ -23,7 +23,7 @@
         </template>
 
 
-        <template id="custom" inherit_id="portal.portal_show_sign_in">
+        <template id="custom" inherit_id="portal.portal_show_sign_in" active="False">
             <xpath expr="//li//a[@t-attf-href='/web/login']" position="replace">
                 <a class="wk_a nav-link" href="#" id="login_menu" data-backdrop="static"
                   data-keyboard="false" t-if="website.user_id == user_id"

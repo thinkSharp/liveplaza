@@ -32,10 +32,10 @@
             <opt data-xmlid="theme_xtremo.xt_header_xtremo_font_8" data-icon="/theme_xtremo/static/src/icon/fonts-montserrat.png"/>
           </content>
 
-          <content id="theme_customize_page_header" string="Header" title="Choose your Header">
+          <!-- <content id="theme_customize_page_header" string="Header" title="Choose your Header">
               <opt data-xmlid="theme_xtremo.xt_header_xtremo_2,theme_xtremo.xtremo_header_2_menu_content,theme_xtremo.xtremo_whishlist_button" data-reload="/*" data-icon="/theme_xtremo/static/src/icon/Header-2.png" />
               <opt data-xmlid="theme_xtremo.xt_header_xtremo_1" data-reload="/*" data-icon="/theme_xtremo/static/src/icon/Header-1.png" active="True" />
-          </content>
+          </content> -->
 
           <content id="theme_xtremo_customize_footer" string="Footer" title="Choose your Footer">
               <opt data-reload="/*" data-xmlid="theme_xtremo.xt_footer_xtremo_1,theme_xtremo.footer_layout_1" data-icon="/theme_xtremo/static/src/icon/Footer-2.png" active="True"/>
