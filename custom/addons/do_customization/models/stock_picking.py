@@ -14,6 +14,7 @@ from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 from odoo.tools.float_utils import float_compare, float_is_zero, float_round
 from odoo.exceptions import UserError
 from odoo.addons.stock.models.stock_move import PROCUREMENT_PRIORITIES
+import datetime
 
 
 class Picking(models.Model):
@@ -67,8 +68,21 @@ class Picking(models.Model):
     delivery_date = fields.Datetime('Delivery Date', store=True)
 
     def deliver_now(self):
+        picking = self.env["stock.picking"].search(
+            [('origin', '=', self.origin), ('picking_type_id.name', '=', self.picking_type_id.name)])
+        order = self.env["sale.order"].search([('name', '=', self.origin)])
         if self.state == 'assigned':
             self.write({'state': 'delivering'})
+            if self.check_all_order_deliver(picking):
+                order.delivery_status = 'delivering'
+                order.delivering_date = datetime.datetime.now()
+
+    def check_all_order_deliver(self, picking):
+        for p in picking:
+            if p.state != "delivering":
+                return False
+        return True
+
     
     def do_hold(self):
         if self.state == 'hold':
@@ -82,6 +96,9 @@ class Picking(models.Model):
         Normally that happens when the button "Done" is pressed on a Picking view.
         @return: True
         """
+
+        self.ensure_one()
+
         self._check_company()
         seller_payment = self.env['seller.payment']
         account_payment = self.env['account.payment']
@@ -172,16 +189,45 @@ class Picking(models.Model):
                 #acc_payment_id.sudo().post()
                 
                 sp_obj.invoice_id.sudo().post()
-                sp_obj.do_paid()        
+                sp_obj.do_paid()
+
+        picking = self.env["stock.picking"].search(
+            [('origin', '=', self.origin), ('picking_type_id.name', '=', self.picking_type_id.name)])
+        order = self.env["sale.order"].search([('name', '=', self.origin)])
+        picking_type = self.picking_type_id.name
+
+        if self.check_all_order_done(picking):
+            if picking_type == "Pick":
+                order.delivery_status = 'picked'
+                order.picking_date = datetime.datetime.now()
+            elif picking_type == "Pack":
+                order.delivery_status = 'packed'
+                order.packing_date = datetime.datetime.now()
+            elif picking_type == "Delivery Orders":
+                if self.state == 'delivering':
+                    order.delivery_status = "delivering"
+                    order.delivering_date = datetime.datetime.now()
+                elif self.state == 'done':
+                    order.delivery_status = "delivered"
+                    order.delivered_date = datetime.datetime.now()
+            else:
+                order.delivery_status = "ordered"
 
         self._send_confirmation_email()
         return True
 
+    def check_all_order_done(self, picking):
+        for p in picking:
+            if p.state != "done":
+                return False
+        return True
+
     def button_validate(self):
-        self.ensure_one()        
-        
+        self.ensure_one()
+
         if not self.move_lines and not self.move_line_ids:
             raise UserError(_('Please add some items to move.'))
+
 
         # Clean-up the context key at validation to avoid forcing the creation of immediate
         # transfers.
@@ -222,6 +268,7 @@ class Picking(models.Model):
         if sms_confirmation:
             return sms_confirmation
 
+        print("before no_quantities_done")
         if no_quantities_done:
             view = self.env.ref('stock.view_immediate_transfer')
             wiz = self.env['stock.immediate.transfer'].create({'pick_ids': [(4, self.id)]})
@@ -236,6 +283,8 @@ class Picking(models.Model):
                 'res_id': wiz.id,
                 'context': self.env.context,
             }
+
+        print("after no_quantities_done")
 
         if self._get_overprocessed_stock_moves() and not self._context.get('skip_overprocessed_check'):
             view = self.env.ref('stock.view_overprocessed_transfer')
@@ -256,6 +305,8 @@ class Picking(models.Model):
             return self.action_generate_backorder_wizard()
         self.action_done()
         return
+
+
     
     def prepare_seller_payment_vals(self):        
     

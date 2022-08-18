@@ -33,6 +33,7 @@
         'views/faq.xml',
         'views/faq_web_view.xml',
         'views/create_seller_shop.xml',
+        'views/portal_my_orders.xml',
         'data/account_data.xml',
     ],
 
