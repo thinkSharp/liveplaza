@@ -226,11 +226,14 @@ class ProductPricelistItem(models.Model):
     active = fields.Boolean(readonly=True, related="pricelist_id.active", store=True)
     isMulti_variants = fields.Boolean("Multiple Variants", help="It is for Multiple product variants selection.")
     isMulti_products = fields.Boolean("Multiple Products", help="It is for Multiple products selection.")
+    isMulti = fields.Boolean("Multiple", help="It is for Multiple products selection.")
+    isGenerated = fields.Boolean("Is Generated", default=False, help="It is for Multiple products generated process.")
+    group_id = fields.Many2one('product.pricelist.item', 'Group Pricelist Item', index=True, readonly=True, ondelete='cascade')
     compute_price = fields.Selection([
         ('fixed_discount', 'Fixed Discount'),
         ('fixed', 'Fixed Price'),
         ('percentage', 'Percentage (discount)'),
-        ('formula', 'Formula')], index=True, default='fixed', required=True)
+        ('formula', 'Formula')], index=True, default='fixed_discount', required=True)
     fixed_discount = fields.Float('Fixed Discount', digits='Product Price')
 
     @api.onchange('deal_applied_on')
@@ -264,6 +267,8 @@ class ProductPricelistItem(models.Model):
                     if len(item.product_tmpl_ids) > 1:
                         if item.compute_price == 'fixed' and item.fixed_price > 0.0:
                             item.name = _("Product: %s and others for fixed price %s") % (p_temp_id.name,item.fixed_price)
+                        elif item.compute_price == 'fixed_discount':
+                            item.name = _("Product: %s and others for %s fixed discount") % (p_temp_id.name,item.fixed_discount)
                         elif item.compute_price == 'percentage':
                             item.name = _("Product: %s and others for %s percent") % (p_temp_id.name,item.percent_price)
                         else:
@@ -278,6 +283,8 @@ class ProductPricelistItem(models.Model):
                     if len(item.product_ids) > 1:
                         if item.compute_price == 'fixed' and item.fixed_price > 0.0:
                             item.name = _("Variant: %s and others for fixed price %s") % (p_variant_id.name,item.fixed_price)
+                        elif item.compute_price == 'fixed_discount':
+                            item.name = _("Product: %s and others for %s fixed discount") % (p_variant_id.name,item.fixed_discount)
                         elif item.compute_price == 'percentage':
                             item.name = _("Variant: %s and others for %s percent") % (p_variant_id.name,item.percent_price)
                         else:
@@ -380,7 +387,129 @@ class ProductPricelistItem(models.Model):
             template_rules.update({'applied_on': '1_product'})
             (self-variants_rules-template_rules).update({'applied_on': '3_global'})
 
+    def save_multi_record(self): 
+                      
+        for rec in self:
+            if rec.isMulti_products and len(rec.product_tmpl_ids) >= 1:
+                for values in rec.product_tmpl_ids:
+                    self.env['product.pricelist.item'].create({'applied_on': rec.applied_on, 
+                          'min_quantity': rec.min_quantity, 
+                          'pricelist_id': rec.pricelist_id.id, 
+                          'compute_price': rec.compute_price, 
+                          'base': rec.base, 
+                          'price_discount': rec.price_discount, 
+                          'categ_id': rec.categ_id, 
+                          'product_tmpl_id': values.id, 
+                          'name': values.name, 
+                          'isMulti_products': False, #self.isMulti_products, 
+                          'website_deals_m2o': rec.website_deals_m2o, 
+                          'isMulti_variants': False, #self.isMulti_variants, 
+                          'date_start': rec.date_start, 
+                          'date_end': rec.date_end, 
+                          'fixed_price': rec.fixed_price, 
+                          'fixed_discount': rec.fixed_discount, 
+                          'percent_price': rec.percent_price, 
+                          'price_surcharge': rec.price_surcharge, 
+                          'price_round': rec.price_round, 
+                          'price_min_margin': rec.price_min_margin, 
+                          'price_max_margin': rec.price_max_margin,
+                          'deal_applied_on': rec.deal_applied_on, 
+                          'actual_price': rec.actual_price,
+                          'discounted_price': rec.discounted_price,                         
+                          'group_id': rec.id
+                          })
+                rec.sudo().write({'isGenerated': True})
+            
+            elif rec.isMulti_variants and len(rec.product_ids) >= 1:
+                for values in rec.product_ids:
+                    self.env['product.pricelist.item'].create({'applied_on': rec.applied_on, 
+                          'min_quantity': rec.min_quantity, 
+                          'pricelist_id': rec.pricelist_id.id, 
+                          'compute_price': rec.compute_price, 
+                          'base': rec.base, 
+                          'price_discount': rec.price_discount, 
+                          'categ_id': rec.categ_id, 
+                          'product_id': values.id, 
+                          'name': values.name, 
+                          'isMulti_products': False, #self.isMulti_products, 
+                          'website_deals_m2o': rec.website_deals_m2o, 
+                          'isMulti_variants': False, #self.isMulti_variants, 
+                          'date_start': rec.date_start, 
+                          'date_end': rec.date_end, 
+                          'fixed_price': rec.fixed_price, 
+                          'fixed_discount': rec.fixed_discount, 
+                          'percent_price': rec.percent_price, 
+                          'price_surcharge': rec.price_surcharge, 
+                          'price_round': rec.price_round, 
+                          'price_min_margin': rec.price_min_margin, 
+                          'price_max_margin': rec.price_max_margin,
+                          'deal_applied_on': rec.deal_applied_on,
+                          'actual_price': rec.actual_price,
+                          'discounted_price': rec.discounted_price,
+                          'group_id': rec.id
+                          })
+                rec.sudo().write({'isGenerated': True})
 
+            
+    @api.model_create_multi
+    def create(self, vals_list):
+        for values in vals_list:
+            if values.get('isMulti_products', False):
+                values['isMulti'] = values.get('isMulti_products')
+            if values.get('isMulti_variants', False):
+                values['isMulti'] = values.get('isMulti_variants')
+            if values.get('website_deals_m2o'):
+                child_data = self.env['product.pricelist.item'].search([('group_id', '=', self.id)])
+                if child_data:
+                    child_data.write({'website_deals_m2o': values.get('website_deals_m2o')})
+            if values.get('applied_on', False):
+                # Ensure item consistency for later searches.
+                applied_on = values['applied_on']
+                if applied_on == '3_global':
+                    values.update(dict(product_id=None, product_tmpl_id=None, categ_id=None))
+                elif applied_on == '2_product_category':
+                    values.update(dict(product_id=None, product_tmpl_id=None))
+                elif applied_on == '1_product':                                
+                    values.update(dict(product_id=None, categ_id=None))
+                elif applied_on == '0_product_variant':
+                    values.update(dict(categ_id=None))                
+        return super(ProductPricelistItem, self).create(vals_list)
+
+    def write(self, values):
+        if values.get('isMulti_products'):
+            values['isMulti'] = values.get('isMulti_products')
+        if values.get('isMulti_variants'):
+            values['isMulti'] = values.get('isMulti_variants')
+        if values.get('website_deals_m2o'):
+            child_data = self.env['product.pricelist.item'].search([('group_id', '=', self.id)])
+            for cd in child_data:
+                cd.write({'website_deals_m2o': values.get('website_deals_m2o')})
+                    
+        if self.group_id and values:
+            child_data = self.env['product.pricelist.item'].search([('group_id', '=', self.id)])                
+            for p_data in child_data:                   
+                for v_data, k_data in values.items():
+                    if v_data != 'product_tmpl_ids':
+                        p_data.write({v_data : k_data})
+         
+        if values.get('applied_on', False):
+            # Ensure item consistency for later searches.
+            applied_on = values['applied_on']
+            if applied_on == '3_global':
+                values.update(dict(product_id=None, product_tmpl_id=None, categ_id=None))
+            elif applied_on == '2_product_category':
+                values.update(dict(product_id=None, product_tmpl_id=None))
+            elif applied_on == '1_product':
+                values.update(dict(product_id=None, categ_id=None))
+            elif applied_on == '0_product_variant':
+                values.update(dict(categ_id=None))
+        res = super(ProductPricelistItem, self).write(values)
+        # When the pricelist changes we need the product.template price
+        # to be invalided and recomputed.
+        self.flush()
+        self.invalidate_cache()
+        return res
+    
 class WebsiteDeals(models.Model):
     _name = 'website.deals'
     _description = 'Website Deals'
@@ -433,7 +562,7 @@ class WebsiteDeals(models.Model):
                                        help="The message you want to show in the website when deal is expired.",
                                        default='Opps!! This deal has been expired.')
     d_state_after_expire = fields.Selection([('blur', 'Blur'), ('delete', 'Delete')],
-                                            'What to do with deal after Expiry', default='blur',
+                                            'What to do with deal after Expiry', default='delete', readonly=True,
                                             help="What do you want to do with deal after expiration.Either you can blur the deals in website or delete a deal from website")
     display_on_homepage = fields.Boolean(string='Display on Homepage', default=False, attrs="{'readonly': [('forbidden_user', '=', uid)]")
     sequence = fields.Integer(string='Sequence', default=30, required=True)
