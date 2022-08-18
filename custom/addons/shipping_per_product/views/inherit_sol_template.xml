@@ -107,6 +107,7 @@
                         <td colspan="4" style="padding-top: 22px;">
 
                             <t t-if="website_sale_order.is_all_booking_type">
+
                                 <t t-set="pro_lines" t-value="website_o_lines.get('s_lines')"/>
                                 <t t-if="pro_lines" t-call="shipping_per_product.order_lines_section_with_delivery">
                                     <t t-set="sol_deliveries" t-value="pro_lines.get_delivery_carrier_ids()"/>
