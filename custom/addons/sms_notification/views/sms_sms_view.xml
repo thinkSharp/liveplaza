@@ -78,9 +78,9 @@
                     <field name="group_type" string="SMS To"/>
                     <field name="sms_gateway_config_id"/>
                     <field name="state"/>
-                    <field name="partner_id" optional="'show'" attrs="{'invisible':[('group_type' , '!=','individual')],'readonly':[('state','in',('sent','delivered'))]}" />
-                    <field name="partner_ids" optional="'hide'" attrs="{'invisible':[('group_type' , '!=','multiple')],'readonly':[('state','in',('sent','delivered'))]}" widget="many2many_tags"/>
-                    <field name="group_ids" optional="'hide'" attrs="{'invisible':[('group_type', '!=', 'group')],'readonly':[('state','in',('sent','delivered'))],'required':[('group_type','=','group')]}"/>
+                    <field name="partner_id" optional="show" attrs="{'invisible':[('group_type' , '!=','individual')],'readonly':[('state','in',('sent','delivered'))]}" />
+                    <field name="partner_ids" optional="hide" attrs="{'invisible':[('group_type' , '!=','multiple')],'readonly':[('state','in',('sent','delivered'))]}" widget="many2many_tags"/>
+                    <field name="group_ids" optional="hide" attrs="{'invisible':[('group_type', '!=', 'group')],'readonly':[('state','in',('sent','delivered'))],'required':[('group_type','=','group')]}"/>
                     <field name="create_date" />
                     <button name="send_now" string="Send Now" type="object" icon="fa-paper-plane text-success" states="new" help="Send Now"/>
                     <button name="retry" string="Retry" type="object" icon="fa-repeat text-success" states="undelivered" help="Retry"/>
