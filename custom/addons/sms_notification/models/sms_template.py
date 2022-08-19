@@ -23,6 +23,8 @@ from odoo import _, api, fields, models, tools
 
 _logger = logging.getLogger(__name__)
 
+from .utils import parse_subscriber_number_mm
+
 
 # http://stackoverflow.com/questions/38200739/extract-text-from-html-mail-odoo
 class MLStripper(HTMLParser):
@@ -91,7 +93,8 @@ class SmsTemplate(models.Model):
             country_calling_code = partner.country_id.phone_code
         else:
             country_calling_code = company_country_calling_code
-        return "+{code}{mobile}".format(code=country_calling_code, mobile=mobile)
+        subscriber_number = parse_subscriber_number_mm(mobile)
+        return "+{code}{subscriber_number}".format(code=country_calling_code, subscriber_number=subscriber_number)
 
     @api.depends('condition')
     def onchange_condition(self):
