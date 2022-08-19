@@ -32,7 +32,7 @@ class ProductInherit(models.Model):
     def _compute_website_url(self):
         super(ProductInherit, self)._compute_website_url()
         for product in self:
-            if product.is_service:
+            if product.is_service or product.type == 'service':
                 product.website_url = "/service/%s" % slug(product)
 
             else:

@@ -383,8 +383,8 @@ class WebsiteSale (WebsiteSale):
 
         domain = self._get_search_domain(search, category, attrib_values)
         domain.append(('website_published', '=', True))
-        domain.append(('is_service', '=', False))
-        domain.append(('type', '!=', 'service'))
+        # domain.append(('is_service', '=', False))
+        # domain.append(('type', '!=', 'service'))
         keep = QueryURL('/shop', category=category and int(category), search=search, attrib=attrib_list, order=post.get('order'))
 
         pricelist_context, pricelist = self._get_pricelist_context()
@@ -491,6 +491,7 @@ class WebsiteSale (WebsiteSale):
         attrib_set = {v[1] for v in attrib_values}
 
         domain = self._get_search_domain(search, category, attrib_values)
+        domain.append(('website_published', '=', True))
         domain.append('|')
         domain.append(('is_service', '=', True))
         domain.append(('type', '=', 'service'))
