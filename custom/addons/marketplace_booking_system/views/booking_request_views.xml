@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="booking_request_tree_view" model="ir.ui.view">
+        <field name="name">booking.request.tree</field>
+        <field name="model">product.product</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="display_name" string="Product Name"/>
+                <field name="marketplace_seller_id" string="Seller"/>
+                <field name="status"/>
+                <field name="create_date" string="Requested Date"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="booking_approval_tree_view" model="ir.ui.view">
+        <field name="name">booking.approval.tree</field>
+        <field name="model">product.product</field>
+        <field name="arch" type="xml">
+            <tree create="false">
+                <field name="display_name" string="Product Name"/>
+                <field name="marketplace_seller_id" string="Seller"/>
+                <field name="status"/>
+                <field name="create_date" string="Requested Date"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="booking_approval_from_view" model="ir.ui.view">
+        <field name="name">booking.approval.form</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="odoo_marketplace.wk_seller_product_template_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="attributes">
+                <attribute name="create">false</attribute>
+                <attribute name="edit">false</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="booking_request_action" model="ir.actions.act_window">
+        <field name="name">Booking Requests</field>
+        <field name="res_model">product.template</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+    (0, 0, {'view_mode': 'tree', 'view_id': ref('booking_request_tree_view')}),
+    (0, 0, {'view_mode': 'form', 'view_id': ref('odoo_marketplace.wk_seller_product_template_form_view')})]"/>
+        <field name="domain">[('create_uid','=',uid), ('is_booking_type','=',True)]</field>
+    </record>
+
+    <record id="wk_seller_booking_action" model="ir.actions.act_window">
+			<field name="name">Booking Approval</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">product.template</field>
+			<field name="domain">[('status','=','pending'),('marketplace_seller_id','in',['get_marketplace_seller_id()']), ('is_booking_type','=',True)]</field>
+			<field name="view_mode">tree,form</field>
+			<field
+				name="view_ids"
+				eval="[(5, 0, 0),
+					(0, 0, {'view_mode': 'tree', 'view_id': ref('booking_approval_tree_view')}),
+					(0, 0, {'view_mode': 'form', 'view_id': ref('booking_approval_from_view')})
+				]"/>
+    </record>
+
+
+    <menuitem id='booking_requests' name='Booking Requests' action='booking_request_action' parent='odoo_marketplace.wk_seller_dashboard_menu2' groups="odoo_marketplace.marketplace_seller_group"/>
+    <menuitem id="wk_seller_dashboard_menu2_sub_menu4" name="Booking Approval" parent="odoo_marketplace.wk_seller_dashboard_menu2" action="wk_seller_booking_action" groups="odoo_marketplace.marketplace_manager_group"/>
+
+</odoo>

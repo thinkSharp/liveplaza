@@ -396,6 +396,7 @@ class WebsiteSale (WebsiteSale):
         domain = self._get_search_domain(search, category, attrib_values)
         domain.append(('website_published', '=', True))
         domain.append(('is_service', '=', False))
+        domain.append(('type', '!=', 'service'))
         keep = QueryURL('/shop', category=category and int(category), search=search, attrib=attrib_list, order=post.get('order'))
 
         pricelist_context, pricelist = self._get_pricelist_context()
@@ -409,6 +410,9 @@ class WebsiteSale (WebsiteSale):
             post['attrib'] = attrib_list
 
         Product = request.env['product.template'].with_context(bin_size=True)
+
+
+
 
         search_product = Product.search(domain, order=self._get_search_order(post))
         website_domain = request.website.website_domain()
@@ -465,7 +469,6 @@ class WebsiteSale (WebsiteSale):
             values['main_object'] = category
         return request.render("website_sale.products", values)
 
-
     @http.route([
         '''/service''',
         '''/service/page/<int:page>''',
@@ -499,7 +502,10 @@ class WebsiteSale (WebsiteSale):
         attrib_set = {v[1] for v in attrib_values}
 
         domain = self._get_search_domain(search, category, attrib_values)
+        domain.append(('website_published', '=', True))
+        domain.append('|')
         domain.append(('is_service', '=', True))
+        domain.append(('type', '=', 'service'))
         keep = QueryURL('/service', category=category and int(category), search=search, attrib=attrib_list,
                         order=post.get('order'))
 
@@ -517,6 +523,20 @@ class WebsiteSale (WebsiteSale):
             post['attrib'] = attrib_list
 
         Product = request.env['product.template'].with_context(bin_size=True)
+
+        # bk_products = Product.search([('is_booking_type', '=', True)])
+        # for pobj in bk_products:
+        #     print("Booking Products", bk_products)
+        #     if pobj.br_end_date < fields.Date.today():
+        #         pobj.website_published = False
+        #     else:
+        #         pobj.website_published = True
+        #
+        # for pobj in bk_products:
+        #     print(pobj.website_published)
+
+
+
 
         search_product = Product.search(domain, order=self._get_search_order(post))
         website_domain = request.website.website_domain()
@@ -582,14 +602,13 @@ class WebsiteSale (WebsiteSale):
         else:
             return request.render("website_sale.products", values)
 
-    @http.route(['/shop/product/<model("product.template"):product>', '/service/<model("product.template"):product>'] , type='http', auth="public", website=True)
+    @http.route(['/shop/product/<model("product.template"):product>', '/service/<model("product.template"):product>'],
+                type='http', auth="public", website=True)
     def product(self, product, category='', search='', **kwargs):
         if not product.can_access_from_current_website():
             raise NotFound()
 
         return request.render("website_sale.product", self._prepare_product_values(product, category, search, **kwargs))
-
-
 
     @http.route(['/shop/checkout'], type='http', auth='public', website=True)
     def checkout(self, **post):

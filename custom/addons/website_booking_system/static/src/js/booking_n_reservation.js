@@ -2,6 +2,7 @@
 /* See LICENSE file for full copyright and licensing details. */
 /* @License       : https://store.webkul.com/license.html */
 
+console.log("Booking");
 odoo.define('website_booking_system.booking_n_reservation', function(require) {
     "use strict";
 
@@ -245,12 +246,22 @@ odoo.define('website_booking_system.booking_n_reservation', function(require) {
 
         // Click on remove button available on sold out product in cart line
         $('.oe_website_sale').each(function() {
+
             var oe_website_sale = this;
             $(oe_website_sale).on('click', '.remove-cart-line', function() {
+
+
+
                 var $dom = $(this).closest('tr');
                 var td_qty = $dom.find('.td-qty');
                 var line_id = parseInt(td_qty.data('line-id'), 10);
                 var product_id = parseInt(td_qty.data('product-id'), 10);
+                console.log("line_id");
+                console.log(line_id);
+
+                console.log("product_id");
+                console.log(product_id)
+
                 ajax.jsonRpc("/shop/cart/update_json", 'call', {
                     'line_id': line_id,
                     'product_id': product_id,

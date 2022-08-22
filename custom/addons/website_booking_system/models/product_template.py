@@ -54,6 +54,7 @@ class SaleOrder(models.Model):
     _inherit = "sale.order"
 
     is_booking_type = fields.Boolean(string="Booking Order")
+    is_all_booking_type = fields.Boolean("All Booking Type", compute="_compute_is_all_booking_type")
     payment_start_date = fields.Datetime("Payment initiated time")
 
     def check_active_bk_transactions(self):
@@ -69,6 +70,19 @@ class SaleOrder(models.Model):
             if rec.order_line:
                 if any(line.product_id.is_booking_type == True for line in rec.order_line):
                     rec.is_booking_type = True
+
+
+
+    @api.depends('order_line')
+    def _compute_is_all_booking_type(self):
+        for rec in self:
+            if all(line.product_id.is_booking_type == True for line in rec.order_line):
+                rec.is_all_booking_type = True
+
+            else:
+                rec.is_all_booking_type = False
+
+
 
 class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
@@ -141,7 +155,7 @@ class SaleOrderLine(models.Model):
 class ProductTemplate(models.Model):
     _inherit = 'product.template'
 
-    is_booking_type = fields.Boolean("Available for booking")
+    is_booking_type = fields.Boolean("Available for booking", default=True)
     br_start_date = fields.Date("Start Date")
     br_end_date = fields.Date("End Date")
     max_bk_qty = fields.Integer("Max Booking Qty")
@@ -247,6 +261,7 @@ class ProductTemplate(models.Model):
     def update_product_type_for_booking(self):
         if self.is_booking_type:
             self.type = 'service'
+
 
     def validate_booking_dates(self, start_date=None, end_date=None):
         if type(start_date) == str:
