@@ -71,14 +71,14 @@
 	           
             	<xpath expr="//field[@name='product_tmpl_id']" position="after">
             		<field name="isMulti_products"	attrs="{'invisible':[('applied_on', '!=', '1_product')]}"/>
-	                <field name="product_tmpl_ids" widget="many2many_tags" attrs="{
+	                <field name="product_tmpl_ids" widget="many2many_tags" domain="[('virtual_available', '&gt;', 0),('status', '=', 'approved')]" attrs="{
                                 'invisible':['|','|',('applied_on', '!=', '1_product'),('isMulti_products', '!=', True)],
                                 'required':[('applied_on', '=', '1_product'),('isMulti_products', '=', True)]}"
                                 options="{'no_create':1}"/>                   
 	            </xpath>
 	            
 	            <xpath expr="//field[@name='product_tmpl_id']" position="replace">
-                    <field name="product_tmpl_id" attrs="{
+                    <field name="product_tmpl_id" domain="[('virtual_available', '&gt;', 0),('status', '=', 'approved')]" attrs="{
                                 'invisible':['|','|',('applied_on', '!=', '1_product'), ('isMulti_products', '=', True)],
                                 'required':[('applied_on', '=', '1_product'), ('isMulti_products', '=', False)]}"
                                 options="{'no_create':1}"/>    
@@ -86,14 +86,14 @@
 	            
 	            <xpath expr="//field[@name='product_id']" position="after">
 	            	<field name="isMulti_variants" attrs="{'invisible':[('applied_on', '!=', '0_product_variant')]}"/>
-	                <field name="product_ids" widget="many2many_tags" attrs="{
+	                <field name="product_ids" widget="many2many_tags" domain="[('virtual_available', '&gt;', 0),('status', '=', 'approved')]" attrs="{
                                 'invisible':['|','|',('applied_on', '!=', '0_product_variant'), ('isMulti_variants', '!=', True)],
                                 'required':['|','|',('applied_on', '=', '0_product_variant'), ('isMulti_variants', '=', True)]}"
                                 options="{'no_create':1}"/>          
 	            </xpath>
 	            
 	            <xpath expr="//field[@name='product_id']" position="replace">
-                    <field name="product_id" attrs="{
+                    <field name="product_id" domain="[('virtual_available', '&gt;', 0),('status', '=', 'approved')]" attrs="{
                                 'invisible':['|','|',('applied_on', '!=', '0_product_variant'), ('isMulti_variants', '=', True)],
                                 'required':[('applied_on', '=', '0_product_variant'), ('isMulti_variants', '=', False)]}"
                                 options="{'no_create':1}"/>                    
