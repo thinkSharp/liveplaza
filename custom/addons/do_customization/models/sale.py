@@ -28,7 +28,7 @@ class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
     payment_provider = fields.Selection(selection=[('manual', 'Custom Payment Form'),('transfer', 'Prepaid'),
-                                                    ('cash_on_delivery', 'COD')], string='Payment Type')
+                                                    ('cash_on_delivery', 'COD'),('wavepay', 'WavePay')], string='Payment Type')
     payment_upload = fields.Binary(string='Upload Payment')
     payment_upload_name = fields.Char(string='Upload Payment')
     state = fields.Selection([
@@ -43,6 +43,20 @@ class SaleOrder(models.Model):
 
     products = fields.Char(string="Products", compute='get_products_string')
     selected_checkout = fields.Boolean(string='Selected For Checkout', defalut=False)
+
+    delivery_status = fields.Selection([
+        ('ordered', 'Ordered'),
+        ('picked', 'Picked'),
+        ('packed', 'Packed'),
+        ('delivering', 'Delivering'),
+        ('delivered', 'Delivered')
+    ], string='Delivery Status', readonly=True, copy=False, index=True, tracking=3,
+        default='ordered',)
+
+    picking_date = fields.Datetime('Picking Date', store=True, default="", readonly=True)
+    packing_date = fields.Datetime('Packing Date', store=True, default="", readonly=True)
+    delivering_date = fields.Datetime('Deliver Date', store=True, default="", readonly=True)
+    delivered_date = fields.Datetime('Delivered Date', store=True, default="", readonly=True)
 
     @api.depends('order_line')
     def get_products_string(self):
@@ -71,7 +85,7 @@ class SaleOrder(models.Model):
 
         res = super(SaleOrder, self).action_confirm()
         self.write({'payment_provider': self.get_portal_last_transaction().acquirer_id.provider})
-        if self.get_portal_last_transaction().acquirer_id.provider == 'cash_on_delivery' and self.state == 'sale':
+        if self.get_portal_last_transaction().acquirer_id.provider in ('wavepay','cash_on_delivery') and self.state == 'sale':
             self.action_admin()
 
         if order_copy and self.state in ('sale','approve_by_admin'):

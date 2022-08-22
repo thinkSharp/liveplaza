@@ -280,7 +280,8 @@ class Product(models.Model):
                     'public_categ_ids': line.categ_ids,
                     'invoice_policy': 'order',
                     'alternative_product_ids': vals['alternative'],
-                    'inventory_availability': 'always'
+                    'inventory_availability': 'always',
+                    'is_booking_type': False
                 }
 
                 product_tmpl_obj = self.env['product.template'].create(product_vals)
