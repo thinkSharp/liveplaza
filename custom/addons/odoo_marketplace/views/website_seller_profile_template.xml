@@ -451,7 +451,7 @@
 								</div>
 								<div class="mb4 shop-tag-line">
 									<t t-if="mp_seller_shop_id">
-<!--										<span><t t-esc="mp_seller_shop_id.shop_tag_line"/></span>-->
+										<span><t t-esc="mp_seller_shop_id.shop_tag_line"/></span>
 									</t>
 								</div>
 							</div>
