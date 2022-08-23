@@ -43,7 +43,7 @@ class ResPartner(models.Model):
 
     # @api.constrains('mobile')
     # def _validate_mobile(self):
-    #     if self.mobile[0] != 0 or len(self.mobile) > 11 or len(self.phone) < 9:
+    #     if self.mobile[0] != '0' or len(self.mobile) > 11 or len(self.phone) < 9:
     #         raise ValidationError(_("Mobile number should start with '0' and length should be between 9 and 11."))
 
     @api.model
