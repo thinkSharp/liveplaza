@@ -17,3 +17,5 @@ def parse_subscriber_number_mm(number: str) -> str:
     return number[2:]
   elif number.startswith("+95"):
     return number[3:]
+  else:
+    return number
