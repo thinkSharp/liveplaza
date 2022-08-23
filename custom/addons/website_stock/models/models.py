@@ -111,6 +111,7 @@ class Website(models.Model):
                 copy_context.update({'location': int(stock_location_id)})
             product_obj = self.with_context(copy_context).env['product.product'].sudo().browse(product_id)
 
+
             quantity = self.get_product_stock_qty(product_obj, config_vals.get('wk_stock_type'))
         return quantity
 

@@ -289,7 +289,7 @@ class ServiceProduct(models.Model):
                     'inventory_availability': 'always',
                     'is_service': True,
                     'expiration_policy': line.expiration_policy,
-
+                    'is_booking_type': False
                 }
 
                 product_tmpl_obj = self.env['product.template'].create(product_vals)

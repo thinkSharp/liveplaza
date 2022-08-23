@@ -17,3 +17,5 @@
 
 from . import marketplace_config
 from . import models
+from . import sale
+from . import product_template

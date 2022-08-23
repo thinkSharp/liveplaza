@@ -16,6 +16,7 @@ class ResCountryState(models.Model):
 class ResCountryTownship(models.Model):
     _name = 'res.country.township'
     _description = 'Township'
+    _order = 'name'
 
     name = fields.Char('Name', store=True, copy=False,
                        index=True, required=True)

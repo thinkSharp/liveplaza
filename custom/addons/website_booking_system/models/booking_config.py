@@ -14,7 +14,7 @@
 # License URL :<https://store.webkul.com/license.html/>
 ##########################################################################
 
-from odoo import api, fields, models, _
+from odoo import api, fields, models, _, exceptions
 from odoo.exceptions import Warning, UserError
 
 import math
@@ -144,6 +144,10 @@ class BookingSlotConfig(models.Model):
                     x = saved_data.filtered(lambda l: l.time_slot_id == rec.time_slot_id and l.plan_id == rec.plan_id)
                     if len(x) > 0:
                         raise UserError(_("Record already exist with same time slot and plan."))
+
+
+
+
 
 class BookingSlot(models.Model):
     _name = "booking.slot"
