@@ -149,6 +149,7 @@ class BookingSlotConfig(models.Model):
 
 
 
+
 class BookingSlot(models.Model):
     _name = "booking.slot"
 
