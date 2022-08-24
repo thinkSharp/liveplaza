@@ -90,6 +90,14 @@
                 <xpath expr="//field[@widget='section_and_note_one2many']" position="attributes">
 					<attribute name="attrs" >{'readonly': [('state', 'in', ('sale', 'approve_by_admin'))]}</attribute>
 				</xpath>
+
+                <!--   Add discount amount field in sale order line -->
+                <xpath expr="//field[@name='order_line']//tree//field[@name='discount']" position="before">
+                    <field name="discount_amount" string="Discount Amount" groups="product.group_discount_per_so_line" optional="show" />
+                </xpath>
+                <xpath expr="//form/group/group[2]" position="inside">
+                    <field name="discount_amount" string="Discount Amount" groups="product.group_discount_per_so_line"/>
+                </xpath>
 	            
 	        </field>
 	    </record>
