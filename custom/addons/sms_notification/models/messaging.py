@@ -51,7 +51,7 @@ class SaleOrder(models.Model):
         for order in self:
             order.message_subscribe(partner_ids=order.partner_id.ids)
         if self.write({'state': 'approve_by_admin'}):
-            if not is_all_service:
+            if not self.all_service_ticket:
                 # Code to send sms to customer of the order.
                 sms_template_objs = self.env["wk.sms.template"].sudo().search(
                     [('condition', '=', 'order_confirm'), ('globally_access', '=', False)])

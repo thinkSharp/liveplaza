@@ -503,9 +503,7 @@ class WebsiteSale (WebsiteSale):
 
         domain = self._get_search_domain(search, category, attrib_values)
         domain.append(('website_published', '=', True))
-        domain.append('|')
         domain.append(('is_service', '=', True))
-        domain.append(('type', '=', 'service'))
         keep = QueryURL('/service', category=category and int(category), search=search, attrib=attrib_list,
                         order=post.get('order'))
 
@@ -538,7 +536,14 @@ class WebsiteSale (WebsiteSale):
 
 
 
-        search_product = Product.search(domain, order=self._get_search_order(post))
+        ticket_product = Product.search(domain, order=self._get_search_order(post))
+
+        booking_product = Product.search([('is_booking_type', '=', True)])
+        booking_product = booking_product.search([('br_end_date', '>=', fields.Date.today()), ('website_published', '=', True)])
+
+
+        search_product = ticket_product + booking_product
+
         website_domain = request.website.website_domain()
         categs_domain = [('parent_id', '=', False)] + website_domain
         if search:
