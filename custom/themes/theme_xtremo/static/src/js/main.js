@@ -35,8 +35,8 @@ odoo.define("theme_xtremo.main.js", function (require) {
   };
 
   function user_menu_close(event) {
-    event.stopPropagation();
-    if (event.currentTarget.id == "xtremo_mobile_menu"){
+    // we don't want other events, cause by the children of the menu, close the menu
+    if (event.target.id == "xtremo_mobile_menu"){
       this.classList.remove("active");
       this.style.zIndex = "1035";
     }
@@ -95,7 +95,6 @@ odoo.define("theme_xtremo.main.js", function (require) {
       // events..
       self.getQuery('#xt-mobile-menu button').addEventListener("click",user_menu);
       self.getId('xtremo_mobile_menu').addEventListener("click",user_menu_close);
-      self.getQuery('#xtremo_mobile_menu .xt-cart').addEventListener("click",user_menu_close);
       self._click('toggle-user-menu',toggle_user_menu);
       window.addEventListener("resize", resizeScript);
     } catch (e) {
