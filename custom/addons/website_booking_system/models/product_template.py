@@ -300,8 +300,7 @@ class ProductTemplate(models.Model):
         booking_day_slot_ids = vals.get("booking_day_slot_ids")
         print(booking_day_slot_ids)
         print(vals)
-        if not booking_day_slot_ids:
-            raise UserError(_(f"Please add at least one Booking Slot."))
+
 
         day_mapper = {
             'sun': "Sunday",
@@ -314,6 +313,9 @@ class ProductTemplate(models.Model):
         }
 
         if vals.get("br_start_date"):
+            if not booking_day_slot_ids:
+                raise UserError(_(f"Please add at least one Booking Slot."))
+
             error_days = []
             contain_slot = False
             for booking_day_slot in booking_day_slot_ids:
