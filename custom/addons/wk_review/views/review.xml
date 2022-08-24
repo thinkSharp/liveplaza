@@ -118,7 +118,7 @@
               	<t t-set="is_user_public" t-value="website.env.user == request.website.user_id"/>
               	<t t-set="can_comment" t-value="sha_in or token or not is_user_public"/>
               <div id= "write-review" class="row css_editable_mode_hidden" t-if="can_comment">
-                 	<form t-attf-action="/shop/review/#{(request.httprequest.path).replace('/shop/product/','')}" method="post" class="form-horizontal mt32 col-md-12" enctype="multipart/form-data">
+                 	<form t-attf-action="/shop/review/#{(request.httprequest.path).replace('/shop/product/','').replace('/service/','')}" method="post" class="form-horizontal mt32 col-md-12" enctype="multipart/form-data">
 					<div class="col-md-6 col-sm-12 col-xs-12 pull-left mb32">
 						<input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
 

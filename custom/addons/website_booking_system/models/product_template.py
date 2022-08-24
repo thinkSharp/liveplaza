@@ -14,7 +14,7 @@
 # License URL :<https://store.webkul.com/license.html/>
 ##########################################################################
 
-from odoo import api, fields, models, _
+from odoo import api, fields, models, _,exceptions
 from odoo.exceptions import Warning, UserError
 from dateutil.relativedelta import relativedelta
 import datetime, pytz
@@ -161,6 +161,12 @@ class ProductTemplate(models.Model):
     max_bk_qty = fields.Integer("Max Booking Qty")
     booking_day_slot_ids = fields.One2many("day.slot.config", "product_id", string="Configure Day Slots")
 
+
+
+
+
+
+
     def get_available_bk_qty(self):
         for rec in self:
             context = dict(rec._context) or {}
@@ -288,12 +294,58 @@ class ProductTemplate(models.Model):
                 raise UserError(_("Please enter end date correctly. End date should't be smaller then the start date."))
             return True
 
+
+    def validate_slots(self, vals):
+        print("This is validate slots")
+        booking_day_slot_ids = vals.get("booking_day_slot_ids")
+        print(booking_day_slot_ids)
+        print(vals)
+        if not booking_day_slot_ids:
+            raise UserError(_(f"Please add at least one Booking Slot."))
+
+        day_mapper = {
+            'sun': "Sunday",
+            'mon': "Monday",
+            'tue': "Tuesday",
+            'wed': "Wednesday",
+            'thu': "Thursday",
+            'fri': "Friday",
+            'sat': "Saturday"
+        }
+
+        if vals.get("br_start_date"):
+            error_days = []
+            contain_slot = False
+            for booking_day_slot in booking_day_slot_ids:
+                booking_day_slot_info = booking_day_slot[2]
+                day = booking_day_slot_info.get('name')
+                booking_status = booking_day_slot_info.get('booking_status')
+                booking_slots_ids = booking_day_slot_info.get('booking_slots_ids')
+
+                if (not booking_slots_ids) and booking_status == 'open':
+                    error_days.append(day_mapper[day])
+                if booking_slots_ids:
+                    contain_slot = True
+
+                print("Error days", error_days)
+            if error_days:
+                raise UserError(_(f"Please add Booking Slots for {', '.join(error_days)}"))
+
+            print("contain_slot" , contain_slot)
+            if not contain_slot:
+                raise UserError(_(f"Please add at least one Booking Slot."))
+            # if not vals.get("booking_slots_ids"):
+            #     raise UserError(_("Please add Booking Slots."))
+
+
     @api.model
     def create(self, vals):
         self.validate_booking_dates(vals.get("br_start_date"), vals.get("br_end_date"))
+        self.validate_slots(vals)
         return super(ProductTemplate, self).create(vals)
 
     def write(self, vals):
         for rec in self:
             rec.validate_booking_dates(vals.get("br_start_date"), vals.get("br_end_date"))
+        self.validate_slots(vals)
         return super(ProductTemplate, self).write(vals)

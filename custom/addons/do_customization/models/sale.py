@@ -22,6 +22,7 @@ from odoo import models, fields, api, _
 from odoo.exceptions import UserError, ValidationError
 from odoo.addons.website_sale_stock.models.sale_order import SaleOrder as WebsiteSaleStock
 import logging
+import datetime
 _logger = logging.getLogger(__name__)
 
 class SaleOrder(models.Model):
@@ -57,6 +58,85 @@ class SaleOrder(models.Model):
     packing_date = fields.Datetime('Packing Date', store=True, default="", readonly=True)
     delivering_date = fields.Datetime('Deliver Date', store=True, default="", readonly=True)
     delivered_date = fields.Datetime('Delivered Date', store=True, default="", readonly=True)
+
+    def _website_product_id_change(self, order_id, product_id, qty=0):
+        res = super(SaleOrder, self)._website_product_id_change(
+            order_id, product_id, qty)
+
+        order = self.sudo().browse(order_id)
+        product_context = dict(self.env.context)
+        product_context.setdefault('lang', order.partner_id.lang)
+        product_context.update({
+            'partner': order.partner_id,
+            'quantity': qty,
+            'date': order.date_order,
+            'pricelist': order.pricelist_id.id,
+            'force_company': order.company_id.id,
+        })
+        product = self.env['product.product'].with_context(product_context).browse(product_id)
+        discount = 0
+        discount_amount = 0
+
+        if order.pricelist_id.discount_policy == 'without_discount':
+            # This part is pretty much a copy-paste of the method '_onchange_discount' of
+            # 'sale.order.line'.
+            price, rule_id = order.pricelist_id.with_context(product_context).get_product_price_rule(product,
+                                                                                                     qty or 1.0,
+                                                                                                     order.partner_id)
+            pu, currency = self.env['sale.order.line'].with_context(product_context)._get_real_price_currency(
+                product, rule_id, qty, product.uom_id, order.pricelist_id.id)
+            if pu != 0:
+                if order.pricelist_id.currency_id != currency:
+                    # we need new_list_price in the same currency as price, which is in the SO's pricelist's currency
+                    date = order.date_order or fields.Date.today()
+                    pu = currency._convert(pu, order.pricelist_id.currency_id, order.company_id, date)
+
+                item_ids = order.pricelist_id.item_ids
+                compute_price = ""
+                print("before for loop")
+                for item in item_ids:
+                    print("product name = ", product.name, "  id = ", product.id)
+                    print("product tmpl name = ", item.product_tmpl_id.name, "  id = ", item.product_tmpl_id.id)
+                    if product.name == item.product_tmpl_id.name:
+                        print("same id")
+                        compute_price = item.compute_price
+                        break
+
+                if compute_price == 'percentage':
+                    discount = (pu - price) / pu * 100
+                    if discount < 0:
+                        # In case the discount is negative, we don't want to show it to the customer,
+                        # but we still want to use the price defined on the pricelist
+                        discount = 0
+                        pu = price
+                elif compute_price == 'fixed_discount':
+                    discount_amount = pu - price
+                else:
+                    pu = product.price
+                    if order.pricelist_id and order.partner_id:
+                        order_line = order._cart_find_product_line(product.id)
+                        if order_line:
+                            pu = self.env['account.tax']._fix_tax_included_price_company(pu, product.taxes_id,
+                                                                                         order_line[0].tax_id,
+                                                                                         self.company_id)
+
+        else:
+            pu = product.price
+            if order.pricelist_id and order.partner_id:
+                order_line = order._cart_find_product_line(product.id)
+                if order_line:
+                    pu = self.env['account.tax']._fix_tax_included_price_company(pu, product.taxes_id,
+                                                                                 order_line[0].tax_id, self.company_id)
+
+        return {
+            'product_id': product_id,
+            'product_uom_qty': qty,
+            'order_id': order_id,
+            'product_uom': product.uom_id.id,
+            'price_unit': pu,
+            'discount': discount,
+            'discount_amount': discount_amount,
+        }
 
     @api.depends('order_line')
     def get_products_string(self):
@@ -209,6 +289,7 @@ class SaleOrder(models.Model):
             picking_obj.write({'payment_provider': self.get_portal_last_transaction().acquirer_id.provider,
                                'ready_to_pick': True,
                                'hold_state': False })
+
             
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
@@ -231,6 +312,30 @@ class SaleOrderLine(models.Model):
             ('done', 'Locked'),
             ('cancel', 'Cancelled'),
             ], string='Order Status', readonly=True, copy=False, store=True, default='approve_by_admin')
+
+    discount_amount = fields.Float(string='Discount Amount', digits='Discount', default=0.0)
+
+    @api.depends('product_uom_qty', 'discount', 'discount_amount', 'price_unit', 'tax_id')
+    def _compute_amount(self):
+        super(SaleOrderLine, self)._compute_amount()
+
+        for line in self:
+
+            if line.discount_amount > 0:
+                price = line.price_unit - line.discount_amount
+            else:
+                price = line.price_unit * (1 - (line.discount or 0.0) / 100.0)
+
+            taxes = line.tax_id.compute_all(price, line.order_id.currency_id, line.product_uom_qty,
+                                            product=line.product_id, partner=line.order_id.partner_shipping_id)
+            line.update({
+                'price_tax': sum(t.get('amount', 0.0) for t in taxes.get('taxes', [])),
+                'price_total': taxes['total_included'],
+                'price_subtotal': taxes['total_excluded'],
+            })
+            if self.env.context.get('import_file', False) and not self.env.user.user_has_groups(
+                    'account.group_account_manager'):
+                line.tax_id.invalidate_cache(['invoice_repartition_line_ids'], [line.tax_id.id])
 
     @api.depends('qty_invoiced', 'qty_delivered', 'product_uom_qty', 'order_id.state')
     def _get_to_invoice_qty(self):
