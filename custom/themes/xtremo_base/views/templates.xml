@@ -89,7 +89,7 @@
       </template>
 
       <template id="theme_xtremo_product_rating_star" name="theme_product_rating_star">
-        <div class="th_product_rating">
+        <div t-if="len(product.user_review) > 0" class="th_product_rating">
           <t t-set="res" t-value="request.website.get_product_rating(product)"/>
           <div class="o_website_rating_static">
             <t t-foreach="range(0, res.get('val_integer',0))" t-as="num">
