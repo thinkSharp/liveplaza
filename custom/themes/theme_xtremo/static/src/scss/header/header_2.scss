@@ -931,3 +931,9 @@ header{
   }
 }
 
+/* Added by livep */
+
+// keep the language selector always on the right
+.js_language_selector {
+  margin-left: auto;
+}
