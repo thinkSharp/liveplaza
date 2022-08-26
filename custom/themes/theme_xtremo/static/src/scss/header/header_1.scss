@@ -42,6 +42,8 @@ header{
         #xtremo_user_header{
           img{
             height: 37px;
+            aspect-ratio: 1;
+            object-fit: cover;
             border: 2px solid $th-color;
             border-radius: 2px;
           }
