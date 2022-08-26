@@ -224,3 +224,8 @@ meter.o_password_meter {
     width: -webkit-fill-available !important;
     width: -moz-available !important;
 } 
+
+
+::-ms-reveal {
+    display: none;
+}
