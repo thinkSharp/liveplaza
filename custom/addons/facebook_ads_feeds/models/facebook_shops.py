@@ -109,6 +109,13 @@ class FacebookMerchantShop(models.Model):
     update_image = fields.Boolean(string="Want to update the image/multi image at facebook catalog", default=True)
     my_product_dicts = fields.Text(help="Store the current product_dicts and compare and check there are any changes.")
 
+    def unlink(self):
+        for line in self:
+            self.env['ir.cron'].search([('id', '=', line.crone_id.id)]).unlink()
+
+        return super(FacebookMerchantShop, self).unlink()
+
+
     @api.onchange('enable_token')
     def onchange_enable_token(self):
         if self.enable_token:
