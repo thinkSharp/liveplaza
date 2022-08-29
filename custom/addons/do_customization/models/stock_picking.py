@@ -73,6 +73,11 @@ class Picking(models.Model):
         order = self.env["sale.order"].search([('name', '=', self.origin)])
         if self.state == 'assigned':
             self.write({'state': 'delivering'})
+            for line in order.order_line:
+                for pick_data in self.move_line_ids_without_package:
+                    if pick_data.product_id == line.product_id:
+                        line.delivery_status = 'delivering'
+                        line.delivering_date = datetime.datetime.now()
             if self.check_all_order_deliver(picking):
                 order.delivery_status = 'delivering'
                 order.delivering_date = datetime.datetime.now()
@@ -82,13 +87,20 @@ class Picking(models.Model):
             if p.state != "delivering":
                 return False
         return True
-
     
     def do_hold(self):
+        order = self.env["sale.order"].search([('name', '=', self.origin)])
+        for line in order.order_line:
+            for pick_data in self.move_line_ids_without_package:
+                if pick_data.product_id == line.product_id:
+                    line.delivery_status = 'hold'
+                    if self.hold_reason:
+                        line.write({'hold_reason': self.hold_reason})
+
         if self.state == 'hold':
             self.write({'state': self.old_state, 'old_state': ''})            
         else:
-            self.write({'state': 'hold', 'old_state': self.state, 'hold_date': datetime.now()})    
+            self.write({'state': 'hold', 'old_state': self.state, 'hold_date': datetime.datetime.now()})
     
     def action_done(self):
         """Changes picking state to done by processing the Stock Moves of the Picking
@@ -196,6 +208,25 @@ class Picking(models.Model):
         order = self.env["sale.order"].search([('name', '=', self.origin)])
         picking_type = self.picking_type_id.name
 
+        for line in order.order_line:
+            for pick_data in self.move_line_ids_without_package:
+                if pick_data.product_id == line.product_id:
+                    if picking_type == "Pick":
+                        line.delivery_status = 'picked'
+                        line.picking_date = datetime.datetime.now()
+                    elif picking_type == "Pack":
+                        line.delivery_status = 'packed'
+                        line.packing_date = datetime.datetime.now()
+                    elif picking_type == "Delivery Orders":
+                        if self.state == 'delivering':
+                            line.delivery_status = "delivering"
+                            line.delivering_date = datetime.datetime.now()
+                        elif self.state == 'done':
+                            line.delivery_status = "delivered"
+                            line.delivered_date = datetime.datetime.now()
+                    else:
+                        line.delivery_status = "ordered"
+
         if self.check_all_order_done(picking):
             if picking_type == "Pick":
                 order.delivery_status = 'picked'
@@ -268,7 +299,6 @@ class Picking(models.Model):
         if sms_confirmation:
             return sms_confirmation
 
-        print("before no_quantities_done")
         if no_quantities_done:
             view = self.env.ref('stock.view_immediate_transfer')
             wiz = self.env['stock.immediate.transfer'].create({'pick_ids': [(4, self.id)]})
@@ -283,8 +313,6 @@ class Picking(models.Model):
                 'res_id': wiz.id,
                 'context': self.env.context,
             }
-
-        print("after no_quantities_done")
 
         if self._get_overprocessed_stock_moves() and not self._context.get('skip_overprocessed_check'):
             view = self.env.ref('stock.view_overprocessed_transfer')

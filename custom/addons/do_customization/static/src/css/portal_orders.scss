@@ -1,3 +1,75 @@
+#product_tracking_btn {
+    background: rgba(0, 81, 177, 0.9);
+    color: white;
+    border: 1px solid rgba(0, 81, 177, 0.9);
+    padding: 2% 4%;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    &:hover {
+        cursor: pointer;
+        background: white;
+        color: rgba(0, 81, 177, 0.9);
+    }
+}
+
+.cancel_blur {
+    opacity: 0.5;
+}
+
+.order_progress_container {
+    margin-bottom: 2%;
+    background: white;
+    padding: 2% 0;
+    .product_tracking_header {
+        margin: 0 auto;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+        h5 {
+            margin-left: 10px;
+        }
+    }
+    .order_progress {
+        display: flex;
+        justify-content: space-around;
+        padding: 3% 0;
+        margin-bottom: 0;
+        list-style-type: none;
+        li {
+            text-align: center;
+            width: 20%;
+        }
+        .fa {
+            font-size: 40px;
+        }
+        .not_yet, .not_yet_bar {
+            color: #dae0dd;
+            border-color: #dae0dd;
+        }
+        .current, .current_bar {
+            color: #edb72f;
+            border-color: #edb72f;
+        }
+        .complete, .complete_bar {
+            color: #27aa80;
+            border-color: #27aa80;
+        }
+    }
+    .order_progress .complete:after {
+        display: block;
+        position: absolute;
+        content: '';
+        height: 14px;
+        width: 7px;
+        top: -2px;
+        bottom: 0;
+        left: 5px;
+        margin: auto 0;
+        border: 0px solid #AFAFAF;
+        border-width: 0px 2px 2px 0;
+        transform: rotate(45deg);
+        opacity: 0;
+    }
+}
+
 .orders_container {
     width: 95%;
     margin: 0 auto;
@@ -119,7 +191,7 @@
 }
 
 .order_details_outer {
-    width: 95%;
+    width: 100%;
     margin: 0 auto;
     font-family: 'Roboto';
     .order_details_header {
@@ -138,58 +210,20 @@
     .order_details_body {
         margin-top: 2%;
         .orders_left_box {
-            width: 70%;
+            width: 80%;
             float: left;
             margin: 0 2% 5% 0;
             border-radius: 5px;
-            .order_progress_container {
-                margin-bottom: 2%;
+
+            .cancel_text_box {
                 background: white;
-                padding: 2%;
-                .order_progress {
-                    display: flex;
-                    padding: 3% 2%;
-                    list-style-type: none;
-                    li {
-                        text-align: center;
-                        width: 20%;
-                    }
-                    .fa {
-                        font-size: 40px;
-                    }
-//                     .horizontal_bar {
-//                         display: inline-block;
-//                         content: "";
-//                         transform:translateX(-50%);
-//                         transform:translateY(-50%);
-//                     }
-                    .not_yet, .not_yet_bar {
-                        color: #dae0dd;
-                        border-color: #dae0dd;
-                    }
-                    .current, .current_bar {
-                        color: #edb72f;
-                        border-color: #edb72f;
-                    }
-                    .complete, .complete_bar {
-                        color: #27aa80;
-                        border-color: #27aa80;
-                    }
-                }
-                .order_progress .complete:after {
-                    display: block;
-                    position: absolute;
-                    content: '';
-                    height: 14px;
-                    width: 7px;
-                    top: -2px;
-                    bottom: 0;
-                    left: 5px;
-                    margin: auto 0;
-                    border: 0px solid #AFAFAF;
-                    border-width: 0px 2px 2px 0;
-                    transform: rotate(45deg);
-                    opacity: 0;
+                text-align: center;
+                padding: 15px;
+                border: 1px solid rgba(0, 0, 0, 0.1);
+                margin-bottom: 20px;
+                h5 {
+                    margin-bottom: 0px;
+                    color: #ef5350;
                 }
             }
             .table_box {
@@ -198,6 +232,10 @@
                 .cart_modal_table {
                     border-collapse: collapse;
                     width: 100%;
+                    .hold_text {
+                        text-align: center;
+                        opacity: 0.2;
+                    }
                     thead tr {
                         border-bottom: 1px solid rgba(130, 130, 130, 0.1);
                     }
@@ -231,7 +269,7 @@
                         max-height: 100px;
                     }
                     .width_40 {
-                        width: 40%;
+                        width: 30%;
                     }
                 }
             }
@@ -250,7 +288,7 @@
             }
         }
         .orders_right_box {
-            width: 28%;
+            width: 18%;
             float: right;
             .order_history {
                 background: white;
@@ -343,7 +381,7 @@
                             padding: 1.5%;
                         }
                         .width_40 {
-                            width: 30%;
+                            width: 27%;
                         }
                         img {
                             max-width: 64px;
@@ -428,7 +466,7 @@
                             padding: 1.5%;
                         }
                         .width_40 {
-                            width: 30%;
+                            width: 27%;
                         }
                         img {
                             max-width: 64px;
@@ -511,7 +549,7 @@
                             padding: 1.5%;
                         }
                         .width_40 {
-                            width: 30%;
+                            width: 27%;
                         }
                         img {
                             max-width: 64px;
@@ -610,7 +648,7 @@
                             padding: 1%;
                         }
                         .width_40 {
-                            width: 30%;
+                            width: 27%;
                             a { span {
                                 font-size: 13px;
                                 }
