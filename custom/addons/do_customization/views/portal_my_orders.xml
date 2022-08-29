@@ -5,112 +5,135 @@
             <t t-set="breadcrumbs_searchbar" t-value="True"/>
 
             <t t-call="portal.portal_searchbar">
-                <t t-set="title">Sales Orders</t>
+                <t t-set="title">Sale Orders</t>
             </t>
             <t t-if="not orders">
                 <p>There are currently no orders for your account.</p>
             </t>
             <t t-if="orders">
-                <div class="orders_container clearfix">
-                    <div class="my_orders_outer">
-                        <t t-foreach="orders" t-as="order">
-                            <div class="my_orders">
-                                <div class="my_orders_row">
-                                    <table class="my_orders_table">
-                                        <tr>
-                                            <td><span class='d-md-inline'>Order Number</span><br></br>
-                                                <span> <t t-esc="order.name"/> </span></td>
-                                            <td class="">
-                                                <span>Order Date</span> <br></br>
-    <!--                                            <span t-field="order.date_order" t-options="{'widget': 'date'}"/>&amp;nbsp;-->
-    <!--                                            <span class='d-none d-md-inline' t-field="order.date_order" t-options="{'time_only': True}"/>-->
-                                                <span class="d-md-inline"><t t-esc="order.date_order.strftime('%d %b %Y')" /></span>
-                                            </td>
-                                            <td class="d-none">
-                                                <span>Total</span> <br></br>
-                                                <span t-field="order.amount_total"/></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td>
-                                                <a t-att-href="order.get_portal_url()"> View Order Details </a>
-                                            </td>
-                                        </tr>
+                <t t-call="do_customization.orders_template"/>
+            </t>
+        </t>
+    </template>
 
-                                    </table>
+    <template id="portal_my_cancel_orders" name="My Sales Orders">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
 
-                                </div>
-                                <div class="my_orders_box">
-                                    <table class="cart_modal_table">
-                                        <t t-foreach="order.order_line" t-as="line">
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Cancel Orders</t>
+            </t>
 
-                                            <tr t-if="not line.is_delivery" t-att-data-product-id='line.product_id.id'>
-                                                <td align="center" t-if="line.product_id.product_tmpl_id" class='td-img'>
-                                                    <span t-field="line.product_id.image_128" t-options="{'widget': 'image', 'qweb_img_responsive': False, 'class': 'rounded o_image_64_max'}" />
-                                                </td>
-                                                <td>
-                                                    <div class="col-9">
-                                                        <div>
-                                                            <t t-call="website_sale.cart_line_product_link">
-                                                                <span class="h6" t-esc="line.name_short" />
-                                                            </t>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                                <td class="td-price">
-                                                    <span t-field="line.price_reduce_taxexcl" style="white-space: nowrap;" t-options="{'widget': 'monetary', 'display_currency': line.currency_id}" groups="account.group_show_line_subtotals_tax_excluded" />
-                                                    <span t-field="line.price_reduce_taxinc" style="white-space: nowrap;" t-options="{'widget': 'monetary', 'display_currency': line.currency_id}" groups="account.group_show_line_subtotals_tax_included" />
-                                                </td>
+            <t t-if="not orders">
+                <p>There are currently no cancel orders for your account.</p>
+            </t>
+            <t t-if="orders">
+                <t t-call="do_customization.orders_template"/>
+            </t>
+        </t>
+    </template>
+
+    <template id="orders_template">
+        <div class="orders_container clearfix">
+            <div class="my_orders_outer">
+                <t t-foreach="orders" t-as="order">
+                    <div class="my_orders">
+                        <div class="my_orders_row">
+                            <table class="my_orders_table">
+                                <tr>
+                                    <td><span class='d-md-inline'>Order Number</span><br></br>
+                                        <span> <t t-esc="order.name"/> </span></td>
+                                    <td class="">
+                                        <span>Order Date</span> <br></br>
+<!--                                            <span t-field="order.date_order" t-options="{'widget': 'date'}"/>&amp;nbsp;-->
+<!--                                            <span class='d-none d-md-inline' t-field="order.date_order" t-options="{'time_only': True}"/>-->
+                                        <span class="d-md-inline"><t t-esc="order.date_order.strftime('%d %b %Y')" /></span>
+                                    </td>
+                                    <td class="d-none">
+                                        <span>Total</span> <br></br>
+                                        <span t-field="order.amount_total"/></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>
+                                        <a t-if="cancel" t-att-href="'/my/cancel_orders/'+ str(order.id)"> View Order Details </a>
+                                        <a t-else="" t-att-href="order.get_portal_url()"> View Order Details </a>
+
+                                    </td>
+                                </tr>
+
+                            </table>
+
+                        </div>
+                        <div class="my_orders_box">
+                            <table class="cart_modal_table">
+                                <t t-foreach="order.order_line" t-as="line">
+
+                                    <tr t-if="not line.is_delivery" t-att-data-product-id='line.product_id.id'>
+                                        <td align="center" t-if="line.product_id.product_tmpl_id" class='td-img'>
+                                            <span t-field="line.product_id.image_128" t-options="{'widget': 'image', 'qweb_img_responsive': False, 'class': 'rounded o_image_64_max'}" />
+                                        </td>
+                                        <td>
+                                            <div class="col-9">
+                                                <div>
+                                                    <t t-call="website_sale.cart_line_product_link">
+                                                        <span class="h6" t-esc="line.name_short" />
+                                                    </t>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="td-price">
+                                            <span t-field="line.price_reduce_taxexcl" style="white-space: nowrap;" t-options="{'widget': 'monetary', 'display_currency': line.currency_id}" groups="account.group_show_line_subtotals_tax_excluded" />
+                                            <span t-field="line.price_reduce_taxinc" style="white-space: nowrap;" t-options="{'widget': 'monetary', 'display_currency': line.currency_id}" groups="account.group_show_line_subtotals_tax_included" />
+                                        </td>
 <!--                                                <td>-->
 <!--                                                    <input type="hidden" name="product_id"  class="product_template_id" t-att-value="line.product_id.id"/>-->
 <!--                                                    <a id="buy-again" class="btn mt8 js_check_product a-submit wk_test"-->
 <!--                                                       >Buy it again</a>-->
 <!--                                                </td>-->
-                                            </tr>
-                                        </t>
-                                    </table>
+                                    </tr>
+                                </t>
+                            </table>
 
+                        </div>
+                    </div>
+                </t>
+
+                <div t-if="pager" class="o_portal_pager text-center">
+                    <t t-call="portal.pager"/>
+                </div>
+            </div>
+            <div class="ordered_products_container">
+                <h3>Purchased Products</h3>
+                <div class="ordered_products_box">
+                    <t t-foreach="order_lines" t-as="line">
+                        <div t-if="not line.is_delivery" t-att-data-product-id='line.product_id.id' class="ordered_product">
+                            <div align="center" t-if="line.product_id.product_tmpl_id" class='td-img ordered_product_img'>
+                                <span t-field="line.product_id.image_128" t-options="{'widget': 'image', 'qweb_img_responsive': False, 'class': 'rounded'}" />
+                            </div>
+                            <div class="ordered_product_details" t-att-data-product-id='line.product_id.id'>
+                                <div>
+                                    <t t-call="website_sale.cart_line_product_link">
+                                        <span class="h6" t-esc="line.name_short" />
+                                    </t>
+                                </div>
+                                <div class="td-price">
+                                    <span t-field="line.price_reduce_taxexcl" style="white-space: nowrap;" t-options="{'widget': 'monetary', 'display_currency': line.currency_id}" groups="account.group_show_line_subtotals_tax_excluded" />
+                                    <span t-field="line.price_reduce_taxinc" style="white-space: nowrap;" t-options="{'widget': 'monetary', 'display_currency': line.currency_id}" groups="account.group_show_line_subtotals_tax_included" />
+                                </div>
+                                <div>
+                                    <span>Ordered at: <t t-esc="line.create_date.strftime('%d %b %Y')" /></span>
+                                </div>
+                                <div t-if="not cancel">
+                                    <input type="hidden" name="product_id"  class="product_template_id" t-att-value="line.product_id.id"/>
+                                    <a id="buy-again2" class="btn mt8 js_check_product a-submit wk_test">Purchase again</a>
                                 </div>
                             </div>
-                        </t>
 
-                        <div t-if="pager" class="o_portal_pager text-center">
-                            <t t-call="portal.pager"/>
                         </div>
-                    </div>
-                    <div class="ordered_products_container">
-                        <h3>Purchased Products</h3>
-                        <div class="ordered_products_box">
-                            <t t-foreach="order_lines" t-as="line">
-                                <div t-if="not line.is_delivery" t-att-data-product-id='line.product_id.id' class="ordered_product">
-                                    <div align="center" t-if="line.product_id.product_tmpl_id" class='td-img ordered_product_img'>
-                                        <span t-field="line.product_id.image_128" t-options="{'widget': 'image', 'qweb_img_responsive': False, 'class': 'rounded'}" />
-                                    </div>
-                                    <div class="ordered_product_details" t-att-data-product-id='line.product_id.id'>
-                                        <div>
-                                            <t t-call="website_sale.cart_line_product_link">
-                                                <span class="h6" t-esc="line.name_short" />
-                                            </t>
-                                        </div>
-                                        <div class="td-price">
-                                            <span t-field="line.price_reduce_taxexcl" style="white-space: nowrap;" t-options="{'widget': 'monetary', 'display_currency': line.currency_id}" groups="account.group_show_line_subtotals_tax_excluded" />
-                                            <span t-field="line.price_reduce_taxinc" style="white-space: nowrap;" t-options="{'widget': 'monetary', 'display_currency': line.currency_id}" groups="account.group_show_line_subtotals_tax_included" />
-                                        </div>
-                                        <div>
-                                            <span>Ordered at: <t t-esc="line.create_date.strftime('%d %b %Y')" /></span>
-                                        </div>
-                                        <div>
-                                            <input type="hidden" name="product_id"  class="product_template_id" t-att-value="line.product_id.id"/>
-                                            <a id="buy-again2" class="btn mt8 js_check_product a-submit wk_test">Purchase again</a>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </t>
-                        </div>
-                    </div>
+                    </t>
                 </div>
-            </t>
-        </t>
+            </div>
+        </div>
     </template>
 
     <template id="portal_table_new" name="My Portal Table">
@@ -129,16 +152,18 @@
             <t t-set="breadcrumbs_searchbar" t-value="True"/>
 
             <t t-call="portal.portal_searchbar">
-                <t t-set="title">Sales Orders</t>
+                    <t t-set="title">Sales Orders</t>
+                </t>
+            <t t-if="cancel">
+                <t t-set="sale_order" t-value="cancel_order" />
             </t>
-
             <div class="order_details_outer">
                 <div class="order_details_header clearfix">
                     <div class="inner_header">
                         <h2>Order Details</h2>
                         <h5>Order ID <t t-esc="sale_order.name"/> </h5>
                     </div>
-                    <div class="download_box o_download_pdf btn-toolbar flex-sm-nowrap">
+                    <div t-if="not cancel" class="download_box o_download_pdf btn-toolbar flex-sm-nowrap">
                         <div class="btn-group flex-grow-1 mb-1">
                             <a class="btn btn-secondary btn-block o_download_btn" t-att-href="sale_order.get_portal_url(report_type='pdf', download=True)" title="Download"><i class="fa fa-download"/> Download</a>
                         </div>
@@ -149,39 +174,19 @@
                 </div>
                 <div class="order_details_body clearfix">
                     <div class="orders_left_box">
-                        <div class="order_progress_container">
-                            <ul class="order_progress">
-                                <t t-foreach="delivery_progress" t-as="pro">
-                                    <li t-attf-class="#{pro_value[0]}">
-                                        <span t-attf-class="#{pro_value[0]}_bar"></span>
-                                        <t t-if="pro_value[0] == 'complete'">
-                                            <span>
-                                                <span><i class="fa fa-check-circle"></i></span>
-                                                <h5 class="#{pro_value[0]}"><t t-esc="pro" /> </h5>
-<!--                                                <h6 class="#{pro_value[0]}"><t t-esc="pro_value[1]"/> </h6>-->
-                                            </span>
-                                        </t>
-                                        <t t-else="">
-                                            <span>
-                                                <span><i class="fa fa-circle"></i> </span>
-                                                <h5 class="#{pro_value[0]}"><t t-esc="pro" /> </h5>
-<!--                                                <h6 class="#{pro_value[0]}"><t t-esc="pro_value[1]"/> </h6>-->
-                                            </span>
-                                        </t>
-                                    </li>
-                                </t>
-                            </ul>
+                        <div t-if="cancel" class="cancel_text_box">
+                            <h5>This order is cancelled</h5>
                         </div>
-                        <div class="table_box">
-                            <table class="cart_modal_table">
+                        <div t-att-class="'table_box cancel_blur' if cancel else 'table_box'">
+                            <table class="cart_modal_table" >
                                 <thead>
                                     <tr>
                                         <th></th>
                                         <th class="text-left">Products</th>
                                         <th class="text-right">Quantity</th>
                                         <th t-attf-class="text-right {{ 'd-none d-sm-table-cell' if report_type == 'html' else '' }}">Unit Price</th>
-                                        <th t-if="display_discount" t-attf-class="text-right {{ 'd-none d-sm-table-cell' if report_type == 'html' else '' }}">
-                                            <span>Disc.%</span>
+                                        <th t-attf-class="text-right {{ 'd-none d-sm-table-cell' if report_type == 'html' else '' }}">
+                                            <span>Discount</span>
                                         </th>
     <!--                                    <th t-attf-class="text-right {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">-->
     <!--                                        <span>Taxes</span>-->
@@ -193,72 +198,118 @@
                                     </tr>
                                 </thead>
                                 <t t-foreach="sale_order.order_line" t-as="line">
-                                    <tr t-if="not line.is_delivery" t-att-data-product-id='line.product_id.id'>
+                                    <tr t-if="not line.is_delivery" t-att-style="'opacity: 0.4' if line.delivery_status == 'hold' else ''"
+                                        t-att-data-product-id='line.product_id.id' t-att-data-order-line="line.id"
+                                        class=".product_tracking">
                                         <t t-if="not line.display_type">
-                                        <td align="center" t-if="line.product_id.product_tmpl_id" class='td-img'>
-                                            <span t-field="line.product_id.image_128" t-options="{'widget': 'image', 'qweb_img_responsive': False, 'class': 'rounded'}" />
-                                        </td>
-                                        <td class="width_40">
-                                            <div>
+                                            <td align="center" t-if="line.product_id.product_tmpl_id" class='td-img'>
+                                                <span t-field="line.product_id.image_128" t-options="{'widget': 'image', 'qweb_img_responsive': False, 'class': 'rounded'}" />
+                                            </td>
+                                            <td class="width_40">
                                                 <div>
-                                                    <t t-call="website_sale.cart_line_product_link">
-                                                        <span class="h6" t-esc="line.name_short" />
-                                                    </t>
-                                                    <t t-foreach="line.product_template_attribute_value_ids" t-as="attr">
-                                                        <p class="">
-                                                            <span><t t-esc="attr.attribute_id.name"/> -
-                                                                <t t-esc="attr.product_attribute_value_id.name" />
-                                                            </span>
-                                                        </p>
-                                                    </t>
-                                                    <p class="attribute_text"> Sold by: <t t-esc="line.product_id.marketplace_seller_id.name"/> </p>
+                                                    <div>
+                                                        <t t-call="website_sale.cart_line_product_link">
+                                                            <span class="h6" t-esc="line.name_short" />
+                                                        </t>
+                                                        <t t-foreach="line.product_template_attribute_value_ids" t-as="attr">
+                                                            <p class="">
+                                                                <span><t t-esc="attr.attribute_id.name"/> -
+                                                                    <t t-esc="attr.product_attribute_value_id.name" />
+                                                                </span>
+                                                            </p>
+                                                        </t>
+                                                        <p class="attribute_text"> Sold by: <t t-esc="line.product_id.marketplace_seller_id.name"/> </p>
+                                                    </div>
+                                                    <button t-if="track_product" id="product_tracking_btn">Track your product</button>
                                                 </div>
-                                            </div>
-                                        </td>
-                                        <td class="text-right">
-                                            <div id="quote_qty">
-                                                <span t-field="line.product_uom_qty"/>
-                                                <span t-field="line.product_uom" groups="uom.group_uom"/>
-                                            </div>
-                                        </td>
-                                        <td t-attf-class="text-right {{ 'd-none d-sm-table-cell' if report_type == 'html' else '' }}">
-                                            <div
-                                                t-if="line.discount &gt;= 0"
-                                                t-field="line.price_unit"
-                                                t-att-style="line.discount and 'text-decoration: line-through' or None"
-                                                t-att-class="(line.discount and 'text-danger' or '') + ' text-right'"
-                                            />
-                                            <div t-if="line.discount">
-                                                <t t-esc="(1-line.discount / 100.0) * line.price_unit" t-options='{"widget": "float", "decimal_precision": "Product Price"}'/>
-                                            </div>
-                                        </td>
-                                        <td t-if="display_discount" t-attf-class="text-right {{ 'd-none d-sm-table-cell' if report_type == 'html' else '' }}">
-                                            <strong t-if="line.discount &gt; 0" class="text-info">
-                                                <t t-esc="((line.discount % 1) and '%s' or '%d') % line.discount"/>%
-                                            </strong>
-                                        </td>
-    <!--                                    <td t-attf-class="text-right {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">-->
-    <!--                                        <span t-esc="', '.join(map(lambda x: (x.description or x.name), line.tax_id))"/>-->
-    <!--                                    </td>-->
-                                        <td class="text-right">
-                                            <h6 class="oe_order_line_price_subtotal" t-field="line.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>
-                                            <h6 class="oe_order_line_price_total" t-field="line.price_total" groups="account.group_show_line_subtotals_tax_included"/>
-                                        </td>
-                                    </t>
-                                    <t t-if="line.display_type == 'line_section'">
-                                        <td colspan="99">
-                                            <span t-field="line.name"/>
-                                        </td>
-                                        <t t-set="current_section" t-value="line"/>
-                                        <t t-set="current_subtotal" t-value="0"/>
-                                    </t>
-                                    <t t-if="line.display_type == 'line_note'">
-                                        <td colspan="99">
-                                            <span t-field="line.name"/>
-                                        </td>
-                                    </t>
+                                            </td>
+                                            <td class="text-right">
+                                                <div id="quote_qty">
+                                                    <span t-field="line.product_uom_qty"/>
+                                                    <span t-field="line.product_uom" groups="uom.group_uom"/>
+                                                </div>
+                                            </td>
+                                            <td t-attf-class="text-right {{ 'd-none d-sm-table-cell' if report_type == 'html' else '' }}">
+                                                <div
+                                                    t-field="line.price_unit"
+                                                    t-options="{'widget': 'monetary', 'display_currency': sale_order.currency_id}" />
+
+<!--                                                <div t-if="line.discount">-->
+<!--                                                    <t t-esc="(1-line.discount / 100.0) * line.price_unit" t-options='{"widget": "float", "decimal_precision": "Product Price"}'/>-->
+<!--                                                </div>-->
+                                            </td>
+                                            <td  t-attf-class="text-right {{ 'd-none d-sm-table-cell' if report_type == 'html' else '' }}">
+                                                <strong>
+                                                    <t t-if="line.discount_amount &gt; 0">
+                                                        <t t-esc="line.discount_amount" /> Ks
+                                                    </t>
+                                                    <t t-elif="line.discount &gt; 0">
+                                                        <t t-esc="line.discount" /> %
+                                                    </t>
+                                                    <t t-else=""> 0.0 </t>
+    <!--                                                <t t-esc="((line.discount % 1) and '%s' or '%d') % line.discount"/>%-->
+                                                </strong>
+                                            </td>
+        <!--                                    <td t-attf-class="text-right {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">-->
+        <!--                                        <span t-esc="', '.join(map(lambda x: (x.description or x.name), line.tax_id))"/>-->
+        <!--                                    </td>-->
+                                            <td class="text-right">
+                                                <h6 class="oe_order_line_price_subtotal" t-field="line.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>
+                                                <h6 class="oe_order_line_price_total" t-field="line.price_total" groups="account.group_show_line_subtotals_tax_included"/>
+                                            </td>
+                                        </t>
+                                        <t t-if="line.display_type == 'line_section'">
+                                            <td colspan="99">
+                                                <span t-field="line.name"/>
+                                            </td>
+                                            <t t-set="current_section" t-value="line"/>
+                                            <t t-set="current_subtotal" t-value="0"/>
+                                        </t>
+                                        <t t-if="line.display_type == 'line_note'">
+                                            <td colspan="99">
+                                                <span t-field="line.name"/>
+                                            </td>
+                                        </t>
 
                                     </tr>
+<!--                                    <tr t-if="not line.is_delivery and not line.delivery_status == 'hold'">-->
+<!--                                        <td colspan="5" class="order_progress_container">-->
+<!--                                            <ul class="order_progress">-->
+<!--                                                <t t-foreach="line.get_sol_delivery_progress()" t-as="pro">-->
+<!--                                                    <li t-attf-class="#{pro_value[0]}">-->
+<!--                                                        <span t-attf-class="#{pro_value[0]}_bar"></span>-->
+<!--                                                        <t t-if="pro_value[0] == 'complete'">-->
+<!--                                                            <span>-->
+<!--                                                                <span><i class="fa fa-check-circle"></i></span>-->
+<!--                                                                <h5 class="#{pro_value[0]}"><t t-esc="pro" /> </h5>-->
+<!--                                                                <p><t t-esc="pro_value[1]"/> </p>-->
+<!--                                                            </span>-->
+<!--                                                        </t>-->
+<!--                                                        <t t-else="">-->
+<!--                                                            <span>-->
+<!--                                                                <span><i class="fa fa-circle"></i> </span>-->
+<!--                                                                <h5 class="#{pro_value[0]}"><t t-esc="pro" /> </h5>-->
+<!--                                                                <p><t t-esc="pro_value[1]"/> </p>-->
+<!--                &lt;!&ndash;                                                <h6 class="#{pro_value[0]}"><t t-esc="pro_value[1]"/> </h6>&ndash;&gt;-->
+<!--                                                            </span>-->
+<!--                                                        </t>-->
+<!--                                                    </li>-->
+<!--                                                </t>-->
+<!--                                            </ul>-->
+<!--                                        </td>-->
+<!--                                    </tr>-->
+                                    <tr t-if="line.delivery_status == 'hold'">
+                                        <td colspan="6" class="hold_text">
+                                            <h4>
+                                                This product is hold <span t-if="line.hold_reason"> due to the reason (
+                                                <t t-esc="line.hold_reason" /> )</span>
+                                            </h4>
+                                        </td>
+                                    </tr>
+
+                                    <div t-if="not line.is_delivery">
+                                        <div id="product_tracking_modal"></div>
+                                    </div>
                                 </t>
                             </table>
 
@@ -322,7 +373,7 @@
                     </div>
 
                     <div class="orders_right_box clearfix">
-                        <div class="order_history">
+                        <div t-if="not cancel" class="order_history">
                             <h3>Order History</h3>
                             <div class="order_history_inner">
                                 <t t-foreach="delivery_progress" t-as="pro">
@@ -334,7 +385,7 @@
                                 </t>
                             </div>
                         </div>
-                        <div class="customer_details">
+                        <div t-att-class="'customer_details cancel_blur' if cancel else 'customer_details'">
                             <h3>Customer Details</h3>
 
                             <div class="shipping_address">
@@ -362,5 +413,83 @@
             </div>
 
         </t>
+    </template>
+
+    <template id="product_delivery_tracking" >
+        <div class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+<!--                        <t t-set="sol_delivery_progress" t-value="line.get_sol_delivery_progress()"/>-->
+                        <div class="order_progress_container">
+                            <div class="product_tracking_header">
+                                <h5 t-esc="line.name_short" />
+                            </div>
+<!--                            <table class="product_tracking_header">-->
+<!--                                <td align="center" t-if="line.product_id.product_tmpl_id" class='td-img'>-->
+<!--                                    <span t-field="line.product_id.image_128" t-options="{'widget': 'image', 'qweb_img_responsive': False, 'class': 'rounded'}" />-->
+<!--                                </td>-->
+<!--                                <td class="width_40">-->
+<!--                                    <span class="h6" t-esc="line.name_short" />-->
+<!--                                </td>-->
+<!--                            </table>-->
+                            <ul class="order_progress">
+                                <t t-foreach="delivery_progress" t-as="pro">
+                                    <li t-attf-class="#{pro_value[0]}">
+                                        <span t-attf-class="#{pro_value[0]}_bar"></span>
+                                        <t t-if="pro_value[0] == 'complete'">
+                                            <span>
+                                                <span><i class="fa fa-check-circle"></i></span>
+                                                <h5 class="#{pro_value[0]}"><t t-esc="pro" /> </h5>
+                                                <p><t t-esc="pro_value[1]"/> </p>
+                                            </span>
+                                        </t>
+                                        <t t-else="">
+                                            <span>
+                                                <span><i class="fa fa-circle"></i> </span>
+                                                <h5 class="#{pro_value[0]}"><t t-esc="pro" /> </h5>
+                                                <p><t t-esc="pro_value[1]"/> </p>
+<!--                                                <h6 class="#{pro_value[0]}"><t t-esc="pro_value[1]"/> </h6>-->
+                                            </span>
+                                        </t>
+                                    </li>
+                                </t>
+                            </ul>
+                        </div>
+                        <div class="modal-footer">
+                            <div class="row booking_modal_footer">
+                                <div class="col-12">
+                                    <button type="button" class="btn btn-danger mr4 pull-right" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!--  Cancle Orders  -->
+    <template id="portal_my_home_cancel_order" inherit_id="portal.portal_my_home" priority="20">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-if="cancel_order_count" t-call="portal.portal_docs_entry">
+                <t t-set="title">Cancel Orders</t>
+                <t t-set="url" t-value="'/my/cancel_orders'"/>
+                <t t-set="count" t-value="cancel_order_count"/>
+            </t>
+        </xpath>
+    </template>
+
+    <template id="portal_my_home_cancel_order_menu_sale" inherit_id="portal.portal_breadcrumbs" priority="5">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li t-if="page_name == 'cancel_order' or cancel_order and cancel_order.state in ('cancel')" t-attf-class="breadcrumb-item #{'active ' if not cancel_order else ''}">
+                <a t-if="cancel_order" t-attf-href="/my/cancel_orders?{{ keep_query() }}">Cancel Order </a>
+                <t t-else="">Cancel Orders</t>
+            </li>
+            <li t-if="cancel_order" class="breadcrumb-item active">
+                <span t-field="cancel_order.type_name"/>
+                <t t-esc="cancel_order.name"/>
+            </li>
+        </xpath>
     </template>
 </odoo>
