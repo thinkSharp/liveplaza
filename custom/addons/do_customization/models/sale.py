@@ -22,6 +22,7 @@ from odoo import models, fields, api, _
 from odoo.exceptions import UserError, ValidationError
 from odoo.addons.website_sale_stock.models.sale_order import SaleOrder as WebsiteSaleStock
 import logging
+import pytz
 import datetime
 _logger = logging.getLogger(__name__)
 
@@ -54,10 +55,25 @@ class SaleOrder(models.Model):
     ], string='Delivery Status', readonly=True, copy=False, index=True, tracking=3,
         default='ordered',)
 
+    service_delivery_status = fields.Selection([
+        ('ordered', 'Ordered'),
+        ('delivered', 'Approved / Delivered')
+    ], string='Delivery Status', readonly=True, copy=False, index=True, tracking=3, default='ordered')
+
     picking_date = fields.Datetime('Picking Date', store=True, default="", readonly=True)
     packing_date = fields.Datetime('Packing Date', store=True, default="", readonly=True)
     delivering_date = fields.Datetime('Deliver Date', store=True, default="", readonly=True)
     delivered_date = fields.Datetime('Delivered Date', store=True, default="", readonly=True)
+
+    @api.depends('state')
+    def _compute_type_name(self):
+        for record in self:
+            if record.state in ('draft', 'sent'):
+                record.type_name = _("Quotation")
+            elif record.state in ('cancel'):
+                record.type_name = _("Cancel")
+            else:
+                record.type_name = _('Sales Order')
 
     def _website_product_id_change(self, order_id, product_id, qty=0):
         res = super(SaleOrder, self)._website_product_id_change(
@@ -93,12 +109,8 @@ class SaleOrder(models.Model):
 
                 item_ids = order.pricelist_id.item_ids
                 compute_price = ""
-                print("before for loop")
                 for item in item_ids:
-                    print("product name = ", product.name, "  id = ", product.id)
-                    print("product tmpl name = ", item.product_tmpl_id.name, "  id = ", item.product_tmpl_id.id)
                     if product.name == item.product_tmpl_id.name:
-                        print("same id")
                         compute_price = item.compute_price
                         break
 
@@ -313,7 +325,28 @@ class SaleOrderLine(models.Model):
             ('cancel', 'Cancelled'),
             ], string='Order Status', readonly=True, copy=False, store=True, default='approve_by_admin')
 
+    delivery_status = fields.Selection([
+        ('ordered', 'Ordered'),
+        ('picked', 'Picked'),
+        ('packed', 'Packed'),
+        ('delivering', 'Delivering'),
+        ('delivered', 'Delivered'),
+        ('hold', 'Hold'),
+    ], string='Delivery Status', readonly=True, copy=False, index=True, tracking=3, default='ordered')
+
+    service_delivery_status = fields.Selection([
+        ('ordered', 'Ordered'),
+        ('delivered', 'Approved / Delivered')
+    ], string='Delivery Status', readonly=True, copy=False, index=True, tracking=3, default='ordered')
+
+    picking_date = fields.Datetime('Picking Date', store=True, default="", readonly=True)
+    packing_date = fields.Datetime('Packing Date', store=True, default="", readonly=True)
+    delivering_date = fields.Datetime('Deliver Date', store=True, default="", readonly=True)
+    delivered_date = fields.Datetime('Delivered Date', store=True, default="", readonly=True)
+    confirmed_date = fields.Datetime('Confirmed Date', store=True, default="", readonly=True)
+
     discount_amount = fields.Float(string='Discount Amount', digits='Discount', default=0.0)
+    hold_reason = fields.Char('Hold Reason', store=True, readonly=True)
 
     @api.depends('product_uom_qty', 'discount', 'discount_amount', 'price_unit', 'tax_id')
     def _compute_amount(self):
@@ -336,6 +369,60 @@ class SaleOrderLine(models.Model):
             if self.env.context.get('import_file', False) and not self.env.user.user_has_groups(
                     'account.group_account_manager'):
                 line.tax_id.invalidate_cache(['invoice_repartition_line_ids'], [line.tax_id.id])
+
+    def change_datetime_format(self, d):
+        if d:
+            tz = d.astimezone(pytz.timezone('Asia/Yangon'))
+            return tz.strftime("%d %b %Y - %H:%M")
+        else:
+            return ""
+
+    @api.model
+    def get_sol_delivery_progress(self):
+        # for sale order which only booking products
+        create_date = self.change_datetime_format(self.create_date)
+        picking_date = self.change_datetime_format(self.picking_date)
+        packing_date = self.change_datetime_format(self.packing_date)
+        delivering_date = self.change_datetime_format(self.delivering_date)
+        delivered_date = self.change_datetime_format(self.delivered_date)
+        delivery_state = []
+        delivery_completion = []
+
+        # service product
+        if self.product_id.is_service or self.product_id.is_booking_type:
+            delivery_status = {'delivered': 'complete', 'ordered': 'complete'}
+            status = self.service_delivery_status
+        else:
+            delivery_status = {'delivered': "complete", 'delivering': 'complete', 'packed': 'complete',
+                               'picked': 'complete',
+                               'ordered': 'complete'}
+
+            status = self.delivery_status
+
+
+        for s in delivery_status.keys():
+            if s == status:
+                if s == 'delivering':
+                    delivery_status[s] = 'current'
+                break
+            else:
+                delivery_status[s] = 'not_yet'
+
+        for s, p in delivery_status.items():
+            delivery_state.append(s)
+            delivery_completion.append(p)
+
+        delivery_state.reverse()
+        delivery_completion.reverse()
+
+        delivery_progress = {state: {} for state in delivery_state}
+        delivery_dates = [create_date, picking_date, packing_date,
+                          delivering_date, delivered_date]
+
+        for i in range(len(delivery_state)):
+            delivery_progress[delivery_state[i]] = [delivery_completion[i], delivery_dates[i]]
+
+        return delivery_progress
 
     @api.depends('qty_invoiced', 'qty_delivered', 'product_uom_qty', 'order_id.state')
     def _get_to_invoice_qty(self):

@@ -192,17 +192,13 @@ odoo.define('xtremo.sale.cart', function (require) {
 
   });
 
-})
+});
 
 odoo.define('do_customization.buy_again', function (require) {
 "use strict";
 
     var publicWidget = require('web.public.widget');
     var wSaleUtils = require('website_sale.utils');
-
-//    $(document).ready(function() {
-//        alert("buy ready");
-//     });
 
     publicWidget.registry.BuyAgain = publicWidget.Widget.extend({
         selector: '.orders_container',
@@ -243,6 +239,36 @@ odoo.define('do_customization.buy_again', function (require) {
             return this._addToCart(product, tr.find('add_qty').val() || 1);
 
         },
+
+    })
+});
+
+odoo.define('do_customization.product_tracking_modal', function (require) {
+"use strict";
+
+    var publicWidget = require('web.public.widget');
+    var ajax=require('web.ajax');
+
+    publicWidget.registry.ProductTrackingModal = publicWidget.Widget.extend({
+        selector: '.order_details_outer',
+        events: {
+            'click #product_tracking_btn': '_callModal',
+        },
+
+        _callModal: function(e) {
+            var tr = $(e.currentTarget).parents('tr');
+            var line = tr.data('order-line');
+            var append_div = $('#product_tracking_modal');
+            ajax.jsonRpc("/orders/order_line/delivery_tracking/modal", 'call', {
+                'line_id': parseInt(line)
+            }).then(function(modal){
+                var $modal = $(modal);
+                $modal.appendTo(append_div)
+                    .modal('show')
+            });
+        },
+
+
 
     })
 });

@@ -68,6 +68,11 @@ class SaleOrder(models.Model):
             picking_vendor_obj = self.env['res.partner'].search(
                 [('picking_vendor', '=', True), ('is_default', '=', True)], limit=1)
 
+            # self.write({'service_delivery_status': 'delivered'})
+            for line in self.order_line:
+                if line.product_id.is_service or line.product_id.is_booking_type:
+                    line.write({'service_delivery_status': 'delivered'})
+
             for picking_data in picking_objs:
                 if picking_data.picking_type_id.name == 'Pick':
 
@@ -129,6 +134,7 @@ class SaleOrder(models.Model):
                     #                       'paid_amount': self.get_portal_last_transaction().amount,
                     #                       'payment_remark': self.get_portal_last_transaction().reference,
                     #                       'journal_id': self.get_portal_last_transaction().acquirer_id.journal_id.id })
+
             for picking_data in picking_objs:
 
                 if picking_data.picking_type_id.name == 'Pack':

@@ -93,13 +93,13 @@
           <t t-set="res" t-value="request.website.get_product_rating(product)"/>
           <div class="o_website_rating_static">
             <t t-foreach="range(0, res.get('val_integer',0))" t-as="num">
-              <i class="fa fa-star" role="img" aria-label="One star" title="One star"></i>
+              <i class="fa fa-star" role="img" aria-label="Full star" title="Full star"></i>
             </t>
             <t t-if="res.get('val_decimal')">
               <i class="fa fa-star-half-o" role="img" aria-label="Half a star" title="Half a star"></i>
             </t>
             <t t-foreach="range(0, res.get('empty_star',0))" t-as="num" role="img" t-attf-aria-label="#{empty_star} on 5" t-attf-title="#{empty_star} on 5">
-              <i class="fa fa-star-o"></i>
+              <i class="fa fa-star-o" role="img" aria-label="Empty star" title="Empty star"></i>
             </t>
             <span t-if="show_review_tag" class="rating_val"><b> ( <t t-esc="len(product.user_review)"/> Ratings )</b></span>
           </div>
