@@ -389,6 +389,6 @@ class SaleOrderLine(models.Model):
                     is_to_update = False
                     
             if is_to_update:
-                self.order_id.write({'state': 'ready_to_pick'})
+                self.order_id.write({'state': 'cancel'})
                 if rec.marketplace_state == "cancel" and rec.sol_state == 'cancel':
                     rec.write({'state': 'cancel'})
