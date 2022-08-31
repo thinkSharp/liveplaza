@@ -292,7 +292,8 @@
 					                        <field name="base_pricelist_id" attrs="{'invisible':[('base', '!=', 'pricelist')],'required': [('base','=', 'pricelist')], 'readonly': [('base','!=', 'pricelist')]}"/>
 					                    </group>
 					                    <group>
-										   		<button name="save_multi_record" string="Generate" class="oe_highlight" type="object" attrs="{'invisible':['|','|',('isGenerated', '=', True),('isMulti_products', '!=', True),('isMulti_variants', '!=', True)]}"/>
+<!-- 										   		<button name="save_multi_record" string="Generate" class="oe_highlight" type="object" attrs="{'invisible':['|','|',('isGenerated', '=', True),('isMulti_products', '!=', True),('isMulti_variants', '!=', True)]}"/> -->
+												<button name="save_multi_record" string="Generate" class="oe_highlight" type="object" attrs="{'invisible':['|',('isGenerated', '=', True),('isMulti_products', '!=', True),('isMulti_variants', '!=', True)]}"/>
 										</group>
 					                </form>
 									<tree decoration-info="isMulti_products == True or isMulti_variants == True" decoration-bf="isMulti_products == True or isMulti_variants == True" default_order="id">
