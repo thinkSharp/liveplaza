@@ -98,7 +98,8 @@
                 <xpath expr="//form/group/group[2]" position="inside">
                     <field name="discount_amount" string="Discount Amount" groups="product.group_discount_per_so_line"/>
                 </xpath>
-                    
+                
+                <!--   Add and replace sol_state with marketplace_state in sale order line -->
                 <xpath expr="//field[@name='order_line']//tree//field[@name='marketplace_state']" position="replace">
                     <field name="sol_state" string="Status"/>
                 </xpath>
