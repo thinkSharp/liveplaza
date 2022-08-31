@@ -458,10 +458,13 @@ class ProductPricelistItem(models.Model):
                 values['isMulti'] = values.get('isMulti_products')
             if values.get('isMulti_variants', False):
                 values['isMulti'] = values.get('isMulti_variants')
-            if values.get('website_deals_m2o'):
-                child_data = self.env['product.pricelist.item'].search([('group_id', '=', self.id)])
-                if child_data:
-                    child_data.write({'website_deals_m2o': values.get('website_deals_m2o')})
+            if values.get('website_deals_m2o') and (values.get('isMulti_products') or values.get('isMulti_products')):
+                if self.id:
+                    child_data = self.env['product.pricelist.item'].search([('group_id', '=', self.id)])
+                    if child_data:
+                        child_data.write({'website_deals_m2o': values.get('website_deals_m2o')})
+                else:
+                    raise UserError('Please click Generate button first for multi pricelist in deals item form.')
             if values.get('applied_on', False):
                 # Ensure item consistency for later searches.
                 applied_on = values['applied_on']
@@ -481,9 +484,10 @@ class ProductPricelistItem(models.Model):
         if values.get('isMulti_variants'):
             values['isMulti'] = values.get('isMulti_variants')
         if values.get('website_deals_m2o'):
-            child_data = self.env['product.pricelist.item'].search([('group_id', '=', self.id)])
-            for cd in child_data:
-                cd.write({'website_deals_m2o': values.get('website_deals_m2o')})
+            for rec in self:
+                child_data = self.env['product.pricelist.item'].search([('group_id', '=', rec.id)])
+                for cd in child_data:
+                    cd.write({'website_deals_m2o': values.get('website_deals_m2o')})
                     
         if self.group_id and values:
             child_data = self.env['product.pricelist.item'].search([('group_id', '=', self.id)])                

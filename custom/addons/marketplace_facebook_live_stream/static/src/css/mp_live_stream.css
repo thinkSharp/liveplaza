@@ -2,31 +2,35 @@
 /* See LICENSE file for full copyright and licensing details. */
 /* License URL : https://store.webkul.com/license.html/ */
 
-/* .owl-prev,
-.owl-next {
+.live_stream_owl_carousel_x .owl-prev,
+.live_stream_owl_carousel_x .owl-next {
+  outline: none;
   position: absolute;
-  top: 30%;
+  top: 50%;
   transform: translateY(-50%);
 }
 
-.owl-prev {
-  left: -2rem;
+.live_stream_owl_carousel_x .owl-nav i {
+  font-size: 0.825rem;
+  border-radius: 60px;
+  background-color: white;
+  padding: 0.5em 0.8em;
+  color: #6c757d;
 }
 
-.owl-next {
-  right: -2rem;
-} */
-/*
-.owl-prev {
-  top: 44%;
-  position: absolute;
-  left: -20px;
+.live_stream_owl_carousel_x .owl-nav i:hover {
+  background-color: #333;
+  color: white;
 }
-.owl-next {
-  top: 44%;
-  position: absolute;
-  right: -20px;
-} */
+
+.live_stream_owl_carousel_x .owl-prev {
+  left: -30px;
+}
+
+.live_stream_owl_carousel_x .owl-next {
+  right: -30px;
+}
+
 .fb_video_div{
   height: 300px;
 }

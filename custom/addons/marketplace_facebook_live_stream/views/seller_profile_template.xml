@@ -5,108 +5,103 @@
 
 <odoo>
 	<template id="seller_profile_live_stream_template" name="Seller Profile Live Stream Template">
-        <div class="container">
 		<t t-if="shop_obj">
 			<t t-set="seller_live_stream_objs" t-value="request.website.sudo()._get_seller_live_streams(view_name, shop_obj.seller_id.id)"/>
-
 		</t>
 		<t t-else="">
 			<t t-set="seller_live_stream_objs" t-value="request.website.sudo()._get_seller_live_streams(view_name, seller.id)"/>
 		</t>
-
-          <div class="row mt32">
-            <div class="col-md-6 offset-md-1" t-if="seller_live_stream_objs and seller_live_stream_objs.filtered(lambda stream: stream.start_stream_datetime and stream.start_stream_datetime &lt; datetime.datetime.now() and stream.end_stream_datetime &gt; datetime.datetime.now())">
-              <div t-if="seller_live_stream_objs" class="container seller_live_stream_div" >
-                <div id="ProfilelivestreamCarousel" class="carousel slide" data-ride="carousel" data-interval="false" >
-                  	<script async="1" defer="1" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&amp;version=v3.2"></script>
-                  	<div class="carousel-inner mp_profile_carousel_height">
-						<div class="mb-1 mt-2" style="height:auto">
-							<strong><span class="px-1 ml-3" style="background: red;width: 50px;color: #FFFFFF;">LIVE</span></strong>
-							<!-- <h4 class="px-1 ml-3" style="display: inline; background: red;width: 50px;color: #FFFFFF;">LIVE</h4> -->
-						</div>
-						<t t-set="j" t-value="0"/>
-
-						<t t-foreach="seller_live_stream_objs" t-as="stream">
-							<t t-if="stream.start_stream_datetime and stream.start_stream_datetime &lt; datetime.datetime.now() and stream.end_stream_datetime &gt; datetime.datetime.now()">
-
-							<div t-att-class="'carousel-item thumbnail-container col-sm-12 oe_img_bg oe_custom_bg active' if j==0 else 'carousel-item thumbnail-container col-sm-12 oe_img_bg oe_custom_bg'">
-
-									<t t-if="stream.live_stream_banner">
-										<a class="" t-attf-href="/livestream/#{stream.id}">
-										<img t-if="stream.live_stream_banner" t-attf-src="/web/image/seller.live.stream/#{stream.id}/live_stream_banner"
-											t-att-alt="stream.name" class="img-responsive" ></img>
-										</a>
-									</t>
-							</div>
-							<t t-set="j" t-value="j+1"/>
-							</t>
-						</t>
-					</div>
-					<a t-if="j > 1" class="carousel-control-prev stream_prev" href="#ProfilelivestreamCarousel" data-slide="prev">
-						<span class="fa fa-chevron-circle-left" style="color: #333333;font-size: 25px;"></span>
-					</a>
-					<a t-if="j > 1" class="carousel-control-next stream_next" href="#ProfilelivestreamCarousel" data-slide="next">
-						<span class="fa fa-chevron-circle-right" style="color: #333333;font-size: 25px;"></span>
-					</a>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-3">
-				<div t-if="seller_live_stream_objs and seller_live_stream_objs.filtered(lambda stream: stream.start_stream_datetime &gt; datetime.datetime.now())" class="col-12">
-					<div class="mb-1 mt-2">
-						<strong><p class="ml-1" style="display: inline;font-style: italic;color: blue;">Upcoming</p> <span class="px-1" style="display: inline; background: red;width: 50px;color: #FFFFFF;">LIVE</span></strong>
-
-						<!-- <h5 class="" style="display: inline;font-style: italic;color: blue;">Upcoming</h5> <h4 class="px-1" style="display: inline; background: red;width: 50px;color: #FFFFFF;">LIVE</h4> -->
-					</div>
-					<div class="owl-carousel owl-theme live_stream_owl_carousel_x mb-2" id="wk_live_stream_carousel">
-					<t t-foreach="seller_live_stream_objs" t-as="stream">
-						<t t-set="num" t-value="int(12/len(seller_live_stream_objs))"/>
-							<t t-if="stream.start_stream_datetime &gt; datetime.datetime.now()">
-							<div class="item text-center">
-							<t t-if="stream.live_stream_banner">
-								<a class="wk_upcoming_live_stream" t-attf-href="#">
-								<span class="d-none" id="stream_start_datetime" t-esc="stream.start_stream_datetime"  t-options="{'widget': 'datetime'}"/>
-								<img t-if="stream.live_stream_banner" t-attf-src="/web/image/seller.live.stream/#{stream.id}/live_stream_banner"
-									t-att-alt="stream.name" class="img-responsive" style="max-height:200px;"></img>
-								</a>
-							</t>
-							</div>
-						</t>
-					</t>
-					</div>
-				</div>
-				<div t-if="seller_live_stream_objs and seller_live_stream_objs.filtered(lambda stream: stream.end_stream_datetime &lt; datetime.datetime.now())" class="col-12 mt16">
-					<div class="mb-1 mt-2">
-						<strong><p class="ml-1" style="display: inline;font-style: italic;color: blue;">Previous</p> <span class="px-1" style="display: inline; background: red;width: 50px;color: #FFFFFF;">LIVE</span></strong>
-
-						<!-- <h5 class="" style="display: inline;font-style: italic;color: blue;">Previous</h5> <h4 class="px-1" style="display: inline; background: red;width: 50px;color: #FFFFFF;">LIVE</h4> -->
-					</div>
-					<div class="owl-carousel owl-theme live_stream_owl_carousel_x mb-2" id="wk_live_stream_carousel">
-						<t t-foreach="seller_live_stream_objs" t-as="stream">
-							<t t-set="num" t-value="int(12/len(seller_live_stream_objs))"/>
-								<t t-if="stream.end_stream_datetime &lt; datetime.datetime.now()">
-								<div class="item text-center">
-								<t t-if="stream.live_stream_banner">
-									<a class="" t-attf-href="/livestream/#{stream.id}">
-									<img t-if="stream.live_stream_banner" t-attf-src="/web/image/seller.live.stream/#{stream.id}/live_stream_banner"
-										t-att-alt="stream.name" class="img-responsive" style="max-height:200px;"></img>
-									</a>
-								</t>
+		<div class="container">
+			<div class="row mt32">
+				<div class="col-md-6 offset-md-1" t-if="seller_live_stream_objs and seller_live_stream_objs.filtered(lambda stream: stream.start_stream_datetime and stream.start_stream_datetime &lt; datetime.datetime.now() and stream.end_stream_datetime &gt; datetime.datetime.now())">
+					<div t-if="seller_live_stream_objs" class="container seller_live_stream_div" >
+						<div id="ProfilelivestreamCarousel" class="carousel slide" data-ride="carousel" data-interval="false" >
+							<script async="1" defer="1" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&amp;version=v3.2"></script>
+							<div class="carousel-inner mp_profile_carousel_height">
+								<div class="mb-1 mt-2" style="height:auto">
+									<strong><span class="px-1 ml-3" style="background: red;width: 50px;color: #FFFFFF;">LIVE</span></strong>
+									<!-- <h4 class="px-1 ml-3" style="display: inline; background: red;width: 50px;color: #FFFFFF;">LIVE</h4> -->
 								</div>
-							</t>
-						</t>
+
+								<t t-set="j" t-value="0"/>
+								<t t-foreach="seller_live_stream_objs" t-as="stream">
+									<t t-if="stream.start_stream_datetime and stream.start_stream_datetime &lt; datetime.datetime.now() and stream.end_stream_datetime &gt; datetime.datetime.now()">
+										<div t-att-class="'carousel-item thumbnail-container col-sm-12 oe_img_bg oe_custom_bg active' if j==0 else 'carousel-item thumbnail-container col-sm-12 oe_img_bg oe_custom_bg'">
+											<t t-if="stream.live_stream_banner">
+												<a class="" t-attf-href="/livestream/#{stream.id}">
+													<img t-if="stream.live_stream_banner" t-attf-src="/web/image/seller.live.stream/#{stream.id}/live_stream_banner"
+														t-att-alt="stream.name" class="img-responsive" ></img>
+												</a>
+											</t>
+										</div>
+										<t t-set="j" t-value="j+1"/>
+									</t>
+								</t>
+							</div>
+							<a t-if="j > 1" class="carousel-control-prev stream_prev" href="#ProfilelivestreamCarousel" data-slide="prev">
+								<span class="fa fa-chevron-circle-left" style="color: #333333;font-size: 25px;"></span>
+							</a>
+							<a t-if="j > 1" class="carousel-control-next stream_next" href="#ProfilelivestreamCarousel" data-slide="next">
+								<span class="fa fa-chevron-circle-right" style="color: #333333;font-size: 25px;"></span>
+							</a>
+						</div>
 					</div>
 				</div>
-            </div>
-          </div>
-        </div>
+				<div class="col-md-3">
+					<div t-if="seller_live_stream_objs and seller_live_stream_objs.filtered(lambda stream: stream.start_stream_datetime &gt; datetime.datetime.now())" class="col-12">
+						<div class="mb-1 mt-2">
+							<strong><p class="ml-1" style="display: inline;font-style: italic;color: blue;">Upcoming</p> <span class="px-1" style="display: inline; background: red;width: 50px;color: #FFFFFF;">LIVE</span></strong>
 
-    </template>
+							<!-- <h5 class="" style="display: inline;font-style: italic;color: blue;">Upcoming</h5> <h4 class="px-1" style="display: inline; background: red;width: 50px;color: #FFFFFF;">LIVE</h4> -->
+						</div>
+						<div class="owl-carousel owl-theme live_stream_owl_carousel_x mb-2" id="wk_live_stream_carousel">
+							<t t-foreach="seller_live_stream_objs" t-as="stream">
+								<t t-set="num" t-value="int(12/len(seller_live_stream_objs))"/>
+								<t t-if="stream.start_stream_datetime &gt; datetime.datetime.now()">
+									<div class="item text-center">
+										<t t-if="stream.live_stream_banner">
+											<a class="wk_upcoming_live_stream" t-attf-href="#">
+												<span class="d-none" id="stream_start_datetime" t-esc="stream.start_stream_datetime"  t-options="{'widget': 'datetime'}"/>
+												<img t-if="stream.live_stream_banner" t-attf-src="/web/image/seller.live.stream/#{stream.id}/live_stream_banner"
+													t-att-alt="stream.name" class="img-responsive" style="max-height:200px;"></img>
+											</a>
+										</t>
+									</div>
+								</t>
+							</t>
+						</div>
+					</div>
+					<div t-if="seller_live_stream_objs and seller_live_stream_objs.filtered(lambda stream: stream.end_stream_datetime &lt; datetime.datetime.now())" class="col-12 mt16">
+						<div class="mb-1 mt-2">
+							<strong><p class="ml-1" style="display: inline;font-style: italic;color: blue;">Previous</p> <span class="px-1" style="display: inline; background: red;width: 50px;color: #FFFFFF;">LIVE</span></strong>
+
+							<!-- <h5 class="" style="display: inline;font-style: italic;color: blue;">Previous</h5> <h4 class="px-1" style="display: inline; background: red;width: 50px;color: #FFFFFF;">LIVE</h4> -->
+						</div>
+						<div class="owl-carousel owl-theme live_stream_owl_carousel_x mb-2" id="wk_live_stream_carousel">
+							<t t-foreach="seller_live_stream_objs" t-as="stream">
+								<t t-set="num" t-value="int(12/len(seller_live_stream_objs))"/>
+								<t t-if="stream.end_stream_datetime &lt; datetime.datetime.now()">
+									<div class="item text-center">
+										<t t-if="stream.live_stream_banner">
+											<a class="" t-attf-href="/livestream/#{stream.id}">
+												<img t-if="stream.live_stream_banner" t-attf-src="/web/image/seller.live.stream/#{stream.id}/live_stream_banner"
+													t-att-alt="stream.name" class="img-responsive" style="max-height:200px;"></img>
+											</a>
+										</t>
+									</div>
+								</t>
+							</t>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</template>
 	<template id="fb_live_stream_inherit_mp_seller_profile" inherit_id="odoo_marketplace.mp_seller_profile" customize_show="True" name="Facebook Live Stream">
-        <xpath expr="//div[@id='seller-pannel']" position="before">
-            <t t-call="marketplace_facebook_live_stream.seller_profile_live_stream_template">
-              <t t-set="view_name" t-value="'seller_profile_page'"/>
-            </t>
-        </xpath>
-    </template>
+		<xpath expr="//div[@id='seller-pannel']" position="before">
+			<t t-call="marketplace_facebook_live_stream.seller_profile_live_stream_template">
+				<t t-set="view_name" t-value="'seller_profile_page'"/>
+			</t>
+		</xpath>
+	</template>
 </odoo>
