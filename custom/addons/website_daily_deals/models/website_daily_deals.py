@@ -484,9 +484,10 @@ class ProductPricelistItem(models.Model):
         if values.get('isMulti_variants'):
             values['isMulti'] = values.get('isMulti_variants')
         if values.get('website_deals_m2o'):
-            child_data = self.env['product.pricelist.item'].search([('group_id', '=', self.id)])
-            for cd in child_data:
-                cd.write({'website_deals_m2o': values.get('website_deals_m2o')})
+            for rec in self:
+                child_data = self.env['product.pricelist.item'].search([('group_id', '=', rec.id)])
+                for cd in child_data:
+                    cd.write({'website_deals_m2o': values.get('website_deals_m2o')})
                     
         if self.group_id and values:
             child_data = self.env['product.pricelist.item'].search([('group_id', '=', self.id)])                
