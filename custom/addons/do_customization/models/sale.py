@@ -457,8 +457,8 @@ class SaleOrderLine(models.Model):
             if is_ready_to_pick:
                 self.order_id.write({'state': 'ready_to_pick'})
 
-            for sol_data2 in self.env['sale.order.line'].search([('is_delivery' , '=' , True)]):
-                sol_data2.write({'sol_state':self.order_id.state})
+        for sol_data2 in self.env['sale.order.line'].search([('order_id','=',self.order_id.id), ('is_delivery' , '=' , True)]):
+            sol_data2.write({'sol_state':self.order_id.state})
                 
             picking_obj = self.env['stock.picking'].search([('origin','=',self.order_id.name), ('marketplace_seller_id','=',self.marketplace_seller_id.id)])
             picking_obj.write({'payment_provider': self.order_id.get_portal_last_transaction().acquirer_id.provider,
@@ -481,7 +481,7 @@ class SaleOrderLine(models.Model):
             
             if self.env['sale.order.line'].search([('order_id','=',rec.order_id.id), ('sol_state' , '=' , 'ready_to_pick')]):
                 count += 1
-
+     
             for sol_data2 in self.env['sale.order.line'].search([('order_id','=',rec.order_id.id)]):
                     
 
