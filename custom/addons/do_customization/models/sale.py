@@ -467,8 +467,8 @@ class SaleOrderLine(models.Model):
 
     def button_cancel(self):
         
-        is_to_update = True #is_to_update parent sale order to ready_to_pick
-        count = 0
+        is_to_update = True #is_to_update parent sale order to ready_to_pick or cancel
+        count = 0 #To count ready_to_pick
         
         for rec in self:
             #pickings = rec.mapped('order_id.picking_ids').filtered(lambda picking: picking.marketplace_seller_id.id == rec.marketplace_seller_id.id)
@@ -493,15 +493,6 @@ class SaleOrderLine(models.Model):
                                 rec.write({'state': 'cancel'})
                         elif count >= 1:
                             self.order_id.write({'state': 'ready_to_pick'})
-                # if sol_data2.state not in ['ready_to_pick']:
-                #     if is_to_update and count == 0:
-                #         self.order_id.write({'state': 'cancel'})
-                #         if rec.marketplace_state == "cancel" and rec.sol_state == 'cancel':
-                #             rec.write({'state': 'cancel'})
-
-                # elif sol_data2.state not in ['cancel']:
-                #     if is_to_update and count >= 1:
-                #         self.order_id.write({'state': 'ready_to_pick'})
 
             for sol_data3 in self.env['sale.order.line'].search([('order_id','=',rec.order_id.id), ('is_delivery' , '=' , True)]):
                 sol_data3.write({'sol_state':rec.order_id.state})
