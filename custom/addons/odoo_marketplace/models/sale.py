@@ -106,7 +106,7 @@ class SaleOrderLine(models.Model):
     @api.depends('order_id.procurement_group_id')
     def _compute_seller_picking_ids(self):
         for sol in self:
-            sol.mp_delivery_count = len(sol.mapped('order_id.picking_ids').filtered(lambda picking: picking.marketplace_seller_id.id == sol.marketplace_seller_id.id))
+            sol.mp_delivery_count = len(sol.mapped('order_id.picking_ids').filtered(lambda picking: picking.order_line_id.id == sol.id))
 
     def action_view_delivery(self):
         '''
@@ -116,7 +116,7 @@ class SaleOrderLine(models.Model):
         '''
         action = self.env.ref('odoo_marketplace.marketplace_stock_picking_action').read()[0]
 
-        pickings = self.mapped('order_id.picking_ids').filtered(lambda picking: picking.marketplace_seller_id.id == self.marketplace_seller_id.id)
+        pickings = self.mapped('order_id.picking_ids').filtered(lambda picking: picking.order_line_id.id == self.id)
         if len(pickings) > 1:
             action['domain'] = [('id', 'in', pickings.ids)]
         elif pickings:
@@ -139,9 +139,10 @@ class SaleOrderLine(models.Model):
 
     def button_cancel(self):
         for rec in self:
-            pickings = rec.mapped('order_id.picking_ids').filtered(lambda picking: picking.marketplace_seller_id.id == rec.marketplace_seller_id.id)
+            pickings = rec.mapped('order_id.picking_ids').filtered(lambda picking: picking.order_line_id.id == rec.id)
             pickings.action_cancel()
             rec.sudo().marketplace_state = "cancel"
+            rec.sudo().sol_state = "cancel"
 
     def button_approve_ol(self):
         for rec in self:
