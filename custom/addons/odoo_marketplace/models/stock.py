@@ -234,6 +234,7 @@ class StockPicking(models.Model):
     _inherit = 'stock.picking'
 
     marketplace_seller_id = fields.Many2one("res.partner", string="Seller")
+    order_line_id = fields.Many2one("sale.order.line", string="Sale Order Line")
 
     @api.model
     def _read_group_fill_results( self, domain, groupby, remaining_groupbys,
@@ -302,6 +303,12 @@ class StockMove(models.Model):
 
     def _get_new_picking_values(self):
         values = super(StockMove, self)._get_new_picking_values()
+        for rec in self:
+            sol_obj = self.env["sale.order.line"].sudo().search([('order_id.name', '=', rec.origin), ('product_id', '=', rec.product_id.id)], limit=1)
+            if sol_obj:
+                values.update({
+                        "order_line_id" : sol_obj.id
+                    })        
         sellers = self.mapped('marketplace_seller_id')
         seller = len(sellers) == 1 and sellers.id or False
         values.update({
