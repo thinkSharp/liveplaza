@@ -459,9 +459,9 @@ class SaleOrderLine(models.Model):
                 
                 for sol_data2 in self.env['sale.order.line'].search([('order_id','=',self.order_id.id), ('is_delivery' , '=' , True)]):
                     sol_data2.write({'sol_state':self.order_id.state})
-                    if (self.env['sale.order.line'].search([('order_id','=',self.order_id.id), ('sol_state' , '=' , 'cancel')]) and self.product_id.is_service)  or (self.env['sale.order.line'].search([('order_id','=',self.order_id.id), ('sol_state' , '=' , 'cancel')]) and self.product_id.is_booking_type):
-                        for cancel_deli_service in self.env['sale.order.line'].search([('order_id','=',self.order_id.id), ('is_delivery' , '=' , True)]):
-                            cancel_deli_service.write({'sol_state':'cancel'})
+                if (self.env['sale.order.line'].search([('order_id','=',self.order_id.id), ('sol_state' , '=' , 'cancel')]) and self.product_id.is_service)  or (self.env['sale.order.line'].search([('order_id','=',self.order_id.id), ('sol_state' , '=' , 'cancel')]) and self.product_id.is_booking_type):
+                    for cancel_deli_service in self.env['sale.order.line'].search([('order_id','=',self.order_id.id), ('is_delivery' , '=' , True)]):
+                        cancel_deli_service.write({'sol_state':'cancel'})
                 
             picking_obj = self.env['stock.picking'].search([('origin','=',self.order_id.name), ('marketplace_seller_id','=',self.marketplace_seller_id.id)])
             picking_obj.write({'payment_provider': self.order_id.get_portal_last_transaction().acquirer_id.provider,
@@ -525,9 +525,9 @@ class SaleOrderLine(models.Model):
                         
                         for sol_data3 in self.env['sale.order.line'].search([('order_id','=',rec.order_id.id), ('is_delivery' , '=' , True)]):
                             sol_data3.write({'sol_state':rec.order_id.state})
-                            if (self.env['sale.order.line'].search([('order_id','=',self.order_id.id), ('sol_state' , '=' , 'cancel')]) and self.product_id.is_service) or (self.env['sale.order.line'].search([('order_id','=',self.order_id.id), ('sol_state' , '=' , 'cancel')]) and self.product_id.is_booking_type):
-                                for cancel_deli_service in self.env['sale.order.line'].search([('order_id','=',self.order_id.id), ('is_delivery' , '=' , True)]):
-                                    cancel_deli_service.write({'sol_state':'cancel'})
+                        if (self.env['sale.order.line'].search([('order_id','=',self.order_id.id), ('sol_state' , '=' , 'cancel')]) and self.product_id.is_service) or (self.env['sale.order.line'].search([('order_id','=',self.order_id.id), ('sol_state' , '=' , 'cancel')]) and self.product_id.is_booking_type):
+                            for cancel_deli_service in self.env['sale.order.line'].search([('order_id','=',self.order_id.id), ('is_delivery' , '=' , True)]):
+                                cancel_deli_service.write({'sol_state':'cancel'})
 
-            return rec.price_cancel()
+        return self.price_cancel()
             
