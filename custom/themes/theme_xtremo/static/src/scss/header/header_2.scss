@@ -939,3 +939,50 @@ header{
 .js_language_selector {
   margin-left: auto;
 }
+
+// Mobile search
+
+.btn-nav-search {
+  color: white;
+  outline: none;
+  border: 1px solid white;
+  background-color: transparent;
+  padding: 0;
+  border-radius: 100vh;
+  width: 26px;
+  aspect-ratio: 1;
+}
+
+.btn-nav-search:focus,
+.btn-nav-search:active,
+.btn-nav-search:hover {
+  outline: none;
+}
+
+.btn-pm {
+  color: white;
+  background-color: $th-color
+}
+
+.search-modal-header {
+  background-color: $bg-header;
+  color: white;
+}
+
+.search-modal-header .close {
+  color: white;
+}
+
+.btn-search {
+  border-top-right-radius: 100vh;
+  border-bottom-right-radius: 100vh;
+}
+
+#mobileSearchModal .dropdown-item.active {
+  background-color: $bg-header;
+  color: white;
+}
+
+.category-indicator {
+  font-weight: 600;
+}
