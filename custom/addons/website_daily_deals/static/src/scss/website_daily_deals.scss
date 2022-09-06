@@ -427,3 +427,15 @@
         }
     }
 }
+
+@media (max-width: 576px) {
+    .website_daily_deals .daily_deals_owl_carousel .owl-nav button {
+        &.owl-prev {
+            left: 5px;
+        }
+
+        &.owl-next {
+            right: 5px;
+        }
+    }
+}
