@@ -467,29 +467,28 @@ class SaleOrderLine(models.Model):
             picking_obj.write({'payment_provider': self.order_id.get_portal_last_transaction().acquirer_id.provider,
                                'ready_to_pick': True,
                                'hold_state': False })
-    
-    @api.depends('price_total', 'price_subtotal', 'price_tax', 'order_id.amount_untaxed', 'order_id.amount_tax', 'order_id.amount_total')
+
     def price_cancel(self):
 
-        for rec in self:
+        for line in self:
             for order in self.order_id:
-                amount_untaxed = rec.order_id.amount_untaxed
-                amount_tax = rec.order_id.amount_tax
-                if self.env['sale.order.line'].search([('order_id','=',rec.order_id.id), ('sol_state' , '=' , 'cancel')]):
-                    amount_untaxed -= rec.price_subtotal
-                    amount_tax += rec.price_tax
+                amount_untaxed = order.amount_untaxed
+                amount_tax = order.amount_tax
+                if self.env['sale.order.line'].search([('order_id','=',line.order_id.id), ('sol_state' , '=' , 'cancel')]):
+                    amount_untaxed -= line.price_subtotal
+                    amount_tax += line.price_tax
 
                 order.update({
-                    'amount_untaxed': order.currency_id.round(amount_untaxed),
-                    'amount_tax': order.currency_id.round(amount_tax),
+                    'amount_untaxed': order.pricelist_id.currency_id.round(amount_untaxed),
+                    'amount_tax': order.pricelist_id.currency_id.round(amount_tax),
                     'amount_total': amount_untaxed + amount_tax,
                 })
-                for sol_data3 in self.env['sale.order.line'].search([('order_id','=',rec.order_id.id), ('is_delivery' , '=' , True), ('sol_state' , '=' , 'cancel')]):
-                    amount_untaxed -= sol_data3.price_subtotal
-                    amount_tax += sol_data3.price_tax
-                    sol_data3.order_id.update({
-                        'amount_untaxed': sol_data3.order_id.currency_id.round(amount_untaxed),
-                        'amount_tax': sol_data3.order_id.currency_id.round(amount_tax),
+                for sol_data in self.env['sale.order.line'].search([('order_id','=',line.order_id.id), ('is_delivery' , '=' , True), ('sol_state' , '=' , 'cancel')]):
+                    amount_untaxed -= sol_data.price_subtotal
+                    amount_tax += sol_data.price_tax
+                    sol_data.order_id.update({
+                        'amount_untaxed': sol_data.order_id.pricelist_id.currency_id.round(amount_untaxed),
+                        'amount_tax': sol_data.order_id.pricelist_id.currency_id.round(amount_tax),
                         'amount_total': amount_untaxed + amount_tax,
                     })
 
