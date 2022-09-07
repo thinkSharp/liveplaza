@@ -49,7 +49,8 @@
 
 .live_stream_owl_carousel .img-responsive {
   padding: 4px !important;
-  height: 200px !important;
+  aspect-ratio: 1.5;
+  object-fit: cover;
 }
 .live_stream_owl_carousel .owl-nav {
   font-size: 40px;
@@ -57,7 +58,8 @@
 
 .live_stream_owl_carousel_x .img-responsive {
   padding: 4px !important;
-  height: 200px !important;
+  aspect-ratio: 1.5;
+  object-fit: cover;
 }
 .live_stream_owl_carousel_x .owl-nav {
   font-size: 40px;
