@@ -270,13 +270,38 @@ class ProductPricelistItem(models.Model):
         ('percentage', 'Percentage (discount)'),
         ('formula', 'Formula')], index=True, default='fixed_discount', required=True)
     fixed_discount = fields.Float('Fixed Discount', digits='Product Price')
-
+    available_product_ids = fields.Many2many("product.template", compute='_compute_available_product', string="Available Products")
+    available_variant_ids = fields.Many2many("product.product", compute='_compute_available_variant', string="Available Variants")
+    
     @api.onchange('deal_applied_on')
     @api.depends('deal_applied_on')
     def onchange_deal_applied_on(self):
         self.applied_on = self.deal_applied_on
         self.pricelist_id = self.website_deals_m2o.deal_pricelist
         self.min_quantity = 1
+
+    @api.depends('applied_on')
+    def _compute_available_product(self):
+        for rec in self:
+            booking_ids = self.env['product.template'].search([('is_booking_type', '=', True), ('status', '=', 'approved'), ('active', '=', True)])
+            if booking_ids:
+                rec.available_product_ids += booking_ids
+            
+            product_ids = self.env['product.template'].search([('virtual_available', '>', 0), ('status', '=', 'approved'), ('active', '=', True)])
+            if product_ids:
+                rec.available_product_ids += product_ids
+            
+            
+    @api.depends('applied_on')
+    def _compute_available_variant(self):
+        for rec in self:
+            booking_ids = self.env['product.product'].search([('is_booking_type', '=', True), ('status', '=', 'approved'), ('active', '=', True)])
+            if booking_ids:
+                rec.available_variant_ids += booking_ids
+            
+            variant_ids = self.env['product.product'].search([('virtual_available', '>', 0), ('status', '=', 'approved'), ('active', '=', True)])
+            if variant_ids:
+                rec.available_variant_ids += variant_ids
 
     @api.constrains('product_id', 'product_tmpl_id', 'categ_id')
     def _check_product_consistency(self):
