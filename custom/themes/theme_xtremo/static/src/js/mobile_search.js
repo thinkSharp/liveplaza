@@ -6,7 +6,7 @@ odoo.define('livep.search.mobile', function(require) {
   publicWidget.registry.LivvepMobileSearch = publicWidget.Widget.extend({
     selector: '.js-mobile-search',
     events: {
-      "click .dropdown-item": "_setCategory",
+      "click .dropdown-item": "_handleCategoryChange",
     },
 
     /**
@@ -15,50 +15,68 @@ odoo.define('livep.search.mobile', function(require) {
 
     start: function () {
       var ref = this;
-      ref.$dropdownItems = this.$el.find('.dropdown-item')
       ref.$form = this.$el.find('form')
       ref.$indicator = this.$el.find('.category-indicator')
+      ref.$dropdownItems = this.$el.find('.dropdown-item')
 
-      ref._update()
+      var $defaultItem = ref._activeItemFromPath(window.location.pathname)
+      if (!$defaultItem)
+        $defaultItem = this.$el.find('.dropdown-item.active')
+      ref.$activeItem = $defaultItem
+
+      ref._updateDOM()
       
       return this._super.apply(this, arguments)
     },
 
     /**
-     * private methods
+     * handlers
      */
 
-    _setCategory: function (ev) {
+    _handleCategoryChange: function (ev) {
       ev.preventDefault()
       var ref = this;
-      var $target = $(ev.currentTarget)
+      ref.$activeItem = $(ev.currentTarget)
 
-      if (!$target.hasClass('active')) {
-        ref.$dropdownItems.each(function () {
-          $(this).removeClass('active')
-        })
-        $target.addClass('active')
-      }
-
-      // active category has changed, update search modal
-      ref._update()
+      // active item has changed, update search modal
+      ref._updateDOM()
     },
 
     /**
      * must be called after $dropdownItems, $indicator and $form are defined
      */
-    _update: function () {
+    _updateDOM: function () {
       var ref = this;
-      var $activeCategory = ref.$dropdownItems.filter(function (_) { return $(this).hasClass('active') })
 
-      if ($activeCategory) {
-        // update search path
-        var searchPath = $activeCategory.attr('href')
-        ref.$form.attr('action', searchPath)
+      // if no active item, do nothing
+      if (!ref.$activeItem)
+        return
 
-        // update indicator
-        ref.$indicator.text($activeCategory.text())
-      }
+      // update active class
+      ref.$dropdownItems.each(function () {
+        $(this).removeClass('active')
+      })
+      ref.$activeItem.addClass('active')
+
+      // update search path
+      var searchPath = ref.$activeItem.attr('href')
+      ref.$form.attr('action', searchPath)
+
+      // update indicator
+      ref.$indicator.text(ref.$activeItem.text())
+    },
+
+    _pathEqual: function (path1, path2) {
+      // url paths with '/' or without is equivalent in our case
+      path1 = path1.replace(/\/$/, '')
+      path2 = path2.replace(/\/$/, '')
+      return path1 === path2
+    },
+
+    _activeItemFromPath: function (pathname) {
+      var ref = this;
+      var filtered = ref.$dropdownItems.filter(function () { return ref._pathEqual($(this).attr('href'), pathname) })
+      return filtered.length !== 0 && filtered.first()
     },
   })
 })
