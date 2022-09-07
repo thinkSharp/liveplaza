@@ -207,6 +207,41 @@ class ProductPricelist(models.Model):
 
         return results
 
+    @api.model
+    def create(self, vals):
+        active_pricelists = self.env['product.pricelist'].search([('active', '=', True),('selectable', '=', True)])
+        if vals.get('selectable', False):            
+            if active_pricelists:
+                if len(active_pricelists) > 0:
+                    raise UserError('There is a selectable pricelist already and cannot make this pricelist SELECTABLE. Please unchecked the selectable field to continue.')
+        else:            
+            if not active_pricelists:
+                if len(active_pricelists) == 0:
+                    raise UserError('At least one pricelist must be selectable.')
+        return super(ProductPricelist, self).create(vals)
+
+    def write(self, values):
+        active_pricelists = self.env['product.pricelist'].search([('active', '=', True),('selectable', '=', True),('id', '!=', self.id)])
+        if values.get('selectable', False):       
+            if active_pricelists:
+                if values.get('selectable') == True:   
+                    if len(active_pricelists) > 0:
+                        raise UserError('There is a selectable pricelist already and cannot make this pricelist SELECTABLE. Please unchecked the selectable field to continue.')
+            else:
+                if values.get('selectable') == False: 
+                    raise UserError('At least one pricelist must be selectable.')
+        #else:            
+        #    if not active_pricelists:
+        #        if len(active_pricelists) == 0:
+        #            raise UserError('At least one pricelist must be selectable.')        
+
+        res = super(ProductPricelist, self).write(values)
+        # When the pricelist changes we need the product.template price
+        # to be invalided and recomputed.
+        self.flush()
+        self.invalidate_cache()
+        return res
+        
 
 class ProductPricelistItem(models.Model):
     _inherit = "product.pricelist.item"
@@ -534,7 +569,7 @@ class WebsiteDeals(models.Model):
     state = fields.Selection(
         [('draft', 'Draft'), ('pending', 'Pending For Approval'), ('validated', 'In Progress'), ('expired', 'Expired'), ('cancel', 'Cancelled')], 'State',
         default='draft')
-    deal_pricelist = fields.Many2one('product.pricelist', 'Pricelist', required=True, default=_get_default_pricelist)
+    deal_pricelist = fields.Many2one('product.pricelist', 'Pricelist', domain="[('active','=', True),('selectable','=', True)]", required=True, default=_get_default_pricelist)
     overide_config = fields.Boolean('Override Default Configuration')
     start_date = fields.Datetime('Start Date', required=True, default=datetime.now() + timedelta(days=-1))
     end_date = fields.Datetime('End Date', required=True, default=datetime.now() + timedelta(days=1))

@@ -146,7 +146,7 @@
 						<button name="action_request" type="object" class="oe_read_only oe_highlight" string="Request for Approval"
 								attrs="{'invisible':[('state', '!=', 'draft')]}"/>
 <!--                        <button name="button_validate_the_deal" string="Validate"   class="oe_highlight" type="object" attrs="{'invisible':[('state','!=','draft')]}"/>-->
-						<button name="set_to_draft" string="Set To Draft"   class="oe_highlight" type="object" attrs="{'invisible':[('state','=','draft')]}"/>
+						<button name="set_to_draft" string="Set To Draft"   class="oe_highlight" type="object" attrs="{'invisible':[('state','in',['draft','cancel'])]}"/>
                          <button name="cancel_deal" string="Cancel"   class="oe_highlight" type="object" attrs="{'invisible':[('state','=','cancel')]}"/>
                         <field name="state" widget="statusbar"/>
                     </header>
@@ -204,7 +204,7 @@
                         </group>
                         <group style="margin-left:0px">
                             <group col="3">
-                                <field name="deal_pricelist"/>
+                                <field name="deal_pricelist" options="{'no_create':1}"/>
                                 <!-- <button type="object"  name="button_apply_this_pricelist" class="btn btn-primary btn-sm"> Apply this Pricelist</button> -->
                             </group>
                         </group>
@@ -333,7 +333,7 @@
                 <form create="false" string="Website Daily Deals" version="7.0">
                     <header>
 						<button name="button_validate_the_deal" string="Approve"  class="oe_highlight" type="object" attrs="{'invisible':[('state','!=','pending')]}"/>
-						<button name="set_to_draft" string="Set To Draft"   class="oe_highlight" type="object" attrs="{'invisible':[('state','=','draft')]}"/>
+						<button name="set_to_draft" string="Set To Draft"   class="oe_highlight" type="object" attrs="{'invisible':[('state','in',['draft','cancel'])]}"/>
                          <button name="cancel_deal" string="Cancel"   class="oe_highlight" type="object" attrs="{'invisible':[('state','=','cancel')]}"/>
                         <field name="state" widget="statusbar"/>
                     </header>
@@ -391,7 +391,7 @@
                         </group>
                         <group style="margin-left:0px">
                             <group col="3">
-                                <field name="deal_pricelist"/>
+                                <field name="deal_pricelist" options="{'no_create':1}"/>
                                 <!-- <button type="object"  name="button_apply_this_pricelist" class="btn btn-primary btn-sm"> Apply this Pricelist</button> -->
                             </group>
                         </group>
