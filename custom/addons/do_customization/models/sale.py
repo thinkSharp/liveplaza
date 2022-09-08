@@ -495,7 +495,7 @@ class SaleOrderLine(models.Model):
                         'amount_total': amount_untaxed + amount_tax,
                     })
 
-            
+
     def button_cancel(self):
         
         is_to_update = True #is_to_update parent sale order to ready_to_pick or cancel
@@ -524,12 +524,13 @@ class SaleOrderLine(models.Model):
                                 rec.write({'state': 'cancel'})
                         elif count >= 1:
                             self.order_id.write({'state': 'ready_to_pick'})
+                            if (self.env['sale.order.line'].search([('order_id','=',self.order_id.id), ('sol_state' , '=' , 'cancel')]) and self.product_id.is_service) or (self.env['sale.order.line'].search([('order_id','=',self.order_id.id), ('sol_state' , '=' , 'cancel')]) and self.product_id.is_booking_type):
+                                for cancel_deli_service in self.env['sale.order.line'].search([('order_id','=',self.order_id.id), ('is_delivery' , '=' , True)]):
+                                    cancel_deli_service.write({'sol_state':'cancel'})
                         
                         for sol_data3 in self.env['sale.order.line'].search([('order_id','=',rec.order_id.id), ('is_delivery' , '=' , True)]):
                             sol_data3.write({'sol_state':rec.order_id.state})
-                        if (self.env['sale.order.line'].search([('order_id','=',self.order_id.id), ('sol_state' , '=' , 'cancel')]) and self.product_id.is_service) or (self.env['sale.order.line'].search([('order_id','=',self.order_id.id), ('sol_state' , '=' , 'cancel')]) and self.product_id.is_booking_type):
-                            for cancel_deli_service in self.env['sale.order.line'].search([('order_id','=',self.order_id.id), ('is_delivery' , '=' , True)]):
-                                cancel_deli_service.write({'sol_state':'cancel'})
+                        
 
         return self.price_cancel()
             
