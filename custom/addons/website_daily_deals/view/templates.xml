@@ -183,7 +183,7 @@
 
 <!--			<t t-if="product_quantity > 0" t-attf-class="d-none if product_quantiqy > 0 else ''">-->
 				<t t-set="all_out_of_stock" t-value="false" />
-				<div t-attf-class="#{'' if product_quantity > 0 else 'd-none hidden-deal-product'} #{'col-12 col-sm-6 col-md-3 col-lg-2 p-0' if display_as and display_as=='grid' else ''}">
+				<div t-attf-class="deal_item #{'' if product_quantity > 0 else 'd-none hidden-deal-product'} #{'col-12 col-sm-6 col-md-3 col-lg-2 p-0' if display_as and display_as=='grid' else ''}">
 					<div class='div_img'>
 						<a t-att-href="'/shop/product/%s' % product_tmpl_id.id">
 							<span itemprop="image" t-field="product_tmpl_id.image_1920" t-options="{'widget': 'image', 'preview_image': 'image_1024' if product_image_big else 'image_256'}" t-att-alt="product_tmpl_id.name"/>
