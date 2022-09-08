@@ -469,7 +469,9 @@ class SaleOrderLine(models.Model):
                                'hold_state': False })
 
     def price_cancel(self):
-
+        """
+        Compute the total amounts of the SO after Order Cancel.
+        """ 
         for line in self:
             for order in self.order_id:
                 amount_untaxed = order.amount_untaxed
@@ -483,6 +485,7 @@ class SaleOrderLine(models.Model):
                     'amount_tax': order.pricelist_id.currency_id.round(amount_tax),
                     'amount_total': amount_untaxed + amount_tax,
                 })
+                # For Delivery Charge Price Cancel
                 for sol_data in self.env['sale.order.line'].search([('order_id','=',line.order_id.id), ('is_delivery' , '=' , True), ('sol_state' , '=' , 'cancel')]):
                     amount_untaxed -= sol_data.price_subtotal
                     amount_tax += sol_data.price_tax
