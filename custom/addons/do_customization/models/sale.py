@@ -460,8 +460,10 @@ class SaleOrderLine(models.Model):
         for sol_data2 in self.env['sale.order.line'].search([('order_id','=',self.order_id.id), ('is_delivery' , '=' , True)]):
             sol_data2.write({'sol_state':self.order_id.state})
                 
-            picking_obj = self.env['stock.picking'].search([('origin','=',self.order_id.name), ('marketplace_seller_id','=',self.marketplace_seller_id.id)])
-            picking_obj.write({'payment_provider': self.order_id.get_portal_last_transaction().acquirer_id.provider,
+            picking_obj = self.env['stock.picking'].search([('origin','=',self.order_id.name), ('order_line_id','=',self.id),
+                                                            ('marketplace_seller_id','=',self.marketplace_seller_id.id)])
+            if picking_obj:
+                picking_obj.write({'payment_provider': self.order_id.get_portal_last_transaction().acquirer_id.provider,
                                'ready_to_pick': True,
                                'hold_state': False })
 
