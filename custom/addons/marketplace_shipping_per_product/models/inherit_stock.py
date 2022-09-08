@@ -35,6 +35,7 @@ class StockMove(models.Model):
                 ('location_dest_id', '=', move.location_dest_id.id),
                 ('picking_type_id', '=', move.picking_type_id.id),
                 ('marketplace_seller_id', '=',move.product_id.marketplace_seller_id.id),
+                ('order_line_id', '=',move.order_line_id.id),
                 ('printed', '=', False),
                 ('state', 'in', ['draft', 'confirmed', 'waiting', 'partially_available', 'assigned']),
             ]
