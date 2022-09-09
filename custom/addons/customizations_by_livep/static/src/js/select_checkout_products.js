@@ -67,11 +67,17 @@ odoo.define('customizations_by_livep.cart', function(require) {
     _onClickCheckbox: function(ev) {
         var orderID = $(ev.currentTarget).data('order-id');
 
+       console.log("Hay Disable")
+       let selectProductCheckBoxs = document.querySelectorAll("#select-product")
+       selectProductCheckBoxs.forEach((selectProductCheckBox) => {
+            selectProductCheckBox.disabled = true;
+       });
 
         ajax.jsonRpc('/shop/checkout/select/products', 'call', {'orderLineId': orderID})
         .then(function(response){
             $(ev.currentTarget).closest('tr').find('.js_quantity').trigger('change');
-        });
+        })
+
 
     },
 

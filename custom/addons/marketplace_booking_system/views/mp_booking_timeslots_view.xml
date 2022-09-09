@@ -40,8 +40,8 @@
             <field name="type">tree</field>
             <field name="priority" eval="100"/>
             <field name="mode">primary</field>
-            <field name="arch" type="xml">
-                <tree string="Booking Time Slots" editable="top" decoration-info="state=='new'"
+            <field name="arch" type="xml" >
+                <tree default_order='create_date desc' string="Booking Time Slots" editable="top" decoration-info="state=='new'"
                 decoration-warning="state=='pending'" decoration-success="state=='approved'" decoration-danger="state=='rejected'">
                     <field name="sequence" widget="handle" groups="odoo_marketplace.marketplace_officer_group"/>
                     <field name="start_time" widget="float_time" attrs="{'readonly': [('state','not in',['new'])]}"/>
@@ -87,7 +87,8 @@
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">booking.time.slot</field>
             <!-- <field name="view_type">form</field> -->
-            <field name="domain">[('state','in',['new','pending','rejected'])]</field>
+            <field name="domain">[('state','in',['new','pending','rejected']),
+                ('create_uid','=',uid)]</field>
             <field name="context">{"mp_new_booking":1,}
             </field>
             <field name="view_mode">tree,form</field>
@@ -105,12 +106,34 @@
             ]"/>
         </record>
 
+        <record id="mp_booking_timeslots_admin_approved_action" model="ir.actions.act_window">
+            <field name="name">Marketplace Booking TimeSlot Approval</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">booking.time.slot</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="context">{"mp_approved_booking":1,}
+            </field>
+            <field name="view_mode">tree</field>
+            <field name="help" type="html">
+              <p>
+                Here is a list of all the approved booking timeslots created by sellers of marketplace. You
+                can click on any record to get the detailed Information About these TimeSlots.
+              </p>
+            </field>
+            <field
+                name="view_ids"
+                eval="[
+                (5, 0, 0),
+                (0, 0, {'sequence': 1, 'view_mode': 'tree', 'view_id': ref('mp_wk_booking_timeslot_tree_view')}),
+            ]"/>
+        </record>
+
         <record id="mp_booking_timeslots_approved_action" model="ir.actions.act_window">
             <field name="name">Marketplace Booking Approved TimeSlots</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">booking.time.slot</field>
             <!-- <field name="view_type">form</field> -->
-            <field name="domain">[('state','in',['approved'])]</field>
+            <field name="domain">[('state','in',['approved']), ('create_uid','=',uid)]</field>
             <field name="context">{"mp_approved_booking":1,}
             </field>
             <field name="view_mode">tree</field>
@@ -152,6 +175,15 @@
             action= "marketplace_booking_system.mp_booking_timeslots_approved_action"
             parent= "marketplace_booking_system.mp_booking_timeslots_main_menu"
             groups= "odoo_marketplace.marketplace_seller_group"
+        />
+
+        <menuitem
+            name= "Approval"
+            id= "mp_booking_timeslots_approval_menu"
+            sequence= "3"
+            action= "marketplace_booking_system.mp_booking_timeslots_admin_approved_action"
+            parent= "marketplace_booking_system.mp_booking_timeslots_main_menu"
+            groups= "odoo_marketplace.marketplace_manager_group"
         />
 
     </data>
