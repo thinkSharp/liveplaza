@@ -298,7 +298,7 @@ odoo.define('website_booking_system.booking_n_reservation', function(require) {
 
 
                     console.log("I am product.")
-                    let time_diff_seconds = Math.round((Date.now() - createDate.getTime()) / 1000);
+                    let time_diff_seconds = Math.round((Date.now() - createDate.getTime()) / 1000) - 23400;
                     let time_remain_seconds  = time_limit_seconds - time_diff_seconds;
                     let show_minutes = Math.floor(time_remain_seconds / 60);
                     let show_seconds = time_remain_seconds % 60;
