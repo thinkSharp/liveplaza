@@ -532,7 +532,6 @@ class SaleOrderLine(models.Model):
                         
                         for sol_data3 in self.env['sale.order.line'].search([('order_id','=',rec.order_id.id), ('is_delivery' , '=' , True)]):
                             sol_data3.write({'sol_state':rec.order_id.state})
-                        
-
+                            
         return self.price_cancel()
             
