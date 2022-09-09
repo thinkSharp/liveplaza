@@ -42,8 +42,8 @@ class Website(models.Model):
             if o.selected_checkout:
                 checked_len += 1
 
-        if checked_len == 0:
-            return "0"
+        # if checked_len == 0:
+        #     return "0"
 
         return checked_len
 

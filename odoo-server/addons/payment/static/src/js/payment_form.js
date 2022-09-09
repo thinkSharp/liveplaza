@@ -16,6 +16,7 @@ publicWidget.registry.PaymentForm = publicWidget.Widget.extend({
         'click button[name="delete_pm"]': 'deletePmEvent',
         'click .o_payment_form_pay_icon_more': 'onClickMorePaymentIcon',
         'click .o_payment_acquirer_select': 'radioClickEvent',
+        'change #ssImage': 'fileValidation',
     },
 
     /**
@@ -48,9 +49,11 @@ publicWidget.registry.PaymentForm = publicWidget.Widget.extend({
         var $acquirerForm;
         if (this.isNewPaymentRadio($checkedRadio[0])) {
             $acquirerForm = this.$('#o_payment_add_token_acq_' + acquirerID);
+            $acquirerForm = this.$('.payment_ss_upload');
         }
         else if (this.isFormPaymentRadio($checkedRadio[0])) {
-            $acquirerForm = this.$('#o_payment_form_acq_' + acquirerID);
+//            $acquirerForm = this.$('#o_payment_form_acq_' + acquirerID);
+            $acquirerForm = this.$('.payment_ss_upload');
         }
 
         if ($checkedRadio.length === 0) {
@@ -265,6 +268,20 @@ publicWidget.registry.PaymentForm = publicWidget.Widget.extend({
                 this.disableButton(button);
                 var $tx_url = this.$el.find('input[name="prepare_tx_url"]');
                 // if there's a prepare tx url set
+                var $file = document.getElementById("ssImage");
+                var cod = self.options.cod;
+                if (cod == 0) {
+                    var $fileInput = document.getElementById('ssImage').files[0];
+                    if (!$fileInput) {
+                        this.displayError(
+                            _t("Payment screenshot not uploaded"),
+                            _t("Please upload your payment screenchot")
+                        );
+                        self.enableButton(button);
+                        return false;
+                    }
+                }
+
                 if ($tx_url.length === 1) {
                     // if the user wants to save his credit card info
                     var form_save_token = acquirer_form.find('input[name="o_payment_form_save_token"]').prop('checked');
@@ -273,12 +290,14 @@ publicWidget.registry.PaymentForm = publicWidget.Widget.extend({
                         route: $tx_url[0].value,
                         params: {
                             'acquirer_id': parseInt(acquirer_id),
+                            'cod': cod,
                             'save_token': form_save_token,
                             'access_token': self.options.accessToken,
                             'success_url': self.options.successUrl,
                             'error_url': self.options.errorUrl,
                             'callback_method': self.options.callbackMethod,
                             'order_id': self.options.orderId,
+
                         },
                     }).then(function (result) {
                         if (result) {
@@ -292,14 +311,15 @@ publicWidget.registry.PaymentForm = publicWidget.Widget.extend({
                             newForm.setAttribute("action", action_url); // set the action url
                             $(document.getElementsByTagName('body')[0]).append(newForm); // append the form to the body
                             $(newForm).find('input[data-remove-me]').remove(); // remove all the input that should be removed
-                            if(action_url) {
+                           if(action_url) {
                                 newForm.submit(); // and finally submit the form
                                 return new Promise(function () {});
                             }
+
                         }
                         else {
                             self.displayError(
-                                _t('Server Error'),
+                                _t('Server Error 1'),
                                 _t("We are not able to redirect you to the payment form.")
                             );
                             self.enableButton(button);
@@ -307,7 +327,7 @@ publicWidget.registry.PaymentForm = publicWidget.Widget.extend({
                     }).guardedCatch(function (error) {
                         error.event.preventDefault();
                         self.displayError(
-                            _t('Server Error'),
+                            _t('Server Error 2'),
                             _t("We are not able to redirect you to the payment form.") + " " +
                                 self._parseError(error)
                         );
@@ -334,6 +354,31 @@ publicWidget.registry.PaymentForm = publicWidget.Widget.extend({
                 _t('Please select a payment method.')
             );
             this.enableButton(button);
+        }
+    },
+
+    fileValidation: function() {
+        var fileInput =
+            document.getElementById('ssImage');
+
+        var filePath = fileInput.value;
+
+        // Allowing file type
+        var allowedExtensions =
+            /(\.jpeg|\.jpg|\.png|\.raw|\.tiff|\.gif)$/i;
+
+        if (!allowedExtensions.exec(filePath)) {
+            fileInput.value = '';
+            this.displayError(
+                _t('Invalid image file type'),
+                _t('Please upload payment screenshot only with image file type.')
+            );
+            return false;
+        }
+        else {
+            var form = document.getElementById("payment_upload_form");
+            form.submit();
+            this.hideError();
         }
     },
     /**

@@ -40,7 +40,8 @@
                         <ul class="list-group" style="margin-bottom: 0;border: 0;">
                             <t t-if="deliveries" t-foreach="deliveries" t-as="delivery">
                                 <li class="list-group-item" style="border: 0;" >  <!-- t-att-style="'display: none;' if(order.contain_service == True) else 'display: block;'"-->
-                                    <input t-att-value="delivery.id" t-att-id="'delivery_%i_%i' % (line.id,delivery.id)" type="radio" t-att-name="'delivery_type_%i' % line.id" autocomplete="off"/>
+                                    <input t-att-value="delivery.id" t-att-id="'delivery_%i_%i' % (line.id,delivery.id)" type="radio"
+                                          t-att-checked="delivery.id == order.selected_carrier_id" t-att-name="'delivery_type_%i' % line.id" autocomplete="off"/>
                                     <label class="label-optional" t-field="delivery.name" t-att-for="'delivery_%i_%i' % (line.id,delivery.id)"/>
                                     <t t-if="delivery.delivery_type == 'fixed'">
                                         <span t-if="delivery.fixed_price > 0.0" class="float-right badge badge-secondary">
