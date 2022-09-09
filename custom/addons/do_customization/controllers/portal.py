@@ -14,6 +14,7 @@ from odoo.osv import expression
 from datetime import datetime
 import datetime
 import pytz
+import base64
 
 
 class CustomerPortal(CustomerPortal):
@@ -25,7 +26,7 @@ class CustomerPortal(CustomerPortal):
         SaleOrder = request.env['sale.order']
         quotation_count = SaleOrder.search_count([
             ('message_partner_ids', 'child_of', [partner.commercial_partner_id.id]),
-            ('state', 'in', ['sent'])
+            ('state', 'in', ['draft', 'sent'])
         ])
         order_count = SaleOrder.search_count([
             ('message_partner_ids', 'child_of', [partner.commercial_partner_id.id]),
@@ -402,7 +403,7 @@ class CustomerPortal(CustomerPortal):
 
         domain = [
             ('message_partner_ids', 'child_of', [partner.commercial_partner_id.id]),
-            ('state', 'in', ['sent'])
+            ('state', 'in', ['draft', 'sent'])
         ]
 
         searchbar_sortings = {
@@ -445,4 +446,49 @@ class CustomerPortal(CustomerPortal):
             'sortby': sortby,
         })
         return request.render("sale.portal_my_quotations", values)
+
+    @http.route(['/my/orders/payment/edit_modal'], type='json', auth="public", methods=['POST'], website=True)
+    def edit_payment_ss(self, sale_order_id):
+        order = request.env['sale.order'].search([('id', '=', sale_order_id)])
+        values = {
+            'order': order,
+        }
+        return request.env.ref("do_customization.payment_ss_update").render(values, engine='ir.qweb')
+
+    @http.route(['/my/orders/payment/view_modal'], type='json', auth="public", methods=['POST'], website=True)
+    def view_payment_ss(self, sale_order_id):
+        order = request.env['sale.order'].search([('id', '=', sale_order_id)])
+        values = {
+            'order': order,
+        }
+        return request.env.ref("do_customization.payment_ss_view_modal").render(values, engine='ir.qweb')
+
+    @http.route('/my/orders/payment/edit', type='http', auth="public", website=True)
+    def upload_payment_ss(self, **post):
+        values = {}
+
+        if post.get('attachment', False):
+            name = post.get('attachment').filename
+            if name and name.lower().endswith(('.png', '.jpeg', '.gif', 'jpg', 'tiff', 'raw')):
+                file = post.get('attachment')
+                sale_order_id = post.get('sale_order_id')
+                attachment = file.read()
+                image_64_encode = base64.encodestring(attachment)
+                # image_64_decode = base64.decodestring(image_64_encode)
+                order = request.env['sale.order'].sudo().browse(sale_order_id).exists()
+                sale_order_objs = request.env['sale.order'].sudo().search([("id", "=", int(sale_order_id))])
+
+                if sale_order_objs:
+                    for sale_order_obj in sale_order_objs:
+                        sale_order_obj.sudo().write({'payment_upload': image_64_encode, 'payment_upload_name': name})
+
+                values = {
+                    'website_sale_order': order,
+                    'order': order,
+                }
+                url = sale_order_objs.get_portal_url()
+                return request.redirect(url)
+            else:
+                return request.redirect('/shop/confirmation')
+
 

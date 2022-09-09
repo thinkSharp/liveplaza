@@ -32,7 +32,11 @@ class SaleOrder(models.Model):
     payment_provider = fields.Selection(selection=[('manual', 'Custom Payment Form'),('transfer', 'Prepaid'),
                                                     ('cash_on_delivery', 'COD'),('wavepay', 'WavePay')], string='Payment Type')
     payment_upload = fields.Binary(string='Upload Payment')
-    payment_upload_name = fields.Char(string='Upload Payment')
+    payment_upload_temp = fields.Binary(string='Upload Payment Temporary')
+    payment_upload_name = fields.Char(string='Upload Payment Name')
+    selected_payment = fields.Integer(string="Selected Payment", readonly=True)
+    selected_carrier_id = fields.Integer(string="Selected Carrier", readonly=True)
+
     state = fields.Selection([
             ('draft', 'Quotation'),
             ('sent', 'Quotation Sent'),
@@ -183,8 +187,8 @@ class SaleOrder(models.Model):
         if order_copy and self.state in ('sale','approve_by_admin'):
             self.env['website'].newlp_so_website(order_copy)
 
-
         order_copy.amount_delivery = 0
+        order_copy.selected_carrier_id = ''
 
         return res
     
