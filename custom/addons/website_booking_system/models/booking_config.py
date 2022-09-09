@@ -134,16 +134,16 @@ class BookingSlotConfig(models.Model):
         ('booking_day_uniq', 'unique(name, product_id)', _("Record already exist, you can't create multiple records for the same day."))
     ]
 
-    @api.onchange('booking_slots_ids')
-    def validate_slot_plan(self):
-        if self.booking_slots_ids:
-            saved_data = self.env["booking.slot"].browse(self.booking_slots_ids.ids);
-            new_data = self.booking_slots_ids - saved_data
-            for rec in new_data:
-                if rec.time_slot_id and rec.plan_id:
-                    x = saved_data.filtered(lambda l: l.time_slot_id == rec.time_slot_id and l.plan_id == rec.plan_id)
-                    if len(x) > 0:
-                        raise UserError(_("Record already exist with same time slot and plan."))
+    # @api.onchange('booking_slots_ids')
+    # def validate_slot_plan(self):
+    #     if self.booking_slots_ids:
+    #         saved_data = self.env["booking.slot"].browse(self.booking_slots_ids.ids);
+    #         new_data = self.booking_slots_ids - saved_data
+    #         for rec in new_data:
+    #             if rec.time_slot_id and rec.plan_id:
+    #                 x = saved_data.filtered(lambda l: l.time_slot_id == rec.time_slot_id and l.plan_id == rec.plan_id)
+    #                 if len(x) > 0:
+    #                     raise UserError(_("Record already exist with same time slot and plan."))
 
 
 

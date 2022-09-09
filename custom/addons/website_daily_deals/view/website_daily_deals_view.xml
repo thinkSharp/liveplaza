@@ -71,14 +71,15 @@
 	           
             	<xpath expr="//field[@name='product_tmpl_id']" position="after">
             		<field name="isMulti_products"	attrs="{'invisible':[('applied_on', '!=', '1_product')]}"/>
-	                <field name="product_tmpl_ids" widget="many2many_tags" domain="[('virtual_available', '&gt;', 0),('status', '=', 'approved')]" attrs="{
+	                <field name="product_tmpl_ids" widget="many2many_tags" domain="[('id', 'in', available_product_ids)]" attrs="{
                                 'invisible':['|','|',('applied_on', '!=', '1_product'),('isMulti_products', '!=', True)],
                                 'required':[('applied_on', '=', '1_product'),('isMulti_products', '=', True)]}"
                                 options="{'no_create':1}"/>                   
 	            </xpath>
 	            
 	            <xpath expr="//field[@name='product_tmpl_id']" position="replace">
-                    <field name="product_tmpl_id" domain="[('virtual_available', '&gt;', 0),('status', '=', 'approved')]" attrs="{
+					<field name='available_product_ids' invisible="1"/>
+                    <field name="product_tmpl_id" domain="[('id', 'in', available_product_ids)]" attrs="{
                                 'invisible':['|','|',('applied_on', '!=', '1_product'), ('isMulti_products', '=', True)],
                                 'required':[('applied_on', '=', '1_product'), ('isMulti_products', '=', False)]}"
                                 options="{'no_create':1}"/>    
@@ -86,14 +87,15 @@
 	            
 	            <xpath expr="//field[@name='product_id']" position="after">
 	            	<field name="isMulti_variants" attrs="{'invisible':[('applied_on', '!=', '0_product_variant')]}"/>
-	                <field name="product_ids" widget="many2many_tags" domain="[('virtual_available', '&gt;', 0),('status', '=', 'approved')]" attrs="{
+	                <field name="product_ids" widget="many2many_tags" domain="[('id', 'in', available_variant_ids)]" attrs="{
                                 'invisible':['|','|',('applied_on', '!=', '0_product_variant'), ('isMulti_variants', '!=', True)],
                                 'required':['|','|',('applied_on', '=', '0_product_variant'), ('isMulti_variants', '=', True)]}"
                                 options="{'no_create':1}"/>          
 	            </xpath>
 	            
 	            <xpath expr="//field[@name='product_id']" position="replace">
-                    <field name="product_id" domain="[('virtual_available', '&gt;', 0),('status', '=', 'approved')]" attrs="{
+					<field name='available_variant_ids' invisible="1"/>
+                    <field name="product_id" domain="[('id', 'in', available_variant_ids)]" attrs="{
                                 'invisible':['|','|',('applied_on', '!=', '0_product_variant'), ('isMulti_variants', '=', True)],
                                 'required':[('applied_on', '=', '0_product_variant'), ('isMulti_variants', '=', False)]}"
                                 options="{'no_create':1}"/>                    
@@ -146,7 +148,7 @@
 						<button name="action_request" type="object" class="oe_read_only oe_highlight" string="Request for Approval"
 								attrs="{'invisible':[('state', '!=', 'draft')]}"/>
 <!--                        <button name="button_validate_the_deal" string="Validate"   class="oe_highlight" type="object" attrs="{'invisible':[('state','!=','draft')]}"/>-->
-						<button name="set_to_draft" string="Set To Draft"   class="oe_highlight" type="object" attrs="{'invisible':[('state','=','draft')]}"/>
+						<button name="set_to_draft" string="Set To Draft"   class="oe_highlight" type="object" attrs="{'invisible':[('state','in',['draft','cancel'])]}"/>
                          <button name="cancel_deal" string="Cancel"   class="oe_highlight" type="object" attrs="{'invisible':[('state','=','cancel')]}"/>
                         <field name="state" widget="statusbar"/>
                     </header>
@@ -204,7 +206,7 @@
                         </group>
                         <group style="margin-left:0px">
                             <group col="3">
-                                <field name="deal_pricelist"/>
+                                <field name="deal_pricelist" options="{'no_create':1}"/>
                                 <!-- <button type="object"  name="button_apply_this_pricelist" class="btn btn-primary btn-sm"> Apply this Pricelist</button> -->
                             </group>
                         </group>
@@ -333,7 +335,7 @@
                 <form create="false" string="Website Daily Deals" version="7.0">
                     <header>
 						<button name="button_validate_the_deal" string="Approve"  class="oe_highlight" type="object" attrs="{'invisible':[('state','!=','pending')]}"/>
-						<button name="set_to_draft" string="Set To Draft"   class="oe_highlight" type="object" attrs="{'invisible':[('state','=','draft')]}"/>
+						<button name="set_to_draft" string="Set To Draft"   class="oe_highlight" type="object" attrs="{'invisible':[('state','in',['draft','cancel'])]}"/>
                          <button name="cancel_deal" string="Cancel"   class="oe_highlight" type="object" attrs="{'invisible':[('state','=','cancel')]}"/>
                         <field name="state" widget="statusbar"/>
                     </header>
@@ -391,7 +393,7 @@
                         </group>
                         <group style="margin-left:0px">
                             <group col="3">
-                                <field name="deal_pricelist"/>
+                                <field name="deal_pricelist" options="{'no_create':1}"/>
                                 <!-- <button type="object"  name="button_apply_this_pricelist" class="btn btn-primary btn-sm"> Apply this Pricelist</button> -->
                             </group>
                         </group>

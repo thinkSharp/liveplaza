@@ -256,8 +256,8 @@
         max-width: 210px;
         border: 1px solid #EDF0F1;
         margin: 5px;
-        &:first-of-type{margin-left:0;}
-        &:last-of-type{margin-right:0;}
+        // &:first-of-type{margin-left:0;}
+        // &:last-of-type{margin-right:0;}
         overflow: hidden;
         &:hover .item_mask{
             top: 0;
@@ -271,6 +271,12 @@
     .div_img{
         position: relative;
         background: #F7F7F7;
+        aspect-ratio: 1;
+
+        img {
+            height: 100%;
+            object-fit: contain;
+        }
     }
     .item_mask{
         top: -30px;
@@ -424,6 +430,18 @@
         }
         .countdown{
             justify-content: flex-end;
+        }
+    }
+}
+
+@media (max-width: 576px) {
+    .website_daily_deals .daily_deals_owl_carousel .owl-nav button {
+        &.owl-prev {
+            left: 5px;
+        }
+
+        &.owl-next {
+            right: 5px;
         }
     }
 }

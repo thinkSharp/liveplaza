@@ -23,7 +23,7 @@ class WebsiteDailyDealsConfig(models.TransientModel):
 	page_header_text = fields.Char('Page Header Text', default="DONT MISS A DEAL THIS TIME", help="Text for the header of the page to be displayed in website")
 	item_to_show = fields.Selection([('banner_only','Banner Only'),('products_only','Products Only'), ('both','Both')],'What to Display on Website', default='both', help="choose what you want to display in website.")
 	display_products_as = fields.Selection([('grid','Grid'),('slider','Slider')],'How to display Products on Website', default='grid', help="choose how to display the produts in website.")
-	deal_pricelist = fields.Many2one('product.pricelist','Pricelist', required=True , help="Choose a pricelist, all the deal products will be added in that pricelist.(A default Deal pricelist will be created.)")
+	deal_pricelist = fields.Many2one('product.pricelist','Pricelist', required=True , domain="[('active','=', True),('selectable','=', True)]", help="Choose a pricelist, all the deal products will be added in that pricelist.(A default Deal pricelist will be created.)")
 	show_message_before_expiry = fields.Boolean('Show Message before Expiry',help="Do you want to show a message before the expiry date of the deal, if yes then set this true.")
 	message_before_expiry = fields.Char('Message before Expiry', help="The message you want to show in the website when deal is about to expire.")
 	interval_before = fields.Integer('Time interval before to display message' , help="How much time before the expiry date you want to display the message.")

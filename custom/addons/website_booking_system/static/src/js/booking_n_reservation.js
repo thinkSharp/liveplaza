@@ -275,5 +275,60 @@ odoo.define('website_booking_system.booking_n_reservation', function(require) {
                 });
             });
         });
+
+        let time_limit_seconds = 600;
+        setInterval(function() {
+            let createDateFields = document.querySelectorAll(".create-date");
+            createDateFields.forEach((createDateField) => {
+
+                let dom = createDateField.closest('tr');
+                let timer = dom.querySelector('.timer');
+                let minutes = dom.querySelector('.minutes');
+                let seconds = dom.querySelector('.seconds');
+
+                let createDateStr = dom.querySelector(".create-date").innerHTML;
+                let createDate = new Date(createDateStr);
+                console.log("Create Date");
+                console.log(createDate);
+
+
+
+
+
+
+
+                    console.log("I am product.")
+                    let time_diff_seconds = Math.round((Date.now() - createDate.getTime()) / 1000) - 23400;
+                    let time_remain_seconds  = time_limit_seconds - time_diff_seconds;
+                    let show_minutes = Math.floor(time_remain_seconds / 60);
+                    let show_seconds = time_remain_seconds % 60;
+                    console.log(time_remain_seconds);
+                    console.log("minutes");
+                    console.log(minutes);
+                    console.log("seconds");
+                    console.log(seconds);
+
+                    if (time_remain_seconds > 0) {
+                        minutes.innerHTML = ("0" + show_minutes).slice(-2);
+                        seconds.innerHTML = ("0" + show_seconds).slice(-2);
+                    }
+
+
+                    if (time_remain_seconds < 1) {
+    //                    clearInterval(intervalID);
+                        let product = dom.querySelector('.js_delete_product');
+                        console.log(product);
+                        console.log("I am deleted.")
+                        product.click();
+
+                        }
+
+    //                    location.reload();
+                    })
+
+                }, 1000);
     });
+
+
+
 });
