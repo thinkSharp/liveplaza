@@ -5,7 +5,7 @@
         <field name="name">booking.request.tree</field>
         <field name="model">product.product</field>
         <field name="arch" type="xml">
-            <tree>
+            <tree default_order='create_date desc'>
                 <field name="display_name" string="Product Name"/>
                 <field name="marketplace_seller_id" string="Seller"/>
                 <field name="status"/>
@@ -18,7 +18,7 @@
         <field name="name">booking.approval.tree</field>
         <field name="model">product.product</field>
         <field name="arch" type="xml">
-            <tree create="false">
+            <tree create="false" default_order='create_date desc'>
                 <field name="display_name" string="Product Name"/>
                 <field name="marketplace_seller_id" string="Seller"/>
                 <field name="status"/>

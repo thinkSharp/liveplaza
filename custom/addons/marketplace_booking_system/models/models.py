@@ -38,6 +38,7 @@ class BookingTimeSlot(models.Model):
     auto_timeslot_approve = fields.Boolean(string="Auto Timeslot Approve",
         default=lambda self: self.env['ir.default'].get('res.config.settings', 'mp_auto_timeslot_approve'))
 
+
     def button_approve_timeslot(self):
         self.state = "approved"
 
@@ -62,6 +63,8 @@ class BookingTimeSlot(models.Model):
             if rec.state in ['new','pending']:
                 rec.button_approve_timeslot()
         return
+
+
 
     @api.model
     def create(self, vals):
