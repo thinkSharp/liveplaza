@@ -123,6 +123,12 @@
                       <li class="nav-item xtremo_search hide-mobile open" t-ignore="true">
                         <t t-call="theme_xtremo.xtremo_product_search" />
                       </li>
+                      <li class="nav-item d-xl-none d-lg-none d-md-none">
+                        <button type="button" class="btn-nav-search" data-toggle="modal" data-target="#mobileSearchModal">
+                          <i class="fa fa-search">
+                          </i>
+                        </button>
+                      </li>
                       <li id="my_cart" t-attf-class="nav-item">
                         <t t-set="website_sale_order" t-value="website.sale_get_order()" />
                         <a href="/shop/cart" class="nav-link">
@@ -176,6 +182,51 @@
           <xpath expr="//div" position="after">
             <div id="xtremo_scroll_top">
               <span class="fa fa-angle-double-up" />
+            </div>
+          </xpath>
+        </template>
+        <template id="livep_mobile_search_modal" inherit_id="web.frontend_layout">
+          <xpath expr="//div[@id='wrapwrap']" position="inside">
+            <t t-set="categories" t-value="request.env['product.public.category'].search([('parent_id', '=', None)])" />
+            <t t-set="keep" t-value="request.website.get_all_categories().get('keep')" />
+
+            <div class="modal fade" id="mobileSearchModal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header search-modal-header">
+                    <h5 class="modal-title" id="searchModalLabel">Search</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span>&#215;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body js-mobile-search">
+                    <form action="#" method="GET" class="input-group mb-3">
+                      <div class="input-group-prepend">
+                        <button type="button" class="btn btn-pm dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                          <span class="sr-only">Toggle Dropdown</span>
+                        </button>
+                        <div class="dropdown-menu">
+                          <a class="dropdown-item active" href="/shop">All</a>
+                          <a class="dropdown-item" href="/service">Service</a>
+                          <a class="dropdown-item" href="/sellers/list">Seller</a>
+                          <t t-foreach="categories" t-as="c">
+                            <a class="dropdown-item" t-att-href="keep('/shop/category/' + slug(c), category=0)" t-field="c.name"></a>
+                          </t>
+                        </div>
+                      </div>
+                      <input name="search" type="text" class="form-control" placeholder="Search..." required="true" aria-label="search" aria-describedby="button-search" />
+                      <div class="input-group-append">
+                        <button class="btn btn-pm btn-search" type="submit" id="button-search">
+                          <i class="fa fa-search"></i>
+                        </button>
+                      </div>
+                    </form>
+                    <div>
+                      Category: <span class="category-indicator">...</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </xpath>
         </template>

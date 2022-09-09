@@ -56,6 +56,7 @@ odoo.define('marketplace_facebook_live_stream.mp_live_stream', function(require)
             // loop: true,
             dots: false,
             nav: true,
+            navText: ["<i class='fa fa-angle-left'></i>","<i class='fa fa-angle-right'></i>"],
             responsive: {
               0: {
                 items: 1,

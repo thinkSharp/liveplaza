@@ -45,13 +45,14 @@ class SaleOrder(models.Model):
 
     def action_admin(self):
         is_all_service = self.ticket_process()
+        self.booking_ticket_process()
         print("hay Ticket Process")
         if self.filtered(lambda so: so.state != 'sale'):
             raise UserError(_('Only sale orders can be marked as sent directly.'))
         for order in self:
             order.message_subscribe(partner_ids=order.partner_id.ids)
         if self.write({'state': 'approve_by_admin'}):
-            if not is_all_service:
+            if not self.is_all_service:
                 # Code to send sms to customer of the order.
                 sms_template_objs = self.env["wk.sms.template"].sudo().search(
                     [('condition', '=', 'order_confirm'), ('globally_access', '=', False)])
@@ -129,6 +130,18 @@ class SaleOrder(models.Model):
                             self.action_ready_to_pick()
                         picking_data.button_validate()
 
+                    if picking_data.state == 'assigned':
+                        pick_movel_objs = picking_data.move_line_ids
+                        all_service_ticket_per_moveline = all([mv_line.product_id.is_service for mv_line in pick_movel_objs])
+
+                        if all_service_ticket_per_moveline:
+                            for mv_line in pick_movel_objs:
+                                mv_line.write({"qty_done": mv_line.product_uom_qty})
+
+                            if self.state != 'ready_to_pick':
+                                self.action_ready_to_pick()
+                            picking_data.button_validate()
+
                     # if self.get_portal_last_transaction().acquirer_id.provider != 'cash_on_delivery':
                     #    picking_data.write({'payment_upload': self.payment_upload,
                     #                       'paid_amount': self.get_portal_last_transaction().amount,
@@ -149,6 +162,16 @@ class SaleOrder(models.Model):
                             mv_line.write({"qty_done": mv_line.product_uom_qty})
 
                         picking_data.button_validate()
+
+                    if picking_data.state == 'assigned':
+                        pick_movel_objs = picking_data.move_line_ids
+                        all_service_ticket_per_moveline = all([mv_line.product_id.is_service for mv_line in pick_movel_objs])
+
+                        if all_service_ticket_per_moveline:
+                            for mv_line in pick_movel_objs:
+                                mv_line.write({"qty_done": mv_line.product_uom_qty})
+
+                            picking_data.button_validate()
 
                     # if self.get_portal_last_transaction().acquirer_id.provider != 'cash_on_delivery':
                     #    picking_data.write({'payment_upload': self.payment_upload,
@@ -184,6 +207,15 @@ class SaleOrder(models.Model):
                             mv_line.write({"qty_done": mv_line.product_uom_qty})
 
                         picking_data.button_validate()
+
+                    if picking_data.state == 'assigned':
+                        pick_movel_objs = picking_data.move_line_ids
+                        all_service_ticket_per_moveline = all([mv_line.product_id.is_service for mv_line in pick_movel_objs])
+
+                        if all_service_ticket_per_moveline:
+                            for mv_line in pick_movel_objs:
+                                mv_line.write({"qty_done": mv_line.product_uom_qty})
+                            picking_data.button_validate()
 
     # def action_cancel(self):
     #     res = super(SaleOrder, self).action_cancel()

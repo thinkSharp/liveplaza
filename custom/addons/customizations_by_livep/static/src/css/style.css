@@ -222,4 +222,10 @@ meter.o_password_meter {
     height: 15px !important;
     right: 5px !important;
     width: -webkit-fill-available !important;
+    width: -moz-available !important;
 } 
+
+
+::-ms-reveal {
+    display: none;
+}

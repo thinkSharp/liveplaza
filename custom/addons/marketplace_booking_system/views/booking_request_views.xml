@@ -5,12 +5,37 @@
         <field name="name">booking.request.tree</field>
         <field name="model">product.product</field>
         <field name="arch" type="xml">
-            <tree>
+            <tree default_order='create_date desc'>
                 <field name="display_name" string="Product Name"/>
                 <field name="marketplace_seller_id" string="Seller"/>
                 <field name="status"/>
                 <field name="create_date" string="Requested Date"/>
             </tree>
+        </field>
+    </record>
+
+    <record id="booking_approval_tree_view" model="ir.ui.view">
+        <field name="name">booking.approval.tree</field>
+        <field name="model">product.product</field>
+        <field name="arch" type="xml">
+            <tree create="false" default_order='create_date desc'>
+                <field name="display_name" string="Product Name"/>
+                <field name="marketplace_seller_id" string="Seller"/>
+                <field name="status"/>
+                <field name="create_date" string="Requested Date"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="booking_approval_from_view" model="ir.ui.view">
+        <field name="name">booking.approval.form</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="odoo_marketplace.wk_seller_product_template_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="attributes">
+                <attribute name="create">false</attribute>
+                <attribute name="edit">false</attribute>
+            </xpath>
         </field>
     </record>
 
@@ -25,7 +50,7 @@
     </record>
 
     <record id="wk_seller_booking_action" model="ir.actions.act_window">
-			<field name="name">Booking Products</field>
+			<field name="name">Booking Approval</field>
 			<field name="type">ir.actions.act_window</field>
 			<field name="res_model">product.template</field>
 			<field name="domain">[('status','=','pending'),('marketplace_seller_id','in',['get_marketplace_seller_id()']), ('is_booking_type','=',True)]</field>
@@ -33,8 +58,8 @@
 			<field
 				name="view_ids"
 				eval="[(5, 0, 0),
-					(0, 0, {'view_mode': 'tree', 'view_id': ref('booking_request_tree_view')}),
-					(0, 0, {'view_mode': 'form', 'view_id': ref('odoo_marketplace.wk_seller_product_template_form_view')})
+					(0, 0, {'view_mode': 'tree', 'view_id': ref('booking_approval_tree_view')}),
+					(0, 0, {'view_mode': 'form', 'view_id': ref('booking_approval_from_view')})
 				]"/>
     </record>
 
