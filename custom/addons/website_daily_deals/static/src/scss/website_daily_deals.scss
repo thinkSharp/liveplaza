@@ -435,13 +435,23 @@
 }
 
 @media (max-width: 576px) {
-    .website_daily_deals .daily_deals_owl_carousel .owl-nav button {
+    .website_daily_deals .daily_deals_owl_carousel > .owl-nav button {
         &.owl-prev {
             left: 5px;
         }
 
         &.owl-next {
             right: 5px;
+        }
+    }
+
+    .deal_products .deals_owl_carousel > .owl-nav button {
+        &.owl-prev {
+            left: -30px;
+        }
+
+        &.owl-next {
+            right: -30px;
         }
     }
 }
