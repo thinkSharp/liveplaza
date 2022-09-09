@@ -177,8 +177,8 @@ class SaleOrder(models.Model):
 
         res = super(SaleOrder, self).action_confirm()
         self.write({'payment_provider': self.get_portal_last_transaction().acquirer_id.provider})
-        if self.get_portal_last_transaction().acquirer_id.provider in ('wavepay','cash_on_delivery') and self.state == 'sale':
-            self.action_admin()
+        #if self.get_portal_last_transaction().acquirer_id.provider in ('wavepay','cash_on_delivery') and self.state == 'sale':
+        #    self.action_admin()
 
         if order_copy and self.state in ('sale','approve_by_admin'):
             self.env['website'].newlp_so_website(order_copy)
@@ -463,8 +463,10 @@ class SaleOrderLine(models.Model):
                     for cancel_deli_service in self.env['sale.order.line'].search([('order_id','=',self.order_id.id), ('is_delivery' , '=' , True)]):
                         cancel_deli_service.write({'sol_state':'cancel'})
                 
-            picking_obj = self.env['stock.picking'].search([('origin','=',self.order_id.name), ('marketplace_seller_id','=',self.marketplace_seller_id.id)])
-            picking_obj.write({'payment_provider': self.order_id.get_portal_last_transaction().acquirer_id.provider,
+            picking_obj = self.env['stock.picking'].search([('origin','=',self.order_id.name), ('order_line_id','=',self.id),
+                                                            ('marketplace_seller_id','=',self.marketplace_seller_id.id)])
+            if picking_obj:
+                picking_obj.write({'payment_provider': self.order_id.get_portal_last_transaction().acquirer_id.provider,
                                'ready_to_pick': True,
                                'hold_state': False })
 

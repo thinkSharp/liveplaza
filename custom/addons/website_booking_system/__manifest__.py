@@ -48,7 +48,8 @@
                              'views/product_template_view.xml',
                              'views/booking_product_cart_temp.xml',
                              'views/booking_template.xml',
-                             'views/ir_crons.xml',
+                             # 'views/ir_crons.xml',
+                             'views/ticket.xml'
                             ],
   "images"               :  ['static/description/Banner.png'],
   "application"          :  True,

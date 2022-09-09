@@ -141,16 +141,19 @@ class SaleOrderLine(models.Model):
             payment_start_date = sale_order.payment_start_date
             rd = relativedelta(datetime.datetime.now(), so.create_date)
             if not payment_start_date:
-                if rd.minutes > 5:
-                    so.unlink();
+                if rd.minutes > 20:
+                    so.unlink()
+
             else:
                 prd = relativedelta(datetime.datetime.now(), payment_start_date)
-                if prd.minutes > 10:
+                if prd.minutes > 30:
                     if not sale_order.check_active_bk_transactions():
-                        so.unlink();
+                        so.unlink()
+
                         sale_order.compute_booking_type()
                         if not sale_order.is_booking_type:
                             sale_order.payment_start_date = None
+
 
 class ProductTemplate(models.Model):
     _inherit = 'product.template'

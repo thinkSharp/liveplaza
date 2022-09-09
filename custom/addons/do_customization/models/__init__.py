@@ -6,3 +6,4 @@ from . import sale
 from . import res_partner
 from . import account_payment
 from . import faq
+from . import stock_move

@@ -444,6 +444,7 @@
                                     <field name="priority" readonly="1" widget="priority"/>
                                     <field name="user_id" readonly="1" attrs="{'invisible': [('user_id', '=', False)]}"/>
                                     <field name="group_id" groups="base.group_no_one"/>
+                                    <field name="order_line_id" readonly="1" />
                                     <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}" force_save="1"/>
                                 </group>
                             </group>
@@ -657,6 +658,7 @@
                                     <field name="priority" readonly="1" widget="priority"/>
                                     <field name="user_id" readonly="1" attrs="{'invisible': [('user_id', '=', False)]}"/>
                                     <field name="group_id" groups="base.group_no_one"/>
+                                    <field name="order_line_id" readonly="1" />
                                     <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}" force_save="1"/>
                                 </group>
                             </group>
@@ -869,6 +871,7 @@
                                     <field name="priority" readonly="1" widget="priority"/>
                                     <field name="user_id" readonly="1" attrs="{'invisible': [('user_id', '=', False)]}"/>
                                     <field name="group_id" groups="base.group_no_one"/>
+                                    <field name="order_line_id" readonly="1" />
                                     <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}" force_save="1"/>
                                 </group>
                             </group>
