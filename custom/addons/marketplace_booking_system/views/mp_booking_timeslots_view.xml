@@ -67,7 +67,6 @@
                     <button name="button_approve_timeslot"
                         type="object"  aria-label="Click to Approve"
                         class="text-success btn-link fa fa-check-circle" title="Click to Approve"
-                        invisible="not (context.get('mp_new_booking'))"
                         attrs="{'invisible': [('state','in',['approved','rejected','new'])]}"
                         groups="odoo_marketplace.marketplace_officer_group"
                         />
