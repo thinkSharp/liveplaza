@@ -11,7 +11,7 @@ from odoo.tools import float_repr
 from odoo.tools.misc import get_lang
 from datetime import datetime, timedelta, date
 from dateutil.relativedelta import relativedelta
-
+import json
 from itertools import chain
 
 class ProductPricelist(models.Model):
@@ -272,6 +272,8 @@ class ProductPricelistItem(models.Model):
     fixed_discount = fields.Float('Fixed Discount', digits='Product Price')
     available_product_ids = fields.Many2many("product.template", compute='_compute_available_product', string="Available Products")
     available_variant_ids = fields.Many2many("product.product", compute='_compute_available_variant', string="Available Variants")
+    multiproduct_domain = fields.Char(compute="_compute_product_domain", readonly=True, store=False,)
+    multivariant_domain = fields.Char(compute="_compute_variant_domain", readonly=True, store=False,)
     
     @api.onchange('deal_applied_on')
     @api.depends('deal_applied_on')
@@ -283,25 +285,82 @@ class ProductPricelistItem(models.Model):
     @api.depends('applied_on')
     def _compute_available_product(self):
         for rec in self:
-            booking_ids = self.env['product.template'].search([('is_booking_type', '=', True), ('status', '=', 'approved'), ('active', '=', True)])
-            if booking_ids:
-                rec.available_product_ids += booking_ids
-            
-            product_ids = self.env['product.template'].search([('virtual_available', '>', 0), ('status', '=', 'approved'), ('active', '=', True)])
-            if product_ids:
-                rec.available_product_ids += product_ids
+            if rec.website_deals_m2o.marketplace_seller_id:
+                booking_ids = self.env['product.template'].search([('is_booking_type', '=', True), ('status', '=', 'approved'), 
+                                                        ('marketplace_seller_id','=',rec.website_deals_m2o.marketplace_seller_id.id), ('active', '=', True)])
+                if booking_ids:
+                    rec.available_product_ids += booking_ids
+                
+                product_ids = self.env['product.template'].search([('virtual_available', '>', 0), ('status', '=', 'approved'), 
+                                                        ('marketplace_seller_id','=',rec.website_deals_m2o.marketplace_seller_id.id), ('active', '=', True)])
+                if product_ids:
+                    rec.available_product_ids += product_ids
+            else:
+                booking_ids = self.env['product.template'].search([('is_booking_type', '=', True), ('status', '=', 'approved'), ('active', '=', True)])
+                if booking_ids:
+                    rec.available_product_ids += booking_ids
+                
+                product_ids = self.env['product.template'].search([('virtual_available', '>', 0), ('status', '=', 'approved'), ('active', '=', True)])
+                if product_ids:
+                    rec.available_product_ids += product_ids
             
             
     @api.depends('applied_on')
     def _compute_available_variant(self):
         for rec in self:
-            booking_ids = self.env['product.product'].search([('is_booking_type', '=', True), ('status', '=', 'approved'), ('active', '=', True)])
+            if rec.website_deals_m2o.marketplace_seller_id:
+                booking_ids = self.env['product.product'].search([('is_booking_type', '=', True), 
+                                    ('status', '=', 'approved'), ('marketplace_seller_id','=',rec.website_deals_m2o.marketplace_seller_id.id), ('active', '=', True)])
+                if booking_ids:
+                    rec.available_variant_ids += booking_ids
+                
+                variant_ids = self.env['product.product'].search([('virtual_available', '>', 0), 
+                                        ('status', '=', 'approved'), ('marketplace_seller_id','=',rec.website_deals_m2o.marketplace_seller_id.id), ('active', '=', True)])
+                if variant_ids:
+                    rec.available_variant_ids += variant_ids
+            else:               
+                booking_ids = self.env['product.product'].search([('is_booking_type', '=', True), ('status', '=', 'approved'), ('active', '=', True)])
+                if booking_ids:
+                    rec.available_variant_ids += booking_ids
+                
+                variant_ids = self.env['product.product'].search([('virtual_available', '>', 0), ('status', '=', 'approved'), ('active', '=', True)])
+                if variant_ids:
+                    rec.available_variant_ids += variant_ids            
+
+    @api.depends('applied_on')
+    def _compute_product_domain(self):
+        for rec in self:
+            cpd_list = []
+            booking_ids = self.env['product.template'].search([('is_booking_type', '=', True), 
+                                ('status', '=', 'approved'), ('marketplace_seller_id','=',rec.website_deals_m2o.marketplace_seller_id.id), ('active', '=', True)])
             if booking_ids:
-                rec.available_variant_ids += booking_ids
+                for bids in booking_ids:
+                    cpd_list.append(bids.id)
             
-            variant_ids = self.env['product.product'].search([('virtual_available', '>', 0), ('status', '=', 'approved'), ('active', '=', True)])
+            product_ids = self.env['product.template'].search([('virtual_available', '>', 0), 
+                                ('status', '=', 'approved'), ('marketplace_seller_id','=',rec.website_deals_m2o.marketplace_seller_id.id), ('active', '=', True)])
+            if product_ids:
+                for pids in product_ids:
+                    cpd_list.append(pids.id)
+            rec.multiproduct_domain = json.dumps([('id', 'in', cpd_list)] )
+                
+    @api.depends('applied_on')
+    def _compute_variant_domain(self):
+        for rec in self:
+            cvd_list = []
+            booking_ids = self.env['product.product'].search([('is_booking_type', '=', True), 
+                                ('status', '=', 'approved'), ('active', '=', True)])
+            if booking_ids:
+                for bids in booking_ids:
+                    cvd_list.append(bids.id)
+            
+            variant_ids = self.env['product.product'].search([('virtual_available', '>', 0), 
+                                ('status', '=', 'approved'), ('active', '=', True)])
             if variant_ids:
-                rec.available_variant_ids += variant_ids
+                for vids in variant_ids:
+                    cvd_list.append(vids.id)
+                    
+            rec.multivariant_domain = json.dumps([('id', 'in', cvd_list)] )
 
     @api.constrains('product_id', 'product_tmpl_id', 'categ_id')
     def _check_product_consistency(self):
