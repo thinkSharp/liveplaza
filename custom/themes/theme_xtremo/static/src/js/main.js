@@ -31,7 +31,9 @@ odoo.define("theme_xtremo.main.js", function (require) {
 
   function user_menu(event) {
     self.getId('xtremo_mobile_menu').classList.add("active");
-    self.getQuery("header.o_affix_enabled").style.zIndex = "50000";
+    // xtremo originally has set z-index to "50000", it's too much and will cover on top of bootstrap modal
+    // until we find a reason to put it back, we will leave this commented out
+    // self.getQuery("header.o_affix_enabled").style.zIndex = "50000";
   };
 
   function user_menu_close(event) {
