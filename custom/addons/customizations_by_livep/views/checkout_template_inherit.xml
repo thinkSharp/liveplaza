@@ -141,8 +141,12 @@
         </xpath>
 
         <xpath expr="//t[@t-set='submit_txt']" position="replace">
-            <t t-set="submit_txt">Confirm</t>
+            <t t-set="submit_txt">Next</t>
         </xpath>
+
+<!--        <xpath expr="//t[@t-set='prepare_tx_url']" position="replace">-->
+<!--            <t t-set="prepare_tx_url" t-value="'/shop/checkout/preview'"/>-->
+<!--        </xpath>-->
 
         <xpath expr="//h3[@class='mb24']" position="replace">
             <h3>Choose the payment method</h3>
