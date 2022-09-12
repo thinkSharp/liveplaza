@@ -259,9 +259,10 @@ html {
 }
 
 @media (max-width: 425px){
-  main{
-    margin-top: 55px !important;
-  }
+  // Top margin of the main will be injected by javascript by calculating the header's height
+  // main{
+  //   margin-top: 55px !important;
+  // }
   .oe_website_sale{
     .o_wsale_products_main_row{
       #products_grid_before.xtremo_product_category_slider_model{
