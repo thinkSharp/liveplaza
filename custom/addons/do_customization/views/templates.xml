@@ -4,29 +4,23 @@
 		<xpath expr="//div[@id='wrap']" position="replace">	
 			<div id="wrap">
                 <div class="container oe_website_sale py-2">
-
+                	<t t-if="order.get_portal_last_transaction().acquirer_id.name == 'Cash on Delivery'">
+                		<h1><span>Order</span> <em t-field="order.name" /> <t t-if="order.state == 'sale'"><span>Confirmed</span></t></h1>
+                	</t>
+                	<t t-if="order.get_portal_last_transaction().acquirer_id.name != 'Cash on Delivery'">
+                		<h1><span>Order</span> <em t-field="order.name" /> <t t-if="order.state == 'sale'"><span> is created. Please submit the payment screenshot below in order to approve the order.</span></t></h1>
+                	</t>
+                    
 
                     <div class="row">
                         <div class="col-12 col-xl">
-                            <div class="oe_cart pt-5">
-                                <t t-if="order.get_portal_last_transaction().acquirer_id.name == 'Cash on Delivery'">
-                                    <h3 class="set_text_color"><span>Order</span> <em t-field="order.name" /> <t t-if="order.state == 'sale'"><span>Confirmed</span></t></h3>
-                                </t>
-                                <t t-if="order.get_portal_last_transaction().acquirer_id.name != 'Cash on Delivery'">
-                                    <h3 class="set_text_color"><span>Order</span> <em t-field="order.name" /> <t t-if="order.state == 'sale'"><span> is placed.</span></t></h3>
-                                </t>
-                                <h4 class="set_text_color"> The confirmation will be sent to your email or phone </h4>
+                            <div class="oe_cart">
                                 <t t-set="payment_tx_id" t-value="order.get_portal_last_transaction()"/>
                                 <t t-if="payment_tx_id.state == 'done'">
                                     <div class="thanks_msg">
-                                        <h2 class="set_text_color">Thank you for your order!
+                                        <h2>Thank you for your order.
                                             <a role="button" class="btn btn-primary d-none d-md-inline-block" href="/shop/print" target="_blank" aria-label="Print" title="Print"><i class="fa fa-print"></i> Print</a>
                                         </h2>
-                                    </div>
-                                </t>
-                                <t t-else="">
-                                    <div class="order_complete_msg">
-                                        <h3 class="set_text_color">Thank you!</h3>
                                     </div>
                                 </t>
                                 <t t-if="request.env['res.users']._get_signup_invitation_scope() == 'b2c' and request.website.is_public_user()">
@@ -36,64 +30,64 @@
                                     </p>
                                 </t>
                                 <div class="oe_structure clearfix mt-3" id="oe_structure_website_sale_confirmation_1"/>
-<!--                                <h3 class="text-left mt-3">-->
-<!--                                    <strong>Payment Information:</strong>-->
-<!--                                </h3>-->
-<!--                                <table class="table">-->
-<!--                                    <tbody>-->
-<!--                                        <tr>-->
-<!--                                            <td colspan="2">-->
-<!--                                                <t t-esc="order.get_portal_last_transaction().acquirer_id.name" />-->
-<!--                                            </td>-->
-<!--                                            <td class="text-right" width="100">-->
-<!--                                                <strong>Total:</strong>-->
-<!--                                            </td>-->
-<!--                                            <td class="text-right" width="100">-->
-<!--                                                <strong t-field="order.amount_total" t-options="{'widget': 'monetary', 'display_currency': order.pricelist_id.currency_id}" />-->
-<!--                                            </td>-->
-<!--                                        </tr>-->
-<!--                                    </tbody>-->
-<!--                                </table>-->
-<!--                                -->
-<!--								<t t-if="order.get_portal_last_transaction().acquirer_id.name != 'Cash on Delivery'">-->
-<!--                                	<div class="card mt-3 fa-border">-->
-<!--			                            <h5 style="margin-top:5px;"> <Strong> Upload Payment Screenshot only with image file format.</Strong></h5>-->
-<!--										<form action="/shop/payment/uploaded" method="post" class="s_website_form form-horizontal container-fluid mt32" enctype="multipart/form-data" id="file_upload_form">-->
-<!--											<div t-attf-class="form-group">-->
-<!--						                        <div class="col-md-7 col-sm-8">-->
-<!--						                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>-->
-<!--						                            <input type="hidden" name="sale_order_id" t-att-value="order.id"/>-->
-<!--						                            <input type="file" required="required" name="attachment" accept="image/*" class="file" multiple="true" data-show-upload="true" -->
-<!--						                            	data-show-caption="true" lass="binary" id="ssImage" placeholder="Image file format: JPG JPEG PNG GIF TIFF RAW" onchange="return fileValidation()"/>-->
-<!--						                            <button type="submit" name="payment_upload_name" style="margin-top:20px;margin-right:20px" class="btn btn-primary mb32">-->
-<!--						                                Submit Screenshot-->
-<!--						                            </button>-->
-<!--						                        </div>-->
-<!--						                    </div>-->
-<!--	                                    </form>	                               -->
-<!--		                        	</div>-->
-<!--                                </t>-->
+                                <h3 class="text-left mt-3">
+                                    <strong>Payment Information:</strong>
+                                </h3>
+                                <table class="table">
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="2">
+                                                <t t-esc="order.get_portal_last_transaction().acquirer_id.name" />
+                                            </td>
+                                            <td class="text-right" width="100">
+                                                <strong>Total:</strong>
+                                            </td>
+                                            <td class="text-right" width="100">
+                                                <strong t-field="order.amount_total" t-options="{'widget': 'monetary', 'display_currency': order.pricelist_id.currency_id}" />
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                
+								<t t-if="order.get_portal_last_transaction().acquirer_id.name != 'Cash on Delivery'">
+                                	<div class="card mt-3 fa-border">
+			                            <h5 style="margin-top:5px;"> <Strong> Upload Payment Screenshot only with image file format.</Strong></h5>
+										<form action="/shop/payment/uploaded" method="post" class="s_website_form form-horizontal container-fluid mt32" enctype="multipart/form-data" id="file_upload_form">
+											<div t-attf-class="form-group">
+						                        <div class="col-md-7 col-sm-8">
+						                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+						                            <input type="hidden" name="sale_order_id" t-att-value="order.id"/>
+						                            <input type="file" required="required" name="attachment" accept="image/*" class="file" multiple="true" data-show-upload="true" 
+						                            	data-show-caption="true" lass="binary" id="ssImage" placeholder="Image file format: JPG JPEG PNG GIF TIFF RAW" onchange="return fileValidation()"/>
+						                            <button type="submit" name="payment_upload_name" style="margin-top:20px;margin-right:20px" class="btn btn-primary mb32">
+						                                Submit Screenshot
+						                            </button>
+						                        </div>
+						                    </div>
+	                                    </form>	                               
+		                        	</div>
+                                </t>
 
-<!--                                <script>-->
-<!--							        function fileValidation() {-->
-<!--							            var fileInput =-->
-<!--							                document.getElementById('ssImage');-->
-<!--							             -->
-<!--							            var filePath = fileInput.value;-->
-<!--							         -->
-<!--							            // Allowing file type-->
-<!--							            var allowedExtensions =-->
-<!--											/(\.jpeg|\.jpg|\.png|\.raw|\.tiff|\.gif)$/i;-->
-<!--							             -->
-<!--							            if (!allowedExtensions.exec(filePath)) {-->
-<!--							                alert('Please upload payment screenshot only with image file type.');-->
-<!--							                fileInput.value = '';-->
-<!--							                return false;-->
-<!--							            }-->
-<!--							        }-->
-<!--							    </script>-->
+                                <script>
+							        function fileValidation() {
+							            var fileInput =
+							                document.getElementById('ssImage');
+							             
+							            var filePath = fileInput.value;
+							         
+							            // Allowing file type
+							            var allowedExtensions =
+											/(\.jpeg|\.jpg|\.png|\.raw|\.tiff|\.gif)$/i;
+							             
+							            if (!allowedExtensions.exec(filePath)) {
+							                alert('Please upload payment screenshot only with image file type.');
+							                fileInput.value = '';
+							                return false;
+							            }
+							        }
+							    </script>
 
-<!--                                <t t-call="website_sale.payment_confirmation_status"/>-->
+                                <t t-call="website_sale.payment_confirmation_status"/>
 
                                 <div class="card mt-3">
                                   <div class="card-body">

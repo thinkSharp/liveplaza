@@ -16,7 +16,6 @@ from odoo.addons.portal.controllers.web import Home
 from odoo.exceptions import UserError, ValidationError
 from odoo.osv import expression
 from odoo.tools.misc import formatLang, format_date, get_lang
-from odoo.addons.payment.controllers.portal import PaymentProcessing
 
 import logging
 _logger = logging.getLogger(__name__)
@@ -127,29 +126,40 @@ class WebsiteSale(WebsiteSale):
 
         return error, error_message
 
-    @http.route('/shop/payment/uploaded', type='http', auth="public", website=True, method=['POST'])
+    @http.route('/shop/payment/uploaded', type='http', auth="public", website=True)
     def upload_files(self, **post):
-
-        if post.get('attachment', False):
+        values = {}
+        
+        if post.get('attachment',False):
             name = post.get('attachment').filename
-            if name and name.lower().endswith(('.png', '.jpeg', '.gif','jpg','tiff','raw')):
+            if name and name.lower().endswith(('.png', '.jpeg', '.gif','jpg','tiff','raw')):   
                 file = post.get('attachment')
                 sale_order_id = post.get('sale_order_id')
-                attachment = file.read()
+                attachment = file.read() 
                 image_64_encode = base64.encodestring(attachment)
                 #image_64_decode = base64.decodestring(image_64_encode)
+                order = request.env['sale.order'].sudo().browse(sale_order_id).exists()
                 sale_order_objs = request.env['sale.order'].sudo().search([("id", "=", int(sale_order_id))])
-
+                
                 if sale_order_objs:
                     for sale_order_obj in sale_order_objs:
-                        sale_order_obj.sudo().write({'payment_upload_temp': image_64_encode, 'payment_upload_name': name})
-
-        # sale_sorder_id = request.session.get('sale_last_order_id')
-        # if sale_sorder_id:
-        #     sorder = request.env['sale.order'].sudo().browse(sale_sorder_id)
-        #     return request.render("do_customization.confirmation_payment_ss", {'order': sorder})
-        # else:
-        #     return request.redirect('/shop')
+                        sale_order_obj.sudo().write({'payment_upload': image_64_encode, 'payment_upload_name': name})
+                        
+                values = {
+                    'website_sale_order': order,
+                    'order': order,
+                }
+            else:
+                return request.redirect('/shop/confirmation')
+        
+        sale_sorder_id = request.session.get('sale_last_order_id')
+        if sale_sorder_id:
+            sorder = request.env['sale.order'].sudo().browse(sale_sorder_id)
+            return request.render("do_customization.confirmation_payment_ss", {'order': sorder})
+        else:
+            return request.redirect('/shop')
+        
+        #return request.render("odoo_marketplace.confirmation_payment_ss", values)  #request.redirect('/shop/confirmation') #
 
     @http.route('/faq', type='http', auth='public', website=True)
     def faq(self, search='', lang=None,  **post):
@@ -181,98 +191,3 @@ class WebsiteSale(WebsiteSale):
     @http.route('/create_seller_shop', type='http', auth='public', website=True)
     def create_seller_shop(self, search='', lang=None, **post):
         return request.render("do_customization.create_seller_shop")
-
-    @http.route(['/shop/payment/transaction/',
-                 '/shop/payment/transaction/<int:so_id>',
-                 '/shop/payment/transaction/<int:so_id>/<string:access_token>'], type='json', auth="public", method=['POST'],
-                website=True)
-    def payment_transaction(self, acquirer_id, cod, preview=False, save_token=False, so_id=None, access_token=None, token=None, **post):
-        """ Json method that creates a payment.transaction, used to create a
-        transaction when the user clicks on 'pay now' button. After having
-        created the transaction, the event continues and the user is redirected
-        to the acquirer website.
-
-        :param int acquirer_id: id of a payment.acquirer record. If not set the
-                                user is redirected to the checkout page
-        """
-        sale_order = request.website.sale_get_order()
-        if cod == 0 and sale_order.payment_upload_temp:
-            sale_order.sudo().write({'payment_upload': sale_order.payment_upload_temp})
-        else:
-            sale_order.sudo().write({'payment_upload': None})
-        # Ensure a payment acquirer is selected
-        if not acquirer_id:
-            return False
-
-        try:
-            acquirer_id = int(acquirer_id)
-
-        except:
-            return False
-
-        # Retrieve the sale order
-        if so_id:
-            env = request.env['sale.order']
-            domain = [('id', '=', so_id)]
-            if access_token:
-                env = env.sudo()
-                domain.append(('access_token', '=', access_token))
-            order = env.search(domain, limit=1)
-        else:
-            order = request.website.sale_get_order()
-
-
-        # Ensure there is something to proceed
-        if not order or (order and not order.order_line):
-            return False
-
-        assert order.partner_id.id != request.website.partner_id.id
-
-        # Create transaction
-        vals = {'acquirer_id': acquirer_id,
-                'return_url': '/shop/payment/validate'}
-
-        if save_token:
-            vals['type'] = 'form_save'
-        if token:
-            vals['payment_token_id'] = int(token)
-
-        transaction = order._create_payment_transaction(vals)
-
-        # store the new transaction into the transaction list and if there's an old one, we remove it
-        # until the day the ecommerce supports multiple orders at the same time
-        last_tx_id = request.session.get('__website_sale_last_tx_id')
-        last_tx = request.env['payment.transaction'].browse(last_tx_id).sudo().exists()
-        if last_tx:
-            PaymentProcessing.remove_payment_transaction(last_tx)
-        PaymentProcessing.add_payment_transaction(transaction)
-        request.session['__website_sale_last_tx_id'] = transaction.id
-        return transaction.render_sale_button(order)
-
-    @http.route('/shop/checkout/preview', type='http', method=['POST'], auth="public", website=True, csrf=False)
-    def checkout_preview(self, **post):
-        sale_order = request.website.sale_get_order()
-        checked_length = request.website.get_checked_sale_order_line_length()
-        if checked_length == 0:
-            return request.redirect('/shop')
-
-        acquirer_id = post.get('pm_id')
-        if acquirer_id:
-            sale_order.write({
-                'selected_payment': int(acquirer_id)
-            })
-        acquirer = request.env["payment.acquirer"].search([('id', '=', sale_order.selected_payment)])
-        if acquirer.display_as == 'Cash on Delivery':
-            cod = "1"
-        else:
-            cod = "0"
-
-        values = {
-            'sale_order': sale_order,
-            'acq': acquirer,
-            'order': sale_order,
-            'cod': cod,
-        }
-        return request.render("do_customization.checkout_preview", values)
-
-
