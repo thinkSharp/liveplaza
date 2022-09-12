@@ -16,6 +16,7 @@
                 'base', 
                 'resource',
                 'sale_stock','delivery',
+                'payment',
                 ],
     'category': 'Operations/Inventory',
     'sequence': 13,
