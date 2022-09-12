@@ -332,6 +332,12 @@ publicWidget.registry.WebsiteSale = publicWidget.Widget.extend(VariantMixin, {
                 }
                 $input.val(data.quantity);
             }
+
+            console.log("Hay Enable")
+            let selectProductCheckBoxs = document.querySelectorAll("#select-product")
+            selectProductCheckBoxs.forEach((selectProductCheckBox) => {
+                selectProductCheckBox.disabled = false;
+            });
         });
     },
     /**
