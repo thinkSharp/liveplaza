@@ -234,6 +234,7 @@ class StockPicking(models.Model):
     _inherit = 'stock.picking'
 
     marketplace_seller_id = fields.Many2one("res.partner", string="Seller")
+    order_line_id = fields.Many2one("sale.order.line", string="Sale Order Line")
 
     @api.model
     def _read_group_fill_results( self, domain, groupby, remaining_groupbys,
@@ -286,6 +287,7 @@ class StockMove(models.Model):
         self.ensure_one()
         res = super(StockMove, self)._key_assign_picking()
         res = res + (self.product_id.marketplace_seller_id, )
+        res = res + (self.order_line_id, )
         return res
 
     def _search_picking_for_assignation(self):
@@ -296,16 +298,18 @@ class StockMove(models.Model):
                 ('location_dest_id', '=', self.location_dest_id.id),
                 ('picking_type_id', '=', self.picking_type_id.id),
                 ('marketplace_seller_id', '=', self.product_id.marketplace_seller_id.id),
+                ('order_line_id', '=', self.order_line_id.id),
                 ('printed', '=', False),
                 ('state', 'in', ['draft', 'confirmed', 'waiting', 'partially_available', 'assigned'])], limit=1)
         return picking
 
     def _get_new_picking_values(self):
-        values = super(StockMove, self)._get_new_picking_values()
+        values = super(StockMove, self)._get_new_picking_values()      
         sellers = self.mapped('marketplace_seller_id')
         seller = len(sellers) == 1 and sellers.id or False
         values.update({
-            "marketplace_seller_id" : seller
+            "marketplace_seller_id" : seller,
+            "order_line_id" : self.order_line_id.id
         })
         return values
 

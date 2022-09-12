@@ -47,6 +47,7 @@
       <script type="text/javascript" src="/theme_xtremo/static/src/js/shop.js" />
       <script type="text/javascript" src="/theme_xtremo/static/src/js/lazzy_loading.js" />
       <script type="text/javascript" src="/theme_xtremo/static/src/js/xtremo.snippet.editor.js" />
+      <script type="text/javascript" src="/theme_xtremo/static/src/js/mobile_search.js" />
 
     </xpath>
   </template>

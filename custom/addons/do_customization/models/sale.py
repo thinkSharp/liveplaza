@@ -32,7 +32,11 @@ class SaleOrder(models.Model):
     payment_provider = fields.Selection(selection=[('manual', 'Custom Payment Form'),('transfer', 'Prepaid'),
                                                     ('cash_on_delivery', 'COD'),('wavepay', 'WavePay')], string='Payment Type')
     payment_upload = fields.Binary(string='Upload Payment')
-    payment_upload_name = fields.Char(string='Upload Payment')
+    payment_upload_temp = fields.Binary(string='Upload Payment Temporary')
+    payment_upload_name = fields.Char(string='Upload Payment Name')
+    selected_payment = fields.Integer(string="Selected Payment", readonly=True)
+    selected_carrier_id = fields.Integer(string="Selected Carrier", readonly=True)
+
     state = fields.Selection([
             ('draft', 'Quotation'),
             ('sent', 'Quotation Sent'),
@@ -177,14 +181,14 @@ class SaleOrder(models.Model):
 
         res = super(SaleOrder, self).action_confirm()
         self.write({'payment_provider': self.get_portal_last_transaction().acquirer_id.provider})
-        if self.get_portal_last_transaction().acquirer_id.provider in ('wavepay','cash_on_delivery') and self.state == 'sale':
-            self.action_admin()
+        #if self.get_portal_last_transaction().acquirer_id.provider in ('wavepay','cash_on_delivery') and self.state == 'sale':
+        #    self.action_admin()
 
         if order_copy and self.state in ('sale','approve_by_admin'):
             self.env['website'].newlp_so_website(order_copy)
 
-
         order_copy.amount_delivery = 0
+        order_copy.selected_carrier_id = ''
 
         return res
     
@@ -457,25 +461,81 @@ class SaleOrderLine(models.Model):
             if is_ready_to_pick:
                 self.order_id.write({'state': 'ready_to_pick'})
                 
-            picking_obj = self.env['stock.picking'].search([('origin','=',self.order_id.name), ('marketplace_seller_id','=',self.marketplace_seller_id.id)])
-            picking_obj.write({'payment_provider': self.order_id.get_portal_last_transaction().acquirer_id.provider,
+                for sol_data2 in self.env['sale.order.line'].search([('order_id','=',self.order_id.id), ('is_delivery' , '=' , True)]):
+                    sol_data2.write({'sol_state':self.order_id.state})
+                if (self.env['sale.order.line'].search([('order_id','=',self.order_id.id), ('sol_state' , '=' , 'cancel')]) and self.product_id.is_service)  or (self.env['sale.order.line'].search([('order_id','=',self.order_id.id), ('sol_state' , '=' , 'cancel')]) and self.product_id.is_booking_type):
+                    for cancel_deli_service in self.env['sale.order.line'].search([('order_id','=',self.order_id.id), ('is_delivery' , '=' , True)]):
+                        cancel_deli_service.write({'sol_state':'cancel'})
+                
+            picking_obj = self.env['stock.picking'].search([('origin','=',self.order_id.name), ('order_line_id','=',self.id),
+                                                            ('marketplace_seller_id','=',self.marketplace_seller_id.id)])
+            if picking_obj:
+                picking_obj.write({'payment_provider': self.order_id.get_portal_last_transaction().acquirer_id.provider,
                                'ready_to_pick': True,
                                'hold_state': False })
 
+    def price_cancel(self):
+        """
+        Compute the total amounts of the SO after Order Cancel.
+        """ 
+        for line in self:
+            for order in self.order_id:
+                amount_untaxed = order.amount_untaxed
+                amount_tax = order.amount_tax
+                if self.env['sale.order.line'].search([('order_id','=',line.order_id.id), ('sol_state' , '=' , 'cancel')]):
+                    amount_untaxed -= line.price_subtotal
+                    amount_tax += line.price_tax
+
+                order.update({
+                    'amount_untaxed': order.pricelist_id.currency_id.round(amount_untaxed),
+                    'amount_tax': order.pricelist_id.currency_id.round(amount_tax),
+                    'amount_total': amount_untaxed + amount_tax,
+                })
+                # For Delivery Charge Price Cancel
+                for sol_data in self.env['sale.order.line'].search([('order_id','=',line.order_id.id), ('is_delivery' , '=' , True), ('sol_state' , '=' , 'cancel')]):
+                    amount_untaxed -= sol_data.price_subtotal
+                    amount_tax += sol_data.price_tax
+                    sol_data.order_id.update({
+                        'amount_untaxed': sol_data.order_id.pricelist_id.currency_id.round(amount_untaxed),
+                        'amount_tax': sol_data.order_id.pricelist_id.currency_id.round(amount_tax),
+                        'amount_total': amount_untaxed + amount_tax,
+                    })
+
+
     def button_cancel(self):
         
-        is_to_update = True #is_to_update parent sale order to ready_to_pick
+        is_to_update = True #is_to_update parent sale order to ready_to_pick or cancel
+        count = 0 #To count ready_to_pick
         
         for rec in self:
             #pickings = rec.mapped('order_id.picking_ids').filtered(lambda picking: picking.marketplace_seller_id.id == rec.marketplace_seller_id.id)
             #pickings.action_cancel()            
             rec.write({'sol_state': 'cancel','state': 'cancel', 'marketplace_state': 'cancel'})
-            
+
             for sol_data in self.env['sale.order.line'].search([('order_id','=',rec.order_id.id)]):
                 if sol_data.state not in ['ready_to_pick', 'cancel'] and not sol_data.is_delivery:
                     is_to_update = False
+            
+            if self.env['sale.order.line'].search([('order_id','=',rec.order_id.id), ('sol_state' , '=' , 'ready_to_pick')]):
+                count += 1
+     
+            for sol_data2 in self.env['sale.order.line'].search([('order_id','=',rec.order_id.id)]):
                     
-            if is_to_update:
-                self.order_id.write({'state': 'ready_to_pick'})
-                if rec.marketplace_state == "cancel" and rec.sol_state == 'cancel':
-                    rec.write({'state': 'cancel'})
+
+                if sol_data2.state in ['ready_to_pick', 'cancel']:
+                    if is_to_update:
+                        if count == 0:
+                            self.order_id.write({'state': 'cancel'})
+                            if rec.marketplace_state == "cancel" and rec.sol_state == 'cancel':
+                                rec.write({'state': 'cancel'})
+                        elif count >= 1:
+                            self.order_id.write({'state': 'ready_to_pick'})
+                            if (self.env['sale.order.line'].search([('order_id','=',self.order_id.id), ('sol_state' , '=' , 'cancel')]) and self.product_id.is_service) or (self.env['sale.order.line'].search([('order_id','=',self.order_id.id), ('sol_state' , '=' , 'cancel')]) and self.product_id.is_booking_type):
+                                for cancel_deli_service in self.env['sale.order.line'].search([('order_id','=',self.order_id.id), ('is_delivery' , '=' , True)]):
+                                    cancel_deli_service.write({'sol_state':'cancel'})
+                        
+                        for sol_data3 in self.env['sale.order.line'].search([('order_id','=',rec.order_id.id), ('is_delivery' , '=' , True)]):
+                            sol_data3.write({'sol_state':rec.order_id.state})
+                            
+        return self.price_cancel()
+            

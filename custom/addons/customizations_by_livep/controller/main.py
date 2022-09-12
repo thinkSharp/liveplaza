@@ -211,16 +211,7 @@ class WebsiteSale(Website_Sale):
         }
         return request.render("website_sale.address", render_values)
 
-    # @http.route([
-    #     '''/shop''',
-    #     '''/shop/page/<int:page>''',
-    #     '''/shop/category/<model("product.public.category"):category>''',
-    #     '''/shop/category/<model("product.public.category"):category>/page/<int:page>'''
-    # ], type='http', auth="public", website=True)
-    # def shop(self, page=0, category=None, search='', ppg=False, **post):
-    #     result = super(WebsiteSale, self).shop(page=page, category=category, search=search, ppg=ppg, **post)
-    #
-    #     return result
+
 
 class WebsiteSale (WebsiteSale):
     @http.route(['/home'], type='http', auth='public', website=True)
@@ -502,9 +493,7 @@ class WebsiteSale (WebsiteSale):
         attrib_set = {v[1] for v in attrib_values}
 
         domain = self._get_search_domain(search, category, attrib_values)
-        domain.append('|')
-        domain.append(('is_service', '=', True))
-        domain.append(('type', '=', 'service'))
+        domain.append(('website_published', '=', True))
         keep = QueryURL('/service', category=category and int(category), search=search, attrib=attrib_list,
                         order=post.get('order'))
 
@@ -534,10 +523,18 @@ class WebsiteSale (WebsiteSale):
         # for pobj in bk_products:
         #     print(pobj.website_published)
 
+        ticket_domain = domain + [('is_service', '=', True)]
+        ticket_product = Product.search(ticket_domain, order=self._get_search_order(post))
+
+        booking_domain = domain + [('is_booking_type', '=', True)]
+        booking_product = Product.search(booking_domain, order=self._get_search_order(post))
+
+        booking_active_domain = domain + [('br_end_date', '>=', fields.Date.today()), ('website_published', '=', True)]
+        booking_product_active = booking_product.search(booking_active_domain, order=self._get_search_order(post))
 
 
+        search_product = booking_product_active + ticket_product
 
-        search_product = Product.search(domain, order=self._get_search_order(post))
         website_domain = request.website.website_domain()
         categs_domain = [('parent_id', '=', False)] + website_domain
         if search:

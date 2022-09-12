@@ -6,7 +6,7 @@
             <div id="wrap" class="oe_structure oe_empty">
                 <t t-set="live_streams" t-value="request.website.sudo()._get_seller_live_streams(view_name)"/>
                 <div t-if="live_streams" class="container mt32 mb32">
-                    <div t-if="live_streams.filtered(lambda stream: stream.start_stream_datetime &lt; datetime.datetime.now() and stream.end_stream_datetime &gt; datetime.datetime.now())" class="pl-2" >
+                    <!-- <div t-if="live_streams.filtered(lambda stream: stream.start_stream_datetime &lt; datetime.datetime.now() and stream.end_stream_datetime &gt; datetime.datetime.now())" class="pl-2" >
                         <strong>
                             <p class="ml-2" style="display: inline;font-style: italic;color: blue;font-size: 20px;">Current</p>
                             <span class="px-1" style="display: inline; background: red;width: 50px;color: #FFFFFF;font-size: 20px;">LIVE</span>
@@ -27,7 +27,6 @@
                                 <t t-if="stream.start_stream_datetime &lt; datetime.datetime.now() and stream.end_stream_datetime &gt; datetime.datetime.now()">
                                     <div class="item text-center">
                                         <t t-if="stream.live_stream_banner">
-                                            <!-- <a target="_blank" itemprop="url" t-attf-href="#{stream.live_stream_url}"> -->
                                             <a target="_blank" class="" t-attf-href="/livestream/#{stream.id}">
                                                 <img t-if="stream.live_stream_banner" t-attf-src="/web/image/seller.live.stream/#{stream.id}/live_stream_banner"
                                   t-att-alt="stream.name" class="img-responsive " style="max-height: 219px;"></img>
@@ -40,9 +39,9 @@
                                 </t>
                             </t>
                         </div>
-                    </div>
+                    </div> -->
 
-                    <div t-if="live_streams.filtered(lambda stream: stream.start_stream_datetime &gt; datetime.datetime.now())" class="mb-1 mt32">
+                    <!-- <div t-if="live_streams.filtered(lambda stream: stream.start_stream_datetime &gt; datetime.datetime.now())" class="mb-1 mt32">
                         <strong>
                             <p class="ml-2" style="display: inline;font-style: italic;color: blue;font-size: 20px;">Upcoming</p>
                             <span class="px-1" style="display: inline; background: red;width: 50px;color: #FFFFFF;font-size: 20px;">LIVE</span>
@@ -76,7 +75,8 @@
                                 </t>
                             </t>
                         </div>
-                    </div>
+                    </div> -->
+
                     <div t-if="live_streams.filtered(lambda stream: stream.end_stream_datetime &lt; datetime.datetime.now())" class="mb-1 mt32">
                         <strong>
                             <p class="ml-2" style="display: inline;font-style: italic;color: blue;font-size: 20px;">Previous</p>

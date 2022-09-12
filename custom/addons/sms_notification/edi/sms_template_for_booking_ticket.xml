@@ -1,0 +1,22 @@
+<?xml version="1.0" ?>
+<odoo>
+    <data noupdate="1">
+        <record id="sms_template_for_booking_ticket" model="wk.sms.template">
+            <field name="name">SMS notification to customer when booking ticket code is generated</field>
+            <field name="condition">booking_ticket_ready</field>
+            <field name="auto_delete" eval="True"/>
+            <field name="sms_body_html"><![CDATA[
+              Hello ${object.customer.name}. Here is your Booking Code Information:
+              REFERENCES
+              Order number: ${object.sale_order.name}
+              Product: ${object.product.name}
+              Code: ${object.ticket_code}
+              Booking Date: ${object.booking_date}
+              Booking Slot: ${object.booked_slot}
+              Booking Plan:  ${object.booked_plan}
+              Shop: ${object.seller.name}
+               ]]>
+            </field>
+        </record>
+    </data>
+</odoo>

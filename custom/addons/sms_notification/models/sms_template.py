@@ -23,6 +23,8 @@ from odoo import _, api, fields, models, tools
 
 _logger = logging.getLogger(__name__)
 
+from .utils import parse_subscriber_number_mm
+
 
 # http://stackoverflow.com/questions/38200739/extract-text-from-html-mail-odoo
 class MLStripper(HTMLParser):
@@ -64,7 +66,9 @@ class SmsTemplate(models.Model):
                                   ('invoice_paid', 'Invoice Paid'),
                                   ('order_cancel', 'Order Cancelled'),
                                   ('inventory_almost_empty', 'Inventory Almost Empty'),
-                                  ('ticket_ready', 'Ticket Ready')], string="Conditions",
+                                  ('ticket_ready', 'Ticket Ready'),
+                                  ('booking_ticket_ready', 'Booking Ticket Ready')],
+                                  string="Conditions",
                                  help="Condition on which the template has been applied.")
     model_id = fields.Many2one(
         'ir.model', 'Applies to', compute="onchange_condition",
@@ -91,7 +95,8 @@ class SmsTemplate(models.Model):
             country_calling_code = partner.country_id.phone_code
         else:
             country_calling_code = company_country_calling_code
-        return "+{code}{mobile}".format(code=country_calling_code, mobile=mobile)
+        subscriber_number = parse_subscriber_number_mm(mobile)
+        return "+{code}{subscriber_number}".format(code=country_calling_code, subscriber_number=subscriber_number)
 
     @api.depends('condition')
     def onchange_condition(self):
@@ -110,6 +115,12 @@ class SmsTemplate(models.Model):
                 elif obj.condition in ['ticket_ready']:
                     model_id = self.env['ir.model'].search(
                         [('model', '=', 'ticket')])
+                    obj.model_id = model_id.id if model_id else False
+                    obj.lang = '${object.sale_order.partner_id.lang}'
+
+                elif obj.condition in ['booking_ticket_ready']:
+                    model_id = self.env['ir.model'].search(
+                        [('model', '=', 'booking.ticket')])
                     obj.model_id = model_id.id if model_id else False
                     obj.lang = '${object.sale_order.partner_id.lang}'
 
@@ -200,6 +211,20 @@ class SmsTemplate(models.Model):
                 })
 
             elif sms_tmpl.condition == 'ticket_ready':
+                print("Obj Print............", obj)
+                print("partner", obj.sale_order.partner_id)
+                sms_sms_obj = self.env["wk.sms.sms"].create({
+                    'sms_gateway_config_id': gateway_id.id,
+                    'partner_id': obj.sale_order.partner_id.id if obj else False,
+                    'to': mob_no,
+                    'group_type': 'individual',
+                    'auto_delete': sms_tmpl.auto_delete,
+                    'msg': sms_tmpl.with_context(ctx).get_body_data(obj,
+                                                                    obj.sale_order.partner_id) if obj else sms_tmpl.sms_body_html,
+                    'template_id': False
+                })
+
+            elif sms_tmpl.condition == 'booking_ticket_ready':
                 print("Obj Print............", obj)
                 print("partner", obj.sale_order.partner_id)
                 sms_sms_obj = self.env["wk.sms.sms"].create({

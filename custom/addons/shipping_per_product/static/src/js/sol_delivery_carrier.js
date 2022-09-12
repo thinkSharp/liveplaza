@@ -4,7 +4,7 @@ odoo.define('shipping_per_product.checkout', function (require) {
     var core = require('web.core');
     var publicWidget = require('web.public.widget');
     require('website_sale_delivery.checkout');
-    var PaymentForm = require('payment.payment_form');
+    var PaymentForm = require('do_customization.payment_next');
 
     var _t = core._t;
     var concurrency = require('web.concurrency');
@@ -43,7 +43,7 @@ odoo.define('shipping_per_product.checkout', function (require) {
         _onSOLCarrierClick: function(ev){
             var $this = $(ev.currentTarget);
             var self = this;
-            var $payButton = $('#o_payment_form_pay');
+            var $payButton = $('#o_payment_form_next');
             $payButton.prop('disabled', true);
             $payButton.data('disabled_reasons', $payButton.data('disabled_reasons') || {});
             $payButton.data('disabled_reasons').carrier_selection = true;
@@ -84,12 +84,12 @@ odoo.define('shipping_per_product.checkout', function (require) {
             });
             return count;
         },
-        payEvent: function (ev) {
-            ev.preventDefault();
-            var result = this._checkSolDelivery();
-            if(result == 1){
-                this._super.apply(this, arguments);
-            }
-        }
+//        payEvent: function (ev) {
+//            ev.preventDefault();
+//            var result = this._checkSolDelivery();
+//            if(result == 1){
+//                this._super.apply(this, arguments);
+//            }
+//        }
     });
 });
