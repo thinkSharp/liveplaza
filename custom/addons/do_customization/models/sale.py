@@ -181,6 +181,8 @@ class SaleOrder(models.Model):
 
         res = super(SaleOrder, self).action_confirm()
         self.write({'payment_provider': self.get_portal_last_transaction().acquirer_id.provider})
+        for line_status in self.order_line:
+            line_status.write({'sol_state': self.state})
         #if self.get_portal_last_transaction().acquirer_id.provider in ('wavepay','cash_on_delivery') and self.state == 'sale':
         #    self.action_admin()
 
@@ -322,12 +324,15 @@ class SaleOrderLine(models.Model):
             ('cancel', 'Cancelled'),
         ], related='order_id.state', string='Order Status', readonly=True, copy=False, store=True, default='draft')
     
-    sol_state = fields.Selection([            
+    sol_state = fields.Selection([   
+            ('draft', 'Quotation'),
+            ('sent', 'Quotation Sent'),
+            ('sale', 'Sales Order'),         
             ('approve_by_admin', 'Approved by Admin'),
             ('ready_to_pick', 'Ready to Pick'),
             ('done', 'Locked'),
             ('cancel', 'Cancelled'),
-            ], string='Order Status', readonly=True, copy=False, store=True, default='approve_by_admin')
+            ], string='Order Status', readonly=True, copy=False, store=True, default='draft')
 
     delivery_status = fields.Selection([
         ('ordered', 'Ordered'),
