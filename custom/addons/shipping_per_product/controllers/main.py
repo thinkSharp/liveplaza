@@ -50,14 +50,7 @@ class ProductShipping(http.Controller):
     @http.route(['/shop/sol/update_carrier'], type='json', auth='public', methods=['POST'], website=True, csrf=False)
     def update_shop_sol_carrier(self, **post):
         order = request.website.sale_get_order()
-        address = order.partner_shipping_id
         carrier_id = int(post['carrier_id'])
-        carriers = request.env['delivery.carrier'].sudo().search([('website_published', '=', True)]).available_carriers(address)
-        for c in carriers:
-            if c.id == carrier_id:
-                print(c.name, " = ", carrier_id)
-                order.selected_carrier_id = c.id
-
         order_lines = post.get('order_lines')
         order_lines = request.env["sale.order.line"].sudo().browse(order_lines)
         if order:

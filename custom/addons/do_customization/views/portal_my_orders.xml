@@ -85,6 +85,11 @@
                                             <span t-field="line.price_reduce_taxexcl" style="white-space: nowrap;" t-options="{'widget': 'monetary', 'display_currency': line.currency_id}" groups="account.group_show_line_subtotals_tax_excluded" />
                                             <span t-field="line.price_reduce_taxinc" style="white-space: nowrap;" t-options="{'widget': 'monetary', 'display_currency': line.currency_id}" groups="account.group_show_line_subtotals_tax_included" />
                                         </td>
+<!--                                                <td>-->
+<!--                                                    <input type="hidden" name="product_id"  class="product_template_id" t-att-value="line.product_id.id"/>-->
+<!--                                                    <a id="buy-again" class="btn mt8 js_check_product a-submit wk_test"-->
+<!--                                                       >Buy it again</a>-->
+<!--                                                </td>-->
                                     </tr>
                                 </t>
                             </table>
@@ -167,7 +172,6 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="order_details_body clearfix">
                     <div class="orders_left_box">
                         <div t-if="cancel" class="cancel_text_box">
@@ -230,9 +234,9 @@
                                                     t-field="line.price_unit"
                                                     t-options="{'widget': 'monetary', 'display_currency': sale_order.currency_id}" />
 
-    <!--                                                <div t-if="line.discount">-->
-    <!--                                                    <t t-esc="(1-line.discount / 100.0) * line.price_unit" t-options='{"widget": "float", "decimal_precision": "Product Price"}'/>-->
-    <!--                                                </div>-->
+<!--                                                <div t-if="line.discount">-->
+<!--                                                    <t t-esc="(1-line.discount / 100.0) * line.price_unit" t-options='{"widget": "float", "decimal_precision": "Product Price"}'/>-->
+<!--                                                </div>-->
                                             </td>
                                             <td  t-attf-class="text-right {{ 'd-none d-sm-table-cell' if report_type == 'html' else '' }}">
                                                 <strong>
@@ -268,32 +272,32 @@
                                         </t>
 
                                     </tr>
-    <!--                                    <tr t-if="not line.is_delivery and not line.delivery_status == 'hold'">-->
-    <!--                                        <td colspan="5" class="order_progress_container">-->
-    <!--                                            <ul class="order_progress">-->
-    <!--                                                <t t-foreach="line.get_sol_delivery_progress()" t-as="pro">-->
-    <!--                                                    <li t-attf-class="#{pro_value[0]}">-->
-    <!--                                                        <span t-attf-class="#{pro_value[0]}_bar"></span>-->
-    <!--                                                        <t t-if="pro_value[0] == 'complete'">-->
-    <!--                                                            <span>-->
-    <!--                                                                <span><i class="fa fa-check-circle"></i></span>-->
-    <!--                                                                <h5 class="#{pro_value[0]}"><t t-esc="pro" /> </h5>-->
-    <!--                                                                <p><t t-esc="pro_value[1]"/> </p>-->
-    <!--                                                            </span>-->
-    <!--                                                        </t>-->
-    <!--                                                        <t t-else="">-->
-    <!--                                                            <span>-->
-    <!--                                                                <span><i class="fa fa-circle"></i> </span>-->
-    <!--                                                                <h5 class="#{pro_value[0]}"><t t-esc="pro" /> </h5>-->
-    <!--                                                                <p><t t-esc="pro_value[1]"/> </p>-->
-    <!--                &lt;!&ndash;                                                <h6 class="#{pro_value[0]}"><t t-esc="pro_value[1]"/> </h6>&ndash;&gt;-->
-    <!--                                                            </span>-->
-    <!--                                                        </t>-->
-    <!--                                                    </li>-->
-    <!--                                                </t>-->
-    <!--                                            </ul>-->
-    <!--                                        </td>-->
-    <!--                                    </tr>-->
+<!--                                    <tr t-if="not line.is_delivery and not line.delivery_status == 'hold'">-->
+<!--                                        <td colspan="5" class="order_progress_container">-->
+<!--                                            <ul class="order_progress">-->
+<!--                                                <t t-foreach="line.get_sol_delivery_progress()" t-as="pro">-->
+<!--                                                    <li t-attf-class="#{pro_value[0]}">-->
+<!--                                                        <span t-attf-class="#{pro_value[0]}_bar"></span>-->
+<!--                                                        <t t-if="pro_value[0] == 'complete'">-->
+<!--                                                            <span>-->
+<!--                                                                <span><i class="fa fa-check-circle"></i></span>-->
+<!--                                                                <h5 class="#{pro_value[0]}"><t t-esc="pro" /> </h5>-->
+<!--                                                                <p><t t-esc="pro_value[1]"/> </p>-->
+<!--                                                            </span>-->
+<!--                                                        </t>-->
+<!--                                                        <t t-else="">-->
+<!--                                                            <span>-->
+<!--                                                                <span><i class="fa fa-circle"></i> </span>-->
+<!--                                                                <h5 class="#{pro_value[0]}"><t t-esc="pro" /> </h5>-->
+<!--                                                                <p><t t-esc="pro_value[1]"/> </p>-->
+<!--                &lt;!&ndash;                                                <h6 class="#{pro_value[0]}"><t t-esc="pro_value[1]"/> </h6>&ndash;&gt;-->
+<!--                                                            </span>-->
+<!--                                                        </t>-->
+<!--                                                    </li>-->
+<!--                                                </t>-->
+<!--                                            </ul>-->
+<!--                                        </td>-->
+<!--                                    </tr>-->
                                     <tr t-if="line.delivery_status == 'hold'">
                                         <td colspan="6" class="hold_text">
                                             <h4>
@@ -366,36 +370,6 @@
                                 </div>
                             </div>
                         </div>
-                        <div t-att-class="'customer_details cancel_blur' if cancel else 'customer_details'">
-                            <h3>Customer Details</h3>
-
-                            <table class="customer_details_table">
-
-                                <tr class="shipping_address">
-                                    <td class="width_30"><h5><strong>Shipping Address:</strong></h5></td>
-                                    <td><span t-esc='sale_order.partner_shipping_id' t-options="dict(widget='contact', fields=['address'],
-                                                  no_marker=True, separator=', ')"  class="address-inline"/>
-                                        <p><span class="fa fa-phone" /><t t-esc="sale_order.partner_shipping_id.phone" /></p>
-                                        <p><span class="fa fa-envelope" /><t t-esc="sale_order.partner_shipping_id.email" /></p>
-                                    </td>
-                                </tr>
-
-                                <tr class="payment_info">
-                                    <t t-if="sale_order.transaction_ids">
-                                        <t t-set="payment_tx_id" t-value="sale_order.get_portal_last_transaction()"/>
-                                        <t t-set="reference" t-value="sale_order.reference"/>
-                                        <td class="width_30"><h5><strong>Payment Method: </strong></h5></td>
-
-                                        <td>
-                                            <span align="center" t-if="payment_tx_id.acquirer_id.image_128" class='td-img'>
-                                                <span t-field="payment_tx_id.acquirer_id.image_128" t-options="{'widget': 'image', 'qweb_img_responsive': False, 'class': 'rounded'}" />
-                                            </span>
-                                            <span><t t-esc="payment_tx_id.acquirer_id.name"/></span>
-                                        </td>
-                                    </t>
-                                </tr>
-                            </table>
-                        </div>
                     </div>
 
                     <div class="orders_right_box clearfix">
@@ -411,35 +385,31 @@
                                 </t>
                             </div>
                         </div>
-                        <div t-if="not cancel and sale_order.get_portal_last_transaction().acquirer_id.name != 'Cash on Delivery'"
-                                class="payment_ss_outer" >
-                            <div t-att-data-order-id="sale_order.id" class="payment_ss_editor">
-                                <h5>Payment Screenshot</h5>
-                                <div class="payment_ss_editor_inner">
-                                    <span align="center" t-if="sale_order.payment_upload" class='td-img'>
-                                        <span id="ss_img" t-field="sale_order.payment_upload"
-                                              t-options="{'widget': 'image', 'qweb_img_responsive': False, 'class': 'rounded'}" />
-                                    </span>
-                                </div>
-                                <div t-if="sale_order.state == 'sale'" class="change_ss_outer">
-                                    <input type="hidden" name="id"  class="product_template_id" t-att-value="sale_order.id"/>
-                                    <t t-if="sale_order.payment_upload">
-                                        <a id="edit_ss_btn" class="btn mt8 js_check_product a-submit wk_test">Change screenshot</a>
-                                    </t>
-                                    <t t-else="">
-                                        <p>Your payment screenshot is not uploaded yet! </p>
-                                        <a id="edit_ss_btn" class="btn mt8 js_check_product a-submit wk_test">Upload screenshot</a>
-                                    </t>
-                                </div>
+                        <div t-att-class="'customer_details cancel_blur' if cancel else 'customer_details'">
+                            <h3>Customer Details</h3>
+
+                            <div class="shipping_address">
+                                <h5><strong>Shipping Address:</strong></h5>
+                                <div t-field="sale_order.partner_shipping_id"
+                                    t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}'/>
                             </div>
-                            <div id="payment_ss_edit_modal"></div>
-                            <div id="payment_ss_view_modal"></div>
+
+                            <div class="payment_info">
+
+                                <t t-if="sale_order.transaction_ids">
+                                    <t t-set="payment_tx_id" t-value="sale_order.get_portal_last_transaction()"/>
+                                    <t t-set="reference" t-value="sale_order.reference"/>
+                                    <h5><strong>Payment Method: </strong></h5>
+
+                                    <span align="center" t-if="payment_tx_id.acquirer_id.image_128" class='td-img'>
+                                        <span t-field="payment_tx_id.acquirer_id.image_128" t-options="{'widget': 'image', 'qweb_img_responsive': False, 'class': 'rounded'}" />
+                                    </span>
+                                    <span><t t-esc="payment_tx_id.acquirer_id.name"/></span>
+                                </t>
+                            </div>
                         </div>
-
-
                     </div>
                 </div>
-
             </div>
 
         </t>
@@ -455,6 +425,14 @@
                             <div class="product_tracking_header">
                                 <h5 t-esc="line.name_short" />
                             </div>
+<!--                            <table class="product_tracking_header">-->
+<!--                                <td align="center" t-if="line.product_id.product_tmpl_id" class='td-img'>-->
+<!--                                    <span t-field="line.product_id.image_128" t-options="{'widget': 'image', 'qweb_img_responsive': False, 'class': 'rounded'}" />-->
+<!--                                </td>-->
+<!--                                <td class="width_40">-->
+<!--                                    <span class="h6" t-esc="line.name_short" />-->
+<!--                                </td>-->
+<!--                            </table>-->
                             <ul class="order_progress">
                                 <t t-foreach="delivery_progress" t-as="pro">
                                     <li t-attf-class="#{pro_value[0]}">
@@ -491,89 +469,6 @@
         </div>
     </template>
 
-    <template id="payment_ss_update">
-        <div class="modal fade">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-body">
-<!--                        <t t-set="sol_delivery_progress" t-value="line.get_sol_delivery_progress()"/>-->
-                        <div class="card mt-3 fa-border">
-                            <h5 style="margin-top:5px;"> <Strong> Upload Payment Screenshot only with image file format.</Strong></h5>
-                            <form action="/my/orders/payment/edit" method="post" class="s_website_form form-horizontal container-fluid mt32" enctype="multipart/form-data" id="file_upload_form">
-                                <div t-attf-class="form-group">
-                                    <div class="col-md-7 col-sm-8">
-                                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
-                                        <input type="hidden" name="sale_order_id" t-att-value="order.id"/>
-                                        <input type="file" required="required" name="attachment" accept="image/*" class="file" multiple="true" data-show-upload="true"
-                                            data-show-caption="true" lass="binary" id="ssImage" placeholder="Image file format: JPG JPEG PNG GIF TIFF RAW" onchange="return fileValidation()"/>
-                                        <button type="submit" name="payment_upload_name" style="margin-top:20px;margin-right:20px" class="btn btn-primary mb32">
-                                            Submit Screenshot
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <div class="row booking_modal_footer">
-                                <div class="col-12">
-                                    <button type="button" class="btn btn-danger mr4 pull-right" data-dismiss="modal">Close</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <script>
-                        function fileValidation() {
-                            var fileInput =
-                                document.getElementById('ssImage');
-
-                            var filePath = fileInput.value;
-
-                            // Allowing file type
-                            var allowedExtensions =
-                                /(\.jpeg|\.jpg|\.png|\.raw|\.tiff|\.gif)$/i;
-
-                            if (!allowedExtensions.exec(filePath)) {
-                                alert('Please upload payment screenshot only with image file type.');
-                                fileInput.value = '';
-                                return false;
-                            }
-                        }
-                    </script>
-                </div>
-            </div>
-        </div>
-
-    </template>
-
-    <template id="payment_ss_view_modal">
-        <div class="modal fade">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-body">
-                        <h3>Payment Screenshot for Order #<t t-esc="order.name"/> </h3>
-                        <div class=" mt-3">
-                            <form action="/my/orders/payment/view" method="post" class="s_website_form form-horizontal container-fluid mt32" enctype="multipart/form-data" id="file_upload_form">
-                                <div t-attf-class="form-group ss_img_view_outer">
-                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
-                                    <span id="ss_img_view" t-field="order.payment_upload"
-                                      t-options="{'widget': 'image', 'qweb_img_responsive': False, 'class': 'rounded'}" />
-                                </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <div class="row booking_modal_footer">
-                                <div class="col-12">
-                                    <button type="button" class="btn btn-danger mr4 pull-right" data-dismiss="modal">Close</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </template>
-
     <!--  Cancle Orders  -->
     <template id="portal_my_home_cancel_order" inherit_id="portal.portal_my_home" priority="20">
         <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
@@ -597,5 +492,4 @@
             </li>
         </xpath>
     </template>
-
 </odoo>

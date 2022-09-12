@@ -16,32 +16,6 @@
     opacity: 0.5;
 }
 
-#ss_img:hover {opacity: 0.7;}
-
-.ss_img_view_outer {
-    margin: 0 auto;
-    width: fit-content;
-    #ss_img_view {
-        img { min-height: 400px; }
-    }
-}
-
-/* The Modal (background) */
-.ss_view_modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
-    padding-top: 100px; /* Location of the box */
-    //   left: 0;
-    //   top: 0;
-    transform: translate(50%, 50%);
-    width: 50%; /* Full width */
-    height: 50%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(255,255,255,0.9); /* Black w/ opacity */
-}
-
 .order_progress_container {
     margin-bottom: 2%;
     background: white;
@@ -233,43 +207,6 @@
             width: 30%;
         }
     }
-    .payment_ss_outer {
-        background: white;
-        margin-bottom: 20px;
-        padding: 20px 10px;
-
-        .payment_ss_editor {
-            h5 {
-                margin-bottom: 20px;
-            }
-            .payment_ss_editor_inner{
-                margin: 0 auto;
-                width: fit-content;
-                #ss_img {
-                    cursor: zoom-in;
-                    img {
-                        max-width: 100px;
-                    }
-                }
-            }
-            .change_ss_outer {
-                text-align: center;
-                margin-top: 15px;
-            }
-            #edit_ss_btn {
-                background: rgba(0, 81, 177, 0.9);
-                color: white;
-                border: 1px solid rgba(0, 81, 177, 0.9);
-                padding: 5px;
-                border-radius: 5px;
-                &:hover {
-                    cursor: pointer;
-                    background: white;
-                    color: rgba(0, 81, 177, 0.9);
-                }
-            }
-        }
-    }
     .order_details_body {
         margin-top: 2%;
         .orders_left_box {
@@ -349,31 +286,6 @@
                     }
                 }
             }
-            .customer_details {
-                background: white;
-                padding: 1% 4%;
-                margin: 30px 0;
-                h3 { margin-bottom: 15px; }
-                .customer_details_table {
-                    td {
-                        padding: 8px;
-                        vertical-align: top;
-                        p { margin-bottom: 0.3rem; }
-                        .fa { margin-right: 10px; }
-                    }
-                    .width_30 {
-                        width: 27%;
-                    }
-                    .shipping_address {
-                        margin: 25px 0;
-                    }
-                    .payment_info {
-                        img {
-                            max-width: 25px;
-                        }
-                    }
-                }
-            }
         }
         .orders_right_box {
             width: 18%;
@@ -403,6 +315,19 @@
                 }
             }
 
+            .customer_details {
+                background: white;
+                padding: 4% 7%;
+                margin-bottom: 30px;
+                .shipping_address {
+                    margin: 25px 0;
+                }
+                .payment_info {
+                    img {
+                        max-width: 25px;
+                    }
+                }
+            }
         }
     }
 }
@@ -468,16 +393,15 @@
                     width: 50%;
                     margin-left: 48%;
                 }
+            }
+            .orders_right_box {
                 .customer_details {
-                    .customer_details_table {
-                        strong {
-                            font-size: 17px;
+                    .payment_info {
+                        h3 {
+                            font-size :20px;
                         }
                     }
                 }
-            }
-            .orders_right_box {
-
             }
         }
 
@@ -554,16 +478,6 @@
                     width: 50%;
                     margin-left: 48%;
                 }
-                .customer_details {
-                    .customer_details_table {
-                        .width_30 {
-                            width: 30%;
-                        }
-                        strong {
-                            font-size: 15px;
-                        }
-                    }
-                }
             }
             .orders_right_box {
                 float: none;
@@ -571,11 +485,6 @@
                 .order_history {
                     float: left;
                     width: 40%;
-                    padding: 3%;
-                }
-                .payment_ss_outer {
-                    float: right;
-                    width: 55%;
                     padding: 3%;
                 }
                 .customer_details {
@@ -652,16 +561,6 @@
                     width: 50%;
                     margin-left: 48%;
                 }
-                .customer_details {
-                    .customer_details_table {
-                        .width_30 {
-                            width: 30%;
-                        }
-                        strong {
-                            font-size: 15px;
-                        }
-                    }
-                }
             }
             .orders_right_box {
                 float: none;
@@ -669,11 +568,6 @@
                 .order_history {
                     float: left;
                     width: 40%;
-                    padding: 3%;
-                }
-                .payment_ss_outer {
-                    float: right;
-                    width: 55%;
                     padding: 3%;
                 }
                 .customer_details {
@@ -775,13 +669,6 @@
                         }
                     }
                 }
-                .customer_details {
-                    .customer_details_table {
-                        strong {
-                            font-size: 14px;
-                        }
-                    }
-                }
                 .order_progress_container {
                     padding: 0px;
                     .order_progress {
@@ -809,11 +696,6 @@
                         h5 { font-size: 14px; }
                         p { font-size: 13px; }
                     }
-                }
-                .payment_ss_outer {
-                    float: right;
-                    width: 50%;
-                    padding: 3%;
                 }
                 .customer_details {
                     float: right;

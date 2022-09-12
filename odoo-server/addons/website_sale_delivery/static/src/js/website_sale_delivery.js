@@ -21,7 +21,7 @@ publicWidget.registry.websiteSaleDelivery = publicWidget.Widget.extend({
     start: function () {
         var self = this;
         var $carriers = $('#delivery_carrier input[name="delivery_type"]');
-        var $payButton = $('#o_payment_form_next');
+        var $payButton = $('#o_payment_form_pay');
         // Workaround to:
         // - update the amount/error on the label at first rendering
         // - prevent clicking on 'Pay Now' if the shipper rating fails
@@ -65,7 +65,7 @@ publicWidget.registry.websiteSaleDelivery = publicWidget.Widget.extend({
      */
     _handleCarrierUpdateResult: function (result) {
         this._handleCarrierUpdateResultBadge(result);
-        var $payButton = $('#o_payment_form_next');
+        var $payButton = $('#o_payment_form_pay');
         var $amountDelivery = $('#order_delivery .monetary_field');
         var $amountUntaxed = $('#order_total_untaxed .monetary_field');
         var $amountTax = $('#order_total_taxes .monetary_field');
@@ -118,7 +118,7 @@ publicWidget.registry.websiteSaleDelivery = publicWidget.Widget.extend({
         var $radio = $(ev.currentTarget).find('input[type="radio"]');
         this._showLoading($radio);
         $radio.prop("checked", true);
-        var $payButton = $('#o_payment_form_next');
+        var $payButton = $('#o_payment_form_pay');
         $payButton.prop('disabled', true);
         $payButton.data('disabled_reasons', $payButton.data('disabled_reasons') || {});
         $payButton.data('disabled_reasons').carrier_selection = true;
