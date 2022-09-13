@@ -276,7 +276,7 @@ odoo.define('website_booking_system.booking_n_reservation', function(require) {
             });
         });
 
-        let time_limit_seconds = 60;
+        let time_limit_seconds = 600;
         setInterval(function() {
             let createDateFields = document.querySelectorAll(".create-date");
             createDateFields.forEach((createDateField) => {
@@ -285,11 +285,17 @@ odoo.define('website_booking_system.booking_n_reservation', function(require) {
                 let timer = dom.querySelector('.timer');
                 let minutes = dom.querySelector('.minutes');
                 let seconds = dom.querySelector('.seconds');
+                //console.log("Raw String");
+                //console.log(dom.querySelector(".create-date").innerHTML);
 
-                let createDateStr = dom.querySelector(".create-date").innerHTML+ ' GMT';
+                //console.log("Before");
+                //console.log(new Date(dom.querySelector(".create-date").innerHTML));
+                let createDateStr = dom.querySelector(".create-date").innerHTML+ 'Z';
+                //console.log("Perfect Str")
+                //console.log(createDateStr);
                 let createDate = new Date(createDateStr);
-                console.log("Create Date");
-                console.log(createDate);
+                //console.log("Create Date after");
+                //console.log(createDate);
 
 
 
