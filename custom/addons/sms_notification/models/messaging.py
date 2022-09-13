@@ -129,12 +129,27 @@ class SaleOrder(models.Model):
                         if self.state != 'ready_to_pick':
                             self.action_ready_to_pick()
                         picking_data.button_validate()
+                    elif self.is_all_booking_type:
+                        if self.state != 'ready_to_pick':
+                            self.action_ready_to_pick()
                     else:
                     #if picking_data.state == 'assigned':
                         pick_movel_objs = picking_data.move_line_ids
                         all_service_ticket_per_moveline = all([mv_line.product_id.is_service for mv_line in pick_movel_objs])
 
                         if all_service_ticket_per_moveline:
+                            for mv_line in pick_movel_objs:
+                                mv_line.write({"qty_done": mv_line.product_uom_qty})
+
+                            if self.state != 'ready_to_pick':
+                                for line in self.order_line:
+                                    if line.product_id.is_service or line.product_id.is_booking_type:
+                                        line.action_ready_to_pick()
+                                    else:
+                                        line.write({'sol_state': 'approve_by_admin'})
+                                #self.action_ready_to_pick()
+                            picking_data.button_validate()
+                        else:
                             for mv_line in pick_movel_objs:
                                 mv_line.write({"qty_done": mv_line.product_uom_qty})
 
