@@ -101,7 +101,8 @@
                 
                 <!--   Add and replace sol_state with marketplace_state in sale order line -->
                 <xpath expr="//field[@name='order_line']//tree//field[@name='marketplace_state']" position="replace">
-                    <field name="sol_state" string="Status"/>
+                    <field name="sol_state" string="Status" optional="show"/>
+                    <field name="state" string="Status" optional="hide"/>
                 </xpath>
 	            
 	        </field>
