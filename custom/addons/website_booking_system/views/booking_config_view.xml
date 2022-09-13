@@ -25,8 +25,8 @@
                             <field name="booking_slots_ids" nolabel="1">
                                 <tree editable="bottom">
 <!--                                    <field name="marketplace_seller_id"/>-->
-                                    <field name="time_slot_id"  options="{'no_open':True, 'no_create_edit':True,'no_create':True}"/>
-                                    <field name="plan_id"  options="{'no_open':True, 'no_create_edit':True,'no_create':True}"/>
+                                    <field name="time_slot_id"  options="{'no_open':True, 'no_create_edit':True,'no_create':True}" domain="[('state','=','approved')]"/>
+                                    <field name="plan_id"  options="{'no_open':True, 'no_create_edit':True,'no_create':True}" domain="[('state','=','approved')]"/>
                                     <field name="quantity"/>
                                     <field name="price"/>
                                 </tree>

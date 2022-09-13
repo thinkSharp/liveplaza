@@ -8,9 +8,9 @@
             <field name="sms_body_html"><![CDATA[
               Hello ${object.customer.name}. Here is your Booking Code Information:
               REFERENCES
+              Code: ${object.ticket_code}
               Order number: ${object.sale_order.name}
               Product: ${object.product.name}
-              Code: ${object.ticket_code}
               Booking Date: ${object.booking_date}
               Booking Slot: ${object.booked_slot}
               Booking Plan:  ${object.booked_plan}

@@ -285,20 +285,28 @@ odoo.define('website_booking_system.booking_n_reservation', function(require) {
                 let timer = dom.querySelector('.timer');
                 let minutes = dom.querySelector('.minutes');
                 let seconds = dom.querySelector('.seconds');
+                //console.log("Raw String");
+                //console.log(dom.querySelector(".create-date").innerHTML);
 
-                let createDateStr = dom.querySelector(".create-date").innerHTML;
+                //console.log("Before");
+                //console.log(new Date(dom.querySelector(".create-date").innerHTML));
+                let createDateStr = dom.querySelector(".create-date").innerHTML+ 'Z';
+                //console.log("Perfect Str")
+                //console.log(createDateStr);
                 let createDate = new Date(createDateStr);
-                console.log("Create Date");
-                console.log(createDate);
+                //console.log("Create Date after");
+                //console.log(createDate);
 
 
 
 
 
 
-
-                    console.log("I am product.")
-                    let time_diff_seconds = Math.round((Date.now() - createDate.getTime()) / 1000) - 23400;
+                    console.log("I am product.");
+//                    let utcString = new Date().toUTCString();
+//                    let currentSeconds  = new Date(utcString).getTime();
+                    let time_diff_seconds = Math.round((new Date().getTime() - createDate.getTime()) / 1000);
+                    console.log(time_diff_seconds);
                     let time_remain_seconds  = time_limit_seconds - time_diff_seconds;
                     let show_minutes = Math.floor(time_remain_seconds / 60);
                     let show_seconds = time_remain_seconds % 60;
@@ -315,7 +323,7 @@ odoo.define('website_booking_system.booking_n_reservation', function(require) {
 
 
                     if (time_remain_seconds < 1) {
-    //                    clearInterval(intervalID);
+
                         let product = dom.querySelector('.js_delete_product');
                         console.log(product);
                         console.log("I am deleted.")
@@ -323,7 +331,7 @@ odoo.define('website_booking_system.booking_n_reservation', function(require) {
 
                         }
 
-    //                    location.reload();
+
                     })
 
                 }, 1000);

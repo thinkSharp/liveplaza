@@ -36,7 +36,7 @@ odoo.define("website_daily_deals.daily_deals_js", function (require) {
           navText: ["<i class='fa fa-angle-left'></i>","<i class='fa fa-angle-right'></i>"],
           responsive:{
                 0:{
-                    items:1
+                    items:2
                     },
                 480:{
                     items:2

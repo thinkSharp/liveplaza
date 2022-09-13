@@ -16,6 +16,7 @@
                 'base', 
                 'resource',
                 'sale_stock','delivery',
+                'payment',
                 ],
     'category': 'Operations/Inventory',
     'sequence': 13,
@@ -34,6 +35,7 @@
         'views/faq_web_view.xml',
         'views/create_seller_shop.xml',
         'views/portal_my_orders.xml',
+        'views/checkout_preview.xml',
         'data/account_data.xml',
     ],
 

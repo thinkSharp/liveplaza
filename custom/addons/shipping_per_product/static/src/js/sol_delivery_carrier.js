@@ -4,7 +4,7 @@ odoo.define('shipping_per_product.checkout', function (require) {
     var core = require('web.core');
     var publicWidget = require('web.public.widget');
     require('website_sale_delivery.checkout');
-    var PaymentForm = require('payment.payment_form');
+    var PaymentForm = require('do_customization.payment_next');
 
     var _t = core._t;
     var concurrency = require('web.concurrency');
@@ -18,6 +18,60 @@ odoo.define('shipping_per_product.checkout', function (require) {
         init: function(){
             this._super.apply(this, arguments);
             this.del_div = false;
+        },
+
+
+        start: function () {
+            var self = this;
+            var $carriers = $('#delivery_carrier input[name="delivery_type"]');
+            var $payButton = $('#o_payment_form_next');
+            // Workaround to:
+            // - update the amount/error on the label at first rendering
+            // - prevent clicking on 'Pay Now' if the shipper rating fails
+            if ($carriers.length > 0) {
+                if ($carriers.filter(':checked').length === 0) {
+                    $payButton.prop('disabled', true);
+                    $payButton.data('disabled_reasons', $payButton.data('disabled_reasons') || {});
+                    $payButton.data('disabled_reasons').carrier_selection = true;
+                }
+                $carriers.filter(':checked').click();
+            }
+
+            // Asynchronously retrieve every carrier price
+            _.each($carriers, function (carrierInput, k) {
+                self._showLoading($(carrierInput));
+                self._rpc({
+                    route: '/shop/carrier_rate_shipment',
+                    params: {
+                        'carrier_id': carrierInput.value,
+                    },
+                }).then(self._handleCarrierUpdateResultBadge.bind(self));
+            });
+
+            return this._super.apply(this, arguments);
+        },
+
+        _handleCarrierUpdateResult: function (result) {
+            this._handleCarrierUpdateResultBadge(result);
+            var $payButton = $('#o_payment_form_next');
+            var $amountDelivery = $('#order_delivery .monetary_field');
+            var $amountUntaxed = $('#order_total_untaxed .monetary_field');
+            var $amountTax = $('#order_total_taxes .monetary_field');
+            var $amountTotal = $('#order_total .monetary_field');
+
+            if (result.status === true) {
+                $amountDelivery.html(result.new_amount_delivery);
+                $amountUntaxed.html(result.new_amount_untaxed);
+                $amountTax.html(result.new_amount_tax);
+                $amountTotal.html(result.new_amount_total);
+                $payButton.data('disabled_reasons').carrier_selection = false;
+                $payButton.prop('disabled', _.contains($payButton.data('disabled_reasons'), true));
+            } else {
+                $amountDelivery.html(result.new_amount_delivery);
+                $amountUntaxed.html(result.new_amount_untaxed);
+                $amountTax.html(result.new_amount_tax);
+                $amountTotal.html(result.new_amount_total);
+            }
         },
 
         _handleCarrierUpdateResultBadge: function (result) {
@@ -43,7 +97,7 @@ odoo.define('shipping_per_product.checkout', function (require) {
         _onSOLCarrierClick: function(ev){
             var $this = $(ev.currentTarget);
             var self = this;
-            var $payButton = $('#o_payment_form_pay');
+            var $payButton = $('#o_payment_form_next');
             $payButton.prop('disabled', true);
             $payButton.data('disabled_reasons', $payButton.data('disabled_reasons') || {});
             $payButton.data('disabled_reasons').carrier_selection = true;
@@ -84,12 +138,12 @@ odoo.define('shipping_per_product.checkout', function (require) {
             });
             return count;
         },
-        payEvent: function (ev) {
-            ev.preventDefault();
-            var result = this._checkSolDelivery();
-            if(result == 1){
-                this._super.apply(this, arguments);
-            }
-        }
+//        payEvent: function (ev) {
+//            ev.preventDefault();
+//            var result = this._checkSolDelivery();
+//            if(result == 1){
+//                this._super.apply(this, arguments);
+//            }
+//        }
     });
 });

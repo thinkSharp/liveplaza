@@ -39,7 +39,7 @@
                     <header>                        
                         <button name="action_ready_to_pick" string="Make Ready" class="btn-primary" type="object" attrs="{'invisible': [('state', 'not in', ['approve_by_admin'])]}"/>
                         <button name="button_cancel" string="Cancel" type="object" groups="odoo_marketplace.marketplace_seller_group" attrs="{'invisible':[('state','in', ['ready_to_pick','cancel'])]}"/>
-                        <field name="sol_state" widget="statusbar" statusbar_visible="approve_by_admin,ready_to_pick,done,cancel" />                        
+                        <field name="sol_state" widget="statusbar" statusbar_visible="draft,sent,sale,approve_by_admin,ready_to_pick,done,cancel" />                        
                     </header>
                     <sheet>                        
                         <group col="4">
