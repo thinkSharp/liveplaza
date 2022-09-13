@@ -160,7 +160,7 @@ class SaleOrder(models.Model):
                                     else:
                                         line.write({'sol_state': 'approve_by_admin'})
                                 #self.action_ready_to_pick()
-                            picking_data.button_validate()
+                            #picking_data.button_validate()
 
                     # if self.get_portal_last_transaction().acquirer_id.provider != 'cash_on_delivery':
                     #    picking_data.write({'payment_upload': self.payment_upload,
