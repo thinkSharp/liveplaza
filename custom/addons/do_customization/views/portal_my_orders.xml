@@ -54,10 +54,16 @@
                                         <span t-field="order.amount_total"/></td>
                                     <td></td>
                                     <td></td>
-                                    <td>
+                                    <td class="all_sizes">
                                         <a t-if="cancel" t-att-href="'/my/cancel_orders/'+ str(order.id)"> View Order Details </a>
                                         <a t-else="" t-att-href="order.get_portal_url()"> View Order Details </a>
 
+                                    </td>
+                                </tr>
+                                <tr class="min_phone_size">
+                                    <td colspan="2">
+                                        <a t-if="cancel" t-att-href="'/my/cancel_orders/'+ str(order.id)"> View Order Details </a>
+                                        <a t-else="" t-att-href="order.get_portal_url()"> View Order Details </a>
                                     </td>
                                 </tr>
 
@@ -78,10 +84,14 @@
                                                     <t t-call="website_sale.cart_line_product_link">
                                                         <span class="h6" t-esc="line.name_short" />
                                                     </t>
+                                                    <div class="min_phone_size">
+                                                        <span t-field="line.price_reduce_taxexcl" style="white-space: nowrap;" t-options="{'widget': 'monetary', 'display_currency': line.currency_id}" groups="account.group_show_line_subtotals_tax_excluded" />
+                                                        <span t-field="line.price_reduce_taxinc" style="white-space: nowrap;" t-options="{'widget': 'monetary', 'display_currency': line.currency_id}" groups="account.group_show_line_subtotals_tax_included" />
+                                                    </div>
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class="td-price">
+                                        <td class="td-price all_sizes">
                                             <span t-field="line.price_reduce_taxexcl" style="white-space: nowrap;" t-options="{'widget': 'monetary', 'display_currency': line.currency_id}" groups="account.group_show_line_subtotals_tax_excluded" />
                                             <span t-field="line.price_reduce_taxinc" style="white-space: nowrap;" t-options="{'widget': 'monetary', 'display_currency': line.currency_id}" groups="account.group_show_line_subtotals_tax_included" />
                                         </td>
@@ -399,7 +409,8 @@
                     </div>
 
                     <div class="orders_right_box clearfix">
-                        <div t-if="not cancel" class="order_history">
+                        <div t-if="not cancel" t-att-style="'width: 100%;' if sale_order.get_portal_last_transaction().acquirer_id.name == 'Cash on Delivery' else ''"
+                             class="order_history">
                             <h3>Order History</h3>
                             <div class="order_history_inner">
                                 <t t-foreach="delivery_progress" t-as="pro">
