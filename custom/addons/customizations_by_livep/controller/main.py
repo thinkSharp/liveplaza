@@ -421,7 +421,11 @@ class WebsiteSale (WebsiteSale):
         product_count = len(search_product)
         pager = request.website.pager(url=url, total=product_count, page=page, step=ppg, scope=7, url_args=post)
         offset = pager['offset']
-        products = random.sample(search_product, len(search_product))[offset: offset + ppg] #search_product[offset: offset + ppg]
+
+        if post is not {}:
+            products = search_product[offset: offset + ppg]
+        else:
+            products = random.sample(search_product, len(search_product))[offset: offset + ppg]
 
         ProductAttribute = request.env['product.attribute']
         if products:
