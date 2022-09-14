@@ -27,7 +27,7 @@
                         <label t-att-for="'bk_plan_%s' % d_plan['id']" style="display: block;margin-bottom: 0;">
                             <input type="radio" name="bk_plan" required="true" t-att-id="'bk_plan_%s' % d_plan['id']" t-att-value="d_plan['id']" style="display: none;"/>
                             <t t-set="bk_av_qty" t-value="product.sudo().get_bk_slot_available_qty(current_date, d_plan['id'])"/>
-                            <div t-att-class="'bk_plan_div bk_disable' if not bk_av_qty > 0 else 'bk_plan_div'" t-att-data-plan_price="d_plan['price']">
+                            <div t-att-class="'bk_plan_div bk_disable' if not bk_av_qty > 0 else 'bk_plan_div'" t-att-data-plan_price="d_plan['price']" t-att-data-plan_qty="bk_av_qty">
                                 <div class="d-none d-sm-block">
                                     <div style="font-size: 20px;">
                                         <t t-esc="d_plan['name']"/>
