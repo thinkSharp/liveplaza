@@ -301,7 +301,7 @@ odoo.define('website_booking_system.booking_n_reservation', function(require) {
             });
         });
 
-        let time_limit_seconds = 600;
+        let time_limit_seconds = 900;
         setInterval(function() {
             let createDateFields = document.querySelectorAll(".create-date");
             createDateFields.forEach((createDateField) => {
