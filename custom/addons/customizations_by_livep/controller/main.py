@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*- --
 
-from queue import Empty
 from odoo import fields, http, tools, _
 from odoo.http import request
 from odoo.osv import expression
