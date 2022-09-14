@@ -29,13 +29,14 @@ class DeliveryCarrier(models.Model):
     sol_free_config = fields.Selection([('y', 'Yes'),('n', 'No')], string="Free Delivery Applied Per Product", default="n", help="By enabling this free config setting is applied per product instead per order.")
 
     def sol_carrier_rate_shipment(self, order, lines=None, sol_free_config=None):
-        temp_so = order.copy(default={'state':'draft'})
-        inactive_sol = order.order_line
+        # temp_so = order.copy(default={'state':'draft'})
+        print("sol carrier rate shipment")
+        # inactive_sol = order.order_line
         res = {}
         if lines:
             order_amount = order._compute_amount_total_without_delivery()
-            inactive_sol = inactive_sol - lines
-            inactive_sol.write({'order_id':temp_so.id})
+            # inactive_sol = inactive_sol - lines
+            # inactive_sol.write({'order_id':temp_so.id})
 
             res = self.rate_shipment(order)
 
@@ -51,7 +52,7 @@ class DeliveryCarrier(models.Model):
                 'is_delivered': True
             })
             lines.write({'unique_grp_key':str(lines[0].id)})
-            inactive_sol.write({'order_id':order.id})
+            # inactive_sol.write({'order_id':order.id})
         elif self.is_sol_carrier:
             sol_free_config = True if self.sol_free_config == 'y' else None
             order_amount = order._compute_amount_total_without_delivery()
@@ -60,8 +61,8 @@ class DeliveryCarrier(models.Model):
                 line_carrier = line.delivery_carrier_id
                 if line_carrier:
                     order.write({'carrier_id' : line_carrier.id})
-                    inactive_sol = order.order_line - line
-                    inactive_sol.write({'order_id':temp_so.id})
+                    # inactive_sol = order.order_line - line
+                    # inactive_sol.write({'order_id':temp_so.id})
 
                     res = line_carrier.rate_shipment(order)
 
@@ -74,7 +75,7 @@ class DeliveryCarrier(models.Model):
                         'delivery_charge' : res["price"],
                         'is_delivered': True
                     })
-                    inactive_sol.write({'order_id':order.id})
+                    # inactive_sol.write({'order_id':order.id})
                 else:
                     line.delivery_charge = 0.0
             shipping_cost = order.get_total_sol_delivery_price()
@@ -85,9 +86,9 @@ class DeliveryCarrier(models.Model):
             order.write({'carrier_id': carrier_id.id})
         else:
             res = self.rate_shipment(order)
-            temp_so.sudo().unlink()
+            # temp_so.sudo().unlink()
             return res
-        temp_so.sudo().unlink()
+        # temp_so.sudo().unlink()
         return res
 
     def write(self, vals):
