@@ -215,7 +215,7 @@ publicWidget.registry.Payment = publicWidget.Widget.extend({
                 catch(err) {
                     console.log("Error:-",err.message);
                 }
-//                setTimeout(function() {$empty_sol_del_error.hide()},12000);
+                setTimeout(function() {$empty_sol_del_error.hide()},12000);
                 return false;
             }
         });
@@ -236,12 +236,9 @@ publicWidget.registry.Payment = publicWidget.Widget.extend({
         var form = this.el;
         var checked_radio = this.$('input[type="radio"]:checked');
         var self = this;
-        var carrier_id = self.options.carrier;
-        if(carrier_id.length === 0) {
-            var result = this._checkSolDelivery();
-            if (result == 0) {
-                return false;
-            }
+        var result = this._checkSolDelivery();
+        if (result == 0) {
+            return false;
         }
 
         if (ev.type === 'submit') {

@@ -97,7 +97,7 @@ class SaleOrder(models.Model):
         discount = 0
         discount_amount = 0
 
-        if order.pricelist_id.discount_policy == 'without_discount':
+        if order.pricelist_id.discount_policy == 'without_discount' and not product.is_booking_type:
             # This part is pretty much a copy-paste of the method '_onchange_discount' of
             # 'sale.order.line'.
             price, rule_id = order.pricelist_id.with_context(product_context).get_product_price_rule(product,
@@ -517,6 +517,12 @@ class SaleOrderLine(models.Model):
             #pickings.action_cancel()            
             rec.write({'sol_state': 'cancel','state': 'cancel', 'marketplace_state': 'cancel'})
 
+            if rec.sol_state == 'cancel':
+                picking_obj = self.env['stock.picking'].search([('origin','=',self.order_id.name), ('order_line_id','=',rec.id),
+                                                            ('marketplace_seller_id','=',rec.marketplace_seller_id.id)])
+                for i_data in picking_obj:
+                    i_data.action_cancel()
+                    
             for sol_data in self.env['sale.order.line'].search([('order_id','=',rec.order_id.id)]):
                 if sol_data.state not in ['ready_to_pick', 'cancel'] and not sol_data.is_delivery:
                     is_to_update = False
