@@ -373,7 +373,7 @@ class ProductPricelistItem(models.Model):
                 raise ValidationError(_("Please specify the product variant for which this rule should be applied"))
 
     @api.depends('applied_on', 'categ_id', 'product_tmpl_id','product_tmpl_ids', 'product_id','product_ids', 'compute_price', 'fixed_price', \
-        'pricelist_id', 'percent_price', 'price_discount', 'price_surcharge')
+        'pricelist_id', 'percent_price', 'fixed_discount', 'price_discount', 'price_surcharge')
     def _get_pricelist_item_name_price(self):
         for item in self:
             if item.categ_id and item.applied_on == '2_product_category':
@@ -433,6 +433,8 @@ class ProductPricelistItem(models.Model):
                     )
             elif item.compute_price == 'percentage':
                 item.price = _("%s %% discount") % (item.percent_price)
+            elif item.compute_price == 'fixed_discount':
+                item.price = _("%s discount") % (item.fixed_discount)
             else:
                 item.price = _("%s %% discount and %s surcharge") % (item.price_discount, item.price_surcharge)
 
@@ -440,6 +442,8 @@ class ProductPricelistItem(models.Model):
     def _onchange_compute_price(self):
         if self.compute_price != 'fixed':
             self.fixed_price = 0.0
+        if self.compute_price != 'fixed_discount':
+            self.fixed_discount = 0.0
         if self.compute_price != 'percentage':
             self.percent_price = 0.0
         if self.compute_price != 'formula':
