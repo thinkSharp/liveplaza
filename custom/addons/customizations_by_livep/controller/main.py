@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*- --
 
+from queue import Empty
 from odoo import fields, http, tools, _
 from odoo.http import request
 from odoo.osv import expression
@@ -422,10 +423,10 @@ class WebsiteSale (WebsiteSale):
         pager = request.website.pager(url=url, total=product_count, page=page, step=ppg, scope=7, url_args=post)
         offset = pager['offset']
 
-        if post is not {}:
-            products = search_product[offset: offset + ppg]
-        else:
+        if not post:
             products = random.sample(search_product, len(search_product))[offset: offset + ppg]
+        else:    
+            products = search_product[offset: offset + ppg]
 
         ProductAttribute = request.env['product.attribute']
         if products:
