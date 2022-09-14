@@ -97,7 +97,7 @@ class SaleOrder(models.Model):
         discount = 0
         discount_amount = 0
 
-        if order.pricelist_id.discount_policy == 'without_discount':
+        if order.pricelist_id.discount_policy == 'without_discount' and not product.is_booking_type:
             # This part is pretty much a copy-paste of the method '_onchange_discount' of
             # 'sale.order.line'.
             price, rule_id = order.pricelist_id.with_context(product_context).get_product_price_rule(product,
