@@ -101,7 +101,7 @@
 
 <!--        Delivery Method select option box in /shop/payment page -->
         <template id="sol_select_delivery_option">
-            <div t-if="is_payment_page" class="toggle_summary_div d-none d-xl-block d-block" style="max-width: unset;">
+            <div t-if="is_payment_page" class="toggle_summary_div d-xl-block" style="max-width: unset;">
                 <table class="table" id="cart_products" t-if="website_sale_order and website_sale_order.website_order_line">
                     <t t-set="website_o_lines" t-value="website_sale_order.get_lines_with_or_without_delivery()"/>
                     <tr>
