@@ -69,6 +69,23 @@ class SaleOrder(models.Model):
     delivering_date = fields.Datetime('Deliver Date', store=True, default="", readonly=True)
     delivered_date = fields.Datetime('Delivered Date', store=True, default="", readonly=True)
 
+    @api.model
+    def _check_delivery_selected(self):
+        delivery = 0
+        is_all_service = 1
+        for line in self.order_line:
+            if line.selected_checkout:
+                if not (line.product_id.is_service or line.product_id.is_booking_type):
+                    is_all_service = 0
+
+        for line in self.order_line:
+            if line.is_delivery:
+                delivery = 1
+
+        if delivery == 0 and is_all_service == 0:
+            return "0"
+        return "1"
+
     @api.depends('state')
     def _compute_type_name(self):
         for record in self:

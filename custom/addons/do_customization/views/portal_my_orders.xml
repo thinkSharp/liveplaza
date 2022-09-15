@@ -189,7 +189,7 @@
                                     <tr>
                                         <th></th>
                                         <th class="text-left">Products</th>
-                                        <th class="text-right">Quantity</th>
+                                        <th class="text-right all_sizes">Quantity</th>
                                         <th t-attf-class="text-right {{ 'd-none d-sm-table-cell' if report_type == 'html' else '' }}">Unit Price</th>
                                         <th t-attf-class="text-right {{ 'd-none d-sm-table-cell' if report_type == 'html' else '' }}">
                                             <span>Discount</span>
@@ -229,7 +229,7 @@
                                                     <button t-if="track_product" id="product_tracking_btn">Track your product</button>
                                                 </div>
                                             </td>
-                                            <td class="text-right">
+                                            <td class="text-right all_sizes">
                                                 <div id="quote_qty">
                                                     <span t-field="line.product_uom_qty"/>
                                                     <span t-field="line.product_uom" groups="uom.group_uom"/>
@@ -239,10 +239,6 @@
                                                 <div
                                                     t-field="line.price_unit"
                                                     t-options="{'widget': 'monetary', 'display_currency': sale_order.currency_id}" />
-
-    <!--                                                <div t-if="line.discount">-->
-    <!--                                                    <t t-esc="(1-line.discount / 100.0) * line.price_unit" t-options='{"widget": "float", "decimal_precision": "Product Price"}'/>-->
-    <!--                                                </div>-->
                                             </td>
                                             <td  t-attf-class="text-right {{ 'd-none d-sm-table-cell' if report_type == 'html' else '' }}">
                                                 <strong>
@@ -262,6 +258,11 @@
                                             <td class="text-right">
                                                 <h6 class="oe_order_line_price_subtotal" t-field="line.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>
                                                 <h6 class="oe_order_line_price_total" t-field="line.price_total" groups="account.group_show_line_subtotals_tax_included"/>
+                                                <div id="quote_qty" class="min_phone_size">
+                                                    <span> Qty : </span>
+                                                    <span t-field="line.product_uom_qty"/>
+                                                    <span t-field="line.product_uom" groups="uom.group_uom"/>
+                                                </div>
                                             </td>
                                         </t>
                                         <t t-if="line.display_type == 'line_section'">
@@ -278,32 +279,6 @@
                                         </t>
 
                                     </tr>
-    <!--                                    <tr t-if="not line.is_delivery and not line.delivery_status == 'hold'">-->
-    <!--                                        <td colspan="5" class="order_progress_container">-->
-    <!--                                            <ul class="order_progress">-->
-    <!--                                                <t t-foreach="line.get_sol_delivery_progress()" t-as="pro">-->
-    <!--                                                    <li t-attf-class="#{pro_value[0]}">-->
-    <!--                                                        <span t-attf-class="#{pro_value[0]}_bar"></span>-->
-    <!--                                                        <t t-if="pro_value[0] == 'complete'">-->
-    <!--                                                            <span>-->
-    <!--                                                                <span><i class="fa fa-check-circle"></i></span>-->
-    <!--                                                                <h5 class="#{pro_value[0]}"><t t-esc="pro" /> </h5>-->
-    <!--                                                                <p><t t-esc="pro_value[1]"/> </p>-->
-    <!--                                                            </span>-->
-    <!--                                                        </t>-->
-    <!--                                                        <t t-else="">-->
-    <!--                                                            <span>-->
-    <!--                                                                <span><i class="fa fa-circle"></i> </span>-->
-    <!--                                                                <h5 class="#{pro_value[0]}"><t t-esc="pro" /> </h5>-->
-    <!--                                                                <p><t t-esc="pro_value[1]"/> </p>-->
-    <!--                &lt;!&ndash;                                                <h6 class="#{pro_value[0]}"><t t-esc="pro_value[1]"/> </h6>&ndash;&gt;-->
-    <!--                                                            </span>-->
-    <!--                                                        </t>-->
-    <!--                                                    </li>-->
-    <!--                                                </t>-->
-    <!--                                            </ul>-->
-    <!--                                        </td>-->
-    <!--                                    </tr>-->
                                     <tr t-if="line.delivery_status == 'hold'">
                                         <td colspan="6" class="hold_text">
                                             <h4>
