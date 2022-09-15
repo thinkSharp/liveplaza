@@ -84,7 +84,7 @@ class Picking(models.Model):
 
     def check_all_order_deliver(self, picking):
         for p in picking:
-            if p.state not in ["done","delivering"]:
+            if p.state not in ["done","cancel","delivering"]:
                 return False
         return True
     
