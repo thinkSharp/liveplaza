@@ -208,10 +208,14 @@
     }
 }
 
-@media (min-width: 861px) and (max-width: 1100px) {}
-
-@media (min-width: 601px) and (max-width: 860px) {}
-
-@media (min-width: 481px) and (max-width: 600px) {}
-
-@media (max-width: 480px) {}
+@media (max-width: 400px) {
+    #cart_products {
+        table {
+            td {
+                img {
+                    max-width: 80px;
+                }
+            }
+        }
+    }
+}
