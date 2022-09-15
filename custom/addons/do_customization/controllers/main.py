@@ -202,7 +202,7 @@ class WebsiteSale(WebsiteSale):
             sale_order.sudo().write({'payment_upload': None})
 
         if sale_order.selected_carrier_id:
-            carrier = request.env['delivery.carrier'].search([('id', '=', sale_order.selected_carrier_id)])
+            carrier = request.env['delivery.carrier'].sudo().search([('id', '=', sale_order.selected_carrier_id)])
             shipping_cost = carrier.rate_shipment(sale_order)['price'] if carrier.free_over else carrier.fixed_price
             print(carrier.id , " = ", carrier.name)
             sale_order.set_delivery_line(carrier, shipping_cost)
