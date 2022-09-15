@@ -211,16 +211,7 @@ class WebsiteSale(Website_Sale):
         }
         return request.render("website_sale.address", render_values)
 
-    # @http.route([
-    #     '''/shop''',
-    #     '''/shop/page/<int:page>''',
-    #     '''/shop/category/<model("product.public.category"):category>''',
-    #     '''/shop/category/<model("product.public.category"):category>/page/<int:page>'''
-    # ], type='http', auth="public", website=True)
-    # def shop(self, page=0, category=None, search='', ppg=False, **post):
-    #     result = super(WebsiteSale, self).shop(page=page, category=category, search=search, ppg=ppg, **post)
-    #
-    #     return result
+
 
 class WebsiteSale (WebsiteSale):
     @http.route(['/home'], type='http', auth='public', website=True)
@@ -396,6 +387,7 @@ class WebsiteSale (WebsiteSale):
         domain = self._get_search_domain(search, category, attrib_values)
         domain.append(('website_published', '=', True))
         domain.append(('is_service', '=', False))
+        domain.append(('type', '!=', 'service'))
         keep = QueryURL('/shop', category=category and int(category), search=search, attrib=attrib_list, order=post.get('order'))
 
         pricelist_context, pricelist = self._get_pricelist_context()
@@ -409,6 +401,9 @@ class WebsiteSale (WebsiteSale):
             post['attrib'] = attrib_list
 
         Product = request.env['product.template'].with_context(bin_size=True)
+
+
+
 
         search_product = Product.search(domain, order=self._get_search_order(post))
         website_domain = request.website.website_domain()
@@ -426,7 +421,11 @@ class WebsiteSale (WebsiteSale):
         product_count = len(search_product)
         pager = request.website.pager(url=url, total=product_count, page=page, step=ppg, scope=7, url_args=post)
         offset = pager['offset']
-        products = random.sample(search_product, len(search_product))[offset: offset + ppg] #search_product[offset: offset + ppg]
+
+        if not post:
+            products = random.sample(search_product, len(search_product))[offset: offset + ppg]
+        else:    
+            products = search_product[offset: offset + ppg]
 
         ProductAttribute = request.env['product.attribute']
         if products:
@@ -465,7 +464,6 @@ class WebsiteSale (WebsiteSale):
             values['main_object'] = category
         return request.render("website_sale.products", values)
 
-
     @http.route([
         '''/service''',
         '''/service/page/<int:page>''',
@@ -499,7 +497,7 @@ class WebsiteSale (WebsiteSale):
         attrib_set = {v[1] for v in attrib_values}
 
         domain = self._get_search_domain(search, category, attrib_values)
-        domain.append(('is_service', '=', True))
+        domain.append(('website_published', '=', True))
         keep = QueryURL('/service', category=category and int(category), search=search, attrib=attrib_list,
                         order=post.get('order'))
 
@@ -518,7 +516,29 @@ class WebsiteSale (WebsiteSale):
 
         Product = request.env['product.template'].with_context(bin_size=True)
 
-        search_product = Product.search(domain, order=self._get_search_order(post))
+        # bk_products = Product.search([('is_booking_type', '=', True)])
+        # for pobj in bk_products:
+        #     print("Booking Products", bk_products)
+        #     if pobj.br_end_date < fields.Date.today():
+        #         pobj.website_published = False
+        #     else:
+        #         pobj.website_published = True
+        #
+        # for pobj in bk_products:
+        #     print(pobj.website_published)
+
+        ticket_domain = domain + [('is_service', '=', True)]
+        ticket_product = Product.search(ticket_domain, order=self._get_search_order(post))
+
+        booking_domain = domain + [('is_booking_type', '=', True)]
+        booking_product = Product.search(booking_domain, order=self._get_search_order(post))
+
+        booking_active_domain = domain + [('br_end_date', '>=', fields.Date.today()), ('website_published', '=', True)]
+        booking_product_active = booking_product.search(booking_active_domain, order=self._get_search_order(post))
+
+
+        search_product = booking_product_active + ticket_product
+
         website_domain = request.website.website_domain()
         categs_domain = [('parent_id', '=', False)] + website_domain
         if search:
@@ -582,14 +602,13 @@ class WebsiteSale (WebsiteSale):
         else:
             return request.render("website_sale.products", values)
 
-    @http.route(['/shop/product/<model("product.template"):product>', '/service/<model("product.template"):product>'] , type='http', auth="public", website=True)
+    @http.route(['/shop/product/<model("product.template"):product>', '/service/<model("product.template"):product>'],
+                type='http', auth="public", website=True)
     def product(self, product, category='', search='', **kwargs):
         if not product.can_access_from_current_website():
             raise NotFound()
 
         return request.render("website_sale.product", self._prepare_product_values(product, category, search, **kwargs))
-
-
 
     @http.route(['/shop/checkout'], type='http', auth='public', website=True)
     def checkout(self, **post):

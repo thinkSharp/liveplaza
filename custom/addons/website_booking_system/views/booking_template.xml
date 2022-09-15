@@ -27,7 +27,7 @@
                         <label t-att-for="'bk_plan_%s' % d_plan['id']" style="display: block;margin-bottom: 0;">
                             <input type="radio" name="bk_plan" required="true" t-att-id="'bk_plan_%s' % d_plan['id']" t-att-value="d_plan['id']" style="display: none;"/>
                             <t t-set="bk_av_qty" t-value="product.sudo().get_bk_slot_available_qty(current_date, d_plan['id'])"/>
-                            <div t-att-class="'bk_plan_div bk_disable' if not bk_av_qty > 0 else 'bk_plan_div'" t-att-data-plan_price="d_plan['price']">
+                            <div t-att-class="'bk_plan_div bk_disable' if not bk_av_qty > 0 else 'bk_plan_div'" t-att-data-plan_price="d_plan['price']" t-att-data-plan_qty="bk_av_qty">
                                 <div class="d-none d-sm-block">
                                     <div style="font-size: 20px;">
                                         <t t-esc="d_plan['name']"/>
@@ -119,7 +119,7 @@
             <div class="modal fade" role="dialog">
                 <div class="modal-dialog">
                     <div class="modal-content">
-                        <div class="modal-body">
+                        <div class="modal-body" style="min-height: 50px;">
                             <button type="button" class="close fa fa-times" data-dismiss="modal" aria-hidden="false"/>
                             <div class="bk_modal_heading">BOOK YOUR SLOT</div>
                         </div>
@@ -199,17 +199,30 @@
             </div>
         </template>
 
+<!--        &lt;!&ndash; Book Now button on Booking product page &ndash;&gt;-->
+<!--        <template id="booking_and_reservation_product" inherit_id="website_sale.product">-->
+<!--            <xpath expr="//a[@id='add_to_cart']" position="attributes">-->
+<!--                <attribute name="t-if">not product.is_booking_type</attribute>-->
+<!--            </xpath>-->
+<!--            <xpath expr="//a[@id='add_to_cart']" position="after">-->
+<!--                <a t-if="product.is_booking_type" id="booking_and_reservation" class="btn btn-primary btn-lg mt16 d-block d-sm-inline-block" href="#">Book Now DS</a>-->
+<!--                <div t-if="product.is_booking_type" id="bk_n_res_loader" style="display:none;"/>-->
+<!--                <div id="booking_modal" t-att-data-res_id="product.id"/>-->
+<!--            </xpath>-->
+<!--        </template>-->
+
         <!-- Book Now button on Booking product page -->
-        <template id="booking_and_reservation_product" inherit_id="website_sale.product">
+        <template id="booking_and_reservation_product" inherit_id="website_stock.website_stock_show">
             <xpath expr="//a[@id='add_to_cart']" position="attributes">
                 <attribute name="t-if">not product.is_booking_type</attribute>
-            </xpath>
+           </xpath>
             <xpath expr="//a[@id='add_to_cart']" position="after">
-                <a t-if="product.is_booking_type" id="booking_and_reservation" class="btn btn-primary btn-lg mt8" href="#">Book Now</a>
+                <a t-if="product.is_booking_type" id="booking_and_reservation" class="btn btn-primary btn-lg mt16 d-block d-sm-inline-block" href="#" style="order: 4; width: 98.5%; margin-bottom:16px;">Book Now</a>
                 <div t-if="product.is_booking_type" id="bk_n_res_loader" style="display:none;"/>
                 <div id="booking_modal" t-att-data-res_id="product.id"/>
             </xpath>
         </template>
+
 
         <template id="booking_and_reservation_products_item" inherit_id="website_sale.products_item" active="True" customize_show="True" name="Show Booking Information">
             <xpath expr="//form/div" position="before">

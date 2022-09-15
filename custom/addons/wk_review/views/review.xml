@@ -118,7 +118,7 @@
               	<t t-set="is_user_public" t-value="website.env.user == request.website.user_id"/>
               	<t t-set="can_comment" t-value="sha_in or token or not is_user_public"/>
               <div id= "write-review" class="row css_editable_mode_hidden" t-if="can_comment">
-                 	<form t-attf-action="/shop/review/#{(request.httprequest.path).replace('/shop/product/','')}" method="post" class="form-horizontal mt32 col-md-12" enctype="multipart/form-data">
+                 	<form t-attf-action="/shop/review/#{(request.httprequest.path).replace('/shop/product/','').replace('/service/','')}" method="post" class="form-horizontal mt32 col-md-12" enctype="multipart/form-data">
 					<div class="col-md-6 col-sm-12 col-xs-12 pull-left mb32">
 						<input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
 
@@ -240,13 +240,13 @@
 												<t t-set="res" t-value="request.env['product.template'].get_each_product_rating(message.rating)"/>
 												<div class="o_website_rating_static">
 													<t t-foreach="range(0, res.get('val_integer',0))" t-as="num">
-														<i class="fa fa-star" role="img" aria-label="One star" title="One star"></i>
+														<i class="fa fa-star" role="img" aria-label="Full star" title="Full star"></i>
 													</t>
 													<t t-if="res.get('val_decimal')">
 														<i class="fa fa-star-half-o" role="img" aria-label="Half a star" title="Half a star"></i>
 													</t>
 													<t t-foreach="range(0, res.get('empty_star',0))" t-as="num" role="img" t-attf-aria-label="#{empty_star} on 5" t-attf-title="#{empty_star} on 5">
-														<i class="fa fa-star-o"></i>
+														<i class="fa fa-star-o" role="img" aria-label="Empty star" title="Empty star"></i>
 													</t>
 											   </div>
 											</div>

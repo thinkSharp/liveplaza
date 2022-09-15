@@ -45,13 +45,14 @@ class SaleOrder(models.Model):
 
     def action_admin(self):
         is_all_service = self.ticket_process()
+        self.booking_ticket_process()
         print("hay Ticket Process")
         if self.filtered(lambda so: so.state != 'sale'):
             raise UserError(_('Only sale orders can be marked as sent directly.'))
         for order in self:
             order.message_subscribe(partner_ids=order.partner_id.ids)
         if self.write({'state': 'approve_by_admin'}):
-            if not is_all_service:
+            if not self.is_all_service:
                 # Code to send sms to customer of the order.
                 sms_template_objs = self.env["wk.sms.template"].sudo().search(
                     [('condition', '=', 'order_confirm'), ('globally_access', '=', False)])
@@ -67,6 +68,11 @@ class SaleOrder(models.Model):
                 [('delivery_vendor', '=', True), ('is_default', '=', True)], limit=1)
             picking_vendor_obj = self.env['res.partner'].search(
                 [('picking_vendor', '=', True), ('is_default', '=', True)], limit=1)
+
+            # self.write({'service_delivery_status': 'delivered'})
+            for line in self.order_line:
+                if line.product_id.is_service or line.product_id.is_booking_type:
+                    line.write({'service_delivery_status': 'delivered'})
 
             for picking_data in picking_objs:
                 if picking_data.picking_type_id.name == 'Pick':
@@ -123,12 +129,44 @@ class SaleOrder(models.Model):
                         if self.state != 'ready_to_pick':
                             self.action_ready_to_pick()
                         picking_data.button_validate()
+                    elif self.is_all_booking_type:
+                        if self.state != 'ready_to_pick':
+                            self.action_ready_to_pick()
+                    else:
+                    #if picking_data.state == 'assigned':
+                        pick_movel_objs = picking_data.move_line_ids
+                        all_service_ticket_per_moveline = all([mv_line.product_id.is_service for mv_line in pick_movel_objs])
+
+                        if all_service_ticket_per_moveline:
+                            for mv_line in pick_movel_objs:
+                                mv_line.write({"qty_done": mv_line.product_uom_qty})
+
+                            if self.state != 'ready_to_pick':
+                                for line in (line for line in self.order_line if line.id == picking_data.order_line_id.id):
+                                    if line.product_id.is_service:
+                                        line.action_ready_to_pick()
+
+                                #self.action_ready_to_pick()
+                            picking_data.button_validate()
+                        else:
+                            for mv_line in pick_movel_objs:
+                                mv_line.write({"qty_done": mv_line.product_uom_qty})
+
+                            if self.state != 'ready_to_pick':
+                                for line in (line for line in self.order_line if line.id == picking_data.order_line_id.id):                                
+                                    if line.product_id.is_booking_type:
+                                        line.action_ready_to_pick()
+                                    else:
+                                        line.write({'sol_state': 'approve_by_admin'})
+                                #self.action_ready_to_pick()
+                            #picking_data.button_validate()
 
                     # if self.get_portal_last_transaction().acquirer_id.provider != 'cash_on_delivery':
                     #    picking_data.write({'payment_upload': self.payment_upload,
                     #                       'paid_amount': self.get_portal_last_transaction().amount,
                     #                       'payment_remark': self.get_portal_last_transaction().reference,
                     #                       'journal_id': self.get_portal_last_transaction().acquirer_id.journal_id.id })
+
             for picking_data in picking_objs:
 
                 if picking_data.picking_type_id.name == 'Pack':
@@ -143,6 +181,16 @@ class SaleOrder(models.Model):
                             mv_line.write({"qty_done": mv_line.product_uom_qty})
 
                         picking_data.button_validate()
+
+                    if picking_data.state == 'assigned':
+                        pick_movel_objs = picking_data.move_line_ids
+                        all_service_ticket_per_moveline = all([mv_line.product_id.is_service for mv_line in pick_movel_objs])
+
+                        if all_service_ticket_per_moveline:
+                            for mv_line in pick_movel_objs:
+                                mv_line.write({"qty_done": mv_line.product_uom_qty})
+
+                            picking_data.button_validate()
 
                     # if self.get_portal_last_transaction().acquirer_id.provider != 'cash_on_delivery':
                     #    picking_data.write({'payment_upload': self.payment_upload,
@@ -178,6 +226,22 @@ class SaleOrder(models.Model):
                             mv_line.write({"qty_done": mv_line.product_uom_qty})
 
                         picking_data.button_validate()
+
+                    if picking_data.state == 'assigned':
+                        pick_movel_objs = picking_data.move_line_ids
+                        all_service_ticket_per_moveline = all([mv_line.product_id.is_service for mv_line in pick_movel_objs])
+
+                        if all_service_ticket_per_moveline:
+                            for mv_line in pick_movel_objs:
+                                mv_line.write({"qty_done": mv_line.product_uom_qty})
+                            picking_data.button_validate()
+            #Update sol delivery line status approved by admin          
+            for line in (line for line in self.order_line if line.is_delivery):
+                line.write({'sol_state': line.order_id.state})
+            #Update sol booking line status ready to pick      
+            for line in (line for line in self.order_line if line.product_id.is_booking_type):
+                if line.write({'sol_state': 'approve_by_admin'}):
+                    line.action_ready_to_pick()
 
     # def action_cancel(self):
     #     res = super(SaleOrder, self).action_cancel()

@@ -69,7 +69,11 @@
 			<field name="model">stock.picking</field>
 			<field name="arch" type="xml">
                 <tree create="0" decoration-info="state == 'draft'" decoration-muted="state == 'cancel'" decoration-danger="state not in ('cancel', 'done') and scheduled_date &lt; current_date" string="Picking list" default_order="id desc">
-                    
+                    <button name="deliver_now" attrs="{'invisible': ['|', '|',('is_admin_approved', '=', False),
+                    		('state', '!=', 'assigned')]}" string="Deliver Now" type="object" class="oe_highlight"/>
+<!--                    <button name="button_validate" attrs="{'invisible': ['|', '|',('is_admin_approved', '=', False),-->
+<!--                    		('state', '!=', 'delivering')]}" string="Done" type="object" class="oe_highlight"/>-->
+
                     <field name="origin"/>                                        
                     <field name="partner_id" string="Buyer"/>
                     <field name="buyer_street" />
@@ -88,6 +92,7 @@
                     <field name="state"/>
                     <field name="priority" invisible="1"/>
                     <field name="picking_type_id" invisible="1"/>
+                    <field name="is_admin_approved" invisible="1"/>
                 </tree>
             </field>
 		</record>
@@ -246,9 +251,12 @@
                     <button name="action_confirm" attrs="{'invisible': [('show_mark_as_todo', '=', False)]}" string="Mark as Todo" type="object" class="oe_highlight" groups="base.group_user"/>
                     <button name="action_assign" attrs="{'invisible': [('show_check_availability', '=', False)]}" string="Check Availability" type="object" class="oe_highlight" groups="odoo_marketplace.marketplace_seller_group"/>
 
-					<button name="button_validate" attrs="{'invisible': ['|', '|',('is_admin_approved', '=', False),
+					<button name="deliver_now" attrs="{'invisible': ['|', '|',('is_admin_approved', '=', False),
                     		('state', '!=', 'assigned')]}" string="Deliver Now" type="object" class="oe_highlight"/>
-                    		
+
+                    <button name="button_validate" attrs="{'invisible': ['|', '|',('is_admin_approved', '=', False),
+                    		('state', '!=', 'delivering')]}" string="Done" type="object" class="oe_highlight"/>
+
 <!--                     <button name="set_as_hold" string="Set as Hold" attrs="{'invisible': ['|', ('hold_reason', '=', False), ('hold_state', '=', True)]}"  type="object"/> -->
                     <button name="make_ready" string="Make Ready" attrs="{'invisible': ['|', ('hold_state', '!=', True), ('state', '!=', 'assigned')]}"  type="object"/>
 
@@ -262,14 +270,14 @@
                     <field name="show_reserved" invisible="1" readonly="1"/>
                     <field name="move_line_exist" invisible="1"/>
                     <field name="has_packages" invisible="1"/>
-                    
+
 <!--                     <button name="action_toggle_is_locked" attrs="{'invisible': ['|', ('state', 'in', ('draft','cancel')), ('is_locked', '=', False)]}" string="Unlock" groups="stock.group_stock_manager" type="object" help="If the picking is unlocked you can edit initial demand (for a draft picking) or done quantities (for a done picking)."/> -->
 <!--                     <button name="action_toggle_is_locked" attrs="{'invisible': [('is_locked', '=', True)]}" string="Lock" class="oe_highlight" groups="stock.group_stock_manager" type="object"/> -->
-                    
+
                     <button name="do_hold" string="Hold" type="object" attrs="{'invisible': ['|', ('hold_reason', '=', False), ('state', 'in', ('hold','draft','cancel'))]}"/>
-                    <button name="do_hold" string="Unhold" type="object" attrs="{'invisible': ['|', ('hold_reason', '=', False), ('state', 'in', ('draft','confirmed','partially_available','assigned','cancel','done'))]}"/>
-                    
-                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,partially_available,assigned,done,hold" />
+                    <button name="do_hold" string="Unhold" type="object" attrs="{'invisible': ['|', ('hold_reason', '=', False), ('state', 'in', ('draft','confirmed','partially_available','assigned','cancel','delivering','done'))]}"/>
+
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,partially_available,assigned,delivering,done,hold" />
                     <field name="picking_type_entire_packs" invisible="1"/>
                 </header>
                 <sheet>
@@ -318,11 +326,11 @@
 		                    <field name="receivable_amount" string="To Receive(Product)" attrs="{'invisible': ['|',('journal_id', '=', False),('state', '=', 'done')]}" />
 		                    <field name="delivery_amount" string="To Receive(Delivery)" attrs="{'invisible': ['|',('journal_id', '=', False),('state', '=', 'done')]}" />
 		                    <field name="paid_amount" attrs="{'invisible': [('journal_id', '=', False)],  'readonly': ['|',('state', '=', 'done'),('payment_provider', '=', 'transfer')]}" />
-		                    
+
 		                    <field name="payment_remark" attrs="{'invisible': [('journal_id', '=', False)], 'readonly': ['|',('state', '=', 'done'),('payment_provider', '=', 'transfer')]}" />
 		                    <field name="payment_upload" filename="payment_upload_name" attrs="{'invisible': [('paid_amount', '&lt;=', '0.0')], 'readonly': ['|',('state', '=', 'done'),('payment_provider', '=', 'transfer')]}" />
 		                    <field name="payment_upload_name" invisible="1" />
-		                    
+
 		                    <field name="is_picked" invisible="1" />
 		                    <field name="is_packaged" invisible="1" />
                             <field name="backorder_id" readonly="1" attrs="{'invisible': [('backorder_id','=',False)]}"/>
@@ -333,8 +341,8 @@
                             <field name="origin" readonly="1" placeholder="e.g. PO0032"/>
                             <field name="vendor_id"  domain="[('delivery_vendor', '=', True)]" attrs="{'readonly': [('state', 'in', ('done','assigned','cancel'))]}" required='1'/>
                             <field name="delivery_method_id" readonly="1"/>
-		                    <field name="delivery_person_id" readonly="1"/>	
-		                    <field name="hold_reason" attrs="{'invisible': [('state', '!=', 'assigned')]}" />
+		                    <field name="delivery_person_id" readonly="1"/>
+		                    <field name="hold_reason" attrs="{'invisible': [('state', 'not in', ('assigned', 'delivering'))]}" />
 		                    <field name="hold_state" string="To Receive" invisible="1"/>
 		                    <field name="hold_date" string="To Receive" invisible="1"/>
 		                    <field name="required_condition" invisible="1" />
@@ -342,13 +350,13 @@
                             <field name="owner_id" groups="stock.group_tracking_owner"
                                    attrs="{'invisible': [('picking_type_code', '!=', 'incoming')]}"/>
                             <field name="payment_provider" string="Type" readonly="1"/>
-                            <field name="delivery_date" readonly="1"/>  
+                            <field name="delivery_date" readonly="1"/>
                         </group>
                     </group>
                     <notebook>
                         <!-- Reservation hidden -->
                         <page string="Detailed Operations" attrs="{'invisible': ['|', ('show_operations', '=', False), ('show_reserved', '=', True)]}" groups="odoo_marketplace.marketplace_officer_group">
-                            <field name="move_line_nosuggest_ids" 
+                            <field name="move_line_nosuggest_ids"
                                    attrs="{'readonly': ['|', '|', ('show_operations', '=', False), ('state', '=', 'cancel'), '&amp;', ('state', '=', 'done'), ('is_locked', '=', True)]}"
                                    context="{'tree_view_ref': 'stock.view_stock_move_line_detailed_operation_tree', 'default_picking_id': id, 'default_location_id': location_id, 'default_location_dest_id': location_dest_id, 'default_company_id': company_id}"/>
                            <field name="package_level_ids_details"
@@ -359,7 +367,7 @@
 
                         <!-- Reservation displayed -->
                         <page string="Detailed Operations"  attrs="{'invisible': ['|', ('show_operations', '=', False), ('show_reserved', '=', False)]}" groups="odoo_marketplace.marketplace_officer_group">
-                            <field name="move_line_ids_without_package" options="{'no_create': True}"  readonly="1"                                
+                            <field name="move_line_ids_without_package" options="{'no_create': True}"  readonly="1"
                                    context="{'tree_view_ref': 'stock.view_stock_move_line_detailed_operation_tree', 'default_picking_id': id, 'default_location_id': location_id, 'default_location_dest_id': location_dest_id, 'default_company_id': company_id}"/>
                             <field name="package_level_ids_details" context="{'default_location_id': location_id, 'default_location_dest_id': location_dest_id, 'default_company_id': company_id}" attrs="{'readonly': [('state', '=', 'done')], 'invisible': ['|', ('picking_type_entire_packs', '=', False), ('show_operations', '=', False)]}" />
                             <button class="oe_highlight" name="put_in_pack" type="object" string="Put in Pack" attrs="{'invisible': [('state', 'in', ('draft', 'done', 'cancel'))]}" groups="stock.group_tracking_lot"/>
@@ -430,12 +438,13 @@
                         <page string="Additional Info" name="extra">
                             <group>
                                 <group string="Other Information" name="other_infos">
-                                    <field name="picking_type_code" invisible="1"/>                                    
+                                    <field name="picking_type_code" invisible="1"/>
                     				<field name="is_admin_approved" readonly="1"/>
                                     <field name="move_type" readonly="1" attrs="{'invisible': [('picking_type_code', '=', 'incoming')]}"/>
                                     <field name="priority" readonly="1" widget="priority"/>
                                     <field name="user_id" readonly="1" attrs="{'invisible': [('user_id', '=', False)]}"/>
                                     <field name="group_id" groups="base.group_no_one"/>
+                                    <field name="order_line_id" readonly="1" />
                                     <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}" force_save="1"/>
                                 </group>
                             </group>
@@ -453,7 +462,7 @@
                 </form>
             </field>
         </record>
-        
+
         <record id="pick_stock_modified_form_view_inherit" model="ir.ui.view">
 			<field name="name">Delivery Stock Pick and Pack</field>
 			<field name="model">stock.picking</field>
@@ -472,7 +481,7 @@
 
 					<button name="button_validate" attrs="{'invisible': ['|', '|',('is_admin_approved', '=', False),
                     		('state', '!=', 'assigned')]}" string="Pick" type="object" class="oe_highlight"/>
-                    		
+
 <!--                     <button name="set_as_hold" string="Set as Hold" attrs="{'invisible': ['|', ('hold_reason', '=', False), ('hold_state', '=', True)]}"  type="object"/> -->
                     <button name="make_ready" string="Make Ready" attrs="{'invisible': ['|', ('hold_state', '!=', True), ('state', '!=', 'assigned')]}"  type="object"/>
 
@@ -486,13 +495,13 @@
                     <field name="show_reserved" invisible="1" readonly="1"/>
                     <field name="move_line_exist" invisible="1"/>
                     <field name="has_packages" invisible="1"/>
-                    
+
 <!--                     <button name="action_toggle_is_locked" attrs="{'invisible': ['|', ('state', 'in', ('draft','cancel')), ('is_locked', '=', False)]}" string="Unlock" groups="stock.group_stock_manager" type="object" help="If the picking is unlocked you can edit initial demand (for a draft picking) or done quantities (for a done picking)."/> -->
 <!--                     <button name="action_toggle_is_locked" attrs="{'invisible': [('is_locked', '=', True)]}" string="Lock" class="oe_highlight" groups="stock.group_stock_manager" type="object"/> -->
-                    
+
                     <button name="do_hold" string="Hold" type="object" attrs="{'invisible': ['|', ('hold_reason', '=', False), ('state', 'in', ('hold','draft','cancel'))]}"/>
-                    <button name="do_hold" string="Unhold" type="object" attrs="{'invisible': ['|', ('hold_reason', '=', False), ('state', 'in', ('draft','confirmed','partially_available','assigned','cancel','done'))]}"/>
-                    
+                    <button name="do_hold" string="Unhold" type="object" attrs="{'invisible': ['|', ('hold_reason', '=', False), ('state', 'in', ('draft','confirmed','partially_available','assigned','cancel','delivering','done'))]}"/>
+
                     <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,partially_available,assigned,done,hold" />
                     <field name="picking_type_entire_packs" invisible="1"/>
                 </header>
@@ -538,7 +547,7 @@
                             <field name="picking_type_id" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                             <field name="location_id" options="{'no_create': True}" groups="stock.group_stock_multi_locations" attrs="{'invisible': [('picking_type_code', '=', 'incoming')]}"/>
                             <field name="location_dest_id" options="{'no_create': True}" groups="stock.group_stock_multi_locations" attrs="{'invisible': [('picking_type_code', '=', 'outgoing')]}"/>
-                            <field name="pick_date" readonly="1"/>  
+                            <field name="pick_date" readonly="1"/>
                             <field name="backorder_id" readonly="1" attrs="{'invisible': [('backorder_id','=',False)]}"/>
                         </group>
                         <group>
@@ -547,7 +556,7 @@
                             <field name="origin" readonly="1" placeholder="e.g. PO0032"/>
                             <field name="vendor_id" string="Picking Vendor" domain="[('picking_vendor', '=', True)]" attrs="{'readonly': [('state', 'in', ('done','assigned','cancel'))]}" required='1'/>
 		                    <field name="picking_method_id" readonly="1"/>
-		                    <field name="pickup_person_id" readonly="1"/>		                                                
+		                    <field name="pickup_person_id" readonly="1"/>
 		                    <field name="hold_reason" attrs="{'invisible': [('state', '!=', 'assigned')]}" />
 		                    <field name="hold_state" string="To Receive" invisible="1"/>
 		                    <field name="hold_date" string="To Receive" invisible="1"/>
@@ -560,7 +569,7 @@
                     <notebook>
                         <!-- Reservation hidden -->
                         <page string="Detailed Operations" attrs="{'invisible': ['|', ('show_operations', '=', False), ('show_reserved', '=', True)]}" groups="odoo_marketplace.marketplace_officer_group">
-                            <field name="move_line_nosuggest_ids" 
+                            <field name="move_line_nosuggest_ids"
                                    attrs="{'readonly': ['|', '|', ('show_operations', '=', False), ('state', '=', 'cancel'), '&amp;', ('state', '=', 'done'), ('is_locked', '=', True)]}"
                                    context="{'tree_view_ref': 'stock.view_stock_move_line_detailed_operation_tree', 'default_picking_id': id, 'default_location_id': location_id, 'default_location_dest_id': location_dest_id, 'default_company_id': company_id}"/>
                            <field name="package_level_ids_details"
@@ -571,7 +580,7 @@
 
                         <!-- Reservation displayed -->
                         <page string="Detailed Operations"  attrs="{'invisible': ['|', ('show_operations', '=', False), ('show_reserved', '=', False)]}" groups="odoo_marketplace.marketplace_officer_group">
-                            <field name="move_line_ids_without_package" options="{'no_create': True}"  readonly="1"                                
+                            <field name="move_line_ids_without_package" options="{'no_create': True}"  readonly="1"
                                    context="{'tree_view_ref': 'stock.view_stock_move_line_detailed_operation_tree', 'default_picking_id': id, 'default_location_id': location_id, 'default_location_dest_id': location_dest_id, 'default_company_id': company_id}"/>
                             <field name="package_level_ids_details" context="{'default_location_id': location_id, 'default_location_dest_id': location_dest_id, 'default_company_id': company_id}" attrs="{'readonly': [('state', '=', 'done')], 'invisible': ['|', ('picking_type_entire_packs', '=', False), ('show_operations', '=', False)]}" />
                             <button class="oe_highlight" name="put_in_pack" type="object" string="Put in Pack" attrs="{'invisible': [('state', 'in', ('draft', 'done', 'cancel'))]}" groups="stock.group_tracking_lot"/>
@@ -649,6 +658,7 @@
                                     <field name="priority" readonly="1" widget="priority"/>
                                     <field name="user_id" readonly="1" attrs="{'invisible': [('user_id', '=', False)]}"/>
                                     <field name="group_id" groups="base.group_no_one"/>
+                                    <field name="order_line_id" readonly="1" />
                                     <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}" force_save="1"/>
                                 </group>
                             </group>
@@ -666,7 +676,7 @@
                 </form>
             </field>
         </record>
-        
+
         <record id="pack_stock_modified_form_view_inherit" model="ir.ui.view">
 			<field name="name">Delivery Stock Pick and Pack</field>
 			<field name="model">stock.picking</field>
@@ -685,7 +695,7 @@
 
 					<button name="button_validate" attrs="{'invisible': ['|', '|',('is_admin_approved', '=', False),
                     		('state', '!=', 'assigned')]}" string="Pack" type="object" class="oe_highlight"/>
-                    		
+
 <!--                     <button name="set_as_hold" string="Set as Hold" attrs="{'invisible': ['|', ('hold_reason', '=', False), ('hold_state', '=', True)]}"  type="object"/> -->
                     <button name="make_ready" string="Make Ready" attrs="{'invisible': ['|', ('hold_state', '!=', True), ('state', '!=', 'assigned')]}"  type="object"/>
 
@@ -699,13 +709,13 @@
                     <field name="show_reserved" invisible="1" readonly="1"/>
                     <field name="move_line_exist" invisible="1"/>
                     <field name="has_packages" invisible="1"/>
-                    
+
 <!--                     <button name="action_toggle_is_locked" attrs="{'invisible': ['|', ('state', 'in', ('draft','cancel')), ('is_locked', '=', False)]}" string="Unlock" groups="stock.group_stock_manager" type="object" help="If the picking is unlocked you can edit initial demand (for a draft picking) or done quantities (for a done picking)."/> -->
 <!--                     <button name="action_toggle_is_locked" attrs="{'invisible': [('is_locked', '=', True)]}" string="Lock" class="oe_highlight" groups="stock.group_stock_manager" type="object"/> -->
-                    
+
                     <button name="do_hold" string="Hold" type="object" attrs="{'invisible': ['|', ('hold_reason', '=', False), ('state', 'in', ('hold','draft','cancel'))]}"/>
-                    <button name="do_hold" string="Unhold" type="object" attrs="{'invisible': ['|', ('hold_reason', '=', False), ('state', 'in', ('draft','confirmed','partially_available','assigned','cancel','done'))]}"/>              
-                    
+                    <button name="do_hold" string="Unhold" type="object" attrs="{'invisible': ['|', ('hold_reason', '=', False), ('state', 'in', ('draft','confirmed','partially_available','assigned','cancel','delivering','done'))]}"/>
+
                     <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,partially_available,assigned,done,hold" />
                     <field name="picking_type_entire_packs" invisible="1"/>
                 </header>
@@ -751,7 +761,7 @@
                             <field name="picking_type_id" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                             <field name="location_id" options="{'no_create': True}" groups="stock.group_stock_multi_locations" attrs="{'invisible': [('picking_type_code', '=', 'incoming')]}"/>
                             <field name="location_dest_id" options="{'no_create': True}" groups="stock.group_stock_multi_locations" attrs="{'invisible': [('picking_type_code', '=', 'outgoing')]}"/>
-                            <field name="pack_date" readonly="1"/>         
+                            <field name="pack_date" readonly="1"/>
                             <field name="backorder_id" readonly="1" attrs="{'invisible': [('backorder_id','=',False)]}"/>
                         </group>
                         <group>
@@ -764,7 +774,7 @@
 		                    <field name="hold_state" string="To Receive" invisible="1"/>
 		                    <field name="hold_date" string="To Receive" invisible="1"/>
 		                    <field name="required_condition" invisible="1" />
-		                    <field name="marketplace_seller_id" invisible="1" />		                    
+		                    <field name="marketplace_seller_id" invisible="1" />
                             <field name="owner_id" groups="stock.group_tracking_owner"
                                    attrs="{'invisible': [('picking_type_code', '!=', 'incoming')]}"/>
                         </group>
@@ -772,7 +782,7 @@
                     <notebook>
                         <!-- Reservation hidden -->
                         <page string="Detailed Operations" attrs="{'invisible': ['|', ('show_operations', '=', False), ('show_reserved', '=', True)]}" groups="odoo_marketplace.marketplace_officer_group">
-                            <field name="move_line_nosuggest_ids" 
+                            <field name="move_line_nosuggest_ids"
                                    attrs="{'readonly': ['|', '|', ('show_operations', '=', False), ('state', '=', 'cancel'), '&amp;', ('state', '=', 'done'), ('is_locked', '=', True)]}"
                                    context="{'tree_view_ref': 'stock.view_stock_move_line_detailed_operation_tree', 'default_picking_id': id, 'default_location_id': location_id, 'default_location_dest_id': location_dest_id, 'default_company_id': company_id}"/>
                            <field name="package_level_ids_details"
@@ -783,7 +793,7 @@
 
                         <!-- Reservation displayed -->
                         <page string="Detailed Operations"  attrs="{'invisible': ['|', ('show_operations', '=', False), ('show_reserved', '=', False)]}" groups="odoo_marketplace.marketplace_officer_group">
-                            <field name="move_line_ids_without_package" options="{'no_create': True}"  readonly="1"                                
+                            <field name="move_line_ids_without_package" options="{'no_create': True}"  readonly="1"
                                    context="{'tree_view_ref': 'stock.view_stock_move_line_detailed_operation_tree', 'default_picking_id': id, 'default_location_id': location_id, 'default_location_dest_id': location_dest_id, 'default_company_id': company_id}"/>
                             <field name="package_level_ids_details" context="{'default_location_id': location_id, 'default_location_dest_id': location_dest_id, 'default_company_id': company_id}" attrs="{'readonly': [('state', '=', 'done')], 'invisible': ['|', ('picking_type_entire_packs', '=', False), ('show_operations', '=', False)]}" />
                             <button class="oe_highlight" name="put_in_pack" type="object" string="Put in Pack" attrs="{'invisible': [('state', 'in', ('draft', 'done', 'cancel'))]}" groups="stock.group_tracking_lot"/>
@@ -861,6 +871,7 @@
                                     <field name="priority" readonly="1" widget="priority"/>
                                     <field name="user_id" readonly="1" attrs="{'invisible': [('user_id', '=', False)]}"/>
                                     <field name="group_id" groups="base.group_no_one"/>
+                                    <field name="order_line_id" readonly="1" />
                                     <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}" force_save="1"/>
                                 </group>
                             </group>
@@ -877,8 +888,8 @@
                 </div>
                 </form>
             </field>
-        </record>        
- 
+        </record>
+
 		<!-- Filters -->
 		<record id="do_cus_stock_search_view" model="ir.ui.view">
 			<field name="name">Stock Picking Search</field>
@@ -898,8 +909,8 @@
 				</search>
 			</field>
 		</record>
-		
-        <!-- Action View -->		
+
+        <!-- Action View -->
 		<record id="stock_picking_type_action" model="ir.actions.act_window">
             <field name="name">Delivery Overview</field>
             <field name="res_model">stock.picking.type</field>
@@ -934,7 +945,7 @@
               </p>
             </field>
         </record>
-        
+
 		<record id="stock_picking_do_cus_action" model="ir.actions.act_window">
             <field name="name">Picking</field>
             <field name="res_model">stock.picking</field>
@@ -958,7 +969,7 @@
               </p>
             </field>
         </record>
-        
+
         <record id="stock_picking_do_cus_action_inventory" model="ir.actions.act_window">
             <field name="name">Picking</field>
             <field name="res_model">stock.picking</field>
@@ -993,7 +1004,7 @@
 	        <field name="view_ids" eval="[(5, 0, 0),
 		    	(0, 0, {'sequence': 2, 'view_mode': 'kanban', 'view_id': ref('pack_picking_stock_kanban_view_for_mp')}),
 		    	(0, 0, {'sequence': 1, 'view_mode': 'tree', 'view_id': ref('stock_packing_stock_tree_view_for_do_cus')}),
-		     	(0, 0, {'sequence': 3, 'view_mode': 'form', 'view_id': ref('pack_stock_modified_form_view_inherit')})]"/>	            
+		     	(0, 0, {'sequence': 3, 'view_mode': 'form', 'view_id': ref('pack_stock_modified_form_view_inherit')})]"/>
             <field name="search_view_id" ref="do_cus_stock_search_view"/>
             <field name="help" type="html">
               <p class="o_view_nocontent_smiling_face">
@@ -1006,7 +1017,7 @@
               </p>
             </field>
         </record>
-        
+
 		<record id="stock_packing_do_cus_action_inventory" model="ir.actions.act_window">
             <field name="name">Packing</field>
             <field name="res_model">stock.picking</field>
@@ -1017,7 +1028,7 @@
 	        <field name="view_ids" eval="[(5, 0, 0),
 		    	(0, 0, {'sequence': 2, 'view_mode': 'kanban', 'view_id': ref('pack_picking_stock_kanban_view_for_mp')}),
 		    	(0, 0, {'sequence': 1, 'view_mode': 'tree', 'view_id': ref('stock_packing_stock_tree_view_for_do_cus')}),
-		     	(0, 0, {'sequence': 3, 'view_mode': 'form', 'view_id': ref('pack_stock_modified_form_view_inherit')})]"/>	            
+		     	(0, 0, {'sequence': 3, 'view_mode': 'form', 'view_id': ref('pack_stock_modified_form_view_inherit')})]"/>
             <field name="search_view_id" ref="do_cus_stock_search_view"/>
             <field name="help" type="html">
               <p class="o_view_nocontent_smiling_face">
@@ -1030,13 +1041,13 @@
               </p>
             </field>
         </record>
-		
+
 		<record id="stock_do_cus_action" model="ir.actions.act_window">
             <field name="name">Delivery Orders</field>
             <field name="res_model">stock.picking</field>
             <field name="type">ir.actions.act_window</field>
             <field name="view_mode">tree,form,kanban</field>
-            <field name="domain">[('picking_type_id','=', 2 ), ('state','in', ('assigned','done','cancel','hold')),('is_admin_approved','=', True )]</field>
+            <field name="domain">[('picking_type_id','=', 2 ), ('state','in', ('assigned','delivering', 'done','cancel','hold')),('is_admin_approved','=', True )]</field>
             <field name="context">{'search_default_groupby_state': 1}</field>
 	        <field name="view_ids" eval="[(5, 0, 0),
 		    	(0, 0, {'sequence': 2, 'view_mode': 'kanban', 'view_id': ref('do_picking_stock_kanban_view_for_mp')}),

@@ -14,13 +14,14 @@ from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 from odoo.tools.float_utils import float_compare, float_is_zero, float_round
 from odoo.exceptions import UserError
 from odoo.addons.stock.models.stock_move import PROCUREMENT_PRIORITIES
+import datetime
 
 
 class Picking(models.Model):
     _inherit = "stock.picking"
 
     payment_provider = fields.Selection(selection=[('manual', 'Custom Payment Form'),('transfer', 'Prepaid'),
-                                                    ('cash_on_delivery', 'COD')], string='Payment Type')
+                                                    ('cash_on_delivery', 'COD'),('wavepay', 'WavePay')], string='Payment Type')
     
     is_admin_approved = fields.Boolean('Admin Approved', default=False) 
     
@@ -52,7 +53,8 @@ class Picking(models.Model):
             ('draft', 'Draft'),
             ('waiting', 'Waiting Another Operation'),
             ('confirmed', 'Waiting'),
-            ('assigned', 'Ready'),            
+            ('assigned', 'Ready'),
+            ('delivering', 'Delivering Now'),
             ('done', 'Done'),
             ('cancel', 'Cancelled'),
             ('hold', 'Hold'),
@@ -64,12 +66,41 @@ class Picking(models.Model):
     pick_date = fields.Datetime('Pick Date', store=True)
     pack_date = fields.Datetime('Pack Date', store=True)
     delivery_date = fields.Datetime('Delivery Date', store=True)
+
+    def deliver_now(self):
+        picking = self.env["stock.picking"].search(
+            [('origin', '=', self.origin), ('picking_type_id.name', '=', self.picking_type_id.name)])
+        order = self.env["sale.order"].search([('name', '=', self.origin)])
+        if self.state == 'assigned':
+            self.write({'state': 'delivering'})
+            for line in order.order_line:
+                for pick_data in self.move_line_ids_without_package:
+                    if pick_data.product_id == line.product_id:
+                        line.delivery_status = 'delivering'
+                        line.delivering_date = datetime.datetime.now()
+            if self.check_all_order_deliver(picking):
+                order.delivery_status = 'delivering'
+                order.delivering_date = datetime.datetime.now()
+
+    def check_all_order_deliver(self, picking):
+        for p in picking:
+            if p.state not in ["done","cancel","delivering"]:
+                return False
+        return True
     
     def do_hold(self):
+        order = self.env["sale.order"].search([('name', '=', self.origin)])
+        for line in order.order_line:
+            for pick_data in self.move_line_ids_without_package:
+                if pick_data.product_id == line.product_id:
+                    line.delivery_status = 'hold'
+                    if self.hold_reason:
+                        line.write({'hold_reason': self.hold_reason})
+
         if self.state == 'hold':
             self.write({'state': self.old_state, 'old_state': ''})            
         else:
-            self.write({'state': 'hold', 'old_state': self.state, 'hold_date': datetime.now()})    
+            self.write({'state': 'hold', 'old_state': self.state, 'hold_date': datetime.datetime.now()})
     
     def action_done(self):
         """Changes picking state to done by processing the Stock Moves of the Picking
@@ -77,6 +108,9 @@ class Picking(models.Model):
         Normally that happens when the button "Done" is pressed on a Picking view.
         @return: True
         """
+
+        self.ensure_one()
+
         self._check_company()
         seller_payment = self.env['seller.payment']
         account_payment = self.env['account.payment']
@@ -167,16 +201,64 @@ class Picking(models.Model):
                 #acc_payment_id.sudo().post()
                 
                 sp_obj.invoice_id.sudo().post()
-                sp_obj.do_paid()        
+                sp_obj.do_paid()
+
+        picking = self.env["stock.picking"].search(
+            [('origin', '=', self.origin), ('picking_type_id.name', '=', self.picking_type_id.name)])
+        order = self.env["sale.order"].search([('name', '=', self.origin)])
+        picking_type = self.picking_type_id.name
+
+        for line in order.order_line:
+            for pick_data in self.move_line_ids_without_package:
+                if pick_data.product_id == line.product_id:
+                    if picking_type == "Pick":
+                        line.delivery_status = 'picked'
+                        line.picking_date = datetime.datetime.now()
+                    elif picking_type == "Pack":
+                        line.delivery_status = 'packed'
+                        line.packing_date = datetime.datetime.now()
+                    elif picking_type == "Delivery Orders":
+                        if self.state == 'delivering':
+                            line.delivery_status = "delivering"
+                            line.delivering_date = datetime.datetime.now()
+                        elif self.state == 'done':
+                            line.delivery_status = "delivered"
+                            line.delivered_date = datetime.datetime.now()
+                    else:
+                        line.delivery_status = "ordered"
+
+        if self.check_all_order_done(picking):
+            if picking_type == "Pick":
+                order.delivery_status = 'picked'
+                order.picking_date = datetime.datetime.now()
+            elif picking_type == "Pack":
+                order.delivery_status = 'packed'
+                order.packing_date = datetime.datetime.now()
+            elif picking_type == "Delivery Orders":
+                if self.state == 'delivering':
+                    order.delivery_status = "delivering"
+                    order.delivering_date = datetime.datetime.now()
+                elif self.state == 'done':
+                    order.delivery_status = "delivered"
+                    order.delivered_date = datetime.datetime.now()
+            else:
+                order.delivery_status = "ordered"
 
         self._send_confirmation_email()
         return True
 
+    def check_all_order_done(self, picking):
+        for p in picking:
+            if p.state != "done":
+                return False
+        return True
+
     def button_validate(self):
-        self.ensure_one()        
-        
+        self.ensure_one()
+
         if not self.move_lines and not self.move_line_ids:
             raise UserError(_('Please add some items to move.'))
+
 
         # Clean-up the context key at validation to avoid forcing the creation of immediate
         # transfers.
@@ -251,6 +333,8 @@ class Picking(models.Model):
             return self.action_generate_backorder_wizard()
         self.action_done()
         return
+
+
     
     def prepare_seller_payment_vals(self):        
     

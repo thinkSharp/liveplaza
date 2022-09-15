@@ -451,7 +451,7 @@
 								</div>
 								<div class="mb4 shop-tag-line">
 									<t t-if="mp_seller_shop_id">
-<!--										<span><t t-esc="mp_seller_shop_id.shop_tag_line"/></span>-->
+										<span><t t-esc="mp_seller_shop_id.shop_tag_line"/></span>
 									</t>
 								</div>
 							</div>
@@ -561,21 +561,21 @@
 
         <template id="seller_item_list_custome_view2" inherit_id="odoo_marketplace.seller_list_item" active="True" customize_show="True" name="Seller Reviews">
 			<xpath expr="//div[@id='seller_review']" position="inside">
-				<div class="" style="padding-right: 0px;">
+				<t t-set="seller_reviews" t-value="len(seller_obj.fetch_active_review(seller_obj.sudo().id))"/>
+				<div t-if="seller_reviews > 0" class="" style="padding-right: 0px;">
 					<t t-set="val" t-value="seller_obj.avg_review()"/>
-					<t t-set="seller_reviews" t-value="len(seller_obj.fetch_active_review(seller_obj.sudo().id))"/>
 					<t t-set="seller_rating" t-value="request.env['seller.review'].sudo().search([('marketplace_seller_id', '=', seller_obj.id)])" />
 					<div class="th_product_rating">
 						<t t-set="res" t-value="seller_rating.get_seller_rating(seller_obj)"/>
 						<div class="o_website_rating_static">
 							<t t-foreach="range(0, res.get('val_integer',0))" t-as="num">
-								<i class="fa fa-star" role="img" aria-label="One star" title="One star"></i>
+								<i class="fa fa-star" role="img" aria-label="Full star" title="Full star"></i>
 							</t>
 							<t t-if="res.get('val_decimal')">
 								<i class="fa fa-star-half-o" role="img" aria-label="Half a star" title="Half a star"></i>
 							</t>
 							<t t-foreach="range(0, res.get('empty_star',0))" t-as="num" role="img" t-attf-aria-label="#{empty_star} on 5" t-attf-title="#{empty_star} on 5">
-								<i class="fa fa-star-o"></i>
+								<i class="fa fa-star-o" role="img" aria-label="Empty star" title="Empty star"></i>
 							</t>
 					    </div>
 					</div>

@@ -201,3 +201,8 @@ access_billing1,billing1,model_seller_payment,account.group_account_invoice,1,0,
 
 seller_stock_putaway_rule_draft_seller,seller_stock_putaway_rule_draft_seller,stock.model_stock_putaway_rule,marketplace_draft_seller_group,1,1,1,1
 seller_mail_channel_draft_seller,seller_mail_channel_draft_seller,mail.model_mail_channel,marketplace_draft_seller_group,1,1,1,1
+
+
+
+seller_stock_picking_type_draft_seller,seller_stock_picking_type_draft_seller,stock.model_stock_picking_type,marketplace_draft_seller_group,1,0,0,0
+

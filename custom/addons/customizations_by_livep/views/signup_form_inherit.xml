@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" ?> <!-- -->
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- -->
 
 <odoo>
     <template id="signup_inherit_assets_frontend" inherit_id="website.assets_frontend">
@@ -10,19 +11,28 @@
             <script src="https://code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
             <script src="/do_customization/static/src/js/faq_search.js" type="text/javascript"></script>
             <script src="/do_customization/static/src/js/faq_accordion.js" type="text/javascript"></script>
-            <link rel="stylesheet" type="text/scss" href="/customizations_by_livep/static/src/css/fontawesome.css"/>
-            <link rel="stylesheet" type="text/scss" href="/customizations_by_livep/static/src/css/style.css"/>
+            <link rel="stylesheet" type="text/scss" href="/customizations_by_livep/static/src/css/fontawesome.css" />
+            <link rel="stylesheet" type="text/scss" href="/customizations_by_livep/static/src/css/style.css" />
         </xpath>
     </template>
 
     <!--    Signup Form Inherit-->
     <template id="signup_form_inherit" inherit_id="auth_signup.fields">
-        <xpath expr="//div[@class='form-group field-password pt-2']" position="after">
-            <i class="fa fa-eye-slash" id="seekPassword" style="font-size: 20px; margin-bottom: 1em;"></i>
+        <xpath expr="//div[@class='form-group field-password pt-2']" position="inside">
+            <i class="fa fa-eye-slash" onmouseover="mouseoverPass();" onmouseout="mouseoutPass();" style="font-size: 20px; padding: 5px; margin-top: -33px; position: absolute; right: 0;"></i>
+            <!-- <i class="fa fa-eye-slash" id="seekPassword" style="font-size: 20px; padding: 5px; margin-top: -33px; position: absolute; right: 0;"></i> -->
         </xpath>
 
+        <xpath expr="//div[@class='form-group field-confirm_password']" position="inside">
+            <i class="fa fa-eye-slash" onmouseover="mouseoverPass2();" onmouseout="mouseoutPass2();" style="font-size: 20px; padding: 5px; margin-top: -33px; position: absolute; right: 0;"></i>
+        </xpath>
+        
         <xpath expr="//div[@class='form-group field-password pt-2']" position="attributes">
             <attribute name="style">margin-bottom: 0.5em</attribute>
+        </xpath>
+
+        <xpath expr="//div[@class='form-group field-confirm_password']" position="attributes">
+            <attribute name="style">position: relative;</attribute>
         </xpath>
 
         <xpath expr="//label[@for='login']" position="attributes">
@@ -36,29 +46,61 @@
     </template>
 
 
-<!--    <template id="buyer_signup_form_inherit" inherit_id="auth_signup.fields">-->
-<!--        <xpath expr="//label[@for='login']" position="before" >-->
-<!--            <div style="margin-bottom: 20px;">-->
-<!--                <label class="radio-container wk_login">Email ID-->
-<!--                    <input type="radio" value="radioemail" name="radio-register"/>-->
-<!--                    <span class="otpcheck"></span>-->
-<!--                </label>-->
-<!--                <label class="radio-container wk_login">Mobile No-->
-<!--                    <input type="radio" value="radiomobile" name="radio-register"/>-->
-<!--                    <span class="otpcheck"></span>-->
-<!--                </label>-->
-<!--            </div>-->
+    <!--    <template id="buyer_signup_form_inherit" inherit_id="auth_signup.fields">-->
+    <!--        <xpath expr="//label[@for='login']" position="before" >-->
+    <!--            <div style="margin-bottom: 20px;">-->
+    <!--                <label class="radio-container wk_login">Email ID-->
+    <!--                    <input type="radio" value="radioemail" name="radio-register"/>-->
+    <!--                    <span class="otpcheck"></span>-->
+    <!--                </label>-->
+    <!--                <label class="radio-container wk_login">Mobile No-->
+    <!--                    <input type="radio" value="radiomobile" name="radio-register"/>-->
+    <!--                    <span class="otpcheck"></span>-->
+    <!--                </label>-->
+    <!--            </div>-->
 
-<!--            <div class="">-->
-<!--                <label for="mobile" class="control-label">Mobile No</label>-->
-<!--&lt;!&ndash;                <input type="text" name="mobile" t-att-value="mobile" id="mobile" class="form-control" autocapitalize="off"/>&ndash;&gt;-->
-<!--            </div>-->
-<!--        </xpath>-->
-<!--    </template>-->
+    <!--            <div class="">-->
+    <!--                <label for="mobile" class="control-label">Mobile No</label>-->
+    <!--&lt;!&ndash;                <input type="text" name="mobile" t-att-value="mobile" id="mobile" class="form-control" autocapitalize="off"/>&ndash;&gt;-->
+    <!--            </div>-->
+    <!--        </xpath>-->
+    <!--    </template>-->
+
+
+    <!-- Login Form Passowrd Show Hide Eye -->
 
     <template id="login_form_inherit" inherit_id="web.login">
-        <xpath expr="//label[@for='login']" position="replace" >
+        <xpath expr="//label[@for='login']" position="replace">
             <label for="login">Email or Phone</label>
+        </xpath>
+        <xpath expr="//input[@type='password']" position="after">
+                <i class="fa fa-eye-slash p-viewer" onmouseover="mouseoverPass();" onmouseout="mouseoutPass();"></i>
+        </xpath>
+    </template>
+
+    <!-- Seller Signup Form Passowrd Show Hide Eye -->
+
+    <template id="seller_signup_form_inherit" inherit_id="odoo_marketplace.seller_signup_fields">
+        <xpath expr="//div[@class='form-group field-password pt-2']" position="inside">
+            <i class="fa fa-eye-slash" onmouseover="mouseoverPass();" onmouseout="mouseoutPass();" style="font-size: 20px; padding: 5px; margin-top: -33px; position: absolute; right: 0;"></i>
+        </xpath>
+
+        <xpath expr="//div[@class='form-group field-confirm_password']" position="inside">
+            <i class="fa fa-eye-slash" onmouseover="mouseoverPass2();" onmouseout="mouseoutPass2();" style="font-size: 20px; padding: 5px; margin-top: -33px; position: absolute; right: 0;"></i>
+        </xpath>
+
+        <xpath expr="//div[@class='form-group field-confirm_password']" position="attributes">
+            <attribute name="style">position: relative;</attribute>
+        </xpath>
+        
+    </template>
+
+    <!-- Seller Signup Form Strong Password Meter Bar -->
+    
+    <template id="seller_fields" inherit_id="odoo_marketplace.seller_signup_fields"
+              name="Password policy data for auth_signup">
+        <xpath expr="//input[@name='password']" position="attributes">
+            <attribute name="t-att-minlength">password_minimum_length</attribute>
         </xpath>
     </template>
 

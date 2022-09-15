@@ -24,6 +24,7 @@ from lxml import etree
 import decimal,re
 from odoo.exceptions import except_orm, Warning, RedirectWarning, UserError
 import logging
+from odoo.exceptions import ValidationError
 _logger = logging.getLogger(__name__)
 
 manager_fields = []
@@ -34,6 +35,16 @@ class ResPartner(models.Model):
     # Default methods
     phone = fields.Char(required=True)
 
+    # @api.constrains('phone')
+    # def _validate_phone(self):
+    #     if self.phone[0] != '0' or len(self.phone) > 11 or len(self.phone) < 9:
+    #         raise ValidationError(_("Phone number should start with '0' and length should be between 9 and 11."))
+
+
+    # @api.constrains('mobile')
+    # def _validate_mobile(self):
+    #     if self.mobile[0] != '0' or len(self.mobile) > 11 or len(self.phone) < 9:
+    #         raise ValidationError(_("Mobile number should start with '0' and length should be between 9 and 11."))
 
     @api.model
     def _set_payment_method(self):

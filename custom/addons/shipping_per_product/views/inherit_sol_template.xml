@@ -36,11 +36,13 @@
                             Please first select delivery method to proceed.
                         </div>
                         <span class="sale_order_line_id" t-att-data-sale_order_line_ids="pro_lines.ids"/>
-                        <input type="hidden" class="line_delivery_name" t-att-name="'line_delivery_name_%i' % line.id" value="" autocomplete="off"/>
+                        <input type="hidden" class="line_delivery_name" t-att-name="'line_delivery_name_%i' % line.id" value=""
+                               autocomplete="off"/>
                         <ul class="list-group" style="margin-bottom: 0;border: 0;">
                             <t t-if="deliveries" t-foreach="deliveries" t-as="delivery">
                                 <li class="list-group-item" style="border: 0;" >  <!-- t-att-style="'display: none;' if(order.contain_service == True) else 'display: block;'"-->
-                                    <input t-att-value="delivery.id" t-att-id="'delivery_%i_%i' % (line.id,delivery.id)" type="radio" t-att-name="'delivery_type_%i' % line.id" autocomplete="off"/>
+                                    <input t-att-value="delivery.id" t-att-id="'delivery_%i_%i' % (line.id,delivery.id)" type="radio"
+                                          t-att-name="'delivery_type_%i' % line.id"  autocomplete="off"/>
                                     <label class="label-optional" t-field="delivery.name" t-att-for="'delivery_%i_%i' % (line.id,delivery.id)"/>
                                     <t t-if="delivery.delivery_type == 'fixed'">
                                         <span t-if="delivery.fixed_price > 0.0" class="float-right badge badge-secondary">
@@ -66,7 +68,7 @@
 
         <template id="order_lines_section_with_delivery">
             <table class="table table-striped table-condensed" style="border: 1px solid #dddddd;">
-                <thead>
+                <thead class="all_sizes">
                     <tr>
                         <th class="border-bottom-0 td-img">Product</th>
                         <th class="border-bottom-0"></th>
@@ -83,45 +85,64 @@
                         <td class='td-product_name' t-if="line.product_id.product_tmpl_id">
                             <div>
                                 <strong t-field="line.name_short" />
+                                <div class='td-qty min_phone_size'>
+                                    <span>Qty: </span>
+                                    <span t-esc="line.product_uom_qty" />
+                                    <div class="text-center td-price min_phone_size">
+                                        <span>Amount: </span>
+                                        <span t-field="line.price_reduce_taxexcl" style="white-space: nowrap;" t-options="{'widget': 'monetary', 'display_currency': website_sale_order.currency_id}" groups="account.group_show_line_subtotals_tax_excluded" />
+                                        <span t-field="line.price_reduce_taxinc" style="white-space: nowrap;" t-options="{'widget': 'monetary', 'display_currency': website_sale_order.currency_id}" groups="account.group_show_line_subtotals_tax_included" />
+                                    </div>
+                                </div>
                             </div>
                         </td>
-                        <td class='td-qty'>
+                        <td class='td-qty all_sizes'>
                             <div t-esc="line.product_uom_qty" />
                         </td>
-                        <td class="text-center td-price">
+                        <td class="text-center td-price all_sizes">
                             <span t-field="line.price_reduce_taxexcl" style="white-space: nowrap;" t-options="{'widget': 'monetary', 'display_currency': website_sale_order.currency_id}" groups="account.group_show_line_subtotals_tax_excluded" />
                             <span t-field="line.price_reduce_taxinc" style="white-space: nowrap;" t-options="{'widget': 'monetary', 'display_currency': website_sale_order.currency_id}" groups="account.group_show_line_subtotals_tax_included" />
                         </td>
                     </tr>
-                    <t t-if="sol_deliveries and order.all_service_ticket == False" t-call="shipping_per_product.sol_delivery_carriers"/>
+                    <t t-if="sol_deliveries and order.contain_product" t-call="shipping_per_product.sol_delivery_carriers"/>
                 </tbody>
             </table>
         </template>
 
 <!--        Delivery Method select option box in /shop/payment page -->
         <template id="sol_select_delivery_option">
-            <div t-if="is_payment_page" class="toggle_summary_div d-none d-xl-block d-block" style="max-width: unset;">
-                <table class="table" id="cart_products" t-if="website_sale_order and website_sale_order.website_order_line">
+            <div t-if="is_payment_page" class="toggle_summary_div d-xl-block" style="max-width: unset;">
+                <div class="table" id="cart_products" t-if="website_sale_order and website_sale_order.website_order_line">
                     <t t-set="website_o_lines" t-value="website_sale_order.get_lines_with_or_without_delivery()"/>
-                    <tr>
-                        <td colspan="4" style="padding-top: 22px;">
-                            <t t-set="pro_lines" t-value="website_o_lines.get('s_lines')"/>
-                            <t t-if="pro_lines" t-call="shipping_per_product.order_lines_section_with_delivery">
-                                <t t-set="sol_deliveries" t-value="d_section.get_delivery_carrier_ids()"/>
-                            </t>
-                            <t t-foreach="website_o_lines['m_ol']" t-as="d_section">
-                                <t t-call="shipping_per_product.order_lines_section_with_delivery">
-                                    <t t-set="pro_lines" t-value="d_section"/>
-                                    <t t-set="sol_deliveries" t-value="d_section.get_delivery_carrier_ids()"/>
+<!--                    <tr>-->
+<!--                        <td colspan="4" style="padding-top: 22px;">-->
+
+                            <t t-if="website_sale_order.is_all_booking_type">
+
+                                <t t-set="pro_lines" t-value="website_o_lines.get('s_lines')"/>
+                                <t t-if="pro_lines" t-call="shipping_per_product.order_lines_section_with_delivery">
+<!--                                    <t t-set="sol_deliveries" t-value="pro_lines.get_delivery_carrier_ids()"/>-->
                                 </t>
                             </t>
-                            <t t-set="pro_lines" t-value="website_o_lines.get('no_ol')"/>
-                            <t t-if="pro_lines" t-call="shipping_per_product.order_lines_section_with_delivery">
-                                <t t-set="sol_deliveries" t-value="website_sale_order._get_delivery_methods()"/>
+
+                            <t t-if="not website_sale_order.is_all_booking_type">
+                                <t t-foreach="website_o_lines['m_ol']" t-as="d_section">
+                                    <t t-call="shipping_per_product.order_lines_section_with_delivery">
+                                        <t t-set="pro_lines" t-value="d_section"/>
+                                        <t t-set="sol_deliveries" t-value="d_section.get_delivery_carrier_ids()"/>
+                                    </t>
+                                </t>
+
+                                 <t t-set="pro_lines" t-value="website_o_lines.get('no_ol')"/>
+                                <t t-if="pro_lines" t-call="shipping_per_product.order_lines_section_with_delivery">
+                                    <t t-set="sol_deliveries" t-value="website_sale_order._get_delivery_methods()"/>
+                                </t>
                             </t>
-                        </td>
-                    </tr>
-                </table>
+
+
+<!--                        </td>-->
+<!--                    </tr>-->
+                </div>
                 <t t-call="website_sale.total">
                     <t t-set='redirect'>/shop/payment</t>
                 </t>

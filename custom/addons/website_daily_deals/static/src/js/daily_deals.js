@@ -6,34 +6,6 @@ odoo.define("website_daily_deals.daily_deals_js", function (require) {
 
     $(document).ready(function() {
 
-        $('.owl-nav').removeClass('disabled');
-        $('.owl-item.hidden-deal-product').remove();
-        // .............Daily Deal Slider...............................
-//		var options = {
-//			autoplay:true,
-//			loop:true,
-//			items:5,
-//			nav:true,
-//            dots:true,
-//            nav:true,
-//            smartSpeed:1000,
-//            autoWidth:false,
-//            responsive:{
-//                0:{
-//                    items:1
-//                    },
-//                480:{
-//                    items:2
-//                },
-//                768 : {
-//                    items:3
-//                },
-//                998 : {
-//                    items:5
-//                }
-//            }
-//		}
-
 		var deal_options = {
 			autoplay:true,
 			items:1,
@@ -64,7 +36,7 @@ odoo.define("website_daily_deals.daily_deals_js", function (require) {
           navText: ["<i class='fa fa-angle-left'></i>","<i class='fa fa-angle-right'></i>"],
           responsive:{
                 0:{
-                    items:1
+                    items:2
                     },
                 480:{
                     items:2

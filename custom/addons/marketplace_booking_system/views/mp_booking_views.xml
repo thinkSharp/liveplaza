@@ -19,10 +19,13 @@
                 </xpath>
                 <field name="public_categ_ids" position="after">
                     <div>
-                        <field name="is_booking_type"/>
+                        <field name="is_booking_type" readonly="1"/>
                         <label for="is_booking_type"/>
                     </div>
                </field>
+<!--                <field name="type" position="attributes">-->
+<!--                    <attribute name="attrs">{'readonly': [('is_booking_type','=',True)]}</attribute>-->
+<!--                </field>-->
                 <xpath expr="//notebook" position="inside">
                     <page name="booking_and_reservation" string="Booking &amp; Reservation" attrs="{'invisible':[('is_booking_type','=',False)]}">
                         <group>

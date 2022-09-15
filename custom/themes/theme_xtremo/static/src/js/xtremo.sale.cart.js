@@ -192,4 +192,124 @@ odoo.define('xtremo.sale.cart', function (require) {
 
   });
 
-})
+});
+
+odoo.define('do_customization.buy_again', function (require) {
+"use strict";
+
+    var publicWidget = require('web.public.widget');
+    var wSaleUtils = require('website_sale.utils');
+
+    publicWidget.registry.BuyAgain = publicWidget.Widget.extend({
+        selector: '.orders_container',
+        events: {
+            'click #buy-again': '_buyAgain',
+            'click #buy-again2': '_buyAgain',
+        },
+
+        _addToCart: function (productID, qty_id) {
+            return this._rpc({
+                route: "/shop/cart/update_json",
+                params: {
+                    product_id: parseInt(productID, 10),
+                    add_qty: parseInt(qty_id, 10),
+                    display: false,
+                },
+            }).then(function (resp) {
+                if (resp.warning) {
+                    if (! $('#data_warning').length) {
+                        $('.wishlist-section').prepend('<div class="mt16 alert alert-danger alert-dismissable" role="alert" id="data_warning"></div>');
+                    }
+                    var cart_alert = $('.wishlist-section').parent().find('#data_warning');
+                    cart_alert.html('<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button> ' + resp.warning);
+                }
+                $('.my_cart_quantity').html(resp.cart_quantity || '<i class="fa fa-warning" /> ');
+            });
+        },
+
+        _buyAgain: function (e) {
+            e.preventDefault();
+            var $navButton = wSaleUtils.getNavBarButton('.o_wsale_my_cart');
+//            var tr = $(e.currentTarget).parents('tr');
+            var tr = $(e.currentTarget).parents('.ordered_product');
+            var product = tr.data('product-id');
+            $('.o_wsale_my_cart').removeClass('d-none');
+            wSaleUtils.animateClone($navButton, tr, 25, 850);
+
+            return this._addToCart(product, tr.find('add_qty').val() || 1);
+
+        },
+
+    })
+});
+
+odoo.define('do_customization.product_tracking_modal', function (require) {
+"use strict";
+
+    var publicWidget = require('web.public.widget');
+    var ajax=require('web.ajax');
+
+    publicWidget.registry.ProductTrackingModal = publicWidget.Widget.extend({
+        selector: '.order_details_outer',
+        events: {
+            'click #product_tracking_btn': '_callModal',
+        },
+
+        _callModal: function(e) {
+            var tr = $(e.currentTarget).parents('tr');
+            var line = tr.data('order-line');
+            var append_div = $('#product_tracking_modal');
+            ajax.jsonRpc("/orders/order_line/delivery_tracking/modal", 'call', {
+                'line_id': parseInt(line)
+            }).then(function(modal){
+                var $modal = $(modal);
+                $modal.appendTo(append_div)
+                    .modal('show')
+            });
+        },
+
+
+
+    })
+});
+
+odoo.define('do_customization.payment_ss_edit', function (require) {
+"use strict";
+
+    var publicWidget = require('web.public.widget');
+    var ajax=require('web.ajax');
+
+    publicWidget.registry.PaymentSSEdit = publicWidget.Widget.extend({
+        selector: '.order_details_outer',
+        events: {
+            'click #edit_ss_btn': '_callModal',
+            'click #ss_img': '_callViewModal',
+        },
+
+        _callModal: function(e) {
+            var tr = $(e.currentTarget).parents('.payment_ss_editor');
+            var order = tr.data('order-id');
+            var append_div = $('#payment_ss_edit_modal');
+            ajax.jsonRpc("/my/orders/payment/edit_modal", 'call', {
+                'sale_order_id': parseInt(order)
+            }).then(function(modal){
+                var $modal = $(modal);
+                $modal.appendTo(append_div)
+                    .modal('show')
+            });
+        },
+
+        _callViewModal: function(e) {
+            var tr = $(e.currentTarget).parents('.payment_ss_editor');
+            var order = tr.data('order-id');
+            var append_div = $('#payment_ss_view_modal');
+            ajax.jsonRpc("/my/orders/payment/view_modal", 'call', {
+                'sale_order_id': parseInt(order)
+            }).then(function(modal){
+                var $modal = $(modal);
+                $modal.appendTo(append_div)
+                    .modal('show')
+            });
+        },
+    })
+});

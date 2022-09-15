@@ -1,0 +1,221 @@
+.margin_auto {
+    margin: 0 auto;
+}
+.phone_responsive { display: none; }
+.laptop_responsive { display: block; }
+
+.set_text_color {
+    color: #0051B1;
+    text-align: center;
+    font-weight: bold
+}
+
+.preview_card {
+    width: 100%;
+    background: white;
+    padding: 3%;
+//     border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
+    box-shadow: rgba(0, 81, 177, 0.3) 0px 5px 15px;
+    margin-bottom: 20px;
+}
+
+.preview_page_wrap {
+    background: white;
+    font-family: sans-serif;
+    color: rgba(0, 0, 0, 0.7);
+    .preview_page_container {
+        padding: 20px 0;
+        h2 {
+            text-align: center;
+            padding: 10px;
+        }
+        .preview_outer {
+            margin: 30px auto;
+            width: 90%;
+            .preview_left {
+                width: 68%;
+                float: left;
+                margin-right: 2%;
+                .customer_info {
+                    .cart_modal_table {
+                        border-collapse: collapse;
+                        width: 100%;
+                    }
+                    td {
+                        padding: 2% 5px 2% 0;
+                        margin-bottom: 1px solid rgba(0, 0, 0, 0.3);
+                        vertical-align: top;
+                        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+                        p {
+                            margin-bottom: 0.2rem;
+                        }
+                    }
+                }
+
+                .order_table_box {
+                    padding: 4% 0;
+                    h5 {
+                        margin-bottom: 20px;
+                    }
+                    .cart_modal_table {
+                        border-collapse: collapse;
+                        width: 100%;
+                        thead tr { border-bottom: 1px solid rgba(130, 130, 130, 0.1); }
+                        td {
+                            padding: 20px 15px;
+                            a { span {
+                                    color: rgba(0, 81, 177, 0.7);
+                                    font-size: 16px;
+                                }
+                            }
+                            h6 {
+                                font-weight: bold;
+                                margin-bottom: 0px;
+                            }
+                            p { margin-bottom: 0px; }
+                            .attribute_text { color: rgba(0, 0, 0, 0.6); }
+                        }
+                        th {
+                            text-align: center;
+                            background: none;
+                            color: black;
+                            font-weight: normal;
+                            font-size: 18px;
+                            padding: 8px;
+                        }
+                        img {
+                            max-width: 100px;
+                            max-height: 100px;
+                        }
+                        .width_40 { width: 30%; }
+                    }
+                    #order_details_total {
+                        font-weight: bold;
+                        width: 40%;
+                        margin-left: 58%;
+                        table {
+                            width: 100%;
+                            td {
+                                padding: 3% 2%;
+                                font-size: 16px;
+                                width: 50%;
+                            }
+                        }
+                    }
+                }
+            }
+            .preview_right {
+                width: 30%;
+                float: right;
+                .order_summary {
+                    .order_summary_inner {
+                        padding: 3%;
+                        h4 { margin-bottom: 20px; }
+                        .order_summary_table {
+                            width: 100%;
+                            border-collapse: collapse;
+                            td {
+                                padding: 3%;
+                            }
+                            .order_summary_total {
+                                padding: 5% 3%;
+                                font-size: 18px;
+                                color: rgba(199, 40, 57, 0.9);
+                                border-top: 1px solid rgba(0, 0, 0, 0.15);
+                            }
+                        }
+                    }
+                }
+            }
+
+            .payment_info {
+                .o_payment_acquirer_select {
+                    width :50%;
+                    h4 {
+                        margin-bottom: 20px;
+                    }
+                }
+                .payment_ss_upload {
+                    width :70%;
+                    text-align: center;
+                    strong {
+                        color: #0051B1;
+                        font-size: 16px;
+                    }
+                    .form-group {
+                        padding: 25px 0px;
+                    }
+
+                }
+            }
+
+        }
+    }
+}
+
+@media (max-width: 991px) {
+    .preview_page_wrap {
+        .preview_page_container {
+            .preview_outer {
+                .preview_left,
+                .preview_right {
+                    float: none;
+                    width: 100%;
+                    margin: 0 auto;
+                }
+                .preview_right {
+                    .order_summary {
+                        .order_summary_inner {
+                            width: 70%;
+                            margin: 0 auto;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media(max-width: 601px) {
+    .phone_responsive { display: block; }
+    .laptop_responsive { display: none; }
+    .preview_subtitle { font-size: 14px; }
+    .preview_page_wrap {
+        .preview_page_container {
+            .preview_outer {
+                .preview_left {
+                    width: 100%;
+                    .order_table_box {
+                        .cart_modal_table {
+                            td {
+                                padding: 8px 5px;
+                            }
+                        }
+                    }
+                    .payment_info {
+                        .o_payment_acquirer_select,
+                         .payment_ss_upload{
+                            width: 90%;
+                        }
+                    }
+                }
+                .preview_right {
+                    width: 100%;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 400px) {
+    #cart_products {
+        table {
+            td {
+                img {
+                    max-width: 80px;
+                }
+            }
+        }
+    }
+}

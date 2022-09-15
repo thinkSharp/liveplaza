@@ -2,12 +2,15 @@
 /* See LICENSE file for full copyright and licensing details. */
 /* @License       : https://store.webkul.com/license.html */
 
+console.log("Booking");
 odoo.define('website_booking_system.booking_n_reservation', function(require) {
     "use strict";
 
     var ajax = require('web.ajax');
     var core = require('web.core');
     var _t = core._t;
+
+    let available_qty = 0;
 
     var Days = {
         'sun' : 0,
@@ -184,6 +187,7 @@ odoo.define('website_booking_system.booking_n_reservation', function(require) {
             // var add_qty = booking_modal.closest('form').find("input[name='add_qty']");
             var bk_base_price = parseFloat(booking_modal.find(".bk_plan_base_price .oe_currency_value").html(), 10);
             var bk_total_price = booking_modal.find('.bk_total_price .oe_currency_value');
+
             // add_qty.val(bk_qty);
             bk_total_price.html((bk_base_price*bk_qty).toFixed(2));
         });
@@ -192,18 +196,36 @@ odoo.define('website_booking_system.booking_n_reservation', function(require) {
         $('#booking_modal').on('click','.bk-submit',function(event){
             var $this = $(this);
             var booking_modal = $('#booking_modal');
+            var bk_qty = parseInt(booking_modal.find('.bk_qty_sel').val(),10);
+//            console.log('Booking quantity');
+//            console.log(bk_qty);
             var bk_loader = $('#bk_n_res_loader');
             var product_id = parseInt(booking_modal.data('res_id'),10);
             var bk_model_plans = booking_modal.find('.bk_model_plans').find("input[name='bk_plan']:checked");
+//            console.log(bk_model_plans);
             var bk_modal_err = booking_modal.find('.bk_modal_err');
+
+
             if(bk_model_plans.length == 0){
                 bk_modal_err.html("Please select a plan to proceed further!!!").show();
                 setTimeout(function() {
                     bk_modal_err.empty().hide()
                 }, 3000);
             }
+
+            else if(bk_qty > available_qty){
+//                console.log("available qty line 217");
+//                console.log(available_qty);
+
+                var error_msg = "More than the available quantity.("+available_qty + ")"
+                bk_modal_err.html(error_msg).show();
+                setTimeout(function() {
+                    bk_modal_err.empty().hide()
+                }, 3000);
+            }
+
             else{
-                if (!event.isDefaultPrevented() && !$this.is(".disabled")) {
+                if(!event.isDefaultPrevented() && !$this.is(".disabled")) {
                     bk_loader.show();
                     ajax.jsonRpc("/booking/reservation/cart/validate", 'call',{
                         'product_id' : product_id,
@@ -228,9 +250,13 @@ odoo.define('website_booking_system.booking_n_reservation', function(require) {
         // Booking Slot Plan Selection
         $('#booking_modal').on('click', "input[name='bk_plan']", function(event){
             var booking_modal = $('#booking_modal');
+            var bk_modal_err = booking_modal.find('.bk_modal_err');
             var bk_plan_div = $(this).closest('label').find('.bk_plan_div');
             var bk_plan_base_price = $('#booking_modal').find(".bk_plan_base_price .oe_currency_value");
             var base_price = parseInt(bk_plan_div.data('plan_price'), 10);
+            available_qty = parseInt(bk_plan_div.data('plan_qty'), 10);
+//            console.log("available_qty 253");
+//            console.log(available_qty);
             var bk_total_price = booking_modal.find('.bk_total_price .oe_currency_value');
             var bk_qty = parseInt(booking_modal.find('.bk_qty_sel').val(),10);
             if(bk_plan_div.hasClass('bk_disable')){
@@ -245,12 +271,22 @@ odoo.define('website_booking_system.booking_n_reservation', function(require) {
 
         // Click on remove button available on sold out product in cart line
         $('.oe_website_sale').each(function() {
+
             var oe_website_sale = this;
             $(oe_website_sale).on('click', '.remove-cart-line', function() {
+
+
+
                 var $dom = $(this).closest('tr');
                 var td_qty = $dom.find('.td-qty');
                 var line_id = parseInt(td_qty.data('line-id'), 10);
                 var product_id = parseInt(td_qty.data('product-id'), 10);
+                console.log("line_id");
+                console.log(line_id);
+
+                console.log("product_id");
+                console.log(product_id)
+
                 ajax.jsonRpc("/shop/cart/update_json", 'call', {
                     'line_id': line_id,
                     'product_id': product_id,
@@ -264,5 +300,68 @@ odoo.define('website_booking_system.booking_n_reservation', function(require) {
                 });
             });
         });
+
+        let time_limit_seconds = 900;
+        setInterval(function() {
+            let createDateFields = document.querySelectorAll(".create-date");
+            createDateFields.forEach((createDateField) => {
+
+                let dom = createDateField.closest('tr');
+                let timer = dom.querySelector('.timer');
+                let minutes = dom.querySelector('.minutes');
+                let seconds = dom.querySelector('.seconds');
+                //console.log("Raw String");
+                //console.log(dom.querySelector(".create-date").innerHTML);
+
+                //console.log("Before");
+                //console.log(new Date(dom.querySelector(".create-date").innerHTML));
+                let createDateStr = dom.querySelector(".create-date").innerHTML+ 'Z';
+                //console.log("Perfect Str")
+                //console.log(createDateStr);
+                let createDate = new Date(createDateStr);
+                //console.log("Create Date after");
+                //console.log(createDate);
+
+
+
+
+
+
+//                    console.log("I am product.");
+//                    let utcString = new Date().toUTCString();
+//                    let currentSeconds  = new Date(utcString).getTime();
+                    let time_diff_seconds = Math.round((new Date().getTime() - createDate.getTime()) / 1000);
+//                    console.log(time_diff_seconds);
+                    let time_remain_seconds  = time_limit_seconds - time_diff_seconds;
+                    let show_minutes = Math.floor(time_remain_seconds / 60);
+                    let show_seconds = time_remain_seconds % 60;
+//                    console.log(time_remain_seconds);
+//                    console.log("minutes");
+//                    console.log(minutes);
+//                    console.log("seconds");
+//                    console.log(seconds);
+
+                    if (time_remain_seconds > 0) {
+                        minutes.innerHTML = ("0" + show_minutes).slice(-2);
+                        seconds.innerHTML = ("0" + show_seconds).slice(-2);
+                    }
+
+
+                    if (time_remain_seconds < 1) {
+
+                        let product = dom.querySelector('.js_delete_product');
+//                        console.log(product);
+//                        console.log("I am deleted.")
+                        product.click();
+
+                        }
+
+
+                    })
+
+                }, 1000);
     });
+
+
+
 });

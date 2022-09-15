@@ -23,6 +23,8 @@ from odoo import models, fields, api, _
 import logging
 _logger = logging.getLogger(__name__)
 
+from .utils import parse_subscriber_number_mm
+
 
 class SmsBase(models.AbstractModel):
     _name = "sms.base.abstract"
@@ -143,18 +145,20 @@ class SmsSms(models.Model):
             self.msg = False
 
     def _get_partner_mobile(self, partner):
+        mobile = partner.mobile if partner.mobile else partner.phone
+        if not mobile:
+            return False
         company_country_calling_code = self.env.user.company_id.country_id.phone_code
         managed_calling_code = self.env['ir.config_parameter'].get_param(
             'sms_notification.is_phone_code_enable', 'False') == 'True'
         if managed_calling_code:
-            return partner.mobile
+            return mobile
         if partner.country_id and partner.country_id.phone_code:
             country_calling_code = partner.country_id.phone_code
         else:
             country_calling_code = company_country_calling_code
-        if partner.mobile.startswith('0'):
-            return (partner.mobile).replace('0', country_calling_code, 1)
-        return "+{code}{mobile}".format(code=country_calling_code, mobile=partner.mobile)
+        subscriber_number = parse_subscriber_number_mm(mobile)
+        return "+{code}{subscriber_number}".format(code=country_calling_code, subscriber_number=subscriber_number)
 
     def _get_partner_mobile_numbers(self, group):
         return [self._get_partner_mobile(partner) for partner in group.member_ids if partner.mobile]

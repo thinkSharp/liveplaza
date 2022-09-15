@@ -31,15 +31,20 @@ odoo.define("theme_xtremo.main.js", function (require) {
 
   function user_menu(event) {
     self.getId('xtremo_mobile_menu').classList.add("active");
-    self.getQuery("header.o_affix_enabled").style.zIndex = "50000";
+    // xtremo originally has set z-index to "50000"
+    // the reason xtremo set this z-index is to make sure 'user menu' stay on top of odoo 'nav main menu'
+    // minimum z-index should be greater than "1040" which is the z-index of 'nav main menu'
+    self.getQuery("header.o_affix_enabled").style.zIndex = "1050";
   };
 
   function user_menu_close(event) {
-    event.stopPropagation();
-    if (event.currentTarget.id == "xtremo_mobile_menu"){
+    // we don't want other events, cause by the children of the menu, close the menu
+    if (event.target.id == "xtremo_mobile_menu"){
       this.classList.remove("active");
       this.style.zIndex = "1035";
     }
+    // remove z-index of the header so that it will not be interfered with other elements
+    self.getQuery("header.o_affix_enabled").style.zIndex = "";
   };
 
   function toggle_user_menu() {
@@ -95,7 +100,6 @@ odoo.define("theme_xtremo.main.js", function (require) {
       // events..
       self.getQuery('#xt-mobile-menu button').addEventListener("click",user_menu);
       self.getId('xtremo_mobile_menu').addEventListener("click",user_menu_close);
-      self.getQuery('#xtremo_mobile_menu .xt-cart').addEventListener("click",user_menu_close);
       self._click('toggle-user-menu',toggle_user_menu);
       window.addEventListener("resize", resizeScript);
     } catch (e) {

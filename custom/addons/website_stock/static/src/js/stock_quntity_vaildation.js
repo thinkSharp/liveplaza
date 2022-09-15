@@ -1,3 +1,5 @@
+
+
 odoo.define('website_stock.stock_quntity_vaildation', function(require) {
     "use strict";
 
@@ -9,8 +11,9 @@ odoo.define('website_stock.stock_quntity_vaildation', function(require) {
 
     $(document).ready(function() { 
         $('.oe_website_sale').each(function() {
+
             var oe_website_sale = this;
-            
+
             $(oe_website_sale).on("change", ".oe_cart input.js_quantity", function(ev) {
                 var $input = $(this);
                 var value = parseInt($input.val(), 10);

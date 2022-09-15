@@ -1,0 +1,26 @@
+                            
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Wave Merchant Integration</title>
+</head>
+
+<body>
+    <form action="https://wavepay-payment-gateway.com/payment" method="POST" id="nameform">
+        <input type="hidden" name="timeToLiveSeconds" value="60">
+        <input type="hidden" name="order_id" value="44"">
+        <input type="hidden" name="merchant_reference_id" value="wavemerchant-141">
+        <input type="hidden" name="frontend_result_url" value="http://192.168.10.29:9112">
+        <input type="hidden" name="backend_result_url" value="http://192.168.10.29:9112/payment/wavepay/return/">
+        <input type="hidden" name="amount" value="19">
+        <input type="hidden" name="payment_description" value="payment ka description">
+        <input type="hidden" name="merchant_name" value="Mitchell Admin">
+        <input type="hidden" name="items" value='[{"amount": 19.12, "name": "Customizable Desk (CONFIG)"}]''>
+        <input type="hidden" name="hash" value="ddf60c2676f9de6347f0a7018220381297f813aac0389b892ec79e67665a6019">
+        <input type="submit" value="Submit" />
+    </form>
+</body>
+</html>

@@ -14,7 +14,7 @@
 # License URL :<https://store.webkul.com/license.html/>
 ##########################################################################
 
-from odoo import api, fields, models, _
+from odoo import api, fields, models, _,exceptions
 from odoo.exceptions import Warning, UserError
 from dateutil.relativedelta import relativedelta
 import datetime, pytz
@@ -54,6 +54,7 @@ class SaleOrder(models.Model):
     _inherit = "sale.order"
 
     is_booking_type = fields.Boolean(string="Booking Order")
+    is_all_booking_type = fields.Boolean("All Booking Type", compute="_compute_is_all_booking_type")
     payment_start_date = fields.Datetime("Payment initiated time")
 
     def check_active_bk_transactions(self):
@@ -69,6 +70,19 @@ class SaleOrder(models.Model):
             if rec.order_line:
                 if any(line.product_id.is_booking_type == True for line in rec.order_line):
                     rec.is_booking_type = True
+
+
+
+    @api.depends('order_line')
+    def _compute_is_all_booking_type(self):
+        for rec in self:
+            if all(line.product_id.is_booking_type == True for line in rec.order_line):
+                rec.is_all_booking_type = True
+
+            else:
+                rec.is_all_booking_type = False
+
+
 
 class SaleOrderLine(models.Model):
     _inherit = "sale.order.line"
@@ -127,25 +141,34 @@ class SaleOrderLine(models.Model):
             payment_start_date = sale_order.payment_start_date
             rd = relativedelta(datetime.datetime.now(), so.create_date)
             if not payment_start_date:
-                if rd.minutes > 5:
-                    so.unlink();
+                if rd.minutes > 20:
+                    so.unlink()
+
             else:
                 prd = relativedelta(datetime.datetime.now(), payment_start_date)
-                if prd.minutes > 10:
+                if prd.minutes > 30:
                     if not sale_order.check_active_bk_transactions():
-                        so.unlink();
+                        so.unlink()
+
                         sale_order.compute_booking_type()
                         if not sale_order.is_booking_type:
                             sale_order.payment_start_date = None
 
+
 class ProductTemplate(models.Model):
     _inherit = 'product.template'
 
-    is_booking_type = fields.Boolean("Available for booking")
+    is_booking_type = fields.Boolean("Available for booking", default=True)
     br_start_date = fields.Date("Start Date")
     br_end_date = fields.Date("End Date")
     max_bk_qty = fields.Integer("Max Booking Qty")
     booking_day_slot_ids = fields.One2many("day.slot.config", "product_id", string="Configure Day Slots")
+
+
+
+
+
+
 
     def get_available_bk_qty(self):
         for rec in self:
@@ -248,6 +271,7 @@ class ProductTemplate(models.Model):
         if self.is_booking_type:
             self.type = 'service'
 
+
     def validate_booking_dates(self, start_date=None, end_date=None):
         if type(start_date) == str:
             start_date = datetime.datetime.strptime(start_date, '%Y-%m-%d').date()
@@ -273,12 +297,60 @@ class ProductTemplate(models.Model):
                 raise UserError(_("Please enter end date correctly. End date should't be smaller then the start date."))
             return True
 
+
+    def validate_slots(self, vals):
+        print("This is validate slots")
+        booking_day_slot_ids = vals.get("booking_day_slot_ids")
+        print(booking_day_slot_ids)
+        print(vals)
+
+
+        day_mapper = {
+            'sun': "Sunday",
+            'mon': "Monday",
+            'tue': "Tuesday",
+            'wed': "Wednesday",
+            'thu': "Thursday",
+            'fri': "Friday",
+            'sat': "Saturday"
+        }
+
+        if vals.get("br_start_date"):
+            if not booking_day_slot_ids:
+                raise UserError(_(f"Please add at least one Booking Slot."))
+
+            error_days = []
+            contain_slot = False
+            for booking_day_slot in booking_day_slot_ids:
+                booking_day_slot_info = booking_day_slot[2]
+                day = booking_day_slot_info.get('name')
+                booking_status = booking_day_slot_info.get('booking_status')
+                booking_slots_ids = booking_day_slot_info.get('booking_slots_ids')
+
+                if (not booking_slots_ids) and booking_status == 'open':
+                    error_days.append(day_mapper[day])
+                if booking_slots_ids:
+                    contain_slot = True
+
+                print("Error days", error_days)
+            if error_days:
+                raise UserError(_(f"Please add Booking Slots for {', '.join(error_days)}"))
+
+            print("contain_slot" , contain_slot)
+            if not contain_slot:
+                raise UserError(_(f"Please add at least one Booking Slot."))
+            # if not vals.get("booking_slots_ids"):
+            #     raise UserError(_("Please add Booking Slots."))
+
+
     @api.model
     def create(self, vals):
         self.validate_booking_dates(vals.get("br_start_date"), vals.get("br_end_date"))
+        self.validate_slots(vals)
         return super(ProductTemplate, self).create(vals)
 
     def write(self, vals):
         for rec in self:
             rec.validate_booking_dates(vals.get("br_start_date"), vals.get("br_end_date"))
+        self.validate_slots(vals)
         return super(ProductTemplate, self).write(vals)

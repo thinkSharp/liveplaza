@@ -16,7 +16,7 @@ odoo.define('customizations_by_livep.cart', function(require) {
     var qweb = core.qweb;
 
     publicWidget.registry.websiteSaleCart = publicWidget.Widget.extend({
-    selector: '.oe_website_sale .oe_cart',
+    selector: '.oe_website_sale',
     events: {
         'click .js_change_shipping': '_onClickChangeShipping',
         'click .js_edit_address': '_onClickEditAddress',
@@ -67,11 +67,17 @@ odoo.define('customizations_by_livep.cart', function(require) {
     _onClickCheckbox: function(ev) {
         var orderID = $(ev.currentTarget).data('order-id');
 
+       console.log("Hay Disable")
+       let selectProductCheckBoxs = document.querySelectorAll("#select-product")
+       selectProductCheckBoxs.forEach((selectProductCheckBox) => {
+            selectProductCheckBox.disabled = true;
+       });
 
         ajax.jsonRpc('/shop/checkout/select/products', 'call', {'orderLineId': orderID})
         .then(function(response){
             $(ev.currentTarget).closest('tr').find('.js_quantity').trigger('change');
-        });
+        })
+
 
     },
 

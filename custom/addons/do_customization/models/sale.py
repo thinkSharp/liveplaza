@@ -22,15 +22,21 @@ from odoo import models, fields, api, _
 from odoo.exceptions import UserError, ValidationError
 from odoo.addons.website_sale_stock.models.sale_order import SaleOrder as WebsiteSaleStock
 import logging
+import pytz
+import datetime
 _logger = logging.getLogger(__name__)
 
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
     payment_provider = fields.Selection(selection=[('manual', 'Custom Payment Form'),('transfer', 'Prepaid'),
-                                                    ('cash_on_delivery', 'COD')], string='Payment Type')
+                                                    ('cash_on_delivery', 'COD'),('wavepay', 'WavePay')], string='Payment Type')
     payment_upload = fields.Binary(string='Upload Payment')
-    payment_upload_name = fields.Char(string='Upload Payment')
+    payment_upload_temp = fields.Binary(string='Upload Payment Temporary')
+    payment_upload_name = fields.Char(string='Upload Payment Name')
+    selected_payment = fields.Integer(string="Selected Payment", readonly=True)
+    selected_carrier_id = fields.Integer(string="Selected Carrier", readonly=True)
+
     state = fields.Selection([
             ('draft', 'Quotation'),
             ('sent', 'Quotation Sent'),
@@ -43,6 +49,127 @@ class SaleOrder(models.Model):
 
     products = fields.Char(string="Products", compute='get_products_string')
     selected_checkout = fields.Boolean(string='Selected For Checkout', defalut=False)
+
+    delivery_status = fields.Selection([
+        ('ordered', 'Ordered'),
+        ('picked', 'Picked'),
+        ('packed', 'Packed'),
+        ('delivering', 'Delivering'),
+        ('delivered', 'Delivered')
+    ], string='Delivery Status', readonly=True, copy=False, index=True, tracking=3,
+        default='ordered',)
+
+    service_delivery_status = fields.Selection([
+        ('ordered', 'Ordered'),
+        ('delivered', 'Approved / Delivered')
+    ], string='Delivery Status', readonly=True, copy=False, index=True, tracking=3, default='ordered')
+
+    picking_date = fields.Datetime('Picking Date', store=True, default="", readonly=True)
+    packing_date = fields.Datetime('Packing Date', store=True, default="", readonly=True)
+    delivering_date = fields.Datetime('Deliver Date', store=True, default="", readonly=True)
+    delivered_date = fields.Datetime('Delivered Date', store=True, default="", readonly=True)
+
+    @api.model
+    def _check_delivery_selected(self):
+        delivery = 0
+        is_all_service = 1
+        for line in self.order_line:
+            if line.selected_checkout:
+                if not (line.product_id.is_service or line.product_id.is_booking_type):
+                    is_all_service = 0
+
+        for line in self.order_line:
+            if line.is_delivery:
+                delivery = 1
+
+        if delivery == 0 and is_all_service == 0:
+            return "0"
+        return "1"
+
+    @api.depends('state')
+    def _compute_type_name(self):
+        for record in self:
+            if record.state in ('draft', 'sent'):
+                record.type_name = _("Quotation")
+            elif record.state in ('cancel'):
+                record.type_name = _("Cancel")
+            else:
+                record.type_name = _('Sales Order')
+
+    def _website_product_id_change(self, order_id, product_id, qty=0):
+        res = super(SaleOrder, self)._website_product_id_change(
+            order_id, product_id, qty)
+
+        order = self.sudo().browse(order_id)
+        product_context = dict(self.env.context)
+        product_context.setdefault('lang', order.partner_id.lang)
+        product_context.update({
+            'partner': order.partner_id,
+            'quantity': qty,
+            'date': order.date_order,
+            'pricelist': order.pricelist_id.id,
+            'force_company': order.company_id.id,
+        })
+        product = self.env['product.product'].with_context(product_context).browse(product_id)
+        discount = 0
+        discount_amount = 0
+
+        if order.pricelist_id.discount_policy == 'without_discount' and not product.is_booking_type:
+            # This part is pretty much a copy-paste of the method '_onchange_discount' of
+            # 'sale.order.line'.
+            price, rule_id = order.pricelist_id.with_context(product_context).get_product_price_rule(product,
+                                                                                                     qty or 1.0,
+                                                                                                     order.partner_id)
+            pu, currency = self.env['sale.order.line'].with_context(product_context)._get_real_price_currency(
+                product, rule_id, qty, product.uom_id, order.pricelist_id.id)
+            if pu != 0:
+                if order.pricelist_id.currency_id != currency:
+                    # we need new_list_price in the same currency as price, which is in the SO's pricelist's currency
+                    date = order.date_order or fields.Date.today()
+                    pu = currency._convert(pu, order.pricelist_id.currency_id, order.company_id, date)
+
+                item_ids = order.pricelist_id.item_ids
+                compute_price = ""
+                for item in item_ids:
+                    if product.name == item.product_tmpl_id.name:
+                        compute_price = item.compute_price
+                        break
+
+                if compute_price == 'percentage':
+                    discount = (pu - price) / pu * 100
+                    if discount < 0:
+                        # In case the discount is negative, we don't want to show it to the customer,
+                        # but we still want to use the price defined on the pricelist
+                        discount = 0
+                        pu = price
+                elif compute_price == 'fixed_discount':
+                    discount_amount = pu - price
+                else:
+                    pu = product.price
+                    if order.pricelist_id and order.partner_id:
+                        order_line = order._cart_find_product_line(product.id)
+                        if order_line:
+                            pu = self.env['account.tax']._fix_tax_included_price_company(pu, product.taxes_id,
+                                                                                         order_line[0].tax_id,
+                                                                                         self.company_id)
+
+        else:
+            pu = product.price
+            if order.pricelist_id and order.partner_id:
+                order_line = order._cart_find_product_line(product.id)
+                if order_line:
+                    pu = self.env['account.tax']._fix_tax_included_price_company(pu, product.taxes_id,
+                                                                                 order_line[0].tax_id, self.company_id)
+
+        return {
+            'product_id': product_id,
+            'product_uom_qty': qty,
+            'order_id': order_id,
+            'product_uom': product.uom_id.id,
+            'price_unit': pu,
+            'discount': discount,
+            'discount_amount': discount_amount,
+        }
 
     @api.depends('order_line')
     def get_products_string(self):
@@ -71,14 +198,16 @@ class SaleOrder(models.Model):
 
         res = super(SaleOrder, self).action_confirm()
         self.write({'payment_provider': self.get_portal_last_transaction().acquirer_id.provider})
-        if self.get_portal_last_transaction().acquirer_id.provider == 'cash_on_delivery' and self.state == 'sale':
-            self.action_admin()
+        for line_status in self.order_line:
+            line_status.write({'sol_state': self.state})
+        #if self.get_portal_last_transaction().acquirer_id.provider in ('wavepay','cash_on_delivery') and self.state == 'sale':
+        #    self.action_admin()
 
         if order_copy and self.state in ('sale','approve_by_admin'):
             self.env['website'].newlp_so_website(order_copy)
 
-
         order_copy.amount_delivery = 0
+        order_copy.selected_carrier_id = ''
 
         return res
     
@@ -195,6 +324,7 @@ class SaleOrder(models.Model):
             picking_obj.write({'payment_provider': self.get_portal_last_transaction().acquirer_id.provider,
                                'ready_to_pick': True,
                                'hold_state': False })
+
             
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
@@ -211,12 +341,114 @@ class SaleOrderLine(models.Model):
             ('cancel', 'Cancelled'),
         ], related='order_id.state', string='Order Status', readonly=True, copy=False, store=True, default='draft')
     
-    sol_state = fields.Selection([            
+    sol_state = fields.Selection([   
+            ('draft', 'Quotation'),
+            ('sent', 'Quotation Sent'),
+            ('sale', 'Sales Order'),         
             ('approve_by_admin', 'Approved by Admin'),
             ('ready_to_pick', 'Ready to Pick'),
             ('done', 'Locked'),
             ('cancel', 'Cancelled'),
-            ], string='Order Status', readonly=True, copy=False, store=True, default='approve_by_admin')
+            ], string='Order Status', readonly=True, copy=False, store=True, default='draft')
+
+    delivery_status = fields.Selection([
+        ('ordered', 'Ordered'),
+        ('picked', 'Picked'),
+        ('packed', 'Packed'),
+        ('delivering', 'Delivering'),
+        ('delivered', 'Delivered'),
+        ('hold', 'Hold'),
+    ], string='Delivery Status', readonly=True, copy=False, index=True, tracking=3, default='ordered')
+
+    service_delivery_status = fields.Selection([
+        ('ordered', 'Ordered'),
+        ('delivered', 'Approved / Delivered')
+    ], string='Delivery Status', readonly=True, copy=False, index=True, tracking=3, default='ordered')
+
+    picking_date = fields.Datetime('Picking Date', store=True, default="", readonly=True)
+    packing_date = fields.Datetime('Packing Date', store=True, default="", readonly=True)
+    delivering_date = fields.Datetime('Deliver Date', store=True, default="", readonly=True)
+    delivered_date = fields.Datetime('Delivered Date', store=True, default="", readonly=True)
+    confirmed_date = fields.Datetime('Confirmed Date', store=True, default="", readonly=True)
+
+    discount_amount = fields.Float(string='Discount Amount', digits='Discount', default=0.0)
+    hold_reason = fields.Char('Hold Reason', store=True, readonly=True)
+
+    @api.depends('product_uom_qty', 'discount', 'discount_amount', 'price_unit', 'tax_id')
+    def _compute_amount(self):
+        super(SaleOrderLine, self)._compute_amount()
+
+        for line in self:
+
+            if line.discount_amount > 0:
+                price = line.price_unit - line.discount_amount
+            else:
+                price = line.price_unit * (1 - (line.discount or 0.0) / 100.0)
+
+            taxes = line.tax_id.compute_all(price, line.order_id.currency_id, line.product_uom_qty,
+                                            product=line.product_id, partner=line.order_id.partner_shipping_id)
+            line.update({
+                'price_tax': sum(t.get('amount', 0.0) for t in taxes.get('taxes', [])),
+                'price_total': taxes['total_included'],
+                'price_subtotal': taxes['total_excluded'],
+            })
+            if self.env.context.get('import_file', False) and not self.env.user.user_has_groups(
+                    'account.group_account_manager'):
+                line.tax_id.invalidate_cache(['invoice_repartition_line_ids'], [line.tax_id.id])
+
+    def change_datetime_format(self, d):
+        if d:
+            tz = d.astimezone(pytz.timezone('Asia/Yangon'))
+            return tz.strftime("%d %b %Y - %H:%M")
+        else:
+            return ""
+
+    @api.model
+    def get_sol_delivery_progress(self):
+        # for sale order which only booking products
+        create_date = self.change_datetime_format(self.create_date)
+        picking_date = self.change_datetime_format(self.picking_date)
+        packing_date = self.change_datetime_format(self.packing_date)
+        delivering_date = self.change_datetime_format(self.delivering_date)
+        delivered_date = self.change_datetime_format(self.delivered_date)
+        delivery_state = []
+        delivery_completion = []
+
+        # service product
+        if self.product_id.is_service or self.product_id.is_booking_type:
+            delivery_status = {'delivered': 'complete', 'ordered': 'complete'}
+            status = self.service_delivery_status
+        else:
+            delivery_status = {'delivered': "complete", 'delivering': 'complete', 'packed': 'complete',
+                               'picked': 'complete',
+                               'ordered': 'complete'}
+
+            status = self.delivery_status
+
+
+        for s in delivery_status.keys():
+            if s == status:
+                if s == 'delivering':
+                    delivery_status[s] = 'current'
+                break
+            else:
+                delivery_status[s] = 'not_yet'
+
+        for s, p in delivery_status.items():
+            delivery_state.append(s)
+            delivery_completion.append(p)
+
+        delivery_state.reverse()
+        delivery_completion.reverse()
+
+        delivery_progress = {state: {} for state in delivery_state}
+        delivery_dates = [create_date, picking_date, packing_date,
+                          delivering_date, delivered_date]
+
+        for i in range(len(delivery_state)):
+            delivery_progress[delivery_state[i]] = [delivery_completion[i], delivery_dates[i]]
+
+        return delivery_progress
 
     @api.depends('qty_invoiced', 'qty_delivered', 'product_uom_qty', 'order_id.state')
     def _get_to_invoice_qty(self):
@@ -251,25 +483,99 @@ class SaleOrderLine(models.Model):
             if is_ready_to_pick:
                 self.order_id.write({'state': 'ready_to_pick'})
                 
-            picking_obj = self.env['stock.picking'].search([('origin','=',self.order_id.name), ('marketplace_seller_id','=',self.marketplace_seller_id.id)])
-            picking_obj.write({'payment_provider': self.order_id.get_portal_last_transaction().acquirer_id.provider,
+                for sol_data2 in self.env['sale.order.line'].search([('order_id','=',self.order_id.id), ('is_delivery' , '=' , True)]):
+                    sol_data2.write({'sol_state':self.order_id.state})
+                if (self.env['sale.order.line'].search([('order_id','=',self.order_id.id), ('sol_state' , '=' , 'cancel')]) and self.product_id.is_service)  or (self.env['sale.order.line'].search([('order_id','=',self.order_id.id), ('sol_state' , '=' , 'cancel')]) and self.product_id.is_booking_type):
+                    for cancel_deli_service in self.env['sale.order.line'].search([('order_id','=',self.order_id.id), ('is_delivery' , '=' , True)]):
+                        cancel_deli_service.write({'sol_state':'cancel'})
+                
+            picking_obj = self.env['stock.picking'].search([('origin','=',self.order_id.name), ('order_line_id','=',self.id),
+                                                            ('marketplace_seller_id','=',self.marketplace_seller_id.id)])
+            if picking_obj:
+                picking_obj.write({'payment_provider': self.order_id.get_portal_last_transaction().acquirer_id.provider,
                                'ready_to_pick': True,
                                'hold_state': False })
 
+    def price_cancel(self):
+        """
+        Compute the total amounts of the SO after Order Cancel.
+        """ 
+        for line in self:
+            for order in self.order_id:
+                amount_untaxed = order.amount_untaxed
+                amount_tax = order.amount_tax
+                if self.env['sale.order.line'].search([('order_id','=',line.order_id.id), ('sol_state' , '=' , 'cancel')]):
+                    amount_untaxed -= line.price_subtotal
+                    amount_tax += line.price_tax
+
+                order.update({
+                    'amount_untaxed': order.pricelist_id.currency_id.round(amount_untaxed),
+                    'amount_tax': order.pricelist_id.currency_id.round(amount_tax),
+                    'amount_total': amount_untaxed + amount_tax,
+                })
+                # For Delivery Charge Price Cancel
+                for sol_data in self.env['sale.order.line'].search([('order_id','=',line.order_id.id), ('is_delivery' , '=' , True), ('sol_state' , '=' , 'cancel')]):
+                    amount_untaxed -= sol_data.price_subtotal
+                    amount_tax += sol_data.price_tax
+                    sol_data.order_id.update({
+                        'amount_untaxed': sol_data.order_id.pricelist_id.currency_id.round(amount_untaxed),
+                        'amount_tax': sol_data.order_id.pricelist_id.currency_id.round(amount_tax),
+                        'amount_total': amount_untaxed + amount_tax,
+                    })
+
+
     def button_cancel(self):
         
-        is_to_update = True #is_to_update parent sale order to ready_to_pick
+        is_to_update = True #is_to_update parent sale order to ready_to_pick or cancel
+        count = 0 #To count ready_to_pick
+        rdy_count = 0
         
         for rec in self:
             #pickings = rec.mapped('order_id.picking_ids').filtered(lambda picking: picking.marketplace_seller_id.id == rec.marketplace_seller_id.id)
             #pickings.action_cancel()            
             rec.write({'sol_state': 'cancel','state': 'cancel', 'marketplace_state': 'cancel'})
-            
+
+            if rec.sol_state == 'cancel':
+                picking_obj = self.env['stock.picking'].search([('origin','=',self.order_id.name), ('order_line_id','=',rec.id),
+                                                            ('marketplace_seller_id','=',rec.marketplace_seller_id.id)])
+                for i_data in picking_obj:
+                    i_data.action_cancel()
+                    
             for sol_data in self.env['sale.order.line'].search([('order_id','=',rec.order_id.id)]):
                 if sol_data.state not in ['ready_to_pick', 'cancel'] and not sol_data.is_delivery:
                     is_to_update = False
+            
+            if self.env['sale.order.line'].search([('order_id','=',rec.order_id.id), ('sol_state' , '=' , 'ready_to_pick')]):
+                count += 1
+         
+            for ready in self.env['sale.order.line'].search([('order_id','=',rec.order_id.id)]):
+                if ready.state in ['ready_to_pick'] and not (ready.product_id.is_service or ready.product_id.is_booking_type):
+                    rdy_count +=1
+     
+            for sol_data2 in self.env['sale.order.line'].search([('order_id','=',rec.order_id.id)]):
                     
-            if is_to_update:
-                self.order_id.write({'state': 'ready_to_pick'})
-                if rec.marketplace_state == "cancel" and rec.sol_state == 'cancel':
-                    rec.write({'state': 'cancel'})
+                if sol_data2.state in ['ready_to_pick', 'cancel']:
+                    if is_to_update:
+                        if count == 0:
+                            self.order_id.write({'state': 'cancel'})
+                            if rec.marketplace_state == "cancel" and rec.sol_state == 'cancel':
+                                rec.write({'state': 'cancel'})
+
+                        elif count >= 1:
+                            self.order_id.write({'state': 'ready_to_pick'})
+
+                        for sol_data3 in self.env['sale.order.line'].search([('order_id','=',rec.order_id.id), ('is_delivery' , '=' , True)]):
+                            sol_data3.write({'sol_state':rec.order_id.state})
+                            
+                        if count >= 1:
+                            for sol_data4 in self.env['sale.order.line'].search([('order_id','=',rec.order_id.id)]):
+                                if sol_data4.product_id.is_service or sol_data4.product_id.is_booking_type:
+                                    if rdy_count == 0:
+                                        for cancel_deli_service in self.env['sale.order.line'].search([('order_id','=',self.order_id.id), ('is_delivery' , '=' , True)]):
+                                            cancel_deli_service.write({'sol_state':'cancel'})
+                                    elif rdy_count >= 1:
+                                        for sol_data5 in self.env['sale.order.line'].search([('order_id','=',rec.order_id.id), ('is_delivery' , '=' , True)]):
+                                            sol_data5.write({'sol_state':rec.order_id.state})
+                  
+        return self.price_cancel()
+            
