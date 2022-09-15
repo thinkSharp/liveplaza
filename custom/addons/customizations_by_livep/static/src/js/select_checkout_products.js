@@ -16,7 +16,7 @@ odoo.define('customizations_by_livep.cart', function(require) {
     var qweb = core.qweb;
 
     publicWidget.registry.websiteSaleCart = publicWidget.Widget.extend({
-    selector: '.oe_website_sale .oe_cart',
+    selector: '.oe_website_sale',
     events: {
         'click .js_change_shipping': '_onClickChangeShipping',
         'click .js_edit_address': '_onClickEditAddress',
