@@ -345,6 +345,18 @@
     </template>
 
     <template id='cart_edit' inherit_id='website_sale.cart'>
+            <xpath expr="//div[@class='d-xl-none mt8']" position="replace">
+                <div class="d-xl-none mt8">
+                    <a role="button" href="/shop" class="btn btn-secondary mb32">
+                        <span class="fa fa-chevron-left" />
+                        Continue<span class="d-none d-md-inline"> Shopping</span>
+                    </a>
+                    <a id="place_order" role="button" t-if="website_sale_order and website_sale_order.website_order_line" class="btn btn-primary float-right" href="/shop/checkout?express=1">
+                        <span class="">Checkout</span>
+                        <span class="fa fa-chevron-right" />
+                    </a>
+                </div>
+            </xpath>
             <xpath expr='//div/a[@class="btn btn-primary float-right d-none d-xl-inline-block"]' position='replace'>
                 <t t-set='activate_subscription_condition' t-value="bool(website_sale_order.website_order_line.mapped('product_id').filtered(lambda p: p.activate_subscription == True))"/>
 
@@ -382,10 +394,9 @@
 
     <template id="process_checkout_change_label" inherit_id="website_sale.short_cart_summary">
         <xpath position="replace" expr="//a[@class='btn btn-secondary float-right d-none d-xl-inline-block']">
-<!--            <a id="place_order" role="button" t-if="website_sale_order and website_sale_order.website_order_line"-->
-<!--               class="btn btn-secondary float-right d-none d-xl-inline-block" href="/shop/checkout?express=1">-->
-<!--                <span>Place Order</span>-->
-<!--            </a>-->
+            <a id="place_order" role="button" t-if="website_sale_order and website_sale_order.website_order_line" class="btn btn-secondary float-right d-none d-xl-inline-block" href="/shop/checkout?express=1">
+                <span>Checkout</span>
+            </a>
         </xpath>
     </template>
 
