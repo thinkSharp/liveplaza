@@ -79,8 +79,8 @@
         top: 110px;
         width: 0;
         height: 0;
-        border: 10px solid transparent;
-        border-bottom-color: lightgrey;
+        /*border: 10px solid transparent;
+        border-bottom-color: lightgrey;*/
     }
 
     .bk_slots_main_div:after {
@@ -91,7 +91,7 @@
         top: 112px;
         width: 0;
         height: 0;
-        border: 9px solid transparent;
-        border-bottom-color: white;
+        /*border: 9px solid transparent;
+        border-bottom-color: white;*/
     }
 }
