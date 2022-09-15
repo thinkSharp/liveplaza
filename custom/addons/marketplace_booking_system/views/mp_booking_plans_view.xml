@@ -54,7 +54,6 @@
                             type="object"
                             class="btn-primary"
                             icon="fa-check-circle" string=" Approve"
-                            invisible="not (context.get('mp_new_booking'))"
                             attrs="{'invisible': ['|',('state','in',['approved','rejected','new']),('marketplace_seller_id','=',False)] }"
                             groups="odoo_marketplace.marketplace_officer_group"
                             />

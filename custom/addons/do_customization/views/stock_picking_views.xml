@@ -275,7 +275,7 @@
 <!--                     <button name="action_toggle_is_locked" attrs="{'invisible': [('is_locked', '=', True)]}" string="Lock" class="oe_highlight" groups="stock.group_stock_manager" type="object"/> -->
 
                     <button name="do_hold" string="Hold" type="object" attrs="{'invisible': ['|', ('hold_reason', '=', False), ('state', 'in', ('hold','draft','cancel'))]}"/>
-                    <button name="do_hold" string="Unhold" type="object" attrs="{'invisible': ['|', ('hold_reason', '=', False), ('state', 'in', ('draft','confirmed','partially_available','assigned','cancel','done'))]}"/>
+                    <button name="do_hold" string="Unhold" type="object" attrs="{'invisible': ['|', ('hold_reason', '=', False), ('state', 'in', ('draft','confirmed','partially_available','assigned','cancel','delivering','done'))]}"/>
 
                     <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,partially_available,assigned,delivering,done,hold" />
                     <field name="picking_type_entire_packs" invisible="1"/>
@@ -500,7 +500,7 @@
 <!--                     <button name="action_toggle_is_locked" attrs="{'invisible': [('is_locked', '=', True)]}" string="Lock" class="oe_highlight" groups="stock.group_stock_manager" type="object"/> -->
 
                     <button name="do_hold" string="Hold" type="object" attrs="{'invisible': ['|', ('hold_reason', '=', False), ('state', 'in', ('hold','draft','cancel'))]}"/>
-                    <button name="do_hold" string="Unhold" type="object" attrs="{'invisible': ['|', ('hold_reason', '=', False), ('state', 'in', ('draft','confirmed','partially_available','assigned','cancel','done'))]}"/>
+                    <button name="do_hold" string="Unhold" type="object" attrs="{'invisible': ['|', ('hold_reason', '=', False), ('state', 'in', ('draft','confirmed','partially_available','assigned','cancel','delivering','done'))]}"/>
 
                     <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,partially_available,assigned,done,hold" />
                     <field name="picking_type_entire_packs" invisible="1"/>
@@ -714,7 +714,7 @@
 <!--                     <button name="action_toggle_is_locked" attrs="{'invisible': [('is_locked', '=', True)]}" string="Lock" class="oe_highlight" groups="stock.group_stock_manager" type="object"/> -->
 
                     <button name="do_hold" string="Hold" type="object" attrs="{'invisible': ['|', ('hold_reason', '=', False), ('state', 'in', ('hold','draft','cancel'))]}"/>
-                    <button name="do_hold" string="Unhold" type="object" attrs="{'invisible': ['|', ('hold_reason', '=', False), ('state', 'in', ('draft','confirmed','partially_available','assigned','cancel','done'))]}"/>
+                    <button name="do_hold" string="Unhold" type="object" attrs="{'invisible': ['|', ('hold_reason', '=', False), ('state', 'in', ('draft','confirmed','partially_available','assigned','cancel','delivering','done'))]}"/>
 
                     <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,partially_available,assigned,done,hold" />
                     <field name="picking_type_entire_packs" invisible="1"/>

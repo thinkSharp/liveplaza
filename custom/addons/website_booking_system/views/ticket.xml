@@ -133,7 +133,7 @@
     </record>
 
      <record id="booking_ticket_search_action" model="ir.actions.act_window">
-        <field name="name">Service Code Search</field>
+        <field name="name">Booking Code Search</field>
         <field name="res_model">booking.ticket.wizard</field>
         <field name="view_mode">form</field>
         <field name="view_id" ref="booking_ticket_search_wizard_view"/>

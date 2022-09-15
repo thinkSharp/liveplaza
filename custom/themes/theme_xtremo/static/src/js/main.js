@@ -31,7 +31,10 @@ odoo.define("theme_xtremo.main.js", function (require) {
 
   function user_menu(event) {
     self.getId('xtremo_mobile_menu').classList.add("active");
-    self.getQuery("header.o_affix_enabled").style.zIndex = "50000";
+    // xtremo originally has set z-index to "50000"
+    // the reason xtremo set this z-index is to make sure 'user menu' stay on top of odoo 'nav main menu'
+    // minimum z-index should be greater than "1040" which is the z-index of 'nav main menu'
+    self.getQuery("header.o_affix_enabled").style.zIndex = "1050";
   };
 
   function user_menu_close(event) {
@@ -40,6 +43,8 @@ odoo.define("theme_xtremo.main.js", function (require) {
       this.classList.remove("active");
       this.style.zIndex = "1035";
     }
+    // remove z-index of the header so that it will not be interfered with other elements
+    self.getQuery("header.o_affix_enabled").style.zIndex = "";
   };
 
   function toggle_user_menu() {

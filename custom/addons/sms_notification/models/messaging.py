@@ -129,8 +129,11 @@ class SaleOrder(models.Model):
                         if self.state != 'ready_to_pick':
                             self.action_ready_to_pick()
                         picking_data.button_validate()
-
-                    if picking_data.state == 'assigned':
+                    elif self.is_all_booking_type:
+                        if self.state != 'ready_to_pick':
+                            self.action_ready_to_pick()
+                    else:
+                    #if picking_data.state == 'assigned':
                         pick_movel_objs = picking_data.move_line_ids
                         all_service_ticket_per_moveline = all([mv_line.product_id.is_service for mv_line in pick_movel_objs])
 
@@ -139,8 +142,24 @@ class SaleOrder(models.Model):
                                 mv_line.write({"qty_done": mv_line.product_uom_qty})
 
                             if self.state != 'ready_to_pick':
-                                self.action_ready_to_pick()
+                                for line in (line for line in self.order_line if line.id == picking_data.order_line_id.id):
+                                    if line.product_id.is_service:
+                                        line.action_ready_to_pick()
+
+                                #self.action_ready_to_pick()
                             picking_data.button_validate()
+                        else:
+                            for mv_line in pick_movel_objs:
+                                mv_line.write({"qty_done": mv_line.product_uom_qty})
+
+                            if self.state != 'ready_to_pick':
+                                for line in (line for line in self.order_line if line.id == picking_data.order_line_id.id):                                
+                                    if line.product_id.is_booking_type:
+                                        line.action_ready_to_pick()
+                                    else:
+                                        line.write({'sol_state': 'approve_by_admin'})
+                                #self.action_ready_to_pick()
+                            #picking_data.button_validate()
 
                     # if self.get_portal_last_transaction().acquirer_id.provider != 'cash_on_delivery':
                     #    picking_data.write({'payment_upload': self.payment_upload,
@@ -216,6 +235,13 @@ class SaleOrder(models.Model):
                             for mv_line in pick_movel_objs:
                                 mv_line.write({"qty_done": mv_line.product_uom_qty})
                             picking_data.button_validate()
+            #Update sol delivery line status approved by admin          
+            for line in (line for line in self.order_line if line.is_delivery):
+                line.write({'sol_state': line.order_id.state})
+            #Update sol booking line status ready to pick      
+            for line in (line for line in self.order_line if line.product_id.is_booking_type):
+                if line.write({'sol_state': 'approve_by_admin'}):
+                    line.action_ready_to_pick()
 
     # def action_cancel(self):
     #     res = super(SaleOrder, self).action_cancel()

@@ -114,7 +114,7 @@ class SaleOrder(models.Model):
         discount = 0
         discount_amount = 0
 
-        if order.pricelist_id.discount_policy == 'without_discount':
+        if order.pricelist_id.discount_policy == 'without_discount' and not product.is_booking_type:
             # This part is pretty much a copy-paste of the method '_onchange_discount' of
             # 'sale.order.line'.
             price, rule_id = order.pricelist_id.with_context(product_context).get_product_price_rule(product,
@@ -198,6 +198,8 @@ class SaleOrder(models.Model):
 
         res = super(SaleOrder, self).action_confirm()
         self.write({'payment_provider': self.get_portal_last_transaction().acquirer_id.provider})
+        for line_status in self.order_line:
+            line_status.write({'sol_state': self.state})
         #if self.get_portal_last_transaction().acquirer_id.provider in ('wavepay','cash_on_delivery') and self.state == 'sale':
         #    self.action_admin()
 
@@ -339,12 +341,15 @@ class SaleOrderLine(models.Model):
             ('cancel', 'Cancelled'),
         ], related='order_id.state', string='Order Status', readonly=True, copy=False, store=True, default='draft')
     
-    sol_state = fields.Selection([            
+    sol_state = fields.Selection([   
+            ('draft', 'Quotation'),
+            ('sent', 'Quotation Sent'),
+            ('sale', 'Sales Order'),         
             ('approve_by_admin', 'Approved by Admin'),
             ('ready_to_pick', 'Ready to Pick'),
             ('done', 'Locked'),
             ('cancel', 'Cancelled'),
-            ], string='Order Status', readonly=True, copy=False, store=True, default='approve_by_admin')
+            ], string='Order Status', readonly=True, copy=False, store=True, default='draft')
 
     delivery_status = fields.Selection([
         ('ordered', 'Ordered'),
@@ -529,6 +534,12 @@ class SaleOrderLine(models.Model):
             #pickings.action_cancel()            
             rec.write({'sol_state': 'cancel','state': 'cancel', 'marketplace_state': 'cancel'})
 
+            if rec.sol_state == 'cancel':
+                picking_obj = self.env['stock.picking'].search([('origin','=',self.order_id.name), ('order_line_id','=',rec.id),
+                                                            ('marketplace_seller_id','=',rec.marketplace_seller_id.id)])
+                for i_data in picking_obj:
+                    i_data.action_cancel()
+                    
             for sol_data in self.env['sale.order.line'].search([('order_id','=',rec.order_id.id)]):
                 if sol_data.state not in ['ready_to_pick', 'cancel'] and not sol_data.is_delivery:
                     is_to_update = False

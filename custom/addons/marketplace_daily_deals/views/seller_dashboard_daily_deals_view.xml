@@ -159,30 +159,32 @@
                                                 <field name='available_product_ids' invisible="1"/>
 					                        	<field name='available_variant_ids' invisible="1"/>
 					                        	<field name="isGenerated" attrs="{'invisible':1}"/>
+                                                <field name="multiproduct_domain" invisible="1"/>
+					                        	<field name="multivariant_domain" invisible="1"/>
 					                            <field name="deal_applied_on" widget="radio" attrs="{'readonly':[('isGenerated', '=', True)]}"/>
 												<field name="applied_on" widget="radio" attrs="{'readonly':[('isGenerated', '=', True)], 'invisible':1}"/>
 					                            
 <!-- 					                            <field name="product_tmpl_id" attrs="{'invisible':[('applied_on', '!=', '1_product')],'required':[('applied_on', '=', '1_product')]}" string="Product"/> -->
-					                            <field name="product_tmpl_id" domain="[('virtual_available', '&gt;', 0),('marketplace_seller_id','!=',False),('status', '=', 'approved')]" attrs="{'readonly':[('isGenerated', '=', True)],
+					                            <field name="product_tmpl_id" domain="[('id', 'in', available_product_ids)]" attrs="{'readonly':[('isGenerated', '=', True)],
 					                                'invisible':['|','|',('applied_on', '!=', '1_product'), ('isMulti_products', '=', True)],
 					                                'required':[('applied_on', '=', '1_product'), ('isMulti_products', '=', False)]}"
 					                                context="{'tree_view_ref':'odoo_marketplace.wk_seller_product_template_tree_view'}"
 					                                options="{'no_create_edit': True,'no_open':True}"/>
 					                            <field name="isMulti_products"	attrs="{'readonly':[('isGenerated', '=', True)], 'invisible':[('applied_on', '!=', '1_product')]}"/>	                							
-	                							<field name="product_tmpl_ids" domain="[('virtual_available', '&gt;', 0),('marketplace_seller_id','!=',False),('status', '=', 'approved')]" widget="many2many_tags" attrs="{'readonly':[('isGenerated', '=', True)],
+	                							<field name="product_tmpl_ids" domain="multiproduct_domain" widget="many2many_tags" attrs="{'readonly':[('isGenerated', '=', True)],
 					                                'invisible':['|','|',('applied_on', '!=', '1_product'),('isMulti_products', '!=', True)],
 					                                'required':[('applied_on', '=', '1_product'),('isMulti_products', '=', True)]}"
 					                                context="{'tree_view_ref':'odoo_marketplace.wk_seller_product_template_tree_view'}"
 					                                options="{'no_create_edit': True,'no_open':True}"/>
 					                            
 <!-- 					                            <field name="product_id" attrs="{'invisible':[('applied_on', '!=', '0_product_variant')],'required':[('applied_on', '=', '0_product_variant')]}" string="Product Variant"/> -->
-					                        	<field name="product_id" domain="[('virtual_available', '&gt;', 0),('status', '=', 'approved')]" attrs="{'readonly':[('isGenerated', '=', True)],
+					                        	<field name="product_id" domain="[('id', 'in', available_variant_ids)]" attrs="{'readonly':[('isGenerated', '=', True)],
 					                                'invisible':['|','|',('applied_on', '!=', '0_product_variant'), ('isMulti_variants', '=', True)],
 					                                'required':[('applied_on', '=', '0_product_variant'), ('isMulti_variants', '=', False)]}"
 					                                context="{'tree_view_ref':'odoo_marketplace.wk_seller_product_template_tree_view'}"
                                                     options="{'no_create_edit': True,'no_open':True}"/>
 					                            <field name="isMulti_variants" attrs="{'readonly':[('isGenerated', '=', True)], 'invisible':[('applied_on', '!=', '0_product_variant')]}"/>
-								                <field name="product_ids" domain="[('virtual_available', '&gt;', 0),('status', '=', 'approved')]" widget="many2many_tags" attrs="{'readonly':[('isGenerated', '=', True)],
+								                <field name="product_ids" domain="multivariant_domain" widget="many2many_tags" attrs="{'readonly':[('isGenerated', '=', True)],
 					                                'invisible':['|','|',('applied_on', '!=', '0_product_variant'), ('isMulti_variants', '!=', True)],
 					                                'required':['|','|',('applied_on', '=', '0_product_variant'), ('isMulti_variants', '=', True)]}"
 					                                context="{'tree_view_ref':'odoo_marketplace.wk_seller_product_template_tree_view'}"
