@@ -200,6 +200,13 @@ class WebsiteSale(WebsiteSale):
             sale_order.sudo().write({'payment_upload': sale_order.payment_upload_temp})
         else:
             sale_order.sudo().write({'payment_upload': None})
+
+        if sale_order.selected_carrier_id:
+            carrier = request.env['delivery.carrier'].search([('id', '=', sale_order.selected_carrier_id)])
+            shipping_cost = carrier.rate_shipment(sale_order)['price'] if carrier.free_over else carrier.fixed_price
+            print(carrier.id , " = ", carrier.name)
+            sale_order.set_delivery_line(carrier, shipping_cost)
+
         # Ensure a payment acquirer is selected
         if not acquirer_id:
             return False
@@ -266,13 +273,14 @@ class WebsiteSale(WebsiteSale):
             cod = "1"
         else:
             cod = "0"
-
+        delivery = sale_order._check_delivery_selected()
+        print("delivery = ", delivery)
         values = {
             'sale_order': sale_order,
             'acq': acquirer,
             'order': sale_order,
             'cod': cod,
+            'delivery': delivery
         }
         return request.render("do_customization.checkout_preview", values)
-
 
