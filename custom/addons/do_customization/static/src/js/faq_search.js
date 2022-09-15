@@ -761,9 +761,19 @@ publicWidget.registry.PaymentFormNew = publicWidget.Widget.extend({
                 this.disableButton(button);
                 var $tx_url = this.$el.find('input[name="prepare_tx_url"]');
                 // if there's a prepare tx url set
-                var $file = document.getElementById("ssImage");
+                
+                var delivery = self.options.delivery;
+                if (delivery == 0) {
+                    this.displayError(
+                        _t("Delivery method removed"),
+                        _t("Please go to previous page and select the delivery method first!")
+                    );
+                    self.enableButton(button);
+                    return false;
+                }
                 var cod = self.options.cod;
                 if (cod == 0) {
+                    var $file = document.getElementById("ssImage");
                     var $fileInput = document.getElementById('ssImage').files[0];
                     if (!$fileInput) {
                         this.displayError(

@@ -183,6 +183,7 @@
                 t-att-data-partner-id="partner_id"
                 t-att-data-callback-method="callback_method or ''"
                 t-att-data-order-id="order_id or ''"
+                t-att-data-delivery="delivery or ''"
                 t-att-data-mode="mode">
             <input type="hidden" name="success_url" t-att-value="success_url or ''"/>
             <input type="hidden" name="error_url" t-att-value="error_url or ''"/>

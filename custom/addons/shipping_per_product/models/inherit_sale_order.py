@@ -25,7 +25,7 @@ class SaleOrder(models.Model):
 
     def _check_carrier_quotation(self, force_carrier_id=None):
         # super(SaleOrder, self)._check_carrier_quotation()
-        # self._remove_delivery_line()
+        self._remove_delivery_line()
         self.write({'carrier_id': False})
         self.order_line.filtered('is_delivered').write({
             'delivery_carrier_id' : False,
