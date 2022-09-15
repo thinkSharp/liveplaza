@@ -31,11 +31,10 @@ odoo.define("theme_xtremo.main.js", function (require) {
 
   function user_menu(event) {
     self.getId('xtremo_mobile_menu').classList.add("active");
-    // xtremo originally has set z-index to "50000", it's too much and will cover on top of bootstrap modal
+    // xtremo originally has set z-index to "50000"
     // the reason xtremo set this z-index is to make sure 'user menu' stay on top of odoo 'nav main menu'
-    // to settle this conflict, we set this to "1040"
-    // note that, bootstrap modal has z-index of "1050" while 'odoo nav main menu' has "1040"
-    self.getQuery("header.o_affix_enabled").style.zIndex = "1040";
+    // minimum z-index should be greater than "1040" which is the z-index of 'nav main menu'
+    self.getQuery("header.o_affix_enabled").style.zIndex = "1050";
   };
 
   function user_menu_close(event) {
@@ -44,6 +43,8 @@ odoo.define("theme_xtremo.main.js", function (require) {
       this.classList.remove("active");
       this.style.zIndex = "1035";
     }
+    // remove z-index of the header so that it will not be interfered with other elements
+    self.getQuery("header.o_affix_enabled").style.zIndex = "";
   };
 
   function toggle_user_menu() {
