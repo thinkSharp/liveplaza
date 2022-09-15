@@ -532,7 +532,7 @@ class SaleOrderLine(models.Model):
                 count += 1
          
             for ready in self.env['sale.order.line'].search([('order_id','=',rec.order_id.id)]):
-                if ready.state in ['ready_to_pick'] and not (ready.product_id.is_service or ready.product_id.is_booking_type):\
+                if ready.state in ['ready_to_pick'] and not (ready.product_id.is_service or ready.product_id.is_booking_type):
                     rdy_count +=1
      
             for sol_data2 in self.env['sale.order.line'].search([('order_id','=',rec.order_id.id)]):
@@ -542,11 +542,14 @@ class SaleOrderLine(models.Model):
                         if count == 0:
                             self.order_id.write({'state': 'cancel'})
                             if rec.marketplace_state == "cancel" and rec.sol_state == 'cancel':
-                                rec.write({'state': 'cancel'})    
+                                rec.write({'state': 'cancel'})
+
                         elif count >= 1:
                             self.order_id.write({'state': 'ready_to_pick'})
+
                         for sol_data3 in self.env['sale.order.line'].search([('order_id','=',rec.order_id.id), ('is_delivery' , '=' , True)]):
-                                sol_data3.write({'sol_state':rec.order_id.state})
+                            sol_data3.write({'sol_state':rec.order_id.state})
+                            
                         if count >= 1:
                             for sol_data4 in self.env['sale.order.line'].search([('order_id','=',rec.order_id.id)]):
                                 if sol_data4.product_id.is_service or sol_data4.product_id.is_booking_type:
