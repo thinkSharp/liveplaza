@@ -530,6 +530,7 @@ class SaleOrderLine(models.Model):
         
         is_to_update = True #is_to_update parent sale order to ready_to_pick or cancel
         count = 0 #To count ready_to_pick
+        rdy_count = 0
         
         for rec in self:
             #pickings = rec.mapped('order_id.picking_ids').filtered(lambda picking: picking.marketplace_seller_id.id == rec.marketplace_seller_id.id)
@@ -548,24 +549,35 @@ class SaleOrderLine(models.Model):
             
             if self.env['sale.order.line'].search([('order_id','=',rec.order_id.id), ('sol_state' , '=' , 'ready_to_pick')]):
                 count += 1
+         
+            for ready in self.env['sale.order.line'].search([('order_id','=',rec.order_id.id)]):
+                if ready.state in ['ready_to_pick'] and not (ready.product_id.is_service or ready.product_id.is_booking_type):
+                    rdy_count +=1
      
             for sol_data2 in self.env['sale.order.line'].search([('order_id','=',rec.order_id.id)]):
                     
-
                 if sol_data2.state in ['ready_to_pick', 'cancel']:
                     if is_to_update:
                         if count == 0:
                             self.order_id.write({'state': 'cancel'})
                             if rec.marketplace_state == "cancel" and rec.sol_state == 'cancel':
                                 rec.write({'state': 'cancel'})
+
                         elif count >= 1:
                             self.order_id.write({'state': 'ready_to_pick'})
-                            if (self.env['sale.order.line'].search([('order_id','=',self.order_id.id), ('sol_state' , '=' , 'cancel')]) and self.product_id.is_service) or (self.env['sale.order.line'].search([('order_id','=',self.order_id.id), ('sol_state' , '=' , 'cancel')]) and self.product_id.is_booking_type):
-                                for cancel_deli_service in self.env['sale.order.line'].search([('order_id','=',self.order_id.id), ('is_delivery' , '=' , True)]):
-                                    cancel_deli_service.write({'sol_state':'cancel'})
-                        
+
                         for sol_data3 in self.env['sale.order.line'].search([('order_id','=',rec.order_id.id), ('is_delivery' , '=' , True)]):
                             sol_data3.write({'sol_state':rec.order_id.state})
                             
+                        if count >= 1:
+                            for sol_data4 in self.env['sale.order.line'].search([('order_id','=',rec.order_id.id)]):
+                                if sol_data4.product_id.is_service or sol_data4.product_id.is_booking_type:
+                                    if rdy_count == 0:
+                                        for cancel_deli_service in self.env['sale.order.line'].search([('order_id','=',self.order_id.id), ('is_delivery' , '=' , True)]):
+                                            cancel_deli_service.write({'sol_state':'cancel'})
+                                    elif rdy_count >= 1:
+                                        for sol_data5 in self.env['sale.order.line'].search([('order_id','=',rec.order_id.id), ('is_delivery' , '=' , True)]):
+                                            sol_data5.write({'sol_state':rec.order_id.state})
+                  
         return self.price_cancel()
             
