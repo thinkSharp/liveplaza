@@ -93,7 +93,10 @@ class Picking(models.Model):
         for line in order.order_line:
             for pick_data in self.move_line_ids_without_package:
                 if pick_data.product_id == line.product_id:
-                    line.delivery_status = 'hold'
+                    if self.state == 'hold':
+                        line.write({'delivery_status': line.old_delivery_status, 'old_delivery_status': ''})
+                    else:
+                        line.write({'delivery_status': 'hold', 'old_delivery_status': line.delivery_status})
                     if self.hold_reason:
                         line.write({'hold_reason': self.hold_reason})
 
@@ -333,8 +336,6 @@ class Picking(models.Model):
             return self.action_generate_backorder_wizard()
         self.action_done()
         return
-
-
     
     def prepare_seller_payment_vals(self):        
     

@@ -360,6 +360,8 @@ class SaleOrderLine(models.Model):
         ('hold', 'Hold'),
     ], string='Delivery Status', readonly=True, copy=False, index=True, tracking=3, default='ordered')
 
+    old_delivery_status = fields.Char(string="Old Status", readonly=True, store=True)
+
     service_delivery_status = fields.Selection([
         ('ordered', 'Ordered'),
         ('delivered', 'Approved / Delivered')
