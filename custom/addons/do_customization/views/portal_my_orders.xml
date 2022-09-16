@@ -16,7 +16,7 @@
         </t>
     </template>
 
-    <template id="portal_my_cancel_orders" name="My Sales Orders">
+    <template id="portal_my_cancel_orders" name="My Cancel Sales Orders">
         <t t-call="portal.portal_layout">
             <t t-set="breadcrumbs_searchbar" t-value="True"/>
 
@@ -152,13 +152,13 @@
         </div>
     </template>
 
-    <template id="order_details_page">
+    <template id="order_details_page" name="Order Details">
         <t t-call="portal.portal_layout">
             <t t-set="breadcrumbs_searchbar" t-value="True"/>
 
             <t t-call="portal.portal_searchbar">
-                    <t t-set="title">Sales Orders</t>
-                </t>
+                <t t-set="title">Sales Orders</t>
+            </t>
             <t t-if="cancel">
                 <t t-set="sale_order" t-value="cancel_order" />
             </t>

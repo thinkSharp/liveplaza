@@ -204,7 +204,6 @@ class WebsiteSale(WebsiteSale):
         if sale_order.selected_carrier_id:
             carrier = request.env['delivery.carrier'].sudo().search([('id', '=', sale_order.selected_carrier_id)])
             shipping_cost = carrier.rate_shipment(sale_order)['price'] if carrier.free_over else carrier.fixed_price
-            print(carrier.id , " = ", carrier.name)
             sale_order.set_delivery_line(carrier, shipping_cost)
 
         # Ensure a payment acquirer is selected
@@ -274,7 +273,7 @@ class WebsiteSale(WebsiteSale):
         else:
             cod = "0"
         delivery = sale_order._check_delivery_selected()
-        print("delivery = ", delivery)
+
         values = {
             'sale_order': sale_order,
             'acq': acquirer,

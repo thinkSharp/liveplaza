@@ -349,21 +349,10 @@ class CustomerPortal(CustomerPortal):
         delivery_state = []
         delivery_completion = []
 
-        # for sale order which only booking products
-
-        # if self.check_service_order(order):
-        #     if order.state == 'ready_to_pick':
-        #         state = 'complete'
-        #         order.delivery_status = 'delivered'
-        #     else:
-        #         state = 'not_yet'
-        #     b_delivery_progress = {'ordered': ['complete', create_date], 'delivered': [state, delivered_date]}
-        #     return b_delivery_progress
-
         # for products
         if self.check_service_order(order):
             delivery_status = {'delivered': 'complete', 'ordered': 'complete'}
-            if order.state == 'approve_by_admin':
+            if order.state in ('approve_by_admin', 'ready_to_pick'):
                 order.service_delivery_status = 'delivered'
             status = order.service_delivery_status
         else:
