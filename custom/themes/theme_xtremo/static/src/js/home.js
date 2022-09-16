@@ -151,11 +151,9 @@ odoo.define('xtremo.shop.advance.search', function (require) {
       var layout = switchToList ? 'list' : 'grid';
 
       if (window.screen.width < 768) {
-        layout = "list";
-        switchToList = true;
+        layout = 'grid';
+        switchToList = false;
       }
-
-
 
       if (!this.editableMode) {
           this._rpc({
@@ -171,12 +169,6 @@ odoo.define('xtremo.shop.advance.search', function (require) {
         $grid.toggleClass('o_wsale_layout_list', switchToList);
         void $grid[0].offsetWidth;
         $grid.find('*').css('transition', '');
-
-        var x = window.matchMedia("(max-width: 640px)")
-        if (x.matches) {
-            document.getElementById('products_grid').classList.remove('o_wsale_layout_list');
-
-        }
     },
 
     resize: function (ev) {
