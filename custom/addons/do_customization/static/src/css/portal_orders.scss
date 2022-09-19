@@ -55,6 +55,14 @@
             margin-left: 10px;
         }
     }
+    .cancel_sol {
+        padding: 30px 10px;
+        h4 {
+            text-align: center;
+            color: red;
+
+        }
+    }
     .order_progress {
         display: flex;
         justify-content: space-around;

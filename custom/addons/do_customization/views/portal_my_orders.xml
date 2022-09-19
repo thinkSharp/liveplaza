@@ -226,6 +226,7 @@
                                                         </t>
                                                         <p class="attribute_text"> Sold by: <t t-esc="line.product_id.marketplace_seller_id.name"/> </p>
                                                     </div>
+                                                    <p><t t-esc="line.sol_state"/></p>
                                                     <button t-if="track_product" id="product_tracking_btn">Track your product</button>
                                                 </div>
                                             </td>
@@ -441,28 +442,35 @@
                             <div class="product_tracking_header">
                                 <h5 t-esc="line.name_short" />
                             </div>
-                            <ul class="order_progress">
-                                <t t-foreach="delivery_progress" t-as="pro">
-                                    <li t-attf-class="#{pro_value[0]}">
-                                        <span t-attf-class="#{pro_value[0]}_bar"></span>
-                                        <t t-if="pro_value[0] == 'complete'">
-                                            <span>
-                                                <span><i class="fa fa-check-circle"></i></span>
-                                                <h5 class="#{pro_value[0]}"><t t-esc="pro" /> </h5>
-                                                <p><t t-esc="pro_value[1]"/> </p>
-                                            </span>
-                                        </t>
-                                        <t t-else="">
-                                            <span>
-                                                <span><i class="fa fa-circle"></i> </span>
-                                                <h5 class="#{pro_value[0]}"><t t-esc="pro" /> </h5>
-                                                <p><t t-esc="pro_value[1]"/> </p>
-<!--                                                <h6 class="#{pro_value[0]}"><t t-esc="pro_value[1]"/> </h6>-->
-                                            </span>
-                                        </t>
-                                    </li>
-                                </t>
-                            </ul>
+                            <t t-if="line.delivery_status=='cancel'">
+                                <div class="cancel_sol">
+                                    <h4>This product is cancelled.</h4>
+                                </div>
+                            </t>
+                            <t t-else="">
+                                <ul class="order_progress">
+                                    <t t-foreach="delivery_progress" t-as="pro">
+                                        <li t-attf-class="#{pro_value[0]}">
+                                            <span t-attf-class="#{pro_value[0]}_bar"></span>
+                                            <t t-if="pro_value[0] == 'complete'">
+                                                <span>
+                                                    <span><i class="fa fa-check-circle"></i></span>
+                                                    <h5 class="#{pro_value[0]}"><t t-esc="pro" /> </h5>
+                                                    <p><t t-esc="pro_value[1]"/> </p>
+                                                </span>
+                                            </t>
+                                            <t t-else="">
+                                                <span>
+                                                    <span><i class="fa fa-circle"></i> </span>
+                                                    <h5 class="#{pro_value[0]}"><t t-esc="pro" /> </h5>
+                                                    <p><t t-esc="pro_value[1]"/> </p>
+    <!--                                                <h6 class="#{pro_value[0]}"><t t-esc="pro_value[1]"/> </h6>-->
+                                                </span>
+                                            </t>
+                                        </li>
+                                    </t>
+                                </ul>
+                            </t>
                         </div>
                         <div class="modal-footer">
                             <div class="row booking_modal_footer">

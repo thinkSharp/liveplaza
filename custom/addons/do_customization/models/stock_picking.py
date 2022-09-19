@@ -206,10 +206,15 @@ class Picking(models.Model):
                 sp_obj.invoice_id.sudo().post()
                 sp_obj.do_paid()
 
-        picking = self.env["stock.picking"].search(
-            [('origin', '=', self.origin), ('picking_type_id.name', '=', self.picking_type_id.name)])
+        # picking = self.env["stock.picking"].search(
+        #     [('origin', '=', self.origin), ('picking_type_id.name', '=', self.picking_type_id.name)])
         order = self.env["sale.order"].search([('name', '=', self.origin)])
         picking_type = self.picking_type_id.name
+
+        for line in order.order_line:
+            for pick_data in self.move_line_ids_without_package:
+                if pick_data.state != 'cancel' and pick_data.product_id == line.product_id:
+                    picking = pick_data
 
         for line in order.order_line:
             for pick_data in self.move_line_ids_without_package:
