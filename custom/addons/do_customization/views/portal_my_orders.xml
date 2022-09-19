@@ -226,7 +226,6 @@
                                                         </t>
                                                         <p class="attribute_text"> Sold by: <t t-esc="line.product_id.marketplace_seller_id.name"/> </p>
                                                     </div>
-                                                    <p><t t-esc="line.sol_state"/></p>
                                                     <button t-if="track_product" id="product_tracking_btn">Track your product</button>
                                                 </div>
                                             </td>
