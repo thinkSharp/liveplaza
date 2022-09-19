@@ -358,13 +358,14 @@ class SaleOrderLine(models.Model):
         ('delivering', 'Delivering'),
         ('delivered', 'Delivered'),
         ('hold', 'Hold'),
+        ('cancel', 'Cancelled')
     ], string='Delivery Status', readonly=True, copy=False, index=True, tracking=3, default='ordered')
 
     old_delivery_status = fields.Char(string="Old Status", readonly=True, store=True)
 
     service_delivery_status = fields.Selection([
         ('ordered', 'Ordered'),
-        ('delivered', 'Approved / Delivered')
+        ('delivered', 'Approved / Delivered'),
     ], string='Delivery Status', readonly=True, copy=False, index=True, tracking=3, default='ordered')
 
     picking_date = fields.Datetime('Picking Date', store=True, default="", readonly=True)
@@ -536,6 +537,7 @@ class SaleOrderLine(models.Model):
             #pickings = rec.mapped('order_id.picking_ids').filtered(lambda picking: picking.marketplace_seller_id.id == rec.marketplace_seller_id.id)
             #pickings.action_cancel()            
             rec.write({'sol_state': 'cancel','state': 'cancel', 'marketplace_state': 'cancel'})
+            rec.write({'delivery_status': 'cancel'})
 
             if rec.sol_state == 'cancel':
                 picking_obj = self.env['stock.picking'].search([('origin','=',self.order_id.name), ('order_line_id','=',rec.id),
