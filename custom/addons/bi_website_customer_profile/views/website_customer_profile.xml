@@ -164,9 +164,9 @@
 
 		<div t-attf-class="form-group #{error and 'state_id' in error and 'has-error' or ''} col-lg-6">
 			<label class="col-form-label" for="state_id">State / Province</label>
-			<select id="state_id" name="state_id" class="form-control" required="required" onchange="getTownshipByState()">
+			<select id="state_id" name="state_id" class="form-control" required="required">
 				<t t-set="state_list" t-value="website.get_state_list()"/>
-				<!--                            <option value="">Select State</option>-->
+				<option value="">-- Select State --</option>
 				<t t-foreach="state_list or []" t-as="state">
 					<t t-if="state.id == partner_state" t-set="display" t-value="'done'" />
 					<option t-att-value="state.id" t-att-selected="state.id == partner_state">
@@ -179,18 +179,11 @@
 		<div t-attf-class="form-group #{error and 'township_id' in error and 'has-error' or ''} div_township col-lg-6">
 			<label class="control-label" for="township_id">Township</label>
 			<select required="required" id="township_id" name="township_id" class="form-control" >
-											<option value="">Select Township ...</option>
+				<option value="">-- Select Township --</option>
 				<t t-set="state_list" t-value="website.get_state_list()" />
-				<t t-set="default_state" t-value="partner_state or (state_list and state_list[0].id)" />
 				<t t-foreach="state_list or []" t-as="state" >
 					<t t-set="township_list" t-value="website.get_township_list_by_state(state.id)" />
-					<t t-if="state.id == default_state">
-						<t t-set="style" t-value="'display: block;'" />
-					</t>
-					<t t-else="">
-						<t t-set="style" t-value="'display: none;'" />
-					</t>
-					<optgroup t-att-style="style" t-att-id="state.id" t-att-label="state.name">
+					<optgroup t-att-id="state.id" t-att-label="state.name">
 						<t t-foreach="township_list" t-as="t">
 							<option t-att-id="state.id" t-att-value="t.id" t-att-selected="t.id == partner_township">
 								<t t-esc="t.name" />
@@ -202,11 +195,9 @@
 		</div>
 
 		<div t-attf-class="form-group #{error and 'country_id' in error and 'has-error' or ''} col-lg-6">
-										<label class="control-label" for="country_id">Country
-										</label>
-
+			<label class="control-label" for="country_id">Country</label>
 			<select name="country_id" class="form-control" required="required">
-											<option value="">Select an option...</option>
+				<option value="">-- Select Country --</option>
 				<t t-set="country_list" t-value="website.get_country_list()" />
 				<t t-foreach="country_list" t-as="country">
 					<option t-att-value="country.id" t-att-selected="country.code == 'MM'" readonly="True">
