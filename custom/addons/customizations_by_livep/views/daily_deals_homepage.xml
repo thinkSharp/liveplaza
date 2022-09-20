@@ -16,6 +16,17 @@
         <template id="homepage_flash_sales_displays" name="Flash Sales on Homepage" active="True" customize_show="True">
               <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
               <div class="website_daily_deals oe_website_sale">
+                    <div class="modal" id="deal_product_item_view_modal">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header" style="border:none;">
+                                    <button type="button" class="close" data-dismiss="modal">x</button>
+                                </div>
+                                <div class="modal-body daily-deals-quick-view" style="min-height:400px;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                   <div class="container" style="padding: 0 2%;">
                       <div class="daily_deals_owl_carousel owl-carousel" >
                            <div class=' deal_main_row' t-foreach="homepage_deals" t-as="deal">
