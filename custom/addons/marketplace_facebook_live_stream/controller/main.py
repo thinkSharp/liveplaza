@@ -20,8 +20,9 @@ from odoo import http
 from odoo.addons.website.controllers.main import QueryURL
 from odoo.addons.website_sale.controllers.main import WebsiteSale,TableCompute
 from odoo.osv import expression
-
+from odoo.addons.website_sale.controllers.main import TableCompute
 import logging
+
 _logger = logging.getLogger(__name__)
 
 PPG = 20  # Products Per Page
@@ -64,7 +65,7 @@ class WebsiteSale(WebsiteSale):
     @http.route(['/livestream',
                 '/livestream/<int:stream_id>/',],
                 type='http', auth="public", website=True)
-    def seller_signup_form(self, stream_id=False, page=0, category=None, search='', ppg=False, **post):
+    def display_livestream(self, stream_id=False, page=0, category=None, search='', ppg=False, **post):
         stream_obj = request.env["seller.live.stream"].sudo().search([('id','in',[stream_id])])
         stream_product_ids = stream_obj.promoted_product_ids
         
@@ -150,6 +151,52 @@ class WebsiteSale(WebsiteSale):
 
 
 class your_class(http.Controller):
-    @http.route(['/livestreams'], type='http', auth='public', website=True)
-    def show_custom_webpage(self, **kw):
-        return request.render('marketplace_facebook_live_stream.backend_livestreams', {})
+    @http.route([
+        '''/livestreams''',
+        '''/livestreams/page/<int:page>'''
+    ], type='http', auth='public', website=True)
+    def livestreams(self, page=0, ppg=False, **post):
+
+        if ppg:
+            try:
+                ppg = int(ppg)
+                post['ppg'] = ppg
+            except ValueError:
+                ppg = False
+        if not ppg:
+            ppg = request.env['website'].get_current_website().shop_ppg or 20
+
+        ppr = request.env['website'].get_current_website().shop_ppr or 4
+
+        temp_live_streams = request.website.sudo()._get_seller_live_streams(view_name="")
+
+        livestream_count = len(temp_live_streams)
+
+        url = "/livestreams"
+        pager = request.website.pager(url=url, total=livestream_count, page=page, step=ppg, scope=7, url_args=post)
+        offset = pager['offset']
+
+        live_streams = temp_live_streams[offset: offset + ppg]
+
+        keep = QueryURL('/livestreams', order=post.get('order'))
+
+        values = {
+            'live_streams': live_streams,
+            'bins': TableCompute().process(live_streams, ppg, ppr),
+            'pager': pager,
+            'ppg': ppg,
+            'ppr': ppr,
+            'keep': keep,
+            'layout_mode': 'grid',
+        }
+
+        if values.get("pager").get('page_end').get('num') < page:
+            print("none")
+            return "none"
+        elif post.get("test"):
+            print("test")
+            view = request.render("marketplace_facebook_live_stream.wk_lazy_list_livestream_item", values)
+            return view
+        else:
+            print("else")
+            return request.render('marketplace_facebook_live_stream.backend_livestreams', values)

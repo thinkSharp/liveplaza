@@ -22,6 +22,13 @@ from odoo.exceptions import UserError
 import logging, re
 _logger = logging.getLogger(__name__)
 
+class SellerLivestreamStyle(models.Model):
+    _name = "seller.livestream.style"
+    _description = "Seller Livestream"
+
+    name = fields.Char(string='Style Name', required=True)
+    html_class = fields.Char(string='HTML Classes')
+
 class SellerLiveStream(models.Model):
     _name = "seller.live.stream"
     _desc = "Seller Live Stream"
@@ -60,6 +67,10 @@ class SellerLiveStream(models.Model):
     live_stream_banner = fields.Binary(string="Live Stream Banner",help="""
     Add Banner to show on stream.
     """)
+
+    website_size_x = fields.Integer('Size X', default=1)
+    website_size_y = fields.Integer('Size Y', default=1)
+    website_style_ids = fields.Many2many('seller.livestream.style', string='Styles')
 
     def compute_login_userid(self):
         login_ids = []

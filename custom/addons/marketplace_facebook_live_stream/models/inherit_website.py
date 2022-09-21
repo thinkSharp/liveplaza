@@ -24,7 +24,7 @@ class Website(models.Model):
 
     def _get_seller_live_streams(self, view_name, seller_id=False, product_id=False):
         domain = [('live_stream_url','!=',False)]
-        limit = 20
+        limit = 100
         live_stream_ids = False
         if view_name == 'seller_profile_page':
             domain.append(('publish_on_seller_profile','=',True))
@@ -48,6 +48,6 @@ class Website(models.Model):
         else:
             domain.append(('publish_on_shop','=',True))
             domain.append(('website_published','!=',False))
-            live_stream_ids = self.env["seller.live.stream"].search(domain, order='live_stream_datetime desc', limit=limit)
+            live_stream_ids = self.env["seller.live.stream"].search(domain, order='live_stream_datetime desc')
         return live_stream_ids
 
