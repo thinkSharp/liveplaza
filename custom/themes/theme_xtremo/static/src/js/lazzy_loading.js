@@ -39,6 +39,9 @@ odoo.define('theme.xtremo.lazy_loading', function (require) {
               if(href.includes('/sellers/list')){
                 $ref._callProducts(href, $ref, "seller");
               }
+              else if (href.includes('/livestreams')) {
+                $ref._callProducts(href, $ref, "livestream");
+              }
               else{
                 $ref._callProducts(href, $ref, "product");
               }
@@ -53,6 +56,9 @@ odoo.define('theme.xtremo.lazy_loading', function (require) {
           } else {
             if(type == "seller"){
                 $("#sellers_grid tbody tr:last").after(data);
+            }
+            else if(type == "livestream"){
+                $("#livestreams_grid tbody tr:last").after(data);
             }
             else{
                 $("#products_grid tbody tr:last").after(data);
