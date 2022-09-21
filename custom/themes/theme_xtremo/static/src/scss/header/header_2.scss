@@ -953,6 +953,12 @@ header{
   aspect-ratio: 1;
 }
 
+@media (min-width: 421px) {
+  .btn-nav-search {
+    width: 38px;
+  }
+}
+
 .btn-nav-search:focus,
 .btn-nav-search:active,
 .btn-nav-search:hover {
