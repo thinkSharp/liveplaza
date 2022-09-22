@@ -21,6 +21,7 @@
             <field name="auto_delete" eval="True"/>
             <field name="sms_body_html"><![CDATA[
               Hello ${object.partner_id.name},Your order ${object.name} has been cancelled from ${object.company_id.name}
+              For more information, please contact www.liveplaza.online
               ]]>
             </field>
         </record>

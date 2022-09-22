@@ -100,10 +100,10 @@
               <div class="row">
                 <div class="col-sm-6 col-6 active toggle-user-menu" name="menu">Menu</div>
                 <div class="col-sm-6 col-6 toggle-user-menu" name="user">My Account</div>
-                <div class="col-sm-12 col-12">
+                <!-- <div class="col-sm-12 col-12">
                   <input type="text" class="col-sm-12 col-12 form-control" placeholder="Search entire store here..."/>
                   <i class="fa fa-search" />
-                </div>
+                </div> -->
               </div>
               <div role="separator" class="dropdown-divider">
               </div>

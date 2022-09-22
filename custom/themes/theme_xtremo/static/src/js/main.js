@@ -42,9 +42,9 @@ odoo.define("theme_xtremo.main.js", function (require) {
     if (event.target.id == "xtremo_mobile_menu"){
       this.classList.remove("active");
       this.style.zIndex = "1035";
+      // remove z-index of the header so that it will not be interfered with other elements
+      self.getQuery("header.o_affix_enabled").style.zIndex = "";
     }
-    // remove z-index of the header so that it will not be interfered with other elements
-    self.getQuery("header.o_affix_enabled").style.zIndex = "";
   };
 
   function toggle_user_menu() {

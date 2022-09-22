@@ -53,6 +53,7 @@ odoo website visitor portal address webshop visitor portal address webstore visi
     "website" : "https://www.browseinfo.in",
     "data": [
         'views/website_customer_profile.xml',
+        'views/assets_frontend.xml',
     ],
     'qweb': [
     ],

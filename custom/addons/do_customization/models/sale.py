@@ -358,11 +358,14 @@ class SaleOrderLine(models.Model):
         ('delivering', 'Delivering'),
         ('delivered', 'Delivered'),
         ('hold', 'Hold'),
+        ('cancel', 'Cancelled')
     ], string='Delivery Status', readonly=True, copy=False, index=True, tracking=3, default='ordered')
+
+    old_delivery_status = fields.Char(string="Old Status", readonly=True, store=True)
 
     service_delivery_status = fields.Selection([
         ('ordered', 'Ordered'),
-        ('delivered', 'Approved / Delivered')
+        ('delivered', 'Approved / Delivered'),
     ], string='Delivery Status', readonly=True, copy=False, index=True, tracking=3, default='ordered')
 
     picking_date = fields.Datetime('Picking Date', store=True, default="", readonly=True)
@@ -534,6 +537,28 @@ class SaleOrderLine(models.Model):
             #pickings = rec.mapped('order_id.picking_ids').filtered(lambda picking: picking.marketplace_seller_id.id == rec.marketplace_seller_id.id)
             #pickings.action_cancel()            
             rec.write({'sol_state': 'cancel','state': 'cancel', 'marketplace_state': 'cancel'})
+            rec.write({'delivery_status': 'cancel'})
+            print("Sale order line is cancelled.")
+
+            solines = self.env['sale.order.line'].search([('order_id','=',rec.order_id.id)])
+            final_sol = True
+            for soline in solines:
+                if soline.sol_state != 'cancel' and not soline.is_delivery:
+                    final_sol = False
+
+            print("I am")
+            if final_sol:
+               print("Final SaLE ORDER")
+               sms_template_objs = self.env["wk.sms.template"].sudo().search(
+                   [('condition', '=', 'final_sale_order_line_cancel'), ('globally_access', '=', False)])
+            else:
+                sms_template_objs = self.env["wk.sms.template"].sudo().search(
+                    [('condition', '=', 'sale_order_line_cancel'), ('globally_access', '=', False)])
+            for sms_template_obj in sms_template_objs:
+                mobile = sms_template_obj._get_partner_mobile(self.order_id.partner_id)
+                if mobile:
+                    sms_template_obj.send_sms_using_template(
+                        mobile, sms_template_obj, obj=self)
 
             if rec.sol_state == 'cancel':
                 picking_obj = self.env['stock.picking'].search([('origin','=',self.order_id.name), ('order_line_id','=',rec.id),

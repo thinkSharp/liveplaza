@@ -7,17 +7,11 @@
         <xpath expr="." position="inside">
             <script type="text/javascript" src="/marketplace_facebook_live_stream/static/src/js/mp_live_stream.js"></script>
             <link rel="stylesheet" href="/marketplace_facebook_live_stream/static/src/css/mp_live_stream.css"/>
-<!--             <link rel='stylesheet' href='/marketplace_facebook_live_stream/static/src/css/owl.carousel.css'/> -->
+            <link rel='stylesheet' href='/marketplace_facebook_live_stream/static/src/css/owl.carousel.css'/>
             <link rel='stylesheet' href='/marketplace_facebook_live_stream/static/src/css/owl.theme.css'/>
             <link rel='stylesheet' href='/marketplace_facebook_live_stream/static/src/css/livestream_products.css'/>
-<!--             <script type="text/javascript" src="/marketplace_facebook_live_stream/static/src/js/owl.carousel.min.js"></script> -->
-
-            <link rel="stylesheet" href="/website_daily_deals/static/src/OwlCarousel2/dist/assets/owl.carousel.css"/>
-			<script type="text/javascript" src="/website_daily_deals/static/src/OwlCarousel2/dist/owl.carousel.min.js"></script>
-			<script type="text/javascript" src="/website_daily_deals/static/src/CountdownClock/jquery.countdown.min.js"></script>
-			<link rel="stylesheet" href="/website_daily_deals/static/src/CountdownClock/jquery.countdown.css"/>
-			<link rel="stylesheet" href="/website_daily_deals/static/src/scss/website_daily_deals.scss"/>
-			<script type="text/javascript" src="/website_daily_deals/static/src/js/daily_deals.js"></script>
+            <link rel='stylesheet' href='/marketplace_facebook_live_stream/static/src/scss/backend_livestreams.scss'/>
+            <script type="text/javascript" src="/marketplace_facebook_live_stream/static/src/js/owl.carousel.min.js"></script>
         </xpath>
     </template>
 </odoo>
