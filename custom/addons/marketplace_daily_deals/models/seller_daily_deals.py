@@ -29,7 +29,7 @@ class WebsiteDeals(models.Model):
             return user_obj.partner_id.id
         return self.env['res.partner']
 
-    marketplace_seller_id = fields.Many2one("res.partner", string="Seller", default=_set_seller_id, copy=False)
+    marketplace_seller_id = fields.Many2one("res.partner", string="Seller", copy=False) #default=_set_seller_id,
 
 class product_pricelist_item(models.Model):
     _inherit = 'product.pricelist.item'
