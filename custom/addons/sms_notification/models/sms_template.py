@@ -67,7 +67,9 @@ class SmsTemplate(models.Model):
                                   ('order_cancel', 'Order Cancelled'),
                                   ('inventory_almost_empty', 'Inventory Almost Empty'),
                                   ('ticket_ready', 'Ticket Ready'),
-                                  ('booking_ticket_ready', 'Booking Ticket Ready')],
+                                  ('booking_ticket_ready', 'Booking Ticket Ready'),
+                                  ('sale_order_line_cancel', 'Sale Order Line Cancel'),
+                                  ('final_sale_order_line_cancel', 'Final Sale Order Line Cancel')],
                                   string="Conditions",
                                  help="Condition on which the template has been applied.")
     model_id = fields.Many2one(
@@ -123,6 +125,12 @@ class SmsTemplate(models.Model):
                         [('model', '=', 'booking.ticket')])
                     obj.model_id = model_id.id if model_id else False
                     obj.lang = '${object.sale_order.partner_id.lang}'
+
+                elif obj.condition in ['sale_order_line_cancel', 'final_sale_order_line_cancel']:
+                    model_id = self.env['ir.model'].search(
+                        [('model', '=', 'sale.order.line')])
+                    obj.model_id = model_id.id if model_id else False
+                    obj.lang = '${object.order_id.partner_id.lang}'
 
                 elif obj.condition in ['invoice_vaildate', 'invoice_paid']:
                     model_id = self.env['ir.model'].search(
@@ -210,6 +218,18 @@ class SmsTemplate(models.Model):
                     'template_id': False
                 })
 
+            elif sms_tmpl.condition == 'order_cancel':
+                sms_sms_obj = self.env["wk.sms.sms"].create({
+                    'sms_gateway_config_id': gateway_id.id,
+                    'partner_id': obj.partner_id.id if obj else False,
+                    'to': mob_no,
+                    'group_type': 'individual',
+                    'auto_delete': sms_tmpl.auto_delete,
+                    'msg': sms_tmpl.with_context(ctx).get_body_data(obj,
+                                                                    obj.partner_id) if obj else sms_tmpl.sms_body_html,
+                    'template_id': False
+                })
+
             elif sms_tmpl.condition == 'ticket_ready':
                 print("Obj Print............", obj)
                 print("partner", obj.sale_order.partner_id)
@@ -235,6 +255,18 @@ class SmsTemplate(models.Model):
                     'auto_delete': sms_tmpl.auto_delete,
                     'msg': sms_tmpl.with_context(ctx).get_body_data(obj,
                                                                     obj.sale_order.partner_id) if obj else sms_tmpl.sms_body_html,
+                    'template_id': False
+                })
+
+            elif sms_tmpl.condition in ['sale_order_line_cancel', 'final_sale_order_line_cancel']:
+                sms_sms_obj = self.env["wk.sms.sms"].create({
+                    'sms_gateway_config_id': gateway_id.id,
+                    'partner_id': obj.order_id.partner_id.id  if obj else False,
+                    'to': mob_no,
+                    'group_type': 'individual',
+                    'auto_delete': sms_tmpl.auto_delete,
+                    'msg': sms_tmpl.with_context(ctx).get_body_data(obj,
+                                                                    obj.order_id.partner_id) if obj else sms_tmpl.sms_body_html,
                     'template_id': False
                 })
 

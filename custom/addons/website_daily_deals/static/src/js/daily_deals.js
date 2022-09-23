@@ -25,6 +25,14 @@ odoo.define("website_daily_deals.daily_deals_js", function (require) {
 
         $(".daily_deals_owl_carousel").owlCarousel(deal_options);
 
+        function startCarouselAutoplay () {
+            $(".daily_deals_owl_carousel").trigger('play.owl.autoplay');
+        }
+
+        function stopCarouselAutoplay () {
+            $(".daily_deals_owl_carousel").trigger('stop.owl.autoplay');
+        }
+
         $(".owl-carousel--nested").owlCarousel({
           nav: true,
           dots: true,
@@ -97,18 +105,20 @@ odoo.define("website_daily_deals.daily_deals_js", function (require) {
             var product_variant_id  = parseInt($(this).attr('product-product-id'));
             var url = "/shop/product/"+product_tmpl_id
             if (product_tmpl_id){
-                $.get(url,{
-                },function (data){
+                stopCarouselAutoplay()
+                $.get(url, {}, function (data){
                     if (data) {
                         data = $(data).find("#product_detail");
                         $('#deal_product_item_view_modal').modal('show');
                         $('#deal_product_item_view_modal .modal-body').html(data);
                         $('#deal_product_item_view_modal').find("#product_detail>.row:nth-child(1)").hide();
+                    } else {
+                        startCarouselAutoplay()
                     }
-                });
+                }).fail(startCarouselAutoplay)
             }
         });
-
+        $('#deal_product_item_view_modal').on('hidden.bs.modal', startCarouselAutoplay)
     });
 
 });

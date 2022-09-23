@@ -31,6 +31,13 @@ class SaleOrder(models.Model):
         result = super(SaleOrder,self).action_cancel()
         for rec in self:
             if rec.state == 'cancel' and rec.order_line:
+                sms_template_objs = self.env["wk.sms.template"].sudo().search(
+                    [('condition', '=', 'order_cancel'), ('globally_access', '=', False)])
+                for sms_template_obj in sms_template_objs:
+                    mobile = sms_template_obj._get_partner_mobile(self.partner_id)
+                    if mobile:
+                        sms_template_obj.send_sms_using_template(
+                            mobile, sms_template_obj, obj=self)
                 mp_order_line = rec.order_line.filtered(lambda line: line.marketplace_seller_id != False)
                 if mp_order_line:
                     mp_order_line.write({'marketplace_state':'cancel'})
