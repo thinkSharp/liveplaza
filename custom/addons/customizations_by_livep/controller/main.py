@@ -537,7 +537,17 @@ class WebsiteSale (WebsiteSale):
         booking_product_active = booking_product.search(booking_active_domain, order=self._get_search_order(post))
 
 
-        search_product = booking_product_active + ticket_product
+        # Servce and Booking Products Sorting
+        if 'list_price asc' in post.values():
+            search_product = (booking_product_active + ticket_product).sorted('list_price')
+        elif 'list_price desc' in post.values():
+            search_product = (booking_product_active + ticket_product).sorted('list_price', reverse=True)
+        elif 'name asc' in post.values():
+            search_product = (booking_product_active + ticket_product).sorted('name')
+        elif 'name desc' in post.values():
+            search_product = (booking_product_active + ticket_product).sorted('name', reverse=True)
+        else:
+            search_product = booking_product_active + ticket_product
 
         website_domain = request.website.website_domain()
         categs_domain = [('parent_id', '=', False)] + website_domain
@@ -555,8 +565,11 @@ class WebsiteSale (WebsiteSale):
         product_count = len(search_product)
         pager = request.website.pager(url=url, total=product_count, page=page, step=ppg, scope=7, url_args=post)
         offset = pager['offset']
-        products = random.sample(search_product, len(search_product))[
-                   offset: offset + ppg]  # search_product[offset: offset + ppg]
+
+        if not post:
+            products = random.sample(search_product, len(search_product))[offset: offset + ppg]
+        else:    
+            products = search_product[offset: offset + ppg]
 
         ProductAttribute = request.env['product.attribute']
         if products:
