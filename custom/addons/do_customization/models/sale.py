@@ -317,7 +317,7 @@ class SaleOrder(models.Model):
     
         if self.write({'state': 'ready_to_pick'}):
             
-            for sol_data in self.env['sale.order.line'].search([('order_id','=',self.id)]):
+            for sol_data in self.env['sale.order.line'].search([('order_id','=',self.id),('sol_state','!=','cancel')]):
                 sol_data.write({'sol_state': 'ready_to_pick'})
                 
             picking_obj = self.env['stock.picking'].search([('origin','=',self.name)])
