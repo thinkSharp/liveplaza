@@ -317,11 +317,8 @@ class SaleOrder(models.Model):
     
         if self.write({'state': 'ready_to_pick'}):
             
-            for sol_data_cancel in self.env['sale.order.line'].search([('order_id','=',self.id),('sol_state','=','cancel')]):
-                sol_data_cancel.write({'state': 'cancel', 'marketplace_state': 'cancel','delivery_status': 'cancel'})
-            
             for sol_data in self.env['sale.order.line'].search([('order_id','=',self.id),('sol_state','!=','cancel')]):
-                sol_data.write({'sol_state': 'ready_to_pick','state': 'ready_to_pick'})
+                sol_data.write({'sol_state': 'ready_to_pick'})
                 
             picking_obj = self.env['stock.picking'].search([('origin','=',self.name)])
             picking_obj.write({'payment_provider': self.get_portal_last_transaction().acquirer_id.provider,
