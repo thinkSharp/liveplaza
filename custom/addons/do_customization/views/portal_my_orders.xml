@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <template id="my_order_link" name="Link to my order" inherit_id="portal.frontend_layout">
+        <xpath expr="//a[@id='o_logout']" position="before">
+            <a href="/my/orders" role="menuitem" class="dropdown-item">My Orders</a>
+        </xpath>
+    </template>
+
     <template id="portal_my_orders_new" name="My Sales Orders">
         <t t-call="portal.portal_layout">
             <t t-set="breadcrumbs_searchbar" t-value="True"/>
