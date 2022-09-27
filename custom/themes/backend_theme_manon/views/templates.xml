@@ -7,6 +7,7 @@
             <link rel="stylesheet" type="text/scss" href="/backend_theme_manon/static/src/scss/colors/manon_primary_variables.scss"/>
             <link rel="stylesheet" type="text/scss" href="/backend_theme_manon/static/src/scss/fonts/fonts.scss"/>
             <link rel="stylesheet" type="text/scss" href="/backend_theme_manon/static/src/scss/colors/manon_secondary.scss"/>
+            <link rel="stylesheet" type="text/scss" href="/backend_theme_manon/static/src/scss/primary_variables.scss"/>
         </xpath>
     </template>
 
