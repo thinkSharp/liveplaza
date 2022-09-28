@@ -536,18 +536,29 @@ class WebsiteSale (WebsiteSale):
         booking_active_domain = domain + [('br_end_date', '>=', fields.Date.today()), ('website_published', '=', True)]
         booking_product_active = booking_product.search(booking_active_domain, order=self._get_search_order(post))
 
+        # Service and Booking Products Price Accurate Sorting
+        sort_product = booking_product_active + ticket_product
+        product_prices = []
+        for price in range(len(sort_product)):
+            if sort_product[price].is_service:
+                product_prices.append(sort_product[price].list_price)
+            elif sort_product[price].is_booking_type:
+                product_prices.append(sort_product[price].get_booking_onwards_price())
+
+        list_product = [x for _,x in sorted(zip(product_prices, sort_product))]
+        sort_data = {key:value for value,key in enumerate(list_product)}
 
         # Servce and Booking Products Sorting
         if 'list_price asc' in post.values():
-            search_product = (booking_product_active + ticket_product).sorted('list_price')
+            search_product = sort_product.sorted(key=sort_data.get)
         elif 'list_price desc' in post.values():
-            search_product = (booking_product_active + ticket_product).sorted('list_price', reverse=True)
+            search_product = sort_product.sorted(key=sort_data.get, reverse=True)
         elif 'name asc' in post.values():
-            search_product = (booking_product_active + ticket_product).sorted('name')
+            search_product = sort_product.sorted('name')
         elif 'name desc' in post.values():
-            search_product = (booking_product_active + ticket_product).sorted('name', reverse=True)
+            search_product = sort_product.sorted('name', reverse=True)
         else:
-            search_product = booking_product_active + ticket_product
+            search_product = sort_product
 
         website_domain = request.website.website_domain()
         categs_domain = [('parent_id', '=', False)] + website_domain
