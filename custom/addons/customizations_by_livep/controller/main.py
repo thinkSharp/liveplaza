@@ -422,10 +422,12 @@ class WebsiteSale (WebsiteSale):
         pager = request.website.pager(url=url, total=product_count, page=page, step=ppg, scope=7, url_args=post)
         offset = pager['offset']
 
-        if not post:
-            products = random.sample(search_product, len(search_product))[offset: offset + ppg]
-        else:    
-            products = search_product[offset: offset + ppg]
+        sort_product = search_product[offset: offset + ppg]
+        if 'order' in post.keys():    
+            products = sort_product
+        else:
+            products = random.sample(sort_product, len(sort_product))
+
 
         ProductAttribute = request.env['product.attribute']
         if products:
@@ -577,10 +579,11 @@ class WebsiteSale (WebsiteSale):
         pager = request.website.pager(url=url, total=product_count, page=page, step=ppg, scope=7, url_args=post)
         offset = pager['offset']
 
-        if not post:
-            products = random.sample(search_product, len(search_product))[offset: offset + ppg]
-        else:    
-            products = search_product[offset: offset + ppg]
+        sort_product = search_product[offset: offset + ppg]
+        if 'order' in post.keys():    
+            products = sort_product
+        else:
+            products = random.sample(sort_product, len(sort_product))
 
         ProductAttribute = request.env['product.attribute']
         if products:
