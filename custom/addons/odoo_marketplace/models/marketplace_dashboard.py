@@ -157,6 +157,23 @@ class marketplace_dashboard(models.Model):
             else:
                 rec.count_product_rejected = 0
 
+    def _get_total_count(self):
+        for record in self:
+            record.count_total = sum([
+                record.count_product_approved,
+                record.count_product_rejected,
+                record.count_product_pending,
+            ])
+
+    def _get_short_name(self):
+        for record in self:
+            record.short_name = ({
+                'product': "Products",
+                'seller': "Sellers",
+                'order': "Orders",
+                'payment': "Payments",
+            })[record.state]
+
     color = fields.Integer(string='Color Index')
     name = fields.Char(string="Name", translate=True)
     state = fields.Selection(
@@ -164,5 +181,7 @@ class marketplace_dashboard(models.Model):
     count_product_approved = fields.Integer(compute='_get_approved_count')
     count_product_pending = fields.Integer(compute='_get_pending_count')
     count_product_rejected = fields.Integer(compute='_get_rejected_count')
+    count_total = fields.Integer(compute='_get_total_count')
     is_seller = fields.Boolean(compute="_is_seller_or_manager")
+    short_name = fields.Char(compute='_get_short_name')
 
