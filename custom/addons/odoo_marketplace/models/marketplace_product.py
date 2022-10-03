@@ -59,6 +59,13 @@ class ProductTemplate(models.Model):
         readonly=True, store=True,
         groups="base.group_user,odoo_marketplace.marketplace_seller_group")
     item_ids = fields.One2many('product.pricelist.item', 'product_tmpl_id', 'Pricelist Items')
+    shop_code = fields.Char(string="Shop Code", compute="_get_shop_code", readonly=True, copy=False)
+
+    @api.model
+    def _get_shop_code(self):
+        for rec in self:
+            seller = self.env["seller.shop"].search([('seller_id', '=', rec.marketplace_seller_id.id)])
+            rec.shop_code = seller.shop_code
 
     @api.model
     def _read_group_fill_results( self, domain, groupby, remaining_groupbys,
