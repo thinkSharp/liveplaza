@@ -1,3 +1,25 @@
+
+.sale_report_header {
+    .header_bottom {
+        width: 100%;
+        height: 10px;
+        background: #DAE4F1;
+    }
+}
+
+.sale_report_template {
+    .customer_info_container {
+        .customer_info_left {
+            width: 48%;
+            margin-right: 2%;
+            background: gray;
+        }
+        .customer_info_right {
+            width: 50%;
+        }
+    }
+}
+
 #product_tracking_btn {
     background: rgba(0, 81, 177, 0.9);
     color: white;
@@ -232,7 +254,7 @@
     font-family: 'Roboto';
     .order_details_header {
         .inner_header {
-            width: 60%;
+            width: 48%;
             float: left;
             h3 {
                 font-weight: bold;
@@ -240,7 +262,10 @@
         }
         .download_box {
             float: right;
-            width: 30%;
+            width: 45%;
+            .btn-group {
+                background: white;
+            }
         }
     }
     .payment_ss_outer {

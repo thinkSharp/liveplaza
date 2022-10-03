@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="invoice_format" model="ir.ui.view">
+        <field name="name">invoice_format</field>
+        <field name="model">res.company</field>
+        <field name="priority" eval="100"/>
+        <field name="inherit_id" ref="base.view_company_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page name="invoice" string="Invoice Information">
+                    <group>
+                        <field name="invoice_logo" widget="image" style="max-width: 256px; max-height: 256px;"/>
+                        <field name="thank_msg_img" widget="image" style="max-width: 256px; max-height: 256px;" />
+                    </group>
+                    <group>
+                        <field name="invoice_format" widget="radio"/>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="image_invoice_1" widget="image" style="width: 300px;" options="{'image_preview': 'image_128'}" />
+                            <field name="image_invoice_3" widget="image" style="width: 300px;" options="{'image_preview': 'image_128'}"
+                            attrs="{'invisible' : [('invoice_format', 'in', ['plain', 'two_horizontal', 'two_vertical'])]}" />
+                        </group>
+                        <group>
+                            <field name="image_invoice_2" widget="image" style="width: 300px;" options="{'image_preview': 'image_128'}"
+                            attrs="{'invisible' : [('invoice_format', 'in', ['plain'])]}"/>
+                            <field name="image_invoice_4" widget="image" style="width: 300px;" options="{'image_preview': 'image_128'}"
+                            attrs="{'invisible' : [('invoice_format', 'in', ['plain', 'two_horizontal', 'two_vertical'])]}" />
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
