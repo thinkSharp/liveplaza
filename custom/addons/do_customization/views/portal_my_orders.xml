@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <template id="my_order_link" name="Link to my order" inherit_id="portal.frontend_layout">
+        <xpath expr="//a[@id='o_logout']" position="before">
+            <a href="/my/orders" role="menuitem" class="dropdown-item">My Orders</a>
+        </xpath>
+    </template>
+
     <template id="portal_my_orders_new" name="My Sales Orders">
         <t t-call="portal.portal_layout">
             <t t-set="breadcrumbs_searchbar" t-value="True"/>
@@ -167,8 +173,14 @@
                     <div class="inner_header">
                         <h2>Order Details</h2>
                         <h5>Order ID <t t-esc="sale_order.name"/> </h5>
+                        <t t-set="company" t-value="sale_order.company_id"/>
+                        <t t-set="paper" t-value="company.paperformat_id.name"/>
+                        <p><t t-esc="paper"/></p>
                     </div>
                     <div t-if="not cancel" class="download_box o_download_pdf btn-toolbar flex-sm-nowrap">
+                        <div class="btn-group flex-grow-1 mb-1">
+                            <a class="btn btn-secondary btn-block o_download_btn" t-att-href="sale_order.get_portal_url(report_type='pdf')" title="View"><i class="fa fa-download"/> View Invoice</a>
+                        </div>
                         <div class="btn-group flex-grow-1 mb-1">
                             <a class="btn btn-secondary btn-block o_download_btn" t-att-href="sale_order.get_portal_url(report_type='pdf', download=True)" title="Download"><i class="fa fa-download"/> Download</a>
                         </div>
