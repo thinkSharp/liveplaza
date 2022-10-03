@@ -345,13 +345,13 @@ class ProductTemplate(models.Model):
 
     @api.model
     def create(self, vals):
-        if vals.get("is_booking_type") == True and vals.get("type") == 'service':
+        if vals.get("is_booking_type") == True:
             self.validate_booking_dates(vals.get("br_start_date"), vals.get("br_end_date"))
             self.validate_slots(vals)
         return super(ProductTemplate, self).create(vals)
 
     def write(self, vals):
-        if vals.get("is_booking_type") == True and vals.get("type") == 'service':
+        if vals.get("is_booking_type") == True:
             for rec in self:
                 rec.validate_booking_dates(vals.get("br_start_date"), vals.get("br_end_date"))
             self.validate_slots(vals)
