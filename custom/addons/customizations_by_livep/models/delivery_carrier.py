@@ -9,11 +9,6 @@ class DeliveryCarrier(models.Model):
     township_ids = fields.Many2many(
         'res.country.township', 'township_shipping_rel', string='Townships')
 
-    shipping_method = fields.Selection([
-        ('standard', "Standard"),
-        ('Express', "Express")
-    ], string='Shipping Method', required=True)
-
     def _match_address(self, partner):
         self.ensure_one()
         if self.country_ids and partner.country_id not in self.country_ids:

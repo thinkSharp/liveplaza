@@ -36,7 +36,6 @@
         'views/create_seller_shop.xml',
         'views/portal_my_orders.xml',
         'views/checkout_preview.xml',
-        'views/invoice_format.xml',
         'data/account_data.xml',
     ],
 
