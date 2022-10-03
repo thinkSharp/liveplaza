@@ -69,29 +69,6 @@ class SaleOrder(models.Model):
     delivering_date = fields.Datetime('Deliver Date', store=True, default="", readonly=True)
     delivered_date = fields.Datetime('Delivered Date', store=True, default="", readonly=True)
 
-    shipping_method = fields.Selection([
-        ('standard', 'Standard'),
-        ('express', 'Express')
-    ], default='standard')
-
-    @api.model
-    def _compute_sol_page_break(self, sol_per_page):
-        # to show limited number of sol in a page in printing invoice ( sale report template )
-        sol_total_list = []
-        sol_list = []
-        spp = sol_per_page
-        for rec in self.order_line:
-            if spp == 0:
-                sol_total_list.append(sol_list)
-                spp = sol_per_page
-                sol_list = []
-            if not rec.is_delivery:
-                sol_list.append(rec)
-                spp = spp - 1
-        if len(sol_list) > 0:
-            sol_total_list.append(sol_list)
-        return sol_total_list
-
     @api.model
     def _check_delivery_selected(self):
         delivery = 0
