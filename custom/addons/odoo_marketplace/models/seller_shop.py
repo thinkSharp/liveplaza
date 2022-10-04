@@ -113,6 +113,7 @@ class SellerShop(models.Model):
     _sql_constraints = [('seller_id_uniqe', 'unique(seller_id)', _('This seller is already assign to another shop.')),
                         ('url_handler_unique', 'unique(url_handler)', _('Url Handler must be unique for the shop. Entered URL handler has been already used.')),
                         ('name_unique', 'unique(name)', _('Shop name has been already used. Shop name must be unique so change shop name.'))]
+    shop_code = fields.Char(string="Shop Code")
 
     @api.onchange('state_id')
     def on_change_state_id(self):

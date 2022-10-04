@@ -14,7 +14,8 @@ Report Customization Module.
     'data': [
         # 'views/report_templates.xml',
         # 'views/sale_report_templates.xml'
-        'views/sale_report_template_inherit.xml',
+        # 'views/sale_report_template_inherit.xml',
+        'views/new_sale_report_template.xml',
         'views/delivery_slip_inherit.xml',
         'views/external_layout.xml'
 
