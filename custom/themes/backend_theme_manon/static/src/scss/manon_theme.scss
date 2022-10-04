@@ -208,6 +208,9 @@ nav ul li a .fa {
         }
     }
 }
+
+$header-padding: 12px;
+
 .o_web_client {
     .o_main_navbar {
         background-color: $primaryColor;
@@ -220,7 +223,6 @@ nav ul li a .fa {
 
         ul {
             > li {
-                $header-padding: 12px;
 
                 > a {
                     height: $o-navbar-height - (2 * $header-padding);
@@ -239,19 +241,19 @@ nav ul li a .fa {
                     line-height: $o-navbar-height - $header-padding - 4px;
                     margin: ($header-padding + 4px) / 2;
                     padding: 0 $header-padding;
-                    background-color: white;
+                    background-color: $primaryColor;
                     font-size: 16px;
                     border: 1px solid white;
                     
                     > .fa {
-                        color: #453E3E !important;
+                        color: white !important;
                     }
 
                     &:hover { 
-                        background-color: $primaryColor;
+                        background-color: white;
 
                         > .fa {
-                            color: white !important;
+                            color: #453E3E !important;
                         }
                     }
                 }
@@ -472,6 +474,27 @@ nav ul li a .fa {
             .o_menu_brand {
                 margin: unset;
             }
+        }
+
+        // livep brand
+        .brand-livep {
+            float: left;
+            background-color: white;
+            padding: 0 10px;
+            margin-block: $header-padding;
+            margin-inline: 10px;
+            border-radius: 5px;
+            line-height: 32px;
+
+            > img {
+                height: 20px;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .brand-livep {
+                display: none;
+            } 
         }
     }
 }

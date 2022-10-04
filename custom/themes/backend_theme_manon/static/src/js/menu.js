@@ -27,6 +27,13 @@ odoo.define('backend_theme_manon.Menu', function (require) {
         start: function() {
             this._super.apply(this, arguments);
             var ul = this.$el.find('.o_menu_sections');
+            this.$brand_livep = this.$('.brand-livep');
+        },
+        _maxWidth: function () {
+            var self = this;
+            return self.$el.width() - (
+                self.$menu_apps.outerWidth(true) + self.$menu_brand_placeholder.outerWidth(true) + self.systray_menu.$el.outerWidth(true) + self.$brand_livep.outerWidth(true)
+            );
         },
         _render_dropdown_menus: function(evt) {
             var self = this;
