@@ -207,14 +207,27 @@ class SaleOrder(models.Model):
 
     def action_confirm(self):
         self.ensure_one()
-        order = self.env['sale.order.line'].search([('order_id', '=', self.id)])
-        order_copy = self.copy()
+        order_lines = self.env['sale.order.line'].search([('order_id', '=', self.id)])
+        copy_or_not = False
+        order_copy = self.env['sale.order']
+        
+        for iscopy in self.website_order_line:
+            if not iscopy.selected_checkout:
+                copy_or_not = True
+            
+        if copy_or_not:
+            order_copy = self.copy()       
+        
+        if order_copy:
+            for mma in order_copy.order_line:
+                if mma.selected_checkout or mma.is_delivery:
+                    mma.unlink()
+                    
+            for o in order_copy.website_order_line:
+                if o.selected_checkout or o.is_delivery:
+                    o.unlink()
 
-        for o in order_copy.website_order_line:
-            if o.selected_checkout or o.is_delivery:
-                o.unlink()
-
-        for o in order:
+        for o in order_lines:
             if not o.is_delivery:
                 if not o.selected_checkout:
                     o.unlink()
@@ -229,8 +242,9 @@ class SaleOrder(models.Model):
         if order_copy and self.state in ('sale','approve_by_admin'):
             self.env['website'].newlp_so_website(order_copy)
 
-        order_copy.amount_delivery = 0
-        order_copy.selected_carrier_id = ''
+        if order_copy:
+            order_copy.amount_delivery = 0
+            order_copy.selected_carrier_id = ''
 
         return res
     
