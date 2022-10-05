@@ -232,7 +232,12 @@ $header-padding: 12px;
                     transition: all 100ms linear;
 
                     &:hover {
-                        background-color: $primaryColor;
+                        background-color: white;
+                        color: #453E3E;
+
+                        > .fa {
+                            color: #453E3E !important;
+                        }
                     }
                 }
 
@@ -259,20 +264,26 @@ $header-padding: 12px;
                 }
             }
 
-            .show .dropdown-toggle {
-                background-color: $primaryColor;
+            .show {
+                .dropdown-toggle {
+                    background-color: white;
+                    color: #453E3E;
+
+                    > .fa {
+                        color: #453E3E !important;
+                    }
+                }
             }
 
-            &:where(:not(.o_menu_systray)) {
-
-                > li:where(:not(.o_extra_menu_items)) > a:hover {
-                    background-color: white;
-                    color: #453E3E;
-                }
-
-                .show:where(:not(.o_extra_menu_items)) .dropdown-toggle {
-                    background-color: white;
-                    color: #453E3E;
+            .o_extra_menu_items > a:hover,
+            .show.o_extra_menu_items .dropdown-toggle,
+            &.o_menu_systray > li > a:hover,
+            &.o_menu_systray > .show .dropdown-toggle {
+                background-color: $primaryColor;
+                color: white;
+                
+                > .fa {
+                    color: white !important;
                 }
             }
         }
