@@ -189,7 +189,7 @@
                                 </t>
                             </div>
                         </div>
-                        <div t-if="company" style="width: 100%; border-top: 3px solid #DAE4F1; padding-top: 20px; height: 210px;">
+                        <div t-if="company" style="width: 100%; padding-top: 20px; height: 210px;">
                             <t t-if="company.invoice_format == 'plain'">
                                 <div class="text-center" >
                                     <div t-if="company.image_invoice_1" class="">
@@ -230,8 +230,8 @@
                             </t>
                             <t t-elif="company.invoice_format == 'four_square'">
                                 <div class="row" style="width: 100%">
-                                    <div style="width: 50%; border-right: 3px solid #9FB6D8; height: 200px;" >
-                                        <div style="border-bottom: 2px solid #9FB6D8;" class="blank_td_style">
+                                    <div style="width: 50%; height: 200px;" >
+                                        <div class="blank_td_style">
                                             <div t-if="company.image_invoice_1" class="img_outer_style">
                                                 <span t-field="company.image_invoice_1" style="width: fit-content; max-width: 256px;"
                                               t-options="{'widget': 'image', 'qweb_img_responsive': False, 'class': 'img_style'}" />
@@ -245,7 +245,7 @@
                                         </div>
                                     </div>
                                     <div style="width: 50%; height: 200px;">
-                                        <div style="border-bottom: 2px solid #9FB6D8;" class="blank_td_style">
+                                        <div class="blank_td_style">
                                             <div t-if="company.image_invoice_2" class="img_outer_style">
                                                 <span t-field="company.image_invoice_2" style="width: fit-content; max-width: 256px;"
                                               t-options="{'widget': 'image', 'qweb_img_responsive': False, 'class': 'img_style'}" />
