@@ -362,6 +362,11 @@ class SaleOrder(models.Model):
                                'ready_to_pick': True,
                                'hold_state': False })
 
+    def action_cancel(self):
+        if self.write({'state': 'cancel'}):    
+            for sol_data in self.env['sale.order.line'].search([('order_id','=',self.id)]):
+                sol_data.write({'sol_state': 'cancel'})
+                
             
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
