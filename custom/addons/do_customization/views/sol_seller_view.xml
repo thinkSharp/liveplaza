@@ -177,7 +177,7 @@
             <field name="res_model">sale.order.line</field>
             <field name="binding_view_types">form</field>
             <field name="view_mode">kanban,tree,form,graph</field>
-            <field name="domain">[('sol_state','in', ('approve_by_admin','ready_to_pick','done','cancel')), ('marketplace_seller_id','in',['get_marketplace_seller_id()'])]</field>
+            <field name="domain">[('sol_state','in', ('approve_by_admin','ready_to_pick','done','cancel')), ('is_delivery','!=', True), ('marketplace_seller_id','in',['get_marketplace_seller_id()'])]</field>
             <field name="view_id" ref="view_do_sale_order_line_tree"/>
             <!-- <field name="groups_id" eval="[(6, 0, [ref('odoo_marketplace.marketplace_manager_group')])]"/> -->
             <field name="context">{'search_default_by_marketplace_state': 1}</field>
