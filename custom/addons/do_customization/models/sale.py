@@ -74,6 +74,21 @@ class SaleOrder(models.Model):
         ('express', 'Express')
     ], default='standard')
 
+    amount_delivery = fields.Monetary(
+        compute='_compute_amount_delivery',
+        string='Delivery Amount',
+        help="The amount without tax.", store=True, tracking=True)
+
+    @api.depends('order_line.price_unit', 'order_line.tax_id', 'order_line.discount', 'order_line.product_uom_qty')
+    def _compute_amount_delivery(self):
+        for order in self:
+            sol_deli_state = self.env['sale.order.line'].search([('order_id','=',self.id), ('is_delivery' , '=' , True), ('sol_state' , '!=' , 'cancel')])                
+            if sol_deli_state:
+                if self.env.user.has_group('account.group_show_line_subtotals_tax_excluded'):
+                    order.amount_delivery = sum(order.order_line.filtered('is_delivery').mapped('price_subtotal'))
+                else:
+                    order.amount_delivery = sum(order.order_line.filtered('is_delivery').mapped('price_total'))
+                    
     @api.model
     def _compute_sol_page_break(self, sol_per_page):
         # to show limited number of sol in a page in printing invoice ( sale report template )
