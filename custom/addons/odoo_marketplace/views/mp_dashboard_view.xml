@@ -468,9 +468,9 @@
                     <field name="short_name"/>
                     <templates>
                         <t t-name="kanban-box">
-                            <div class="stats-card o_kanban_record_neutral" name="mp_dashboard" attrs="{'invisible':[('is_seller','=',True),('state','=','seller')]}">
-                                <div class="stats-card-body">
-                                    <div class="stats-group-h">
+                            <div class="livep-card o_kanban_record_neutral" name="mp_dashboard" attrs="{'invisible':[('is_seller','=',True),('state','=','seller')]}">
+                                <div class="livep-card-body">
+                                    <div class="group-h">
                                         <div class="stats-indicator">
                                             <i t-if="record.state.raw_value == 'product'" class="fa fa-tags"></i>
                                             <i t-if="record.state.raw_value == 'seller'" class="fa fa-users"></i>
@@ -491,8 +491,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="stats-card-footer">
-                                    <div class="stats-group-h">
+                                <div class="livep-card-footer">
+                                    <div class="group-h">
                                         <t t-if="record.state.raw_value == 'product'">
                                             <a class="action-secondary" name="%(wk_seller_product_template_rejected_products_action)d" type="action">View rejected</a>
                                             <a class="action-secondary" name="%(wk_seller_approved_products_action)d" type="action">View accepted</a>
