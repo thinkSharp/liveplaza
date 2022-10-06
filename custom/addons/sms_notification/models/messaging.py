@@ -52,6 +52,10 @@ class SaleOrder(models.Model):
         for order in self:
             order.message_subscribe(partner_ids=order.partner_id.ids)
         if self.write({'state': 'approve_by_admin'}):
+
+            for sol_data in self.env['sale.order.line'].search([('order_id','=',self.id)]):
+                sol_data.write({'sol_state': 'approve_by_admin'})
+                
             if not self.is_all_service:
                 # Code to send sms to customer of the order.
                 sms_template_objs = self.env["wk.sms.template"].sudo().search(
