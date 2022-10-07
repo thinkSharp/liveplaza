@@ -12,7 +12,7 @@ odoo.define("website_daily_deals.daily_deals_js", function (require) {
 			nav:true,
             dots:true,
             smartSpeed:800,
-            autoplayTimeout: 4000,
+            autoplayTimeout: 5000,
             autoplayHoverPause: true,
             navText: ["<i class='deal-left-right fa fa-angle-left'></i>","<i class='deal-left-right fa fa-angle-right'></i>"],
             autoWidth:false,
