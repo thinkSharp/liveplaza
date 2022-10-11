@@ -875,3 +875,56 @@ $header-padding: 12px;
 .o_form_view.o_xxs_form_view .o_group.o_inner_group > tbody > tr > td:last-of-type {
     width: 50% !important;
 }
+
+// =============> o_list_table <==============
+// Added by livep
+.o_list_view {
+    .o_list_table {
+        border: 2px solid #f0f1f3;
+        border-radius: 10px;
+        overflow: hidden;
+
+        tbody > tr:last-of-type > td {
+            border-bottom: none;
+        }
+        
+        tfoot > tr > td {
+            border-top: 1px solid #cacaca;
+        }
+    }
+}
+
+.table-striped tbody {
+    tr:nth-of-type(odd) {
+        background-color: unset;
+    }
+
+    tr:nth-of-type(even) {
+        background-color: #f9fafb;
+    }
+}
+
+// web module overwrites
+.o_list_view .o_list_table thead {
+    background-color: $list-view-bg-color;
+
+    > tr > th:not(.o_list_record_selector) {
+        border-left: none;
+    }
+}
+
+// bootstrap overwrites
+.o_list_table thead,
+.o_list_table tbody {
+    > tr { 
+        > th, > td {
+            border-top: none;
+        }
+        > th {
+            border-bottom: 1px solid #d1d5db;
+        }
+        > td {
+            border-bottom: 1px solid #eeeff2;
+        }
+    }
+}
