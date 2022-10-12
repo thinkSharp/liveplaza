@@ -281,83 +281,37 @@
                     <field name="seller_currency_id"/>
                     <templates>
                         <t t-name="kanban-box">
-                            <div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} oe_kanban_card oe_kanban_global_click">
-                                <div class="o_dropdown_kanban dropdown" groups="odoo_marketplace.marketplace_seller_group">
-									<a class="dropdown-toggle btn" data-toggle="dropdown" href="#" role='button'>
-										<span class="fa fa-bars fa-lg" aria-label="Dropdown" title="Manage"/>
-									</a>
-									<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-										<t t-if="widget.editable">
-											<li>
-												<a type="edit">Edit Seller</a>
-											</li>
-										</t>
-										<li><ul class="oe_kanban_colorpicker" data-field="color"/></li>
-									</ul>
-								</div>
-                                <div class="oe_kanban_content oe_kanban_details">
-                                    <div>
-                                        <b>
-                                            <a t-attf-href="mailto:#{record.email.raw_value}">
-                                                <field name="email"/>
-                                            </a>
-                                        </b>
-                                    </div>
-                                    <div>
-                                        <div class="o_kanban_image">
-                                            <div class="o_kanban_image">
-                                                <img alt="Seller" t-att-src="kanban_image('res.partner', 'image_128', record.id.raw_value)"  class="o_image_64_contain"/>
+                            <div class="livep-card o_kanban_record_neutral">
+                                <div class="livep-card-body">
+                                    <div class="group-h">
+                                        <div class="seller-image">
+                                            <img alt="Seller" t-att-src="kanban_image('res.partner', 'image_128', record.id.raw_value)" class="img-rounded" />
+                                            <div t-attf-class="status-icon status-#{record.state.raw_value}">
+                                                <i t-if="record.state.raw_value == 'new'" class="fa fa-hourglass-start fa-fw"></i>
+                                                <i t-if="record.state.raw_value == 'pending'" class="fa fa-hourglass-half fa-fw"></i>
+                                                <i t-if="record.state.raw_value == 'approved'" class="fa fa-check fa-fw"></i>
+                                                <i t-if="record.state.raw_value == 'denied'" class="fa fa-times fa-fw"></i>
                                             </div>
                                         </div>
-                                        <div name="tags">
-                                            <ul>
-                                                <li t-if="record.email">
-                                                    <b>
-                                                        <field name="display_name"/>
-                                                    </b>
-                                                </li>
-                                                <li t-if="record.state.raw_value === 'new'">
-                                                    <b>Status: </b>
-                                                    <font color='blue'>
-                                                        <field name="state"/>
-                                                    </font>
-                                                </li>
-                                                <li t-if="record.state.raw_value === 'approved'">
-                                                    <b>Status: </b>
-                                                    <font color='green'>
-                                                        <field name="state"/>
-                                                    </font>
-                                                </li>
-                                                <li t-if="record.state.raw_value === 'pending'">
-                                                    <b>Status: </b>
-                                                    <font color='orange'>
-                                                        <field name="state"/>
-                                                    </font>
-                                                </li>
-                                                <li t-if="record.state.raw_value  === 'denied'">
-                                                    <b>Status: </b>
-                                                    <font color='red'>
-                                                        <field name="state"/>
-                                                    </font>
-                                                </li>
-                                                <li t-if="record.mobile">
-                                                    <b>Mobile: </b>
-                                                    <field name="mobile"/>
-                                                </li>
-                                                <!-- <li>
-                                                    <b>Commission: </b>
-                                                    <field name="commission"/>%
-                                                </li> -->
-                                                <!-- <li>
-                                                    <b>Sales: </b>
-                                                    <field name="total_mp_payment" widget="monetary"/>
-                                                </li> -->
-                                            </ul>
+                                        <div class="seller-info">
+                                            <div class="seller-name">
+                                                <field name="display_name" />
+                                            </div>
+                                            <div class="seller-email">
+                                                <i class="fa fa-envelope fa-fw"></i>
+                                                <a t-if="record.email and record.email.raw_value" t-attf-href="mailto:#{record.email.raw_value}" t-esc="record.email.raw_value"/>
+                                                <span t-else="">NaN</span>
+                                            </div>
+                                            <div class="seller-phone">
+                                                <i class="fa fa-phone fa-fw"></i>
+                                                <span t-if="record.mobile and record.mobile.raw_value" t-esc="record.mobile.raw_value"/>
+                                                <span t-else="">NaN</span>
+                                            </div>
+                                            <div class="seller-status">
+                                                <span t-attf-class="status-#{record.state.raw_value}" t-esc="record.state.raw_value"/>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div t-if="record.displayed_image_id.value">
-                                    <field name="displayed_image_id" widget="attachment_image"/>
                                 </div>
                             </div>
                         </t>

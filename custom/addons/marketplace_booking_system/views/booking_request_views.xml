@@ -14,17 +14,6 @@
         </field>
     </record>
 
-    <record id="booking_request_from_view" model="ir.ui.view">
-        <field name="name">booking.request.form</field>
-        <field name="model">product.product</field>
-        <field name="inherit_id" ref="odoo_marketplace.wk_seller_product_template_form_view"/>
-        <field name="arch" type="xml">
-            <xpath expr="//form" position="attributes">
-                <attribute name="create">true</attribute>
-                <attribute name="edit">true</attribute>
-            </xpath>
-        </field>
-    </record>
 
 
     <record id="booking_approval_tree_view" model="ir.ui.view">
@@ -58,7 +47,7 @@
         <field name="view_mode">tree,form</field>
         <field name="view_ids" eval="[(5, 0, 0),
     (0, 0, {'view_mode': 'tree', 'view_id': ref('booking_request_tree_view')}),
-    (0, 0, {'view_mode': 'form', 'view_id': ref('booking_request_from_view')})]"/>
+    (0, 0, {'view_mode': 'form', 'view_id': ref('odoo_marketplace.wk_seller_product_template_form_view')})]"/>
         <field name="domain">[('create_uid','=',uid), ('is_booking_type','=',True)]</field>
     </record>
 

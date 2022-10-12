@@ -208,11 +208,89 @@ nav ul li a .fa {
         }
     }
 }
+
+$header-padding: 12px;
+
 .o_web_client {
     .o_main_navbar {
         background-color: $primaryColor;
         border-color: $primaryColor;
         color: white !important;
+
+        > a:hover {
+            background-color: $primaryColor;
+        }
+
+        ul {
+            > li {
+
+                > a {
+                    height: $o-navbar-height - (2 * $header-padding);
+                    line-height: $o-navbar-height - (2 * $header-padding);
+                    margin: $header-padding 0;
+                    border-radius: 5px;
+                    transition: all 100ms linear;
+
+                    &:hover {
+                        background-color: white;
+                        color: #453E3E;
+
+                        > .fa {
+                            color: #453E3E !important;
+                        }
+                    }
+                }
+
+                > .full {
+                    height: $o-navbar-height - $header-padding - 4px;
+                    line-height: $o-navbar-height - $header-padding - 4px;
+                    margin: ($header-padding + 4px) / 2;
+                    padding: 0 $header-padding;
+                    background-color: $primaryColor;
+                    font-size: 16px;
+                    border: 1px solid white;
+                    
+                    > .fa {
+                        color: white !important;
+                    }
+
+                    &:hover { 
+                        background-color: white;
+
+                        > .fa {
+                            color: #453E3E !important;
+                        }
+                    }
+                }
+            }
+
+            .show {
+                .dropdown-toggle {
+                    background-color: white;
+                    color: #453E3E;
+
+                    > .fa {
+                        color: #453E3E !important;
+                    }
+                }
+            }
+
+            .o_extra_menu_items > a:hover,
+            .show.o_extra_menu_items .dropdown-toggle,
+            &.o_menu_systray > li > a:hover,
+            &.o_menu_systray > .show .dropdown-toggle {
+                background-color: $primaryColor;
+                color: white;
+                
+                > .fa {
+                    color: white !important;
+                }
+            }
+        }
+
+        .fa {
+            color: white !important;
+        }
         
         .o_menu_systray {
             li > a, .fa:not(.fa-square-o, .fa-check-square) {
@@ -220,9 +298,6 @@ nav ul li a .fa {
             }
         }
         .o_menu_apps {
-            .fa {
-                color: white !important;
-            }
             .dropdown {
                 .dropdown-menu {
                     a {
@@ -245,9 +320,6 @@ nav ul li a .fa {
             display: none;
             cursor: pointer;
             align-items: center;
-            .fa {
-                color: white !important;
-            }
         }
         @media screen and (max-width: 481px) {
             .o_menu_brand {
@@ -413,6 +485,27 @@ nav ul li a .fa {
             .o_menu_brand {
                 margin: unset;
             }
+        }
+
+        // livep brand
+        .brand-livep {
+            float: left;
+            background-color: white;
+            padding: 0 10px;
+            margin-block: $header-padding;
+            margin-inline: 10px;
+            border-radius: 5px;
+            line-height: 32px;
+
+            > img {
+                height: 20px;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .brand-livep {
+                display: none;
+            } 
         }
     }
 }
@@ -781,4 +874,57 @@ nav ul li a .fa {
 }
 .o_form_view.o_xxs_form_view .o_group.o_inner_group > tbody > tr > td:last-of-type {
     width: 50% !important;
+}
+
+// =============> o_list_table <==============
+// Added by livep
+.o_list_view {
+    .o_list_table {
+        border: 2px solid #f0f1f3;
+        border-radius: 10px;
+        overflow: hidden;
+
+        tbody > tr:last-of-type > td {
+            border-bottom: none;
+        }
+        
+        tfoot > tr > td {
+            border-top: 1px solid #cacaca;
+        }
+    }
+}
+
+.table-striped tbody {
+    tr:nth-of-type(odd) {
+        background-color: unset;
+    }
+
+    tr:nth-of-type(even) {
+        background-color: #f9fafb;
+    }
+}
+
+// web module overwrites
+.o_list_view .o_list_table thead {
+    background-color: $list-view-bg-color;
+
+    > tr > th:not(.o_list_record_selector) {
+        border-left: none;
+    }
+}
+
+// bootstrap overwrites
+.o_list_table thead,
+.o_list_table tbody {
+    > tr { 
+        > th, > td {
+            border-top: none;
+        }
+        > th {
+            border-bottom: 1px solid #d1d5db;
+        }
+        > td {
+            border-bottom: 1px solid #eeeff2;
+        }
+    }
 }

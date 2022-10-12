@@ -12,7 +12,7 @@ odoo.define("website_daily_deals.daily_deals_js", function (require) {
 			nav:true,
             dots:true,
             smartSpeed:800,
-            autoplayTimeout: 4000,
+            autoplayTimeout: 5000,
             autoplayHoverPause: true,
             navText: ["<i class='deal-left-right fa fa-angle-left'></i>","<i class='deal-left-right fa fa-angle-right'></i>"],
             autoWidth:false,
@@ -32,6 +32,9 @@ odoo.define("website_daily_deals.daily_deals_js", function (require) {
         function stopCarouselAutoplay () {
             $(".daily_deals_owl_carousel").trigger('stop.owl.autoplay');
         }
+
+        $(".daily_deals_owl_carousel").on('touchstart', stopCarouselAutoplay);
+        // owl restart autoplay internally when touchend, calling to start again here makes weired side effects
 
         $(".owl-carousel--nested").owlCarousel({
           nav: true,

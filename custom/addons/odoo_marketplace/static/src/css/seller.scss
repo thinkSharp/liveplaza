@@ -1,0 +1,57 @@
+.seller-image {
+  position: relative;
+
+  .status-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    right: 5%;
+    bottom: 0;
+    width: 16px;
+    height: 16px;
+    border-radius: 100%;
+
+    .fa {
+      font-size: 9px;
+      color: white !important;
+    }
+
+    &.status-new { background-color: #864ae6;}
+    &.status-approved { background-color: #13CA46;}
+    &.status-pending { background-color: #159DEA;}
+    &.status-denied { background-color: #696969;}
+  }
+}
+
+.seller-info {
+  .seller-name > span {
+    font-size: 16px;
+    font-weight: 600;
+    color: #4B4B4B !important;
+  }
+
+  .seller-email,
+  .seller-phone {
+    span, a, .fa {
+      margin-right: 8px;
+      font-size: 12px;
+      font-weight: 400;
+      color: #4B4B4B !important;
+    }
+  }
+
+  .seller-status {
+    margin-top: 8px;
+
+    > span {
+      text-transform: capitalize;
+      font-weight: 600;
+    }
+
+    .status-new { color: #864ae6;}
+    .status-approved { color: #13CA46;}
+    .status-pending { color: #159DEA;}
+    .status-denied { color: #696969;}
+  }
+}

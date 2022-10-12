@@ -63,6 +63,7 @@
                             </div>
                         </group>
                         <group>
+                            <field name="shop_code" string="Shop Code"/>
                             <field name="shop_tag_line" required="1" placeholder="Tag line for shop..."/>
                             <field name="description"/>
                             <field name="seller_id" groups="odoo_marketplace.marketplace_officer_group" widget="selection" options="{'no_create': True}"/>

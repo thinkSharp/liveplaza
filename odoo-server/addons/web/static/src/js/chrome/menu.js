@@ -70,9 +70,7 @@ var Menu = Widget.extend({
         this.systray_menu = new SystrayMenu(this);
         var systrayMenuProm = this.systray_menu.attachTo(this.$('.o_menu_systray')).then(function() {
             dom.initAutoMoreMenu(self.$section_placeholder, {
-            maxWidth: function () {
-                return self.$el.width() - (self.$menu_apps.outerWidth(true) + self.$menu_brand_placeholder.outerWidth(true) + self.systray_menu.$el.outerWidth(true));
-            },
+            maxWidth: self._maxWidth.bind(self),
             sizeClass: 'SM',
             });
         });
@@ -80,6 +78,11 @@ var Menu = Widget.extend({
 
 
         return Promise.all([this._super.apply(this, arguments), appsMenuProm, systrayMenuProm]);
+    },
+    _maxWidth: function () {
+        // added by livep, to be able to replace by extending, if someone want to put extra item in the navbar
+        var self = this;
+        return self.$el.width() - (self.$menu_apps.outerWidth(true) + self.$menu_brand_placeholder.outerWidth(true) + self.systray_menu.$el.outerWidth(true));
     },
     change_menu_section: function (primary_menu_id) {
         if (!this.$menu_sections[primary_menu_id]) {

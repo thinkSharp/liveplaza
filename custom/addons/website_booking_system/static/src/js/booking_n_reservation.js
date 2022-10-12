@@ -30,8 +30,11 @@ odoo.define('website_booking_system.booking_n_reservation', function(require) {
         }
 
         var get_w_closed_days = function(w_c_days){
-            var data = w_c_days.map(day => Days[day])
-            return data
+            if (w_c_days) {
+                var data = w_c_days.map(day => Days[day])
+                return data
+            }
+
         }
 
         // Booking pop-up modal

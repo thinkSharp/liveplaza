@@ -217,6 +217,9 @@ class SmsTemplate(models.Model):
                                                                     obj.partner_id) if obj else sms_tmpl.sms_body_html,
                     'template_id': False
                 })
+                if sms_sms_obj.msg:
+                    url_msg = sms_sms_obj.msg.replace("&amp;", "&")
+                    sms_sms_obj.sudo().write({'msg': url_msg})
 
             elif sms_tmpl.condition == 'order_cancel':
                 sms_sms_obj = self.env["wk.sms.sms"].create({

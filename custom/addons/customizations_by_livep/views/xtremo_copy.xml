@@ -147,5 +147,18 @@
     </xpath>
   </template>
 
+  <!-- Service Page Sort By Menu -->
+  <template id="service_sort" inherit_id="website_sale.products">
+    <xpath expr="//div[@class='dropdown-menu dropdown-menu-right']" position="replace">
+      <div class="dropdown-menu dropdown-menu-right" role="menu">
+        <t t-set="url_path" t-value="request.httprequest.path"/>
+        <t t-foreach="website_sale_sortable" t-as="sortby">
+          <a role="menuitem" rel="noindex,nofollow" t-att-href="keep(url_path, order=sortby[1])" class="dropdown-item">
+            <span t-raw="sortby[0]"/>
+          </a>
+        </t>
+      </div>
+    </xpath>
+  </template>
 
 </odoo>

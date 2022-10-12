@@ -25,6 +25,11 @@
                 <i class="fa fa-bars"/>
             </div>
         </t>
+        <t t-jquery=".o_menu_brand" t-operation="before">
+            <span class="brand-livep">
+                <img class="img-fluid" src="backend_theme_manon/static/src/img/livep_logo.png" alt="live plaza logo" />
+            </span>
+        </t>
     </t>
 
 </templates>
