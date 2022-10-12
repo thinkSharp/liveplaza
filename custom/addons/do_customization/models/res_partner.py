@@ -28,20 +28,15 @@ class ResCompany(models.Model):
         ('two_horizontal', 'Two Horizontal'),
         ('two_vertical', 'Two Vertical'),
         ('four_square', 'Four Square'),
-        ('top1_bot2', 'Top One Bottom Two'),
-        ('top2_bot1', 'Top Two Bottom One'),
-        ('left1_right2', 'Left One Right Two'),
-        ('left2_right1', 'Left Two Right One')
-
     ], default='four_square')
     image_invoice_1 = fields.Image("Image Invoice 1", max_width=512, max_height=512, store=True)
     image_invoice_2 = fields.Image("Image Invoice 2", max_width=512, max_height=512, store=True)
     image_invoice_3 = fields.Image("Image Invoice 3", max_width=512, max_height=512, store=True)
     image_invoice_4 = fields.Image("Image Invoice 4", max_width=512, max_height=512, store=True)
 
-    # @api.onchange('invoice_format')
-    # def change_invoice_format(self):
-    #     self.image_invoice_1 = None
-    #     self.image_invoice_2 = None
-    #     self.image_invoice_3 = None
-    #     self.image_invoice_4 = None
+    @api.onchange('invoice_format')
+    def change_invoice_format(self):
+        self.image_invoice_1 = None
+        self.image_invoice_2 = None
+        self.image_invoice_3 = None
+        self.image_invoice_4 = None
