@@ -159,7 +159,8 @@
         <record forcecreate= "True" id= "437EF2" model= "wk.backend.color">
             <field name= "name">Livep</field>  
             <field name= "color_primary">#437EF2</field>            
-            <field name= "auto_color_secondary">True</field>            
+            <field name= "color_secondary">#F19953</field>            
+            <field name= "auto_color_secondary">False</field>            
         </record>            
 
     </data>
