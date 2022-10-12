@@ -33,6 +33,9 @@ odoo.define("website_daily_deals.daily_deals_js", function (require) {
             $(".daily_deals_owl_carousel").trigger('stop.owl.autoplay');
         }
 
+        $(".daily_deals_owl_carousel").on('touchstart', stopCarouselAutoplay);
+        // owl restart autoplay internally when touchend, calling to start again here makes weired side effects
+
         $(".owl-carousel--nested").owlCarousel({
           nav: true,
           dots: true,
