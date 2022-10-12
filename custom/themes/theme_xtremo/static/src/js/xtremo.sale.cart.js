@@ -169,16 +169,9 @@ odoo.define('xtremo.sale.cart', function (require) {
 
     _is_checked_products: function() {
        return function(ev){
-            var checkboxes = document.getElementsByName('checked_list');
-            var checked_list = 0;
+            var order_len = $(ev.currentTarget).data('order-length');
 
-            for (var i = 0; i < checkboxes.length; i++) {
-                if (checkboxes[i].checked) {
-                    checked_list++;
-                }
-            }
-
-            if(checked_list <= 0) {
+            if(order_len <= 0) {
                displayError(
                     _t('No product selected'),
                     _t('Go to Cart and select at least one product')

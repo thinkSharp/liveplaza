@@ -18,20 +18,14 @@
                     <group>
                         <group>
                             <field name="image_invoice_1" widget="image" style="width: 300px;" options="{'image_preview': 'image_128'}" />
+                            <field name="image_invoice_3" widget="image" style="width: 300px;" options="{'image_preview': 'image_128'}"
+                            attrs="{'invisible' : [('invoice_format', 'in', ['plain', 'two_horizontal', 'two_vertical'])]}" />
                         </group>
                         <group>
                             <field name="image_invoice_2" widget="image" style="width: 300px;" options="{'image_preview': 'image_128'}"
-                            attrs="{'invisible' : [('invoice_format', 'in', ['plain', 'two_vertical', 'top1_bot2'])]}"/>
-                        </group>
-                    </group>
-                    <group>
-                        <group>
-                            <field name="image_invoice_3" widget="image" style="width: 300px;" options="{'image_preview': 'image_128'}"
-                            attrs="{'invisible' : [('invoice_format', 'in', ['plain', 'two_horizontal', 'left1_right2'])]}" />
-                        </group>
-                        <group>
+                            attrs="{'invisible' : [('invoice_format', 'in', ['plain'])]}"/>
                             <field name="image_invoice_4" widget="image" style="width: 300px;" options="{'image_preview': 'image_128'}"
-                            attrs="{'invisible' : [('invoice_format', 'in', ['plain', 'two_horizontal', 'two_vertical', 'top2_bot1', 'left2_right1'])]}" />
+                            attrs="{'invisible' : [('invoice_format', 'in', ['plain', 'two_horizontal', 'two_vertical'])]}" />
                         </group>
                     </group>
                 </page>
