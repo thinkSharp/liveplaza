@@ -144,7 +144,7 @@
                                     <tr>
                                         <td class="summary_td_style">Customer</td>
                                         <td class="text-right">:</td>
-                                        <td class="summary_td_style"  style="width: 38%;"><t t-esc="doc.partner_id.name"/></td>
+                                        <td class="summary_td_style"  style="width: 38%;"><t t-esc="doc.partner_shipping_id.name"/></td>
                                         <td class="summary_td_style">Sale Order No</td>
                                         <td class="text-right">:</td>
                                         <td class="summary_td_style"><t t-esc="doc.name"/></td>
@@ -152,10 +152,10 @@
                                     <tr>
                                         <td class="summary_td_style">Phone</td>
                                         <td class="text-right">:</td>
-                                        <td class="summary_td_style"><t t-esc="doc.partner_id.phone"/></td>
+                                        <td class="summary_td_style"><t t-esc="doc.partner_shipping_id.phone"/></td>
                                         <td class="summary_td_style">Order Date</td>
                                         <td class="text-right">:</td>
-                                        <td class="summary_td_style"><t t-esc="doc.date_order"/></td>
+                                        <td class="summary_td_style"><t t-esc="doc.date_order.strftime('%d %b %Y')"/></td>
                                     </tr>
                                     <tr>
                                         <td class="summary_td_style">Address</td>
@@ -209,7 +209,7 @@
                                 <tbody>
                                     <t t-foreach="sol_list" t-as="line">
                                         <tr t-att-class="'bg-200 font-weight-bold o_line_section' if line.display_type == 'line_section' else 'font-italic o_line_note' if line.display_type == 'line_note' else ''"
-                                         t-if="not line.is_delivery">
+                                         t-if="(not line.is_delivery) and ( line.delivery_status != 'cancel')">
                                             <t t-set="number" t-value="number + 1" />
                                             <t t-if="not line.display_type">
                                                 <td class="text-center td_style"><span style="color: black;" t-esc="number" /></td>
@@ -291,7 +291,7 @@
                             </t>
                         </div>
                     </div>
-                    <div t-if="company" style="width: 100%; padding-top: 10px; height: 185px;">
+                    <div t-if="company" style="width: 100%; padding-top: 10px; height: 185px; margin: 0 auto;">
                         <t t-if="company.invoice_format == 'plain'">
                             <div class="text-center" >
                                 <div t-if="company.image_invoice_1" class="" style="height: 170px;">
@@ -324,8 +324,8 @@
                                     </div>
                             </div>
                             <div style="width: 100%; height: 85px; ">
-                                <div t-if="company.image_invoice_2" class="img_outer_style">
-                                    <span t-field="company.image_invoice_2" style="width: fit-content; height: 80px;"
+                                <div t-if="company.image_invoice_3" class="img_outer_style">
+                                    <span t-field="company.image_invoice_3" style="width: fit-content; height: 80px;"
                                   t-options="{'widget': 'image', 'qweb_img_responsive': False, 'class': 'img_2ver_style'}" />
                                 </div>
                             </div>
@@ -362,6 +362,103 @@
                                 </div>
                             </div>
                         </t>
+                        <t t-elif="company.invoice_format == 'top1_bot2'">
+                            <div style="height: 180px; ">
+                                <div style="width: 100%; height: 90px">
+                                    <div t-if="company.image_invoice_1" class="img_outer_style">
+                                    <span t-field="company.image_invoice_1" style="width: fit-content; height: 80px;"
+                                  t-options="{'widget': 'image', 'qweb_img_responsive': False, 'class': 'img_2ver_style'}" />
+                                </div>
+                                </div>
+
+                                <div class="row" style="width: 100%; height: 90px">
+                                    <div style="width: 50%">
+                                        <div t-if="company.image_invoice_3" class="img_outer_style">
+                                            <span t-field="company.image_invoice_3" style="width: fit-content; height: 80px;"
+                                          t-options="{'widget': 'image', 'qweb_img_responsive': False, 'class': 'img_style'}" />
+                                        </div>
+                                    </div>
+                                    <div style="width: 50%">
+                                        <div t-if="company.image_invoice_4" class="img_outer_style">
+                                            <span t-field="company.image_invoice_4" style="width: fit-content; height: 80px;"
+                                          t-options="{'widget': 'image', 'qweb_img_responsive': False, 'class': 'img_style'}" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                        <t t-elif="company.invoice_format == 'top2_bot1'">
+                            <div style="height: 180px; ">
+                                <div class="row" style="width: 100%; height: 90px">
+                                    <div style="width: 50%">
+                                        <div t-if="company.image_invoice_1" class="img_outer_style">
+                                            <span t-field="company.image_invoice_1" style="width: fit-content; height: 80px;"
+                                          t-options="{'widget': 'image', 'qweb_img_responsive': False, 'class': 'img_style'}" />
+                                        </div>
+                                    </div>
+                                    <div style="width: 50%">
+                                        <div t-if="company.image_invoice_2" class="img_outer_style">
+                                            <span t-field="company.image_invoice_2" style="width: fit-content; height: 80px;"
+                                          t-options="{'widget': 'image', 'qweb_img_responsive': False, 'class': 'img_style'}" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="width: 100%; height: 90px">
+                                    <div t-if="company.image_invoice_3" class="img_outer_style">
+                                        <span t-field="company.image_invoice_3" style="width: fit-content; height: 80px;"
+                                      t-options="{'widget': 'image', 'qweb_img_responsive': False, 'class': 'img_2ver_style'}" />
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                        <t t-elif="company.invoice_format == 'left1_right2'">
+                            <div class="row" style="height: 180px; ">
+                                <div style="width: 50%; height: 180px; position: relative;">
+                                    <div t-if="company.image_invoice_1" class="img_outer_style" style="height: 100%;">
+                                        <span t-field="company.image_invoice_1" style="width: fit-content; height: 80px; "
+                                      t-options="{'widget': 'image', 'qweb_img_responsive': False, 'class': 'img_2hor_style'}" />
+                                    </div>
+                                </div>
+                                <div style="width: 50%; height: 180px">
+                                    <div style="width: 100%; height: 90px;">
+                                        <div t-if="company.image_invoice_2" class="img_outer_style">
+                                            <span t-field="company.image_invoice_2" style="width: fit-content; height: 80px;"
+                                          t-options="{'widget': 'image', 'qweb_img_responsive': False, 'class': 'img_style'}" />
+                                        </div>
+                                    </div>
+                                    <div style="width: 100%; height: 90px;">
+                                        <div t-if="company.image_invoice_4" class="img_outer_style">
+                                            <span t-field="company.image_invoice_4" style="width: fit-content; height: 80px;"
+                                          t-options="{'widget': 'image', 'qweb_img_responsive': False, 'class': 'img_style'}" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                        <t t-elif="company.invoice_format == 'left2_right1'">
+                            <div class="row" style="height: 180px; ">
+                                <div style="width: 50%; height: 180px">
+                                    <div style="width: 100%; height: 90px;">
+                                        <div t-if="company.image_invoice_1" class="img_outer_style">
+                                            <span t-field="company.image_invoice_1" style="width: fit-content; height: 80px;"
+                                          t-options="{'widget': 'image', 'qweb_img_responsive': False, 'class': 'img_style'}" />
+                                        </div>
+                                    </div>
+                                    <div style="width: 100%; height: 90px;">
+                                        <div t-if="company.image_invoice_3" class="img_outer_style">
+                                            <span t-field="company.image_invoice_3" style="width: fit-content; height: 80px;"
+                                          t-options="{'widget': 'image', 'qweb_img_responsive': False, 'class': 'img_style'}" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="width: 50%; height: 180px; position: relative;">
+                                    <div t-if="company.image_invoice_2" class="img_outer_style" style="height: 100%;">
+                                        <span t-field="company.image_invoice_2" style="width: fit-content; height: 80px; "
+                                      t-options="{'widget': 'image', 'qweb_img_responsive': False, 'class': 'img_2hor_style'}" />
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
                     </div>
                 </t>
             </div>
@@ -375,15 +472,21 @@
                     text-align: center;
                 }
                 .img_2hor_style {
-                    max-width: 400px;
+                    max-width: 280px;
                     max-height: 170px;
+                    position: absolute;
+                    top: 0;
+                    bottom: 0;
+                    left: 0;
+                    right: 0;
+                    margin: auto;
                 }
                 .img_2ver_style {
                     max-width: 600px;
                     max-height: 85px;
                 }
                 .img_style {
-                    max-width: 250px;
+                    max-width: 280px;
                     max-height: 80px;
                 }
                 .text-right { text-align: right; }
