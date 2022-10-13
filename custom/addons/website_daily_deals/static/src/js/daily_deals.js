@@ -2,7 +2,33 @@ odoo.define("website_daily_deals.daily_deals_js", function (require) {
 "use strict";
 
     var ajax = require('web.ajax');
-    var sAnimations = require('website.content.snippets.animation');
+
+    function initializeNestedCarousel () {
+        $(".owl-carousel--nested").owlCarousel({
+        nav: true,
+        dots: true,
+        autoplay: false,
+        loop: false,
+        items: 5,
+        dots:true,
+        autoWidth: false,
+        navText: ["<i class='fa fa-angle-left'></i>","<i class='fa fa-angle-right'></i>"],
+        responsive:{
+                0:{
+                    items:2
+                    },
+                480:{
+                    items:2
+                },
+                768 : {
+                    items:3
+                },
+                998 : {
+                    items:5
+                }
+            }
+        });
+    }
 
     $(document).ready(function() {
 
@@ -20,7 +46,8 @@ odoo.define("website_daily_deals.daily_deals_js", function (require) {
             thumbsPrerendered: true,
             mouseDrag: true,
             touchDrag: true,
-            items: 1
+            items: 1,
+            onInitialized: initializeNestedCarousel,
 		}
 
         $(".daily_deals_owl_carousel").owlCarousel(deal_options);
@@ -36,38 +63,12 @@ odoo.define("website_daily_deals.daily_deals_js", function (require) {
         $(".daily_deals_owl_carousel").on('touchstart', stopCarouselAutoplay);
         // owl restart autoplay internally when touchend, calling to start again here makes weired side effects
 
-        $(".owl-carousel--nested").owlCarousel({
-          nav: true,
-          dots: true,
-          autoplay: false,
-          loop: false,
-          items: 5,
-          dots:true,
-          autoWidth: false,
-          navText: ["<i class='fa fa-angle-left'></i>","<i class='fa fa-angle-right'></i>"],
-          responsive:{
-                0:{
-                    items:2
-                    },
-                480:{
-                    items:2
-                },
-                768 : {
-                    items:3
-                },
-                998 : {
-                    items:5
-                }
-            }
-        });
-
-
         $(".deal_main_div").each(function(){
             var end_date= $(this).find("input[name='end_date']").val();
             var deal_id = parseInt($(this).find("input[name='deal_id']").val(),10);
             var state = $(this).find("input[name='state']").val()
             var msg_before_offset= $(this).find("input[name='msg_before_offset']").val()
-            if(state=="validated"){
+            if (state=="validated") {
                 $(this).find(".deal_countdown_timer").countdown({
                     date: end_date,
                     offset: +0,
@@ -103,6 +104,7 @@ odoo.define("website_daily_deals.daily_deals_js", function (require) {
 
             }
         });
+
         $('.deal_product_quick_view').on('click',function(){
             var product_tmpl_id     = parseInt($(this).attr('product-template-id'));
             var product_variant_id  = parseInt($(this).attr('product-product-id'));
@@ -121,6 +123,7 @@ odoo.define("website_daily_deals.daily_deals_js", function (require) {
                 }).fail(startCarouselAutoplay)
             }
         });
+
         $('#deal_product_item_view_modal').on('hidden.bs.modal', startCarouselAutoplay)
     });
 
