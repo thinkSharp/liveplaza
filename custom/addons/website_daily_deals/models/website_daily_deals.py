@@ -141,6 +141,9 @@ class ProductPricelist(models.Model):
                         continue
                     if rule.product_id and product.id != rule.product_id.id:
                         continue
+                    if rule.isMulti_products and rule.product_tmpl_ids:
+                        if product.product_tmpl_id not in rule.product_tmpl_ids:
+                            continue
                     if rule.isMulti_variants and rule.product_ids:
                         if product.product_variant_id not in rule.product_ids:
                             continue
