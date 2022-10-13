@@ -155,7 +155,7 @@
                                         <td class="summary_td_style"><t t-esc="doc.partner_id.phone"/></td>
                                         <td class="summary_td_style">Order Date</td>
                                         <td class="text-right">:</td>
-                                        <td class="summary_td_style"><t t-esc="doc.date_order.strftime('%d %b %Y"/></td>
+                                        <td class="summary_td_style"><t t-esc="doc.date_order.strftime('%d %b %Y')"/></td>
                                     </tr>
                                     <tr>
                                         <td class="summary_td_style">Address</td>
