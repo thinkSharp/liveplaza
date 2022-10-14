@@ -239,13 +239,6 @@ class SaleOrder(models.Model):
         #if self.get_portal_last_transaction().acquirer_id.provider in ('wavepay','cash_on_delivery') and self.state == 'sale':
         #    self.action_admin()
 
-        if self.get_portal_last_transaction().acquirer_id.provider in ('wavepay','cash_on_delivery') and self.state == 'sale':
-            if not self.env['ir.config_parameter'].sudo().get_param('sale.approved_by_admin_cod'):
-                self.action_admin()
-        elif self.get_portal_last_transaction().acquirer_id.provider in ('transfer') and self.state == 'sale':
-            if not self.env['ir.config_parameter'].sudo().get_param('sale.approved_by_admin_prepaid'):
-                self.action_admin()
-                
         if order_copy and self.state in ('sale','approve_by_admin'):
             self.env['website'].newlp_so_website(order_copy)
 
