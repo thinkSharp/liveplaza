@@ -185,17 +185,17 @@
 				<t t-set="all_out_of_stock" t-value="false" />
 				<div t-attf-class="deal_item #{'' if product_quantity > 0 else 'd-none hidden-deal-product'} #{'col-12 col-sm-6 col-md-3 col-lg-2 p-0' if display_as and display_as=='grid' else ''}">
 					<div class='div_img'>
-						<a t-att-href="'/shop/product/%s' % product_tmpl_id.id">
+						<a t-att-href="product_tmpl_id.website_url">
 							<span itemprop="image" t-field="product_tmpl_id.image_1920" t-options="{'widget': 'image', 'preview_image': 'image_1024' if product_image_big else 'image_256'}" t-att-alt="product_tmpl_id.name"/>
 						</a>
 						<div class="item_mask">
 							<button type="button" role="button" class="btn btn-default deal_product_quick_view"  title="Quick View" t-att-product-template-id="product_tmpl_id.id">Quick View</button>
-							<a t-att-href="'/shop/product/%s' % product_tmpl_id.id" type="button" role="button" class="btn btn-default"  title="Quick View" t-att-product-template-id="product_tmpl_id.id">Choose Options</a>
+							<a t-att-href="product_tmpl_id.website_url" type="button" role="button" class="btn btn-default"  title="Quick View" t-att-product-template-id="product_tmpl_id.id">Choose Options</a>
 						</div>
 					</div>
 					<div class="deal_item_details">
 						<div class="product_name">
-							<a t-att-href="'/shop/product/%s' % product_tmpl_id.id" itemprop="name" t-field="product_tmpl_id.name"/>
+							<a t-att-href="product_tmpl_id.website_url" itemprop="name" t-field="product_tmpl_id.name"/>
 						</div>
 						<div class="discounted_price">
 							<span t-esc="deal_item.discounted_price" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>
