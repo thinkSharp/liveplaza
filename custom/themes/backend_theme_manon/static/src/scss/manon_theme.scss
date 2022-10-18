@@ -533,9 +533,11 @@ $header-padding: 12px;
 // =================> o_cp_controller <====================
 .o_cp_controller {
     .o_control_panel {
-        border-color: $primaryColor;
+        background-color: unset;
+
         .breadcrumb {
-            font-size: 16px;
+            font-size: 18px;
+            background-color: unset;
 
             .breadcrumb-item + .breadcrumb-item {
                 padding-left: 1rem;
@@ -558,7 +560,7 @@ $header-padding: 12px;
 
         .o_cp_searchview {
             .o_searchview {
-                font-size: 16px;
+                font-size: 14px;
                 border-radius: 5px;
                 border: 1px solid #DCDFE3;
                 padding: 1px;
@@ -567,7 +569,7 @@ $header-padding: 12px;
                     color: #8D8D8D;
 
                     .fa-search {
-                        line-height: 2;
+                        line-height: 2.3;
                         margin: 0 1rem;
                     }
 
