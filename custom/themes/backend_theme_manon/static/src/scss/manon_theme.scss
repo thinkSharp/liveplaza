@@ -527,6 +527,22 @@ $header-padding: 12px;
     .o_control_panel {
         border-color: $primaryColor;
         .breadcrumb {
+            font-size: 16px;
+
+            .breadcrumb-item + .breadcrumb-item {
+                padding-left: 1rem;
+
+                &::before {
+                    content: '\\';
+                    color: #C2C2C2;
+                    padding-right: 1rem;
+                }
+            }
+
+            .breadcrumb-item.active {
+                color: #696969;
+            }
+
             a {
                 color: $primaryColor;
             }
