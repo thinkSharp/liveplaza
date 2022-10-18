@@ -32,4 +32,10 @@
         </t>
     </t>
 
+    <t t-extend="SearchView.SearchBar">
+        <t t-jquery="input" t-operation="before">
+            <i class="fa fa-search"></i>
+        </t>
+    </t>
+
 </templates>

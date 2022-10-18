@@ -547,23 +547,59 @@ $header-padding: 12px;
                 color: $primaryColor;
             }
         }
+
         .o_cp_searchview {
             .o_searchview {
-                border: unset;
-                border-bottom: 1px solid $primaryColor;
-                padding: 0;
-                padding-bottom: 2px;
-                border-radius: 0;
-            }
-            .o_searchview_more, .o_facet_remove {
-                color: $primaryColor;
+                font-size: 16px;
+                border-radius: 5px;
+                border: 1px solid #DCDFE3;
+                padding: 1px;
+
+                .o_searchview_input_container {
+                    color: #8D8D8D;
+
+                    .fa-search {
+                        line-height: 2;
+                        margin: 0 1rem;
+                    }
+
+                    .o_searchview_input {
+                        color: #58616E;
+                        padding: 0;
+
+                        &::placeholder {
+                            color: #8D8D8D;
+                        }
+                    }
+                }
             }
             .o_searchview_facet {
-                border: 1px solid $primaryColor;
-            }
-            .o_searchview_facet_label {
-                color: white !important;
-                background-color: $primaryColor;
+                font-size: 14px;
+                border: 1px solid $bgPrimary;
+                border-radius: 100vh;
+                overflow: hidden;
+                background: unset;
+                margin: 2px 8px 2px 0;
+
+                .o_searchview_facet_label {
+                    color: $primaryColor !important;
+                    background-color: $bgPrimary;
+                    font-weight: 600;
+                    padding: 0.2rem 1rem;
+                }
+
+                .o_facet_values {
+                    color: #58616E;
+                    display: flex;
+                    align-items: center;
+                    line-height: 1;
+                    padding-left: 8px;
+                    padding-right: 24px;
+                }
+
+                .o_facet_remove {
+                    right: 4px;
+                }
             }
             .o_mobile_search {
                 .o_mobile_search_header {
