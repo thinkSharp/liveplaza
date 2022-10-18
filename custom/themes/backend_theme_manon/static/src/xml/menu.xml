@@ -38,4 +38,12 @@
         </t>
     </t>
 
+    <t t-extend="Pager">
+        <t t-jquery=".o_pager_counter" t-operation="replace">
+            <span class="o_pager_counter">
+                Showing <span class="o_pager_value"></span> of <span class="o_pager_limit"></span> results
+            </span>
+        </t>
+    </t>
+
 </templates>
