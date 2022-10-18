@@ -121,7 +121,7 @@ body {
 .btn-secondary {
     border: 1px solid #E0E2E5;
     color: #58616E;
-    background-color: unset;
+    background-color: white;
 
     &:hover, &:active, &:focus {
         background-color: #F9F9F9;
@@ -617,12 +617,16 @@ $header-padding: 12px;
         }
         .o_cp_left {
             flex: 1 1 auto;
+            margin-top: 8px;
         }  
         .o_cp_right {
             flex: 1 1 auto;
+            margin-top: 8px;
+
             .o_search_options {
                 .o_dropdown {
-                    margin-right: 2px;
+                    margin-right: 6px;
+
                     &:last-of-type {
                         margin-right: none;
                     }
@@ -645,6 +649,12 @@ $header-padding: 12px;
                     }
                 }
             }
+        }
+
+        .o_form_buttons_view > .btn,
+        .o_form_buttons_edit > .btn,
+        .o_list_buttons > .btn {
+            margin-right: 4px;
         }
     }
     @media only screen and (max-width: 767px) {
