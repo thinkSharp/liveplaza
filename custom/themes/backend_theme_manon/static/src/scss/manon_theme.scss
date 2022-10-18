@@ -103,31 +103,32 @@
 body {
     font-family: $font, sans-serif;
 }
-.btn-primary {
-    border: 1px solid $primaryColor !important;
-    background-color: unset;
-    transition: all .3s;
-    color: $primaryColor;
-    border-radius: 0;
-    &:hover, &:active, &:focus {
-        background-color: $primaryColor !important;
-        color: white;
-        border: 1px solid white;
-        box-shadow: unset;
-    }
-}
+
+.btn-primary,
 .btn-secondary {
-    color: $secondaryColor;
-    background-color: white;
-    transition: all .4s;
-    border-radius: 0;
+    transition: all .1s;
+    border-radius: 5px;
+    padding: 0.5rem 1.2rem;
+    font-size: 14px;
+}
+
+.btn-primary {
+    border: 1px solid $primaryColor;
+    background-color: $primaryColor;
+    color: white;
+}
+
+.btn-secondary {
+    border: 1px solid #E0E2E5;
+    color: #58616E;
+    background-color: unset;
+
     &:hover, &:active, &:focus {
-        background-color: white !important;
-        color: $secondaryColor !important;
-        border: 1px solid $secondaryColor !important;
-        box-shadow: unset;
+        background-color: #F9F9F9;
+        color: #58616E;
     }
 }
+
 .badge {
     padding: 4px;
 }
