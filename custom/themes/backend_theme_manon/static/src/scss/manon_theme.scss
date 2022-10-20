@@ -655,30 +655,29 @@ $header-padding: 12px;
                     }
                 }
             }
+        }
 
-            .o_cp_switch_buttons {
+        .o_cp_switch_buttons {
+            background-color: #E1E3E7;
+            border-radius: 5px;
+            transition: all 100ms;
+
+            button {
                 background-color: #E1E3E7;
-                border-radius: 5px;
-                transition: all 100ms;
-                margin-left: 24px;
-
-                button {
-                    background-color: #E1E3E7;
-                    border-width: 2px;
-                    // border-color: $primaryColor;
-                    // color: $primaryColor;
-                    &.active {
-                        // color: $secondaryColor;
-                        // border-color: $secondaryColor;
-                        // background-color: unset;
-                        background-color: white;
-                        border-radius: 5px;
-                    }
+                border-width: 2px;
+                // border-color: $primaryColor;
+                // color: $primaryColor;
+                &.active {
+                    // color: $secondaryColor;
+                    // border-color: $secondaryColor;
+                    // background-color: unset;
+                    background-color: white;
+                    border-radius: 5px;
                 }
-                
-                > .btn:first-child {
-                    margin-left: 0;
-                }
+            }
+            
+            > .btn:first-child {
+                margin-left: 0;
             }
         }
 
