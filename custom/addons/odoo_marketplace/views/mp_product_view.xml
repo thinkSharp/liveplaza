@@ -126,6 +126,7 @@
 					<field name="list_price"/>
 					<field name="marketplace_seller_id"/>
 					<field name="color"/>
+					<field name="status"/>
 					<templates>
 						<t t-name="kanban-box">
 							<div class="livep-card o_kanban_record_neutral oe_kanban_global_click">
@@ -133,9 +134,15 @@
 									<div class="group-h">
 										<img class="product-image" alt="Product Image" t-att-src="kanban_image('product.template', 'image_128', record.id.raw_value)" />
 										<div class="product-info">
-											<div class="product-name">
+											<span class="product-name">
 												<field name="display_name" />
-											</div>
+												<div t-attf-class="status-icon status-#{record.status.raw_value}">
+														<i t-if="record.status.raw_value == 'draft'" class="fa fa-hourglass-start fa-fw"></i>
+														<i t-if="record.status.raw_value == 'pending'" class="fa fa-hourglass-half fa-fw"></i>
+														<i t-if="record.status.raw_value == 'approved'" class="fa fa-check fa-fw"></i>
+														<i t-if="record.status.raw_value == 'rejected'" class="fa fa-times fa-fw"></i>
+												</div>
+											</span>
 											<div>
 												Price: <span class="product-price"><field name="lst_price"></field></span>
 											</div>
