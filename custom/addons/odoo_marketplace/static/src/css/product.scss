@@ -9,10 +9,18 @@
 }
 
 .product-name {
+  position: relative;
   font-size: 15px;
   font-weight: 700;
   color: #2D2D2D;
   margin-bottom: 0.25rem;
+}
+
+.product-name > .status-icon {
+  position: absolute;
+  margin-left: 8px;
+  left: 100%;
+  top: 0;
 }
 
 .product-price {
