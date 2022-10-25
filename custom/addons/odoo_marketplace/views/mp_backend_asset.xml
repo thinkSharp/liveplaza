@@ -10,6 +10,7 @@
             <xpath expr="." position="inside">
                 <link rel="stylesheet" type="text/less" href="/odoo_marketplace/static/src/css/general.scss"/>
                 <link rel="stylesheet" type="text/less" href="/odoo_marketplace/static/src/css/seller.scss"/>
+                <link rel="stylesheet" type="text/less" href="/odoo_marketplace/static/src/css/product.scss"/>
                 <link rel="stylesheet" type="text/less" href="/odoo_marketplace/static/src/css/mp_dashboard.scss"/>
                 <script type="text/javascript" src="/odoo_marketplace/static/src/js/kanban_column.js"></script>
                 <script type="text/javascript" src="/odoo_marketplace/static/src/js/url_handler.js"></script>
