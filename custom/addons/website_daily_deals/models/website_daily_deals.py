@@ -78,7 +78,7 @@ class ProductPricelist(models.Model):
 
         item_ids = [x[0] for x in self.env.cr.fetchall()]
         return self.env['product.pricelist.item'].browse(item_ids)
-        
+
     def _compute_price_rule(self, products_qty_partner, date=False, uom_id=False):
         """ Low-level method - Mono pricelist, multi products
         Returns: dict{product_id: (price, suitable_rule) for the given pricelist}
@@ -146,7 +146,14 @@ class ProductPricelist(models.Model):
 
             # if Public user try to access standard price from website sale, need to call price_compute.
             # TDE SURPRISE: product can actually be a template
-            price = product.price_compute('list_price')[product.id]
+            #price = product.price_compute('list_price')[product.id]
+            if product.is_booking_type:
+                if is_product_template:
+                    price = product.get_booking_onwards_price_pl()
+                else:
+                    price = product.product_tmpl_id.get_booking_onwards_price_pl()
+            else:
+                price = product.price_compute('list_price')[product.id]
 
             price_uom = self.env['uom.uom'].browse([qty_uom_id])
             for rule in items:
@@ -186,12 +193,24 @@ class ProductPricelist(models.Model):
                         continue
 
                 if rule.base == 'pricelist' and rule.base_pricelist_id:
-                    price_tmp = rule.base_pricelist_id._compute_price_rule([(product, qty, partner)], date, uom_id)[product.id][0]  # TDE: 0 = price, 1 = rule
-                    price = rule.base_pricelist_id.currency_id._convert(price_tmp, self.currency_id, self.env.company, date, round=False)
+                    if product.is_booking_type:
+                        if is_product_template:
+                            price = product.get_booking_onwards_price_pl()
+                        else:
+                            price = product.product_tmpl_id.get_booking_onwards_price_pl()
+                    else:
+                        price_tmp = rule.base_pricelist_id._compute_price_rule([(product, qty, partner)], date, uom_id)[product.id][0]  # TDE: 0 = price, 1 = rule
+                        price = rule.base_pricelist_id.currency_id._convert(price_tmp, self.currency_id, self.env.company, date, round=False)
                 else:
                     # if base option is public price take sale price else cost price of product
                     # price_compute returns the price in the context UoM, i.e. qty_uom_id
-                    price = product.price_compute(rule.base)[product.id]
+                    if product.is_booking_type:
+                        if is_product_template:
+                            price = product.get_booking_onwards_price()
+                        else:
+                            price = product.product_tmpl_id.get_booking_onwards_price()
+                    else:
+                        price = product.price_compute(rule.base)[product.id]
 
                 convert_to_price_uom = (lambda price: product.uom_id._compute_price(price, price_uom))
 
