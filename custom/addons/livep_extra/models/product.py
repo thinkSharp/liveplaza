@@ -61,7 +61,8 @@ class ProductTemplate(models.Model):
                         list_price = sorted(self.booking_day_slot_ids.mapped('booking_slots_ids.price'))       
                         if list_price:
                             list_price = list_price[0]       
-                    
+                        else:
+                            list_price = price 
                 else:
                     list_price = taxes.compute_all(combination_info['list_price'], pricelist.currency_id, quantity_1, product, partner)[tax_display]
             else:
