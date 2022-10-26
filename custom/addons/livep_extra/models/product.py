@@ -57,6 +57,12 @@ class ProductTemplate(models.Model):
                         for or_line in order.website_order_line:
                             if or_line.product_id.product_tmpl_id.id == self.id:
                                list_price = or_line.booking_slot_id.price
+                            else:
+                                list_price = sorted(self.booking_day_slot_ids.mapped('booking_slots_ids.price'))  
+                                if list_price:
+                                    list_price = list_price[0]       
+                                else:
+                                    list_price = price 
                     else:
                         list_price = sorted(self.booking_day_slot_ids.mapped('booking_slots_ids.price'))       
                         if list_price:
