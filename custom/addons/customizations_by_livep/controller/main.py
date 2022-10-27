@@ -544,7 +544,19 @@ class WebsiteSale (WebsiteSale):
         for price in range(len(sort_product)):
             if sort_product[price].is_service:
                 product_prices.append(sort_product[price].list_price)
-            elif sort_product[price].is_booking_type:
+            elif sort_product[price].is_booking_type:                
+                for day_data in sort_product[price].booking_day_slot_ids.filtered(lambda day_sl: day_sl.booking_status == 'open'):
+                    for time_data in day_data.booking_slots_ids:                                              
+                        if pricelist:
+                            partner = request.env.user.partner_id
+                            partners = [partner] * len(sort_product[price])
+                            results = pricelist._compute_price_rule_booking([(sort_product[price], 1, partners)],time_data.id,time_data.price, date=False, uom_id=False)
+                            if results:
+                                for key, values in results.items():
+                                    if key == time_data.id:
+                                        time_data.discounted_price = values
+                            else:
+                                time_data.discounted_price = 0
                 product_prices.append(sort_product[price].get_booking_onwards_price())
 
         list_product = [x for _,x in sorted(zip(product_prices, sort_product))]

@@ -157,6 +157,7 @@ class BookingSlot(models.Model):
     plan_id = fields.Many2one("booking.plan", required=True, string="Booking Plan")
     quantity = fields.Integer(string="Quantity")
     price = fields.Float(string="Price", required=True)
+    discounted_price = fields.Float(string="Discounted Price")
     slot_config_id = fields.Many2one("day.slot.config", string="Day Slot Config")
     line_ids = fields.One2many("sale.order.line", "booking_slot_id", string="Booking Orders")
 
