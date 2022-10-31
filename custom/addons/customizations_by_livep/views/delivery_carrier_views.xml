@@ -22,9 +22,6 @@
                         </group>
                     </page>
                 </xpath>
-                <xpath expr="//field[@name='integration_level']" position="before">
-                    <field name="shipping_method"/>
-                </xpath>
             </field>
         </record>
 

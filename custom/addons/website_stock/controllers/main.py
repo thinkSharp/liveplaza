@@ -42,6 +42,9 @@ class WebsiteSale(WebsiteSale):
 
     @http.route(['/shop/cart/update'], type='http', auth="public", methods=['POST'], website=True)
     def cart_update(self, product_id, add_qty=1, set_qty=0, **kw):
+        # product = self.env['product.product'].browse(product_id)
+        # if product.categ_id.name=='Gift Voucher':
+        #     product.
         if float(add_qty) == 0:
             add_qty = '1'
         allow_order = request.website.check_if_allowed(int(product_id))
