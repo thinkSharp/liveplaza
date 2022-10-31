@@ -1,3 +1,5 @@
+$clr-primary-200: #B5D4FF;
+
 .status-icon {
     display: flex;
     justify-content: center;
@@ -61,6 +63,16 @@
             &:focus,
             &:hover {
                 background-color: hsl(220, 87%, 51%);
+            }
+
+            &.disabled,
+            &:disabled {
+                background-color: $clr-primary-200;
+                cursor: default;
+
+                &:hover {
+                    background-color: $clr-primary-200;
+                }
             }
         }
 
