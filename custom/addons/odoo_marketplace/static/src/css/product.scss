@@ -9,7 +9,7 @@
 }
 
 .product-name {
-  position: relative;
+  display: flex;
   font-size: 15px;
   font-weight: 700;
   color: #2D2D2D;
@@ -17,10 +17,8 @@
 }
 
 .product-name > .status-icon {
-  position: absolute;
   margin-left: 8px;
-  left: 100%;
-  top: 0;
+  flex-shrink: 0;
 }
 
 .product-price {
