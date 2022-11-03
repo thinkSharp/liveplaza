@@ -2,9 +2,25 @@
   position: relative;
 
   .status-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     position: absolute;
     right: 5%;
     bottom: 0;
+    width: 16px;
+    height: 16px;
+    border-radius: 100%;
+
+    .fa {
+      font-size: 9px;
+      color: white !important;
+    }
+
+    &.status-new { background-color: #864ae6;}
+    &.status-approved { background-color: #13CA46;}
+    &.status-pending { background-color: #159DEA;}
+    &.status-denied { background-color: #696969;}
   }
 }
 

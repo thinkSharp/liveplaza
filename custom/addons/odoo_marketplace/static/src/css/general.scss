@@ -1,26 +1,3 @@
-$clr-primary-200: #B5D4FF;
-
-.status-icon {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 16px;
-    height: 16px;
-    border-radius: 100%;
-
-    .fa {
-      font-size: 9px;
-      color: white !important;
-    }
-
-    &.status-new { background-color: #864ae6;}
-    &.status-draft { background-color: #864ae6;}
-    &.status-approved { background-color: #13CA46;}
-    &.status-pending { background-color: #159DEA;}
-    &.status-denied { background-color: #696969;}
-    &.status-rejected { background-color: #696969;}
-}
-
 .img-rounded {
   width: 70px;
   height: 70px;
@@ -63,16 +40,6 @@ $clr-primary-200: #B5D4FF;
             &:focus,
             &:hover {
                 background-color: hsl(220, 87%, 51%);
-            }
-
-            &.disabled,
-            &:disabled {
-                background-color: $clr-primary-200;
-                cursor: default;
-
-                &:hover {
-                    background-color: $clr-primary-200;
-                }
             }
         }
 

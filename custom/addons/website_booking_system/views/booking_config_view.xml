@@ -29,7 +29,6 @@
                                     <field name="plan_id"  options="{'no_open':True, 'no_create_edit':True,'no_create':True}" domain="[('state','=','approved')]"/>
                                     <field name="quantity"/>
                                     <field name="price"/>
-                                    <field name="discounted_price" readonly="1"/>
                                 </tree>
                             </field>
                         </group>

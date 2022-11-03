@@ -32,33 +32,4 @@
         </t>
     </t>
 
-    <t t-extend="SearchView.SearchBar">
-        <t t-jquery="input" t-operation="before">
-            <i class="fa fa-search"></i>
-        </t>
-    </t>
-
-    <t t-extend="Pager">
-        <t t-jquery=".o_pager_counter" t-operation="replace">
-            <span class="o_pager_counter">
-                Showing <span class="o_pager_value"></span> of <span class="o_pager_limit"></span> results
-            </span>
-        </t>
-    </t>
-
-    <t t-extend="ControlPanel">
-        <t t-jquery=".o_control_panel .o_cp_pager" t-operation="replace"></t>
-        <t t-jquery=".o_control_panel .o_cp_switch_buttons" t-operation="replace"></t>
-        <t t-jquery=".o_control_panel" t-operation="append">
-            <div class="mt-1">
-                <div class="o_cp_left">
-                    <nav class="btn-group o_cp_switch_buttons" role="toolbar" aria-label="View switcher"/>
-                </div>
-                <div class="o_cp_right">
-                    <nav class="o_cp_pager" role="search" aria-label="Pager"/>
-                </div>
-            </div>
-        </t>
-    </t>
-
 </templates>

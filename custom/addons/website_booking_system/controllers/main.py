@@ -47,7 +47,7 @@ class WebsiteSale(WebsiteSale):
             order_line = sale_order.order_line.filtered(lambda l: l.product_id.id == int(product_id))
             order_line.write({
                 'booking_slot_id' : bk_slot_obj.id,
-                'price_unit' : bk_slot_obj.discounted_price, #bk_slot_obj.price,
+                'price_unit' : bk_slot_obj.price,
                 'booking_date' : bk_date if bk_date else None,
             })
             sale_order.write({
