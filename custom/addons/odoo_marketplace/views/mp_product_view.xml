@@ -117,7 +117,7 @@
 
 		<record id="wk_seller_product_template_kanban_view" model="ir.ui.view">
 			<field name="name">Seller.Product.template.kanban</field>
-			<field name="model">product.product</field>
+			<field name="model">product.template</field>
 			<field name="arch" type="xml">
 				<kanban quick_create="false" create="false" edit="false" disable_draggable="true">
 					<field name="id"/>
@@ -126,73 +126,35 @@
 					<field name="list_price"/>
 					<field name="marketplace_seller_id"/>
 					<field name="color"/>
+					<field name="status"/>
 					<templates>
 						<t t-name="kanban-box">
-							<div t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} oe_kanban_card oe_kanban_global_click">
-								<div class="o_dropdown_kanban dropdown" groups="odoo_marketplace.marketplace_seller_group">
-									<a class="" data-toggle="dropdown" href="#" role="button">
-										<span class="fa fa-bars fa-lg" title="Manage" aria-label="Manage"/>
-									</a>
-									<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-										<t t-if="widget.editable">
-											<li>
-												<a type="edit">Edit Product</a>
-											</li>
-										</t>
-										<li><ul class="oe_kanban_colorpicker" data-field="color"/></li>
-									</ul>
-								</div>
-								<div class="oe_kanban_content oe_kanban_details">
-									<div id="product_name">
-										<a type="open">
-											<b><field name="display_name"/></b>
-										</a>
-									</div>
-									<div>
-										<div class="o_kanban_image">
-											<a type="open">
-												<img alt="Product Image" t-att-src="kanban_image('product.product', 'image_128', record.id.raw_value)"/>
-											</a>
-										</div>
-										<div name="tags">
-											<ul class="">
-												<li t-if="record.status.raw_value == 'approved'">
-													<b>Status:
-													</b>
-													<font color='green'><field name="status"/></font>
-												</li>
-												<li t-if="record.status.raw_value == 'rejected'">
-													<b>Status:
-													</b>
-													<font color='red'><field name="status"/></font>
-												</li>
-												<li t-if="record.status.raw_value == 'pending'">
-													<b>Status:
-													</b>
-													<font color='orange'><field name="status"/></font>
-												</li>
-												<li t-if="record.status.raw_value == 'draft'">
-													<b>Status:
-													</b>
-													<font color='blue'><field name="status"/></font>
-												</li>
-												<li>Quantity:
-													<field name="qty_available"></field>
-												</li>
-												<li>Forecast Quantity:
-													<field name="virtual_available"></field>
-												</li>
-												<li>Price:
-													<field name="lst_price"></field>
-												</li>
-												<b>
-													Seller:
-												</b>
-												<field name="marketplace_seller_id"></field>
-												<a type="open" groups="odoo_marketplace.marketplace_officer_group">
-													<img alt="Seller Image" t-att-src="kanban_image('res.partner', 'image_128', record.marketplace_seller_id.raw_value)" t-att-title="record.marketplace_seller_id.value" width="24" height="24" class="oe_kanban_avatar pull-right"/>
-												</a>
-											</ul>
+							<div class="livep-card product-card o_kanban_record_neutral oe_kanban_global_click">
+								<div class="livep-card-body p-3">
+									<div class="group-h">
+										<img class="product-image" alt="Product Image" t-att-src="kanban_image('product.template', 'image_128', record.id.raw_value)" />
+										<div class="product-info">
+											<span class="product-name">
+												<field name="display_name" />
+												<div t-attf-class="status-icon status-#{record.status.raw_value}">
+														<i t-if="record.status.raw_value == 'draft'" class="fa fa-hourglass-start fa-fw"></i>
+														<i t-if="record.status.raw_value == 'pending'" class="fa fa-hourglass-half fa-fw"></i>
+														<i t-if="record.status.raw_value == 'approved'" class="fa fa-check fa-fw"></i>
+														<i t-if="record.status.raw_value == 'rejected'" class="fa fa-times fa-fw"></i>
+												</div>
+											</span>
+											<div>
+												Price: <span class="product-price"><field name="lst_price"></field></span>
+											</div>
+											<div>
+												Quantity: <b><field name="qty_available"></field></b>
+											</div>
+											<div>
+												Forecast Quantity: <b><field name="virtual_available"></field></b>
+											</div>
+											<div>
+												Seller: <b><field name="marketplace_seller_id"></field></b>
+											</div>
 										</div>
 									</div>
 								</div>
@@ -420,7 +382,7 @@
 
 		<record id="wk_seller_product_template_tree_view" model="ir.ui.view">
 			<field name="name">seller.product.template.tree</field>
-			<field name="model">product.product</field>
+			<field name="model">product.template</field>
 			<field name="arch" type="xml">
 				<tree  create="false">
 					<field name="display_name" string="Product Name"/>
@@ -664,7 +626,7 @@
 		<record id="wk_seller_product_template_approved_products_action" model="ir.actions.act_window">
 			<field name="name">Seller Approved Products</field>
 			<field name="type">ir.actions.act_window</field>
-			<field name="res_model">product.product</field>
+			<field name="res_model">product.template</field>
 			<field name="binding_view_types">form</field>
 			<field name="domain">[('status','=','approved'),('marketplace_seller_id','in',['get_marketplace_seller_id()'])]</field>
 			<field name="view_mode">kanban,tree,form</field>
