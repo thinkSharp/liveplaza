@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!--   Documents     -->
+        <record model="ir.ui.view" id="documents_tree_view" >
+            <field name="name">documents.tree</field>
+            <field name="model">documents</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name" />
+                    <field name="name_myanmar"/>
+                    <field name="category"/>
+                    <field name="document_lines" />
+                    <field name="sequence"/>
+                    <field name="website_published" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="documents_action" model="ir.actions.act_window">
+            <field name="name">Documents</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">documents</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="documents_tree_view"/>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Define a new documents
+              </p>
+            </field>
+        </record>
+
+        <menuitem id="documents_menu" name="Documents" parent="website_sale.menu_product_settings"
+                  action="documents_action" sequence="20"/>
+
+        <record id="documents_form_view" model="ir.ui.view">
+            <field name="name">documents.form</field>
+            <field name="model">documents</field>
+            <field name="arch" type="xml">
+                <form string="Documentations">
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="toggle_website_published" type="object" class="oe_stat_button" icon="fa-globe">
+                                <div class="o_stat_info published o_form_field">
+                                    <field name="website_published" widget="website_publish_button"/>
+                                </div>
+                            </button>
+                        </div>
+                        <group>
+                            <field name="name" string="Name"/>
+                            <field name="name_myanmar"/>
+                            <field name="category" string="Category"/>
+                            <field name="sequence" />
+                        </group>
+                        <group>
+                            <field name="document_lines" widget="one2many_list" mode="tree,kanban" />
+
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!--   Documents Category     -->
+        <record model="ir.ui.view" id="documents_category_tree_view" >
+            <field name="name">documents.category.tree</field>
+            <field name="model">documents.category</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name" />
+                    <field name="display_name"/>
+<!--                    <field name="parent_id"/>-->
+<!--                    <field name="child_id" />-->
+                    <field name="sequence"/>
+                    <field name="website_published"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="documents_category_action" model="ir.actions.act_window">
+            <field name="name">documents.category</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">documents.category</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="documents_category_tree_view"/>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Define a new documents category
+              </p>
+            </field>
+        </record>
+
+        <menuitem id="documents_category_menu" name="Documents Category" parent="website_sale.menu_product_settings"
+                  action="documents_category_action" sequence="21"/>
+
+        <record id="documents_category_form_view" model="ir.ui.view">
+            <field name="name">documents.category.form</field>
+            <field name="model">documents.category</field>
+            <field name="arch" type="xml">
+                <form string="Documents Category">
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="toggle_website_published" type="object" class="oe_stat_button" icon="fa-globe">
+                                <div class="o_stat_info published o_form_field">
+                                    <field name="website_published" widget="website_publish_button"/>
+                                </div>
+                            </button>
+                        </div>
+                        <group>
+                            <field name="name" string="Name"/>
+                            <field name="name_myanmar"/>
+                            <field name="parent_id"/>
+                            <field name="sequence" />
+                        </group>
+<!--                        <group>-->
+<!--                            <field name="child_documents" widget="section_and_note_one2many" />-->
+<!--                        </group>-->
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!--  Documents Line   -->
+        <record model="ir.ui.view" id="documents_line_tree_view" >
+            <field name="name">documents.line.tree</field>
+            <field name="model">documents.line</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name" />
+                    <field name="title" />
+                    <field name="text"/>
+                    <field name="name_myanmar" />
+                    <field name="title_myanmar" />
+                    <field name="text_myanmar"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="documents_line_action" model="ir.actions.act_window">
+            <field name="name">documents.line</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">documents.line</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="documents_line_tree_view"/>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Define a new documents line
+              </p>
+            </field>
+        </record>
+
+<!--        <menuitem id="documents_line_menu" name="Documents Line" parent="website_sale.menu_product_settings"-->
+<!--                  action="documents_line_action" sequence="22"/>-->
+
+        <record id="documents_line_form_view" model="ir.ui.view">
+            <field name="name">documents.line.form</field>
+            <field name="model">documents.line</field>
+            <field name="arch" type="xml">
+                <form string="Documentations Line">
+                    <sheet>
+<!--                        <div class="oe_button_box" name="button_box">-->
+<!--                            <button name="toggle_website_published" type="object" class="oe_stat_button" icon="fa-globe">-->
+<!--                                <div class="o_stat_info published o_form_field">-->
+<!--                                    <field name="website_published" widget="website_publish_button"/>-->
+<!--                                </div>-->
+<!--                            </button>-->
+<!--                        </div>-->
+                        <group>
+                            <field name="name" string="Name"/>
+                            <field name="title" />
+                            <field name="text" string="Text"/>
+                        </group>
+                        <group>
+                            <field name="name_myanmar" string="Myanmar Language Name"/>
+                            <field name="title_myanmar" />
+                            <field name="text_myanmar" string="Myanmar Language Text"/>
+                        </group>
+                        <group>
+                            <field name="image_1"  widget="image" style="max-width: 256px; max-height: 256px;"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>
