@@ -239,6 +239,9 @@ class SaleOrder(models.Model):
         #if self.get_portal_last_transaction().acquirer_id.provider in ('wavepay','cash_on_delivery') and self.state == 'sale':
         #    self.action_admin()
 
+        if not self.get_portal_last_transaction().acquirer_id.approved_by_admin and self.state == 'sale':
+            self.action_admin()
+            
         if order_copy and self.state in ('sale','approve_by_admin'):
             self.env['website'].newlp_so_website(order_copy)
 

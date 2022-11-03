@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="doc_assets_frontend" inherit_id="website.assets_frontend">
+        <xpath expr="." position="inside">
+            <link rel="stylesheet" type="text/scss" href="/documentations/static/src/scss/breadcrumbs.scss"/>
+            <link rel="stylesheet" type="text/scss" href="/documentations/static/src/scss/documents.scss"/>
+            <link rel="stylesheet" type="text/scss" href="/documentations/static/src/scss/documents_mobile.scss"/>
+            <link rel="stylesheet" type="text/scss" href="/documentations/static/src/scss/layout.scss"/>
+            <link rel="stylesheet" type="text/scss" href="/documentations/static/src/scss/documents_search.scss"/>
+            <link rel="stylesheet" type="text/scss" href="/documentations/static/src/scss/user_guides.scss"/>
+
+        </xpath>
+    </template>
+
+    <template id="user_guides" name="User Guides">
+        <t t-call="documentations.doc_layout">
+            <div id="wrap" class="oe_structure oe_empty">
+                <div class="guides_wrapper documentations">
+                    <div class=" guides_container" gruops="odoo_marketplace.marketplace_manager_group">
+                        <div class="guides_title">
+                            <h2>Liveplaza User Guides Documentation</h2>
+                        </div>
+                        <div class="outer_guides" gruops="access_rights_customization.group_operation_operator">
+                            <t t-foreach="docs_categories" t-as="cat">
+                                <div t-if="not cat.parent_id and cat.child_id" class="docs_box">
+                                    <div class="doc_main_categ">
+                                        <h4><strong><t t-esc="cat.name"/></strong></h4>
+                                    </div>
+                                    <div class="docs_sub_list">
+                                        <t t-foreach="cat.child_id" t-as="sub">
+                                            <div class="doc_sub_categ_outer">
+                                                <div t-att-class="'doc_categ_accordion enable_accordion' if sub.child_id else 'doc_categ_accordion'">
+                                                    <h5><strong>
+                                                        <a t-if="sub.child_documents" t-att-href="request.website._get_documents_url(sub)">
+                                                            <span><t t-esc="sub.name" /></span>
+                                                        </a>
+                                                    <t t-else=""><span><t t-esc="sub.name" /></span></t>
+                                                    </strong></h5>
+                                                    <span t-if="sub.child_id"><i class="fa fa-angle-down faq_arrow"></i></span>
+                                                </div>
+                                                <div class="doc_sub_categ_inner">
+                                                    <ul style="margin-left: 10px; ">
+                                                        <div >
+                                                            <t t-if="sub.child_id" t-call="documentations.sub_menu_inherit" >
+                                                              <t t-set="cat_submenu" t-value="sub.child_id"/>
+                                                            </t>
+                                                        </div>
+                                                    </ul>
+                                                </div>
+                                            </div>
+
+                                        </t>
+                                    </div>
+                                </div>
+                            </t>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="sub_menu_inherit">
+        <t t-foreach="cat_submenu" t-as="c">
+            <li class="">
+              <a t-if="c.child_id" t-att-href="request.website._get_documents_url(c.parent_id, sub_category=c)">
+                  <span><t t-esc="c.name" /></span>
+              </a>
+              <t t-else=""><span><t t-esc="c.name" /></span></t>
+<!--              <t t-if="c.child_id">-->
+<!--                  <div>-->
+<!--                      <ul>-->
+<!--                          <t t-call="documentations.sub_menu_inherit" >-->
+<!--                              <t t-set="cat_submenu" t-value="c.child_id"/>-->
+<!--                          </t>-->
+<!--                      </ul>-->
+<!--                  </div>-->
+<!--              </t>-->
+          </li>
+
+        </t>
+    </template>
+
+    <template id="user_guides_sub_categories">
+        <t t-call="documentations.doc_layout">
+            <t t-set="additional_title"></t>
+            <div id="wrap" class="oe_structure oe_empty">
+                <div class="sub_guides_wrapper">
+                    <div class="sub_guides_header">
+                        <h4><strong><t t-esc="sub_category.name"/></strong></h4>
+                    </div>
+                    <div class="sub_guides_container">
+                        <div class="sub_guides_body1">
+                            <t t-foreach="sub_category.child_id" t-as="categ">
+                                <t t-if="not categ.child_id">
+                                    <div class="categ_no_child categ_constant">
+                                        <h5><strong>
+                                            <a t-if="categ.child_documents"
+                                               t-att-href="request.website._get_documents_url(categ)">
+                                                <span><t t-esc="categ.name"/> </span>
+                                            </a>
+                                            <span t-else="">
+                                                <t t-esc="categ.name"/>
+                                            </span>
+                                        </strong></h5>
+                                    </div>
+                                </t>
+                            </t>
+                        </div>
+                        <div class="sub_guides_body2">
+                            <t t-foreach="sub_category.child_id" t-as="categ">
+                                <t t-if="categ.child_id">
+                                    <div class="categ_has_child categ_constant">
+                                        <h5><strong><t t-esc="categ.name"/> </strong></h5>
+                                        <div class="child_categ_outer">
+                                            <t t-foreach="categ.child_id" t-as="c">
+                                                <div class="child_categ">
+                                                    <a t-if="c.child_id"
+                                                       t-att-href="request.website._get_documents_url(c.parent_id, sub_category=c)">
+                                                        <span><t t-esc="c.name"/> </span>
+                                                    </a>
+                                                    <a t-elif="c.child_documents"
+                                                       t-att-href="request.website._get_documents_url(c)">
+                                                        <span><t t-esc="c.name"/> </span>
+                                                    </a>
+                                                    <span t-else=""><t t-esc="c.name"/> </span>
+                                                </div>
+                                            </t>
+                                        </div>
+                                    </div>
+                                </t>
+                            </t>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="documentations" name="Documentation">
+        <t t-call="documentations.doc_layout">
+            <div id="wrap" class="oe_structure oe_empty">
+                <div t-if="category" class="docs_container documentations">
+                    <div id="doc-left-nav" class="container__left" >
+                        <div class="doc_left_nav_list">
+                            <t t-set="style" t-value="'color: white; background: rgba(0, 81, 177, 0.8);'" />
+                            <div class="doc_left_nav_header">
+                                <h4><t t-esc="request.website._get_translate_text(category, myanmar)"/></h4>
+                            </div>
+                            <div t-if="document" class="doc_nav_all" ><h5>
+                                <a t-att-href="request.website._get_documents_url(category)">Show All</a>
+                            </h5></div>
+                            <div t-else="" class="doc_nav_all" t-att-style="style" ><h5>
+                                <a style="color: white;" t-att-href="request.website._get_documents_url(category)">Show All</a>
+                            </h5></div>
+                            <ul class="nav sidebar-nav" id="sidebar-wrapper">
+                                <t t-foreach="documents" t-as="doc">
+                                    <li t-if="doc.document_lines">
+                                        <a t-if="document and doc.id==document.id" t-att-style="style"
+                                           t-att-href="request.website._get_documents_url(category, doc=doc)">
+                                            <t t-esc="request.website._get_translate_text(doc, myanmar)"/></a>
+                                        <a t-else="" t-att-href="request.website._get_documents_url(category, doc=doc)">
+                                            <t t-esc="request.website._get_translate_text(doc, myanmar)"/></a>
+                                    </li>
+                                </t>
+
+                            </ul>
+                        </div>
+                        <div class="hamburger_wrapper">
+                            <button type="button" class="hamburger_all hamburger animated fadeInLeft is-open" data-toggle="offcanvas">
+                                <span class="hamb-top"></span>
+                                <span class="hamb-middle"></span>
+                                <span class="hamb-bottom"></span>
+                            </button>
+                            <button type="button" class="hamburger_mobile hamburger animated fadeInLeft is-closed" data-toggle="offcanvas">
+                                <span class="hamb-top"></span>
+                                <span class="hamb-middle"></span>
+                                <span class="hamb-bottom"></span>
+                            </button>
+                        </div>
+                    </div>
+                    <div id="doc-content" class="container__content">
+                        <div class="docs_content_outer">
+                            <div t-if="document">
+                                <t t-call="documentations.document_line">
+                                    <t t-set="doc" t-value="document"/>
+                                </t>
+                            </div>
+                            <div t-else="">
+                                <t t-foreach="category.child_documents" t-as="doc">
+                                    <t t-call="documentations.document_line"/>
+                                </t>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="doc-right-nav" class="container__right">
+                        <div class="right_btn_wrapper"><button type="button" class="right_nav_btn"><i class="fa fa-circle-exclamation"/></button> </div>
+                        <div class="doc_right_nav_list">
+                            <div t-if="document">
+                                <ul class="nav sidebar-nav">
+                                    <t t-foreach="document.document_lines" t-as="line">
+                                        <li>
+                                            <a type="button" t-att-href="'#' + line.name"
+                                               t-attf-onclick="locate_doc_line(#{line.id})">
+                                                <t t-esc="request.website._get_translate_text(line, myanmar)"/></a>
+                                        </li>
+                                    </t>
+
+                                </ul>
+                            </div>
+                            <div t-else="">
+                                <t t-foreach="category.child_documents" t-as="doc">
+                                    <div t-if="doc.document_lines" class="doc_right_nav_outer">
+<!--                                        <div class="doc_right_nav_header">-->
+                                            <h5><t t-esc="request.website._get_translate_text(doc, myanmar)"/> </h5>
+<!--                                        </div>-->
+                                        <ul class="nav sidebar-nav" style="padding-top: :5px;">
+                                            <t t-foreach="doc.document_lines" t-as="line">
+                                                <li>
+                                                    <a type="button" t-att-href="'#' + line.name"
+                                                       t-attf-onclick="locate_doc_line(#{line.id})" >
+                                                        <t t-esc="request.website._get_translate_text(line, myanmar)"/></a>
+                                                </li>
+                                            </t>
+                                        </ul>
+                                    </div>
+                                </t>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <script>
+                    function locate_doc_line(id) {
+                        if(786 > window.screen.width) {
+                            $('#doc-right-nav').hide();
+                        }
+                        const element = document.getElementById(id);
+                        element.scrollIntoView({block: 'center'});
+                    }
+                </script>
+            </div>
+        </t>
+    </template>
+
+    <template id="document_line">
+        <div t-if="doc.document_lines">
+            <div class="doc_header">
+                <h4><strong><t t-esc="request.website._get_translate_text(doc, myanmar)"/></strong> </h4>
+            </div>
+            <t t-foreach="doc.document_lines" t-as="line">
+                <div t-att-id="line.id" />
+                <div class="doc_line">
+                    <h5><strong><t t-esc="request.website._get_translate_text(line, myanmar, 'title')"/></strong> </h5>
+                    <div t-if="myanmar and line.text_myanmar" class="doc_line_text" t-field="line.text_myanmar" widget="html"></div>
+                    <div t-else="" class="doc_line_text" t-field="line.text" widget="html"></div>
+                    <div t-if="line.image_1" class="doc_line_image">
+                        <div t-att-style="'width: #{width}%'">
+                            <span t-field="line.image_1" t-options='{"widget": "image"}' ></span>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </div>
+    </template>
+
+    <template id="documents_search_view" name="Documentations Search">
+        <t t-call="documentations.doc_layout">
+            <div class="doc_search_container">
+                <div class="doc_search_left_nav bg_white">
+                    <div class="doc_filter_title">
+                        <h4>Filter the result</h4>
+                    </div>
+                    <div t-if="search_count > 0" class="doc_filter_category">
+                        <ul>
+                            <li t-att-data-filter-category="''" t-att-data-filter-category-id="''"
+                                t-att-class="'bg_gray filter_all' if search_filter=='' else 'filter_all'">
+                                <div class="doc_search_category"><a>Show All</a></div>
+                            </li>
+                            <t t-foreach="search_docs" t-as="s_doc">
+                                <li t-att-data-filter-category="s_doc.name" t-att-data-filter-category-id="s_doc.id"
+                                    t-if="len(s_doc_value) > 0"
+                                    t-att-class="'bg_gray' if search_filter==str(s_doc.id) else ''">
+                                    <div class="doc_search_category"><a >
+                                        <t t-esc="request.website._get_translate_text(s_doc, myanmar)"/>
+                                    </a></div>
+                                </li>
+                            </t>
+                        </ul>
+                    </div>
+                </div>
+                <div class="doc_search_content_outer bg_white">
+                    <div class="doc_search_content_header">
+                        <h5>Search results for <strong>"<t t-esc="search"/>" </strong></h5>
+                        <t t-if="search_count > 0"><p>Total <span t-esc="search_count"></span>  results</p> </t>
+                        <t t-else="">
+                            <div class="no_match_search">There is no match result !!!</div>
+                        </t>
+                    </div>
+                    <div class="doc_search_content" t-if="search_count > 0">
+                        <t t-if="search_filter_doc">
+                            <t t-foreach="search_filter_doc" t-as="doc">
+                                <div class="search_doc_box">
+                                    <h5><strong><a>
+                                        <t t-esc="request.website._get_translate_text(doc, myanmar, 'title')"/>
+                                    </a></strong> </h5>
+                                    <div t-if="myanmar and doc.text_myanmar" class="search_doc_text"
+                                         t-field="doc.text_myanmar" widget="html"></div>
+                                    <div t-else="" class="search_doc_text"
+                                         t-field="doc.text" widget="html"></div>
+                                </div>
+                            </t>
+                        </t>
+                        <t t-else="">
+                            <t t-foreach="search_docs" t-as="s_doc">
+                                <t t-foreach="s_doc_value" t-as="doc">
+                                    <div class="search_doc_box">
+                                        <h5><strong><a>
+                                            <t t-esc="request.website._get_translate_text(doc, myanmar, 'title')"/></a>
+                                        </strong> </h5>
+                                        <div t-if="myanmar and line.text_myanmar" class="search_doc_text" t-field="doc.text_myanmar"
+                                             widget="html"></div>
+                                        <div t-else="" class="search_doc_text" t-field="doc.text" widget="html"></div>
+                                    </div>
+                                </t>
+                            </t>
+                        </t>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+</odoo>
+
+<!--<template id="documentations" name="Documentation">-->
+<!--        <t t-call="documentations.doc_layout">-->
+<!--            <div id="wrap" class="oe_structure oe_empty">-->
+<!--                <div class="docs_container documentations">-->
+<!--                    <div id="doc-left-nav" class="container__left" >-->
+<!--                        <div class="doc_left_nav_list">-->
+<!--                            <t t-set="style" t-value="'color: white; background: rgba(0, 81, 177, 0.8);'" />-->
+<!--                            <div class="doc_left_nav_header">-->
+<!--                                <h3><t t-esc="document.category.name"/></h3>-->
+<!--                            </div>-->
+<!--                            <div t-if="doc_line" class="doc_nav_all" ><h5>-->
+<!--                                <a t-att-href="request.website._get_docs_url(document)">Show All</a>-->
+<!--                            </h5></div>-->
+<!--                            <div t-else="" class="doc_nav_all" t-att-style="style" ><h5>-->
+<!--                                <a style="color: white;" t-att-href="request.website._get_docs_url(document)">Show All</a>-->
+<!--                            </h5></div>-->
+<!--                            <ul class="nav sidebar-nav" id="sidebar-wrapper">-->
+<!--                                <t t-foreach="document.document_lines" t-as="line">-->
+<!--                                    <li>-->
+<!--                                        <a t-if="doc_line and line.id==doc_line.id" t-att-style="style"-->
+<!--                                           t-att-href="request.website._get_docs_url(document, line)"><t t-esc="line.name"/></a>-->
+<!--                                        <a t-else="" t-att-href="request.website._get_docs_url(document, line)"><t t-esc="line.name"/></a>-->
+<!--                                    </li>-->
+<!--                                </t>-->
+
+<!--                            </ul>-->
+<!--                        </div>-->
+<!--                        <div class="hamburger_wrapper">-->
+<!--                            <button type="button" class="hamburger_all hamburger animated fadeInLeft is-open" data-toggle="offcanvas">-->
+<!--                                <span class="hamb-top"></span>-->
+<!--                                <span class="hamb-middle"></span>-->
+<!--                                <span class="hamb-bottom"></span>-->
+<!--                            </button>-->
+<!--                            <button type="button" class="hamburger_mobile hamburger animated fadeInLeft is-closed" data-toggle="offcanvas">-->
+<!--                                <span class="hamb-top"></span>-->
+<!--                                <span class="hamb-middle"></span>-->
+<!--                                <span class="hamb-bottom"></span>-->
+<!--                            </button>-->
+<!--                        </div>-->
+<!--                    </div>-->
+
+<!--&lt;!&ndash;                    <div id="doc-resizer" class="resizer" ></div>&ndash;&gt;-->
+<!--                    <div id="doc-right-nav" class="container__right">-->
+
+<!--                        <div class="docs_content_outer">-->
+<!--                            <div t-if="doc_line">-->
+<!--                                <t t-call="documentations.document_line">-->
+<!--                                    <t t-set="line" t-value="doc_line" />-->
+<!--                                </t>-->
+<!--                            </div>-->
+<!--                            <div t-else="">-->
+<!--                                <t t-foreach="document.document_lines" t-as="line">-->
+<!--                                    <t t-call="documentations.document_line"/>-->
+<!--                                </t>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </t>-->
+<!--    </template>-->

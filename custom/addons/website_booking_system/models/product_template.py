@@ -18,7 +18,7 @@ from odoo import api, fields, models, _,exceptions
 from odoo.exceptions import Warning, UserError
 from dateutil.relativedelta import relativedelta
 import datetime, pytz
-
+from odoo.http import request
 import logging
 _logger = logging.getLogger(__name__)
 
@@ -130,7 +130,7 @@ class SaleOrderLine(models.Model):
     def _get_display_price(self, product):
         for rec in self:
             if rec.booking_slot_id:
-                return rec.booking_slot_id.with_context(pricelist=self.order_id.pricelist_id.id).price
+                return rec.booking_slot_id.with_context(pricelist=self.order_id.pricelist_id.id).discounted_price
         return super(SaleOrderLine, self)._get_display_price(product)
 
     @api.model
@@ -233,6 +233,16 @@ class ProductTemplate(models.Model):
         time_slots = day_slots.mapped('time_slot_id')
         time_slots = self.get_available_day_slots(time_slots, sel_date)
         slots_plans_list = []
+        results = {}
+
+        pricelist = request.website.get_current_pricelist()
+        context = dict(self._context) or {}
+        context['pricelist'] = int(pricelist)
+        
+        is_product_template = self._name == "product.template"
+        partner = self.env.context.get('partner', False)
+        partners = [partner] * len(self)
+        prices=[]
         for slot in time_slots:
             d1 = {}
             d2 = []
@@ -241,18 +251,50 @@ class ProductTemplate(models.Model):
                 'id' : slot.id,
             }
             d_slots = day_slots.filtered(lambda r: r.time_slot_id.id == slot.id)
-            for d in d_slots:
+            for d in d_slots:                                              
+                if is_product_template:
+                    if pricelist:
+                        results = pricelist._compute_price_rule_booking([(self, 1, partners)],d.id,d.price, date=False, uom_id=False)
+                        #pp_obj = self.env['product.product'].search([('product_tmpl_id','=',self.id)])
+                        #prices_data = pp_obj.compute_product_price_onwords_dplan(int(pricelist))
+                        if results:
+                            for key, values in results.items():
+                                if key == d.id:
+                                    d.discounted_price = values
+                        else:
+                            d.discounted_price = d.price
+                        
                 d2.append({
                     'name' : d.plan_id.name,
                     'id' : d.id,
                     'qty' : d.quantity,
-                    'price' : d.price,
+                    'price' : d.discounted_price,
                 })
             d1['plans'] = d2
             slots_plans_list.append(d1)
         return slots_plans_list
 
     def get_booking_onwards_price(self):
+        """Return: Minimum price of a booking product available in any slot."""
+        self.ensure_one()
+        prices = []
+        pricelist_id_or_name = self._context.get('pricelist')
+        
+        is_product_template = self._name == "product.template"
+        if is_product_template:
+            pp_obj = self.env['product.product'].search([('product_tmpl_id','=',self.id)])
+            
+            if pricelist_id_or_name:
+                prices = sorted(self.booking_day_slot_ids.mapped('booking_slots_ids.discounted_price'))
+                #prices_data = pp_obj.compute_product_price_onwords()
+                #if prices_data:
+                #    for key, values in prices_data.items():
+                #        prices.append(values)
+            else:
+                prices = sorted(self.booking_day_slot_ids.mapped('booking_slots_ids.price'))
+        return prices[0] if prices else 0
+       
+    def get_booking_onwards_price_pl(self):#for pricelist
         """Return: Minimum price of a booking product available in any slot."""
         self.ensure_one()
         prices = sorted(self.booking_day_slot_ids.mapped('booking_slots_ids.price'))

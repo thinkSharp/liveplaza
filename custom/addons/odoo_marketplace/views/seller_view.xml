@@ -281,7 +281,7 @@
                     <field name="seller_currency_id"/>
                     <templates>
                         <t t-name="kanban-box">
-                            <div class="livep-card o_kanban_record_neutral">
+                            <div class="livep-card o_kanban_record_neutral oe_kanban_global_click">
                                 <div class="livep-card-body">
                                     <div class="group-h">
                                         <div class="seller-image">
