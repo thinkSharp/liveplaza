@@ -29,14 +29,14 @@
                                     <div class="docs_sub_list">
                                         <t t-foreach="cat.child_id" t-as="sub">
                                             <div class="doc_sub_categ_outer">
-                                                <div class="doc_categ_accordion">
+                                                <div t-att-class="'doc_categ_accordion enable_accordion' if sub.child_id else 'doc_categ_accordion'">
                                                     <h5><strong>
                                                         <a t-if="sub.child_documents" t-att-href="request.website._get_documents_url(sub)">
                                                             <span><t t-esc="sub.name" /></span>
                                                         </a>
                                                     <t t-else=""><span><t t-esc="sub.name" /></span></t>
                                                     </strong></h5>
-                                                    <span><i class="fa fa-angle-down faq_arrow"></i></span>
+                                                    <span t-if="sub.child_id"><i class="fa fa-angle-down faq_arrow"></i></span>
                                                 </div>
                                                 <div class="doc_sub_categ_inner">
                                                     <ul style="margin-left: 10px; ">

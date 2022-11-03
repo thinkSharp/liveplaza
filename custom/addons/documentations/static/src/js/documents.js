@@ -124,14 +124,9 @@ $(document).ready(function () {
 
 // Documents sub categories accordion
 $(document).ready(function(){
-    $('.doc_categ_accordion').click(function(){
+    $('.enable_accordion').click(function(){
     // $(this).parent().find('.faq_arrow').toggleClass('arrow-animate');
-        alert("hello");
-        location.href = "";
-        if(window.screen.width < 786) {
-            $('#doc-right-nav').hide();
-        }
-//        $(this).parent().find('.doc_sub_categ_inner').slideToggle(280);
+        $(this).parent().find('.doc_sub_categ_inner').slideToggle(280);
 
     });
 });
