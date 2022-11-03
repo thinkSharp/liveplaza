@@ -155,7 +155,7 @@
                             </h5></div>
                             <ul class="nav sidebar-nav" id="sidebar-wrapper">
                                 <t t-foreach="documents" t-as="doc">
-                                    <li>
+                                    <li t-if="doc.document_lines">
                                         <a t-if="document and doc.id==document.id" t-att-style="style"
                                            t-att-href="request.website._get_documents_url(category, doc=doc)">
                                             <t t-esc="request.website._get_translate_text(doc, myanmar)"/></a>
@@ -210,7 +210,7 @@
                             </div>
                             <div t-else="">
                                 <t t-foreach="category.child_documents" t-as="doc">
-                                    <div class="doc_right_nav_outer">
+                                    <div t-if="doc.document_lines" class="doc_right_nav_outer">
 <!--                                        <div class="doc_right_nav_header">-->
                                             <h5><t t-esc="request.website._get_translate_text(doc, myanmar)"/> </h5>
 <!--                                        </div>-->
@@ -244,22 +244,24 @@
     </template>
 
     <template id="document_line">
-        <div class="doc_header">
-            <h4><strong><t t-esc="request.website._get_translate_text(doc, myanmar)"/></strong> </h4>
-        </div>
-        <t t-foreach="doc.document_lines" t-as="line">
-            <div t-att-id="line.id" />
-            <div class="doc_line">
-                <h5><strong><t t-esc="request.website._get_translate_text(line, myanmar, 'title')"/></strong> </h5>
-                <div t-if="myanmar and line.text_myanmar" class="doc_line_text" t-field="line.text_myanmar" widget="html"></div>
-                <div t-else="" class="doc_line_text" t-field="line.text" widget="html"></div>
-                <div t-if="line.image_1" class="doc_line_image">
-                    <div t-att-style="'width: #{width}%'">
-                        <span t-field="line.image_1" t-options='{"widget": "image"}' ></span>
+        <div t-if="doc.document_lines">
+            <div class="doc_header">
+                <h4><strong><t t-esc="request.website._get_translate_text(doc, myanmar)"/></strong> </h4>
+            </div>
+            <t t-foreach="doc.document_lines" t-as="line">
+                <div t-att-id="line.id" />
+                <div class="doc_line">
+                    <h5><strong><t t-esc="request.website._get_translate_text(line, myanmar, 'title')"/></strong> </h5>
+                    <div t-if="myanmar and line.text_myanmar" class="doc_line_text" t-field="line.text_myanmar" widget="html"></div>
+                    <div t-else="" class="doc_line_text" t-field="line.text" widget="html"></div>
+                    <div t-if="line.image_1" class="doc_line_image">
+                        <div t-att-style="'width: #{width}%'">
+                            <span t-field="line.image_1" t-options='{"widget": "image"}' ></span>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </t>
+            </t>
+        </div>
     </template>
 
     <template id="documents_search_view" name="Documentations Search">

@@ -110,7 +110,6 @@ class Website(models.Model):
             url = "/user_guides/%s" % slug(category)
             if sub_category:
                 self._get_parent_categ_route(sub_category)
-                # url = url + "/%s" % slug(sub_category)
                 url = "/user_guides/sub" + "/%s" % slug(sub_category)
             elif doc:
                 url = "/user_guides/%s" % slug(category) + "/%s" % slug(doc)
@@ -137,7 +136,6 @@ class Website(models.Model):
     # to show breadcrumbs
     @staticmethod
     def _get_parent_categ_route(category):
-        print("category = ", category.name)
         parent_categ = []
         parent_route = []
         temp_categ = category
@@ -152,10 +150,6 @@ class Website(models.Model):
             i += 2
 
         parent_route.reverse()
-        # print("parent categ = ", parent_categ)
-        # print("parent route = ", parent_route)
-        # for p in parent_route:
-        #     print(p.name)
         return parent_route
 
     # @staticmethod
@@ -163,7 +157,6 @@ class Website(models.Model):
         breadcrumbs_list = {'Liveplaze': '/home', 'User Guides': '/user_guides'}
         if category:
             parent_route = self._get_parent_categ_route(category)
-            print("parent route")
             for p in parent_route:
                 breadcrumbs_list[p.name] = self._get_documents_url(p.parent_id, sub_category=p)
             if count > 0:
@@ -176,11 +169,6 @@ class Website(models.Model):
                             breadcrumbs_limit[k] = v
                         i += 1
                     return breadcrumbs_limit
-
-        print("")
-        print("breadcrumbs")
-        for k, v in breadcrumbs_list.items():
-            print(k, " = ", v)
         return breadcrumbs_list
 
 

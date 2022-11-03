@@ -69,7 +69,6 @@ class UserGuides(http.Controller):
                             search_categ_group[categ] += search_doc_group[doc]
                         else:
                             search_categ_group[categ] = search_doc_group[doc]
-            print("search categ group = ", search_categ_group)
 
             # total search document lines count
             search_count = 0
@@ -86,7 +85,6 @@ class UserGuides(http.Controller):
                         if str(categ.id) == new_filter[0]:
                             search_filter_doc = doc
                             search_count = len(search_filter_doc)
-                print("search filter = ", search_filter)
 
             values = {
                 'docs_categories': documents_categ,
@@ -115,7 +113,6 @@ class UserGuides(http.Controller):
     @http.route('/user_guides/sub/<model("documents.category"):sub_category>',
                 type='http', auth='public', website=True)
     def user_guides_sub_categories(self, category='', sub_category=''):
-        print("sub category = ", sub_category)
         has_child = self._check_child_has_child(sub_category)
 
         lang = get_lang(request.env)
