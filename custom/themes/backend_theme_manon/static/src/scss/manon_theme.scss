@@ -1003,11 +1003,17 @@ $header-padding: 12px;
 }
 
 // web module overwrites
-.o_list_view .o_list_table thead {
-    background-color: $list-view-bg-color;
+.o_list_view .o_list_table {
+    thead {
+        background-color: $list-view-bg-color;
 
-    > tr > th:not(.o_list_record_selector) {
-        border-left: none;
+        > tr > th:not(.o_list_record_selector) {
+            border-left: none;
+        }
+    }
+
+    tbody > tr > td.o_list_button {
+        text-overflow: unset !important;
     }
 }
 
