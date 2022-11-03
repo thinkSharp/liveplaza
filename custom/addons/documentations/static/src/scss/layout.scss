@@ -1,0 +1,206 @@
+
+.docs_wrapper {
+     .o_affix_enabled {
+        nav {
+            background: $bg-header !important;
+            position: unset;
+        }
+     }
+     .doc-navbar {
+        background: rgba(1, 81, 177, 1) !important;
+     }
+     header {
+        nav {
+            display: flex !important;
+        }
+     }
+}
+
+.show_phone {
+    display: none;
+}
+
+.doc_search_outer_ph {
+    position: relative;
+    .doc_search_btn_ph {
+        background: none;
+        color: white;
+        border: none;
+        font-size: 22px;
+        position: absolute;
+        right: 10%;
+    }
+    .doc_search_btn_ph:focus {
+        outline: none;
+    }
+}
+
+.doc_search_outer2 {
+    display: none;
+    width: 100%;
+    padding: 5px;
+    margin: 0 auto;
+    z-index: 100;
+    #doc-search2 {
+        width: 90%;
+        display: flex;
+        border: 3px solid rgba(0, 81, 177, 0.9);
+        border-radius: 10px;
+        margin: 5px auto;
+        input {
+            width: 100%;
+            border-color: white !important;
+            border-radius: 10px 0 0 10px !important;
+            padding: 7px 10px;
+        }
+        input:focus,
+         .doc_search_btn:focus {
+            outline: none;
+        }
+        .doc_search_btn {
+            background: white;
+            border: none;
+            border-radius: 0 10px 10px 0;
+            padding: 0 15px;
+        }
+    }
+}
+
+#doc-nav {
+    width: 97%;
+    margin: 0 auto;
+    padding: 10px 0;
+    display: flex;
+    justify-content: space-around;
+    .doc_logo {
+//         width: 20%;
+        a img {
+            height: 50px;
+        }
+    }
+    .doc_search_outer {
+        width: 65%;
+        padding: 5px;
+        margin: 0 2%;
+        #doc-search {
+            width: 100%;
+            input {
+                width: 100%;
+                border-color: white !important;
+                padding: 5px 10px;
+            }
+            input:focus,
+             .doc_search_btn:focus {
+                outline: none;
+            }
+            .doc_search_btn {
+                background: white;
+                border: none;
+                padding: 0 15px;
+            }
+        }
+    }
+    .lang_selector_outer {
+        padding: 10px 0;
+        #doc_language_selector {
+            color: white;
+            padding: 5px;
+            border: 1px solid;
+            .dropdown-menu {
+                right: 0;
+                left: inherit;
+            }
+        }
+    }
+}
+
+@media (min-width: 861px) and (max-width: 1100px) {
+    #doc-nav {
+        .doc_logo {
+            a img {
+                height: 45px;
+            }
+        }
+        .doc_search_outer {
+            width: 58%;
+            margin: 0 1%;
+            padding: 4px;
+        }
+        .lang_selector_outer {
+            padding: 7px 0;
+        }
+    }
+}
+
+@media (min-width: 687px) and (max-width: 860px) {
+     #doc-nav {
+        padding: 15px;
+        .doc_logo {
+            a img {
+                height: 35px;
+            }
+        }
+        .doc_search_outer {
+            width: 55%;
+            margin: 0 2%;
+            padding: 0;
+        }
+        .lang_selector_outer {
+            padding: 0;
+        }
+    }
+}
+
+@media (min-width: 480px) and (max-width: 688px) {
+    .show_phone { display: block; }
+    .hide_phone { display: none; }
+     #doc-nav {
+        padding: 15px;
+        .doc_logo {
+            a img {
+                height: 40px;
+            }
+        }
+        .doc_search_outer {
+            width: 50%;
+            margin: 0 2%;
+            padding: 0;
+        }
+        .lang_selector_outer {
+            padding: 0;
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .show_phone { display: block; }
+    .hide_phone { display: none; }
+     #doc-nav {
+        padding: 15px 5px;
+        width: 100%;
+        .doc_logo {
+            a img {
+                height: 32px;
+            }
+        }
+        .doc_search_outer {
+            width: 50%;
+            margin: 0 2%;
+            padding: 0;
+        }
+        .lang_selector_outer {
+            padding: 0;
+        }
+    }
+}
+
+@media(max-width: 310px) {
+    #doc-nav {
+        padding: 15px 0;
+        .doc_logo {
+            a img {
+                height: 25px;
+            }
+        }
+    }
+}

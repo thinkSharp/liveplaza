@@ -1,0 +1,573 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="doc_layout_assets_frontend" inherit_id="website.assets_frontend">
+            <xpath expr="." position="inside">
+                <script src="/documentations/static/src/js/documents.js" type="text/javascript"></script>
+            </xpath>
+    </template>
+    <template id="layout" name=" layout">&lt;!DOCTYPE html&gt;
+        <html t-att="html_data or {}" gruops="odoo_marketplace.marketplace_manager_group">
+            <head>
+                <meta charset="utf-8"/>
+                <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+                <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+
+                <title t-esc="title or 'Odoo'"/>
+                <link type="image/x-icon" rel="shortcut icon" t-att-href="x_icon or '/web/static/src/img/favicon.ico'"/>
+
+                <script type="text/javascript">
+                    var odoo = {
+                        csrf_token: "<t t-esc="request.csrf_token(None)"/>",
+                        debug: "<t t-esc="debug"/>",
+                    };
+                </script>
+
+                <t t-raw="head or ''"/>
+            </head>
+            <body t-att-class="body_classname">
+                <t t-raw="0"/>
+            </body>
+        </html>
+    </template>
+
+    <template id="frontend_layout" name="Doc Frontend Layout" inherit_id="documentations.layout" primary="True">
+        <xpath expr="//head/link[last()]" position="after">
+            <t t-call-assets="web.assets_common" t-js="false"/>
+            <t t-call-assets="web.assets_frontend" t-js="false"/>
+        </xpath>
+        <xpath expr="//head/script" position="after">
+            <script type="text/javascript">
+                odoo.session_info = <t t-raw="json.dumps(request.env['ir.http'].get_frontend_session_info())"/>;
+            </script>
+            <t t-call-assets="web.assets_common_minimal_js" t-css="false" defer_load="True"/>
+            <t t-call-assets="web.assets_frontend_minimal_js" t-css="false" defer_load="True"/>
+            <t t-call="web.conditional_assets_tests"/>
+            <t t-call-assets="web.assets_common_lazy" t-css="false" lazy_load="True"/>
+            <t t-call-assets="web.assets_frontend_lazy" t-css="false" lazy_load="True"/>
+        </xpath>
+        <xpath expr="//t[@t-raw='0']" position="replace">
+            <div id="wrapwrap" t-attf-class="#{pageName or ''} docs_wrapper" style="font-family: Roboto;">
+                <header t-if="not no_header" id="top" data-anchor="true">
+                    <img class="img-responsive d-block mx-auto"
+                        t-attf-src="/web/binary/company_logo"
+                        alt="Logo"/>
+                </header>
+                <main>
+                    <t t-raw="0"/>
+                </main>
+                <footer t-if="not no_footer" id="bottom" data-anchor="true" class="bg-light o_footer">
+                    <div id="footer"/>
+                    <div class="o_footer_copyright">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-sm text-center text-sm-left text-muted">
+                                    <t t-call="web.debug_icon"/>
+                                    <span>Copyright &amp;copy;</span> <span t-field="res_company.name" itemprop="name">Company name</span>
+                                </div>
+                                <div class="col-sm text-center text-sm-right">
+                                    <t t-call="web.brand_promotion"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="main_frontend_layout" name="Main Doc Frontend Layout" inherit_id="documentations.frontend_layout">
+        <xpath expr="//div[@id='wrapwrap']" position="attributes">
+            <attribute name="t-attf-class" add="#{request.env['res.lang']._lang_get(request.env.lang).direction == 'rtl' and 'o_rtl' or ''}" separator=" "/>
+            <attribute name="t-attf-class" add="#{'o_portal' if is_portal else ''}" separator=" "/>
+        </xpath>
+        <xpath expr="//div[@id='wrapwrap']/header/img" position="replace">
+            <nav class="doc-navbar navbar navbar-expand-md navbar-light bg-light">
+                <div class="" style="display: flex; width: 100%; flex-wrap: wrap;">
+                    <a href="/" class="navbar-brand logo">
+                        <img t-att-src="'/logo.png?company=%s' % res_company.id" t-att-alt="'Logo of %s' % res_company.name" t-att-title="res_company.name"/>
+                    </a>
+                    <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#top_menu_collapse">
+                        <span class="navbar-toggler-icon"/>
+                    </button>
+                    <div class="collapse navbar-collapse" id="top_menu_collapse">
+                        <!-- FIXME We want menu to open to the right by default (except cases handled in JS) -->
+                        <ul class="nav navbar-nav ml-auto text-right" id="top_menu">
+                            <li class="nav-item divider" t-ignore="true" t-if="not user_id._is_public()"/>
+                            <li class="nav-item dropdown" t-ignore="true" t-if="not user_id._is_public()">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+                                    <b>
+                                        <span t-esc="user_id.name[:23] + '...' if user_id.name and len(user_id.name) &gt; 25 else user_id.name"/>
+                                    </b>
+                                </a>
+                                <div class="dropdown-menu js_usermenu" role="menu">
+                                    <a id="o_logout" class="dropdown-item" t-attf-href="/web/session/logout?redirect=/" role="menuitem">Logout</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </xpath>
+        <xpath expr="//div[@id='wrapwrap']/main/t[@t-raw='0']" position="before">
+            <div t-if="o_portal_fullwidth_alert" class="alert alert-info alert-dismissible rounded-0 fade show d-print-none css_editable_mode_hidden">
+                <div class="container">
+                    <t t-raw="o_portal_fullwidth_alert"/>
+                </div>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="doc_layout" name="Documentation layout" inherit_id="documentations.main_frontend_layout" >
+        <xpath expr="//html" position="before">
+            <t t-set="html_data" t-value="{
+                'lang': lang and lang.replace('_', '-'),
+                'data-website-id': website.id if website else None,
+                'data-editable': '1' if editable else None,
+                'data-translatable': '1' if translatable else None,
+                'data-edit_translations': '1' if edit_translations else None,
+                'data-view-xmlid': xmlid if editable or translatable else None,
+                'data-viewid': viewid if editable or translatable else None,
+                'data-main-object': repr(main_object) if editable or translatable else None,
+                'data-seo-object': repr(seo_object) if seo_object else None,
+                'data-oe-company-name': res_company.name,
+            }"/>
+        </xpath>
+        <xpath expr="//head" position="before">
+            <t t-if="not title">
+                <t t-if="not additional_title and main_object and 'name' in main_object">
+                    <t t-set="additional_title" t-value="main_object.name"/>
+                </t>
+                <t t-set="default_title"> <t t-if="additional_title"><t t-raw="additional_title"/> | </t><t t-raw="(website or res_company).name"/> </t>
+                <t t-set="seo_object" t-value="seo_object or main_object"/>
+                <t t-if="seo_object and 'website_meta_title' in seo_object and seo_object.website_meta_title">
+                    <t t-set="title" t-value="seo_object.website_meta_title"/>
+                </t>
+                <t t-else="">
+                    <t t-set="title" t-value="default_title"></t>
+                </t>
+            </t>
+            <t t-set="x_icon" t-value="website.image_url(website, 'favicon')"/>
+        </xpath>
+        <xpath expr="//head/meta[last()]" position="after">
+            <meta name="generator" content="Odoo"/>
+            <t t-set="website_meta" t-value="seo_object and seo_object.get_website_meta() or {}"/>
+            <meta name="default_title" t-att-content="default_title" groups="website.group_website_designer"/>
+            <meta t-if="main_object and 'website_indexed' in main_object
+                and not main_object.website_indexed" name="robots" content="noindex"/>
+                <t t-set="seo_object" t-value="seo_object or main_object"/>
+                <t t-set="meta_description" t-value="seo_object and 'website_meta_description' in seo_object
+                    and seo_object.website_meta_description or website_meta_description or website_meta.get('meta_description', '')"/>
+                <t t-set="meta_keywords" t-value="seo_object and 'website_meta_keywords' in seo_object
+                    and seo_object.website_meta_keywords or website_meta_keywords"/>
+            <meta t-if="meta_description or editable" name="description" t-att-content="meta_description"/>
+            <meta t-if="meta_keywords or editable" name="keywords" t-att-content="meta_keywords"/>
+            <t t-if="seo_object">
+                <meta name="default_description" t-att-content="website_meta_description or website_meta.get('meta_description')" groups="website.group_website_designer"/>
+                <!-- OpenGraph tags for Facebook sharing -->
+                <t t-set="opengraph_meta" t-value="website_meta.get('opengraph_meta')"/>
+                <t t-if="opengraph_meta">
+                    <t t-foreach="opengraph_meta" t-as="property">
+                        <t t-if="isinstance(opengraph_meta[property], list)">
+                            <t t-foreach="opengraph_meta[property]" t-as="meta_content">
+                                <meta t-att-property="property" t-att-content="meta_content"/>
+                            </t>
+                        </t>
+                        <t t-else="">
+                            <meta t-att-property="property" t-att-content="opengraph_meta[property]"/>
+                        </t>
+                    </t>
+                </t>
+                <!-- Twitter tags for sharing -->
+                <t t-set="twitter_meta" t-value="website_meta.get('twitter_meta')"/>
+                <t t-if="opengraph_meta">
+                    <t t-foreach="twitter_meta" t-as="t_meta">
+                        <meta t-att-name="t_meta" t-att-content="twitter_meta[t_meta]"/>
+                    </t>
+                </t>
+            </t>
+
+            <t t-if="request and request.is_frontend_multilang and website">
+                <t t-set="alternate_languages" t-value="website._get_alternate_languages(canonical_params=canonical_params)"/>
+                <t t-foreach="alternate_languages" t-as="lg">
+                    <link rel="alternate" t-att-hreflang="lg['hreflang']" t-att-href="lg['href']"/>
+                </t>
+            </t>
+            <link t-if="request and website" rel="canonical" t-att-href="website._get_canonical_url(canonical_params=canonical_params)"/>
+
+            <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin=""/>
+        </xpath>
+
+        <xpath expr="//head/t[@t-js='false'][last()]" position="after">
+            <t t-call-assets="website.assets_editor" t-js="false" groups="website.group_website_publisher"/>
+        </xpath>
+        <xpath expr="//head/t[@t-css='false'][last()]" position="after">
+            <t t-call-assets="website.assets_editor" t-css="false" groups="website.group_website_publisher" lazy_load="True"/>
+        </xpath>
+
+        <xpath expr="//header" position="attributes">
+            <attribute name="data-name">Header</attribute>
+        </xpath>
+<!--        <xpath expr="//header//a[hasclass('navbar-brand')]" position="replace">-->
+<!--            <a class="navbar-brand" href="/" t-if="website" t-field="website.name">My Website</a>-->
+<!--        </xpath>-->
+<!--        <xpath expr="//header//ul[@id='top_menu']" position="attributes">-->
+<!--            <attribute name="class" separator=" " add="o_menu_loading"/>-->
+<!--        </xpath>-->
+<!--        <xpath expr="//header//ul[@id='top_menu']/li[hasclass('divider')]" position="attributes">-->
+<!--            <attribute name="t-if">website.user_id != user_id</attribute>-->
+<!--        </xpath>-->
+<!--        <xpath expr="//header//ul[@id='top_menu']/li[hasclass('dropdown')]" position="attributes">-->
+<!--            <attribute name="t-if">website.user_id != user_id</attribute>-->
+<!--        </xpath>-->
+<!--        <xpath expr="//header//ul[@id='top_menu']/li[hasclass('divider')]" position="before">-->
+<!--            <t t-foreach="website.menu_id.child_id" t-as="submenu">-->
+<!--                <t t-call="website.submenu">-->
+<!--                    <t t-set="item_class" t-value="'nav-item'"/>-->
+<!--                    <t t-set="link_class" t-value="'nav-link'"/>-->
+<!--                </t>-->
+<!--            </t>-->
+<!--        </xpath>-->
+
+        <xpath expr="//div[hasclass('o_footer_copyright')]//span[@t-field='res_company.name']" position="after">
+            <t t-call="website.language_selector"/>
+        </xpath>
+        <xpath expr="//t[@t-call='web.brand_promotion']/.." position="attributes">
+            <attribute name="class" add="o_not_editable" separator=" "/>
+            <attribute name="t-if">not editable</attribute>
+        </xpath>
+
+        <xpath expr="//div[@id='wrapwrap']" position="after">
+            <script id='tracking_code' t-if="website and website.google_analytics_key and not editable">
+                (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+                })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+                ga('create', '<t t-esc="website.google_analytics_key"/>'.trim(), 'auto');
+                ga('send','pageview');
+            </script>
+        </xpath>
+
+        <!-- Page options -->
+        <xpath expr="//div[@id='wrapwrap']" position="before">
+            <t groups="website.group_website_publisher">
+                <t t-foreach="['header_overlay', 'header_color']" t-as="optionName">
+                    <input t-if="optionName in main_object" type="hidden" class="o_page_option_data" t-att-name="optionName" t-att-value="main_object[optionName]"/>
+                </t>
+            </t>
+        </xpath>
+        <xpath expr="//div[@id='wrapwrap']" position="attributes">
+            <attribute name="t-attf-class" add="#{'o_header_overlay' if 'header_overlay' in main_object and main_object.header_overlay else ''}" separator=" "/>
+        </xpath>
+        <xpath expr="//header" position="attributes">
+            <attribute name="t-attf-class" add="#{main_object.header_color if 'header_color' in main_object else ''}" separator=" "/>
+        </xpath>
+    </template>
+
+    <template id="user_navbar" inherit_id="documentations.doc_layout">
+        <xpath expr="//t[@t-set='html_data']" position="after">
+            <t t-set="body_classname" t-value="(body_classname if body_classname else '') + (' o_connected_user' if env['ir.ui.view'].user_has_groups('base.group_user') else '')"/>
+        </xpath>
+        <xpath expr="//div[@id='wrapwrap']" position="before">
+            <nav groups="base.group_user" t-if="website" id="oe_main_menu_navbar" class="o_main_navbar">
+                <ul id="oe_applications">
+                    <li class="dropdown active">
+                        <a class="dropdown-toggle full" data-toggle="dropdown" href="#">
+                            <i class="fa fa-th-large"/> WEBSITE
+                        </a>
+                        <div class="dropdown-menu" role="menu">
+                            <!-- This will be populated on hover in JS -->
+                        </div>
+                    </li>
+                </ul>
+
+                <button type="button" class="fa fa-bars float-right d-block d-md-none o_mobile_menu_toggle" aria-label="Menu" title="Menu"/>
+
+                <ul class="o_menu_sections" groups="website.group_website_designer">
+                    <!-- Content -->
+                    <li t-if="editable" class="dropdown" id="content-menu">
+                        <a id="content-menu-button" class="dropdown-toggle o-no-caret waves" data-toggle="dropdown" data-display="static" href="#">Pages</a>
+                        <div class="dropdown-menu" role="menu">
+                            <a role="menuitem" data-action="edit_menu" href="#" title="Edit Top Menu" class="dropdown-item">Edit Menu</a>
+                            <a role="menuitem" href="/website/pages" title="Manage Your Website Pages" class="dropdown-item">Manage Pages</a>
+                            <div t-if="deletable" role="separator" class="dropdown-divider"/>
+                            <a role="menuitem" href="#" data-action="page_properties" class="dropdown-item" t-if="deletable">Page Properties</a>
+                        </div>
+                    </li>
+                    <!-- Customize -->
+                    <li class="dropdown" id="customize-menu">
+                        <a class="dropdown-toggle o-no-caret waves" data-toggle="dropdown" data-display="static" href="#">Customize</a>
+                        <div class="dropdown-menu" role="menu">
+                            <a role="menuitem" href="#" data-action="customize_theme" class="dropdown-item" id="theme_customize">Customize Theme</a>
+                            <a role="menuitem" href="#" data-action="ace" class="dropdown-item" id="html_editor">HTML/CSS/JS Editor</a>
+                            <a role="menuitem" href="/web#action=website.action_website_add_features" class="dropdown-item" id="install_apps">Add Features</a>
+                        </div>
+                    </li>
+                    <!-- Promote -->
+                    <li class="dropdown" id="promote-menu">
+                        <a class="dropdown-toggle o-no-caret waves" data-toggle="dropdown" href="#">Promote</a>
+                        <div class="dropdown-menu oe_promote_menu" role="menu">
+                            <a role="menuitem" data-action="promote-current-page" href="#" title="Promote page on the web" class="dropdown-item">Optimize SEO</a>
+                        </div>
+                    </li>
+                </ul>
+
+                <ul class="o_menu_systray d-none d-md-block" groups="website.group_website_publisher">
+                    <li t-if="'website_published' in main_object.fields_get() and ('can_publish' not in main_object.fields_get() or main_object.can_publish)" t-attf-class="js_publish_management #{main_object.website_published and 'css_published' or 'css_unpublished'}" t-att-data-id="main_object.id" t-att-data-object="main_object._name" t-att-data-controller="publish_controller">
+                        <label class="o_switch o_switch_danger js_publish_btn" for="id">
+                            <input type="checkbox" t-att-checked="main_object.website_published" id="id"/>
+                            <span/>
+                            <span class="css_publish">Unpublished</span>
+                            <span class="css_unpublish">Published</span>
+                        </label>
+                    </li>
+                    <!-- Mobile preview -->
+                    <li class="o_mobile_preview" id="mobile-menu">
+                        <a data-action="show-mobile-preview" href="#"><span title="Mobile preview" role="img" aria-label="Mobile preview" class="fa fa-mobile"/></a>
+                    </li>
+                    <li groups="website.group_multi_website" t-if="multi_website_websites">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                            <i class="fa fa-globe d-lg-none"/>
+                            <span class="d-none d-lg-inline-block">
+                                <t t-esc="multi_website_websites_current['name']"/>
+                            </span>
+                        </a>
+                        <div class="dropdown-menu" role="menu">
+                            <div class="d-lg-none dropdown-item active">
+                                <span t-esc="multi_website_websites_current['name']"/>
+                            </div>
+                            <t t-foreach="multi_website_websites" t-as="multi_website_website">
+                                <a role="menuitem" href="#"
+                                    t-att-domain="multi_website_website['domain']"
+                                    class="dropdown-item oe_menu_text js_multi_website_switch"
+                                    t-att-website-id="str(multi_website_website['website_id'])"
+                                >
+                                    <span t-esc="multi_website_website['name']" />
+                                </a>
+                            </t>
+                        </div>
+                    </li>
+
+                    <!-- Page Edition -->
+                    <li class="o_new_content_menu" id="new-content-menu">
+                        <a href="#"><span class="fa fa-plus mr-2"/>New</a>
+                        <div id="o_new_content_menu_choices" class="o_hidden">
+                            <div class="container pt32 pb32">
+                                <div class="row">
+                                    <div groups="website.group_website_designer" class="col-md-4 mb8 o_new_content_element">
+                                        <a href="#" data-action="new_page" aria-label="New page" title="New page">
+                                            <i class="fa fa-file-o"/>
+                                            <p>New Page</p>
+                                        </a>
+                                    </div>
+                                    <div groups="base.group_system" name="module_website_blog" t-att-data-module-id="env.ref('base.module_website_blog').id" t-att-data-module-shortdesc="env.ref('base.module_website_blog').shortdesc" class="col-md-4 mb8 o_new_content_element">
+                                        <a href="#" data-action="new_blog_post">
+                                            <i class="fa fa-rss"/>
+                                            <p>New Blog Post</p>
+                                        </a>
+                                    </div>
+                                    <div groups="base.group_system" name="module_website_event" t-att-data-module-id="env.ref('base.module_website_event').id" t-att-data-module-shortdesc="env.ref('base.module_website_event').shortdesc" class="col-md-4 mb8 o_new_content_element">
+                                        <a href="#" data-action="new_event">
+                                            <i class="fa fa-glass"/>
+                                            <p>New Event</p>
+                                        </a>
+                                    </div>
+                                    <div groups="base.group_system" name="module_website_forum" t-att-data-module-id="env.ref('base.module_website_forum').id" t-att-data-module-shortdesc="env.ref('base.module_website_forum').shortdesc" class="col-md-4 mb8 o_new_content_element">
+                                        <a href="#" data-action="new_forum">
+                                            <i class="fa fa-comment"/>
+                                            <p>New Forum</p>
+                                        </a>
+                                    </div>
+                                    <div groups="base.group_system" name="module_website_hr_recruitment" t-att-data-module-id="env.ref('base.module_website_hr_recruitment').id" t-att-data-module-shortdesc="env.ref('base.module_website_hr_recruitment').shortdesc" class="col-md-4 mb8 o_new_content_element">
+                                        <a href="#">
+                                            <i class="fa fa-briefcase"/>
+                                            <p>New Job Offer</p>
+                                        </a>
+                                    </div>
+                                    <div groups="base.group_system" name="module_website_sale" t-att-data-module-id="env.ref('base.module_website_sale').id" t-att-data-module-shortdesc="env.ref('base.module_website_sale').shortdesc" class="col-md-4 mb8 o_new_content_element">
+                                        <a href="#" data-action="new_product">
+                                            <i class="fa fa-shopping-cart"/>
+                                            <p>New Product</p>
+                                        </a>
+                                    </div>
+                                    <div groups="base.group_system" name="module_website_slides" t-att-data-module-id="env.ref('base.module_website_slides').id" t-att-data-module-shortdesc="env.ref('base.module_website_slides').shortdesc" class="col-md-4 mb8 o_new_content_element">
+                                        <a href="#" data-action="new_slide_channel">
+                                            <i class="fa fa-graduation-cap"></i>
+                                            <p>New Course</p>
+                                        </a>
+                                    </div>
+                                    <div groups="base.group_system" name="module_website_livechat" t-att-data-module-id="env.ref('base.module_website_livechat').id" t-att-data-module-shortdesc="env.ref('base.module_website_livechat').shortdesc" class="col-md-4 mb8 o_new_content_element">
+                                        <a href="#" data-action="new_channel">
+                                            <i class="fa fa-hashtag"/>
+                                            <p>New Livechat Channel</p>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li t-if="not translatable" id="edit-page-menu">
+                        <a data-action="edit" href="#"><span class="fa fa-pencil mr-2"/>Edit</a>
+                    </li>
+                    <li t-if="edit_in_backend or ('website_published' in main_object.fields_get() and main_object._name != 'website.page')">
+                        <a role="button" class="btn btn-primary btn-sm dropdown-toggle css_edit_dynamic" data-toggle="dropdown">
+                            <span class="sr-only">Toggle Dropdown</span>
+                        </a>
+                        <div class="dropdown-menu" role="menu">
+                            <a role="menuitem" style="text-align: left;" t-attf-href="/web#view_type=form&amp;model=#{main_object._name}&amp;id=#{main_object.id}&amp;action=#{action}&amp;menu_id=#{backend_menu_id}"
+                                   class="dropdown-item" title='Edit in backend' id="edit-in-backend">Edit in backend</a>
+                        </div>
+                    </li>
+                    <li t-if="translatable">
+                        <a data-action="translate" href="#">TRANSLATE</a>
+                    </li>
+                    <li t-if="translatable">
+                        <a data-action="edit_master" href="#">or Edit Master</a>
+                    </li>
+                </ul>
+            </nav>
+        </xpath>
+    </template>
+
+    <template id="doc_nav" inherit_id="documentations.main_frontend_layout">
+        <xpath expr="//header/nav/div" position="inside">
+            <div id="doc-nav">
+                <div class="doc_logo">
+                    <a href="/">
+                        <t t-esc="res_company.logo" t-options="{'widget': 'image'}" t-att-alt="'Logo of %s' % res_company.name" t-att-title="res_company.name"/>
+                    </a>
+                </div>
+                <div class="doc_search_outer">
+                    <div class="input-group doc_search_outer hide_phone" id="doc-search">
+                        <input type="text" id="doc-search-box" t-att-value="search" class="doc_search_box form-control" placeholder="Search the documentations ...">
+                            <button type="button" class="doc_search_btn" >
+                              <i class="fa fa-search">  </i>
+                            </button>
+                        </input>
+                    </div>
+                    <div class="show_phone doc_search_outer_ph">
+                        <button type="button" class="doc_search_btn_ph"><i class="fa fa-search"/> </button>
+                    </div>
+                </div>
+                <div class="lang_selector_outer">
+                    <t t-call="documentations.language_selector"/>
+                </div>
+            </div>
+
+            <div class="doc_search_outer2">
+                <div class="input-group" id="doc-search2">
+                    <input type="text" id="doc-search-box" t-att-value="search" class=" form-control"
+                           placeholder="Search the documentations ...">
+                        <button type="button" class="doc_search_btn" >
+                          <i class="fa fa-search">  </i>
+                        </button>
+                    </input>
+                </div>
+            </div>
+
+        </xpath>
+    </template>
+
+    <template id="doc_breadcrumbs" inherit_id="documentations.main_frontend_layout">
+        <xpath expr="//header/nav" position="after">
+            <div class="doc_breadcrumbs_container" >
+                <div class="doc_breadcrumbs_outer">
+                    <t t-if="page_name == 'documentations' and category" t-set="categ" t-value="category.parent_id" />
+                    <t t-elif="sub_category" t-set="categ" t-value="sub_category" />
+                    <t t-elif="category" t-set="categ" t-value="category"/>
+                    <t t-else="" t-set="categ" t-value="None" />
+                    <div class="hide_breadcrumbs">
+                        <ul class="doc_breadcrumbs_list">
+                            <t t-set="number" t-value="2" />
+                            <t t-set="all_routes" t-value="request.website._get_all_breadcrumbs(category=categ, count=number)" />
+                            <t t-if="page_name=='documentations' and category" t-set="all_routes"
+                               t-value="request.website._get_all_breadcrumbs(category=categ, count=number-1)" />
+                            <t t-foreach="all_routes" t-as="route">
+                                <li t-att-class="'breadcrumb-item no_prefix' if route_value == '/home' else 'breadcrumb-item breadcrumb_before'">
+                                    <t t-if="page_name == route">
+                                        <span class="active">
+                                            <t t-esc="route"/>
+                                        </span>
+                                    </t>
+                                    <t t-else="">
+                                        <a t-att-href="route_value"><span>
+                                            <t t-esc="route"/>
+                                        </span></a>
+                                    </t>
+                                </li>
+                            </t>
+                            <t t-if="page_name=='documentations' and category">
+                                <li class="breadcrumb-item breadcrumb_before">
+                                    <span class="active"> <t t-esc="category.name"/> </span>
+                                </li>
+                            </t>
+                            <t t-elif="search">
+                                <li class="breadcrumb-item breadcrumb_before">
+                                    <span class="active"> Search "<t t-esc="search"/>" </span>
+                                </li>
+                            </t>
+                        </ul>
+                    </div>
+                    <div class="show_breadcrumbs">
+                        <ul class="doc_breadcrumbs_list">
+                            <t t-set="number" t-value="3" />
+                            <t t-set="all_routes" t-value="request.website._get_all_breadcrumbs(category=categ, count=number)" />
+                            <t t-if="page_name=='documentations' and category" t-set="all_routes"
+                               t-value="request.website._get_all_breadcrumbs(category=categ, count=number-1)" />
+                            <t t-foreach="all_routes" t-as="route">
+                                <li t-att-class="'breadcrumb-item no_prefix' if route_value == '/home' else 'breadcrumb-item breadcrumb_before'">
+                                    <t t-if="page_name == route">
+                                        <span class="active">
+                                            <t t-esc="route"/>
+                                        </span>
+                                    </t>
+                                    <t t-else="">
+                                        <a t-att-href="route_value"><span>
+                                            <t t-esc="route"/>
+                                        </span></a>
+                                    </t>
+                                </li>
+                            </t>
+                            <t t-if="page_name=='documentations' and category">
+                                <li class="breadcrumb-item breadcrumb_before">
+                                    <span class="active"> <t t-esc="category.name"/> </span>
+                                </li>
+                            </t>
+                            <t t-elif="search">
+                                <li class="breadcrumb-item breadcrumb_before">
+                                    <span class="active"> Search "<t t-esc="search"/>" </span>
+                                </li>
+                            </t>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="language_selector">
+        <div class="dropdown" id="doc_language_selector">
+            <a class="dropdown-toggle" type="button" id="dropdownlanguage_selector" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span t-esc="list(filter(lambda lg : lg[0] == lang, languages))[0][2].split('/').pop()"/>
+            </a>
+            <div class="dropdown-menu" role="menu" aria-labelledby="dropdownlanguage_selector">
+                <t t-foreach="languages" t-as="lg">
+                  <a t-att-href="url_for(request.httprequest.path + '?' + keep_query(), lang_code=lg[0])" class="dropdown-item js_change_lang" t-att-data-lang="lg[0]">
+                    <t t-esc="lg[2].split('/').pop()"/>
+                  </a>
+                </t>
+                <t t-set="url_return" t-value="url_for('', '[lang]') + '?' + keep_query()"/>
+                <a groups="website.group_website_publisher" class="dropdown-item" t-attf-href="/web#action=base.action_view_base_language_install&amp;website_id=#{website.id if website else ''}&amp;url_return=#{url_return}">
+                  <i class="fa fa-plus-circle"/> Add a language...</a>
+            </div>
+        </div>
+    </template>
+
+    <template id="affix_top_menu" inherit_id="documentations.doc_layout" name="Fixed Top Menu">
+        <xpath expr="//header" position="attributes">
+            <attribute name="t-attf-class" add="#{'o_affix_enabled'}" separator=" "/>
+        </xpath>
+    </template>
+
+</odoo>
