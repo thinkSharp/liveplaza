@@ -957,6 +957,9 @@ $header-padding: 12px;
             }
         }
     }
+    .o_form_label {
+        width: 100%
+    }
 }
 // =============> o_technical_modal  <==============
 .o_technical_modal {
@@ -966,13 +969,14 @@ $header-padding: 12px;
     }
 }
 
+// removed by livep, this fix came with original manon theme and causing weird checkbox problem,
 // Fix 
-.o_form_view.o_xxs_form_view .o_group.o_inner_group > tbody > tr > td.o_td_label {
-    width: 50% !important;
-}
-.o_form_view.o_xxs_form_view .o_group.o_inner_group > tbody > tr > td:last-of-type {
-    width: 50% !important;
-}
+// .o_form_view.o_xxs_form_view .o_group.o_inner_group > tbody > tr > td.o_td_label {
+//     width: 50% !important;
+// }
+// .o_form_view.o_xxs_form_view .o_group.o_inner_group > tbody > tr > td:last-of-type {
+//     width: 50% !important;
+// }
 
 // =============> o_list_table <==============
 // Added by livep
