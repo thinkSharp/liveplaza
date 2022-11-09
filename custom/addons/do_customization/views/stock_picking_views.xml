@@ -952,7 +952,7 @@
             <field name="type">ir.actions.act_window</field>
             <field name="view_mode">tree,form,kanban</field>
             <field name="domain">[('picking_type_id','=', 3 ), ('state','in', ('assigned','done','cancel','hold')), ('is_admin_approved','=', True ), ('ready_to_pick','=', True )]</field>
-            <field name="context">{'search_default_by_origin': 1, 'search_default_by_marketplace_seller_id': 1}</field>
+            <field name="context">{}</field>
 	        <field name="view_ids" eval="[(5, 0, 0),
 		    	(0, 0, {'sequence': 2, 'view_mode': 'kanban', 'view_id': ref('pick_picking_stock_kanban_view_for_mp')}),
 		    	(0, 0, {'sequence': 1, 'view_mode': 'tree', 'view_id': ref('stock_picking_stock_tree_view_for_do_cus')}),
@@ -1000,7 +1000,7 @@
             <field name="type">ir.actions.act_window</field>
             <field name="view_mode">tree,form,kanban</field>
             <field name="domain">[('picking_type_id','=', 4 ), ('state','in', ('assigned','done','cancel','hold')), ('is_admin_approved','=', True )]</field>
-            <field name="context">{'search_default_by_origin': 1, 'search_default_by_marketplace_seller_id': 1}</field>
+            <field name="context">{}</field>
 	        <field name="view_ids" eval="[(5, 0, 0),
 		    	(0, 0, {'sequence': 2, 'view_mode': 'kanban', 'view_id': ref('pack_picking_stock_kanban_view_for_mp')}),
 		    	(0, 0, {'sequence': 1, 'view_mode': 'tree', 'view_id': ref('stock_packing_stock_tree_view_for_do_cus')}),
