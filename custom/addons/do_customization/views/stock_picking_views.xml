@@ -342,7 +342,7 @@
                             <field name="vendor_id"  domain="[('delivery_vendor', '=', True)]" attrs="{'readonly': [('state', 'in', ('done','assigned','cancel'))]}" required='1'/>
                             <field name="delivery_method_id" readonly="1"/>
 		                    <field name="delivery_person_id" readonly="1"/>
-		                    <field name="hold_reason" attrs="{'invisible': [('state', 'not in', ('assigned', 'delivering'))]}" />
+		                    <field name="hold_reason" attrs="{'invisible': [('state', 'not in', ('assigned','hold', 'delivering'))]}" />
 		                    <field name="hold_state" string="To Receive" invisible="1"/>
 		                    <field name="hold_date" string="To Receive" invisible="1"/>
 		                    <field name="required_condition" invisible="1" />
