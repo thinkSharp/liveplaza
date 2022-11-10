@@ -12,7 +12,7 @@ class DocumentCategory(models.Model):
     name = fields.Char(string=" Category Name", required=True)
     name_myanmar = fields.Char(string="Myanmar Category Name")
     display_name = fields.Char(string="Display Name", compute="_compute_display_name")
-    sequence = fields.Integer(string="Sequence", default=30)
+    sequence = fields.Float(string="Sequence", default=30)
     website_published = fields.Boolean(stirng="Published", copy=False, default=True)
     parent_id = fields.Many2one('documents.category', string="Parent Category")
     child_id = fields.One2many('documents.category', 'parent_id', 'Child Categories', readonly=True)
@@ -51,10 +51,11 @@ class Documents(models.Model):
     name_myanmar = fields.Char(string="Myanmar Document Name")
     description = fields.Text(string="Description")
     category = fields.Many2one("documents.category", string="Category", required=True)
-    sequence = fields.Integer(string="Sequence", default=30)
+    sequence = fields.Float(string="Sequence", default=30)
     document_lines = fields.Many2many("documents.line", string="Documents Text", )
     website_published = fields.Boolean(stirng="Published", copy=False, default=True)
     video = fields.Binary(string="Guide Video")
+    action_id = fields.Many2many('ir.actions.act_window', string='Action')
 
     def toggle_website_published(self):
         """ Inverse the value of the field ``website_published`` on the records in ``self``. """
@@ -78,10 +79,6 @@ class DocumentsLine(models.Model):
     title_myanmar = fields.Char(string="Myanmar Language Title")
     text_myanmar = fields.Html(string="Myanmar Language Text body")
     image_1 = fields.Image(string="Image")
-    # image_percent = fields.Char(string="Image Percent", required=True)
-
-    # sequence = fields.Integer(string="Sequence", default=30)
-    # website_published = fields.Boolean(stirng="Published", copy=False, default=True)
 
     def toggle_website_published(self):
         """ Inverse the value of the field ``website_published`` on the records in ``self``. """
@@ -132,6 +129,14 @@ class Website(models.Model):
             return field.name_myanmar
         else:
             return field.name
+
+    @staticmethod
+    def _check_category_has_child(categ):
+        if categ.child_id:
+            for c in categ.child_id:
+                if c.website_published:
+                    return True
+        return False
 
     # to show breadcrumbs
     @staticmethod
