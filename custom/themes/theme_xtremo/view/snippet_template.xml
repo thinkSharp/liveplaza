@@ -21,7 +21,6 @@
                    <t t-set="product_variant" t-value="product.env['product.product'].browse(combination_info['product_id'])"/>
                    <t t-call="website_sale.product_price"/>
                    <!-- <b class="oe_price" style="white-space: nowrap;" t-field="product.website_price" t-options='{"widget": "monetary", "display_currency": website.currency_id}'/> -->
-                   <br/>
                  </div>
                 </div>
               </a>
