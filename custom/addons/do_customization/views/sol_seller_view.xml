@@ -11,6 +11,12 @@
                 <link rel="stylesheet" type="text/scss" href="/do_customization/static/src/css/sale_order.scss" />
             </xpath>
         </template>
+
+        <template id="backend_assets" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <script src="/documentations/static/src/js/form_controller.js" type="text/javascript"></script>
+            </xpath>
+        </template>
     
     	<record id="view_do_sale_order_line_tree" model="ir.ui.view">
             <field name="name">sale.order.line.tree</field>

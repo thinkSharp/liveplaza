@@ -11,6 +11,7 @@
                     <field name="name" />
                     <field name="name_myanmar"/>
                     <field name="category"/>
+                    <field name="action_id"/>
                     <field name="document_lines" />
                     <field name="sequence"/>
                     <field name="website_published" />
@@ -51,10 +52,11 @@
                             <field name="name" string="Name"/>
                             <field name="name_myanmar"/>
                             <field name="category" string="Category"/>
+                            <field name="action_id" widget='many2many_tags'/>
                             <field name="sequence" />
                         </group>
                         <group>
-                            <field name="document_lines" widget="one2many_list" mode="tree,kanban" />
+                            <field name="document_lines" widget="many2many_tags" mode="tree,kanban" />
 
                         </group>
                     </sheet>
