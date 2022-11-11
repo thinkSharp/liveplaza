@@ -154,8 +154,8 @@
             </field>
         </record>
 
-<!--        <menuitem id="documents_line_menu" name="Documents Line" parent="website_sale.menu_product_settings"-->
-<!--                  action="documents_line_action" sequence="22"/>-->
+        <menuitem id="documents_line_menu" name="Documents Line" parent="website_sale.menu_product_settings"
+                  action="documents_line_action" sequence="22"/>
 
         <record id="documents_line_form_view" model="ir.ui.view">
             <field name="name">documents.line.form</field>

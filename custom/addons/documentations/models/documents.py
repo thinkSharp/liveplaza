@@ -159,7 +159,7 @@ class Website(models.Model):
 
     # @staticmethod
     def _get_all_breadcrumbs(self, category=None, count=0):
-        breadcrumbs_list = {'Liveplaze': '/home', 'User Guides': '/user_guides'}
+        breadcrumbs_list = {'Liveplaza': '/home', 'User Guides': '/user_guides'}
         if category:
             parent_route = self._get_parent_categ_route(category)
             for p in parent_route:
