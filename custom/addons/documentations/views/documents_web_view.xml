@@ -29,7 +29,8 @@
                                     <div class="docs_sub_list">
                                         <t t-foreach="cat.child_id" t-as="sub">
                                             <div t-if="sub.website_published" class="doc_sub_categ_outer">
-                                                <div t-att-class="'doc_categ_accordion enable_accordion' if sub.child_id else 'doc_categ_accordion'">
+                                                <div t-att-class="'doc_categ_accordion enable_accordion' if sub.child_id else 'doc_categ_accordion'"
+                                                    t-attf-onclick="click_accordion(#{sub.id})">
                                                     <h5><strong>
                                                         <a t-if="sub.child_documents" t-att-href="request.website._get_documents_url(sub)">
                                                             <span><t t-esc="sub.name" /></span>
@@ -38,7 +39,7 @@
                                                     </strong></h5>
                                                     <span t-if="request.website._check_category_has_child(sub)"><i class="fa fa-angle-down faq_arrow"></i></span>
                                                 </div>
-                                                <div t-if="request.website._check_category_has_child(sub)" class="doc_sub_categ_inner">
+                                                <div t-if="request.website._check_category_has_child(sub)" class="doc_sub_categ_inner" t-att-id="sub.id">
                                                     <ul style="margin-left: 10px; ">
                                                         <div >
                                                             <t t-call="documentations.sub_menu_inherit" >
@@ -48,6 +49,18 @@
                                                     </ul>
                                                 </div>
                                             </div>
+
+                                            <script>
+                                                function click_accordion(id) {
+                                                    var div = document.getElementById(id);
+                                                    if (div.style.display == "block") {
+                                                        document.getElementById(id).style.display = "none";
+                                                    }
+                                                    else {
+                                                        document.getElementById(id).style.display = "block";
+                                                    }
+                                                }
+                                            </script>
 
                                         </t>
                                     </div>
@@ -223,7 +236,9 @@
                 <script>
                     function locate_doc_line(id) {
                         if(786 > window.screen.width) {
-                            $('#doc-right-nav').hide();
+                            document.getElementById('doc-right-nav').style.width = "45px";
+                            document.getElementById('doc-content').style.marginRight = "45px";
+                            $('.doc_right_nav_list').hide();
                         }
                         const element = document.getElementById(id);
                         element.scrollIntoView({block: 'center'});
