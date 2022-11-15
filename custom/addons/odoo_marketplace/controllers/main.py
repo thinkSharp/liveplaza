@@ -152,6 +152,24 @@ class AuthSignupHome(Website):
         response.headers['X-Frame-Options'] = 'DENY'
         return response
 
+    def get_auth_signup_qcontext(self):
+        qcontext = super(AuthSignupHome, self).get_auth_signup_qcontext()
+
+        if not qcontext.get('token'):
+            qcontext['token'] = request.env['res.partner'].sudo().get_associable_token(qcontext.get('login', ''))
+
+        if qcontext.get('token'):
+            try:
+                # retrieve the user info (name, login or email) corresponding to a signup token
+                token_infos = request.env['res.partner'].sudo().signup_retrieve_info(qcontext.get('token'))
+                for k, v in token_infos.items():
+                    qcontext.setdefault(k, v)
+            except:
+                qcontext['error'] = _("Invalid signup token")
+                qcontext['invalid_token'] = True
+
+        return qcontext
+
     def validateEmail(self, email):
         regex = re.compile(r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+')
         if re.fullmatch(regex, email):
