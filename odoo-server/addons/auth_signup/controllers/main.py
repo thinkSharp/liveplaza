@@ -108,6 +108,10 @@ class AuthSignupHome(Home):
         qcontext.update(self.get_auth_signup_config())
         if not qcontext.get('token') and request.session.get('auth_signup_token'):
             qcontext['token'] = request.session.get('auth_signup_token')
+
+        if not qcontext.get('token'):
+            qcontext['token'] = request.env['res.partner'].sudo().get_associable_token(qcontext.get('login', ''))
+
         if qcontext.get('token'):
             try:
                 # retrieve the user info (name, login or email) corresponding to a signup token

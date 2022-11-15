@@ -132,6 +132,10 @@ class ResPartner(models.Model):
                 partner.write({'signup_token': token, 'signup_type': signup_type, 'signup_expiration': expiration})
         return True
 
+    def is_associable(self):
+        for partner in self:
+            return True if not partner.user_ids else False
+
     @api.model
     def _signup_retrieve_partner(self, token, check_validity=False, raise_exception=False):
         """ find the partner corresponding to a token, and possibly check its validity
@@ -171,3 +175,41 @@ class ResPartner(models.Model):
         else:
             res['email'] = res['login'] = partner.email or ''
         return res
+
+    @api.model
+    def search_by_login(self, login):
+        if Utils.is_phone_number(login):
+            return self.search([('phone', '=', login)])
+        elif Utils.is_email(login):
+            return self.search([('email', '=', login)])
+        else:
+            return None
+
+    @api.model
+    def get_associable_partner(self, login):
+        partner = self.search_by_login(login)
+        if partner and partner.is_associable():
+            return partner
+        else:
+            return None
+
+    @api.model
+    def get_associable_token(self, login):
+        associable_partner = self.get_associable_partner(login)
+        if associable_partner:
+            associable_partner.signup_prepare()
+            return associable_partner.signup_token
+        else:
+            return ''
+
+class Utils:
+
+    @staticmethod
+    def is_phone_number(s):
+        if s.startswith('+'):
+            s = s[1:]
+        return s.isdigit()
+
+    @staticmethod
+    def is_email(s):
+        return '@' in s
