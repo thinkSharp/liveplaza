@@ -51,7 +51,7 @@ $textColor2: rgba(0, 0, 0, 0.8);
                     background: white;
                     margin: 10px 0;
                     padding: 0 10px;
-                    a {
+                    a, span {
                         color: $textColor;
                         &:hover { opacity: 0.8; }
                     }

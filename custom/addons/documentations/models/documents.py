@@ -71,6 +71,7 @@ class Documents(models.Model):
 class DocumentsLine(models.Model):
     _name = "documents.line"
     _description = "Documents Line"
+    _order = "sequence"
 
     name = fields.Char(string="Name", required=True)
     title = fields.Char(string="Title")
@@ -79,6 +80,7 @@ class DocumentsLine(models.Model):
     title_myanmar = fields.Char(string="Myanmar Language Title")
     text_myanmar = fields.Html(string="Myanmar Language Text body")
     image_1 = fields.Image(string="Image")
+    sequence = fields.Float(string="Sequence", default=30)
 
     def toggle_website_published(self):
         """ Inverse the value of the field ``website_published`` on the records in ``self``. """
@@ -159,7 +161,7 @@ class Website(models.Model):
 
     # @staticmethod
     def _get_all_breadcrumbs(self, category=None, count=0):
-        breadcrumbs_list = {'Liveplaza': '/home', 'User Guides': '/user_guides'}
+        breadcrumbs_list = {'LIVEPlaza': '/home', 'User Guides': '/user_guides'}
         if category:
             parent_route = self._get_parent_categ_route(category)
             for p in parent_route:
