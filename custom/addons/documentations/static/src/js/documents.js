@@ -122,12 +122,3 @@ $(document).ready(function () {
     });
 });
 
-// Documents sub categories accordion
-$(document).ready(function(){
-    $('.enable_accordion').click(function(){
-    // $(this).parent().find('.faq_arrow').toggleClass('arrow-animate');
-        $(this).parent().find('.doc_sub_categ_inner').slideToggle(280);
-
-    });
-});
-
