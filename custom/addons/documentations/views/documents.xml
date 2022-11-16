@@ -57,8 +57,8 @@
                         </group>
                         <notebook>
                             <page string="Document Lines">
-                                <field name="document_lines" widget="section_and_note_one2many">
-                                    <tree string="Document Lines" editable="bottom">
+                                <field name="document_lines" widget="section_and_note_one2many" mode="tree,form">
+                                    <tree string="Document Lines">
                                         <field name="name"/>
                                         <field name="title"/>
                                         <field name="text" optional="hide"/>
@@ -70,18 +70,6 @@
                                 </field>
                             </page>
                         </notebook>
-<!--                        <noteobok>-->
-<!--                            <page string="Document Lines" name="document_lines">-->
-<!--                                <field name="document_lines" widget="section_and_note_one2many" mode="tree">-->
-<!--&lt;!&ndash;                                    <form></form>&ndash;&gt;-->
-<!--                                    <tree string="Document Lines" editable="bottom">-->
-<!--                                        <field name="name" />-->
-<!--                                        <field name="title" />-->
-<!--                                        <field name="sequence"/>-->
-<!--                                    </tree>-->
-<!--                                </field>-->
-<!--                            </page>-->
-<!--                        </noteobok>-->
                     </sheet>
                 </form>
             </field>
