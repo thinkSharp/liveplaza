@@ -141,8 +141,9 @@ main{
     padding: 0px 10px;
   }
   img{
-    height: 200px !important;
     width: auto !important;
+    aspect-ratio: 1;
+    object-fit: contain;
     margin: auto;
     @media #{$mobile}{
       height: auto !important;

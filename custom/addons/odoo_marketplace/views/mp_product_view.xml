@@ -129,7 +129,7 @@
 					<field name="status"/>
 					<templates>
 						<t t-name="kanban-box">
-							<div class="livep-card o_kanban_record_neutral oe_kanban_global_click">
+							<div class="livep-card product-card o_kanban_record_neutral oe_kanban_global_click">
 								<div class="livep-card-body p-3">
 									<div class="group-h">
 										<img class="product-image" alt="Product Image" t-att-src="kanban_image('product.template', 'image_128', record.id.raw_value)" />

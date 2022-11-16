@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template xml:space="preserve">
+    <t t-extend="UserMenu.Actions">
+        <t t-jquery="a[data-menu='documentation']" t-operation='replace'>
+            <a href="/user_guides" class="dropdown-item" gruops="odoo_marketplace.marketplace_manager_group">User Guides</a>
+        </t>
+    </t>
+
+    <t t-extend="FormView.buttons">
+        <t t-jquery="button.o_form_button_create" t-operation="after">
+            <a  type="button" style="font-size: 20px; margin: 0 20px;"
+                class="o_form_button_document" accesskey="q">
+                 <i class="fa fa-question-circle"/>
+            </a>
+        </t>
+    </t>
+
+    <t t-extend="ListView.buttons">
+        <t t-jquery="button.o_list_export_xlsx" t-operation="after">
+            <a  type="button" style="font-size: 20px; margin: 0 20px;"
+               class="o_list_button_document" accesskey="q">
+                 <i class="fa fa-question-circle"/>
+            </a>
+        </t>
+    </t>
+
+    <t t-extend="SwitchCompanyMenu">
+        <t t-jquery="li.o_switch_company_menu" t-operation="before">
+            <li>
+                <a  type="button" style="font-size: 20px; margin: 10px 0;"
+                    class="o_menu_button_document" accesskey="q">
+                     <i class="fa fa-question-circle"/>
+                </a>
+            </li>
+        </t>
+    </t>
+</template>
