@@ -16,3 +16,4 @@
 from . import res_config
 from . import send_otp
 from . import sms_template
+from . import res_partner
