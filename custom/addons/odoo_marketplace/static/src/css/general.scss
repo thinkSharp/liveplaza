@@ -1,4 +1,18 @@
 $clr-primary-200: #B5D4FF;
+$clr-primary-400: #649AF6;
+$clr-primary-800: #1D43AB;
+
+$clr-neutral-200: #DEDFE1;
+$clr-neutral-400: #A6A9AE;
+$clr-neutral-700: #575A60;
+$clr-neutral-800: #35373B;
+$clr-neutral-900: #232527;
+
+$clr-success-200: #C8F7D5;
+$clr-success-700: #079F31;
+$clr-success-900: #01691E;
+
+$clr-error-600: #DA3636;
 
 .status-icon {
     display: flex;
@@ -115,5 +129,6 @@ $clr-primary-200: #B5D4FF;
     .o_kanban_record_neutral,
     .o_kanban_ghost {
         flex: 1 1 auto !important;
+        margin: 8px !important;
     }
 }

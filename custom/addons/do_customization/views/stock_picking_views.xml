@@ -274,7 +274,7 @@
 <!--                     <button name="action_toggle_is_locked" attrs="{'invisible': ['|', ('state', 'in', ('draft','cancel')), ('is_locked', '=', False)]}" string="Unlock" groups="stock.group_stock_manager" type="object" help="If the picking is unlocked you can edit initial demand (for a draft picking) or done quantities (for a done picking)."/> -->
 <!--                     <button name="action_toggle_is_locked" attrs="{'invisible': [('is_locked', '=', True)]}" string="Lock" class="oe_highlight" groups="stock.group_stock_manager" type="object"/> -->
 
-                    <button name="do_hold" string="Hold" type="object" attrs="{'invisible': ['|', ('hold_reason', '=', False), ('state', 'in', ('hold','draft','cancel'))]}"/>
+                    <button name="do_hold" string="Hold" type="object" attrs="{'invisible': ['|', ('hold_reason', '=', False), ('state', 'in', ('hold','draft','cancel','done'))]}"/>
                     <button name="do_hold" string="Unhold" type="object" attrs="{'invisible': ['|', ('hold_reason', '=', False), ('state', 'in', ('draft','confirmed','partially_available','assigned','cancel','delivering','done'))]}"/>
 
                     <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,partially_available,assigned,delivering,done,hold" />
@@ -342,7 +342,7 @@
                             <field name="vendor_id"  domain="[('delivery_vendor', '=', True)]" attrs="{'readonly': [('state', 'in', ('done','assigned','cancel'))]}" required='1'/>
                             <field name="delivery_method_id" readonly="1"/>
 		                    <field name="delivery_person_id" readonly="1"/>
-		                    <field name="hold_reason" attrs="{'invisible': [('state', 'not in', ('assigned', 'delivering'))]}" />
+		                    <field name="hold_reason" attrs="{'invisible': [('state', 'not in', ('assigned','hold', 'delivering'))]}" />
 		                    <field name="hold_state" string="To Receive" invisible="1"/>
 		                    <field name="hold_date" string="To Receive" invisible="1"/>
 		                    <field name="required_condition" invisible="1" />
@@ -952,7 +952,7 @@
             <field name="type">ir.actions.act_window</field>
             <field name="view_mode">tree,form,kanban</field>
             <field name="domain">[('picking_type_id','=', 3 ), ('state','in', ('assigned','done','cancel','hold')), ('is_admin_approved','=', True ), ('ready_to_pick','=', True )]</field>
-            <field name="context">{'search_default_by_origin': 1, 'search_default_by_marketplace_seller_id': 1}</field>
+            <field name="context">{}</field>
 	        <field name="view_ids" eval="[(5, 0, 0),
 		    	(0, 0, {'sequence': 2, 'view_mode': 'kanban', 'view_id': ref('pick_picking_stock_kanban_view_for_mp')}),
 		    	(0, 0, {'sequence': 1, 'view_mode': 'tree', 'view_id': ref('stock_picking_stock_tree_view_for_do_cus')}),
@@ -1000,7 +1000,7 @@
             <field name="type">ir.actions.act_window</field>
             <field name="view_mode">tree,form,kanban</field>
             <field name="domain">[('picking_type_id','=', 4 ), ('state','in', ('assigned','done','cancel','hold')), ('is_admin_approved','=', True )]</field>
-            <field name="context">{'search_default_by_origin': 1, 'search_default_by_marketplace_seller_id': 1}</field>
+            <field name="context">{}</field>
 	        <field name="view_ids" eval="[(5, 0, 0),
 		    	(0, 0, {'sequence': 2, 'view_mode': 'kanban', 'view_id': ref('pack_picking_stock_kanban_view_for_mp')}),
 		    	(0, 0, {'sequence': 1, 'view_mode': 'tree', 'view_id': ref('stock_packing_stock_tree_view_for_do_cus')}),

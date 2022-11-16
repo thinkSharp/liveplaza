@@ -89,6 +89,7 @@
                     <field name="seller_id"/>
                     <field name="date"/>
                     <field name="payment_type"/>
+                    <field name="payment_method"/>
                     <field name="payment_mode"/>
                     <field name="memo"/>
                     <field name="payable_amount"/>
@@ -96,29 +97,32 @@
                     <field name="state"/>
                     <templates>
                         <t t-name="kanban-box">
-                            <div t-attf-class="oe_kanban_card oe_kanban_global_click">
-                                <div class="o_kanban_record_top mb8">
-                                    <div class="o_kanban_record_headings">
-                                        <strong class="o_kanban_record_title"><span><t t-esc="record.name.value"/></span></strong>
-                                    </div>
-                                    <strong><field name="payable_amount" widget="monetary"/></strong>
-                                </div>
-                                <div class="o_kanban_record_bottom">
-                                    <div class="oe_kanban_bottom_left">
-										<strong> Seller: </strong>
-                                        <t t-esc="record.seller_id.value"/>
-                                    </div>
-                                    <strong>
-										<field name="state" widget="label_selection" options="{'classes': {'draft': 'info', 'canceled': 'danger', 'requested': 'warning', 'confirmed': 'warning','posted': 'success'}}"/>
-                                    </strong>
-                                </div>
-								<div class="o_kanban_record_bottom">
-                                    <div class="oe_kanban_bottom_left">
-                                        <strong> Memo: </strong>
-										<field name="memo"/>
-									</div>
-                                    <div class="oe_kanban_bottom_right">
-                                        <t t-esc="record.date.value and record.date.value.split(' ')[0] or False"/>
+                            <div t-attf-class="livep-card payment-card o_kanban_record_neutral oe_kanban_global_click">
+                                <div class="livep-card-body h-100 p-4">
+                                    <div class="group-h h-100 align-items-stretch">
+                                        <div>
+                                            <div class="payment-info">
+                                                <p class="payment-name" t-esc="record.name.value" />
+                                                <p class="payment-date" t-esc="record.date.value and record.date.value.split(' ')[0] or False" />
+                                            </div>
+                                            <div t-if="record.payment_method.value" class="payment-method">
+                                                <label class="label" for="payment-method">payment method</label>
+                                                <p id="payment-method" t-esc="record.payment_method.value" />
+                                            </div>
+                                            <div t-if="record.memo.value" class="payment-memo">
+                                                <label class="label" for="payment-memo">memo</label>
+                                                <p id="payment-memo" t-esc="record.memo.value" />
+                                            </div>
+                                        </div>
+                                        <div class="ml-auto d-flex flex-column align-items-end">
+                                            <h2 class="seller-name" t-esc="record.seller_id.value" />
+                                            <div t-attf-class="payment-status #{record.state.raw_value}" t-esc="record.state.value" />
+                                            <p t-attf-class="payment-amount mt-auto #{record.payment_type.raw_value}">
+                                                <span t-if="record.payment_type.raw_value == 'cr'">&#x002B;</span>
+                                                <span t-if="record.payment_type.raw_value == 'dr'">&#x2212;</span>
+                                                 <span t-esc="record.currency_id.value" /> <span class="value" t-esc="Math.abs(record.payable_amount.raw_value)" />
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
