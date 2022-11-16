@@ -29,8 +29,17 @@
                                     <div class="docs_sub_list">
                                         <t t-foreach="cat.child_id" t-as="sub">
                                             <div t-if="sub.website_published" class="doc_sub_categ_outer">
-                                                <div t-att-class="'doc_categ_accordion enable_accordion' if sub.child_id else 'doc_categ_accordion'"
+                                                <div t-if="sub.child_id" class="doc_categ_accordion"
                                                     t-attf-onclick="click_accordion(#{sub.id})">
+                                                    <h5><strong>
+                                                        <a t-if="sub.child_documents" t-att-href="request.website._get_documents_url(sub)">
+                                                            <span><t t-esc="sub.name" /></span>
+                                                        </a>
+                                                    <t t-else=""><span><t t-esc="sub.name" /></span></t>
+                                                    </strong></h5>
+                                                    <span t-if="request.website._check_category_has_child(sub)"><i class="fa fa-angle-down faq_arrow"></i></span>
+                                                </div>
+                                                <div t-else="" class="doc_categ_accordion" >
                                                     <h5><strong>
                                                         <a t-if="sub.child_documents" t-att-href="request.website._get_documents_url(sub)">
                                                             <span><t t-esc="sub.name" /></span>
