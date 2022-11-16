@@ -52,7 +52,7 @@ class Documents(models.Model):
     description = fields.Text(string="Description")
     category = fields.Many2one("documents.category", string="Category", required=True)
     sequence = fields.Float(string="Sequence", default=30)
-    document_lines = fields.Many2many("documents.line", string="Documents Text", )
+    document_lines = fields.One2many("documents.line", "line_id", string="Documents Text", ondelete='cascade')
     website_published = fields.Boolean(stirng="Published", copy=False, default=True)
     video = fields.Binary(string="Guide Video")
     action_id = fields.Many2many('ir.actions.act_window', string='Action')
@@ -81,6 +81,7 @@ class DocumentsLine(models.Model):
     text_myanmar = fields.Html(string="Myanmar Language Text body")
     image_1 = fields.Image(string="Image")
     sequence = fields.Float(string="Sequence", default=30)
+    line_id = fields.Many2one('documents', string="Line Id")
 
     def toggle_website_published(self):
         """ Inverse the value of the field ``website_published`` on the records in ``self``. """
@@ -89,8 +90,9 @@ class DocumentsLine(models.Model):
 
     @api.constrains('sequence')
     def _check_value(self):
-        if self.sequence <= 0:
-            raise ValidationError(_('Enter the sequence value greater than 0'))
+        for record in self:
+            if record.sequence <= 0:
+                raise ValidationError(_('Enter the sequence value greater than 0'))
 
     @api.constrains('image_width')
     def _set_image_width(self):
