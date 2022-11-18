@@ -8,8 +8,11 @@
         </xpath>
 
         <xpath expr="//td[@colspan='2']" position="before">
+
+
+
             <td> <input t-att-checked="line.selected_checkout" type="checkbox" id="select-product" name="checked_list"
-                                   t-att-data-order-id="line.id" class="btn btn-link d-md-inline-block" /></td>
+                                   t-att-data-order-id="line.id" class="btn btn-link d-md-inline-block"/></td>
         </xpath>
 
     </template>

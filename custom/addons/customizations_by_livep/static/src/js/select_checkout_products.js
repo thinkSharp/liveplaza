@@ -93,17 +93,7 @@ odoo.define('customizations_by_livep.cart', function(require) {
         return checked_list;
     },
 
-    _is_checked_products: function(ev) {
-        if (this._getValue() <= 0) {
-            this._displayError(
-                _t('No product selected'),
-                _t('Please select at least one product')
-            )
-          return false;
-        }
-    },
-
-    _displayError: function (title, message) {
+     _displayError: function (title, message) {
         return new Dialog(null, {
             title: _t('Warning: ') + _.str.escapeHTML(title),
             size: 'medium',
@@ -112,6 +102,41 @@ odoo.define('customizations_by_livep.cart', function(require) {
             {text: _t('Ok'), close: true}]}).open();
 
     },
+
+    _is_checked_products: function(ev) {
+        // const self = this;
+        if (this._getValue() <= 0) {
+            this._displayError(
+                _t('No product selected'),
+                _t('Please select at least one product')
+            )
+
+            return false;
+        }
+
+
+//        console.log("I am going to call Ajax");
+//        ajax.jsonRpc('/voucher_valid_product', 'call')
+//        .then(function(response){
+//            if (response.voucher_valid_product) {
+//                window.location.href = '/shop/payment';
+//
+//            } else {
+//                console.log("I am not valid");
+//                 self._displayError(
+//                _t('Invalid Voucher'),
+//                _t('Invalid Voucher')
+//                )
+//
+//                return false;
+//            }
+//        })
+//
+//        return false;
+
+    },
+
+
 });
 });
 

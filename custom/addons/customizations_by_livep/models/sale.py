@@ -165,6 +165,9 @@ class SaleOrder(models.Model):
                     self.company_id
                 )
 
+            # if order_line.product_id.categ_id.name=='Gift Voucher':
+            #     order_line.write({"selected_checkout": True})
+
             order_line.write(values)
 
             # link a product to the sales order

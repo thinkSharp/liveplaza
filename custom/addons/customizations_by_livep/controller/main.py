@@ -422,12 +422,10 @@ class WebsiteSale (WebsiteSale):
         pager = request.website.pager(url=url, total=product_count, page=page, step=ppg, scope=7, url_args=post)
         offset = pager['offset']
 
-        sort_product = search_product[offset: offset + ppg]
-        if 'order' in post.keys():    
-            products = sort_product
-        else:
-            products = random.sample(sort_product, len(sort_product))
-
+        if not post:
+            products = random.sample(search_product, len(search_product))[offset: offset + ppg]
+        else:    
+            products = search_product[offset: offset + ppg]
 
         ProductAttribute = request.env['product.attribute']
         if products:
@@ -544,19 +542,7 @@ class WebsiteSale (WebsiteSale):
         for price in range(len(sort_product)):
             if sort_product[price].is_service:
                 product_prices.append(sort_product[price].list_price)
-            elif sort_product[price].is_booking_type:                
-                for day_data in sort_product[price].booking_day_slot_ids.filtered(lambda day_sl: day_sl.booking_status == 'open'):
-                    for time_data in day_data.booking_slots_ids:                                              
-                        if pricelist:
-                            partner = request.env.user.partner_id
-                            partners = [partner] * len(sort_product[price])
-                            results = pricelist._compute_price_rule_booking([(sort_product[price], 1, partners)],time_data.id,time_data.price, date=False, uom_id=False)
-                            if results:
-                                for key, values in results.items():
-                                    if key == time_data.id:
-                                        time_data.discounted_price = values
-                            else:
-                                time_data.discounted_price = 0
+            elif sort_product[price].is_booking_type:
                 product_prices.append(sort_product[price].get_booking_onwards_price())
 
         list_product = [x for _,x in sorted(zip(product_prices, sort_product))]
@@ -591,11 +577,10 @@ class WebsiteSale (WebsiteSale):
         pager = request.website.pager(url=url, total=product_count, page=page, step=ppg, scope=7, url_args=post)
         offset = pager['offset']
 
-        sort_product = search_product[offset: offset + ppg]
-        if 'order' in post.keys():    
-            products = sort_product
-        else:
-            products = random.sample(sort_product, len(sort_product))
+        if not post:
+            products = random.sample(search_product, len(search_product))[offset: offset + ppg]
+        else:    
+            products = search_product[offset: offset + ppg]
 
         ProductAttribute = request.env['product.attribute']
         if products:
@@ -649,10 +634,67 @@ class WebsiteSale (WebsiteSale):
 
         return request.render("website_sale.product", self._prepare_product_values(product, category, search, **kwargs))
 
+    @http.route(['/voucher_valid_product'], type='json', auth='public', website=True)
+    def voucher_valid_product(self):
+        order = request.website.sale_get_order()
+        checked_list = request.website.get_checked_sale_order_line(order.website_order_line)
+
+        voucher_valid = True
+        for line in order.order_line:
+            print(line)
+            # if line.is_voucher:
+            #     voucher = line.wk_voucher_id
+            #     voucher_code = voucher.voucher_code
+            #     print(voucher_code)
+            #     applied_products = voucher.product_ids
+            #     print(applied_products)
+            #
+            #     if applied_products:
+            #         voucher_valid = False
+            #         for sol in checked_list:
+            #             if sol.product_template_id in applied_products:
+            #                 voucher_valid = True
+
+            if line.is_voucher:
+                voucher = line.wk_voucher_id
+                voucher_valid = False
+
+                for sol in checked_list:
+                    if (sol.product_id.marketplace_seller_id == voucher.marketplace_seller_id)  and len(checked_list) > 1:
+                        voucher_valid = True
+
+
+        return {
+            "voucher_valid_product": voucher_valid
+        }
+
+
+
+
+
+
     @http.route(['/shop/checkout'], type='http', auth='public', website=True)
     def checkout(self, **post):
         order = request.website.sale_get_order()
+        print("Checkout Order", order)
+        # for line in order.order_line:
+        #     print(line)
+        #     if line.is_voucher:
+        #         voucher = line.wk_voucher_id
+        #         voucher_code = voucher.voucher_code
+        #         print(voucher_code)
+        #         applied_products = voucher.product_ids
+        #         print(applied_products)
+
         checked_list = request.website.get_checked_sale_order_line(order.website_order_line)
+        # print(checked_list)
+        # if applied_products:
+        #     voucher_valid = False
+        #     for sol in checked_list:
+        #         if sol.product_template_id in applied_products:
+        #             voucher_valid = True
+
+        # print('Voucher Valid', voucher_valid)
 
         if len(checked_list) <= 0:
             return request.redirect('/shop')
