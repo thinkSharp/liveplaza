@@ -33,7 +33,7 @@ odoo.define('otp_sms_auth.wk_otp', function (require) {
                     $('input#mobile').val(mobile_value);
                 });
             }
-            populateEmailForm()
+            populateAsEmailForm()
         }
         else {
             $('label[for=phone]').show();
@@ -44,7 +44,7 @@ odoo.define('otp_sms_auth.wk_otp', function (require) {
             $('input[for=signup_login]').change(function() {
                 $('input#mobile').val($('input[for=signup_login]').val());
             });
-            populateMobileForm()
+            populateAsMobileForm()
         }
 
         $('input:radio[name="radio-register"]').change(function() {
@@ -63,7 +63,7 @@ odoo.define('otp_sms_auth.wk_otp', function (require) {
                         $('input#mobile').val(mobile_value);
                     });
                 }
-                populateEmailForm()
+                populateAsEmailForm()
 
             } else if ($(this).val() == 'radiomobile') {
                 $('label[for=phone]').show();
@@ -78,7 +78,7 @@ odoo.define('otp_sms_auth.wk_otp', function (require) {
                         $('input#mobile').val($('input[for=signup_login]').val());
                     });
                 }
-                populateMobileForm()
+                populateAsMobileForm()
 
             }
         });
@@ -256,7 +256,7 @@ odoo.define('otp_sms_auth.wk_otp', function (require) {
         }
     }
 
-    function populateEmailForm () {
+    function populateAsEmailForm () {
         const token_email = getTokenEmail()
         const token_phone = getTokenPhone()
 
@@ -264,10 +264,10 @@ odoo.define('otp_sms_auth.wk_otp', function (require) {
         populateMobileField(token_phone)
     }
 
-    function populateMobileForm () {
+    function populateAsMobileForm () {
         const token_phone = getTokenPhone()
 
         populateLoginField(token_phone)
-        populateMobileField('')
+        populateMobileField(token_phone)
     }
 });
