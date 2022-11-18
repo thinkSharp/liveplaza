@@ -88,7 +88,7 @@
                 <a t-if="c.child_id" t-att-href="request.website._get_documents_url(c.parent_id, sub_category=c)">
                   <span><t t-esc="c.name" /></span>
                 </a>
-                <a t-elif="c.child_document" t-att-href="request.website._get_documents_url(c.parent_id)">
+                <a t-elif="c.child_documents" t-att-href="request.website._get_documents_url(c.parent_id)">
                   <span><t t-esc="c.name" /></span>
                 </a>
                 <t t-else=""><span><t t-esc="c.name" /></span></t>
