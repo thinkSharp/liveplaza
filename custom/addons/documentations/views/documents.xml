@@ -85,7 +85,6 @@
                     <field name="name" />
                     <field name="display_name"/>
                     <field name="parent_id"/>
-                    <field name="child_id" />
                     <field name="sequence"/>
                     <field name="website_published"/>
                 </tree>
@@ -126,9 +125,6 @@
                             <field name="name_myanmar"/>
                             <field name="parent_id"/>
                             <field name="sequence" />
-                        </group>
-                        <group>
-                            <field name="child_documents" widget="one2many_list" />
                         </group>
                     </sheet>
                 </form>
