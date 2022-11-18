@@ -237,10 +237,10 @@ odoo.define('otp_sms_auth.wk_otp', function (require) {
 
         login_input.val(val)
 
-        if (val === '') {
-            login_input.prop("readonly", false)
-        } else {
+        if (val) {
             login_input.prop("readonly", true)
+        } else {
+            login_input.prop("readonly", false)
         }
     }
 
@@ -249,10 +249,10 @@ odoo.define('otp_sms_auth.wk_otp', function (require) {
 
         mobile_input.val(val)
 
-        if (val === '') {
-            mobile_input.prop("readonly", false)
-        } else {
+        if (val) {
             mobile_input.prop("readonly", true)
+        } else {
+            mobile_input.prop("readonly", false)
         }
     }
 
