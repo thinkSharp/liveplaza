@@ -156,7 +156,7 @@ class AuthSignupHome(Website):
         qcontext = super(AuthSignupHome, self).get_auth_signup_qcontext()
 
         if not qcontext.get('token'):
-            qcontext['token'] = request.env['res.partner'].sudo().get_associable_token(qcontext.get('login', ''))
+            qcontext['token'] = request.env['res.partner'].sudo().get_consolidated_token(qcontext.get('login', ''))
 
         if qcontext.get('token'):
             try:
