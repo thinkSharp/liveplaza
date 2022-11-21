@@ -160,7 +160,7 @@
                         <div class="doc_left_nav_list">
                             <t t-set="style" t-value="'color: white; background: rgba(0, 81, 177, 0.8);'" />
                             <div class="doc_left_nav_header">
-                                <h4><t t-esc="request.website._get_translate_text(category, myanmar)"/></h4>
+                                <h4><strong><t t-esc="request.website._get_translate_text(category, myanmar)"/></strong></h4>
                             </div>
                             <div t-if="document" class="doc_nav_all" ><h5>
                                 <a t-att-href="request.website._get_documents_url(category)">Show All</a>
@@ -267,8 +267,12 @@
             </div>
             <t t-foreach="doc.document_lines" t-as="line">
                 <div t-att-id="line.id" />
-                <div class="doc_line">
-                    <h5><strong><t t-esc="request.website._get_translate_text(line, myanmar, 'title')"/></strong> </h5>
+                <div class="doc_line"
+                     t-att-style="'border-bottom: 1px solid rgba(0, 0, 0, 0.05);' if line.add_line else ''">
+                    <h5><strong>
+                        <span t-if="myanmar and line.title_myanmar" t-field="line.title_myanmar" widget="html"/>
+                        <span t-else="" t-field="line.title" widget="html"/>
+                    </strong></h5>
                     <div t-if="myanmar and line.text_myanmar" class="doc_line_text" t-field="line.text_myanmar" widget="html"></div>
                     <div t-else="" class="doc_line_text" t-field="line.text" widget="html"></div>
                     <div t-if="line.image_1" class="doc_line_image">
@@ -319,7 +323,8 @@
                             <t t-foreach="search_filter_doc" t-as="doc">
                                 <div class="search_doc_box">
                                     <h5><strong><a>
-                                        <t t-esc="request.website._get_translate_text(doc, myanmar, 'title')"/>
+                                        <span t-if="myanmar and line.title_myanmar" t-field="line.title_myanmar" widget="html"/>
+                                        <span t-else="" t-field="line.title" widget="html"/>
                                     </a></strong> </h5>
                                     <div t-if="myanmar and doc.text_myanmar" class="search_doc_text"
                                          t-field="doc.text_myanmar" widget="html"></div>
@@ -333,8 +338,9 @@
                                 <t t-foreach="s_doc_value" t-as="doc">
                                     <div class="search_doc_box">
                                         <h5><strong><a>
-                                            <t t-esc="request.website._get_translate_text(doc, myanmar, 'title')"/></a>
-                                        </strong> </h5>
+                                            <span t-if="myanmar and line.title_myanmar" t-field="line.title_myanmar" widget="html"/>
+                                            <span t-else="" t-field="line.title" widget="html"/>
+                                        </a></strong> </h5>
                                         <div t-if="myanmar and line.text_myanmar" class="search_doc_text" t-field="doc.text_myanmar"
                                              widget="html"></div>
                                         <div t-else="" class="search_doc_text" t-field="doc.text" widget="html"></div>
