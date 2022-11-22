@@ -104,6 +104,7 @@ class AuthSignupHome(Website):
     @http.route('/web/signup', type='http', auth='public', website=True, sitemap=False)
     def web_auth_signup(self, *args, **kw):
         qcontext = self.get_auth_signup_qcontext()
+        qcontext = self.modify_token_for_multi_guest_checkout(qcontext)
         login = qcontext.get("login")
         if not qcontext.get('token') and not qcontext.get('signup_enabled'):
             raise werkzeug.exceptions.NotFound()
@@ -152,11 +153,9 @@ class AuthSignupHome(Website):
         response.headers['X-Frame-Options'] = 'DENY'
         return response
 
-    def get_auth_signup_qcontext(self):
-        qcontext = super(AuthSignupHome, self).get_auth_signup_qcontext()
+    def modify_token_for_multi_guest_checkout(self, qcontext):
 
-        if not qcontext.get('token'):
-            qcontext['token'] = request.env['res.partner'].sudo().get_consolidated_token(qcontext.get('login', ''))
+        qcontext['token'] = request.env['res.partner'].sudo().get_consolidated_token(qcontext.get('login', ''))
 
         if qcontext.get('token'):
             try:
