@@ -2,6 +2,7 @@ from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
 from odoo.addons.http_routing.models.ir_http import slug
 from odoo.http import request
+import logging, re
 
 
 class DocumentCategory(models.Model):
@@ -83,6 +84,13 @@ class DocumentsLine(models.Model):
     add_line = fields.Boolean("Add a border under document line")
     sequence = fields.Float(string="Sequence", default=30)
     line_id = fields.Many2one('documents', string="Line Id")
+    youtube_video_url = fields.Char("Youtube Video URL", copy=False)
+    embed_url = fields.Char(string="Embed Stream Url", compute="set_embed_url", copy=False, default="")
+
+    type = fields.Selection([
+        ('text', 'Text'),
+        ('youtube_video', 'Youtube Embedded Video'),
+    ], 'Type', default='text', required=True)
 
     def toggle_website_published(self):
         """ Inverse the value of the field ``website_published`` on the records in ``self``. """
@@ -100,6 +108,27 @@ class DocumentsLine(models.Model):
         for record in self:
             if record.image_1 and record.image_width < 20:
                 record.image_width = 50.0
+
+    def set_embed_url(self):
+        for record in self:
+            if record.youtube_video_url:
+                video_url = record.youtube_video_url
+                video_url = video_url.replace("watch?v=", "embed/")
+                # Regex for few of the widely used video hosting services
+                # https: // youtu.be / Dl6QrfC1v0Q
+                yt_regex = r'.*youtu.be/(.*)'
+
+                yt_match = re.search(yt_regex, video_url)
+
+                if yt_match:
+                    print("yt match")
+                    embed_url = 'https://www.youtube.com/embed/{}'.format(yt_match.groups()[0])
+                else:
+                    print("not match")
+                    embed_url = video_url
+                print("embed url = ", embed_url)
+                record.embed_url = embed_url
+                print("self.embed url = ", record.embed_url)
 
 
 class Website(models.Model):

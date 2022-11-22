@@ -197,13 +197,13 @@
                     <div id="doc-content" class="container__content">
                         <div class="docs_content_outer">
                             <div t-if="document">
-                                <t t-call="documentations.document_line">
+                                <t t-call="documentations.document_template">
                                     <t t-set="doc" t-value="document"/>
                                 </t>
                             </div>
                             <div t-else="">
                                 <t t-foreach="category.child_documents" t-as="doc">
-                                    <t t-call="documentations.document_line"/>
+                                    <t t-call="documentations.document_template"/>
                                 </t>
                             </div>
                         </div>
@@ -260,25 +260,43 @@
         </t>
     </template>
 
-    <template id="document_line">
+    <template id="document_template">
         <div t-if="doc.document_lines and doc.website_published">
             <div class="doc_header">
                 <h4><strong><t t-esc="request.website._get_translate_text(doc, myanmar)"/></strong> </h4>
             </div>
             <t t-foreach="doc.document_lines" t-as="line">
                 <div t-att-id="line.id" />
-                <div class="doc_line"
+                <div t-if="line.type == 'text'" class="doc_line"
                      t-att-style="'border-bottom: 1px solid rgba(0, 0, 0, 0.05);' if line.add_line else ''">
-                    <h5><strong>
-                        <span t-if="myanmar and line.title_myanmar" t-field="line.title_myanmar" widget="html"/>
-                        <span t-else="" t-field="line.title" widget="html"/>
+
+
+                    <h5 t-if="myanmar and line.title_myanmar != '&lt;p&gt;&lt;br&gt;&lt;/p&gt;'"><strong>
+                        <span t-field="line.title_myanmar" widget="html"/>
                     </strong></h5>
-                    <div t-if="myanmar and line.text_myanmar" class="doc_line_text" t-field="line.text_myanmar" widget="html"></div>
+                    <h5 t-else=""><strong>
+                        <span t-field="line.title" widget="html"/>
+                    </strong></h5>
+                    <div t-if="myanmar and line.text_myanmar != '&lt;p&gt;&lt;br&gt;&lt;/p&gt;'" class="doc_line_text" t-field="line.text_myanmar" widget="html"></div>
                     <div t-else="" class="doc_line_text" t-field="line.text" widget="html"></div>
                     <div t-if="line.image_1" class="doc_line_image">
                         <div t-att-style="'width: #{width}%'">
                             <span t-field="line.image_1" t-options='{"widget": "image"}' ></span>
                         </div>
+                    </div>
+                </div>
+                <div t-elif="line.type == 'youtube_video'" class="doc_line">
+                    <t t-set="url" t-value="line.embed_url" />
+<!--                    <h4><t t-esc="url" /></h4>-->
+                    <div class="mb16 d-none d-md-block ytube_video_wrapper">
+                        <iframe class="ytube_video_frame" t-att-src="url" title="YouTube video player" frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
+                        </iframe>
+                    </div>
+                    <div class="mb16 d-block d-md-none d-lg-none ytube_video_wrapper">
+                        <iframe class="ytube_video_frame" t-att-src="url" title="YouTube video player" frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
+                        </iframe>
                     </div>
                 </div>
             </t>
@@ -322,10 +340,15 @@
                         <t t-if="search_filter_doc">
                             <t t-foreach="search_filter_doc" t-as="doc">
                                 <div class="search_doc_box">
-                                    <h5><strong><a>
-                                        <span t-if="myanmar and line.title_myanmar" t-field="line.title_myanmar" widget="html"/>
-                                        <span t-else="" t-field="line.title" widget="html"/>
-                                    </a></strong> </h5>
+                                    <t t-set="raw_title" t-raw="line.title" />
+                                    <t t-set="raw_title_myanmar" t-raw="line.title_myanmar" />
+
+                                    <h5 t-if="myanmar and line.title_myanmar != '&lt;p&gt;&lt;br&gt;&lt;/p&gt;'"><strong><a>
+                                        <span t-field="line.title_myanmar" widget="html"/>
+                                    </a></strong></h5>
+                                    <h5 t-else=""><strong><a>
+                                        <span t-field="line.title" widget="html"/>
+                                    </a></strong></h5>
                                     <div t-if="myanmar and doc.text_myanmar" class="search_doc_text"
                                          t-field="doc.text_myanmar" widget="html"></div>
                                     <div t-else="" class="search_doc_text"
@@ -337,11 +360,16 @@
                             <t t-foreach="search_docs" t-as="s_doc">
                                 <t t-foreach="s_doc_value" t-as="doc">
                                     <div class="search_doc_box">
-                                        <h5><strong><a>
-                                            <span t-if="myanmar and line.title_myanmar" t-field="line.title_myanmar" widget="html"/>
-                                            <span t-else="" t-field="line.title" widget="html"/>
-                                        </a></strong> </h5>
-                                        <div t-if="myanmar and line.text_myanmar" class="search_doc_text" t-field="doc.text_myanmar"
+                                        <t t-set="raw_title" t-raw="line.title" />
+                                        <t t-set="raw_title_myanmar" t-raw="line.title_myanmar" />
+
+                                        <h5 t-if="myanmar and line.title_myanmar != '&lt;p&gt;&lt;br&gt;&lt;/p&gt;'"><strong><a>
+                                            <span t-field="line.title_myanmar" widget="html"/>
+                                        </a></strong></h5>
+                                        <h5 t-else=""><strong><a>
+                                            <span t-field="line.title" widget="html"/>
+                                        </a></strong></h5>
+                                        <div t-if="myanmar and line.text_myanmar != '&lt;p&gt;&lt;br&gt;&lt;/p&gt;'" class="search_doc_text" t-field="doc.text_myanmar"
                                              widget="html"></div>
                                         <div t-else="" class="search_doc_text" t-field="doc.text" widget="html"></div>
                                     </div>
