@@ -704,9 +704,8 @@ class WebsiteSale (WebsiteSale):
     @http.route(['/shop/checkout/select/products'], type='json', auth='public', website=True)
     def selectProduct(self, orderLineId):
         order = request.website.sale_get_order()
-
         orderLine = order.website_order_line.search([('id', '=', orderLineId)])
-
+        voucher_obj = None
         for o in order.website_order_line:
             if o.id == orderLineId:
                 if orderLine.selected_checkout == False:
@@ -723,6 +722,12 @@ class WebsiteSale (WebsiteSale):
                         'checked_amount_tax': order.checked_amount_tax,
                         'checked_amount_total': order.checked_amount_untaxed + order.checked_amount_tax,
                     })
+        for o in order.website_order_line:
+            if o.is_voucher:
+                voucher_obj = request.env['voucher.voucher'].browse(o.wk_voucher_id.id)
+                if voucher_obj and not order.check_voucher_product(order, voucher_obj):
+                    o.unlink()
+                    order.wk_coupon_value = 0
         # checked_list = request.website.get_checked_sale_order_line(order.website_order_line)
 
     @http.route(['/shop/cart'], type='http', auth="public", website=True, sitemap=False)

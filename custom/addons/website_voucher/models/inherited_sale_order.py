@@ -6,18 +6,44 @@
 #################################################################################
 from odoo import api, fields, models, _
 import logging
+from odoo.http import request
 _logger = logging.getLogger(__name__)
+
 
 class sale_order(models.Model):
 	_inherit = "sale.order"
 
-	wk_coupon_value= fields.Float(
+	wk_coupon_value = fields.Float(
 		string="Coupon Value",
 
 	)
 
 	@api.model
+	def check_voucher_product(self, order, voucher_id, product_id=None):
+
+		if voucher_id and voucher_id.applied_on == 'specific':
+			for line in order.order_line:
+				for product in voucher_id.product_ids:
+					for v in product.product_variant_ids:
+						print("variant id = ", v.id)
+						# print("p = ", p, "  voucher p = ", product)
+						print("product id = (", v.id, ")    id = (", product.id, ")")
+						if line.selected_checkout and int(v.id) == int(line.product_id.id):
+							print("### Voucher Product")
+							return True
+		else:
+			print("all products")
+			for line in order.order_line:
+				print("line = ", line.product_id.name)
+				if not line.is_voucher and line.selected_checkout:
+					print("selected")
+					return True
+		print("### no voucher product")
+		return False
+
+	@api.model
 	def _add_voucher(self, wk_order_total , voucher_dict, so_id=False):
+		print("add voucher")
 		voucher_product_id = voucher_dict['product_id']
 		voucher_value = voucher_dict['value']
 		voucher_id = voucher_dict['coupon_id']
@@ -26,6 +52,7 @@ class sale_order(models.Model):
 		voucher_val_type = voucher_dict['voucher_val_type']
 		cutomer_type = voucher_dict['customer_type']
 		total_prod_voucher_price = voucher_dict['total_prod_voucher_price']
+		print("1")
 		if not self.ids:
 			order_id = so_id
 		else:
@@ -34,9 +61,16 @@ class sale_order(models.Model):
 		result={}
 		already_exists = self.env['sale.order.line'].sudo().search([('order_id', '=', order_id), ('product_id', '=', voucher_product_id)])
 		voucher_obj = self.env['voucher.voucher'].sudo().browse(voucher_id)
+		check_voucher = self.check_voucher_product(order_obj, voucher_obj)
 		if already_exists:
 			result['status'] = False
-			result['message']	= _('You can use only one coupon per order.')
+			result['message'] = _('You can use only one coupon per order.')
+		elif not check_voucher:
+			print("condition = testing")
+			result['status'] = False
+			result['message'] = _('There is no product selected related to this voucher')
+			print("## result = ", result)
+			return result
 		else:
 			values = self._website_product_id_change(order_id, voucher_product_id, qty=1)
 			values['name'] = voucher_name
@@ -74,6 +108,7 @@ class sale_order(models.Model):
 			values['product_uom_qty'] = 1
 			values['wk_voucher_id'] = voucher_id
 			values['is_voucher'] = True
+			values['selected_checkout'] = True
 			line_id = self.env['sale.order.line'].sudo().create(values)
 			status = self.env['voucher.voucher'].sudo().redeem_voucher_create_histoy(voucher_name, voucher_id, values['price_unit'],order_id, line_id.id, 'ecommerce',order_obj.partner_id.id)
 			result['status'] = status
@@ -97,8 +132,6 @@ class SaleOrderLine(models.Model):
 				if line.wk_voucher_id:
 					self.env['voucher.voucher'].sudo().return_voucher(line.wk_voucher_id.id, line.id)
 		return super(SaleOrderLine, self).unlink()
-
-
 
 	@api.depends('product_uom_qty', 'discount', 'price_unit', 'tax_id')
 	def _compute_amount(self):

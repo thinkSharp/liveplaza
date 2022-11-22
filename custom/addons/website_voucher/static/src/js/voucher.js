@@ -7,12 +7,12 @@ odoo.define('website_voucher.website_voucher', function (require) {
 	publicWidget.registry.websiteCoupon = publicWidget.Widget.extend({
 		selector: '.oe_website_sale',
 		events: {
-			'click .wk_voucher': '_onClickApplyVocuher',
+			'click .wk_voucher': '_onClickApplyVoucher',
 			'click .copy_code': '_onClickCopyCode',
 			'keyup #voucher_8d_code': '_onKeyUpVoucherCode',
 			'change .oe_cart input.js_quantity[data-product-id]':'_onChangeUpdateVoucher'
 		},
-		_onClickApplyVocuher: function (ev) {
+		_onClickApplyVoucher: function (ev) {
 			this.ApplyVoucher();
 		},
 		ApplyVoucher() {
@@ -23,17 +23,17 @@ odoo.define('website_voucher.website_voucher', function (require) {
 					secret_code: secret_code
 				},
 			}).then(function (result) {
-				if (result['status']) {
-					$(".success_msg").css('display', 'block')
-					$(".success_msg").html(result['message']);
-					$(".success_msg").fadeOut(3000);
-					$(location).attr('href', "/shop/cart");
-				}
-				else {
-					$(".error_msg").css('display', 'block')
-					$(".error_msg").html(result['message']);
-					$(".error_msg").fadeOut(5000);
-				}
+                if (result['status']) {
+                    $(".success_msg").css('display', 'block')
+                    $(".success_msg").html(result['message']);
+                    $(".success_msg").fadeOut(3000);
+                    $(location).attr('href', "/shop/cart");
+                }
+                else {
+                    $(".error_msg").css('display', 'block')
+                    $(".error_msg").html(result['message']);
+                    $(".error_msg").fadeOut(5000);
+                }
 			});
 		},
 		_onClickCopyCode: function (ev) {
