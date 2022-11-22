@@ -157,6 +157,79 @@ odoo.define('documentations.ListController', function (require) {
     return ListController;
 });
 
+odoo.define('documentations.KanbanController', function (require) {
+    "use strict";
+    var BasicController = require('web.BasicController');
+    var Context = require('web.Context');
+    var core = require('web.core');
+    var Dialog = require('web.Dialog');
+    var Domain = require('web.Domain');
+    var view_dialogs = require('web.view_dialogs');
+    var viewUtils = require('web.viewUtils');
+
+    var _t = core._t;
+    var qweb = core.qweb;
+
+    var KanbanController = require('web.KanbanController')
+
+    KanbanController.include({
+        buttons_template: 'KanbanView.buttons',
+        
+        init: function (parent, model, renderer, params) {
+            this._super.apply(this, arguments);
+            this.on_create = params.on_create;
+            this.hasButtons = params.hasButtons;
+            this.quickCreateEnabled = params.quickCreateEnabled;
+        },
+
+        _getDocument: function(parentID) {
+            var self = this;
+            var url = window.location.hash;
+            var split = url.split('&');
+            for(var i = 0 ; i < split.length ; i++) {
+                if(split[i].includes('action')) {
+                    var get_id = split[i].split('=');
+                    if(get_id.length > 1) {
+                        var action_id = parseInt(get_id[1])
+                        if(action_id > 0) {
+                            this._rpc({
+                                route: "/user_guides/link_action",
+                                params: {
+                                    action_id: action_id,
+                                },
+                            })
+                            .then(function (result) {
+                                if(result) {
+                                    window.location.href = result;
+                                }
+                            });
+                        }
+                    }
+                }
+            }
+
+        },
+
+        renderButtons: function ($node) {
+            if (this.hasButtons && this.is_action_enabled('create')) {
+                this.$buttons = $(qweb.render(this.buttons_template, {
+                    btnClass: 'btn-primary',
+                    widget: this,
+                }));
+                this.$buttons.on('click', 'button.o-kanban-button-new', this._onButtonNew.bind(this));
+                this.$buttons.on('keydown', this._onButtonsKeyDown.bind(this));
+                this.$buttons.on('click', '.o_kanban_button_document', this._getDocument.bind(this));
+                this._updateButtons();
+                return Promise.resolve(this.$buttons.appendTo($node));
+            }
+            return Promise.resolve();
+        },
+    });
+
+    return KanbanController;
+
+    });
+
 
 //odoo.define('documentations.SwitchCompanyMenu', function(require) {
 //"use strict";

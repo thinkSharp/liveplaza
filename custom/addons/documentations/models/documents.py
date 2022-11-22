@@ -74,12 +74,13 @@ class DocumentsLine(models.Model):
     _order = "sequence"
 
     name = fields.Char(string="Name", required=True)
-    title = fields.Char(string="Title")
+    title = fields.Html(string="Title")
     text = fields.Html(string="Text body")
     name_myanmar = fields.Char(string="Myanmar Language Name")
-    title_myanmar = fields.Char(string="Myanmar Language Title")
+    title_myanmar = fields.Html(string="Myanmar Language Title")
     text_myanmar = fields.Html(string="Myanmar Language Text body")
     image_1 = fields.Image(string="Image")
+    add_line = fields.Boolean("Add a border under document line")
     sequence = fields.Float(string="Sequence", default=30)
     line_id = fields.Many2one('documents', string="Line Id")
 

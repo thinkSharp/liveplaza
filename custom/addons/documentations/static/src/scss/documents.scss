@@ -15,7 +15,7 @@
         position: fixed;
         top: 150px;
         bottom: 0;
-        width: 250px;
+        width: 230px;
         overflow: auto;
 
         display: flex;
@@ -23,7 +23,7 @@
         margin-bottom: 40px;
         margin-top: $breadcrumbs-height;
         .doc_left_nav_list{
-            padding-left: 8%;
+            padding-left: 5%;
             width: 100%;
             .doc_left_nav_header {
                 margin-bottom: 25px;
@@ -40,6 +40,7 @@
                     a {
                         color: rgba(0, 0, 0, 0.9);
                         display: block;
+                        font-size: 15px;
                     }
                 }
             }
@@ -53,12 +54,12 @@
         display: flex;
         padding: 2% 0;
         width: 100%;
-        margin-left: 260px;
-        border-left: 2px solid rgba(0, 0, 0, 0.2);
-        border-right: 2px solid rgba(0, 0, 0, 0.2);
+        margin-left: 230px;
+        border-left: 1px solid rgba(0, 0, 0, 0.15);
+        border-right: 1px solid rgba(0, 0, 0, 0.15);
         margin-right: 50px;
         .docs_content_outer {
-            padding: 0 3%;
+            padding: 0 2%;
             width: 100%;
             margin-left: 1%;
             .doc_header {
@@ -72,7 +73,7 @@
             .doc_line {
                 margin-bottom: 20px;
                 padding: 10px;
-                border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+//                 border-bottom: 1px solid rgba(0, 0, 0, 0.05);
                 .doc_line_text {
                     padding: 0 15px;
                 }
@@ -107,7 +108,7 @@
                 top: 200px;
                 position: fixed;
                 width: 30px;
-                font-size: 20px;
+                font-size: 17px;
                 background: transparent;
                 border: none;
                 .fa {
@@ -163,7 +164,7 @@
             width: 100%;
             a {
                 display: block;
-                font-size: 16px;
+                font-size: 14px;
                 color: rgba(0, 0, 0, 0.7);
                 text-decoration: none;
                 padding: 7px 10px;
@@ -189,10 +190,8 @@
     .hamburger {
         top: 205px;
         position: fixed;
-//         z-index: 999;
-//         display: block;
         width: 22px;
-        height: 25px;
+        height: 20px;
         background: transparent;
         border: none;
     }
@@ -240,13 +239,13 @@
     .hamburger.is-open .hamb-bottom {
         position: absolute;
         left: 0;
-        height: 3px;
-        width: 100%;
+        height: 2px;
+        width: 80%;
     }
     .hamburger.is-closed .hamb-top,
     .hamburger.is-closed .hamb-middle,
     .hamburger.is-closed .hamb-bottom {
-        background-color: #1a1a1a;
+        background-color: rgba(0, 0, 0, 0.6);
     }
     .hamburger.is-closed .hamb-top {
         top: 15%;
@@ -271,7 +270,7 @@
     .hamburger.is-open .hamb-top,
     .hamburger.is-open .hamb-middle,
     .hamburger.is-open .hamb-bottom {
-        background-color: #1a1a1a;
+        background-color: rgba(0, 0, 0, 0.6);
     }
     .hamburger.is-open .hamb-top,
     .hamburger.is-open .hamb-bottom {

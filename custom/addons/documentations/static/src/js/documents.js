@@ -42,8 +42,8 @@ $(document).ready(function () {
             trigger.addClass('is-open');
             left_nav_ul.removeClass('close');
             left_nav_ul.show();
-            left_nav.style.width = "250px";
-            content.style.marginLeft = "260px";
+            left_nav.style.width = "230px";
+            content.style.marginLeft = "230px";
             isClosed = false;
           }
       }
@@ -79,9 +79,9 @@ $(document).ready(function () {
                 right_nav_ul.hide();
                 navClosed = true;
             } else {
-                right_nav.style.width = "250px";
+                right_nav.style.width = "220px";
                 right_nav_ul.show();
-                content.style.marginRight = "260px";
+                content.style.marginRight = "220px";
                 navClosed = false;
             }
         }
