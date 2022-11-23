@@ -181,10 +181,12 @@
 			</tr>
 		</xpath>
 	</template>
-<!--	<template id="cart_lines" inherit_id="website_sale.cart_lines">-->
-<!--		<xpath expr="//table//tbody//tr" position="attributes">-->
-<!--			<attribute name="t-if">not line.is_voucher</attribute>-->
-<!--		</xpath>-->
-<!--	</template>-->
+
+	<!-- Remove the voucher from product line in UI -->
+	<template id="cart_lines" inherit_id="website_sale.cart_lines">
+		<xpath expr="//table//tbody//tr" position="attributes">
+			<attribute name="t-if">not line.is_voucher</attribute>
+		</xpath>
+	</template>
 
 </odoo>

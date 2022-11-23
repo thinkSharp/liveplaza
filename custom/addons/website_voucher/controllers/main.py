@@ -60,18 +60,6 @@ class website_voucher(http.Controller):
             _logger.info('-------------Exception-----%r', e)
             return request.redirect("/shop/cart/")
 
-    # Remove the voucher if there is no product in cart
-    @http.route(['/voucher/validate/cart_change'], type='json', auth="public", methods=['POST'], website=True,
-                csrf=False)
-    def cart_update_jsons(self):
-        order = request.website.sale_get_order(force_create=1)
-        if len(order.order_line) <= 2:
-            for line in order.order_line:
-                if line.is_voucher:
-                    line.sudo().unlink()
-            return True
-        return False
-
 
 class WebsiteSale(Website_Sale):
 
@@ -110,4 +98,17 @@ class WebsiteSale(Website_Sale):
             "website_sale.short_cart_summary", {
                 'website_sale_order': order,
             })
+
+        # remove voucher if the related product is deleted from cart
+        for line in order.order_line:
+            print("product = ", line.product_id.name)
+            if line.wk_voucher_id:
+                check_product = order.check_voucher_product(order, line.wk_voucher_id)
+                print("check product = ", check_product)
+                if not check_product:
+                    print("unlink voucher")
+                    line.sudo().unlink()
+                    order.wk_coupon_value = 0
+                else:
+                    print("not unlink")
         return value

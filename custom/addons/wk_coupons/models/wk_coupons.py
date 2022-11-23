@@ -449,7 +449,7 @@ class VoucherVoucher(models.Model):
 			contains = set(templ_ids) & set(self_obj.product_ids.ids)
 			if not contains:
 				result['type']		= _('ERROR')
-				result['message']	= _('This voucher is not applicable on the selected products.')
+				result['message']	= _('This voucher is not applicable on the products in cart.')
 				return result
 		if self_obj.use_minumum_cart_value and wk_order_total and wk_order_total < self_obj.minimum_cart_amount:
 			result['type']		= _('ERROR')

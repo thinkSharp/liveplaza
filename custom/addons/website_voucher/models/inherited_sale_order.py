@@ -25,20 +25,12 @@ class sale_order(models.Model):
 			for line in order.order_line:
 				for product in voucher_id.product_ids:
 					for v in product.product_variant_ids:
-						print("variant id = ", v.id)
-						# print("p = ", p, "  voucher p = ", product)
-						print("product id = (", v.id, ")    id = (", product.id, ")")
-						if line.selected_checkout and int(v.id) == int(line.product_id.id):
-							print("### Voucher Product")
+						if int(v.id) == int(line.product_id.id) and line.selected_checkout:
 							return True
 		else:
-			print("all products")
 			for line in order.order_line:
-				print("line = ", line.product_id.name)
 				if not line.is_voucher and line.selected_checkout:
-					print("selected")
 					return True
-		print("### no voucher product")
 		return False
 
 	@api.model
@@ -66,10 +58,8 @@ class sale_order(models.Model):
 			result['status'] = False
 			result['message'] = _('You can use only one coupon per order.')
 		elif not check_voucher:
-			print("condition = testing")
 			result['status'] = False
-			result['message'] = _('There is no product selected related to this voucher')
-			print("## result = ", result)
+			result['message'] = _('There is no selected product for this voucher')
 			return result
 		else:
 			values = self._website_product_id_change(order_id, voucher_product_id, qty=1)

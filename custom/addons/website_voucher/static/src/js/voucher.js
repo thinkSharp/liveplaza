@@ -26,13 +26,13 @@ odoo.define('website_voucher.website_voucher', function (require) {
                 if (result['status']) {
                     $(".success_msg").css('display', 'block')
                     $(".success_msg").html(result['message']);
-                    $(".success_msg").fadeOut(3000);
+                    $(".success_msg").fadeOut(5000);
                     $(location).attr('href', "/shop/cart");
                 }
                 else {
                     $(".error_msg").css('display', 'block')
                     $(".error_msg").html(result['message']);
-                    $(".error_msg").fadeOut(5000);
+                    $(".error_msg").fadeOut(10000);
                 }
 			});
 		},
