@@ -174,15 +174,21 @@
                         <group>
                             <field name="name" string="Name"/>
                             <field name="title" />
-                            <field name="text" string="Text"/>
                             <field name="sequence"/>
                         </group>
                         <group>
+                            <field name="type" widget="Selection"/>
+                        </group>
+                        <group attrs="{'invisible': [('type', '!=', 'youtube_video')]}">
+                            <field name="youtube_video_url"/>
+                        </group>
+                        <group attrs="{'invisible': [('type', '!=', 'text')]}">
+                            <field name="text"/>
                             <field name="name_myanmar" string="Myanmar Language Name"/>
                             <field name="title_myanmar" />
                             <field name="text_myanmar" string="Myanmar Language Text"/>
                         </group>
-                        <group>
+                        <group attrs="{'invisible': [('type', '!=', 'text')]}">
                             <field name="image_1"  widget="image" style="max-width: 256px; max-height: 256px;"/>
                             <field name="add_line" widget="boolean_button"/>
                         </group>

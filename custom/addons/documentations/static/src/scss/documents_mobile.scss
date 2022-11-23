@@ -32,7 +32,7 @@
             border: none;
             margin-left: 50px;
             width: 80%;
-            @media(max-width: 600px) { width: fit-content; }
+            @media(max-width: 500px) { width: auto; }
         }
         .container__right {
             position: absolute;
@@ -95,7 +95,7 @@
             .docs_content_outer {
                 padding: 0;
                 .doc_header {
-                    width: 90%;
+//                     width: 90%;
                     padding: 10px 5px;
                     h4 { font-size: 14px; }
                 }
