@@ -52,7 +52,7 @@
                         t-attf-src="/web/binary/company_logo"
                         alt="Logo"/>
                 </header>
-                <main>
+                <main style="margin-top: 90px;">
                     <t t-raw="0"/>
                 </main>
                 <footer t-if="not no_footer" id="bottom" data-anchor="true" class="bg-light o_footer">

@@ -79,7 +79,7 @@
                 }
                 .doc_line_image {
                     margin: 10px auto;
-                    width: 70%;
+                    width: 80%;
                     img {
                         width: 100%;
                     }
@@ -88,14 +88,15 @@
                 .ytube_video_wrapper {
                     width: 80%;
                     margin: 10px auto;
-                    @media(max-width: 1100px) { width: 100% }
+                    @media(max-width: 786px) { width: 100% }
                     .ytube_video_frame {
                         width: 100%;
                         height: 480px;
-                        @media (min-width: 787px) and (max-width: 1000px) { height: 420px; }
-                        @media (min-width: 641px) and (max-width: 786px) { height: 390px }
-                        @media (min-width: 401px) and (max-width: 640px) { height: 350px; }
-                        @media (max-width: 400px) { height: 300px; }
+                        @media (min-width: 867px) and (max-width: 1000px) { height: 300px; }
+                        @media (min-width: 787px) and (max-width: 866px) { height: 270px; }
+                        @media (min-width: 641px) and (max-width: 786px) { height: 250px }
+                        @media (min-width: 401px) and (max-width: 640px) { height: 210px; }
+                        @media (max-width: 400px) { height: 200px; }
                     }
                 }
 
