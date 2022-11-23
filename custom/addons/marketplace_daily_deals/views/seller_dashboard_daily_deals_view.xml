@@ -138,9 +138,9 @@
                                 <field name="id" invisible="1"/>
 			                    <field name="marketplace_seller_id"
 			                            required="1"
-			                            attrs="{'readonly': [('id', '=', False)]}"
+			                            attrs="{'readonly': [('id', '!=', False)]}"
 			                            string="Seller"
-			                            
+			                            groups="odoo_marketplace.marketplace_seller_group"
 			                            domain="[('seller','=',True), ('state','=','approved')]"
 			                            options="{'no_create': True}"
 			                            context="{'form_view_ref': 'odoo_marketplace.wk_seller_form_view'}"
