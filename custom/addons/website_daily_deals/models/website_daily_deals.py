@@ -472,6 +472,7 @@ class ProductPricelistItem(models.Model):
     discounted_price = fields.Float('Discounted Price', default=0.0)
     website_size_x = fields.Integer('Size X', default=2)
     website_size_y = fields.Integer('Size Y', default=2)
+    website_style_ids = fields.Many2many('product.style','product_style_pricelist_item_rel', 'pricelist_item_id', 'product_style_id', string='Styles')    
     deal_applied_on = fields.Selection([('1_product', 'Product'), ('0_product_variant', 'Product Variant')], "Apply On",
                                        default=False, required=True,
                                        help='Pricelist Item applicable on selected option')

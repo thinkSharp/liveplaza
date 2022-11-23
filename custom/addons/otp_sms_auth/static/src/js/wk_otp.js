@@ -232,42 +232,31 @@ odoo.define('otp_sms_auth.wk_otp', function (require) {
     function getLoginInput () { return $('input#login') }
     function getMobileInput () { return $('input#mobile') }
 
-    function populateLoginField (val) {
-        const login_input = getLoginInput()
-
-        login_input.val(val)
-
-        if (val) {
-            login_input.prop("readonly", true)
-        } else {
-            login_input.prop("readonly", false)
-        }
-    }
-
-    function populateMobileField (val) {
-        const mobile_input = getMobileInput()
-
-        mobile_input.val(val)
-
-        if (val) {
-            mobile_input.prop("readonly", true)
-        } else {
-            mobile_input.prop("readonly", false)
+    function populateInputWith (input, val) {
+        if (val === '') {
+            input.prop("readonly", false)
+        } else if (typeof val === 'string' || val instanceof String) {
+            input.val(val)
+            input.prop("readonly", true)
         }
     }
 
     function populateAsEmailForm () {
         const token_email = getTokenEmail()
         const token_phone = getTokenPhone()
+        const login_input = getLoginInput()
+        const mobile_input = getMobileInput()
 
-        populateLoginField(token_email)
-        populateMobileField(token_phone)
+        populateInputWith(login_input, token_email)
+        populateInputWith(mobile_input, token_phone)
     }
 
     function populateAsMobileForm () {
         const token_phone = getTokenPhone()
+        const login_input = getLoginInput()
+        const mobile_input = getMobileInput()
 
-        populateLoginField(token_phone)
-        populateMobileField(token_phone)
+        populateInputWith(login_input, token_phone)
+        populateInputWith(mobile_input, token_phone)
     }
 });
