@@ -1,4 +1,7 @@
-#document-main { margin-top: 63px; }
+#document-main {
+    margin-top: 90px;
+    @media(max-width: 767px) { margin-top: 63px; }
+}
 
 .docs_wrapper {
      .o_affix_enabled {
