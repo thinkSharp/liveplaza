@@ -1,3 +1,4 @@
+.document-main { margin-top: 63px; }\
 
 .docs_wrapper {
      .o_affix_enabled {
@@ -194,12 +195,12 @@
     }
 }
 
-@media(max-width: 310px) {
+@media(max-width: 350px) {
     #doc-nav {
         padding: 15px 0;
         .doc_logo {
             a img {
-                height: 25px;
+                height: 22px;
             }
         }
     }
