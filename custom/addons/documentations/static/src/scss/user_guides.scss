@@ -97,7 +97,8 @@ $textColor2: rgba(0, 0, 0, 0.8);
 
 .sub_guides_wrapper {
     width: 100%;
-    margin-top: $breadcrumbs-height;
+    margin-top: 63px;
+    @media(max-width: 767px) { margin-top: $breadcrumbs-height; }
     .sub_guides_header {
         background: rgba(0, 0, 0, 0.03);
         padding: 15px 5%;
