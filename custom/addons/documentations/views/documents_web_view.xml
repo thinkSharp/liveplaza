@@ -268,7 +268,7 @@
             <t t-foreach="doc.document_lines" t-as="line">
                 <div t-att-id="line.id" />
                 <div t-if="line.type == 'text'" class="doc_line"
-                     t-att-style="'border-bottom: 1px solid rgba(0, 0, 0, 0.05);' if line.add_line else ''">
+                     t-att-style="'border-bottom: 1px solid rgba(0, 0, 0, 0.05); margin-bottom: 15px;' if line.add_line else ''">
 
 
                     <h5 t-if="myanmar and line.title_myanmar != '&lt;p&gt;&lt;br&gt;&lt;/p&gt;'"><strong>
@@ -289,13 +289,23 @@
                     <t t-set="url" t-value="line.embed_url" />
 <!--                    <h4><t t-esc="url" /></h4>-->
                     <div class="mb16 d-none d-md-block ytube_video_wrapper">
-                        <iframe class="ytube_video_frame" t-att-src="url" title="YouTube video player" frameborder="0" allowfullscreen="1"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
+                        <iframe class="ytube_video_frame" t-att-src="url" title="YouTube video player" frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen="allowfullscreen"
+                                mozallowfullscreen="mozallowfullscreen"
+                                msallowfullscreen="msallowfullscreen"
+                                oallowfullscreen="oallowfullscreen"
+                                webkitallowfullscreen="webkitallowfullscreen">
                         </iframe>
                     </div>
                     <div class="mb16 d-block d-md-none d-lg-none ytube_video_wrapper">
-                        <iframe class="ytube_video_frame" t-att-src="url" title="YouTube video player" frameborder="0" allowfullscreen="1"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
+                        <iframe class="ytube_video_frame" t-att-src="url" title="YouTube video player" frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen="allowfullscreen"
+                                mozallowfullscreen="mozallowfullscreen"
+                                msallowfullscreen="msallowfullscreen"
+                                oallowfullscreen="oallowfullscreen"
+                                webkitallowfullscreen="webkitallowfullscreen">
                         </iframe>
                     </div>
                 </div>
