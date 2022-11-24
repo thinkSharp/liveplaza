@@ -1,0 +1,77 @@
+.payment-card {
+  * {
+    line-height: 1;
+  }
+
+  p {
+    margin: unset;
+  }
+
+  .payment-info {
+    .payment-name {
+      font-size: 16px;
+      color: $clr-neutral-700;
+      margin-bottom: 8px;
+    }
+  }
+
+  .payment-method, .payment-info {
+    margin-bottom: 16px;
+  }
+
+  #payment-method, #payment-memo {
+    color: $clr-neutral-900;
+  }
+
+  #payment-method {
+    font-size: 14px;
+  }
+
+  #payment-memo {
+    font-size: 12px;
+  }
+
+  .label, .payment-date {
+    font-size: 12px;
+    color: $clr-neutral-400;
+    margin-bottom: 8px;
+  }
+
+  .seller-name {
+    font-size: 20px;
+    font-weight: 400;
+    margin-bottom: 8px;
+    color: $clr-primary-400;
+  }
+
+  .payment-status {
+    padding: 4px 12px;
+    border-radius: 100vh;
+
+    &.draft {
+      background-color: $clr-neutral-200;
+      color: $clr-neutral-800;
+    }
+
+    &.requested {
+      background-color: $clr-primary-200;
+      color: $clr-primary-800;
+    }
+
+    &.posted {
+      background-color: $clr-success-200;
+      color: $clr-success-900;
+    }
+  }
+
+  .payment-amount {
+    font-size: 14px;
+
+    .value {
+      font-size: 20px;
+    }
+
+    &.cr {color: $clr-success-700;}
+    &.dr {color: $clr-error-600;}
+  }
+}

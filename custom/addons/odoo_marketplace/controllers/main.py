@@ -104,10 +104,14 @@ class AuthSignupHome(Website):
     @http.route('/web/signup', type='http', auth='public', website=True, sitemap=False)
     def web_auth_signup(self, *args, **kw):
         qcontext = self.get_auth_signup_qcontext()
-        login = qcontext.get("login")
+
+        if request.httprequest.method == 'POST':
+            qcontext = self.modify_token_to_handle_multi_guest_checkout(qcontext)
+
         if not qcontext.get('token') and not qcontext.get('signup_enabled'):
             raise werkzeug.exceptions.NotFound()
 
+        # login = qcontext.get("login")
         # if login:
         #     if not str(login).isdigit():
         #         qcontext["error"] = _("Phone number should not contain character.")
@@ -151,6 +155,22 @@ class AuthSignupHome(Website):
         response = request.render('auth_signup.signup', qcontext)
         response.headers['X-Frame-Options'] = 'DENY'
         return response
+
+    def modify_token_to_handle_multi_guest_checkout(self, qcontext):
+
+        qcontext['token'] = request.env['res.partner'].sudo().get_consolidated_token(qcontext.get('login', ''))
+
+        if qcontext.get('token'):
+            try:
+                # retrieve the user info (name, login or email) corresponding to a signup token
+                token_infos = request.env['res.partner'].sudo().signup_retrieve_info(qcontext.get('token'))
+                for k, v in token_infos.items():
+                    qcontext.setdefault(k, v)
+            except:
+                qcontext['error'] = _("Invalid signup token")
+                qcontext['invalid_token'] = True
+
+        return qcontext
 
     def validateEmail(self, email):
         regex = re.compile(r'([A-Za-z0-9]+[.-_])*[A-Za-z0-9]+@[A-Za-z0-9-]+(\.[A-Z|a-z]{2,})+')

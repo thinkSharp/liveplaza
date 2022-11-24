@@ -2,6 +2,7 @@ from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
 from odoo.addons.http_routing.models.ir_http import slug
 from odoo.http import request
+import logging, re
 
 
 class DocumentCategory(models.Model):
@@ -12,7 +13,7 @@ class DocumentCategory(models.Model):
     name = fields.Char(string=" Category Name", required=True)
     name_myanmar = fields.Char(string="Myanmar Category Name")
     display_name = fields.Char(string="Display Name", compute="_compute_display_name")
-    sequence = fields.Integer(string="Sequence", default=30)
+    sequence = fields.Float(string="Sequence", default=30)
     website_published = fields.Boolean(stirng="Published", copy=False, default=True)
     parent_id = fields.Many2one('documents.category', string="Parent Category")
     child_id = fields.One2many('documents.category', 'parent_id', 'Child Categories', readonly=True)
@@ -51,10 +52,11 @@ class Documents(models.Model):
     name_myanmar = fields.Char(string="Myanmar Document Name")
     description = fields.Text(string="Description")
     category = fields.Many2one("documents.category", string="Category", required=True)
-    sequence = fields.Integer(string="Sequence", default=30)
-    document_lines = fields.Many2many("documents.line", string="Documents Text", )
+    sequence = fields.Float(string="Sequence", default=30)
+    document_lines = fields.One2many("documents.line", "line_id", string="Documents Text", ondelete='cascade')
     website_published = fields.Boolean(stirng="Published", copy=False, default=True)
     video = fields.Binary(string="Guide Video")
+    action_id = fields.Many2many('ir.actions.act_window', string='Action')
 
     def toggle_website_published(self):
         """ Inverse the value of the field ``website_published`` on the records in ``self``. """
@@ -70,18 +72,25 @@ class Documents(models.Model):
 class DocumentsLine(models.Model):
     _name = "documents.line"
     _description = "Documents Line"
+    _order = "sequence"
 
     name = fields.Char(string="Name", required=True)
-    title = fields.Char(string="Title")
+    title = fields.Html(string="Title")
     text = fields.Html(string="Text body")
     name_myanmar = fields.Char(string="Myanmar Language Name")
-    title_myanmar = fields.Char(string="Myanmar Language Title")
+    title_myanmar = fields.Html(string="Myanmar Language Title")
     text_myanmar = fields.Html(string="Myanmar Language Text body")
     image_1 = fields.Image(string="Image")
-    # image_percent = fields.Char(string="Image Percent", required=True)
+    add_line = fields.Boolean("Add a border under document line")
+    sequence = fields.Float(string="Sequence", default=30)
+    line_id = fields.Many2one('documents', string="Line Id")
+    youtube_video_url = fields.Char("Youtube Video URL", copy=False)
+    embed_url = fields.Char(string="Embed Stream Url", compute="set_embed_url", copy=False, default="")
 
-    # sequence = fields.Integer(string="Sequence", default=30)
-    # website_published = fields.Boolean(stirng="Published", copy=False, default=True)
+    type = fields.Selection([
+        ('text', 'Text'),
+        ('youtube_video', 'Youtube Embedded Video'),
+    ], 'Type', default='text', required=True)
 
     def toggle_website_published(self):
         """ Inverse the value of the field ``website_published`` on the records in ``self``. """
@@ -90,14 +99,36 @@ class DocumentsLine(models.Model):
 
     @api.constrains('sequence')
     def _check_value(self):
-        if self.sequence <= 0:
-            raise ValidationError(_('Enter the sequence value greater than 0'))
+        for record in self:
+            if record.sequence <= 0:
+                raise ValidationError(_('Enter the sequence value greater than 0'))
 
     @api.constrains('image_width')
     def _set_image_width(self):
         for record in self:
             if record.image_1 and record.image_width < 20:
                 record.image_width = 50.0
+
+    def set_embed_url(self):
+        for record in self:
+            if record.youtube_video_url:
+                video_url = record.youtube_video_url
+                video_url = video_url.replace("watch?v=", "embed/")
+                # Regex for few of the widely used video hosting services
+                # https: // youtu.be / Dl6QrfC1v0Q
+                yt_regex = r'.*youtu.be/(.*)'
+
+                yt_match = re.search(yt_regex, video_url)
+
+                if yt_match:
+                    print("yt match")
+                    embed_url = 'https://www.youtube.com/embed/{}'.format(yt_match.groups()[0])
+                else:
+                    print("not match")
+                    embed_url = video_url
+                print("embed url = ", embed_url)
+                record.embed_url = embed_url
+                print("self.embed url = ", record.embed_url)
 
 
 class Website(models.Model):
@@ -133,6 +164,14 @@ class Website(models.Model):
         else:
             return field.name
 
+    @staticmethod
+    def _check_category_has_child(categ):
+        if categ.child_id:
+            for c in categ.child_id:
+                if c.website_published:
+                    return True
+        return False
+
     # to show breadcrumbs
     @staticmethod
     def _get_parent_categ_route(category):
@@ -154,7 +193,7 @@ class Website(models.Model):
 
     # @staticmethod
     def _get_all_breadcrumbs(self, category=None, count=0):
-        breadcrumbs_list = {'Liveplaze': '/home', 'User Guides': '/user_guides'}
+        breadcrumbs_list = {'LIVEPlaza': '/home', 'User Guides': '/user_guides'}
         if category:
             parent_route = self._get_parent_categ_route(category)
             for p in parent_route:

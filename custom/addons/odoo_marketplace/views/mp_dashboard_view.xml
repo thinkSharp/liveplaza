@@ -350,10 +350,10 @@
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">seller.payment</field>
             <field name="binding_view_types">form</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">kanban,tree,form</field>
             <field name="domain">[('seller_id','!=',False),('state','=','requested')]</field>
 
-            <field name="view_id" ref="wk_seller_payment_tree_view"/>
+            <field name="view_id" ref="wk_seller_payment_kanban_view"/>
         </record>
 
         <record id="wk_seller_payment_done_action" model="ir.actions.act_window">
@@ -361,9 +361,9 @@
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">seller.payment</field>
             <field name="binding_view_types">form</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">kanban,tree,form</field>
             <field name="domain">[('seller_id','!=',False),('state','=','posted')]</field>
-            <field name="view_id" ref="wk_seller_payment_tree_view"/>
+            <field name="view_id" ref="wk_seller_payment_kanban_view"/>
         </record>
 
          <record id="wk_seller_requested_payment__action" model="ir.actions.act_window">
@@ -381,9 +381,9 @@
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">seller.payment</field>
             <field name="binding_view_types">form</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">kanban,tree,form</field>
             <field name="domain">[('seller_id','!=',False),('state','=','confirm'),('payment_mode','=','seller_payment')]</field>
-            <field name="view_id" ref="wk_seller_payment_tree_view"/>
+            <field name="view_id" ref="wk_seller_payment_kanban_view"/>
         </record>
 
         <record id="wk_seller_payment_order_paid_action" model="ir.actions.act_window">

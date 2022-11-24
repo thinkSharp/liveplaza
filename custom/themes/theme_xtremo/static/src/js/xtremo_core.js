@@ -13,12 +13,15 @@ odoo.define('xtremo.core', function (require) {
     navText: ["<i class='fa fa-angle-right'></i>","<i class='fa fa-angle-left'></i>"],
     responsive: {
       0: {
-        items: 2.5
+        items: 2
       },
-      600: {
+      480: {
         items: 3
       },
-      1000: {
+      768: {
+        items: 4
+      },
+      1024: {
         items: 5
       }
     }

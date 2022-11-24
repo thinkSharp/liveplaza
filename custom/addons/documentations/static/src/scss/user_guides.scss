@@ -22,7 +22,7 @@ $textColor2: rgba(0, 0, 0, 0.8);
             font-size: 18px;
             font-weight: bold;
         }
-        .h2 { font-weight: bold; }
+        h2 { font-weight: bold; }
     }
     .outer_guides {
         width: 100%;
@@ -32,9 +32,12 @@ $textColor2: rgba(0, 0, 0, 0.8);
             width: 23%;
             margin-bottom: 25px;
             margin-right: 2%;
-            @media (min-width: 901px) and (max-width: 1100px) { width: 33.33%; }
-            @media (min-width: 641px) and (max-width: 900px) { width: 50%; }
-            @media (max-width: 640px) { width: 100%; }
+            @media (min-width: 901px) and (max-width: 1100px) { width: 31%; }
+            @media (min-width: 641px) and (max-width: 900px) { width: 48%; }
+            @media (max-width: 640px) {
+                width: 93%;
+                margin: 10px auto;
+             }
 
 
             .doc_main_categ {
@@ -49,9 +52,9 @@ $textColor2: rgba(0, 0, 0, 0.8);
                 color: rgba(0, 0, 0, 0.7);
                 .doc_sub_categ_outer {
                     background: white;
-                    margin: 10px 0;
+                    margin: 5px 0;
                     padding: 0 10px;
-                    a {
+                    a, span {
                         color: $textColor;
                         &:hover { opacity: 0.8; }
                     }
@@ -70,8 +73,11 @@ $textColor2: rgba(0, 0, 0, 0.8);
                         padding: 3px 5px 15px 15px;
 
                         ul {
-                            list-style: none;
+                            margin-bottom: 0px;
+                            list-style: disc;
+                            color: $textColor;
                             padding-left: 0;
+                            span { font-weight: bold; }
                         }
                     }
                 }
@@ -101,10 +107,11 @@ $textColor2: rgba(0, 0, 0, 0.8);
         }
     }
     .sub_guides_container {
+        padding: 20px 0;
         .sub_guides_body1, .sub_guides_body2 {
             display: flex;
             flex-wrap: wrap;
-            padding: 20px 5%;
+            padding: 0 5%;
 //             margin-bottom: 20px;
             color: $textColor;
         }
@@ -128,6 +135,7 @@ $textColor2: rgba(0, 0, 0, 0.8);
 
         }
         .sub_guides_body2 {
+            padding-top: 10px;
             .categ_has_child {
                 padding: 10px 2%;
                 .child_categ_outer {

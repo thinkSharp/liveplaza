@@ -42,6 +42,9 @@ odoo.define('theme.xtremo.lazy_loading', function (require) {
               else if (href.includes('/livestreams')) {
                 $ref._callProducts(href, $ref, "livestream");
               }
+              else if (href.includes('/daily/deals')) {
+                $ref._callProducts(href, $ref, "deals");
+              }
               else{
                 $ref._callProducts(href, $ref, "product");
               }
@@ -59,6 +62,9 @@ odoo.define('theme.xtremo.lazy_loading', function (require) {
             }
             else if(type == "livestream"){
                 $("#livestreams_grid tbody tr:last").after(data);
+            }
+            else if(type == "deals"){
+              $("#deals_grid tbody tr:last").after(data);
             }
             else{
                 $("#products_grid tbody tr:last").after(data);

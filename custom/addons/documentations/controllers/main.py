@@ -86,6 +86,9 @@ class UserGuides(http.Controller):
                             search_filter_doc = doc
                             search_count = len(search_filter_doc)
 
+            print("search docs = ", search_categ_group)
+            print("search filter", search_filter)
+
             values = {
                 'docs_categories': documents_categ,
                 'docs': documents,
@@ -150,3 +153,19 @@ class UserGuides(http.Controller):
             'myanmar': myanmar,
         }
         return request.render("documentations.documentations", values)
+
+    @http.route('/user_guides/link_action', type='json', auth='public', website=True)
+    def link_action_and_documents(self, action_id=None):
+        if action_id:
+            action = request.env['ir.actions.act_window'].browse(action_id)
+            print("action = ", action.name)
+            documents = request.env['documents'].sudo().search([('website_published', '=', True)])
+            print("length = ", len(documents))
+            for doc in documents:
+                for act in doc.action_id:
+                    print("doc act = ", act.name)
+                    if action_id == act.id:
+                        print("action id same = ", doc.name)
+                        url = request.website._get_documents_url(doc.category, doc=doc)
+                        print("url = ", url)
+                        return url

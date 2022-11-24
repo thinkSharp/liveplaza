@@ -878,6 +878,68 @@ class ResPartner(models.Model):
                 'target':'new',
             }
 
+    def is_associable(self):
+        for partner in self:
+            return True if not partner.user_ids else False
+
+    def merge_to(self, dist_partner):
+        for partner in self:
+            self.env['base.partner.merge.automatic.wizard']._merge((dist_partner + partner).ids, dist_partner)
+
+
+    @api.model
+    def search_by_login(self, login):
+        if Utils.is_phone_number(login):
+            return self.search([('phone', '=', login)])
+        elif Utils.is_email(login):
+            return self.search([('email', '=', login)])
+        else:
+            return None
+
+    @api.model
+    def _consolidate_partners(self, partners):
+        if len(partners) < 1:
+            return partners
+
+        primary_partner = partners[0]
+        duplicate_partners = partners[1:]
+
+        for dup_p in duplicate_partners:
+            dup_p.merge_to(primary_partner)
+
+        return primary_partner
+
+    @api.model
+    def get_consolidated_token(self, login):
+        if not login:
+            return ''
+
+        possible_partners = self.search_by_login(login)
+
+        if not possible_partners:
+            return ''
+        if len(possible_partners) < 1:
+            return ''
+        if not all(partner.is_associable() for partner in possible_partners):
+            return ''
+
+        consolidated_partner = self._consolidate_partners(possible_partners)
+        consolidated_partner.signup_prepare()
+        return consolidated_partner.signup_token
+
+
+class Utils:
+
+    @staticmethod
+    def is_phone_number(s):
+        if s.startswith('+'):
+            s = s[1:]
+        return s.isdigit()
+
+    @staticmethod
+    def is_email(s):
+        return '@' in s
+
 
 class SellerSocialMedia(models.Model):
     _description = " Model to manage sellers social media links."

@@ -2,6 +2,12 @@
 <odoo>
     <data noupdate="0">
 
+        <template id="footer_assets_frontend" inherit_id="website.assets_frontend">
+            <xpath expr="." position="inside">
+                <link rel="stylesheet" type="text/scss" href="/customizations_by_livep/static/src/css/footer.scss" />
+            </xpath>
+        </template>
+
         <!-- 'Sell' to 'Create Seller Shop'  target="_blank"-->
         <!-- <template id="sell_link_in_header_inherit" inherit_id="odoo_marketplace.sell_link_in_header">
             <xpath expr="//a[@role='menuitem']" position="replace">
@@ -44,8 +50,13 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-lg-4">
-                            <h5>Information</h5>
-                            <ul class="list-unstyled">
+                            <h5>
+                                <a class="d-lg-none collapsed" data-toggle="collapse" href="#footerInformation" role="button" aria-expanded="false" aria-controls="footerInformation">
+                                    Information <i class="fa fa-angle-down" /><i class="fa fa-angle-up" />
+                                </a>
+                                <span class="d-none d-lg-block">Information</span>
+                            </h5>
+                            <ul id="footerInformation" class="list-unstyled d-lg-block collapse">
                                 <li>
                                   <a href="/">Home</a>
                                 </li>
@@ -58,15 +69,21 @@
                                 <li t-if="not user_id._is_public()" id="o_logout">
                                   <a t-attf-href="/web/session/logout?redirect=/" >Logout</a>
                                 </li>
+                                <li>
+                                    <p>
+                                        ကျွန်တော်တို့ LIVEPlaza သည် ရောင်းသူ ဝယ်သူ တစ်နေရာထဲ တွင် အဆင်ပြေချောမွေ့ စွာ ရောင်းဝယ်နိုင်သော online platform တစ်ခု ဖြစ်ပါသည်။ ထို့ကြောင့် ပစ္စည်းရောင်းချမှု အတွက် အမှန်တကယ် တာဝန်ရှိ မှုသည် ရောင်းချသူ ၌ သာ တာဝန်ရှိပါသည်။<br></br>
+                                    </p>
+                                </li>
                             </ul>
-                            <p>
-                                ကျွန်တော်တို့ LIVEPlaza သည် ရောင်းသူ ဝယ်သူ တစ်နေရာထဲ တွင် အဆင်ပြေချောမွေ့ စွာ ရောင်းဝယ်နိုင်သော online platform တစ်ခု ဖြစ်ပါသည်။ ထို့ကြောင့် ပစ္စည်းရောင်းချမှု အတွက် အမှန်တကယ် တာဝန်ရှိ မှုသည် ရောင်းချသူ ၌ သာ တာဝန်ရှိပါသည်။<br></br>
-                            </p>
-                            <p><br></br></p>
                             </div>
                             <div class="col-lg-4 order-md-4 order-lg-4 order-4" id="connect">
-                                <h5>Connect with us</h5>
-                                <ul class="list-unstyled">
+                                <h5>
+                                    <a class="d-lg-none collapsed" data-toggle="collapse" href="#footerContactUs" role="button" aria-expanded="false" aria-controls="footerContactUs">
+                                        Connect with us <i class="fa fa-angle-down" /><i class="fa fa-angle-up" />
+                                    </a>
+                                    <span class="d-none d-lg-block">Connect with us</span>
+                                </h5>
+                                <ul id="footerContactUs" class="list-unstyled d-lg-block collapse">
                                     <li>
                                       <a href="/contactus">Contact us</a>
                                     </li>
@@ -107,8 +124,13 @@
                                 </div>
                             </div>
                             <div class="col-lg-4">
-                                <h5>Social Media</h5>
-                                <ul class="list-unstyled">
+                                <h5>
+                                    <a class="d-lg-none collapsed" data-toggle="collapse" href="#footerSocialMedia" role="button" aria-expanded="false" aria-controls="footerSocialMedia">
+                                        Social Media <i class="fa fa-angle-down" /><i class="fa fa-angle-up" />
+                                    </a>
+                                    <span class="d-none d-lg-block">Social Media</span>
+                                </h5>
+                                <ul id="footerSocialMedia" class="list-unstyled d-lg-block collapse">
                                     <li>
                                         <a class="btn-sm" href="https://www.facebook.com/LIVEPlaza">
                                             <i class="fa fa-2x fa-facebook-square"/>
@@ -144,13 +166,23 @@
             </xpath>
             <xpath expr="//div[@id='connect']" position="replace">
                 <div class="col-lg-4">
-                    <h5>Download LivePlaza App</h5>
-                    <ul class="list-unstyled">
+                    <h5>
+                        <a class="d-lg-none collapsed" data-toggle="collapse" href="#footerDownloadApp" role="button" aria-expanded="false" aria-controls="footerDownloadApp">
+                            Download Liveplaza App <i class="fa fa-angle-down" /><i class="fa fa-angle-up" />
+                        </a>
+                        <span class="d-none d-lg-block">Download Liveplaza App</span>
+                    </h5>
+                    <ul id="footerDownloadApp" class="list-unstyled d-lg-block collapse">
                         <li><i class="fa fa-android"/> <a href="https://play.google.com/store/apps/details?id=com.prod.liveplazaandroid">Get it on Google Play</a></li>
                         <!--<li><i class="fa fa-apple"/>  <a href="/contactus">Download on the App Store</a></li>-->
                     </ul>
-                    <h5>Connect with us</h5>
-                    <ul class="list-unstyled">
+                    <h5>
+                        <a class="d-lg-none collapsed" data-toggle="collapse" href="#footerContactUs" role="button" aria-expanded="false" aria-controls="footerContactUs">
+                            Connect with us <i class="fa fa-angle-down" /><i class="fa fa-angle-up" />
+                        </a>
+                        <span class="d-none d-lg-block">Connect with us</span>
+                    </h5>
+                    <ul id="footerContactUs" class="list-unstyled d-lg-block collapse">
                         <li><a href="/contactus">Contact us</a></li>
                         <li><i class="fa fa-phone"/> <span class="o_force_ltr" t-field="res_company.phone"/></li>
                         <li><i class="fa fa-envelope"/>  <span t-field="res_company.email"/></li>

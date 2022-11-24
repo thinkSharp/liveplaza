@@ -5,4 +5,42 @@
             <a href="/user_guides" class="dropdown-item" gruops="odoo_marketplace.marketplace_manager_group">User Guides</a>
         </t>
     </t>
+
+    <t t-extend="FormView.buttons">
+        <t t-jquery="button.o_form_button_create" t-operation="after">
+            <a  type="button" style="font-size: 18px; margin: 0 20px;"
+                class="o_form_button_document" accesskey="q">
+                 <i class="fa fa-question-circle"/>
+            </a>
+        </t>
+    </t>
+
+    <t t-extend="ListView.buttons">
+        <t t-jquery="button.o_list_export_xlsx" t-operation="after">
+            <a  type="button" style="font-size: 18px; margin: 0 20px;"
+               class="o_list_button_document" accesskey="q">
+                 <i class="fa fa-question-circle"/>
+            </a>
+        </t>
+    </t>
+
+    <t t-extend="KanbanView.buttons">
+        <t t-jquery="div" t-operation="append">
+            <a  type="button" style="font-size: 18px; margin: 0 20px;"
+               class="o_kanban_button_document" accesskey="q">
+                 <i class="fa fa-question-circle"/>
+            </a>
+        </t>
+    </t>
+
+    <t t-extend="SwitchCompanyMenu">
+        <t t-jquery="li.o_switch_company_menu" t-operation="before">
+            <li>
+                <a  type="button" style="font-size: 18px; margin: 10px 0;" href="/user_guides"
+                    class="o_menu_button_document" accesskey="q">
+                     <i class="fa fa-question-circle"/>
+                </a>
+            </li>
+        </t>
+    </t>
 </template>

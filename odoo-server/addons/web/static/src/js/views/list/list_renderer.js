@@ -667,13 +667,18 @@ var ListRenderer = BasicRenderer.extend({
         if (this.hasSelectors) {
             colspanBeforeAggregate += 1;
         }
-        $th.attr('colspan', colspanBeforeAggregate);
 
         if (group.isOpen && !group.groupedBy.length && (group.count > group.data.length)) {
             var $pager = this._renderGroupPager(group);
             var $lastCell = cells[cells.length - 1];
             $lastCell.append($pager);
+
+            // added by livep, note: pager do not fit in one column on mobile view, so make it 3
+            $lastCell.attr('colspan', "3")
+            colspanBeforeAggregate -= 2;
         }
+        $th.attr('colspan', colspanBeforeAggregate);
+
         if (group.isOpen && this.groupbys[groupBy]) {
             var $buttons = this._renderGroupButtons(group, this.groupbys[groupBy]);
             if ($buttons.length) {
