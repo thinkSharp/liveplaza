@@ -14,6 +14,13 @@ from dateutil.relativedelta import relativedelta
 import json
 from itertools import chain
 
+class DealsPriceListStyle(models.Model):
+    _name = "deals.pricelist.style"
+    _description = "Deals Pricelist Style"
+
+    name = fields.Char(string='Style Name', required=True)
+    html_class = fields.Char(string='HTML Classes')
+
 class ProductPricelist(models.Model):
     _inherit = "product.pricelist"
 
@@ -470,9 +477,9 @@ class ProductPricelistItem(models.Model):
     website_deals_m2o = fields.Many2one('website.deals', 'Corresponding Deal', help="My Deals", ondelete="cascade")
     actual_price = fields.Float(related='product_tmpl_id.list_price', string='Actual Price', store=True)
     discounted_price = fields.Float('Discounted Price', default=0.0)
-    website_size_x = fields.Integer('Size X', default=2)
-    website_size_y = fields.Integer('Size Y', default=2)
-    website_style_ids = fields.Many2many('product.style','product_style_pricelist_item_rel', 'pricelist_item_id', 'product_style_id', string='Styles')    
+    website_size_x = fields.Integer('Size X', default=1)
+    website_size_y = fields.Integer('Size Y', default=1)
+    website_style_ids = fields.Many2many('deals.pricelist.style', string='Styles')    
     deal_applied_on = fields.Selection([('1_product', 'Product'), ('0_product_variant', 'Product Variant')], "Apply On",
                                        default=False, required=True,
                                        help='Pricelist Item applicable on selected option')
