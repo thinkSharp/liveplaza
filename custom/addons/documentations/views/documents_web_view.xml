@@ -295,13 +295,13 @@
                     <div class="mb16 d-none d-md-block ytube_video_wrapper">
                         <iframe class="ytube_video_frame" t-att-src="url" title="YouTube video player" frameborder="0"
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowfullscreen="true">
+                                allowfullscreen="allowFullScreen">
                         </iframe>
                     </div>
                     <div class="mb16 d-block d-md-none d-lg-none ytube_video_wrapper">
                         <iframe class="ytube_video_frame" t-att-src="url" title="YouTube video player" frameborder="0"
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowfullscreen="true">
+                                allowfullscreen="allowFullScreen">
                         </iframe>
                     </div>
                 </div>
