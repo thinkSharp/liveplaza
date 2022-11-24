@@ -932,9 +932,20 @@ class WebsiteDeals(models.Model):
 
     @api.model
     def create(self, vals):
-        # if not vals.get('banner'):
-        #	raise UserError('No banner chosen, please choose a banner before saving.')
+        
+        if vals.get("marketplace_seller_id"):
+            seller_obj = self.env['res.partner'].sudo().browse(int(vals.get("marketplace_seller_id")))
+            vals["seller_name"] = seller_obj.name
+            
         return super(WebsiteDeals, self).create(vals)
+
+    def write(self, values):
+        
+        if values.get("marketplace_seller_id"):
+            seller_obj = self.env['res.partner'].sudo().browse(int(values.get("marketplace_seller_id")))
+            values["seller_name"] = seller_obj.name
+            
+        return super(WebsiteDeals, self).write(values)
 
     @api.model
     def _update_deal_items(self):
