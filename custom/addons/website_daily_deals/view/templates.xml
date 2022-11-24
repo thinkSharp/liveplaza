@@ -220,7 +220,7 @@
 							                        <div class="col-md-4">
 							                            <ol class="breadcrumb_new">
 							                                <li class="breadcrumb_new-item">
-							                                    <a href="/daily/deals">Deals</a>
+							                                    <a href="/daily/deals">Flash Sales</a>
 							                                </li>							                               
 							                                <li class="breadcrumb_new-item active">
 							                                    <span t-field="daily_deals.name" />
