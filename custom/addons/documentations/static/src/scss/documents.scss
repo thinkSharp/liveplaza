@@ -92,8 +92,7 @@ $textColor2: rgba(0, 0, 0, 0.8);
                 .ytube_video_wrapper {
                     width: 80%;
                     margin: 10px auto;
-                    display: flex;
-                    justify-content: center;
+
                     @media(max-width: 786px) { width: 100% }
                     .ytube_video_frame {
                         width: 100%;

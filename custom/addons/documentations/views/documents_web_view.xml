@@ -292,22 +292,27 @@
                     <h5 t-elif="line.title != '&lt;p&gt;&lt;br&gt;&lt;/p&gt;'"><strong>
                         <span t-field="line.title" widget="html"/>
                     </strong></h5>
-                    <div class="mb16 d-none d-md-block ytube_video_wrapper">
-                        <iframe class="ytube_video_frame" t-att-src="url" title="YouTube video player" frameborder="0"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowfullscreen="true">
+<!--                    <div class="mb16 d-none d-md-block ytube_video_wrapper">-->
+<!--                        <iframe class="ytube_video_frame" t-att-src="url" title="YouTube video player" frameborder="0"-->
+<!--                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"-->
+<!--                                allowfullscreen="true">-->
+<!--                        </iframe>-->
+<!--                        <div class="fullscreen_btn_outer">-->
+<!--                            <button class="fullscreen_button" t-attf-onclick="openFullscreen(video#{line.id});">View full screen</button>-->
+<!--                        </div>-->
+<!--                    </div>-->
+                    <div class="ytube_video_wrapper">
+                        <iframe id="yt-video" t-attf-class="ytube_video_frame #{line.id}" t-att-src="url" title="YouTube video player" frameborder="0"
+                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" rotate="true"
+                            allowfullscreen="true">
                         </iframe>
-                    </div>
-                    <div class="mb16 d-block d-md-none d-lg-none ytube_video_wrapper" >
-                        <iframe id="ytube-video" class="ytube_video_frame" t-att-src="url" title="YouTube video player" frameborder="0"
-                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
-                        </iframe>
-                        <div class="fullscreen_btn_outer"><button class="fullscreen_button" onclick="openFullscreen();">View full screen</button></div>
+                        <div class="fullscreen_btn_outer">
+                            <button class="fullscreen_button" onclick="openFullscreen(this);">View full screen</button>
+                        </div>
                     </div>
                     <script>
-                        var elem = document.getElementById("ytube-video");
-
-                        function openFullscreen() {
+                        function openFullscreen(ev) {
+                            elem = document.getElementById('yt-video');
                           if (elem.requestFullscreen) {
                             elem.requestFullscreen();
                           } else if (elem.webkitRequestFullscreen) { /* Safari */
