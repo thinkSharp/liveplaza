@@ -53,6 +53,7 @@ $(document).ready(function () {
                 trigger.addClass('is-closed');
                 left_nav.style.width = "50px";
                 left_nav.style.minWidth = "50px";
+                left_nav.style.zIndex = "1";
                 left_nav_ul.hide();
                 $('#doc-right-nav').show();
                 isClosed = true;
@@ -62,6 +63,7 @@ $(document).ready(function () {
                 left_nav_ul.removeClass('close');
                 left_nav_ul.show();
                 left_nav.style.width = "100%";
+                left_nav.style.zIndex = "999";
                 $('#doc-right-nav').hide();
 //                left_nav.style.maxWidth = "100%";
 
@@ -89,10 +91,12 @@ $(document).ready(function () {
             if (navClosed == false) {
                 right_nav.style.width = "45px";
                 content.style.marginRight = "45px";
+                right_nav.style.zIndex = "1";
                 right_nav_ul.hide();
                 navClosed = true;
             } else {
                 right_nav.style.width = "100%";
+                right_nav.style.zIndex = "999";
                 right_nav_ul.show();
                 navClosed = false;
             }
@@ -121,4 +125,5 @@ $(document).ready(function () {
         }
     });
 });
+
 

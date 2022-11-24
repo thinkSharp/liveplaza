@@ -105,7 +105,7 @@
                         <h4><strong><t t-esc="sub_category.name"/></strong></h4>
                     </div>
                     <div class="sub_guides_container">
-                        <div class="sub_guides_body1">
+                        <div t-if="sub_category.child_id" class="sub_guides_body1">
                             <t t-foreach="sub_category.child_id" t-as="categ">
                                 <t t-if="not categ.child_id and categ.website_published">
                                     <div class="categ_no_child categ_constant">
@@ -293,18 +293,22 @@
                         <span t-field="line.title" widget="html"/>
                     </strong></h5>
                     <div class="mb16 d-none d-md-block ytube_video_wrapper">
-                        <iframe width="100%" class="ytube_video_frame" t-att-src="url" title="YouTube video player" frameborder="0"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowfullscreen="true">
+                        <iframe width="100%" height="300" class="ytube_video_frame" t-att-src="url" title="YouTube video player" frameborder="0"
+                                allowfullscreen="false">
                         </iframe>
                     </div>
                     <div class="mb16 d-block d-md-none d-lg-none ytube_video_wrapper">
-                        <iframe width="100%" class="ytube_video_frame" t-att-src="url" title="YouTube video player" frameborder="0"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowfullscreen="true">
+                        <iframe width="500" height="250" t-att-src="url" title="YouTube video player" frameborder="0"
+                                allowfullscreen="false">
                         </iframe>
                     </div>
                 </div>
+                <script>
+                    var player;
+                    function youTubePlayer() {
+                        player = new YT.player('ytplayer', {height:
+                    }
+                </script>
             </t>
         </div>
     </template>
