@@ -306,22 +306,22 @@
                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" rotate="true"
                             allowfullscreen="true">
                         </iframe>
-                        <div class="fullscreen_btn_outer">
-                            <button class="fullscreen_button" onclick="openFullscreen(this);">View full screen</button>
-                        </div>
+<!--                        <div class="fullscreen_btn_outer">-->
+<!--                            <button class="fullscreen_button" onclick="openFullscreen(this);">View full screen</button>-->
+<!--                        </div>-->
                     </div>
-                    <script>
-                        function openFullscreen(ev) {
-                            elem = document.getElementById('yt-video');
-                          if (elem.requestFullscreen) {
-                            elem.requestFullscreen();
-                          } else if (elem.webkitRequestFullscreen) { /* Safari */
-                            elem.webkitRequestFullscreen();
-                          } else if (elem.msRequestFullscreen) { /* IE11 */
-                            elem.msRequestFullscreen();
-                          }
-                        }
-                    </script>
+<!--                    <script>-->
+<!--                        function openFullscreen(ev) {-->
+<!--                            elem = document.getElementById('yt-video');-->
+<!--                          if (elem.requestFullscreen) {-->
+<!--                            elem.requestFullscreen();-->
+<!--                          } else if (elem.webkitRequestFullscreen) { /* Safari */-->
+<!--                            elem.webkitRequestFullscreen();-->
+<!--                          } else if (elem.msRequestFullscreen) { /* IE11 */-->
+<!--                            elem.msRequestFullscreen();-->
+<!--                          }-->
+<!--                        }-->
+<!--                    </script>-->
                 </div>
             </t>
         </div>
