@@ -16,7 +16,7 @@ def random_phone():
 
 class TestAssociableToken_MultiPartner(TransactionCase):
   
-  def test_00_consolidate_if_credential_match_multiple_associable_partners(self):
+  def test_00_consolidation_has_no_most_three_partner_limit(self):
     email = random_email()
     phone = random_phone()
     Partner = self.env['res.partner']
@@ -25,9 +25,19 @@ class TestAssociableToken_MultiPartner(TransactionCase):
       'email': email
     })
     Partner.create({
-      'name': "John Doe Duplicate",
+      'name': "John Doe Duplicate 1",
       'email': email,
-      'phone': phone 
+      'phone': phone
+    })
+    Partner.create({
+      'name': "John Doe Duplicate 2",
+      'email': email,
+      'phone': phone
+    })
+    Partner.create({
+      'name': "John Doe Duplicate 3",
+      'email': email,
+      'phone': phone
     })
 
     token = Partner.get_consolidated_token(email)

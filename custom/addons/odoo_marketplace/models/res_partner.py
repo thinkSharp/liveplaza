@@ -882,6 +882,10 @@ class ResPartner(models.Model):
         for partner in self:
             return True if not partner.user_ids else False
 
+    def merge_to(self, dist_partner):
+        for partner in self:
+            self.env['base.partner.merge.automatic.wizard']._merge((dist_partner + partner).ids, dist_partner)
+
 
     @api.model
     def search_by_login(self, login):
@@ -894,12 +898,16 @@ class ResPartner(models.Model):
 
     @api.model
     def _consolidate_partners(self, partners):
-        if len(partners) > 1:
-            primary_partner = partners[0]
-            self.env['base.partner.merge.automatic.wizard']._merge(partners.ids, primary_partner)
-            return primary_partner
-        else:
+        if len(partners) < 1:
             return partners
+
+        primary_partner = partners[0]
+        duplicate_partners = partners[1:]
+
+        for dup_p in duplicate_partners:
+            dup_p.merge_to(primary_partner)
+
+        return primary_partner
 
     @api.model
     def get_consolidated_token(self, login):

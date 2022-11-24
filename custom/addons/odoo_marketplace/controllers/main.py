@@ -104,11 +104,14 @@ class AuthSignupHome(Website):
     @http.route('/web/signup', type='http', auth='public', website=True, sitemap=False)
     def web_auth_signup(self, *args, **kw):
         qcontext = self.get_auth_signup_qcontext()
-        qcontext = self.modify_token_for_multi_guest_checkout(qcontext)
-        login = qcontext.get("login")
+
+        if request.httprequest.method == 'POST':
+            qcontext = self.modify_token_to_handle_multi_guest_checkout(qcontext)
+
         if not qcontext.get('token') and not qcontext.get('signup_enabled'):
             raise werkzeug.exceptions.NotFound()
 
+        # login = qcontext.get("login")
         # if login:
         #     if not str(login).isdigit():
         #         qcontext["error"] = _("Phone number should not contain character.")
@@ -153,7 +156,7 @@ class AuthSignupHome(Website):
         response.headers['X-Frame-Options'] = 'DENY'
         return response
 
-    def modify_token_for_multi_guest_checkout(self, qcontext):
+    def modify_token_to_handle_multi_guest_checkout(self, qcontext):
 
         qcontext['token'] = request.env['res.partner'].sudo().get_consolidated_token(qcontext.get('login', ''))
 
