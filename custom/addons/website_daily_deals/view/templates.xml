@@ -83,7 +83,7 @@
 												
 													<div class="d-flex justify-content-between aline-items-center pt8">
 														<div class="d-flex align-items-center">													
-															<h2 t-field="deal.name" class="deal_name text-uppercase">Deal Name</h2>
+															<h2 t-field="deal.name" class="deal_name text-uppercase">Flash Sale Name</h2>
 														</div>
 														<div class="countdown d-flex align-items-center">
 															<ul class="deal_countdown_timer deal_name">
@@ -231,7 +231,7 @@
 		
 												<div class="d-flex justify-content-between aline-items-center pt8">
 													<div class="d-flex align-items-center">
-														<h2 t-field="deal.name" class="deal_name text-uppercase">Deal Name</h2>
+														<h2 t-field="deal.name" class="deal_name text-uppercase">Flash Sale Name</h2>
 													</div>
 													<div class="countdown d-flex align-items-center">
 														<ul class="deal_countdown_timer deal_name">
@@ -285,41 +285,30 @@
 														</t>
 														<t t-else="">
 															<!-- Grid View -->
-<!--															<div t-if="bins" class="o_wsale_products_grid_table_wrapper">-->
-<!--								                                <table class="table table-borderless m-0" t-att-data-ppg="ppg" t-att-data-ppr="ppr">-->
-<!--								                                    <colgroup t-ignore="true">-->
-<!--								                                        Force the number of columns (useful when only one row of (x < ppr) products) -->-->
-<!--								                                        <col t-foreach="ppr" t-as="p"/>-->
-<!--								                                    </colgroup>-->
-<!--								                                    <tbody>-->
-<!--								                                        <tr t-foreach="bins" t-as="tr_product">-->
-<!--								                                            <t t-foreach="tr_product" t-as="td_product">-->
-<!--								                                                <t t-if="td_product">-->
-<!--								                                                    <t t-set="deal_item" t-value="td_product['product']" />-->
-<!--								                                                    <td t-att-colspan="td_product['x'] != 1 and td_product['x']"-->
-<!--								                                                        t-att-rowspan="td_product['y'] != 1 and td_product['y']"-->
-<!--								                                                        t-attf-class="oe_product #{td_product['class']}">-->
-<!--								                                                        <div t-attf-class="o_wsale_product_grid_wrapper o_wsale_product_grid_wrapper_#{td_product['x']}_#{td_product['y']}">-->
-<!--								                                                          	<t t-call="website_daily_deals.deal_product_template_detail"/>-->
-<!--								                                                        </div>-->
-<!--								                                                    </td>-->
-<!--								                                                </t>-->
-<!--								                                                <td t-else=""/>-->
-<!--								                                            </t>-->
-<!--								                                        </tr>-->
-<!--								                                    </tbody>-->
-<!--								                                </table>-->
-<!--								                            </div>-->
-								                            
-															<div t-if="bins" class="deals_grid_view row m-0">
-																<t t-foreach="bins" t-as="bin_item">
-																	<t t-foreach="bin_item" t-as="bin_item2">
-																		<t t-if="bin_item2">
-	                                                        				<t t-set="deal_item" t-value="bin_item2['product']" />																			
-																			<t t-call="website_daily_deals.deal_product_template_detail"/>
-																		</t>
-																	</t>
-																</t>
+															<div class="deals_grid_view row m-0" id="deals_grid">
+								                                <div t-if="bins">
+								                                    <table class="table table-borderless m-0" t-att-data-ppg="ppg" t-att-data-ppr="ppr">
+								                                        <colgroup t-ignore="true">
+								                                            <!-- Force the number of columns (useful when only one row of (x < ppr) products) -->
+								                                            <col t-foreach="ppr" t-as="p"/>
+								                                        </colgroup>
+								                                        <tbody>
+								                                            <tr t-foreach="bins" t-as="tr_product">
+								                                                <t t-foreach="tr_product" t-as="td_product">
+								                                                    <t t-if="td_product">
+								                                                        <t t-set="deal_item" t-value="td_product['product']" />
+								                                                        <td t-att-colspan="td_product['x'] != 1 and td_product['x']"
+								                                                            t-att-rowspan="td_product['y'] != 1 and td_product['y']"
+								                                                            t-attf-class="oe_product #{td_product['class']}">
+								                                                            <t t-call="website_daily_deals.deal_product_template_detail"/>
+								                                                        </td>
+								                                                    </t>
+								                                                    <td t-else=""/>
+								                                                </t>
+								                                            </tr>
+								                                        </tbody>
+								                                    </table>
+								                                </div>
 															</div>
 															<div t-if="bins" class="products_pager form-inline justify-content-center mt-3 mb-3">
 													            <div id="wk_loader" t-att-category="category.id if category else 'none'"><span />
@@ -361,16 +350,19 @@
 		</template>
 
 	    <template id="wk_lazy_list_deals_item">
-			<div t-if="bins" class="deals_grid_view row m-0">
-				<t t-foreach="bins" t-as="bin_item">
-					<t t-foreach="bin_item" t-as="bin_item2">
-						<t t-if="bin_item2">
-            				<t t-set="deal_item" t-value="bin_item2['product']" />																			-->
-							<t t-call="website_daily_deals.deal_product_template_detail"/>
-						</t>
-					</t>
-				</t>
-			</div>
+            <tr t-foreach="bins" t-as="tr_product">
+                <t t-foreach="tr_product" t-as="td_product">
+                    <t t-if="td_product">
+                        <t t-set="deal_item" t-value="td_product['product']" />
+                        <td t-att-colspan="td_product['x'] != 1 and td_product['x']"
+                            t-att-rowspan="td_product['y'] != 1 and td_product['y']"
+                            t-attf-class="oe_product #{td_product['class']}">
+                            <t t-call="website_daily_deals.deal_product_template_detail"/>
+                        </td>
+                    </t>
+                    <td t-else=""/>
+                </t>
+            </tr>
 	    </template>
 
 		<template id="deal_product_template" name="Website Daily Deal Product Template">

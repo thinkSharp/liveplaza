@@ -34,6 +34,7 @@ class WebsiteDailyDeals(WebsiteSale):
 		if deal:
 			deal.set_to_expired()
 		return  deal and deal.state == 'expired'
+	
 	@http.route([
 		'''/daily/deals/<model("website.deals"):deal>''',
         '''/daily/deals/<model("website.deals"):deal>/page/<int:page>'''
@@ -42,7 +43,7 @@ class WebsiteDailyDeals(WebsiteSale):
 		if not ppg:
 			ppg = request.env['website'].get_current_website().shop_ppg or 20
 
-		PPR = request.env['website'].get_current_website().shop_ppr or 5
+		PPR = 5
 
 		if ppg:
 			try:
@@ -53,9 +54,6 @@ class WebsiteDailyDeals(WebsiteSale):
 		else:
 			ppg = SPG
 
-		#domain = self._get_seller_shop_search_domain(search)
-		#keep = QueryURL('/daily/deals', search=search)
-
 		url = "/daily/deals"
 		if deal:
 			url = "/daily/deals/%s" % slug(deal)
@@ -63,16 +61,10 @@ class WebsiteDailyDeals(WebsiteSale):
 			item_list = []
 			for data in items:
 				item_list.append(data.id)
-			items = request.env['product.pricelist.item'].search([('id', 'in', item_list)])			
-        	
+			items = request.env['product.pricelist.item'].search([('id', 'in', item_list)])	
         	
 		if search:
 			post["search"] = search
-
-		#seller_shop_obj = request.env['seller.shop']
-		#seller_shop_count = seller_shop_obj.sudo().search_count(domain)
-		#pager = request.website.pager(url=url, total=seller_shop_count, page=page, step=ppg, scope=7, url_args=post)
-		#seller_shops = seller_shop_obj.sudo().search(domain, limit=ppg, offset=pager['offset'], order=self._get_search_order(post))
 
 		product_count = len(items)
 		pager = request.website.pager(url=url, total=product_count, page=page, step=ppg, scope=7, url_args=post)
