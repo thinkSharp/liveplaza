@@ -107,10 +107,11 @@ $textColor2: rgba(0, 0, 0, 0.8);
         }
     }
     .sub_guides_container {
+        padding: 20px 0;
         .sub_guides_body1, .sub_guides_body2 {
             display: flex;
             flex-wrap: wrap;
-            padding: 20px 5%;
+            padding: 0 5%;
 //             margin-bottom: 20px;
             color: $textColor;
         }
@@ -134,6 +135,7 @@ $textColor2: rgba(0, 0, 0, 0.8);
 
         }
         .sub_guides_body2 {
+            padding-top: 10px;
             .categ_has_child {
                 padding: 10px 2%;
                 .child_categ_outer {

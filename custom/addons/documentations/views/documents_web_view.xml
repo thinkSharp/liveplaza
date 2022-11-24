@@ -105,7 +105,7 @@
                         <h4><strong><t t-esc="sub_category.name"/></strong></h4>
                     </div>
                     <div class="sub_guides_container">
-                        <div t-if="sub_category.child_id" class="sub_guides_body1">
+                        <div class="sub_guides_body1">
                             <t t-foreach="sub_category.child_id" t-as="categ">
                                 <t t-if="not categ.child_id and categ.website_published">
                                     <div class="categ_no_child categ_constant">
@@ -295,15 +295,28 @@
                     <div class="mb16 d-none d-md-block ytube_video_wrapper">
                         <iframe class="ytube_video_frame" t-att-src="url" title="YouTube video player" frameborder="0"
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowfullscreen="allowFullScreen">
+                                allowfullscreen="true">
                         </iframe>
                     </div>
-                    <div class="mb16 d-block d-md-none d-lg-none ytube_video_wrapper">
-                        <iframe class="ytube_video_frame" t-att-src="url" title="YouTube video player" frameborder="0"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowfullscreen="allowFullScreen">
+                    <div class="mb16 d-block d-md-none d-lg-none ytube_video_wrapper" >
+                        <iframe id="ytube-video" class="ytube_video_frame" t-att-src="url" title="YouTube video player" frameborder="0"
+                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
                         </iframe>
+                        <div class="fullscreen_btn_outer"><button class="fullscreen_button" onclick="openFullscreen();">View full screen</button></div>
                     </div>
+                    <script>
+                        var elem = document.getElementById("ytube-video");
+
+                        function openFullscreen() {
+                          if (elem.requestFullscreen) {
+                            elem.requestFullscreen();
+                          } else if (elem.webkitRequestFullscreen) { /* Safari */
+                            elem.webkitRequestFullscreen();
+                          } else if (elem.msRequestFullscreen) { /* IE11 */
+                            elem.msRequestFullscreen();
+                          }
+                        }
+                    </script>
                 </div>
             </t>
         </div>
