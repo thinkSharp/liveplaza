@@ -208,7 +208,8 @@
 							</div>
 						</section>
 						<section>
-							<div class="container">
+							<div class="deals_detail_container">
+								<div class='deals_detail_main_row'>
 									<div class='deal_main_row' t-foreach="daily_deals" t-as="deal">	
 											<div t-attf-class="col-12 pt16 pb16 deal_main_div #{'blur' if deal.state_after_expiration()== 'blur' else ''}" t-if="deal.state_after_expiration()!= 'delete'" >
 												<input name="deal_id" type="hidden" t-att-value="deal.id"/>
@@ -342,6 +343,7 @@
 												</div>
 											</div>
 									</div>
+								</div>		
 							</div>
 						</section>
 					<div class="oe_structure mb32"/>

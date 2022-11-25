@@ -455,3 +455,82 @@
         }
     }
 }
+
+
+.deals_detail_container {
+    width: 100%;
+    background: white;
+    font-family: Roboto;
+    padding: 30px 20px;
+
+    .deals_detail_main_row {
+        table {
+            tr {
+                display: flex;
+                flex-wrap: wrap;
+                td {
+                    padding: 10px;
+                    width: 25%;
+                }
+            }
+        }
+
+
+    }
+}
+
+@media (max-width: 1280px) {
+    .deals_detail_container {
+        .deals_detail_main_row {
+            table {
+                tr {
+                    td {
+                        width: 25%;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 876px) {
+    .deals_detail_container {
+        .deals_detail_main_row {
+            table {
+                tr {
+                    td {
+                        width: 50%;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 576px) {
+    .deals_detail_container {
+        .deals_detail_main_row {
+            table {
+                tr {
+                    td {
+                        width: 75%;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 420px) {
+    .deals_detail_container {
+        .deals_detail_main_row {
+            table {
+                tr {
+                    td {
+                        width: 100%;
+                    }
+                }
+            }
+        }
+    }
+}
