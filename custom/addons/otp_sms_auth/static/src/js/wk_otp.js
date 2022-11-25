@@ -33,6 +33,7 @@ odoo.define('otp_sms_auth.wk_otp', function (require) {
                     $('input#mobile').val(mobile_value);
                 });
             }
+            populateAsEmailForm()
         }
         else {
             $('label[for=phone]').show();
@@ -43,6 +44,7 @@ odoo.define('otp_sms_auth.wk_otp', function (require) {
             $('input[for=signup_login]').change(function() {
                 $('input#mobile').val($('input[for=signup_login]').val());
             });
+            populateAsMobileForm()
         }
 
         $('input:radio[name="radio-register"]').change(function() {
@@ -61,6 +63,7 @@ odoo.define('otp_sms_auth.wk_otp', function (require) {
                         $('input#mobile').val(mobile_value);
                     });
                 }
+                populateAsEmailForm()
 
             } else if ($(this).val() == 'radiomobile') {
                 $('label[for=phone]').show();
@@ -75,6 +78,7 @@ odoo.define('otp_sms_auth.wk_otp', function (require) {
                         $('input#mobile').val($('input[for=signup_login]').val());
                     });
                 }
+                populateAsMobileForm()
 
             }
         });
@@ -221,5 +225,46 @@ odoo.define('otp_sms_auth.wk_otp', function (require) {
             }
         }, 1000);
         // session.setCounterInterval(x);
+    }
+
+    function getTokenEmail () { return $('#token-email').val() }
+    function getTokenPhone () { return $('#token-phone').val() }
+    function getLoginInput () { return $('input#login') }
+    function getMobileInput () { return $('input#mobile') }
+
+    function populateLoginInputWith (val) {
+        const login_input = getLoginInput()
+
+        if (val === '') {
+            login_input.prop("readonly", false)
+        } else if (typeof val === 'string' || val instanceof String) {
+            login_input.val(val)
+            login_input.prop("readonly", true)
+        }
+    }
+
+    function populateMobileInputWith (val) {
+        const mobile_input = getMobileInput()
+
+        if (val === '') {
+            mobile_input.prop("readonly", false)
+        } else if (typeof val === 'string' || val instanceof String) {
+            mobile_input.val(val)
+        }
+    }
+
+    function populateAsEmailForm () {
+        const token_email = getTokenEmail()
+        const token_phone = getTokenPhone()
+
+        populateLoginInputWith(token_email)
+        populateMobileInputWith(token_phone)
+    }
+
+    function populateAsMobileForm () {
+        const token_phone = getTokenPhone()
+
+        populateLoginInputWith(token_phone)
+        populateMobileInputWith(token_phone)
     }
 });

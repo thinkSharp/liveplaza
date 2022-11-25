@@ -86,6 +86,9 @@ class UserGuides(http.Controller):
                             search_filter_doc = doc
                             search_count = len(search_filter_doc)
 
+            print("search docs = ", search_categ_group)
+            print("search filter", search_filter)
+
             values = {
                 'docs_categories': documents_categ,
                 'docs': documents,

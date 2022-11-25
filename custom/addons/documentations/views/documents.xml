@@ -57,8 +57,8 @@
                         </group>
                         <notebook>
                             <page string="Document Lines">
-                                <field name="document_lines" widget="section_and_note_one2many">
-                                    <tree string="Document Lines" editable="bottom">
+                                <field name="document_lines" widget="section_and_note_one2many" mode="tree,form">
+                                    <tree string="Document Lines">
                                         <field name="name"/>
                                         <field name="title"/>
                                         <field name="text" optional="hide"/>
@@ -70,18 +70,6 @@
                                 </field>
                             </page>
                         </notebook>
-<!--                        <noteobok>-->
-<!--                            <page string="Document Lines" name="document_lines">-->
-<!--                                <field name="document_lines" widget="section_and_note_one2many" mode="tree">-->
-<!--&lt;!&ndash;                                    <form></form>&ndash;&gt;-->
-<!--                                    <tree string="Document Lines" editable="bottom">-->
-<!--                                        <field name="name" />-->
-<!--                                        <field name="title" />-->
-<!--                                        <field name="sequence"/>-->
-<!--                                    </tree>-->
-<!--                                </field>-->
-<!--                            </page>-->
-<!--                        </noteobok>-->
                     </sheet>
                 </form>
             </field>
@@ -97,7 +85,6 @@
                     <field name="name" />
                     <field name="display_name"/>
                     <field name="parent_id"/>
-                    <field name="child_id" />
                     <field name="sequence"/>
                     <field name="website_published"/>
                 </tree>
@@ -138,9 +125,6 @@
                             <field name="name_myanmar"/>
                             <field name="parent_id"/>
                             <field name="sequence" />
-                        </group>
-                        <group>
-                            <field name="child_documents" widget="one2many_list" />
                         </group>
                     </sheet>
                 </form>
@@ -190,16 +174,23 @@
                         <group>
                             <field name="name" string="Name"/>
                             <field name="title" />
-                            <field name="text" string="Text"/>
                             <field name="sequence"/>
                         </group>
                         <group>
+                            <field name="type" widget="Selection"/>
+                        </group>
+                        <group attrs="{'invisible': [('type', '!=', 'youtube_video')]}">
+                            <field name="youtube_video_url"/>
+                        </group>
+                        <group attrs="{'invisible': [('type', '!=', 'text')]}">
+                            <field name="text"/>
                             <field name="name_myanmar" string="Myanmar Language Name"/>
                             <field name="title_myanmar" />
                             <field name="text_myanmar" string="Myanmar Language Text"/>
                         </group>
-                        <group>
+                        <group attrs="{'invisible': [('type', '!=', 'text')]}">
                             <field name="image_1"  widget="image" style="max-width: 256px; max-height: 256px;"/>
+                            <field name="add_line" widget="boolean_button"/>
                         </group>
                     </sheet>
                 </form>

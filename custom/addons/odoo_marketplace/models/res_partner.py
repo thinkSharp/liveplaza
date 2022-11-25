@@ -882,6 +882,10 @@ class ResPartner(models.Model):
         for partner in self:
             return True if not partner.user_ids else False
 
+    def merge_to(self, dist_partner):
+        for partner in self:
+            self.env['base.partner.merge.automatic.wizard']._merge((dist_partner + partner).ids, dist_partner)
+
 
     @api.model
     def search_by_login(self, login):
@@ -893,21 +897,35 @@ class ResPartner(models.Model):
             return None
 
     @api.model
-    def get_associable_partner(self, login):
-        partner = self.search_by_login(login)
-        if partner and partner.is_associable():
-            return partner
-        else:
-            return None
+    def _consolidate_partners(self, partners):
+        if len(partners) < 1:
+            return partners
+
+        primary_partner = partners[0]
+        duplicate_partners = partners[1:]
+
+        for dup_p in duplicate_partners:
+            dup_p.merge_to(primary_partner)
+
+        return primary_partner
 
     @api.model
-    def get_associable_token(self, login):
-        associable_partner = self.get_associable_partner(login)
-        if associable_partner:
-            associable_partner.signup_prepare()
-            return associable_partner.signup_token
-        else:
+    def get_consolidated_token(self, login):
+        if not login:
             return ''
+
+        possible_partners = self.search_by_login(login)
+
+        if not possible_partners:
+            return ''
+        if len(possible_partners) < 1:
+            return ''
+        if not all(partner.is_associable() for partner in possible_partners):
+            return ''
+
+        consolidated_partner = self._consolidate_partners(possible_partners)
+        consolidated_partner.signup_prepare()
+        return consolidated_partner.signup_token
 
 
 class Utils:

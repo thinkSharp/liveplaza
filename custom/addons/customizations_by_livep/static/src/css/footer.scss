@@ -1,0 +1,7 @@
+.collapsed > .fa-angle-up {
+  display: none;
+}
+
+:not(.collapsed) > .fa-angle-down {
+  display: none;
+}

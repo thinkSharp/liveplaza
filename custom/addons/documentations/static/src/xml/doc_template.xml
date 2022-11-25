@@ -24,6 +24,15 @@
         </t>
     </t>
 
+    <t t-extend="KanbanView.buttons">
+        <t t-jquery="div" t-operation="append">
+            <a  type="button" style="font-size: 18px; margin: 0 20px;"
+               class="o_kanban_button_document" accesskey="q">
+                 <i class="fa fa-question-circle"/>
+            </a>
+        </t>
+    </t>
+
     <t t-extend="SwitchCompanyMenu">
         <t t-jquery="li.o_switch_company_menu" t-operation="before">
             <li>

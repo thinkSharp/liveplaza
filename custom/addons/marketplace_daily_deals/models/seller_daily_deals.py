@@ -26,10 +26,13 @@ class WebsiteDeals(models.Model):
     def _set_seller_id(self):
         user_obj = self.env['res.users'].sudo().browse(self._uid)
         if user_obj.partner_id and user_obj.partner_id.seller:
-            return user_obj.partner_id.id
+            if not user_obj.has_group('base.group_system'):
+                return user_obj.partner_id.id
+            else:
+                return self.env['res.partner']
         return self.env['res.partner']
 
-    marketplace_seller_id = fields.Many2one("res.partner", string="Seller", copy=False) #default=_set_seller_id,
+    marketplace_seller_id = fields.Many2one("res.partner", string="Seller", default=_set_seller_id, copy=False) #default=_set_seller_id,
 
 class product_pricelist_item(models.Model):
     _inherit = 'product.pricelist.item'

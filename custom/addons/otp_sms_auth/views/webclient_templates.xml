@@ -25,6 +25,9 @@
                 <label for="phone" class="control-label" style="">Mobile Number</label>
             </div>
 
+            <input type="hidden" t-att-value="email" id="token-email" />
+            <input type="hidden" t-att-value="phone" id="token-phone" />
+
         </xpath>
     </template>
 
