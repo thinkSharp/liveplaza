@@ -9,67 +9,99 @@
 		  <link rel="stylesheet" href="/website_voucher/static/src/css/voucher.css"/>
 		</xpath>
 	</template>
-	<template id="coupon_modal">
 
+	<template id="coupon_modal">
 		<div id="open_vouchers_modal" class="modal fade" role="dialog">
-		  <div class="modal-dialog modal-md">
-			<div class="modal-content">
-			  <div class="modal_heading">
-				<span style=";margin-left:40px;">AVAILABLE COUPONS</span>
-				<button type="" style=";margin-top:5px; border:none"  class="btn btn-default pull-right" data-dismiss="modal">X</button>
-			  </div>
-			  <div class="modal-body wk_modal" style="clear:both;background-color:hsla(285, 6%, 85%, 0.45)">
-				<t t-set="voucher_ids" t-value="website.wk_get_customer_vouchers()"/>
-				<t t-foreach="voucher_ids" t-as="voucher_id">
-				  <t t-set="remained_voucher" t-value="website.get_remained_voucher_value(voucher_id)"/>
-				  <div class="voucher">
-					<div class="voucher_code">
-					  <span  style="margin-left:60px;" t-esc="voucher_id.voucher_code"/>
-					  <span class="copy_code">Copy Code</span>
+			<div class="modal-dialog modal-md">
+				<div class="modal-content">
+					<div class="modal_heading">
+					<span style=";margin-left:40px;">AVAILABLE COUPONS</span>
+					<button type="" style=";margin-top:5px; border:none"  class="btn btn-default pull-right" data-dismiss="modal">X</button>
 					</div>
-					<div t-if="remained_voucher['value_remained'] and remained_voucher['total_availability'] != 0" class="value_div">Get a maxiumum discount of 										<span t-if="voucher_id.voucher_val_type == 'amount'" class="voucher_value" t-esc="voucher_id.voucher_value" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>
-					<span class="voucher_value" t-if="voucher_id.voucher_val_type == 'percent'">
-					  <t t-esc="voucher_id.voucher_value"/> %</span>
-					  <div t-if="voucher_id.use_minumum_cart_value and voucher_id.minimum_cart_amount &gt; 0">To avail this offer minimum purchase should be <span class="voucher_value" t-esc="voucher_id.minimum_cart_amount"  t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>
+					<div class="modal-body wk_modal" style="clear:both;background-color:hsla(285, 6%, 85%, 0.45)">
+						<t t-set="voucher_ids" t-value="website.wk_get_customer_vouchers()"/>
+						<t t-foreach="voucher_ids" t-as="voucher_id">
+							<t t-set="remained_voucher" t-value="website.get_remained_voucher_value(voucher_id)"/>
+							<div class="voucher">
+								<div class="voucher_code">
+									<span  style="margin-left:60px;" t-esc="voucher_id.voucher_code"/>
+									<span class="copy_code">Copy Code</span>
+								</div>
+								<div t-if="remained_voucher['value_remained'] and remained_voucher['total_availability'] != 0" class="value_div">Get a maxiumum discount of 										<span t-if="voucher_id.voucher_val_type == 'amount'" class="voucher_value" t-esc="voucher_id.voucher_value" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>
+								<span class="voucher_value" t-if="voucher_id.voucher_val_type == 'percent'">
+								<t t-esc="voucher_id.voucher_value"/> %</span>
+								<div t-if="voucher_id.use_minumum_cart_value and voucher_id.minimum_cart_amount &gt; 0">To avail this offer minimum purchase should be <span class="voucher_value" t-esc="voucher_id.minimum_cart_amount"  t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>
+								</div>
+								<div>This offer is valid till <span class="expirty_date" t-esc="website.get_expiry_date(voucher_id)"/>
+								</div>
+								<div>
+								<t t-esc="remained_voucher['rdm_msg']"/>
+								</div>
+								<div>
+								<t t-esc="remained_voucher['msg']"/>
+								</div>
+							</div>
+							<div t-if="remained_voucher['total_availability'] == 0" class="value_div">
+								<span class="no_voucher" t-esc="remained_voucher['msg']">
+								</span>
+							</div>
+							<div t-if="not remained_voucher['value_remained']" class="value_div">
+								<span t-esc="remained_voucher['msg']">
+								</span>
+							</div>
+							<div class="voucher_desc" t-if="voucher_id.display_desc_in_web and remained_voucher['total_availability'] != 0">
+								<span  t-esc="voucher_id.note"/>
+							</div>
+						</div>
+						</t>
+						<div t-if="not voucher_ids" class="no_vouchers">								No <br/>Coupons <br/>Available 							</div>
+						</div>
+						<div class="modal-footer">
+						<center>
+							<span style="color:#286090;cursor:pointer" data-dismiss="modal">Cancel</span>
+						</center>
 					</div>
-					<div>This offer is valid till <span class="expirty_date" t-esc="website.get_expiry_date(voucher_id)"/>
-				  </div>
-				  <div>
-					<t t-esc="remained_voucher['rdm_msg']"/>
-				  </div>
-				  <div>
-					<t t-esc="remained_voucher['msg']"/>
-				  </div>
 				</div>
-				<div t-if="remained_voucher['total_availability'] == 0" class="value_div">
-				  <span class="no_voucher" t-esc="remained_voucher['msg']">
-				  </span>
-				</div>
-				<div t-if="not remained_voucher['value_remained']" class="value_div">
-				  <span t-esc="remained_voucher['msg']">
-				  </span>
-				</div>
-				<div class="voucher_desc" t-if="voucher_id.display_desc_in_web and remained_voucher['total_availability'] != 0">
-				  <span  t-esc="voucher_id.note"/>
-				</div>
-			  </div>
-			</t>
-			<div t-if="not voucher_ids" class="no_vouchers">								No <br/>Coupons <br/>Available 							</div>
-		  </div>
-		  <div class="modal-footer">
-			<center>
-			  <span style="color:#286090;cursor:pointer" data-dismiss="modal">Cancel</span>
-			</center>
-		  </div>
-		</div>
-		</div>
+			</div>
 		</div>
 	</template>
 
-	<!-- Place Voucher modal in the outermost div  -->
+	<template id="change_coupon_modal">
+		<div id="change_coupon" class="modal fade" role="dialog">
+			<div class="modal-dialog modal-md">
+				<div class="modal-content">
+					<div class="modal_heading">
+						<span style=";margin-left:40px;">Change Coupon</span>
+						<button type="" style=";margin-top:5px; border:none"  class="btn btn-default pull-right" data-dismiss="modal">X</button>
+					</div>
+					<div class="modal-body wk_modal" style="clear:both;background-color:hsla(285, 6%, 85%, 0.45); padding-bottom: 30px;">
+						<t t-set="old_voucher" t-value="website_sale_order.get_voucher()" />
+						<h6 t-if="old_voucher" style="color: rgba(0, 0, 0, 0.6); margin-bottom: 15px;">You have already used the coupon code <t t-esc="old_voucher.voucher_code"/>.
+						If you want to change the coupon, change new coupon below. </h6>
+						<div class="change_voucher_form">
+							<form t-if="website_sale_order and website_sale_order.website_order_line" action="/shop/pricelist" method="post">
+								<div class="input-group">
+									<input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+									<input name="promo" class='form-control' id="change_voucher_8d_code" type="text" placeholder="Enter coupon code..." t-att-value="website_sale_order.pricelist_id.code or ''"/>
+									<div class="input-group-expand">
+										<a class="btn btn-submit change_coupon btn btn-secondary" type="submit" style="border-radius: 0px 4px 4px 0px;">Confirm</a>
+									</div>
+								</div>
+								<b style="display:none;" class="wk_def_pro_id" t-attf-id="#{website.wk_get_default_product()}"/>
+							</form>
+						</div>
+						<div style="display:none;text-align:center" class="alert alert-danger change_error_msg"/>
+						<div style="display:none; text-align:center;background: #d4edda" class="alert change_success_msg"/>
+					</div>
+				</div>
+			</div>
+		</div>
+	</template>
+
+	<!-- Place Change Voucher modal in the outermost div  -->
 	<template id="voucher_modal" inherit_id="website_sale.cart">
 		<xpath expr="//div[@id='wrap']//div" position="inside">
-		  <t t-call="website_voucher.coupon_modal"/>
+		  <t t-call="website_voucher.change_coupon_modal"/>
 		</xpath>
 	</template>
 
@@ -77,27 +109,33 @@
 		<xpath expr="//a[@role='button']" position="before">
 
 		<tr>
-		  <div style="display:none;text-align:center" class="alert alert-danger error_msg"/>
-		  <div style="display:none; text-align:center;background: #d4edda" class="alert success_msg"/>
-		  <div style="margin-bottom: 10px;;">
-			<div class="voucher_history text-center" style="padding: 10px;">
-			  <a type="button" class="btn_modal_vouchers" data-toggle="modal" data-target="#open_vouchers_modal" href="#">Click here</a>
-			  <span>
-				<i>to see your available coupons.</i>
-			  </span>
-			</div>
-			<form t-if="website_sale_order and website_sale_order.website_order_line" action="/shop/pricelist" method="post">
-			  <div class="input-group">
-				<input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
-				<input name="promo" class='form-control' id="voucher_8d_code" type="text" placeholder="Enter coupon code..." t-att-value="website_sale_order.pricelist_id.code or ''"/>
-				<div class="input-group-expand">
-				  <a class="btn btn-submit wk_voucher btn btn-secondary" type="submit" style="border-radius: 0px 4px 4px 0px;">Apply</a>
+			<div style="display:none;text-align:center" class="alert alert-danger error_msg"/>
+			<div style="display:none; text-align:center;background: #d4edda" class="alert success_msg"/>
+			<div style="margin-bottom: 10px;;">
+			<!--			<div class="voucher_history text-center" style="padding: 10px;">-->
+			<!--			  <a type="button" class="btn_modal_vouchers" data-toggle="modal" data-target="#open_vouchers_modal" href="#">Click here</a>-->
+			<!--			  <span>-->
+			<!--				<i>to see your available coupons.</i>-->
+			<!--			  </span>-->
+			<!--			</div>-->
+				<div class="voucher_history text-center" style="padding: 10px;">
+					<a type="button" class="change_coupon_btn" data-toggle="modal" data-target="#change_coupon" href="#">Click here</a>
+					<span>
+					<i>to change your coupons.</i>
+					</span>
 				</div>
-			  </div>
-			  <b style="display:none;" class="wk_def_pro_id" t-attf-id="#{website.wk_get_default_product()}"/>
-		<!--          <t t-call="website_voucher.coupon_modal"/>-->
-			</form>
-		  </div>
+				<form t-if="website_sale_order and website_sale_order.website_order_line" action="/shop/pricelist" method="post">
+					<div class="input-group">
+						<input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+						<input name="promo" class='form-control' id="voucher_8d_code" type="text" placeholder="Enter coupon code..." t-att-value="website_sale_order.pricelist_id.code or ''"/>
+						<div class="input-group-expand">
+							<a class="btn btn-submit wk_voucher btn btn-secondary" type="submit" style="border-radius: 0px 4px 4px 0px;">Apply</a>
+						</div>
+					</div>
+				  	<b style="display:none;" class="wk_def_pro_id" t-attf-id="#{website.wk_get_default_product()}"/>
+				<!--          <t t-call="website_voucher.coupon_modal"/>-->
+				</form>
+			</div>
 		</tr>
 		</xpath>
 	</template>

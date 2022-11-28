@@ -77,3 +77,14 @@
 	width: 90px;
 	
 }
+
+.change_voucher_form {
+    width: 80%;
+    margin: 30px auto;
+}
+
+@media (max-width: 767px) {
+   .change_voucher_form {
+        width: 100%;
+    }
+}

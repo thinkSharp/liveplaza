@@ -15,12 +15,30 @@ class sale_order(models.Model):
 
 	wk_coupon_value = fields.Float(
 		string="Coupon Value",
-
 	)
 
-	@api.model
-	def check_voucher_product(self, order, voucher_id, product_id=None):
+	@api.depends('order_line.product_uom_qty', 'order_line.product_id')
+	def _compute_cart_info(self):
+		for order in self:
+			order.cart_quantity = int(
+				sum(order.order_line.mapped(lambda l: l.product_uom_qty if not l.is_voucher else 0)))
+			order.only_services = all(l.product_id.type in ('service', 'digital') for l in order.website_order_line)
 
+	@api.model
+	def get_voucher(self):
+		for line in self.order_line:
+			if line.is_voucher:
+				return line.wk_voucher_id
+		return None
+
+	@api.model
+	def remove_voucher(self):
+		for line in self.order_line:
+			if line.is_voucher:
+				line.unlink()
+
+	@api.model
+	def check_voucher_product(self, order, voucher_id):
 		if voucher_id and voucher_id.applied_on == 'specific':
 			for line in order.order_line:
 				for product in voucher_id.product_ids:
@@ -34,7 +52,7 @@ class sale_order(models.Model):
 		return False
 
 	@api.model
-	def _add_voucher(self, wk_order_total , voucher_dict, so_id=False):
+	def _add_voucher(self, wk_order_total, voucher_dict, so_id=False):
 		print("add voucher")
 		voucher_product_id = voucher_dict['product_id']
 		voucher_value = voucher_dict['value']
@@ -55,13 +73,16 @@ class sale_order(models.Model):
 		voucher_obj = self.env['voucher.voucher'].sudo().browse(voucher_id)
 		check_voucher = self.check_voucher_product(order_obj, voucher_obj)
 		if already_exists:
+			print("already exist")
 			result['status'] = False
 			result['message'] = _('You can use only one coupon per order.')
 		elif not check_voucher:
+			print("not check voucher")
 			result['status'] = False
 			result['message'] = _('There is no selected product for this voucher')
 			return result
 		else:
+			print("else")
 			values = self._website_product_id_change(order_id, voucher_product_id, qty=1)
 			values['name'] = voucher_name
 			if cutomer_type == 'general':
@@ -101,6 +122,85 @@ class sale_order(models.Model):
 			values['selected_checkout'] = True
 			line_id = self.env['sale.order.line'].sudo().create(values)
 			status = self.env['voucher.voucher'].sudo().redeem_voucher_create_histoy(voucher_name, voucher_id, values['price_unit'],order_id, line_id.id, 'ecommerce',order_obj.partner_id.id)
+			result['status'] = status
+		return result
+
+	@api.model
+	def _change_voucher(self, wk_order_total, voucher_dict, so_id=False):
+		print("change voucher")
+		voucher_product_id = voucher_dict['product_id']
+		voucher_value = voucher_dict['value']
+		voucher_id = voucher_dict['coupon_id']
+		voucher_name = voucher_dict['coupon_name']
+		total_available = voucher_dict['total_available']
+		voucher_val_type = voucher_dict['voucher_val_type']
+		cutomer_type = voucher_dict['customer_type']
+		total_prod_voucher_price = voucher_dict['total_prod_voucher_price']
+		print("1")
+		if not self.ids:
+			order_id = so_id
+		else:
+			order_id = self.ids[0]
+		order_obj = self.browse(order_id)
+		result = {}
+		already_exists = self.env['sale.order.line'].sudo().search(
+			[('order_id', '=', order_id), ('product_id', '=', voucher_product_id)])
+		voucher_obj = self.env['voucher.voucher'].sudo().browse(voucher_id)
+		check_voucher = self.check_voucher_product(order_obj, voucher_obj)
+		# if already_exists and not change_coupon:
+		# 	print("already exist")
+		# 	result['status'] = False
+		# 	result['message'] = _('You can use only one coupon per order.')
+		if not check_voucher:
+			print("not check voucher")
+			result['status'] = False
+			result['message'] = _('There is no selected product for this voucher')
+			return result
+		else:
+			print("else")
+			order_obj.remove_voucher()
+			values = self._website_product_id_change(order_id, voucher_product_id, qty=1)
+			values['name'] = voucher_name
+			if cutomer_type == 'general':
+				if voucher_val_type == 'amount':
+					if voucher_obj.applied_on == 'specific':
+						if total_prod_voucher_price > voucher_value:
+							values['price_unit'] = -voucher_value
+						else:
+							values['price_unit'] = -total_prod_voucher_price
+					else:
+						if wk_order_total < voucher_value:
+							values['price_unit'] = -wk_order_total
+						else:
+							values['price_unit'] = -voucher_value
+				else:
+					if voucher_obj.applied_on == 'specific':
+						values['price_unit'] = -(total_prod_voucher_price * voucher_value) / 100
+					else:
+						values['price_unit'] = -(wk_order_total * voucher_value) / 100
+			else:
+				if voucher_id:
+					history_objs = self.env['voucher.history'].search([('voucher_id', '=', voucher_id)])
+					amount_left = 0
+					if history_objs:
+						for hist_obj in history_objs:
+							if hist_obj.order_id:
+								if hist_obj.order_id.id == order_id:
+									continue
+							amount_left += voucher_obj._get_amout_left_special_customer(hist_obj)
+					if wk_order_total < amount_left:
+						values['price_unit'] = - wk_order_total
+					else:
+						values['price_unit'] = -amount_left
+			values['product_uom_qty'] = 1
+			values['wk_voucher_id'] = voucher_id
+			values['is_voucher'] = True
+			values['selected_checkout'] = True
+			line_id = self.env['sale.order.line'].sudo().create(values)
+			status = self.env['voucher.voucher'].sudo().redeem_voucher_create_histoy(voucher_name, voucher_id,
+																					 values['price_unit'], order_id,
+																					 line_id.id, 'ecommerce',
+																					 order_obj.partner_id.id)
 			result['status'] = status
 		return result
 

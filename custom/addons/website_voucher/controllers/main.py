@@ -18,7 +18,7 @@ _logger = logging.getLogger(__name__)
 class website_voucher(http.Controller):
 
     @http.route('/website/voucher/', type='json', auth="public", methods=['POST'], website=True)
-    def voucher_call(self, secret_code=False):
+    def voucher_call(self, secret_code=False, change=False):
         try:
             result = {}
             voucher_obj = request.env['voucher.voucher']
@@ -31,7 +31,10 @@ class website_voucher(http.Controller):
             result = voucher_obj.sudo().validate_voucher(secret_code, wk_order_total, products, refrence="ecommerce",
                                                          partner_id=partner_id)
             if result['status']:
-                final_result = request.website.sale_get_order(force_create=1)._add_voucher(wk_order_total, result)
+                if change:
+                    final_result = request.website.sale_get_order(force_create=1)._change_voucher(wk_order_total, result)
+                else:
+                    final_result = request.website.sale_get_order(force_create=1)._add_voucher(wk_order_total, result)
                 if not final_result['status']:
                     result.update(final_result)
                 request.session['secret_key_data'] = {'coupon_id': result['coupon_id'],
@@ -59,6 +62,17 @@ class website_voucher(http.Controller):
         except Exception as e:
             _logger.info('-------------Exception-----%r', e)
             return request.redirect("/shop/cart/")
+
+    # Remove the voucher if there is no product in cart
+    # @http.route(['/voucher/validate/cart_change'], type='json', auth="public", methods=['POST'], website=True,
+    #             csrf=False)
+    # def cart_update_voucher(self):
+    #     order = request.website.sale_get_order(force_create=1)
+    #     if len(order.order_line) <= 2:
+    #         for line in order.order_line:
+    #             if line.is_voucher:
+    #                 return True
+    #     return False
 
 
 class WebsiteSale(Website_Sale):
@@ -101,14 +115,9 @@ class WebsiteSale(Website_Sale):
 
         # remove voucher if the related product is deleted from cart
         for line in order.order_line:
-            print("product = ", line.product_id.name)
             if line.wk_voucher_id:
                 check_product = order.check_voucher_product(order, line.wk_voucher_id)
-                print("check product = ", check_product)
                 if not check_product:
-                    print("unlink voucher")
                     line.sudo().unlink()
                     order.wk_coupon_value = 0
-                else:
-                    print("not unlink")
         return value
