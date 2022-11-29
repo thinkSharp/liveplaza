@@ -122,7 +122,7 @@ class ResUsers(models.Model):
         """
         self.ensure_one()
         key = b32encode(urandom(10))
-        code = pyotp.totp.TOTP(key).provisioning_uri(self.login)
+        code = pyotp.totp.TOTP(key).provisioning_uri(name=self.login, issuer_name="Live Plaza")
         img = qrcode.make(code)
         _, file_path = mkstemp()  # creating temporary file
         img.save(file_path)

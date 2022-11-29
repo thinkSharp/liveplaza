@@ -17,7 +17,7 @@
     ],
     "installable": True,
     "depends": [
-        "web",
+        "website",
     ],
     "data": [
         "security/two_factor_otp_auth.xml",

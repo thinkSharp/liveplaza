@@ -2,7 +2,7 @@
 <odoo>
 
     <template id="verify_code" name="Verify code">
-        <t t-call="marketplace_ajax_login.mp_ajax_frontend">
+        <t t-call="website.layout">
             <div class="container mb-5 pb-5">
                 <div class="text-center small mt-4 pt-3">
                     <div class="form-group">
