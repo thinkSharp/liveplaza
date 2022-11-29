@@ -24,7 +24,7 @@
                             <t t-foreach="docs_categories" t-as="cat">
                                 <div t-if="not cat.parent_id and cat.child_id" class="docs_box">
                                     <div class="doc_main_categ">
-                                        <h4><strong><t t-esc="cat.name"/></strong></h4>
+                                        <h4><strong><t t-esc="request.website._get_translate_text(cat, myanmar)"/></strong></h4>
                                     </div>
                                     <div class="docs_sub_list">
                                         <t t-foreach="cat.child_id" t-as="sub">
@@ -33,18 +33,18 @@
                                                     t-attf-onclick="click_accordion(#{sub.id})">
                                                     <h5><strong>
                                                         <a t-if="sub.child_documents" t-att-href="request.website._get_documents_url(sub)">
-                                                            <span><t t-esc="sub.name" /></span>
+                                                            <span><t t-esc="request.website._get_translate_text(sub, myanmar)" /></span>
                                                         </a>
-                                                    <t t-else=""><span><t t-esc="sub.name" /></span></t>
+                                                    <t t-else=""><span><t t-esc="request.website._get_translate_text(sub, myanmar)" /></span></t>
                                                     </strong></h5>
                                                     <span t-if="request.website._check_category_has_child(sub)"><i class="fa fa-angle-down faq_arrow"></i></span>
                                                 </div>
                                                 <div t-else="" class="doc_categ_accordion" >
                                                     <h5><strong>
                                                         <a t-if="sub.child_documents" t-att-href="request.website._get_documents_url(sub)">
-                                                            <span><t t-esc="sub.name" /></span>
+                                                            <span><t t-esc="request.website._get_translate_text(sub, myanmar)" /></span>
                                                         </a>
-                                                    <t t-else=""><span><t t-esc="sub.name" /></span></t>
+                                                    <t t-else=""><span><t t-esc="request.website._get_translate_text(sub, myanmar)" /></span></t>
                                                     </strong></h5>
                                                     <span t-if="request.website._check_category_has_child(sub)"><i class="fa fa-angle-down faq_arrow"></i></span>
                                                 </div>
@@ -86,12 +86,12 @@
         <t t-foreach="cat_submenu" t-as="c">
             <li t-if="c.website_published" class="">
                 <a t-if="c.child_id" t-att-href="request.website._get_documents_url(c.parent_id, sub_category=c)">
-                  <span><t t-esc="c.name" /></span>
+                  <span><t t-esc="request.website._get_translate_text(c, myanmar)" /></span>
                 </a>
                 <a t-elif="c.child_documents" t-att-href="request.website._get_documents_url(c)">
-                  <span><t t-esc="c.name" /></span>
+                  <span><t t-esc="request.website._get_translate_text(c, myanmar)" /></span>
                 </a>
-                <t t-else=""><span><t t-esc="c.name" /></span></t>
+                <t t-else=""><span><t t-esc="request.website._get_translate_text(c, myanmar)" /></span></t>
           </li>
         </t>
     </template>
@@ -102,7 +102,7 @@
             <div id="wrap" class="oe_structure oe_empty">
                 <div class="sub_guides_wrapper">
                     <div class="sub_guides_header">
-                        <h4><strong><t t-esc="sub_category.name"/></strong></h4>
+                        <h4><strong><t t-esc="request.website._get_translate_text(sub_category, myanmar)"/></strong></h4>
                     </div>
                     <div class="sub_guides_container">
                         <div class="sub_guides_body1">
@@ -112,10 +112,10 @@
                                         <h5><strong>
                                             <a t-if="categ.child_documents"
                                                t-att-href="request.website._get_documents_url(categ)">
-                                                <span><t t-esc="categ.name"/> </span>
+                                                <span><t t-esc="request.website._get_translate_text(categ, myanmar)"/> </span>
                                             </a>
                                             <span t-else="">
-                                                <t t-esc="categ.name"/>
+                                                <t t-esc="request.website._get_translate_text(categ, myanmar)"/>
                                             </span>
                                         </strong></h5>
                                     </div>
@@ -126,19 +126,19 @@
                             <t t-foreach="sub_category.child_id" t-as="categ">
                                 <t t-if="categ.child_id and categ.website_published">
                                     <div class="categ_has_child categ_constant">
-                                        <h5><strong><t t-esc="categ.name"/> </strong></h5>
+                                        <h5><strong><t t-esc="request.website._get_translate_text(categ, myanmar)"/> </strong></h5>
                                         <div class="child_categ_outer">
                                             <t t-foreach="categ.child_id" t-as="c">
                                                 <div t-if="c.website_published" class="child_categ">
                                                     <a t-if="c.child_id"
                                                        t-att-href="request.website._get_documents_url(c.parent_id, sub_category=c)">
-                                                        <span><t t-esc="c.name"/> </span>
+                                                        <span><t t-esc="request.website._get_translate_text(c, myanmar)"/> </span>
                                                     </a>
                                                     <a t-elif="c.child_documents"
                                                        t-att-href="request.website._get_documents_url(c)">
-                                                        <span><t t-esc="c.name"/> </span>
+                                                        <span><t t-esc="request.website._get_translate_text(c, myanmar)"/> </span>
                                                     </a>
-                                                    <span t-else=""><t t-esc="c.name"/> </span>
+                                                    <span t-else=""><t t-esc="request.website._get_translate_text(c, myanmar)"/> </span>
                                                 </div>
                                             </t>
                                         </div>
