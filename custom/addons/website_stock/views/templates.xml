@@ -60,7 +60,7 @@
     <template id="cart_line_validate_lines" inherit_id="website_sale.cart_lines">
         <xpath expr="//table//tbody//td[hasclass('td-qty')]" position="replace">
             <t t-set="bk_product_temp" t-value="line.product_id.product_tmpl_id"/>
-            <t t-if="not bk_product_temp.is_booking_type">
+            <t t-if="not (bk_product_temp.is_booking_type or bk_product_temp.categ_id.name=='Gift Voucher')">
                 <t t-set="validate_value" t-value="website.cart_line_stock_validate(int(line.product_id.id), float(line.product_uom_qty))"/>
                 <t t-if="not validate_value">
                     <td class="text-center td-qty" t-att-data-line-id="line.id" t-att-data-product-id="line.product_id.id">
@@ -92,7 +92,7 @@
                     </td>
                 </t>
             </t>
-            <td t-if="bk_product_temp.is_booking_type" class="text-center td-qty" t-att-data-line-id="line.id" t-att-data-product-id="line.product_id.id">
+            <td t-if="bk_product_temp.is_booking_type or bk_product_temp.categ_id.name=='Gift Voucher'" class="text-center td-qty" t-att-data-line-id="line.id" t-att-data-product-id="line.product_id.id">
                 <div class="css_quantity input-group mx-auto oe_website_spinner">
                     <div class="input-group-prepend">
                         <a class="btn btn-link d-none d-md-inline-block" aria-label="Remove one" title="Remove one" style="cursor: not-allowed;">
@@ -106,7 +106,7 @@
                         </a>
                     </div>
                 </div>
-                <t t-if="int(bk_av_qty) &lt; 0">
+                <t t-if="bk_product_temp.is_booking_type and int(bk_av_qty) &lt; 0">
                     <div class="cart-line-error-md  d-none d-sm-block">
                         <i class="fa fa-exclamation-triangle"></i>&#032;Sold Out
                     </div>

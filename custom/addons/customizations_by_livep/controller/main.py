@@ -641,6 +641,40 @@ class WebsiteSale (WebsiteSale):
         else:
             return request.render("website_sale.products", values)
 
+    @http.route(['/voucher_valid_product'], type='json', auth='public', website=True)
+    def voucher_valid_product(self):
+        order = request.website.sale_get_order()
+        checked_list = request.website.get_checked_sale_order_line(order.website_order_line)
+
+        voucher_valid = True
+        for line in order.order_line:
+            print(line)
+            # if line.is_voucher:
+            #     voucher = line.wk_voucher_id
+            #     voucher_code = voucher.voucher_code
+            #     print(voucher_code)
+            #     applied_products = voucher.product_ids
+            #     print(applied_products)
+            #
+            #     if applied_products:
+            #         voucher_valid = False
+            #         for sol in checked_list:
+            #             if sol.product_template_id in applied_products:
+            #                 voucher_valid = True
+
+            if line.is_voucher:
+                voucher = line.wk_voucher_id
+                voucher_valid = False
+
+                for sol in checked_list:
+                    if (sol.product_id.marketplace_seller_id == voucher.marketplace_seller_id)  and len(checked_list) > 1:
+                        voucher_valid = True
+
+
+        return {
+            "voucher_valid_product": voucher_valid
+        }
+
     @http.route(['/shop/product/<model("product.template"):product>', '/service/<model("product.template"):product>'],
                 type='http', auth="public", website=True)
     def product(self, product, category='', search='', **kwargs):
@@ -665,6 +699,7 @@ class WebsiteSale (WebsiteSale):
 
         orderLine = order.website_order_line.search([('id', '=', orderLineId)])
 
+        voucher_obj = None
         for o in order.website_order_line:
             if o.id == orderLineId:
                 if orderLine.selected_checkout == False:
@@ -681,6 +716,12 @@ class WebsiteSale (WebsiteSale):
                         'checked_amount_tax': order.checked_amount_tax,
                         'checked_amount_total': order.checked_amount_untaxed + order.checked_amount_tax,
                     })
+        for o in order.website_order_line:
+            if o.is_voucher:
+                voucher_obj = request.env['voucher.voucher'].browse(o.wk_voucher_id.id)
+                if voucher_obj and not order.check_voucher_product(order, voucher_obj):
+                    o.unlink()
+                    order.wk_coupon_value = 0
         # checked_list = request.website.get_checked_sale_order_line(order.website_order_line)
 
     @http.route(['/shop/cart'], type='http', auth="public", website=True, sitemap=False)
