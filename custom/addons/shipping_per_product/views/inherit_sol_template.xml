@@ -77,33 +77,35 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr t-foreach="cart_sale_order" t-as="line">
-                        <td class='' colspan="2" t-if="not line.product_id.product_tmpl_id"></td>
-                        <td class='td-img' t-if="line.product_id.product_tmpl_id">
-                            <span t-field="line.product_id.image_128" t-options="{'widget': 'image', 'class': 'rounded'}" />
-                        </td>
-                        <td class='td-product_name' t-if="line.product_id.product_tmpl_id">
-                            <div>
-                                <strong t-field="line.name_short" />
-                                <div class='td-qty min_phone_size'>
-                                    <span>Qty: </span>
-                                    <span t-esc="line.product_uom_qty" />
-                                    <div class="text-center td-price min_phone_size">
-                                        <span>Amount: </span>
-                                        <span t-field="line.price_reduce_taxexcl" style="white-space: nowrap;" t-options="{'widget': 'monetary', 'display_currency': website_sale_order.currency_id}" groups="account.group_show_line_subtotals_tax_excluded" />
-                                        <span t-field="line.price_reduce_taxinc" style="white-space: nowrap;" t-options="{'widget': 'monetary', 'display_currency': website_sale_order.currency_id}" groups="account.group_show_line_subtotals_tax_included" />
+                    <t t-foreach="cart_sale_order" t-as="line">
+                        <tr t-if="not line.is_voucher">
+                            <td class='' colspan="2" t-if="not line.product_id.product_tmpl_id"></td>
+                            <td class='td-img' t-if="line.product_id.product_tmpl_id">
+                                <span t-field="line.product_id.image_128" t-options="{'widget': 'image', 'class': 'rounded'}" />
+                            </td>
+                            <td class='td-product_name' t-if="line.product_id.product_tmpl_id">
+                                <div>
+                                    <strong t-field="line.name_short" />
+                                    <div class='td-qty min_phone_size'>
+                                        <span>Qty: </span>
+                                        <span t-esc="line.product_uom_qty" />
+                                        <div class="text-center td-price min_phone_size">
+                                            <span>Amount: </span>
+                                            <span t-field="line.price_reduce_taxexcl" style="white-space: nowrap;" t-options="{'widget': 'monetary', 'display_currency': website_sale_order.currency_id}" groups="account.group_show_line_subtotals_tax_excluded" />
+                                            <span t-field="line.price_reduce_taxinc" style="white-space: nowrap;" t-options="{'widget': 'monetary', 'display_currency': website_sale_order.currency_id}" groups="account.group_show_line_subtotals_tax_included" />
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </td>
-                        <td class='td-qty all_sizes'>
-                            <div t-esc="line.product_uom_qty" />
-                        </td>
-                        <td class="text-center td-price all_sizes">
+                            </td>
+                            <td class='td-qty all_sizes'>
+                                <div t-esc="line.product_uom_qty" />
+                            </td>
+                            <td class="text-center td-price all_sizes">
                             <span t-field="line.price_reduce_taxexcl" style="white-space: nowrap;" t-options="{'widget': 'monetary', 'display_currency': website_sale_order.currency_id}" groups="account.group_show_line_subtotals_tax_excluded" />
                             <span t-field="line.price_reduce_taxinc" style="white-space: nowrap;" t-options="{'widget': 'monetary', 'display_currency': website_sale_order.currency_id}" groups="account.group_show_line_subtotals_tax_included" />
                         </td>
-                    </tr>
+                        </tr>
+                    </t>
                     <t t-if="sol_deliveries and order.contain_product" t-call="shipping_per_product.sol_delivery_carriers"/>
                 </tbody>
             </table>

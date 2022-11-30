@@ -10,8 +10,9 @@ odoo.define('website_voucher.website_voucher', function (require) {
 			'click .wk_voucher': '_onClickApplyVoucher',
 			'click .copy_code': '_onClickCopyCode',
 			'keyup #voucher_8d_code': '_onKeyUpVoucherCode',
+			'click .remove_coupon': 'RemoveVoucher',
 //			'change .oe_cart input.js_quantity[data-product-id]':'_onChangeUpdateVoucher',
-			'click .change_coupon': 'ChangeCoupon'
+//			'click .change_coupon': 'ChangeCoupon'
 		},
 		_onClickApplyVoucher: function (ev) {
 			this.ApplyVoucher();
@@ -52,6 +53,15 @@ odoo.define('website_voucher.website_voucher', function (require) {
 				this.ApplyVoucher();
 			}
 		},
+		RemoveVoucher: function(ev) {
+		    alert("remove coupon");
+		    this._rpc({
+		        route: "/voucher/remove",
+		        params: {},
+		    }).then(function(data){
+		        location.reload();
+		    });
+        },
 //		_onChangeUpdateVoucher:function(ev) {
 //			var $self = this
 //			setTimeout(function () {
@@ -65,28 +75,28 @@ odoo.define('website_voucher.website_voucher', function (require) {
 //					});
 //			}, 500);
 //		},
-		ChangeCoupon: function(ev) {
-		    alert("change coupon");
-		    var secret_code = $("#change_voucher_8d_code").val();
-			this._rpc({
-				route: "/website/voucher/",
-				params: {
-					secret_code: secret_code,
-					change: 'change',
-				},
-			}).then(function (result) {
-                if (result['status']) {
-                    $(".change_success_msg").css('display', 'block');
-                    $(".change_success_msg").html(result['message']);
-                    $(".success_msg").fadeOut(8000);
-                    $(location).attr('href', "/shop/cart");
-                }
-                else {
-                    $(".change_error_msg").css('display', 'block');
-                    $(".change_error_msg").html(result['message']);
-                    $(".error_msg").fadeOut(10000);
-                }
-			});
-		}
+//		ChangeCoupon: function(ev) {
+//		    alert("change coupon");
+//		    var secret_code = $("#change_voucher_8d_code").val();
+//			this._rpc({
+//				route: "/website/voucher/",
+//				params: {
+//					secret_code: secret_code,
+//					change: 'change',
+//				},
+//			}).then(function (result) {
+//                if (result['status']) {
+//                    $(".change_success_msg").css('display', 'block');
+//                    $(".change_success_msg").html(result['message']);
+//                    $(".success_msg").fadeOut(8000);
+//                    $(location).attr('href', "/shop/cart");
+//                }
+//                else {
+//                    $(".change_error_msg").css('display', 'block');
+//                    $(".change_error_msg").html(result['message']);
+//                    $(".error_msg").fadeOut(10000);
+//                }
+//			});
+//		}
 	});
 });

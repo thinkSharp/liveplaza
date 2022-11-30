@@ -78,6 +78,21 @@
 	
 }
 
+.voucher_history .used_coupon_outer tbody tr td {
+    width: 50%;
+    color: #0051b1;
+    padding: 15px 0 12px 5px;
+    font-weight: bold;
+    border: none;
+}
+
+.voucher_history .used_coupon_outer tbody tr td .remove_coupon {
+    color: #ef5350;
+}
+.remove_coupon:hover {
+    cursor: pointer;
+}
+
 .change_voucher_form {
     width: 80%;
     margin: 30px auto;

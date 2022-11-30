@@ -66,44 +66,44 @@
 		</div>
 	</template>
 
-	<template id="change_coupon_modal">
-		<div id="change_coupon" class="modal fade" role="dialog">
-			<div class="modal-dialog modal-md">
-				<div class="modal-content">
-					<div class="modal_heading">
-						<span style=";margin-left:40px;">Change Coupon</span>
-						<button type="" style=";margin-top:5px; border:none"  class="btn btn-default pull-right" data-dismiss="modal">X</button>
-					</div>
-					<div class="modal-body wk_modal" style="clear:both;background-color:hsla(285, 6%, 85%, 0.45); padding-bottom: 30px;">
-						<t t-set="old_voucher" t-value="website_sale_order.get_voucher()" />
-						<h6 t-if="old_voucher" style="color: rgba(0, 0, 0, 0.6); margin-bottom: 15px;">You have already used the coupon code <t t-esc="old_voucher.voucher_code"/>.
-						If you want to change the coupon, change new coupon below. </h6>
-						<div class="change_voucher_form">
-							<form t-if="website_sale_order and website_sale_order.website_order_line" action="/shop/pricelist" method="post">
-								<div class="input-group">
-									<input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
-									<input name="promo" class='form-control' id="change_voucher_8d_code" type="text" placeholder="Enter coupon code..." t-att-value="website_sale_order.pricelist_id.code or ''"/>
-									<div class="input-group-expand">
-										<a class="btn btn-submit change_coupon btn btn-secondary" type="submit" style="border-radius: 0px 4px 4px 0px;">Confirm</a>
-									</div>
-								</div>
-								<b style="display:none;" class="wk_def_pro_id" t-attf-id="#{website.wk_get_default_product()}"/>
-							</form>
-						</div>
-						<div style="display:none;text-align:center" class="alert alert-danger change_error_msg"/>
-						<div style="display:none; text-align:center;background: #d4edda" class="alert change_success_msg"/>
-					</div>
-				</div>
-			</div>
-		</div>
-	</template>
+<!--	<template id="change_coupon_modal">-->
+<!--		<div id="change_coupon" class="modal fade" role="dialog">-->
+<!--			<div class="modal-dialog modal-md">-->
+<!--				<div class="modal-content">-->
+<!--					<div class="modal_heading">-->
+<!--						<span style=";margin-left:40px;">Change Coupon</span>-->
+<!--						<button type="" style=";margin-top:5px; border:none"  class="btn btn-default pull-right" data-dismiss="modal">X</button>-->
+<!--					</div>-->
+<!--					<div class="modal-body wk_modal" style="clear:both;background-color:hsla(285, 6%, 85%, 0.45); padding-bottom: 30px;">-->
+<!--						<t t-set="old_voucher" t-value="website_sale_order.get_voucher()" />-->
+<!--						<h6 t-if="old_voucher" style="color: rgba(0, 0, 0, 0.6); margin-bottom: 15px;">You have already used the coupon code <t t-esc="old_voucher.voucher_code"/>.-->
+<!--						You can change the coupon below if you want. </h6>-->
+<!--						<div class="change_voucher_form">-->
+<!--							<form t-if="website_sale_order and website_sale_order.website_order_line" action="/shop/pricelist" method="post">-->
+<!--								<div class="input-group">-->
+<!--									<input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>-->
+<!--									<input name="promo" class='form-control' id="change_voucher_8d_code" type="text" placeholder="Enter coupon code..." t-att-value="website_sale_order.pricelist_id.code or ''"/>-->
+<!--									<div class="input-group-expand">-->
+<!--										<a class="btn btn-submit change_coupon btn btn-secondary" type="submit" style="border-radius: 0px 4px 4px 0px;">Confirm</a>-->
+<!--									</div>-->
+<!--								</div>-->
+<!--								<b style="display:none;" class="wk_def_pro_id" t-attf-id="#{website.wk_get_default_product()}"/>-->
+<!--							</form>-->
+<!--						</div>-->
+<!--						<div style="display:none;text-align:center" class="alert alert-danger change_error_msg"/>-->
+<!--						<div style="display:none; text-align:center;background: #d4edda" class="alert change_success_msg"/>-->
+<!--					</div>-->
+<!--				</div>-->
+<!--			</div>-->
+<!--		</div>-->
+<!--	</template>-->
 
 	<!-- Place Change Voucher modal in the outermost div  -->
-	<template id="voucher_modal" inherit_id="website_sale.cart">
-		<xpath expr="//div[@id='wrap']//div" position="inside">
-		  <t t-call="website_voucher.change_coupon_modal"/>
-		</xpath>
-	</template>
+<!--	<template id="voucher_modal" inherit_id="website_sale.cart">-->
+<!--		<xpath expr="//div[@id='wrap']//div" position="inside">-->
+<!--		  <t t-call="website_voucher.change_coupon_modal"/>-->
+<!--		</xpath>-->
+<!--	</template>-->
 
 	<template id="voucher_code" inherit_id="website_sale.short_cart_summary" active="True" customize_show="True" name="Coupon Code">
 		<xpath expr="//a[@role='button']" position="before">
@@ -118,10 +118,29 @@
 			<!--				<i>to see your available coupons.</i>-->
 			<!--			  </span>-->
 			<!--			</div>-->
-				<div class="voucher_history text-center" style="padding: 10px;">
-					<a type="button" class="change_coupon_btn" data-toggle="modal" data-target="#change_coupon" href="#">Click here</a>
-					<span>
-					<i>to change your coupons.</i>
+<!--				<div class="voucher_history text-center" style="padding: 10px;">-->
+<!--					<a type="button" class="change_coupon_btn" data-toggle="modal" data-target="#change_coupon" href="#">Click here</a>-->
+<!--					<span>-->
+<!--					<i>to change your coupons.</i>-->
+<!--					</span>-->
+<!--				</div>-->
+				<div class="voucher_history text-center" style="padding: 15px 0; color: #0051b1;">
+					<t t-set="old_voucher" t-value="website_sale_order.get_voucher()" />
+					<div t-if="old_voucher">
+						<table  class="table used_coupon_outer" style="margin: 0;">
+							<tr>
+								<td class="text-right">Used coupon:</td>
+								<td class="text-right"><t t-esc="old_voucher.voucher_code"/>
+									<span style="margin-left: 15px;">
+										<a class="remove_coupon"><i class="fa fa-trash-o"/></a>
+									</span>
+								</td>
+							</tr>
+						</table>
+						<div style="margin-bottom: 10px; color: ">You can change the coupon code below if you want.</div>
+					</div>
+					<span t-else="">
+						You can use one coupon code per order below, if you have one.
 					</span>
 				</div>
 				<form t-if="website_sale_order and website_sale_order.website_order_line" action="/shop/pricelist" method="post">

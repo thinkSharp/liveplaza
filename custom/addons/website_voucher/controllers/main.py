@@ -46,6 +46,17 @@ class website_voucher(http.Controller):
         except Exception as e:
             _logger.info('-------------Exception-----%r', e)
 
+    @http.route(['/voucher/remove'], type='json', auth="public", methods=['POST'], website=True)
+    def voucher_remove(self):
+        order = request.website.sale_get_order()
+        for line in order.order_line:
+            if line.is_voucher:
+                print("line.is_voucher")
+                line.sudo().unlink()
+                print("line is unlink")
+                order.wk_coupon_value = 0
+                return request.redirect("/shop/cart/")
+
     @http.route(['/shop/cart/voucher_remove/<line_id>'], type='http', auth="public", website=True)
     def remove_voucher(self, line_id='0'):
         try:
