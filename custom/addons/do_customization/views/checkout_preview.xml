@@ -384,7 +384,7 @@
                                         <h5><strong class="preview_subtitle">Review Items</strong></h5>
                                         <table class="cart_modal_table" >
                                             <t t-foreach="sale_order.order_line" t-as="line">
-                                                <tr t-if="not line.is_delivery and line.selected_checkout" t-att-style="'opacity: 0.4' if line.delivery_status == 'hold' else ''"
+                                                <tr t-if="not line.is_delivery and line.selected_checkout and not line.is_voucher" t-att-style="'opacity: 0.4' if line.delivery_status == 'hold' else ''"
                                                     t-att-data-product-id='line.product_id.id' t-att-data-order-line="line.id" >
                                                     <td align="center" t-if="line.product_id.product_tmpl_id" class='td-img'>
                                                         <span t-field="line.product_id.image_128" t-options="{'widget': 'image', 'qweb_img_responsive': False, 'class': 'rounded'}" />
