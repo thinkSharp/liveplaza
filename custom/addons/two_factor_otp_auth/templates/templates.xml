@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+  <template id="account_security" name="Account Security" inherit_id="portal.portal_layout">
+    <xpath expr="//div[@id='o_my_sidebar']" position="inside">
+      <div class="mt-2">
+        <h4>Security</h4>
+        <hr class="mt-1 mb-1" />
+        <div>
+          <span>Two Factor Authentication</span>
+          <t t-if="request.env.user.enable_2fa">
+            <a class="btn btn-danger" href="/my/disable_2fa">Disable</a>
+          </t>
+          <t t-else="">
+            <a class="btn btn-secondary" href="/my/enable_2fa">Enable</a>
+          </t>
+        </div>
+      </div>
+    </xpath>
+  </template>
+
+  <template id="2fa_setup" name="Setup Two Factor Authentication">
+    <t t-call="website.layout">
+      <div class="container mb-5 pb-5">
+        <div class="text-center small mt-4 pt-3">
+          <form method="post">
+            <div class="form-group">
+              <h3>
+                <label for="qr-code-2fa">Scan:</label>
+              </h3>
+              <div id="qr-code-2fa">
+                <t class="img img-fluid mx-auto" t-esc="qr_code_2fa" t-options="{'widget':'image'}"/>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <h3>
+                <label for="otp_code">Security code:</label>
+              </h3>
+
+              <input id="otp_code"
+                name="otp_code"
+                type="text"
+                class="form-control"
+                placeholder="Enter authentication code"
+                required="1"
+                autocomplete="off"
+                autofocus="autofocus"
+              />
+            </div>
+
+            <p class="alert alert-danger" t-if="error" role="alert">
+              <t t-esc="error"/>
+            </p>
+
+            <a class="btn btn-danger" href="/my/home">Back</a>
+            <button type="submit" class="btn btn-primary">Submit</button>
+
+            <input name="csrf_token"
+              type="hidden"
+              t-att-value="request.csrf_token()"
+            />
+            <input name="qr_code_2fa"
+              type="hidden"
+              t-att-value="qr_code_2fa"
+            />
+            <input name="secret_code_2fa"
+              type="hidden"
+              t-att-value="secret_code_2fa"
+            />
+          </form>
+        </div>
+      </div>
+    </t>
+  </template>
+
+</odoo>
