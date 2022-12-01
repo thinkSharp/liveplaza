@@ -3,9 +3,13 @@
 
 from odoo import http, _
 from odoo.addons.web.controllers.main import Home
-from odoo.http import request
+from odoo.http import Controller, request, route
 
 from ..exceptions import MissingOtpError, InvalidOtpError
+
+
+from ..lib.otp import OTP
+from ..lib.qr import QRCode
 
 
 class Login2fa(Home):
@@ -29,13 +33,12 @@ class Login2fa(Home):
             params = request.params
             if params.get("login_success"):
                 user = request.env.user
-                if user and user.enable_2fa and not user.qr_image_2fa:
+                if user and user.enable_2fa and not user.secret_code_2fa:
                     # If credentials are Okay, but a user doesn't have
                     # QR code, that mean it's first success login with
                     # one-time-password. Now QR Code with it's Secret
                     # Code can be saved into the user.
                     values = {
-                        "qr_image_2fa": params.get("qr_code_2fa"),
                         "secret_code_2fa": params.get("secret_code_2fa"),
                     }
                     user.sudo().write(values)
@@ -59,7 +62,7 @@ class Login2fa(Home):
         user_id = request.session.otk_uid
         user = request.env["res.users"].sudo().browse(user_id)
 
-        if user.qr_image_2fa or values.get("qr_code_2fa") or values.get("error"):
+        if user.secret_code_2fa or values.get("qr_code_2fa") or values.get("error"):
             template = "two_factor_otp_auth.verify_code"
 
         else:
@@ -72,3 +75,46 @@ class Login2fa(Home):
             })
 
         return request.render(template, values)
+
+
+class TwoFAPortal(Controller):
+
+    @route('/my/disable_2fa', type="http", auth="user", website=True)
+    def disable_2fa(self, **kw):
+        current_user = request.env.user
+        current_user.do_disable_2fa()
+        return request.redirect('/my/home')
+
+
+    @route('/my/enable_2fa', type="http", auth="user", website=True)
+    def enable_2fa(self, **kw):
+        params = request.params.copy()
+
+        if not params.get('secret_code_2fa') or not params.get('otp_code'):
+            user = request.env.user
+            otp = OTP.new()
+            uri = otp.uri(name=user.login)
+            qr_code = QRCode(uri)
+            context = {
+                "qr_code_2fa": qr_code.base64,
+                "secret_code_2fa": otp.secret,
+            }
+            return request.render("two_factor_otp_auth.2fa_setup", context)
+
+        else:
+            secret = params.get('secret_code_2fa')
+            code = params.get('otp_code')
+            if OTP(secret).verify(code):
+                user = request.env.user
+                user.do_enable_2fa(secret)
+                return request.redirect('/my/home')
+            else:
+                context = {}
+                context.update(params)
+                context.update({
+                    "qr_code_2fa": params.get('qr_code_2fa').encode()
+                })
+                context.update({
+                    'error': _("Your security code is wrong.")
+                })
+                return request.render("two_factor_otp_auth.2fa_setup", context)
