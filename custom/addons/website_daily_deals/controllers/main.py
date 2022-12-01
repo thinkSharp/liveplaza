@@ -43,7 +43,7 @@ class WebsiteDailyDeals(WebsiteSale):
 		if not ppg:
 			ppg = request.env['website'].get_current_website().shop_ppg or 20
 
-		PPR = 5
+		PPR = 4
 
 		if ppg:
 			try:
