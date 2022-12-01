@@ -17,7 +17,7 @@
     ],
     "installable": True,
     "depends": [
-        "website",
+        "website", "portal",
     ],
     "data": [
         "security/two_factor_otp_auth.xml",
@@ -26,6 +26,7 @@
         "templates/assets.xml",
         "templates/verify_code_template.xml",
         "templates/scan_code_template.xml",
+        "templates/templates.xml",
     ],
     "external_dependencies": {
         "python": [

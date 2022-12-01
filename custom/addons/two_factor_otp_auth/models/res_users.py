@@ -40,14 +40,24 @@ class ResUsers(models.Model):
         copy=False,
     )
 
+    def do_enable_2fa(self, secret):
+        for user in self:
+            user.enable_2fa = True
+            user.secret_code_2fa = secret
+
+    def do_disable_2fa(self):
+        for user in self:
+            user.enable_2fa = False
+            user.secret_code_2fa = False
+
     def write(self, vals):
         """
         Overload core method to check access rights for changing 2FA.
         If `enable_2fa` in `vals` check access for action
         via `_can_change_2f_auth_settings`.
         """
-        if "enable_2fa" in vals:
-            self._can_change_2f_auth_settings(self.env.user)
+        # if "enable_2fa" in vals:
+        #     self._can_change_2f_auth_settings(self.env.user)
 
         return super(ResUsers, self).write(vals)
 
