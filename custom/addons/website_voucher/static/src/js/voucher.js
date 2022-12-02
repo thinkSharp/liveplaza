@@ -11,7 +11,7 @@ odoo.define('website_voucher.website_voucher', function (require) {
 			'click .copy_code': '_onClickCopyCode',
 			'keyup #voucher_8d_code': '_onKeyUpVoucherCode',
 			'click .remove_coupon': 'RemoveVoucher',
-			'change .oe_cart input.js_quantity[data-product-id]':'_onChangeUpdateVoucher',
+//			'change .oe_cart input.js_quantity[data-product-id]':'_onChangeUpdateVoucher',
 		},
 		_onClickApplyVoucher: function (ev) {
 			this.ApplyVoucher();
