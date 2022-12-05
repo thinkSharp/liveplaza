@@ -38,7 +38,7 @@
                            />
                 </xpath>
                 <xpath expr="//page[@name='products']/group/field[@name='product_ids']" position="attributes">
-                    <attribute name="domain">{[('id', 'in', seller_product_ids)]</attribute>
+                    <attribute name="domain">{[('id', 'in', seller_product_ids)]}</attribute>
 <!--                     <attribute name="domain">[('marketplace_seller_id','!=',False),('status','=','approved')]</attribute>-->
 <!--                    <attribute name="context">{-->
 <!--                        'tree_view_ref' : 'odoo_marketplace.wk_seller_product_template_tree_view',-->

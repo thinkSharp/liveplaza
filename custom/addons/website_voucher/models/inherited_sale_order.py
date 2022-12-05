@@ -39,8 +39,12 @@ class sale_order(models.Model):
 
 	@api.model
 	def check_voucher_product(self, order, voucher_id, product_id=None):
+
 		if voucher_id and voucher_id.applied_on == 'specific':
 			print("specific")
+			for p in voucher_id.product_ids:
+				print("$ ", p.name)
+			# voucher_id.marketplace_seller_id
 			for line in order.order_line:
 				if not line.is_voucher:
 					print("product line = ", line.product_id.name)
@@ -50,15 +54,18 @@ class sale_order(models.Model):
 								print(v.id, " = ", line.product_id.id)
 								return True
 		elif voucher_id and voucher_id.applied_on == 'all':
-			print("all products")
+			# for line in order.order_line:
+			# 	print(line.product_id.id, " and ", product_id)
+			# 	if not line.is_voucher and line.selected_checkout:
+			# 		return True
 			for line in order.order_line:
-				print("product line = ", line.product_id.name)
-				print(line.product_id.id, " and ", product_id)
-				if not line.is_voucher and line.selected_checkout:
-					print("True and ", line.product_id.name, " is selected")
-					return True
-				else:
-					print("False and ", line.product_id.name, " is not selected")
+				if not line.is_voucher:
+					print("product line = ", line.product_id.name)
+					for product in voucher_id.seller_product_ids:
+						for v in product.product_variant_ids:
+							if int(v.id) == int(line.product_id.id) and line.selected_checkout:
+								print(v.id, " = ", line.product_id.id)
+								return True
 		return False
 
 	@api.model
@@ -83,7 +90,6 @@ class sale_order(models.Model):
 		voucher_obj = self.env['voucher.voucher'].sudo().browse(voucher_id)
 		check_voucher = self.check_voucher_product(order_obj, voucher_obj)
 		if not check_voucher:
-			print("not check voucher")
 			result['status'] = False
 			result['message'] = _('There is no selected product for this voucher')
 			return result
