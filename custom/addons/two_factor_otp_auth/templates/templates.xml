@@ -1,19 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
 
-  <template id="account_security" name="Account Security" inherit_id="portal.portal_layout">
+  <template id="account_2_step_verification" name="Two Step Verification" inherit_id="portal.portal_layout">
     <xpath expr="//div[@id='o_my_sidebar']" position="inside">
       <div class="mt-2">
-        <h4>Security</h4>
+        <h4>Two Step Verification</h4>
         <hr class="mt-1 mb-1" />
-        <div>
-          <span>Two Factor Authentication</span>
-          <t t-if="request.env.user.enable_2fa">
-            <a class="btn btn-danger" href="/my/disable_2fa">Disable</a>
-          </t>
-          <t t-else="">
-            <a class="btn btn-secondary" href="/my/enable_2fa">Enable</a>
-          </t>
+        <div class="d-flex gap-2 align-items-start my-3">
+          <i class="fa fa-key fa-fw mt-1"></i>
+          <div>
+            <h5 class="text-neutral-700 mb-1">Authenticator</h5>
+            <p class="text-neutral-500 mb-2">install an authenticator app on your phone</p>
+            <div class="d-flex gap-1">
+              <t t-if="request.env.user.enable_2fa">
+                <a href="/my/enable_2fa" class="text-neutral-700 px-4 py-2 bg-neutral-100 border-0 rounded">Change</a>
+                <a href="/my/disable_2fa" class="text-error-500 px-4 py-2 bg-white hover:bg-white border border-error-500 rounded">Disable</a>
+              </t>
+              <t t-else="">
+                <a href="/my/enable_2fa" class="text-white px-4 py-2 bg-primary-500 border-0 rounded">Setup</a>
+              </t>
+            </div>
+          </div>
         </div>
       </div>
     </xpath>

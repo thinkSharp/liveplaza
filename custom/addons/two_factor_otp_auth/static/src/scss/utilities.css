@@ -1,17 +1,19 @@
-.border-neutral-200 {
-  border-color: #DEDFE1 !important;
-}
-
-.focus\:border-neutral-200:focus {
-  border-color: #DEDFE1 !important;
-}
-
+.border-neutral-200,
+.focus\:border-neutral-200:focus,
 .active\:border-neutral-200:active {
   border-color: #DEDFE1 !important;
 }
 
+.border-error-500 {
+  border-color: #EC4D4D !important;
+}
+
 .lspace-4 {
   letter-spacing: 4px !important;
+}
+
+.gap-1 {
+  gap: 8px !important;
 }
 
 .gap-2 {
@@ -26,8 +28,25 @@
   background-color: #437EF2 !important;
 }
 
+.bg-neutral-100,
+.hover\:bg-neutral-100:hover {
+  background-color: #F6F6F7 !important;
+}
+
+.hover\:bg-white :hover {
+  background-color: white !important;
+}
+
 .text-primary-500 {
   color: #437EF2 !important;
+}
+
+.text-neutral-500 {
+  color: #90949C !important;
+}
+
+.text-neutral-700 {
+  color: #575A60 !important;
 }
 
 .text-error-500 {
