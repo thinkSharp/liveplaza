@@ -81,9 +81,21 @@ class TwoFAPortal(Controller):
 
     @route('/my/disable_2fa', type="http", auth="user", website=True)
     def disable_2fa(self, **kw):
-        current_user = request.env.user
-        current_user.do_disable_2fa()
-        return request.redirect('/my/home')
+        params = request.params.copy()
+        
+        if not params.get('otp_code'):
+            return request.render("two_factor_otp_auth.2fa_disable")
+        else:
+            code = params.get('otp_code')
+            current_user = request.env.user
+            if current_user.verify_2fa(code):
+                current_user.do_disable_2fa()
+                return request.redirect('/my/home')
+            else:
+                context = {
+                    'error': _("Your Security code is wrong.")
+                }
+                return request.render("two_factor_otp_auth.2fa_disable", context)
 
 
     @route('/my/enable_2fa', type="http", auth="user", website=True)

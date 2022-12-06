@@ -33,6 +33,10 @@
   background-color: #F6F6F7 !important;
 }
 
+.bg-error-500 {
+  background-color: #EC4D4D !important;
+}
+
 .hover\:bg-white :hover {
   background-color: white !important;
 }
