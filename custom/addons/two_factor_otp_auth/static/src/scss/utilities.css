@@ -1,0 +1,39 @@
+.border-neutral-200 {
+  border-color: #DEDFE1 !important;
+}
+
+.focus\:border-neutral-200:focus {
+  border-color: #DEDFE1 !important;
+}
+
+.active\:border-neutral-200:active {
+  border-color: #DEDFE1 !important;
+}
+
+.lspace-4 {
+  letter-spacing: 4px !important;
+}
+
+.gap-2 {
+  gap: 16px !important;
+}
+
+.bg-primary-100 {
+  background-color: #EFF5FE !important;
+}
+
+.bg-primary-500 {
+  background-color: #437EF2 !important;
+}
+
+.text-primary-500 {
+  color: #437EF2 !important;
+}
+
+.text-error-500 {
+  color: #EC4D4D !important;
+}
+
+.outline-none {
+  outline: none !important;
+}
