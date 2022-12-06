@@ -58,15 +58,17 @@ class VoucherVoucher(models.Model):
         domain = lambda self: [('marketplace_seller_id','in',self.env['voucher.voucher'].compute_login_userid()),('status','=','approved')] if self._context.get('mp_gift_voucher') else [],
         )
 
+    @api.onchange('marketplace_seller_id')
     def get_seller_products(self):
         for rec in self:
             if rec.marketplace_seller_id:
-                products = self.env['product.template'].search([('status', '=', 'approved'),
-                           ('active', '=', True), ('marketplace_seller_id', '=', rec.marketplace_seller_id.id)])
-                rec.seller_product_ids += products
+                products = self.env['product.template'].search([('status', '=', 'approved'), ('active', '=', True),
+                            ('marketplace_seller_id', '=', rec.marketplace_seller_id.id)])
+                rec.seller_product_ids = products
             else:
+                print("no seller id")
                 products = self.env['product.template'].search([('status', '=', 'approved'), ('active', '=', True)])
-                rec.seller_product_ids += products
+                rec.seller_product_ids = products
 
     def compute_login_userid(self):
         login_ids = []
