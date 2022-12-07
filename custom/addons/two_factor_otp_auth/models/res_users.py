@@ -13,6 +13,8 @@ from odoo.http import request
 
 from ..exceptions import MissingOtpError, InvalidOtpError
 
+from ..lib.otp import OTP
+
 _logger = getLogger(__name__)
 
 try:
@@ -49,6 +51,10 @@ class ResUsers(models.Model):
         for user in self:
             user.enable_2fa = False
             user.secret_code_2fa = False
+
+    def verify_2fa(self, code):
+        for user in self:
+            return OTP(user.secret_code_2fa).verify(code)
 
     def write(self, vals):
         """
