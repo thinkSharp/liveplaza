@@ -110,6 +110,7 @@ class TwoFAPortal(Controller):
             context = {
                 "qr_code_2fa": qr_code.base64,
                 "secret_code_2fa": otp.secret,
+                "uri": uri,
             }
             return request.render("two_factor_otp_auth.2fa_setup", context)
         elif OTP(secret).verify(code):

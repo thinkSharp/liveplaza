@@ -86,12 +86,11 @@
         id="otp-code"
         name="otp_code"
         type="text"
-        t-attf-class="px-3 py-2 rounded lspace-4 outline-none #{'border-danger' if error else 'border-neutral-200 focus:border-neutral-200 active:border-neutral-200' }"
+        t-attf-class="px-3 py-2 rounded lspace-4 outline-none #{'border-danger' if error else 'border-neutral-200 focus:border-neutral-500 active:border-neutral-200' }"
         placeholder="000000"
         maxlength="6"
         pattern="\d*"
         required="true"
-        autofocus="autofocus"
       />
       <div class="text-error-500" t-if="error" role="alert">
         <t t-esc="error" />
@@ -101,12 +100,13 @@
 
   <template id="qr_code_instructions">
     <div class="d-flex flex-column align-items-center border-bottom border-neutral-200">
-      <span class="qr-code-image">
+      <a t-att-href="uri" class="qr-code-image">
         <t t-esc="qr_code_2fa" t-options="{'widget':'image'}"/>
-      </span>
+      </a>
       <ul class="">
         <li class="">Install an authenticator app on your mobile device. (eg. Google Authenticator)</li>
-        <li class="">Scan QR Code with the authenticator</li>
+        <li class="">Scan QR Code with the authenticator (or click to open authenticator on mobile)</li>
+        <li class="">(Optional) Copy the secret to setup manually <code class="" t-esc="secret_code_2fa" /></li>
       </ul>
     </div>
   </template>

@@ -4,6 +4,10 @@
   border-color: #DEDFE1 !important;
 }
 
+.focus\:border-neutral-500:focus {
+  border-color: #90949C !important;
+}
+
 .border-error-500 {
   border-color: #EC4D4D !important;
 }
