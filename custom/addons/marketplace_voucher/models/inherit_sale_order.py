@@ -39,7 +39,7 @@ class sale_order(models.Model):
 		status = result.get("status") and result.get("status").get("status")
 		if status and voucher_obj.marketplace_seller_id:
 			order_lines = order_obj.order_line.filtered(lambda l: l.product_id.marketplace_seller_id and
-				l.product_id.marketplace_seller_id.id == voucher_obj.marketplace_seller_id.id )
+				l.product_id.marketplace_seller_id.id == voucher_obj.marketplace_seller_id.id)
 			if not order_lines:
 				# remove voucher if cart has no products of seller whose voucher is applied
 				voucher_product_id = voucher_dict['product_id']
@@ -53,16 +53,16 @@ class sale_order(models.Model):
 				order_obj.applied_voucher = voucher_obj.id
 		return result
 
-	def write(self, vals):
-		res = super(sale_order, self).write(vals)
-		applied_voucher = vals.get("applied_voucher") if vals.get("applied_voucher") else self.applied_voucher
-		if applied_voucher:
-			applied_voucher = self.env['voucher.voucher'].browse(int(applied_voucher))
-			if applied_voucher and applied_voucher.marketplace_seller_id:
-				voucher_lines = self.order_line.filtered(lambda l: l.product_id.marketplace_seller_id == applied_voucher.marketplace_seller_id)
-				if not voucher_lines:
-					raise UserError(_("This voucher code is not valid."))
-		return res
+	# def write(self, vals):
+	# 	res = super(sale_order, self).write(vals)
+	# 	applied_voucher = vals.get("applied_voucher") if vals.get("applied_voucher") else self.applied_voucher
+	# 	if applied_voucher:
+	# 		applied_voucher = self.env['voucher.voucher'].browse(int(applied_voucher))
+	# 		if applied_voucher and applied_voucher.marketplace_seller_id:
+	# 			voucher_lines = self.order_line.filtered(lambda l: l.product_id.marketplace_seller_id == applied_voucher.marketplace_seller_id)
+	# 			# if not voucher_lines:
+	# 			# 	raise UserError(_("This voucher code is not valid."))
+	# 	return res
 
 class SaleOrderLine(models.Model):
 	_inherit = 'sale.order.line'
@@ -72,4 +72,5 @@ class SaleOrderLine(models.Model):
 		for line in self:
 			if line.product_id.id == product_id:
 				line.order_id.applied_voucher = False
+				self.order_id.wk_coupon_value = 0
 		return super(SaleOrderLine, self).unlink()

@@ -223,14 +223,16 @@
 	</template>
 	<template id="total_inherited" inherit_id="website_sale.total" name="Total">
 		<xpath expr="//tr[@id='empty']" position="after">
-			<tr id="order_coupon_value" t-if="website_sale_order.wk_coupon_value &gt; 0">
+			<tr id="order_coupon_value" t-if="website_sale_order.wk_coupon_value &gt; 0 or
+				(website_sale_order.get_voucher() and website_sale_order.get_voucher().voucher_value &gt; 0)">
 				<td class="text-right border-0 text-danger">Actual Amount:</td>
 				<td class="text-xl-right border-0">
 				<!--        <del t-attf-class="#{'text-danger'}" style="white-space: nowrap;" t-esc="(website_sale_order.wk_coupon_value + website_sale_order.amount_untaxed)" t-options="{'widget': 'monetary', 'display_currency': website_sale_order.currency_id}" />-->
 					<del t-attf-class="#{'text-danger'}" style="white-space: nowrap;" t-esc="website_sale_order.checked_amount_untaxed + website_sale_order.wk_coupon_value" t-options="{'widget': 'monetary', 'display_currency': website_sale_order.currency_id}" />
 				</td>
 			</tr>
-			<tr id="order_coupon_value" t-if="website_sale_order.wk_coupon_value &gt; 0">
+			<tr id="order_coupon_value" t-if="website_sale_order.wk_coupon_value &gt; 0 or
+				(website_sale_order.get_voucher() and website_sale_order.get_voucher().voucher_value &gt; 0)">
 				<td class="text-right border-0">Discount:</td>
 				<td class="text-xl-right border-0">
 				<span t-field="website_sale_order.wk_coupon_value" class="monetary_field" style="white-space: nowrap;" t-options="{'widget': 'monetary', 'display_currency': website_sale_order.currency_id}" />
