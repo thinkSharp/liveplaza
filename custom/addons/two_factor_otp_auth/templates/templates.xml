@@ -27,91 +27,88 @@
   </template>
 
   <template id="2fa_setup" name="Setup Two Factor Authentication">
-    <t t-call="website.layout">
-      <div class="container my-3 px-4 py-3 bg-white">
-        <h1 class="h4 pb-2 border-bottom border-neutral-200">Enable Authenticator</h1>
-        <div class="d-flex flex-column align-items-center border-bottom border-neutral-200">
-          <span class="qr-code-image">
-            <t t-esc="qr_code_2fa" t-options="{'widget':'image'}"/>
-          </span>
-          <ul class="">
-            <li class="">Install an authenticator app on your mobile device. (eg. Google Authenticator)</li>
-            <li class="">Scan QR Code with the authenticator</li>
-          </ul>
+    <t t-call="two_factor_otp_auth.portal_section_layout">
+      <t t-set="header">Enable Authenticator</t>
+      <t t-call="two_factor_otp_auth.qr_code_instructions" />
+      <form method="post">
+        <t t-call="two_factor_otp_auth.otp_code_input" />
+        <div class="d-flex gap-2 justify-content-center">
+          <a href="/my/home" class="text-primary-500 px-4 py-2 bg-primary-100 border-0 rounded">Cancel</a>
+          <button type="submit" class="text-white px-4 py-2 bg-primary-500 border-0 rounded">Enable</button>
         </div>
-        <form method="post">
-          <div class="d-flex flex-column align-items-center mb-3 pt-2">
-            <label for="otp-code">Enter the 2-step verification code from your authenticator app</label>
-            <input
-              id="otp-code"
-              name="otp_code"
-              type="text"
-              t-attf-class="px-3 py-2 rounded lspace-4 outline-none #{'border-danger' if error else 'border-neutral-200 focus:border-neutral-200 active:border-neutral-200' }"
-              placeholder="000000"
-              maxlength="6"
-              pattern="\d*"
-              required="true"
-              autofocus="autofocus"
-            />
-            <div class="text-error-500" t-if="error" role="alert">
-              <t t-esc="error" />
-            </div>
-          </div>
-          <div class="d-flex gap-2 justify-content-center">
-            <a href="/my/home" class="text-primary-500 px-4 py-2 bg-primary-100 border-0 rounded">Cancel</a>
-            <button type="submit" class="text-white px-4 py-2 bg-primary-500 border-0 rounded">Enable</button>
-          </div>
-          <input name="csrf_token"
-            type="hidden"
-            t-att-value="request.csrf_token()"
-          />
-          <input name="qr_code_2fa"
-            type="hidden"
-            t-att-value="qr_code_2fa"
-          />
-          <input name="secret_code_2fa"
-            type="hidden"
-            t-att-value="secret_code_2fa"
-          />
-        </form>
-      </div>
+        <input name="csrf_token"
+          type="hidden"
+          t-att-value="request.csrf_token()"
+        />
+        <input name="qr_code_2fa"
+          type="hidden"
+          t-att-value="qr_code_2fa"
+        />
+        <input name="secret_code_2fa"
+          type="hidden"
+          t-att-value="secret_code_2fa"
+        />
+      </form>
     </t>
   </template>
 
 
-  <template id="2fa_disable" name="Setup Two Factor Authentication">
+  <template id="2fa_disable" name="Disable Two Factor Authentication">
+    <t t-call="two_factor_otp_auth.portal_section_layout">
+      <t t-set="header">Disable Authenticator</t>
+      <form method="post">
+        <t t-call="two_factor_otp_auth.otp_code_input" />
+        <div class="d-flex gap-2 justify-content-center">
+          <a href="/my/home" class="text-primary-500 px-4 py-2 bg-primary-100 border-0 rounded">Cancel</a>
+          <button type="submit" class="text-white px-4 py-2 bg-error-500 border-0 rounded">Disable</button>
+        </div>
+        <input name="csrf_token"
+          type="hidden"
+          t-att-value="request.csrf_token()"
+        />
+      </form>
+    </t>
+  </template>
+
+  <template id="portal_section_layout">
     <t t-call="website.layout">
       <div class="container my-3 px-4 py-3 bg-white">
-        <h1 class="h4 pb-2 border-bottom border-neutral-200">Disable Authenticator</h1>
-        <form method="post">
-          <div class="d-flex flex-column align-items-center mb-3 pt-2">
-            <label for="otp-code">Enter the 2-step verification code from your authenticator app</label>
-            <input
-              id="otp-code"
-              name="otp_code"
-              type="text"
-              t-attf-class="px-3 py-2 rounded lspace-4 outline-none #{'border-danger' if error else 'border-neutral-200 focus:border-neutral-200 active:border-neutral-200' }"
-              placeholder="000000"
-              maxlength="6"
-              pattern="\d*"
-              required="true"
-              autofocus="autofocus"
-            />
-            <div class="text-error-500" t-if="error" role="alert">
-              <t t-esc="error" />
-            </div>
-          </div>
-          <div class="d-flex gap-2 justify-content-center">
-            <a href="/my/home" class="text-primary-500 px-4 py-2 bg-primary-100 border-0 rounded">Cancel</a>
-            <button type="submit" class="text-white px-4 py-2 bg-error-500 border-0 rounded">Disable</button>
-          </div>
-          <input name="csrf_token"
-            type="hidden"
-            t-att-value="request.csrf_token()"
-          />
-        </form>
+        <h1 class="h4 pb-2 border-bottom border-neutral-200"><t t-esc="header" /></h1>
+        <t t-raw="0" />
       </div>
     </t>
+  </template>
+
+  <template id="otp_code_input">
+    <div class="d-flex flex-column align-items-center mb-3 pt-2">
+      <label for="otp-code">Enter the 2-step verification code from your authenticator app</label>
+      <input
+        id="otp-code"
+        name="otp_code"
+        type="text"
+        t-attf-class="px-3 py-2 rounded lspace-4 outline-none #{'border-danger' if error else 'border-neutral-200 focus:border-neutral-200 active:border-neutral-200' }"
+        placeholder="000000"
+        maxlength="6"
+        pattern="\d*"
+        required="true"
+        autofocus="autofocus"
+      />
+      <div class="text-error-500" t-if="error" role="alert">
+        <t t-esc="error" />
+      </div>
+    </div>
+  </template>
+
+  <template id="qr_code_instructions">
+    <div class="d-flex flex-column align-items-center border-bottom border-neutral-200">
+      <span class="qr-code-image">
+        <t t-esc="qr_code_2fa" t-options="{'widget':'image'}"/>
+      </span>
+      <ul class="">
+        <li class="">Install an authenticator app on your mobile device. (eg. Google Authenticator)</li>
+        <li class="">Scan QR Code with the authenticator</li>
+      </ul>
+    </div>
   </template>
 
 </odoo>

@@ -81,28 +81,28 @@ class TwoFAPortal(Controller):
 
     @route('/my/disable_2fa', type="http", auth="user", website=True)
     def disable_2fa(self, **kw):
-        params = request.params.copy()
-        
-        if not params.get('otp_code'):
+        code = request.params.get('otp_code')
+        current_user = request.env.user
+
+        if not code:
             return request.render("two_factor_otp_auth.2fa_disable")
+        elif current_user.verify_2fa(code):
+            current_user.do_disable_2fa()
+            return request.redirect('/my/home')
         else:
-            code = params.get('otp_code')
-            current_user = request.env.user
-            if current_user.verify_2fa(code):
-                current_user.do_disable_2fa()
-                return request.redirect('/my/home')
-            else:
-                context = {
-                    'error': _("Your Security code is wrong.")
-                }
-                return request.render("two_factor_otp_auth.2fa_disable", context)
+            context = {
+                'error': _("Your Security code is wrong.")
+            }
+            return request.render("two_factor_otp_auth.2fa_disable", context)
 
 
     @route('/my/enable_2fa', type="http", auth="user", website=True)
     def enable_2fa(self, **kw):
         params = request.params.copy()
+        secret = params.get('secret_code_2fa')
+        code = params.get('otp_code')
 
-        if not params.get('secret_code_2fa') or not params.get('otp_code'):
+        if not secret or not code:
             user = request.env.user
             otp = OTP.new()
             uri = otp.uri(name=user.login)
@@ -112,21 +112,17 @@ class TwoFAPortal(Controller):
                 "secret_code_2fa": otp.secret,
             }
             return request.render("two_factor_otp_auth.2fa_setup", context)
-
+        elif OTP(secret).verify(code):
+            user = request.env.user
+            user.do_enable_2fa(secret)
+            return request.redirect('/my/home')
         else:
-            secret = params.get('secret_code_2fa')
-            code = params.get('otp_code')
-            if OTP(secret).verify(code):
-                user = request.env.user
-                user.do_enable_2fa(secret)
-                return request.redirect('/my/home')
-            else:
-                context = {}
-                context.update(params)
-                context.update({
-                    "qr_code_2fa": params.get('qr_code_2fa').encode()
-                })
-                context.update({
-                    'error': _("Your security code is wrong.")
-                })
-                return request.render("two_factor_otp_auth.2fa_setup", context)
+            context = {}
+            context.update(params)
+            context.update({
+                "qr_code_2fa": params.get('qr_code_2fa').encode()
+            })
+            context.update({
+                'error': _("Your security code is wrong.")
+            })
+            return request.render("two_factor_otp_auth.2fa_setup", context)
