@@ -80,7 +80,7 @@
                             <table class="cart_modal_table">
                                 <t t-foreach="order.order_line" t-as="line">
 
-                                    <tr t-if="not line.is_delivery" t-att-data-product-id='line.product_id.id'>
+                                    <tr t-if="(not line.is_delivery) and (not line.is_voucher)" t-att-data-product-id='line.product_id.id'>
                                         <td align="center" t-if="line.product_id.product_tmpl_id" class='td-img'>
                                             <span t-field="line.product_id.image_128" t-options="{'widget': 'image', 'qweb_img_responsive': False, 'class': 'rounded o_image_64_max'}" />
                                         </td>
@@ -117,7 +117,7 @@
                 <h3>Purchased Products</h3>
                 <div class="ordered_products_box">
                     <t t-foreach="order_lines" t-as="line">
-                        <div t-if="not line.is_delivery" t-att-data-product-id='line.product_id.id' class="ordered_product">
+                        <div t-if="(not line.is_delivery) and (not line.is_voucher)" t-att-data-product-id='line.product_id.id' class="ordered_product">
                             <div align="center" t-if="line.product_id.product_tmpl_id" class='td-img ordered_product_img'>
                                 <span t-field="line.product_id.image_128" t-options="{'widget': 'image', 'qweb_img_responsive': False, 'class': 'rounded'}" />
                             </div>
@@ -214,7 +214,7 @@
                                     </tr>
                                 </thead>
                                 <t t-foreach="sale_order.order_line" t-as="line">
-                                    <tr t-if="not line.is_delivery" t-att-style="'opacity: 0.4' if line.delivery_status == 'hold' else ''"
+                                    <tr t-if="(not line.is_delivery) and (not line.is_voucher)" t-att-style="'opacity: 0.4' if line.delivery_status == 'hold' else ''"
                                         t-att-data-product-id='line.product_id.id' t-att-data-order-line="line.id"
                                         class=".product_tracking">
                                         <t t-if="not line.display_type">
@@ -308,6 +308,26 @@
                                 <div>
                                     <!-- Should be replaced in master by t-call="sale.sale_order_portal_content_totals_table" -->
                                     <table class="">
+                                        <t t-set="subtotal" t-value="sale_order.amount_untaxed - sale_order.amount_delivery + sale_order.wk_coupon_value" />
+                                        <tr class="border-black">
+                                            <td><strong>Subtotal</strong></td>
+                                            <td class="text-right">
+                                                <span
+                                                    data-id="total_untaxed"
+                                                    t-esc="subtotal"
+                                                    t-options='{"widget": "monetary","display_currency": sale_order.pricelist_id.currency_id}'
+                                                />
+                                            </td>
+                                        </tr>
+                                        <tr t-if="sale_order.get_voucher()">
+                                            <td><strong>Gift Voucher</strong></td>
+                                            <td class=" text-right">
+                                                <span>
+                                                    <strong t-esc="sale_order.get_voucher().voucher_value * (-1)" class="summary monetary_field" style="white-space: nowrap;"
+                                                            t-options='{"widget": "monetary", "display_currency": sale_order.currency_id,}'/>
+                                                </span>
+                                            </td>
+                                        </tr>
                                         <tr>
                                             <td><strong>Delivery</strong></td>
                                             <td class="text-right" >
@@ -317,16 +337,6 @@
                                                   "display_currency": sale_order.currency_id,
                                               }'/>
                                           </td>
-                                        </tr>
-                                        <tr class="border-black">
-                                            <td><strong>Subtotal</strong></td>
-                                            <td class="text-right">
-                                                <span
-                                                    data-id="total_untaxed"
-                                                    t-field="sale_order.amount_untaxed"
-                                                    t-options='{"widget": "monetary","display_currency": sale_order.pricelist_id.currency_id}'
-                                                />
-                                            </td>
                                         </tr>
                                         <t t-foreach="sale_order.amount_by_group" t-as="amount_by_group">
                                             <tr>

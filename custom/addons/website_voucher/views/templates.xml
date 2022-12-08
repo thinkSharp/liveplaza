@@ -209,18 +209,17 @@
 <!--    </t>-->
 <!--  </xpath>-->
 <!--</template>-->
-	<template id="portal_layout_inherited_voucher" inherit_id="portal.portal_layout"  name="Portal Layout">
-		<xpath expr="//div[@id='wrap']//div[hasclass('container')]//div[@id='o_my_sidebar']" position="after">
-			<div class="col-md-3 col-md-offset-1">
-				<h3>Coupon Codes</h3>
-				<a type="button" class="btn_modal_vouchers" href="#" data-toggle="modal" data-target="#open_vouchers_modal">Click here</a>
-				<span>
-					<i>to see your available coupons.</i>
-				</span>
-			</div>
-		<!--    <t t-call="website_voucher.coupon_modal"/>-->
-		</xpath>
-	</template>
+<!--	<template id="portal_layout_inherited_voucher" inherit_id="portal.portal_layout"  name="Portal Layout">-->
+<!--		<xpath expr="//div[@id='wrap']//div[hasclass('container')]//div[@id='o_my_sidebar']" position="after">-->
+<!--			<div class="col-md-3 col-md-offset-1">-->
+<!--				<h3>Coupon Codes</h3>-->
+<!--				<a type="button" class="btn_modal_vouchers" href="#" data-toggle="modal" data-target="#open_vouchers_modal">Click here</a>-->
+<!--				<span>-->
+<!--					<i>to see your available coupons.</i>-->
+<!--				</span>-->
+<!--			</div>-->
+<!--		</xpath>-->
+<!--	</template>-->
 	<template id="total_inherited" inherit_id="website_sale.total" name="Total">
 		<xpath expr="//tr[@id='empty']" position="after">
 			<tr id="order_coupon_value" t-if="website_sale_order.wk_coupon_value &gt; 0 or
