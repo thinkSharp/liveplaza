@@ -13,6 +13,7 @@ class DeliveryCarrier(models.Model):
         ('standard', "Standard"),
         ('Express', "Express")
     ], string='Shipping Method', required=True)
+    vendor_id = fields.Many2one('res.partner', required=True, domain="[('company_type', '=', 'company'), ('is_default', '=', True)]", string='Vendor')
 
     def _match_address(self, partner):
         self.ensure_one()
