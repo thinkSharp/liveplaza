@@ -96,14 +96,43 @@ class TwoFAPortal(Controller):
             return request.render("two_factor_otp_auth.2fa_disable", context)
 
 
+    @route('/my/change_2fa', type="http", auth="user", website=True)
+    def change_2fa(self, **kw):
+        params = request.params.copy()
+        code = params.get('otp_code')
+        user = request.env.user
+
+        if not code:
+            return request.render("two_factor_otp_auth.2fa_verify")
+        elif user.verify_2fa(code):
+            otp = OTP.new()
+            uri = otp.uri(name=user.login)
+            qr_code = QRCode(uri)
+            context = {
+                "qr_code_2fa": qr_code.base64,
+                "secret_code_2fa": otp.secret,
+                "uri": uri,
+                "old_secret_code": user.secret_code_2fa
+            }
+            return request.render("two_factor_otp_auth.2fa_setup", context)
+        else:
+            context = {
+                'error': _("Your Security code is wrong.")
+            }
+            return request.render("two_factor_otp_auth.2fa_verify", context)
+
+
     @route('/my/enable_2fa', type="http", auth="user", website=True)
     def enable_2fa(self, **kw):
         params = request.params.copy()
+        old_secret = params.get('old_secret_code')
         secret = params.get('secret_code_2fa')
         code = params.get('otp_code')
+        user = request.env.user
 
-        if not secret or not code:
-            user = request.env.user
+        if user.enable_2fa and user.secret_code_2fa != old_secret:
+            return request.redirect('/my/change_2fa')
+        elif not secret or not code:
             otp = OTP.new()
             uri = otp.uri(name=user.login)
             qr_code = QRCode(uri)
@@ -114,7 +143,6 @@ class TwoFAPortal(Controller):
             }
             return request.render("two_factor_otp_auth.2fa_setup", context)
         elif OTP(secret).verify(code):
-            user = request.env.user
             user.do_enable_2fa(secret)
             return request.redirect('/my/home')
         else:
