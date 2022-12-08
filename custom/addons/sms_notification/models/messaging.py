@@ -68,10 +68,12 @@ class SaleOrder(models.Model):
                 # Code to send sms to customer of the order.
 
             picking_objs = self.env['stock.picking'].search([('origin', '=', self.name)])
-            delivery_vendor_obj = self.env['res.partner'].search(
-                [('delivery_vendor', '=', True), ('is_default', '=', True)], limit=1)
-            picking_vendor_obj = self.env['res.partner'].search(
-                [('picking_vendor', '=', True), ('is_default', '=', True)], limit=1)
+            delivery_carrier_obj = self.env['delivery.carrier'].search([('id', '=', self.selected_carrier_id)])
+            
+            delivery_vendor_obj = delivery_carrier_obj.vendor_id
+            picking_vendor_obj  = delivery_carrier_obj.vendor_id
+            #delivery_vendor_obj = self.env['res.partner'].search([('delivery_vendor', '=', True), ('is_default', '=', True)], limit=1)
+            #picking_vendor_obj = self.env['res.partner'].search([('picking_vendor', '=', True), ('is_default', '=', True)], limit=1)
 
             # self.write({'service_delivery_status': 'delivered'})
             for line in self.order_line:
@@ -121,7 +123,7 @@ class SaleOrder(models.Model):
                     picking_data.write({'payment_provider': self.get_portal_last_transaction().acquirer_id.provider,
                                         'is_admin_approved': True,
                                         'vendor_id': picking_vendor_obj.id or None,
-                                        'picking_method_id': pickup_zone.id or None,
+                                        'picking_method_id': pickup_zone.id if pickup_zone else None,
                                         'pickup_person_id': pickup_person or None,
                                         'hold_state': False})
 
@@ -208,7 +210,7 @@ class SaleOrder(models.Model):
                     picking_data.write({'payment_provider': self.get_portal_last_transaction().acquirer_id.provider,
                                         'is_admin_approved': True,
                                         'vendor_id': delivery_vendor_obj.id or None,
-                                        'delivery_method_id': delivery_zone.id or None,
+                                        'delivery_method_id': delivery_zone.id if delivery_zone else None,
                                         'delivery_person_id': delivery_person or None,
                                         'hold_state': False})
 
