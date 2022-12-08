@@ -315,14 +315,22 @@
                                         <h4><strong>Order Summary</strong></h4>
                                         <div>
                                             <table class="order_summary_table">
+                                                <t t-set="subtotal" t-value="sale_order.checked_amount_untaxed + sale_order.wk_coupon_value" />
                                                 <tr class="border-black">
                                                     <td><strong>Subtotal</strong></td>
                                                     <td class="text-right">
                                                         <span
                                                             data-id="total_untaxed"
-                                                            t-field="sale_order.checked_amount_untaxed"
+                                                            t-esc="subtotal"
                                                             t-options='{"widget": "monetary","display_currency": sale_order.pricelist_id.currency_id}'
                                                         />
+                                                    </td>
+                                                </tr>
+                                                <tr t-if="sale_order.get_voucher()">
+                                                    <td><strong>Gift Voucher</strong></td>
+                                                    <td class="text-right">
+                                                        <span t-esc="sale_order.get_voucher().voucher_value * (-1)" class="summary monetary_field" style="white-space: nowrap;"
+                                                                t-options='{"widget": "monetary", "display_currency": sale_order.currency_id,}'/>
                                                     </td>
                                                 </tr>
                                                 <tr>
