@@ -74,7 +74,7 @@
     </t>
   </template>
 
-  <template id="2fa_verify" name="Verify Two Factor Authentication">
+  <template id="2fa_verify_change" name="Verify Two Factor Authentication">
     <t t-call="two_factor_otp_auth.portal_section_layout">
       <t t-set="header">Verify with Authenticator</t>
       <form method="post">
@@ -86,6 +86,31 @@
         <input name="csrf_token"
           type="hidden"
           t-att-value="request.csrf_token()"
+        />
+      </form>
+    </t>
+  </template>
+
+  <template id="2fa_verify_login" name="Verify Two Factor Authentication">
+    <t t-call="two_factor_otp_auth.portal_section_layout">
+      <t t-set="header">Verify with Authenticator</t>
+      <form method="post">
+        <t t-call="two_factor_otp_auth.otp_code_input" />
+        <div class="d-flex gap-2 justify-content-center">
+          <a href="/web/session/logout" class="text-primary-500 px-4 py-2 bg-primary-100 border-0 rounded">Cancel</a>
+          <button type="submit" class="text-white px-4 py-2 bg-error-500 border-0 rounded">Verify</button>
+        </div>
+        <input name="csrf_token"
+          type="hidden"
+          t-att-value="request.csrf_token()"
+        />
+        <input name="login"
+          type="hidden"
+          t-att-value="login"
+        />
+        <input name="password"
+          type="hidden"
+          t-att-value="password"
         />
       </form>
     </t>

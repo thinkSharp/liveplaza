@@ -63,7 +63,7 @@ class Login2fa(Home):
         user = request.env["res.users"].sudo().browse(user_id)
 
         if user.secret_code_2fa or values.get("qr_code_2fa") or values.get("error"):
-            template = "two_factor_otp_auth.verify_code"
+            template = "two_factor_otp_auth.2fa_verify_login"
 
         else:
             template = "two_factor_otp_auth.scan_code"
@@ -103,7 +103,7 @@ class TwoFAPortal(Controller):
         user = request.env.user
 
         if not code:
-            return request.render("two_factor_otp_auth.2fa_verify")
+            return request.render("two_factor_otp_auth.2fa_verify_change")
         elif user.verify_2fa(code):
             otp = OTP.new()
             uri = otp.uri(name=user.login)
@@ -119,7 +119,7 @@ class TwoFAPortal(Controller):
             context = {
                 'error': _("Your Security code is wrong.")
             }
-            return request.render("two_factor_otp_auth.2fa_verify", context)
+            return request.render("two_factor_otp_auth.2fa_verify_change", context)
 
 
     @route('/my/enable_2fa', type="http", auth="user", website=True)
