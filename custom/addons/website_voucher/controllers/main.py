@@ -51,9 +51,7 @@ class website_voucher(http.Controller):
         order = request.website.sale_get_order()
         for line in order.order_line:
             if line.is_voucher:
-                print("line.is_voucher")
                 line.sudo().unlink()
-                print("line is unlink")
                 order.wk_coupon_value = 0
                 return request.redirect("/shop/cart/")
 
@@ -95,6 +93,7 @@ class WebsiteSale(Website_Sale):
         """This route is called when changing quantity from the cart or adding
         a product from the wishlist."""
         order = request.website.sale_get_order(force_create=1)
+        new_product_id = product_id
 
         for line in order.order_line:
             if line.product_id.id == product_id and line.is_voucher:
@@ -127,15 +126,9 @@ class WebsiteSale(Website_Sale):
 
         # remove voucher if the related product is deleted from cart
         for line in order.order_line:
-            print("line = ", line.product_id.name)
             if line.wk_voucher_id:
-                print("### product id = ", product_id)
-                check_product = order.check_voucher_product(order, line.wk_voucher_id, product_id=product_id)
+                check_product = order.check_voucher_product(order, line.wk_voucher_id, product_id=new_product_id)
                 if not check_product:
-                    print("not check_product")
                     line.sudo().unlink()
-                    print("unlink line")
                     order.wk_coupon_value = 0
-                else:
-                    print("check_product")
         return value

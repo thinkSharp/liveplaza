@@ -247,4 +247,10 @@
 		</xpath>
 	</template>
 
+	<template id="inherit_confirmation_page_summary" inherit_id="website_sale.cart_summary">
+		<xpath expr="//tbody/tr" position="attributes">
+			<attribute name="t-if">not line.is_voucher</attribute>
+		</xpath>
+	</template>
+
 </odoo>

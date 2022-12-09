@@ -171,11 +171,19 @@
                             <ul class="nav sidebar-nav" id="sidebar-wrapper">
                                 <t t-foreach="documents" t-as="doc">
                                     <li t-if="doc.document_lines and doc.website_published">
-                                        <a t-if="document and doc.id==document.id" t-att-style="style"
-                                           t-att-href="request.website._get_documents_url(category, doc=doc)">
-                                            <t t-esc="request.website._get_translate_text(doc, myanmar)"/></a>
-                                        <a t-else="" t-att-href="request.website._get_documents_url(category, doc=doc)">
-                                            <t t-esc="request.website._get_translate_text(doc, myanmar)"/></a>
+                                        <div t-if="document and doc.id==document.id" style="display: flex;">
+                                            <i class="fa fa-angle-right"/>
+                                            <a t-att-style="style"
+                                               t-att-href="request.website._get_documents_url(category, doc=doc)">
+                                                <t t-esc="request.website._get_translate_text(doc, myanmar)"/>
+                                            </a>
+                                        </div>
+                                        <div t-else="" style="display: flex;">
+                                            <i class="fa fa-angle-right"/>
+                                            <a t-att-href="request.website._get_documents_url(category, doc=doc)">
+                                                <t t-esc="request.website._get_translate_text(doc, myanmar)"/>
+                                            </a>
+                                        </div>
                                     </li>
                                 </t>
 
@@ -214,7 +222,8 @@
                             <div t-if="document">
                                 <ul class="nav sidebar-nav">
                                     <t t-foreach="document.document_lines" t-as="line">
-                                        <li>
+                                        <li style="display: flex;">
+                                            <i class="fa fa-angle-right"/>
                                             <a type="button" t-att-href="'#' + line.name"
                                                t-attf-onclick="locate_doc_line(#{line.id})">
                                                 <t t-esc="request.website._get_translate_text(line, myanmar)"/></a>
@@ -231,7 +240,8 @@
 <!--                                        </div>-->
                                         <ul class="nav sidebar-nav" style="padding-top: :5px;">
                                             <t t-foreach="doc.document_lines" t-as="line">
-                                                <li>
+                                                <li style="display: flex;">
+                                                    <i class="fa fa-angle-right"/>
                                                     <a type="button" t-att-href="'#' + line.name"
                                                        t-attf-onclick="locate_doc_line(#{line.id})" >
                                                         <t t-esc="request.website._get_translate_text(line, myanmar)"/></a>
