@@ -102,7 +102,9 @@ class TwoFAPortal(Controller):
         code = params.get('otp_code')
         user = request.env.user
 
-        if not code:
+        if not user.enable_2fa:
+            return request.redirect('/my/enable_2fa')
+        elif not code:
             return request.render("two_factor_otp_auth.2fa_verify_change")
         elif user.verify_2fa(code):
             otp = OTP.new()
