@@ -53,6 +53,21 @@ class sale_order(models.Model):
 				order_obj.applied_voucher = voucher_obj.id
 		return result
 
+	# add new email template when order is confirmed (add voucher info)
+	def _find_mail_template(self, force_confirmation_template=False):
+		template_id = False
+		if force_confirmation_template or (self.state == 'sale' and not self.env.context.get('proforma', False)):
+			template_id = int(self.env['ir.config_parameter'].sudo().get_param('sale.default_confirmation_template'))
+			template_id = self.env['mail.template'].search([('id', '=', template_id)]).id
+			if not template_id:
+				template_id = self.env['ir.model.data'].xmlid_to_res_id(
+					'marketplace_voucher.mail_template_sale_confirmation', raise_if_not_found=False)
+		if not template_id:
+			template_id = self.env['ir.model.data'].xmlid_to_res_id('sale.email_template_edi_sale',
+																	raise_if_not_found=False)
+
+		return template_id
+
 	# def write(self, vals):
 	# 	res = super(sale_order, self).write(vals)
 	# 	applied_voucher = vals.get("applied_voucher") if vals.get("applied_voucher") else self.applied_voucher

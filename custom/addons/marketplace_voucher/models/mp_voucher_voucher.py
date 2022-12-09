@@ -66,7 +66,6 @@ class VoucherVoucher(models.Model):
                             ('marketplace_seller_id', '=', rec.marketplace_seller_id.id)])
                 rec.seller_product_ids = products
             else:
-                print("no seller id")
                 products = self.env['product.template'].search([('status', '=', 'approved'), ('active', '=', True)])
                 rec.seller_product_ids = products
 
