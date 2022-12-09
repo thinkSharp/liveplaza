@@ -115,9 +115,9 @@ class SaleOrder(models.Model):
                                 if delivery_zone in delivery_person_data.delivery_method_ids:
                                     delivery_person = delivery_person_data.id
 
-                    if not delivery_zone:
+                    if not delivery_zone and not is_all_service:
                         raise Warning("Need to setup delivery zone for buyer township %s" % buyer_township.name)
-                    if not pickup_zone:
+                    if not pickup_zone and not is_all_service:
                         raise Warning("Need to setup pickup zone for seller township %s" % seller_township.name)
 
                     picking_data.write({'payment_provider': self.get_portal_last_transaction().acquirer_id.provider,
