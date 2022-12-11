@@ -149,11 +149,25 @@
       <a t-att-href="uri" class="qr-code-image">
         <t t-esc="qr_code_2fa" t-options="{'widget':'image'}"/>
       </a>
-      <ul class="">
-        <li class="">Install an authenticator app on your mobile device. (eg. Google Authenticator)</li>
-        <li class="">Scan QR Code with the authenticator (or click to open authenticator on mobile)</li>
-        <li class="">(Optional) Copy the secret to setup manually <code class="" t-esc="secret_code_2fa" /></li>
-      </ul>
+      <label class="">Secret Key: <code class="" t-esc="secret_code_2fa" /></label>
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-4 col-md-6">
+            <h3 class="h6 font-weight-bold">Instructions for Desktop</h3>
+            <ol class="pl-4">
+              <li class="">Install an authenticator app on your mobile device. (eg. Google Authenticator)</li>
+              <li class="">Scan QR Code with the authenticator (or Copy the secret to setup manually)</li>
+            </ol>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <h3 class="h6 font-weight-bold">Instructions for Mobile</h3>
+            <ol class="pl-4">
+              <li class="">Install an authenticator app on your mobile device. (eg. Google Authenticator)</li>
+              <li class="">Click on QR Code to open authenticator (or Copy the secret to setup manually)</li>
+            </ol>
+          </div>
+        </div>
+      </div>
     </div>
   </template>
 
