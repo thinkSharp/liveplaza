@@ -776,7 +776,7 @@
                             <field name="scheduled_date" attrs="{'readonly': [('state', 'in', ('done','assigned', 'cancel'))], 'required': [('id', '!=', False)]}"/>
                             <field name="date_done" string="Effective Date" attrs="{'invisible': [('state', '!=', 'done')]}"/>
                             <field name="origin" readonly="1" placeholder="e.g. PO0032"/>
-                            <field name="vendor_id"  domain="[('delivery_vendor', '=', True)]" attrs="{'readonly': [('state', 'in', ('done','assigned','cancel'))]}" invisible="1"/>
+                            <field name="vendor_id"  string="Vendor" domain="[('delivery_vendor', '=', True)]" attrs="{'readonly': [('state', 'in', ('done','assigned','cancel'))]}"/>
                             <field name="delivery_method_id" readonly="1" invisible="1"/>
 		                    <field name="hold_reason" attrs="{'invisible': [('state', '!=', 'assigned')]}" />
 		                    <field name="hold_state" string="To Receive" invisible="1"/>
