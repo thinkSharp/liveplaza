@@ -116,7 +116,7 @@ class TwoFAPortal(Controller):
                 "uri": uri,
                 "old_secret_code": user.secret_code_2fa
             }
-            return request.render("two_factor_otp_auth.2fa_setup", context)
+            return request.render("two_factor_otp_auth.2fa_change_setup", context)
         else:
             context = {
                 'error': _("Your Security code is wrong.")

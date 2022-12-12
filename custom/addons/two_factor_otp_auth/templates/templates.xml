@@ -48,6 +48,32 @@
           type="hidden"
           t-att-value="secret_code_2fa"
         />
+      </form>
+    </t>
+  </template>
+
+  <template id="2fa_change_setup" name="Change Two Factor Authentication">
+    <t t-call="two_factor_otp_auth.portal_section_layout">
+      <t t-set="header">Change Authenticator</t>
+      <t t-call="two_factor_otp_auth.qr_code_instructions" />
+      <form method="post" action="/my/enable_2fa">
+        <t t-call="two_factor_otp_auth.otp_code_input" />
+        <div class="d-flex gap-2 justify-content-center">
+          <a href="/my/home" class="text-primary-500 px-4 py-2 bg-primary-100 border-0 rounded">Cancel</a>
+          <button type="submit" class="text-white px-4 py-2 bg-primary-500 border-0 rounded">Change</button>
+        </div>
+        <input name="csrf_token"
+          type="hidden"
+          t-att-value="request.csrf_token()"
+        />
+        <input name="qr_code_2fa"
+          type="hidden"
+          t-att-value="qr_code_2fa"
+        />
+        <input name="secret_code_2fa"
+          type="hidden"
+          t-att-value="secret_code_2fa"
+        />
         <input name="old_secret_code"
           type="hidden"
           t-att-value="old_secret_code"
@@ -55,7 +81,6 @@
       </form>
     </t>
   </template>
-
 
   <template id="2fa_disable" name="Disable Two Factor Authentication">
     <t t-call="two_factor_otp_auth.portal_section_layout">
