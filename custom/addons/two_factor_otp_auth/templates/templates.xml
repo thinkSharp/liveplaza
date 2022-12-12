@@ -180,14 +180,14 @@
           <div class="col-lg-4 col-md-6">
             <h3 class="h6 font-weight-bold">Instructions for Desktop</h3>
             <ol class="pl-4">
-              <li class="">Install an authenticator app on your mobile device. (eg. Google Authenticator, Authy, ...)</li>
+              <li class="">Install an authenticator app on your mobile device. (eg. Google Authenticator, Authy, etc...)</li>
               <li class="">Scan QR Code with the authenticator (or Copy the secret to setup manually)</li>
             </ol>
           </div>
           <div class="col-lg-4 col-md-6">
             <h3 class="h6 font-weight-bold">Instructions for Mobile</h3>
             <ol class="pl-4">
-              <li class="">Install an authenticator app on your mobile device. (eg. Google Authenticator, Authy, ...)</li>
+              <li class="">Install an authenticator app on your mobile device. (eg. Google Authenticator, Authy, etc...)</li>
               <li class="">Click on QR Code to open authenticator (or Copy the secret to setup manually)</li>
             </ol>
           </div>
