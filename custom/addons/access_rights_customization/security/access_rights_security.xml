@@ -43,5 +43,13 @@
         <field name="perm_create" eval="False"/>
         <field name="perm_unlink" eval="False"/>
     </record>
+    <record id="deliveryperson_rule" model="ir.rule">
+        <field name="name">Delivery Person only</field>
+        <field name="model_id" ref="base.model_res_partner"/>
+        <field name="domain_force">[('id','=',user.partner_id.id)]</field>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+        <field name="groups" eval="[(4, ref('access_rights_customization.group_delivery_operator')),(4, ref('access_rights_customization.group_pickupandpackaging_operator'))]"/>
+    </record>
 </odoo>
         
