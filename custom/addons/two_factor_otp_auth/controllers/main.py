@@ -84,7 +84,9 @@ class TwoFAPortal(Controller):
         code = request.params.get('otp_code')
         current_user = request.env.user
 
-        if not code:
+        if not current_user.enable_2fa:
+            return request.redirect('/my/home')
+        elif not code:
             return request.render("two_factor_otp_auth.2fa_disable")
         elif current_user.verify_2fa(code):
             current_user.do_disable_2fa()
@@ -116,7 +118,7 @@ class TwoFAPortal(Controller):
                 "uri": uri,
                 "old_secret_code": user.secret_code_2fa
             }
-            return request.render("two_factor_otp_auth.2fa_setup", context)
+            return request.render("two_factor_otp_auth.2fa_change_setup", context)
         else:
             context = {
                 'error': _("Your Security code is wrong.")
