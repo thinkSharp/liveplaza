@@ -16,6 +16,7 @@
             'security/ar_seller_tier_1_group.xml',
             'security/ar_seller_tier_2_group.xml',
             'security/ar_seller_tier_3_group.xml',
+            'security/access_rights_security.xml',
             'security/ir.model.access.csv'
             ],
     'installable': True,

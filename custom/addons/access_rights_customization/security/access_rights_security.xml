@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2016-Present Webkul Software Pvt. Ltd. (<https://webkul.com/>) -->
+<!-- See LICENSE file for full copyright and licensing details. -->
+<!-- License URL : https://store.webkul.com/license.html/ -->
+
+<odoo>
+    <record id="deliveryoperator_rule" model="ir.rule">
+        <field name="name">Delivery Operator only</field>
+        <field name="model_id" ref="stock.model_stock_picking"/>
+        <field name="domain_force">[('delivery_person_id','=',user.partner_id.id)]</field>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+        <field name="groups" eval="[(4, ref('access_rights_customization.group_delivery_operator'))]"/>
+    </record>
+
+    <record id="pickupoperator_rule" model="ir.rule">
+        <field name="name">Pickup Operator only</field>
+        <field name="model_id" ref="stock.model_stock_picking"/>
+        <field name="domain_force">[('pickup_person_id','=',user.partner_id.id)]</field>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+        <field name="groups" eval="[(4, ref('access_rights_customization.group_pickupandpackaging_operator'))]"/>
+    </record>
+
+    <record id="pickup_vendor_user_read_own" model="ir.rule">
+        <field name="name">Pickup Vendor : Own Documents</field>
+        <field name="model_id" ref="stock.model_stock_picking"/>
+        <field name="domain_force">[('vendor_id.id', '=', user.partner_id.id)]</field>
+        <field name="groups" eval="[(4, ref('picking_and_delivery_vendor.pickup_vendor_group'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+
+    <record id="delivery_vendor_user_read_own" model="ir.rule">
+        <field name="name">Delivery Vendor : Own Documents</field>
+        <field name="model_id" ref="stock.model_stock_picking"/>
+        <field name="domain_force">[('vendor_id.id', '=', user.partner_id.id)]</field>
+        <field name="groups" eval="[(4, ref('picking_and_delivery_vendor.delivery_vendor_group'))]"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+    </record>
+</odoo>
+        

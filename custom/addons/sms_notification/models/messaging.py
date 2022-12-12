@@ -179,6 +179,7 @@ class SaleOrder(models.Model):
                     print("pack............................")
                     picking_data.write({'payment_provider': self.get_portal_last_transaction().acquirer_id.provider,
                                         'is_admin_approved': True,
+                                        'vendor_id': picking_vendor_obj.id or None,
                                         'hold_state': False})
 
                     if self.all_service_ticket and picking_data.state == 'assigned':
