@@ -80,7 +80,7 @@
 
                         <div t-if="live_streams.filtered(lambda stream: stream.end_stream_datetime &lt; datetime.datetime.now())" class="livestream_header">
                             <strong>
-                                <h3 class="ml-2" style="display: inline;color: blue;font-size: 20px;">Livestreams Videos</h3>
+                                <h3 class="ml-2" style="display: inline;color: blue;font-size: 20px;">Previous Livestreams Videos</h3>
 <!--                                <span class="px-1" style="display: inline; background: red;width: 50px;color: #FFFFFF;font-size: 20px;">LIVE</span>-->
                             </strong>
                         </div>
