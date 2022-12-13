@@ -228,12 +228,12 @@
                                                     </h6>
                                                 </td>
                                             </tr>
-                                            <tr t-if="doc.get_voucher()">
+                                            <tr t-if="doc.wk_coupon_value">
                                                 <td class="summary_td_style text-right"><h6 class="summary"><strong>Gift Voucher</strong></h6></td>
                                                 <td class="summary_td_style text-right">
                                                     <h6 class="summary">
                                                         <strong class="text-right">
-                                                            <strong t-esc="doc.get_voucher().voucher_value * (-1)" class="summary monetary_field" style="white-space: nowrap;"
+                                                            <strong t-esc="doc.wk_coupon_value * (-1)" class="summary monetary_field" style="white-space: nowrap;"
                                                                     t-options='{"widget": "monetary", "display_currency": doc.currency_id,}'/>
                                                         </strong>
                                                     </h6>

@@ -326,10 +326,10 @@
                                                         />
                                                     </td>
                                                 </tr>
-                                                <tr t-if="sale_order.get_voucher()">
+                                                <tr t-if="sale_order.wk_coupon_value">
                                                     <td><strong>Gift Voucher</strong></td>
                                                     <td class="text-right">
-                                                        <span t-esc="sale_order.get_voucher().voucher_value * (-1)" class="summary monetary_field" style="white-space: nowrap;"
+                                                        <span t-esc="sale_order.wk_coupon_value * (-1)" class="summary monetary_field" style="white-space: nowrap;"
                                                                 t-options='{"widget": "monetary", "display_currency": sale_order.currency_id,}'/>
                                                     </td>
                                                 </tr>
