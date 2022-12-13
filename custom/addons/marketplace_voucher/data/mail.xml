@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <record id="mail_template_sale_confirmation" model="mail.template">
-        <field name="name">Sales Order: Confirmation Email</field>
+        <field name="name">Sales Orders: Confirmation Email</field>
         <field name="model_id" ref="sale.model_sale_order"/>
         <field name="subject">${object.company_id.name} ${(object.get_portal_last_transaction().state == 'pending') and 'Pending Order' or 'Order'} (Ref ${object.name or 'n/a' })</field>
         <field name="email_from"> info.liveplaza@mail.liveplaza.co </field>
@@ -30,15 +30,13 @@
             <div style="margin: 0px; padding: 0px;">
                 <table width="100%" style="color: #454748; font-size: 12px; border-collapse: collapse;">
                     <tr style="border-bottom: 2px solid #dee2e6;">
-                        <td width="18%"><strong>Products</strong></td>
-                        <td></td>
+                        <td colspan="2" align="center"><strong>Products</strong></td>
+<!--                        <td></td>-->
                         <td><strong>Quantity</strong></td>
                         <td width="10%" align="center"><strong>Price</strong></td>
                     </tr>
-                </table>
-                % for line in object.order_line:
-                    % if not line.is_voucher and not line.is_delivery and line.display_type in ['line_section', 'line_note']:
-                        <table width="100%" style="color: #454748; font-size: 12px; border-collapse: collapse;">
+                    % for line in object.order_line:
+                        % if not line.is_voucher and not line.is_delivery and line.display_type in ['line_section', 'line_note']:
                             <tr style="${loop.cycle('background-color: #f2f2f2', 'background-color: #ffffff')}">
                                 <td colspan="4">
                                     % if line.display_type == 'line_section':
@@ -48,9 +46,7 @@
                                     % endif
                                 </td>
                             </tr>
-                        </table>
-                    % elif not line.is_delivery and not line.is_voucher
-                        <table width="100%" style="color: #454748; font-size: 12px; border-collapse: collapse;">
+                        % elif not line.is_delivery and not line.is_voucher
                             <tr style="${loop.cycle('background-color: #f2f2f2', 'background-color: #ffffff')}">
                                 <td style="width: 150px;">
                                     <img src="/web/image/product.product/${line.product_id.id}/image_128" style="width: 64px; height: 64px; object-fit: contain;" alt="Product image"></img>
@@ -64,30 +60,29 @@
                                     <td align="right">${format_amount(line.price_reduce_taxinc, object.currency_id)}</td>
                                 % endif
                             </tr>
-                        </table>
-                    % endif
-                % endfor
-            </div>
-            % if object.get_voucher():
-                <table width="100%" style="color: #454748; font-size: 12px; border-spacing: 0px 4px;" align="right">
-                    <tr>
-                        <td style="width: 60%"/>
-                        <td style="width: 30%; border-top: 1px solid #dee2e6;" align="right"><strong>Gift Voucher:</strong></td>
-                        <td style="width: 10%; border-top: 1px solid #dee2e6;" align="right">${format_amount(object.get_voucher().voucher_value*(-1), object.currency_id)}</td>
-                    </tr>
+                        % endif
+                    % endfor
                 </table>
-            % endif
+            </div>
+
             % if object.carrier_id:
             <div style="margin: 0px; padding: 0px;">
                 <table width="100%" style="color: #454748; font-size: 12px; border-spacing: 0px 4px;" align="right">
+                    % if object.wk_coupon_value:
+                        <tr>
+                            <td style="width: 60%"/>
+                            <td style="width: 30%; border-top: 1px solid #dee2e6;" align="right"><strong>Gift Voucher :</strong></td>
+                            <td style="width: 10%; border-top: 1px solid #dee2e6;" align="right">${format_amount(object.wk_coupon_value*(-1), object.currency_id)}</td>
+                        </tr>
+                    % endif
                     <tr>
                         <td style="width: 60%"/>
-                        <td style="width: 30%; " align="right"><strong>Delivery:</strong></td>
+                        <td style="width: 30%; " align="right"><strong>Delivery :</strong></td>
                         <td style="width: 10%; " align="right">${format_amount(object.amount_delivery, object.currency_id)}</td>
                     </tr>
                     <tr>
                         <td style="width: 60%"/>
-                        <td style="width: 30%;" align="right"><strong>SubTotal:</strong></td>
+                        <td style="width: 30%;" align="right"><strong>SubTotal :</strong></td>
                         <td style="width: 10%;" align="right">${format_amount(object.amount_untaxed, object.currency_id)}</td>
                     </tr>
                 </table>
@@ -97,7 +92,7 @@
                 <table width="100%" style="color: #454748; font-size: 12px; border-spacing: 0px 4px;" align="right">
                     <tr>
                         <td style="width: 60%"/>
-                        <td style="width: 30%; border-top: 1px solid #dee2e6;" align="right"><strong>SubTotal:</strong></td>
+                        <td style="width: 30%; border-top: 1px solid #dee2e6;" align="right"><strong>SubTotal :</strong></td>
                         <td style="width: 10%; border-top: 1px solid #dee2e6;" align="right">${format_amount(object.amount_untaxed, object.currency_id)}</td>
                     </tr>
                 </table>
@@ -107,12 +102,12 @@
                 <table width="100%" style="color: #454748; font-size: 12px; border-spacing: 0px 4px;" align="right">
                     <tr>
                         <td style="width: 60%"/>
-                        <td style="width: 30%;" align="right"><strong>Taxes:</strong></td>
+                        <td style="width: 30%;" align="right"><strong>Taxes :</strong></td>
                         <td style="width: 10%;" align="right">${format_amount(object.amount_tax, object.currency_id)}</td>
                     </tr>
                     <tr>
                         <td style="width: 60%"/>
-                        <td style="width: 30%; border-top: 1px solid #dee2e6;" align="right"><strong>Total:</strong></td>
+                        <td style="width: 30%; border-top: 1px solid #dee2e6;" align="right"><strong>Total :</strong></td>
                         <td style="width: 10%; border-top: 1px solid #dee2e6;" align="right">${format_amount(object.amount_total, object.currency_id)}</td>
                     </tr>
                 </table>
@@ -163,7 +158,7 @@
                 <table width="100%" style="color: #454748; font-size: 12px;">
                     <tr>
                         <td>
-                            <strong>Shipping Method:</strong>
+                            <strong>Shipping Method :</strong>
                             ${object.carrier_id.name}
                             % if object.carrier_id.fixed_price == 0.0:
                                 (Free)
