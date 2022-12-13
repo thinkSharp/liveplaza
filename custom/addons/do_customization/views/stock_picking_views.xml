@@ -353,7 +353,7 @@
                     </group>
                     <notebook>
                         <!-- Reservation hidden -->
-                        <page string="Detailed Operations" attrs="{'invisible': ['|', ('show_operations', '=', False), ('show_reserved', '=', True)]}" groups="odoo_marketplace.marketplace_officer_group">
+                        <page string="Detailed Operations" attrs="{'invisible': ['|', ('show_operations', '=', False), ('show_reserved', '=', True)]}">
                             <field name="move_line_nosuggest_ids"
                                    attrs="{'readonly': ['|', '|', ('show_operations', '=', False), ('state', '=', 'cancel'), '&amp;', ('state', '=', 'done'), ('is_locked', '=', True)]}"
                                    context="{'tree_view_ref': 'stock.view_stock_move_line_detailed_operation_tree', 'default_picking_id': id, 'default_location_id': location_id, 'default_location_dest_id': location_dest_id, 'default_company_id': company_id}"/>
@@ -364,7 +364,7 @@
                         </page>
 
                         <!-- Reservation displayed -->
-                        <page string="Detailed Operations"  attrs="{'invisible': ['|', ('show_operations', '=', False), ('show_reserved', '=', False)]}" groups="odoo_marketplace.marketplace_officer_group">
+                        <page string="Detailed Operations"  attrs="{'invisible': ['|', ('show_operations', '=', False), ('show_reserved', '=', False)]}">
                             <field name="move_line_ids_without_package" options="{'no_create': True}"  readonly="1"
                                    context="{'tree_view_ref': 'stock.view_stock_move_line_detailed_operation_tree', 'default_picking_id': id, 'default_location_id': location_id, 'default_location_dest_id': location_dest_id, 'default_company_id': company_id}"/>
                             <field name="package_level_ids_details" context="{'default_location_id': location_id, 'default_location_dest_id': location_dest_id, 'default_company_id': company_id}" attrs="{'readonly': [('state', '=', 'done')], 'invisible': ['|', ('picking_type_entire_packs', '=', False), ('show_operations', '=', False)]}" />
@@ -571,7 +571,7 @@
                     </group>
                     <notebook>
                         <!-- Reservation hidden -->
-                        <page string="Detailed Operations" attrs="{'invisible': ['|', ('show_operations', '=', False), ('show_reserved', '=', True)]}" groups="odoo_marketplace.marketplace_officer_group">
+                        <page string="Detailed Operations" attrs="{'invisible': ['|', ('show_operations', '=', False), ('show_reserved', '=', True)]}">
                             <field name="move_line_nosuggest_ids"
                                    attrs="{'readonly': ['|', '|', ('show_operations', '=', False), ('state', '=', 'cancel'), '&amp;', ('state', '=', 'done'), ('is_locked', '=', True)]}"
                                    context="{'tree_view_ref': 'stock.view_stock_move_line_detailed_operation_tree', 'default_picking_id': id, 'default_location_id': location_id, 'default_location_dest_id': location_dest_id, 'default_company_id': company_id}"/>
@@ -582,7 +582,7 @@
                         </page>
 
                         <!-- Reservation displayed -->
-                        <page string="Detailed Operations"  attrs="{'invisible': ['|', ('show_operations', '=', False), ('show_reserved', '=', False)]}" groups="odoo_marketplace.marketplace_officer_group">
+                        <page string="Detailed Operations"  attrs="{'invisible': ['|', ('show_operations', '=', False), ('show_reserved', '=', False)]}">
                             <field name="move_line_ids_without_package" options="{'no_create': True}"  readonly="1"
                                    context="{'tree_view_ref': 'stock.view_stock_move_line_detailed_operation_tree', 'default_picking_id': id, 'default_location_id': location_id, 'default_location_dest_id': location_dest_id, 'default_company_id': company_id}"/>
                             <field name="package_level_ids_details" context="{'default_location_id': location_id, 'default_location_dest_id': location_dest_id, 'default_company_id': company_id}" attrs="{'readonly': [('state', '=', 'done')], 'invisible': ['|', ('picking_type_entire_packs', '=', False), ('show_operations', '=', False)]}" />
@@ -789,7 +789,7 @@
                     </group>
                     <notebook>
                         <!-- Reservation hidden -->
-                        <page string="Detailed Operations" attrs="{'invisible': ['|', ('show_operations', '=', False), ('show_reserved', '=', True)]}" groups="odoo_marketplace.marketplace_officer_group">
+                        <page string="Detailed Operations" attrs="{'invisible': ['|', ('show_operations', '=', False), ('show_reserved', '=', True)]}">
                             <field name="move_line_nosuggest_ids"
                                    attrs="{'readonly': ['|', '|', ('show_operations', '=', False), ('state', '=', 'cancel'), '&amp;', ('state', '=', 'done'), ('is_locked', '=', True)]}"
                                    context="{'tree_view_ref': 'stock.view_stock_move_line_detailed_operation_tree', 'default_picking_id': id, 'default_location_id': location_id, 'default_location_dest_id': location_dest_id, 'default_company_id': company_id}"/>
@@ -800,7 +800,7 @@
                         </page>
 
                         <!-- Reservation displayed -->
-                        <page string="Detailed Operations"  attrs="{'invisible': ['|', ('show_operations', '=', False), ('show_reserved', '=', False)]}" groups="odoo_marketplace.marketplace_officer_group">
+                        <page string="Detailed Operations"  attrs="{'invisible': ['|', ('show_operations', '=', False), ('show_reserved', '=', False)]}">
                             <field name="move_line_ids_without_package" options="{'no_create': True}"  readonly="1"
                                    context="{'tree_view_ref': 'stock.view_stock_move_line_detailed_operation_tree', 'default_picking_id': id, 'default_location_id': location_id, 'default_location_dest_id': location_dest_id, 'default_company_id': company_id}"/>
                             <field name="package_level_ids_details" context="{'default_location_id': location_id, 'default_location_dest_id': location_dest_id, 'default_company_id': company_id}" attrs="{'readonly': [('state', '=', 'done')], 'invisible': ['|', ('picking_type_entire_packs', '=', False), ('show_operations', '=', False)]}" />
