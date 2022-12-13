@@ -47,8 +47,8 @@
 						<t t-set="num" t-value="int(12/len(current_stream_object.promoted_product_ids))" />
 						<div class="item text-center">
 							<a itemprop="url" t-attf-href="/shop/product/#{ slug(product) }">
-								<img t-if="product.image_1920" t-attf-src="/web/image/product.template/#{product.id}/image_1920" t-att-alt="product.name" class="img-responsive productImg ls-p-img"></img>
-								<img t-else="" src="/web/static/src/img/placeholder.png" class="img-responsive productImg ls-p-img" />
+								<img t-if="product.image_1920" t-attf-src="/web/image/product.template/#{product.id}/image_1920" t-att-alt="product.name" class="img-responsive ls-p-img"></img>
+								<img t-else="" src="/web/static/src/img/placeholder.png" class="img-responsive ls-p-img" />
 							 </a>
 							 <h3 class="productName text-center containere">
 								<t t-esc="product.name" />
@@ -108,7 +108,3 @@
 		</xpath>
 	</template>
 </odoo>
-
-
-
-
