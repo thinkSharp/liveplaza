@@ -129,7 +129,7 @@ class SaleOrder(models.Model):
                         if len(sorted_vendors) > 1:
                             pickup_person = sorted_vendors[pickup_person_count - 1][0]
                         else:
-                            pickup_person = sorted_vendors[pickup_person_count - 1]
+                            pickup_person = sorted_vendors[pickup_person_count - 1][0]
                     ############################################## code to assign pickup person sequence
 
                     for d_zone in delivery_vendor_obj.delivery_method_ids:
@@ -161,7 +161,7 @@ class SaleOrder(models.Model):
                             if len(sorted_deli_vendors) > 1:
                                 delivery_person = sorted_deli_vendors[deli_person_count - 1][0]
                             else:
-                                delivery_person = sorted_deli_vendors[deli_person_count - 1]
+                                delivery_person = sorted_deli_vendors[deli_person_count - 1][0]
                     ############################################## code to assign deli person sequence
 
                     if not delivery_zone and not is_all_service:
@@ -173,7 +173,7 @@ class SaleOrder(models.Model):
                                         'is_admin_approved': True,
                                         'vendor_id': picking_vendor_obj.id or None,
                                         'picking_method_id': pickup_zone.id if pickup_zone else None,
-                                        'pickup_person_id': pickup_person or None,
+                                        'pickup_person_id': pickup_person.id if pickup_person else None,
                                         'hold_state': False})
 
                     if self.all_service_ticket and picking_data.state == 'assigned':
