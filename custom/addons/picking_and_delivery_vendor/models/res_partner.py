@@ -14,6 +14,7 @@ class ResPartner(models.Model):
 	delivery_method_ids = fields.Many2many(
 		'delivery.method', 'partner_deli_rel', string='Delivery Zone', domain=[("active", "=", True)])
 	vendor_sequence = fields.Integer(string="Sequence", store=True)
+	pickup_person_sequence = fields.Float(string="Sequence", default=0)
 	active_delivery = fields.Boolean('Active Delivery', default=False)
 	delivery_method_domain = fields.Char(compute="_compute_delivery_domain", readonly=True, store=False,)
 	picking_method_domain = fields.Char(compute="_compute_picking_domain", readonly=True, store=False,)
