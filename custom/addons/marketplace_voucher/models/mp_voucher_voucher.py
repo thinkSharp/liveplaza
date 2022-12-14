@@ -52,21 +52,12 @@ class VoucherVoucher(models.Model):
 
     marketplace_seller_id = fields.Many2one("res.partner", string="Seller", default=_set_seller_id, copy=False)
 
-
     product_ids = fields.Many2many('product.template', 'voucher_id', 'product_id', 'voucher_product_rel',
                                    string='Products',
                                    help="Add products on which this voucher will be valid",
-                                   domain=lambda self: [('marketplace_seller_id', 'in',
-                                                         self.env['voucher.voucher'].compute_login_userid()),
-                                                        ('status', '=', 'approved'),
-                                                        ('active', '=', True),
-                                                        ('sale_ok', '=', True)] if self._context.get(
-                                       'mp_gift_voucher') else [],
                                    )
 
     # def get_domain(self):
-
-
 
     def compute_login_userid(self):
         login_ids = []
