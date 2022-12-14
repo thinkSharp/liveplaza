@@ -15,7 +15,8 @@
 # If not, see <https://store.webkul.com/license.html/>
 #################################################################################
 
-from odoo import models,fields,api,_
+from odoo import models, fields, api, _
+
 
 class VoucherHistory(models.Model):
     _inherit = "voucher.history"
@@ -24,9 +25,10 @@ class VoucherHistory(models.Model):
 
     @api.model
     def create(self, vals):
-        res  = super(VoucherHistory, self).create(vals)
+        res = super(VoucherHistory, self).create(vals)
         res.marketplace_seller_id = res.voucher_id.marketplace_seller_id.id
         return res
+
 
 class VoucherVoucher(models.Model):
     _inherit = "voucher.voucher"
@@ -50,24 +52,21 @@ class VoucherVoucher(models.Model):
 
     marketplace_seller_id = fields.Many2one("res.partner", string="Seller", default=_set_seller_id, copy=False)
 
-    seller_product_ids = fields.Many2many('product.template', compute="get_seller_products")
 
     product_ids = fields.Many2many('product.template', 'voucher_id', 'product_id', 'voucher_product_rel',
-        string='Products',
-        help="Add products on which this voucher will be valid",
-        domain = lambda self: [('marketplace_seller_id','in',self.env['voucher.voucher'].compute_login_userid()),('status','=','approved')] if self._context.get('mp_gift_voucher') else [],
-        )
+                                   string='Products',
+                                   help="Add products on which this voucher will be valid",
+                                   domain=lambda self: [('marketplace_seller_id', 'in',
+                                                         self.env['voucher.voucher'].compute_login_userid()),
+                                                        ('status', '=', 'approved'),
+                                                        ('active', '=', True),
+                                                        ('sale_ok', '=', True)] if self._context.get(
+                                       'mp_gift_voucher') else [],
+                                   )
 
-    @api.onchange('marketplace_seller_id')
-    def get_seller_products(self):
-        for rec in self:
-            if rec.marketplace_seller_id:
-                products = self.env['product.template'].search([('status', '=', 'approved'), ('active', '=', True),
-                            ('marketplace_seller_id', '=', rec.marketplace_seller_id.id)])
-                rec.seller_product_ids = products
-            else:
-                products = self.env['product.template'].search([('status', '=', 'approved'), ('active', '=', True)])
-                rec.seller_product_ids = products
+    # def get_domain(self):
+
+
 
     def compute_login_userid(self):
         login_ids = []
@@ -80,7 +79,7 @@ class VoucherVoucher(models.Model):
             login_ids.append(self.env.user.sudo().partner_id.id)
             return login_ids
         elif seller_group in groups_ids and officer_group in groups_ids:
-            obj = self.env['res.partner'].search([('seller','=',True)])
+            obj = self.env['res.partner'].search([('seller', '=', True)])
             for rec in obj:
                 login_ids.append(rec.id)
             return login_ids

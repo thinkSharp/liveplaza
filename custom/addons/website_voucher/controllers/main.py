@@ -23,11 +23,12 @@ class website_voucher(http.Controller):
             result = {}
             voucher_obj = request.env['voucher.voucher']
             order = request.website.sale_get_order()
-            wk_order_total = order.amount_total
+            wk_order_total = order.checked_amount_total
             partner_id = request.env['res.users'].browse(request.uid).partner_id.id
             products = []
             for line in order.order_line:
-                products.append(line.product_id.id)
+                if line.selected_checkout:
+                    products.append(line.product_id.id)
             result = voucher_obj.sudo().validate_voucher(secret_code, wk_order_total, products, refrence="ecommerce",
                                                          partner_id=partner_id)
             if result['status']:

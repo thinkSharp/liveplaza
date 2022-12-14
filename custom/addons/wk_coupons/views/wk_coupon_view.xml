@@ -67,11 +67,14 @@
 								</group>
                         	</page>
                         	<page name="products" string="Products">
+								<field name="seller_product_ids" invisible="1" />
                         		<group>
                             		<field name="applied_on"/>
 								</group>
 								<group string="Products" attrs="{'invisible':[('applied_on','=','all')]}">
-									<field name="product_ids" nolabel="1" attrs="{'required':[('applied_on','=','specific')]}"/>
+
+									<field name="product_ids" nolabel="1" domain="[('id', 'in', seller_product_ids)]"
+										   attrs="{'required':[('applied_on','=','specific')]}"/>
 								</group>
                         	</page>
                         	<page name="extra" string="Extra Info">

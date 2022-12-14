@@ -28,7 +28,7 @@ odoo.define('website_voucher.website_voucher', function (require) {
                     $(".success_msg").css('display', 'block');
                     $(".success_msg").html(result['message']);
 //                    $(".success_msg").fadeOut(8000);
-                    setTimeout(function(){ window. location. reload(); }, 5000);
+                    setTimeout(function(){ window. location. reload(); }, 3000);
 //                    $(location).attr('href', "/shop/cart");
                 }
                 else {
