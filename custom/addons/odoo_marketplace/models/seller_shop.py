@@ -22,7 +22,10 @@ from odoo import SUPERUSER_ID
 import re
 
 import logging
+from odoo.http import request
+
 _logger = logging.getLogger(__name__)
+
 
 class SellerShopStyle(models.Model):
     _name = "seller.shop.style"
@@ -64,11 +67,11 @@ class SellerShop(models.Model):
         min_sequence = self._cr.fetchone()[0]
         return min_sequence and min_sequence - 1 or 10
 
-    name = fields.Char(string="Shop Name",  translate=True, copy=False)
+    name = fields.Char(string="Shop Name", translate=True, copy=False)
     shop_logo = fields.Binary(string="Image",
                               help="This field holds the image used as image for the product, limited to 1024x1024px.")
     shop_banner = fields.Binary(string="Shop Banner")
-    description = fields.Text(string="Description",  translate=True)
+    description = fields.Text(string="Description", translate=True)
     street = fields.Char(string='Street', copy=False)
     street2 = fields.Char(string='Street2', copy=False)
     zip = fields.Char(string='Zip', size=24, change_default=True, copy=False)
@@ -109,11 +112,16 @@ class SellerShop(models.Model):
 
     url = fields.Char(string="URL", compute=_get_page_url)
     url_handler = fields.Char("Url Handler", required=True, help="Unique Shop URL handler...", copy=False)
+    shop_code = fields.Char(string="Shop Code", required=True)
 
-    _sql_constraints = [('seller_id_uniqe', 'unique(seller_id)', _('This seller is already assign to another shop.')),
-                        ('url_handler_unique', 'unique(url_handler)', _('Url Handler must be unique for the shop. Entered URL handler has been already used.')),
-                        ('name_unique', 'unique(name)', _('Shop name has been already used. Shop name must be unique so change shop name.'))]
-    shop_code = fields.Char(string="Shop Code")
+    _sql_constraints = [('seller_id_unique', 'unique(seller_id)', _('This seller is already assign to another shop.')),
+                        ('code_unique', 'unique(shop_code)',
+                         _('The shop code is already used by others. Please use another code!!!')),
+                        ('url_handler_unique', 'unique(url_handler)',
+                         _('Url Handler must be unique for the shop. Entered URL handler has been already used.')),
+                        ('name_unique', 'unique(name)',
+                         _('Shop name has been already used. Shop name must be unique so change shop name.')),
+                        ]
 
     @api.onchange('state_id')
     def on_change_state_id(self):
@@ -128,7 +136,8 @@ class SellerShop(models.Model):
     @api.model
     def create(self, vals):
         if vals.get('url_handler'):
-            if not re.match('^[a-zA-Z0-9-_]+$', vals.get('url_handler')) or re.match('^[-_][a-zA-Z0-9-_]*$', vals.get('url_handler')) or re.match('^[a-zA-Z0-9-_]*[-_]$', vals.get('url_handler')):
+            if not re.match('^[a-zA-Z0-9-_]+$', vals.get('url_handler')) or re.match('^[-_][a-zA-Z0-9-_]*$', vals.get(
+                    'url_handler')) or re.match('^[a-zA-Z0-9-_]*[-_]$', vals.get('url_handler')):
                 raise UserError(_("Please enter URL handler correctly!"))
         res = super(SellerShop, self).create(vals)
         if vals.get("seller_id") and res:
@@ -139,7 +148,10 @@ class SellerShop(models.Model):
     def write(self, vals):
         for obj in self:
             if vals.get('url_handler'):
-                if not re.match('^[a-zA-Z0-9-_]+$', vals.get('url_handler')) or re.match('^[-_][a-zA-Z0-9-_]*$', vals.get('url_handler')) or re.match('^[a-zA-Z0-9-_]*[-_]$', vals.get('url_handler')):
+                if not re.match('^[a-zA-Z0-9-_]+$', vals.get('url_handler')) or re.match('^[-_][a-zA-Z0-9-_]*$',
+                                                                                         vals.get(
+                                                                                                 'url_handler')) or re.match(
+                        '^[a-zA-Z0-9-_]*[-_]$', vals.get('url_handler')):
                     raise UserError(_("Please enter URL handler correctly!"))
             if vals.get("seller_id"):
                 self.env["res.partner"].browse(vals.get("seller_id")).write({"seller_shop_id": obj.id})
@@ -151,7 +163,7 @@ class SellerShop(models.Model):
         seller_obj = self.env["res.partner"].browse(
             self._context.get("active_id"))
         if seller_obj:
-            seller_obj .write({"seller_shop_id": self.id})
+            seller_obj.write({"seller_shop_id": self.id})
 
     def seller_sales_count(self):
         # Calculate seller total sales count
@@ -180,7 +192,9 @@ class SellerShop(models.Model):
             self.set_sequence_top()
 
     def set_sequence_down(self):
-        next_shop = self.search([('website_sequence', '<', self.website_sequence), ('website_published', '=', self.website_published)], order='website_sequence desc', limit=1)
+        next_shop = self.search(
+            [('website_sequence', '<', self.website_sequence), ('website_published', '=', self.website_published)],
+            order='website_sequence desc', limit=1)
         if next_shop:
             next_shop.website_sequence, self.website_sequence = self.website_sequence, next_shop.website_sequence
         else:
