@@ -1116,5 +1116,7 @@
         <menuitem action="stock_packing_do_cus_action_inventory" id="stock_do_menu_inventory_pack" parent="stock_do_menu_inventory" sequence="3" name="Packing"/>
         <menuitem action="stock_do_cus_action_inventory" id="stock_do_menu_inventory_do" parent="stock_do_menu_inventory" sequence="4" name="Delivery Order"/>
         
-            
+        <menuitem id="stock_do_menu_inventory_zones" parent="menu_delivery_root" sequence="3" name="Zones"/>
+        <menuitem name="Delivery Zones" id="deli_delivery_method_menu" parent="stock_do_menu_inventory_zones" groups="base.group_user" action="picking_and_delivery_vendor.action_delivery_method" sequence="1" />
+        <menuitem name="Pickup Zones" id="pickup_delivery_method_menu" parent="stock_do_menu_inventory_zones" groups="base.group_user" action="picking_and_delivery_vendor.action_picking_method" sequence="2" />  
 </odoo>
