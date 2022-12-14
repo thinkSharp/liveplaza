@@ -69,7 +69,7 @@ class SaleOrder(models.Model):
 
             picking_objs = self.env['stock.picking'].search([('origin', '=', self.name)])
             delivery_carrier_obj = self.env['delivery.carrier'].search([('id', '=', self.selected_carrier_id)])
-            
+            delivery_person = None
             delivery_vendor_obj = delivery_carrier_obj.vendor_id
             picking_vendor_obj  = delivery_carrier_obj.vendor_id
             #delivery_vendor_obj = self.env['res.partner'].search([('delivery_vendor', '=', True), ('is_default', '=', True)], limit=1)
@@ -97,7 +97,8 @@ class SaleOrder(models.Model):
                     pickup_zone = None
                     delivery_zone = None
                     pickup_person = None
-                    delivery_person = None
+                    pickup_person_list = []
+                    deli_person_list = []
 
                     for zone in picking_vendor_obj.picking_method_ids:
                         if seller_township in zone.township_ids:
@@ -105,7 +106,31 @@ class SaleOrder(models.Model):
 
                             for pickup_person_data in picking_vendor_obj.child_ids:
                                 if pickup_zone in pickup_person_data.picking_method_ids:
-                                    pickup_person = pickup_person_data.id
+                                    pickup_person_list.append(pickup_person_data)
+
+                    ################################# code to assign pickup person sequence
+                    pickup_person_count = int(len(pickup_person_list))
+                    for vendor in pickup_person_list:
+                        vendor_seq = vendor.pickup_person_sequence
+                        if vendor_seq < pickup_person_count:
+                            vendor_seq += 1
+                            vendor.sudo().write({
+                                'pickup_person_sequence': vendor_seq,
+                            })
+                        elif vendor_seq >= pickup_person_count:
+                            vendor.sudo().write({
+                                'pickup_person_sequence': 1,
+                            })
+                    pickup_person_sort = {}
+                    for pps in pickup_person_list:
+                        pickup_person_sort[pps] = pps.pickup_person_sequence
+                    sorted_vendors = sorted(pickup_person_sort.items(), key=lambda x: x[1])
+                    if sorted_vendors:
+                        if len(sorted_vendors) > 1:
+                            pickup_person = sorted_vendors[pickup_person_count - 1][0]
+                        else:
+                            pickup_person = sorted_vendors[pickup_person_count - 1]
+                    ############################################## code to assign pickup person sequence
 
                     for d_zone in delivery_vendor_obj.delivery_method_ids:
                         if buyer_township in d_zone.township_ids:
@@ -113,7 +138,31 @@ class SaleOrder(models.Model):
 
                             for delivery_person_data in delivery_vendor_obj.child_ids:
                                 if delivery_zone in delivery_person_data.delivery_method_ids:
-                                    delivery_person = delivery_person_data.id
+                                    deli_person_list.append(delivery_person_data)
+                    ################################# code to assign deli person sequence
+                    if not delivery_person:
+                        deli_person_count = int(len(deli_person_list))
+                        for deli_vendor in deli_person_list:
+                            deli_vendor_seq = deli_vendor.vendor_sequence
+                            if deli_vendor_seq < deli_person_count:
+                                deli_vendor_seq += 1
+                                deli_vendor.sudo().write({
+                                    'vendor_sequence': deli_vendor_seq,
+                                })
+                            elif deli_vendor_seq >= deli_person_count:
+                                deli_vendor.sudo().write({
+                                    'vendor_sequence': 1,
+                                })
+                        deli_person_sort = {}
+                        for dps in deli_person_list:
+                            deli_person_sort[dps] = dps.vendor_sequence
+                        sorted_deli_vendors = sorted(deli_person_sort.items(), key=lambda x: x[1])
+                        if sorted_deli_vendors:
+                            if len(sorted_deli_vendors) > 1:
+                                delivery_person = sorted_deli_vendors[deli_person_count - 1][0]
+                            else:
+                                delivery_person = sorted_deli_vendors[deli_person_count - 1]
+                    ############################################## code to assign deli person sequence
 
                     if not delivery_zone and not is_all_service:
                         raise Warning("Need to setup delivery zone for buyer township %s" % buyer_township.name)
@@ -212,7 +261,7 @@ class SaleOrder(models.Model):
                                         'is_admin_approved': True,
                                         'vendor_id': delivery_vendor_obj.id or None,
                                         'delivery_method_id': delivery_zone.id if delivery_zone else None,
-                                        'delivery_person_id': delivery_person or None,
+                                        'delivery_person_id': delivery_person.id if delivery_person else None,
                                         'hold_state': False})
 
                     if self.get_portal_last_transaction().acquirer_id.provider != 'cash_on_delivery':
