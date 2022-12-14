@@ -23,8 +23,9 @@ class VoucherWizard(models.TransientModel):
 			active_obj = self.env['sale.order'].browse(self._context['active_id'])
 			prod_ids =  []
 			for line in active_obj.order_line:
-				prod_ids.append(line.product_id.id)
-			order_total = active_obj.amount_total
+				if line.selected_checkout:
+					prod_ids.append(line.product_id.id)
+			order_total = active_obj.checked_amount_total
 			result = self.env['voucher.voucher'].validate_voucher(self.voucher_code, order_total, prod_ids,refrence="ecommerce", partner_id=active_obj.partner_id.id)
 			if not active_obj.order_line:
 				raise UserError('There are not any products in this sale order. Please select at least one product.!!!')

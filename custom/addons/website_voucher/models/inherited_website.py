@@ -25,7 +25,7 @@ class Website(models.Model):
 			if order_line_id.product_id.id != voucher_product_id and not order_line_id.is_delivery:
 				order_total_price += order_line_id.product_uom_qty * order_line_id.price_unit
 				if voucher_obj and voucher_obj.applied_on == 'specific':
-					if order_line_id.product_id.product_tmpl_id.id in voucher_obj.product_ids.ids:
+					if order_line_id.selected_checkout and order_line_id.product_id.product_tmpl_id.id in voucher_obj.product_ids.ids:
 						selected_prod_percent_price += order_line_id.price_unit*order_line_id.product_uom_qty
 		return {'selected_prod_percent_price':selected_prod_percent_price,'order_total_price':order_total_price}
 

@@ -41,36 +41,26 @@ class sale_order(models.Model):
 	def check_voucher_product(self, order, voucher_id, product_id=None):
 
 		if voucher_id and voucher_id.applied_on == 'specific':
-			print("specific")
-			for p in voucher_id.product_ids:
-				print("$ ", p.name)
-			# voucher_id.marketplace_seller_id
 			for line in order.order_line:
 				if not line.is_voucher:
-					print("product line = ", line.product_id.name)
 					for product in voucher_id.product_ids:
 						for v in product.product_variant_ids:
 							if int(v.id) == int(line.product_id.id) and line.selected_checkout:
-								print(v.id, " = ", line.product_id.id)
 								return True
 		elif voucher_id and voucher_id.applied_on == 'all':
 			# for line in order.order_line:
-			# 	print(line.product_id.id, " and ", product_id)
 			# 	if not line.is_voucher and line.selected_checkout:
 			# 		return True
 			for line in order.order_line:
 				if not line.is_voucher:
-					print("product line = ", line.product_id.name)
 					for product in voucher_id.seller_product_ids:
 						for v in product.product_variant_ids:
 							if int(v.id) == int(line.product_id.id) and line.selected_checkout:
-								print(v.id, " = ", line.product_id.id)
 								return True
 		return False
 
 	@api.model
 	def _add_voucher(self, wk_order_total, voucher_dict, so_id=False):
-		print("add voucher")
 		voucher_product_id = voucher_dict['product_id']
 		voucher_value = voucher_dict['value']
 		voucher_id = voucher_dict['coupon_id']
@@ -79,7 +69,6 @@ class sale_order(models.Model):
 		voucher_val_type = voucher_dict['voucher_val_type']
 		cutomer_type = voucher_dict['customer_type']
 		total_prod_voucher_price = voucher_dict['total_prod_voucher_price']
-		print("1")
 		if not self.ids:
 			order_id = so_id
 		else:
@@ -139,7 +128,6 @@ class sale_order(models.Model):
 			status = self.env['voucher.voucher'].sudo().redeem_voucher_create_histoy(voucher_name, voucher_id, values['price_unit'],order_id, line_id.id, 'ecommerce',order_obj.partner_id.id)
 			result['status'] = status
 		return result
-
 
 
 class SaleOrderLine(models.Model):
