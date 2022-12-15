@@ -106,7 +106,8 @@ class SaleOrder(models.Model):
 
                             for pickup_person_data in picking_vendor_obj.child_ids:
                                 if pickup_zone in pickup_person_data.picking_method_ids:
-                                    pickup_person_list.append(pickup_person_data)
+                                    if pickup_person_data not in pickup_person_list:
+                                        pickup_person_list.append(pickup_person_data)
 
                     ################################# code to assign pickup person sequence
                     pickup_person_count = int(len(pickup_person_list))
@@ -138,7 +139,8 @@ class SaleOrder(models.Model):
 
                             for delivery_person_data in delivery_vendor_obj.child_ids:
                                 if delivery_zone in delivery_person_data.delivery_method_ids:
-                                    deli_person_list.append(delivery_person_data)
+                                    if delivery_person_data not in deli_person_list:
+                                        deli_person_list.append(delivery_person_data)
                     ################################# code to assign deli person sequence
                     if not delivery_person:
                         deli_person_count = int(len(deli_person_list))
