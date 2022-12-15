@@ -98,7 +98,7 @@ class SaleOrder(models.Model):
         is_all_service = 1
         for line in self.order_line:
             if line.selected_checkout:
-                if not (line.product_id.is_service or line.product_id.is_booking_type):
+                if not (line.product_id.is_service or line.product_id.is_booking_type or line.is_voucher):
                     is_all_service = 0
 
         for line in self.order_line:
