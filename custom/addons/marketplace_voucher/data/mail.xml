@@ -90,10 +90,17 @@
             % else:
             <div style="margin: 0px; padding: 0px;">
                 <table width="100%" style="color: #454748; font-size: 12px; border-spacing: 0px 4px;" align="right">
+                    % if object.wk_coupon_value:
+                        <tr>
+                            <td style="width: 60%"/>
+                            <td style="width: 30%; border-top: 1px solid #dee2e6;" align="right"><strong>Gift Voucher :</strong></td>
+                            <td style="width: 10%; border-top: 1px solid #dee2e6;" align="right">${format_amount(object.wk_coupon_value*(-1), object.currency_id)}</td>
+                        </tr>
+                    % endif
                     <tr>
                         <td style="width: 60%"/>
-                        <td style="width: 30%; border-top: 1px solid #dee2e6;" align="right"><strong>SubTotal :</strong></td>
-                        <td style="width: 10%; border-top: 1px solid #dee2e6;" align="right">${format_amount(object.amount_untaxed, object.currency_id)}</td>
+                        <td style="width: 30%; " align="right"><strong>SubTotal :</strong></td>
+                        <td style="width: 10%; " align="right">${format_amount(object.amount_untaxed, object.currency_id)}</td>
                     </tr>
                 </table>
             </div>
