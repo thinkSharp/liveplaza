@@ -43,13 +43,25 @@
         <field name="perm_create" eval="False"/>
         <field name="perm_unlink" eval="False"/>
     </record>
-    <record id="deliveryperson_rule" model="ir.rule">
-        <field name="name">Delivery Person only</field>
-        <field name="model_id" ref="base.model_res_partner"/>
-        <field name="domain_force">[('id','=',user.partner_id.id)]</field>
+    <record id="delivery_zone_rule" model="ir.rule">
+        <field name="name">Delivery Zone only</field>
+        <field name="model_id" ref="picking_and_delivery_vendor.model_delivery_method"/>
+        <field name="domain_force">[('related_partner_ids', 'child_of', user.partner_id.id)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
         <field name="perm_create" eval="False"/>
         <field name="perm_unlink" eval="False"/>
-        <field name="groups" eval="[(4, ref('access_rights_customization.group_delivery_operator')),(4, ref('access_rights_customization.group_pickupandpackaging_operator'))]"/>
+        <field name="groups" eval="[(4, ref('access_rights_customization.group_delivery_operator')),(4, ref('picking_and_delivery_vendor.pickup_vendor_group')),(4, ref('picking_and_delivery_vendor.delivery_vendor_group')), (4, ref('access_rights_customization.group_pickupandpackaging_operator'))]"/>
+    </record>
+    <record id="pickup_zone_rule" model="ir.rule">
+        <field name="name">Pickup Zone only</field>
+        <field name="model_id" ref="picking_and_delivery_vendor.model_picking_method"/>
+        <field name="domain_force">[('related_partner_ids', 'child_of', user.partner_id.id)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="False"/>
+        <field name="perm_create" eval="False"/>
+        <field name="perm_unlink" eval="False"/>
+        <field name="groups" eval="[(4, ref('access_rights_customization.group_delivery_operator')),(4, ref('picking_and_delivery_vendor.pickup_vendor_group')),(4, ref('picking_and_delivery_vendor.delivery_vendor_group')), (4, ref('access_rights_customization.group_pickupandpackaging_operator'))]"/>
     </record>
 </odoo>
         
