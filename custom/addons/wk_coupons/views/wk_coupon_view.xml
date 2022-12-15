@@ -73,7 +73,7 @@
 								</group>
 								<group string="Products" attrs="{'invisible':[('applied_on','=','all')]}">
 
-									<field name="product_ids" nolabel="1" domain="[('id', 'in', seller_product_ids)]"
+									<field name="product_ids" nolabel="1"
 										   attrs="{'required':[('applied_on','=','specific')]}"/>
 								</group>
                         	</page>
