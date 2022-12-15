@@ -27,7 +27,7 @@
   </template>
 
   <template id="2fa_setup" name="Setup Two Factor Authentication">
-    <t t-call="two_factor_otp_auth.portal_section_layout">
+    <t t-call="two_factor_otp_auth.2fa_layout">
       <t t-set="header">Enable Authenticator</t>
       <t t-call="two_factor_otp_auth.qr_code_instructions" />
       <form method="post" action="/my/enable_2fa">
@@ -53,7 +53,7 @@
   </template>
 
   <template id="2fa_change_setup" name="Change Two Factor Authentication">
-    <t t-call="two_factor_otp_auth.portal_section_layout">
+    <t t-call="two_factor_otp_auth.2fa_layout">
       <t t-set="header">Change Authenticator</t>
       <t t-call="two_factor_otp_auth.qr_code_instructions" />
       <form method="post" action="/my/enable_2fa">
@@ -83,7 +83,7 @@
   </template>
 
   <template id="2fa_disable" name="Disable Two Factor Authentication">
-    <t t-call="two_factor_otp_auth.portal_section_layout">
+    <t t-call="two_factor_otp_auth.2fa_layout">
       <t t-set="header">Disable Authenticator</t>
       <form method="post">
         <t t-call="two_factor_otp_auth.otp_code_input" />
@@ -100,7 +100,7 @@
   </template>
 
   <template id="2fa_verify_change" name="Verify Two Factor Authentication">
-    <t t-call="two_factor_otp_auth.portal_section_layout">
+    <t t-call="two_factor_otp_auth.2fa_layout">
       <t t-set="header">Verify with Authenticator</t>
       <form method="post">
         <t t-call="two_factor_otp_auth.otp_code_input" />
@@ -117,7 +117,7 @@
   </template>
 
   <template id="2fa_verify_login" name="Verify Two Factor Authentication">
-    <t t-call="two_factor_otp_auth.portal_section_layout">
+    <t t-call="two_factor_otp_auth.2fa_layout">
       <t t-set="header">Verify with Authenticator</t>
       <form method="post">
         <t t-call="two_factor_otp_auth.otp_code_input" />
@@ -141,11 +141,14 @@
     </t>
   </template>
 
-  <template id="portal_section_layout">
+  <template id="2fa_layout">
     <t t-call="website.layout">
       <div class="container my-3 px-4 py-3 bg-white">
         <h1 class="h4 pb-2 border-bottom border-neutral-200"><t t-esc="header" /></h1>
         <t t-raw="0" />
+        <div class="text-center mt-3">
+          <a href="/faq">Need help?</a>
+        </div>
       </div>
     </t>
   </template>
