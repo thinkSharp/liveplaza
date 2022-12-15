@@ -55,14 +55,12 @@ class VoucherVoucher(models.Model):
     product_ids = fields.Many2many('product.template', 'voucher_id', 'product_id', 'voucher_product_rel',
                                    string='Products',
                                    help="Add products on which this voucher will be valid",
-                                   domain=lambda self: [
-                                                        ('status', '=', 'approved'),
-                                                        ('active', '=', True),
-                                                        ('sale_ok', '=', True)] if self._context.get(
-                                       'mp_gift_voucher') else [],
+                                   domain=[('website_published', '=', True),
+                                           ('status', '=', 'approved'),
+                                           ('active', '=', True),
+                                           ('sale_ok', '=', True)]
                                    )
 
-    # def get_domain(self):
 
     def compute_login_userid(self):
         login_ids = []
