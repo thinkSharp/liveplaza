@@ -42,7 +42,7 @@ class sale_order(models.Model):
 
 		if voucher_id and voucher_id.applied_on == 'specific':
 			for line in order.order_line:
-				if not line.is_voucher:
+				if not line.is_voucher and line.product_id.id != product_id:
 					for product in voucher_id.product_ids:
 						for v in product.product_variant_ids:
 							if int(v.id) == int(line.product_id.id) and line.selected_checkout:
@@ -52,7 +52,7 @@ class sale_order(models.Model):
 			# 	if not line.is_voucher and line.selected_checkout:
 			# 		return True
 			for line in order.order_line:
-				if not line.is_voucher:
+				if not line.is_voucher and line.product_id.id != product_id:
 					for product in voucher_id.seller_product_ids:
 						for v in product.product_variant_ids:
 							if int(v.id) == int(line.product_id.id) and line.selected_checkout:
