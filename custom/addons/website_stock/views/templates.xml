@@ -164,9 +164,9 @@
 
     <template id="show_stock_msg" name="Show Stock Message">
         <t t-if="product_quantity &gt; 0">
-<!--            <t t-if="product.type == 'service'">-->
-<!--                <t t-call="website_stock.in_stock_msg" />-->
-<!--            </t>-->
+           <div class="invisible" t-if="product.type == 'service'">
+               <t t-call="website_stock.in_stock_msg" />
+           </div>
 
             <t t-if="product.type != 'service'">
                 <t t-if="config_setting.get('wk_extra_msg')">
