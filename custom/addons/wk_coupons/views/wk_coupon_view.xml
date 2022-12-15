@@ -67,7 +67,7 @@
 								</group>
                         	</page>
                         	<page name="products" string="Products">
-								<field name="seller_product_ids" invisible="1" />
+<!--								<field name="all_product_ids" invisible="1" />-->
                         		<group>
                             		<field name="applied_on"/>
 								</group>
