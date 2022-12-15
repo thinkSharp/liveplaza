@@ -21,6 +21,7 @@ class Website(models.Model):
 			order_lines = sale_order.order_line.filtered(lambda l: l.product_id.marketplace_seller_id and
 				l.product_id.marketplace_seller_id.id == voucher_obj.marketplace_seller_id.id and not l.is_delivery)
 			if order_lines:
-				order_total_price = sum(order_lines.mapped("price_subtotal"))
-				res.update({'order_total_price':order_total_price})
+				# order_total_price = sum(order_lines.mapped("price_subtotal"))
+				order_total_price = sum(line.price_subtotal if line.selected_checkout else 0 for line in order_lines)
+				res.update({'order_total_price': order_total_price})
 		return res
