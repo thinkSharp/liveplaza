@@ -459,7 +459,7 @@
 					</t>
 				</t>
 				<div class="col-xs-12">
-					<a class="position-absolute bottom-0 right-0 view-profile" itemprop="name" t-attf-href="/seller/profile/#{seller_obj.sudo().url_handler if seller_obj.sudo().url_handler else seller_obj.sudo().id}">
+					<a class="position-absolute bottom-0 right-0 view-profile invisible" itemprop="name" t-attf-href="/seller/profile/#{seller_obj.sudo().url_handler if seller_obj.sudo().url_handler else seller_obj.sudo().id}">
 						<u>View Profile</u>
 					</a>
 				</div>
