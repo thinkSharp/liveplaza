@@ -16,3 +16,4 @@ class DeliveryMethod(models.Model):
         'res.partner', 'partner_deli_rel', string='Vendor', required=True)
     township_ids = fields.Many2many(
         'res.country.township', 'deli_tshp_rel', string='Allowed Townships')
+    last_used_sequence = fields.Float(string="Last Used Sequence", default=0)

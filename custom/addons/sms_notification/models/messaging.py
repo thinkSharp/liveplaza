@@ -109,62 +109,63 @@ class SaleOrder(models.Model):
                                     if pickup_person_data not in pickup_person_list:
                                         pickup_person_list.append(pickup_person_data)
 
-                    ################################# code to assign pickup person sequence
-                    pickup_person_count = int(len(pickup_person_list))
-                    for vendor in pickup_person_list:
-                        vendor_seq = vendor.pickup_person_sequence
-                        if vendor_seq < pickup_person_count:
-                            vendor_seq += 1
-                            vendor.sudo().write({
-                                'pickup_person_sequence': vendor_seq,
-                            })
-                        elif vendor_seq >= pickup_person_count:
-                            vendor.sudo().write({
-                                'pickup_person_sequence': 1,
-                            })
-                    pickup_person_sort = {}
-                    for pps in pickup_person_list:
-                        pickup_person_sort[pps] = pps.pickup_person_sequence
-                    sorted_vendors = sorted(pickup_person_sort.items(), key=lambda x: x[1])
-                    if sorted_vendors:
-                        if len(sorted_vendors) > 1:
-                            pickup_person = sorted_vendors[pickup_person_count - 1][0]
-                        else:
-                            pickup_person = sorted_vendors[pickup_person_count - 1][0]
-                    ############################################## code to assign pickup person sequence
-
-                    for d_zone in delivery_vendor_obj.delivery_method_ids:
-                        if buyer_township in d_zone.township_ids:
-                            delivery_zone = d_zone
-
-                            for delivery_person_data in delivery_vendor_obj.child_ids:
-                                if delivery_zone in delivery_person_data.delivery_method_ids:
-                                    if delivery_person_data not in deli_person_list:
-                                        deli_person_list.append(delivery_person_data)
-                    ################################# code to assign deli person sequence
-                    if not delivery_person:
-                        deli_person_count = int(len(deli_person_list))
-                        for deli_vendor in deli_person_list:
-                            deli_vendor_seq = deli_vendor.vendor_sequence
-                            if deli_vendor_seq < deli_person_count:
-                                deli_vendor_seq += 1
-                                deli_vendor.sudo().write({
-                                    'vendor_sequence': deli_vendor_seq,
-                                })
-                            elif deli_vendor_seq >= deli_person_count:
-                                deli_vendor.sudo().write({
-                                    'vendor_sequence': 1,
-                                })
-                        deli_person_sort = {}
-                        for dps in deli_person_list:
-                            deli_person_sort[dps] = dps.vendor_sequence
-                        sorted_deli_vendors = sorted(deli_person_sort.items(), key=lambda x: x[1])
-                        if sorted_deli_vendors:
-                            if len(sorted_deli_vendors) > 1:
-                                delivery_person = sorted_deli_vendors[deli_person_count - 1][0]
+                    ################################# NEW code to assign pickup person sequence
+                    if pickup_person_list and len(pickup_person_list) > 1:
+                        new_seq_list = []
+                        for aa in pickup_person_list:
+                            new_seq_list.append(aa.pickup_person_sequence)
+                        if new_seq_list:
+                            new_seq_list.sort()
+                            seq_count = len(new_seq_list)
+                            biggest_number = new_seq_list[seq_count-1]
+                            if pickup_zone.last_used_sequence and pickup_zone.last_used_sequence > 0 and pickup_zone.last_used_sequence < biggest_number:
+                                for seq_data in new_seq_list:
+                                    if seq_data > pickup_zone.last_used_sequence:
+                                        pickup_person = self.env['res.partner'].search([('pickup_person_sequence', '=', seq_data),('picking_vendor', '=', True),
+                                                                                        ('parent_id', '=', picking_vendor_obj.id)])
+                                        pickup_zone.sudo().write({'last_used_sequence': seq_data})
+                                        break
                             else:
-                                delivery_person = sorted_deli_vendors[deli_person_count - 1][0]
-                    ############################################## code to assign deli person sequence
+                                pickup_person = self.env['res.partner'].search([('pickup_person_sequence', '=', new_seq_list[0]),('picking_vendor', '=', True),
+                                                                                ('parent_id', '=', picking_vendor_obj.id)])
+                                pickup_zone.sudo().write({'last_used_sequence': new_seq_list[0]})
+                        else:
+                            raise UserError(_("Please configure sequence in Pickup Person for respective zone."))
+                    else:
+                        pickup_person = pickup_person_list[0]
+                    ################################# NEW code to assign pickup person sequence
+
+                    if not delivery_person:
+                        for d_zone in delivery_vendor_obj.delivery_method_ids:
+                            if buyer_township in d_zone.township_ids:
+                                delivery_zone = d_zone
+
+                                for delivery_person_data in delivery_vendor_obj.child_ids:
+                                    if delivery_zone in delivery_person_data.delivery_method_ids:
+                                        if delivery_person_data not in deli_person_list:
+                                            deli_person_list.append(delivery_person_data)
+
+                    ################################# NEW code to assign deli person sequence
+                        new_deliseq_list = []
+                        for aa in deli_person_list:
+                            new_deliseq_list.append(aa.vendor_sequence)
+                        if new_deliseq_list:
+                            new_deliseq_list.sort()
+                            deli_seq_count = len(new_deliseq_list)
+                            deli_biggest_number = new_deliseq_list[deli_seq_count - 1]
+                            if delivery_zone.last_used_sequence and delivery_zone.last_used_sequence > 0 and delivery_zone.last_used_sequence < deli_biggest_number:
+                                for seq_data in new_deliseq_list:
+                                    if seq_data > delivery_zone.last_used_sequence:
+                                        delivery_person = self.env['res.partner'].search([('vendor_sequence', '=', seq_data),('delivery_vendor', '=', True),
+                                                                                        ('parent_id', '=', delivery_vendor_obj.id)])
+                                        delivery_zone.sudo().write({'last_used_sequence': seq_data})
+                            else:
+                                delivery_person = self.env['res.partner'].search([('vendor_sequence', '=', new_deliseq_list[0]),('delivery_vendor', '=', True),
+                                                                                ('parent_id', '=', delivery_vendor_obj.id)])
+                                delivery_zone.sudo().write({'last_used_sequence': new_deliseq_list[0]})
+                        else:
+                            raise UserError(_("Please configure sequence in Delivery Person for respective zone."))
+                    ################################# NEW code to assign deli person sequence
 
                     if not delivery_zone and not is_all_service:
                         raise Warning("Need to setup delivery zone for buyer township %s" % buyer_township.name)

@@ -2,7 +2,8 @@
 
 from odoo import fields, models, api, _
 from datetime import datetime
-
+from odoo.exceptions import except_orm, Warning, RedirectWarning
+from odoo.exceptions import UserError, ValidationError
 
 class PickingMethod(models.Model):
     _name = 'picking.method'
@@ -17,7 +18,33 @@ class PickingMethod(models.Model):
         'res.partner', 'partner_pickup_rel', string='Partner', required=True)
     township_ids = fields.Many2many(
         'res.country.township', 'pkup_tshp_rel', string='Allowed Townships')
+    last_used_sequence = fields.Float(string="Last Used Sequence", default=0)
 
+    @api.model
+    def create(self, vals):
+        township_obj = self.env['res.country.township']
+        if vals.get("township_ids", False):
+            township_obj = self.env['res.country.township'].search([('id', 'in', vals.get("township_ids")[0][2])])
+        if vals.get("pickup_vendor_company", False):
+            partner_obj = self.env['picking.method'].search([('pickup_vendor_company', '=', vals.get("pickup_vendor_company"))])
+            if partner_obj and township_obj:
+                for town_data in township_obj:
+                    if town_data in partner_obj.township_ids:
+                        raise UserError(_(" %s Township is already configured in %s Zone. Please select another township for this Zone.") % (town_data.name, partner_obj.name))
+        return super(PickingMethod, self).create(vals)
+
+    def write(self, vals):
+        township_obj = self.env['res.country.township']
+        if vals.get("township_ids", False):
+            township_obj = self.env['res.country.township'].search([('id', 'in', vals.get("township_ids")[0][2])])
+        if self.pickup_vendor_company:
+            partner_obj = self.env['picking.method'].search([('pickup_vendor_company', '=', self.pickup_vendor_company.id),('id', '!=', self.id)])
+            if partner_obj and township_obj:
+                for town_data in township_obj:
+                    for picking_M in partner_obj:
+                        if town_data in picking_M.township_ids:
+                            raise UserError(_(" %s Township is already configured in %s Zone. Please select another township for this Zone.") % (town_data.name, picking_M.name))
+        return super(PickingMethod, self).write(vals)
 
 class PickingMove(models.Model):
     _name = 'picking.move'
