@@ -15,10 +15,10 @@ class PickingMethod(models.Model):
         string='Price', store=True, copy=False, index=False)
     active = fields.Boolean('Active', default=True)
     related_partner_ids = fields.Many2many(
-        'res.partner', 'partner_pickup_rel', string='Partner', required=True)
+        'res.partner', 'partner_pickup_rel', string='Partner', readonly=True)
     township_ids = fields.Many2many(
         'res.country.township', 'pkup_tshp_rel', string='Allowed Townships')
-    last_used_sequence = fields.Float(string="Last Used Sequence", default=0)
+    pickup_vendor_company = fields.Many2one('res.partner', required=True, string='Pickup Vendor Company')
 
     @api.model
     def create(self, vals):
