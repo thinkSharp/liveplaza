@@ -32,6 +32,7 @@
             <tree string="Delivery Method Tree">
                 <field name="name"/>
                 <field name="deli_price"/>
+                <field name="delivery_vendor_company"/>
                 <field name="related_partner_ids" widget="many2many_tags"  />
                 <field name="township_ids" widget="many2many_tags"  />
             </tree>
@@ -44,6 +45,7 @@
         <field name="arch" type="xml">
             <search string="Delivery method Report Search">
                 <field name="name" />
+                <field name="delivery_vendor_company"/>
                 <field name="related_partner_ids" />
             </search>
         </field>
