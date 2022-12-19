@@ -16,7 +16,7 @@ manager_fields = []
 class ResPartner(models.Model):
     _inherit = 'res.partner'
 
-    is_default = fields.Boolean('Default Vendor', default=False)
+    is_default = fields.Boolean('Vendor Company', default=False)
     delivery_person = fields.Boolean(string="Is a Delivery Person", help="Check this box if the contact is delivery person.", copy=False, track_visibility='onchange')
 
 class ResCompany(models.Model):
