@@ -4,6 +4,7 @@ from odoo import fields, models, api, _
 from datetime import datetime
 from odoo.exceptions import except_orm, Warning, RedirectWarning
 from odoo.exceptions import UserError, ValidationError
+import json
 
 class PickingMethod(models.Model):
     _name = 'picking.method'
@@ -19,6 +20,24 @@ class PickingMethod(models.Model):
     township_ids = fields.Many2many(
         'res.country.township', 'pkup_tshp_rel', string='Allowed Townships')
     pickup_vendor_company = fields.Many2one('res.partner', required=True, string='Pickup Vendor Company')
+    picking_vendor_domain = fields.Char(compute="_compute_picking_vendor_domain", readonly=True, store=False)
+
+    @api.depends('name')
+    def _compute_picking_vendor_domain(self):
+        for rec in self:
+            user_obj = self.env['res.users'].sudo().browse(rec._uid)
+            united_list = []
+            if user_obj.partner_id and user_obj.partner_id.is_default:
+                if not user_obj.has_group('base.group_system'):
+                    for b_id in user_obj.partner_id:
+                        united_list.append(b_id.id)
+                else:
+                    all_vendor_ids = self.env['res.partner'].search([('is_default', '=', True),('delivery_vendor', '=', True),
+                                                                   ('picking_vendor', '=', True), ('active', '=', True)])
+                    if all_vendor_ids:
+                        for v_id in all_vendor_ids:
+                            united_list.append(v_id.id)
+            rec.picking_vendor_domain = json.dumps([('id', 'in', united_list)])
 
     @api.model
     def create(self, vals):
