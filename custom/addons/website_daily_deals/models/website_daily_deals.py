@@ -890,6 +890,10 @@ class WebsiteDeals(models.Model):
     overide_config = fields.Boolean('Override Default Configuration')
     start_date = fields.Datetime('Start Date', required=True, default=datetime.now() + timedelta(days=-1))
     end_date = fields.Datetime('End Date', required=True, default=datetime.now() + timedelta(days=1))
+    expiration_status = fields.Selection(
+        [('planned', "Planned"), ('inprogress', "In Progress"), ('expired', "Expired")],
+        compute='_compute_expiration_status', search='_search_by_expiration_status'
+    )
 
     banner = fields.Binary('Banner', required=False)
     pricelist_items = fields.One2many(comodel_name='product.pricelist.item', inverse_name='website_deals_m2o',
@@ -924,6 +928,46 @@ class WebsiteDeals(models.Model):
     sequence = fields.Integer(string='Sequence', default=30, required=True)
     # user_id = fields.Char("User ID", default=lambda self: self.env.user.id)
     seller_name = fields.Char("Seller", default=lambda self: self.env.user.name)
+
+    @api.depends('start_date', 'end_date')
+    def _compute_expiration_status(self):
+        for record in self:
+            current_time = datetime.now()
+            if current_time < record.start_date:
+                record.expiration_status = 'planned'
+            elif record.start_date <= current_time <= record.end_date:
+                record.expiration_status = 'inprogress'
+            else:
+                record.expiration_status = 'expired'
+
+    def _search_by_expiration_status(self, operator, value):
+        if value == 'planned':
+            return self._search_by_planned(operator)
+        elif value == 'inprogress':
+            return self._search_by_inprogress(operator)
+        else:
+            return self._search_by_expired(operator)
+
+    def _search_by_planned(self, operator):
+        current_time = datetime.now()
+        if operator == '=':
+            return [('start_date', '>', current_time)]
+        elif operator == '!=':
+            return [('start_date', '<=', current_time)]
+
+    def _search_by_inprogress(self, operator):
+        current_time = datetime.now()
+        if operator == '=':
+            return [('start_date', '<=', current_time), ('end_date', '>=', current_time)]
+        elif operator == '!=':
+            return ['|', ('start_date', '>', current_time), ('end_date', '<', current_time)]
+
+    def _search_by_expired(self, operator):
+        current_time = datetime.now()
+        if operator == '=':
+            return [('end_date', '<', current_time)]
+        if operator == '!=':
+            return [('end_date', '>=', current_time)]
 
     @api.constrains('sequence')
     def _check_value(self):
