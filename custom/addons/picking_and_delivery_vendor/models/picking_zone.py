@@ -37,6 +37,13 @@ class PickingMethod(models.Model):
                     if all_vendor_ids:
                         for v_id in all_vendor_ids:
                             united_list.append(v_id.id)
+            else:
+                all_vendor_ids = self.env['res.partner'].search(
+                    [('is_default', '=', True), ('delivery_vendor', '=', True),
+                     ('picking_vendor', '=', True), ('active', '=', True)])
+                if all_vendor_ids:
+                    for v_id in all_vendor_ids:
+                        united_list.append(v_id.id)
             rec.picking_vendor_domain = json.dumps([('id', 'in', united_list)])
 
     @api.model
