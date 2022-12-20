@@ -51,7 +51,7 @@
         <field name="perm_write" eval="False"/>
         <field name="perm_create" eval="False"/>
         <field name="perm_unlink" eval="False"/>
-        <field name="groups" eval="[(4, ref('access_rights_customization.group_delivery_operator')),(4, ref('picking_and_delivery_vendor.pickup_vendor_group')),(4, ref('picking_and_delivery_vendor.delivery_vendor_group')), (4, ref('access_rights_customization.group_pickupandpackaging_operator'))]"/>
+        <field name="groups" eval="[(4, ref('access_rights_customization.group_delivery_operator')), (4, ref('access_rights_customization.group_pickupandpackaging_operator'))]"/>
     </record>
     <record id="pickup_zone_rule" model="ir.rule">
         <field name="name">Pickup Zone only</field>
@@ -61,7 +61,27 @@
         <field name="perm_write" eval="False"/>
         <field name="perm_create" eval="False"/>
         <field name="perm_unlink" eval="False"/>
-        <field name="groups" eval="[(4, ref('access_rights_customization.group_delivery_operator')),(4, ref('picking_and_delivery_vendor.pickup_vendor_group')),(4, ref('picking_and_delivery_vendor.delivery_vendor_group')), (4, ref('access_rights_customization.group_pickupandpackaging_operator'))]"/>
+        <field name="groups" eval="[(4, ref('access_rights_customization.group_delivery_operator')), (4, ref('access_rights_customization.group_pickupandpackaging_operator'))]"/>
+    </record>
+        <record id="delivery_vendor_zone_rule" model="ir.rule">
+        <field name="name">Delivery Zone Vendor</field>
+        <field name="model_id" ref="picking_and_delivery_vendor.model_delivery_method"/>
+        <field name="domain_force">[('delivery_vendor_company', 'child_of', user.partner_id.id)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+        <field name="groups" eval="[(4, ref('picking_and_delivery_vendor.pickup_vendor_group')),(4, ref('picking_and_delivery_vendor.delivery_vendor_group'))]"/>
+    </record>
+    <record id="pickup_vendor_zone_rule" model="ir.rule">
+        <field name="name">Pickup Zone Vendor</field>
+        <field name="model_id" ref="picking_and_delivery_vendor.model_picking_method"/>
+        <field name="domain_force">[('pickup_vendor_company', 'child_of', user.partner_id.id)]</field>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+        <field name="groups" eval="[(4, ref('picking_and_delivery_vendor.pickup_vendor_group')),(4, ref('picking_and_delivery_vendor.delivery_vendor_group'))]"/>
     </record>
 </odoo>
         
