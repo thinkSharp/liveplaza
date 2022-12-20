@@ -53,7 +53,7 @@ class Documents(models.Model):
     description = fields.Text(string="Description")
     category = fields.Many2one("documents.category", string="Category", required=True)
     sequence = fields.Float(string="Sequence", default=30)
-    document_lines = fields.One2many("documents.line", "line_id", string="Documents Text", ondelete='cascade')
+    document_lines = fields.One2many("documents.line", "line_id", string="Documents Text", ondelete='cascade', copy=True)
     website_published = fields.Boolean(stirng="Published", copy=False, default=True)
     video = fields.Binary(string="Guide Video")
     action_id = fields.Many2many('ir.actions.act_window', string='Action')
@@ -83,7 +83,7 @@ class DocumentsLine(models.Model):
     image_1 = fields.Image(string="Image")
     add_line = fields.Boolean("Add a border under document line")
     sequence = fields.Float(string="Sequence", default=30)
-    line_id = fields.Many2one('documents', string="Line Id")
+    line_id = fields.Many2one('documents', string="Line Id", ondelete='cascade',)
     youtube_video_url = fields.Char("Youtube Video URL", copy=False)
     embed_url = fields.Char(string="Embed Stream Url", compute="set_embed_url", copy=False, default="")
 
