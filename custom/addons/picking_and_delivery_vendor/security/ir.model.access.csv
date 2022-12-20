@@ -1,8 +1,8 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-picking_method_manager,picking.method.manager,model_picking_method,base.group_user,1,1,1,1
+picking_method_manager,picking.method.manager,model_picking_method,base.group_user,1,0,0,0
 picking_move_manager,picking.move.manager,model_picking_move,base.group_user,1,1,1,1
 packaging_move_manager,packaging.move.manager,model_packaging_move,base.group_user,1,1,1,1
-delivery_method_manager,delivery.method.manager,model_delivery_method,base.group_user,1,1,1,1
+delivery_method_manager,delivery.method.manager,model_delivery_method,base.group_user,1,0,0,0
 pickup_report_manager,pickup.report.manager,model_pickup_report,base.group_user,1,1,1,1
 delivery_report_manager,delivery.report.manager,model_delivery_report,base.group_user,1,1,1,1
 delivery_payment_manager,delivery.payment.manager,model_delivery_payment,base.group_user,1,1,1,1
