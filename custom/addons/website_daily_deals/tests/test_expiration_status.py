@@ -15,13 +15,15 @@ class DealTestCase(TransactionCase):
     self.Deal = self.env['website.deals']
     return ret
 
-  def _create_deal(self, start_date, end_date):
-    return self.Deal.create({
+  def _create_deal(self, start_date, end_date, **kwargs):
+    props = {
       'name': "Test Deal",
       'title': "Test Deal",
       'start_date': start_date,
       'end_date': end_date,
-    })
+    }
+    props.update(kwargs)
+    return self.Deal.create(props)
 
 
 class TestExpirationStatus(DealTestCase):
@@ -86,3 +88,33 @@ class TestSearchByExpirationStatus(DealTestCase):
     self.assertNotIn(self.yesterday_deal, search_result)
     self.assertIn(self.ongoing_deal, search_result)
     self.assertIn(self.tomorrow_deal, search_result)
+
+
+class TestQueryValidDeals(DealTestCase):
+
+  def setUp(self):
+    ret = super().setUp()
+    self.expired_deal = self._create_deal(yesterday, yesterday + one_hour_delta, state='validated')
+    self.expired_homepage_deal = self._create_deal(yesterday, yesterday + one_hour_delta, state='validated', display_on_homepage=True)
+    self.expired_but_blur_deal = self._create_deal(yesterday, yesterday + one_hour_delta, state='validated', d_state_after_expire='blur')
+    self.ongoing_deal = self._create_deal(yesterday, tomorrow, state='validated')
+    self.ongoing_homepage_deal = self._create_deal(yesterday, tomorrow, state='validated', display_on_homepage=True)
+    self.ongoing_but_not_validated_deal = self._create_deal(yesterday, tomorrow, state='pending')
+    self.planned_deal = self._create_deal(tomorrow, tomorrow + one_hour_delta, state='validated')
+    return ret
+
+  def test_query_valid_deals(self):
+    valid_deals = self.Deal.get_valid_deals()
+    self.assertNotIn(self.expired_deal, valid_deals)
+    self.assertIn(self.expired_but_blur_deal, valid_deals)
+    self.assertIn(self.ongoing_deal, valid_deals)
+    self.assertIn(self.ongoing_homepage_deal, valid_deals)
+    self.assertNotIn(self.ongoing_but_not_validated_deal, valid_deals)
+    self.assertNotIn(self.planned_deal, valid_deals)
+
+  def test_query_homepage_deals(self):
+    homepage_deals = self.Deal.get_homepage_deals()
+    self.assertNotIn(self.ongoing_deal, homepage_deals)
+    self.assertIn(self.ongoing_homepage_deal, homepage_deals)
+    self.assertNotIn(self.expired_deal, homepage_deals)
+    self.assertNotIn(self.expired_homepage_deal, homepage_deals)
