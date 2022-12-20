@@ -1031,10 +1031,6 @@ class WebsiteDeals(models.Model):
         self.state = 'draft'
         self._update_deal_items()
 
-    def set_to_expired(self):
-        # self.state = 'expired'
-        self._update_deal_items()
-
     def button_validate_the_deal(self):
         start_date = self.start_date
         end_date = self.end_date
