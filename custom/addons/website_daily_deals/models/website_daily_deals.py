@@ -892,6 +892,7 @@ class WebsiteDeals(models.Model):
     end_date = fields.Datetime('End Date', required=True, default=datetime.now() + timedelta(days=1))
     expiration_status = fields.Selection(
         [('planned', "Planned"), ('inprogress', "In Progress"), ('expired', "Expired")],
+        string="Expiration Status",
         compute='_compute_expiration_status', search='_search_by_expiration_status'
     )
 

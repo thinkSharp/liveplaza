@@ -167,6 +167,9 @@
                             <field name="start_date" />
                             <field name="end_date" />
                         </group>
+                        <group col="4">
+                            <field name="expiration_status" />
+                        </group>
 
 						<separator string="Override Default Configuration" style="text-decoration: underline; color:#01579B"/>
 						<group style="margin-left:0px">
@@ -355,6 +358,9 @@
                         <group col="4">
                             <field name="start_date" />
                             <field name="end_date" />
+                        </group>
+                        <group col="4">
+                            <field name="expiration_status" />
                         </group>
 
 						<separator string="Override Default Configuration" style="text-decoration: underline; color:#01579B"/>
