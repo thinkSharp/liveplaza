@@ -70,6 +70,7 @@ class SaleOrder(models.Model):
             picking_objs = self.env['stock.picking'].search([('origin', '=', self.name)])
             delivery_carrier_obj = self.env['delivery.carrier'].search([('id', '=', self.selected_carrier_id)])
             delivery_person = None
+            delivery_zone = None
             delivery_vendor_obj = delivery_carrier_obj.vendor_id
             picking_vendor_obj  = delivery_carrier_obj.vendor_id
             #delivery_vendor_obj = self.env['res.partner'].search([('delivery_vendor', '=', True), ('is_default', '=', True)], limit=1)
@@ -94,8 +95,7 @@ class SaleOrder(models.Model):
                         raise Warning("Township cannot be empty for buyer %s" % picking_data.partner_id.name)
 
                     pick_all_zone = self.env['picking.method'].search([])
-                    pickup_zone = None
-                    delivery_zone = None
+                    pickup_zone = None                    
                     pickup_person = None
                     pickup_person_list = []
                     deli_person_list = []
@@ -110,29 +110,32 @@ class SaleOrder(models.Model):
                                         pickup_person_list.append(pickup_person_data)
 
                     ################################# NEW code to assign pickup person sequence
-                    if pickup_person_list and len(pickup_person_list) > 1:
-                        new_seq_list = []
-                        for aa in pickup_person_list:
-                            new_seq_list.append(aa.pickup_person_sequence)
-                        if new_seq_list:
-                            new_seq_list.sort()
-                            seq_count = len(new_seq_list)
-                            biggest_number = new_seq_list[seq_count-1]
-                            if pickup_zone.last_used_sequence and pickup_zone.last_used_sequence > 0 and pickup_zone.last_used_sequence < biggest_number:
-                                for seq_data in new_seq_list:
-                                    if seq_data > pickup_zone.last_used_sequence:
-                                        pickup_person = self.env['res.partner'].search([('pickup_person_sequence', '=', seq_data),('picking_vendor', '=', True),
-                                                                                        ('parent_id', '=', picking_vendor_obj.id)])
-                                        pickup_zone.sudo().write({'last_used_sequence': seq_data})
-                                        break
+                    if pickup_person_list:
+                        if len(pickup_person_list) > 1:
+                            new_seq_list = []
+                            for aa in pickup_person_list:
+                                new_seq_list.append(aa.pickup_person_sequence)
+                            if new_seq_list:
+                                new_seq_list.sort()
+                                seq_count = len(new_seq_list)
+                                biggest_number = new_seq_list[seq_count-1]
+                                if pickup_zone.last_used_sequence and pickup_zone.last_used_sequence > 0 and pickup_zone.last_used_sequence < biggest_number:
+                                    for seq_data in new_seq_list:
+                                        if seq_data > pickup_zone.last_used_sequence:
+                                            pickup_person = self.env['res.partner'].search([('pickup_person_sequence', '=', seq_data),('picking_vendor', '=', True),
+                                                                                            ('parent_id', '=', picking_vendor_obj.id)])
+                                            pickup_zone.sudo().write({'last_used_sequence': seq_data})
+                                            break
+                                else:
+                                    pickup_person = self.env['res.partner'].search([('pickup_person_sequence', '=', new_seq_list[0]),('picking_vendor', '=', True),
+                                                                                    ('parent_id', '=', picking_vendor_obj.id)])
+                                    pickup_zone.sudo().write({'last_used_sequence': new_seq_list[0]})
                             else:
-                                pickup_person = self.env['res.partner'].search([('pickup_person_sequence', '=', new_seq_list[0]),('picking_vendor', '=', True),
-                                                                                ('parent_id', '=', picking_vendor_obj.id)])
-                                pickup_zone.sudo().write({'last_used_sequence': new_seq_list[0]})
+                                raise UserError(_("Please configure sequence in Pickup Person for relevant zone."))
                         else:
-                            raise UserError(_("Please configure sequence in Pickup Person for respective zone."))
+                            pickup_person = pickup_person_list[0]
                     else:
-                        pickup_person = pickup_person_list[0]
+                        raise UserError(_("Please configure Pickup Person for relevant zone."))
                     ################################# NEW code to assign pickup person sequence
 
                     if not delivery_person:
