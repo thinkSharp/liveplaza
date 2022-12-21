@@ -884,7 +884,7 @@ class WebsiteDeals(models.Model):
                                 help="the title will be displayed in the website and it is displayed only if 'What to Display in Website = Products Only'")
     description = fields.Text(string='Description', help="description of the deal to show in website")
     state = fields.Selection(
-        [('draft', 'Draft'), ('pending', 'Pending For Approval'), ('validated', 'In Progress'), ('expired', 'Expired'), ('cancel', 'Cancelled')], 'State',
+        [('draft', 'Draft'), ('pending', 'Pending For Approval'), ('validated', 'Validated'), ('expired', 'Expired'), ('cancel', 'Cancelled')], 'State',
         default='draft')
     deal_pricelist = fields.Many2one('product.pricelist', 'Pricelist', domain="[('active','=', True),('selectable','=', True)]", required=True, default=_get_default_pricelist)
     overide_config = fields.Boolean('Override Default Configuration')
