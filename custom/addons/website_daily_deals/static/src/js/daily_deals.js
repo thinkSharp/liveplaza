@@ -82,13 +82,7 @@ odoo.define("website_daily_deals.daily_deals_js", function (require) {
                     second:'sec',
                 },
                 function () {
-                    ajax.jsonRpc('/daily/deal/expired/'+deal_id, 'call', {})
-                    .then(function (res) {
-                        console.log(res);
-                        if(res){
-                            window.location.reload();
-                        }
-                    });
+                    window.location.reload();
                 });
                 if(msg_before_offset){
                     var $target = $(this).find(".msg_before_exp");
