@@ -97,6 +97,49 @@ BasicController.include ({
             }
         }
     },
+
+    _discardChanges: function (recordID, options) {
+        var url = window.location.hash;
+        var split = url.split('&');
+        for(var i = 0 ; i < split.length ; i++) {
+            if(split[i].includes('action')) {
+                var get_id = split[i].split('=');
+                if(get_id.length > 1) {
+                    var action_id = parseInt(get_id[1])
+                    if(action_id > 0) {
+                        this._rpc({
+                            model: 'product.request',
+                            method: 'discard',
+                            args: [action_id],
+                        })
+                        .then(function (result) {
+                            if(result) {
+                                window.location.href = result;
+                            }
+                        });
+                    }
+                }
+            }
+        }
+        var self = this;
+        recordID = recordID || this.handle;
+        options = options || {};
+        return this.canBeDiscarded(recordID)
+            .then(function (needDiscard) {
+                if (options.readonlyIfRealDiscard && !needDiscard) {
+                    return;
+                }
+                self.model.discardChanges(recordID);
+                if (options.noAbandon) {
+                    return;
+                }
+                if (self.model.canBeAbandoned(recordID)) {
+                    self._abandonRecord(recordID);
+                    return;
+                }
+                return self._confirmSave(recordID);
+            });
+    },
 });
 
 return BasicController;
