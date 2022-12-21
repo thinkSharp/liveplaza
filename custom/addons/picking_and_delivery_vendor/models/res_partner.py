@@ -38,12 +38,12 @@ class ResPartner(models.Model):
 						dm_list.append(dm_id.id)
 					rec.delivery_method_domain = json.dumps([('id', 'in', dm_list)] )
 				else:
-					dm_objs = self.env['delivery.method'].search([])
+					dm_objs = self.env['delivery.method'].search([("delivery_vendor_company", "=", self.id)])
 					for dm_id in dm_objs:
 						dm_list.append(dm_id.id)
 					rec.delivery_method_domain = json.dumps([('id', 'in', dm_list)] )	
 			else:
-				dm_objs = self.env['delivery.method'].search([])
+				dm_objs = self.env['delivery.method'].search([("delivery_vendor_company", "=", self.id)])
 				for dm_id in dm_objs:
 					dm_list.append(dm_id.id)
 				rec.delivery_method_domain = json.dumps([('id', 'in', dm_list)] )					
@@ -59,12 +59,12 @@ class ResPartner(models.Model):
 						pm_list.append(pm_id.id)
 					rec.picking_method_domain = json.dumps([('id', 'in', pm_list)] )
 				else:
-					pm_objs = self.env['picking.method'].search([])
+					pm_objs = self.env['picking.method'].search([("pickup_vendor_company", "=", self.id)])
 					for pm_id in pm_objs:
 						pm_list.append(pm_id.id)
 					rec.picking_method_domain = json.dumps([('id', 'in', pm_list)] )
 			else:
-				pm_objs = self.env['picking.method'].search([])
+				pm_objs = self.env['picking.method'].search([("pickup_vendor_company", "=", self.id)])
 				for pm_id in pm_objs:
 					pm_list.append(pm_id.id)
 				rec.picking_method_domain = json.dumps([('id', 'in', pm_list)] )
