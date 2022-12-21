@@ -29,6 +29,12 @@ class WebsiteDailyDeals(WebsiteSale):
 		}
 		return http.request.render("website_daily_deals.daily_deals_page", values)
 
+	@http.route(['/daily/deal/expired/<model("website.deals"):deal>'], type='json', auth="public", website=True)
+	def website_deal_expired(self, deal,**post):
+		if deal:
+			deal.set_to_expired()
+		return  deal and deal.state == 'expired'
+	
 	@http.route([
 		'''/daily/deals/<model("website.deals"):deal>''',
         '''/daily/deals/<model("website.deals"):deal>/page/<int:page>'''
