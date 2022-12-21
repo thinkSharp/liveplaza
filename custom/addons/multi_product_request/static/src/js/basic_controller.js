@@ -65,11 +65,19 @@ BasicController.include ({
 
         var get_id = action.split('=');
         var view_type = view.split('=');
-
-        if(get_id.length > 1 && view_type.length > 1 && model.length > 1) {
+        var get_model = model.split('=');
+        if(get_id.length > 1 && view_type.length > 1 && get_model.length > 1) {
+//            alert("model = " + get_model[1]);
             var action_id = parseInt(get_id[1])
-            if(action_id > 0 && model[1] == 'product.request' && view_type[1] == 'form') {
-                window.onbeforeunload = function (e) {
+            if(action_id > 0 && get_model[1] == 'product.request' && view_type[1] == 'form') {
+//                alert("True");
+                window.onbeforeunload = load;
+                window.onunload = load;
+                window.onload = load;
+
+
+
+                function load (e) {
                     e.preventDefault();
                     e.returnValue = 'Are you sure you want to close?'
                     if(window.onbeforeunload != null) {
