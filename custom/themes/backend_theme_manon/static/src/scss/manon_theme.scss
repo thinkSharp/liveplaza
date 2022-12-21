@@ -957,8 +957,9 @@ $header-padding: 12px;
             }
         }
     }
-    .o_form_label {
-        width: 100%
+
+    &.o_xxs_form_view .oe_title {
+        clear: right;
     }
 }
 // =============> o_technical_modal  <==============

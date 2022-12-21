@@ -40,26 +40,37 @@
                                         <input name="state" type="hidden" t-att-value="deal.state"/>
                                         <a t-attf-href="/daily/deals/#{ slug(deal) }">
                                             <div class="d-flex justify-content-between aline-items-center pt8">
-                                                <div class="d-flex align-items-center">
-                                                    <h2 t-field="deal.name" class="deal_name text-uppercase">Flash Sale Name</h2>
-                                                </div>
-                                                <div class="countdown d-flex align-items-center">
-                                                    <ul class="deal_countdown_timer deal_name">
-                                                        <li><p class="m-0">Ending in</p></li>
-                                                        <li><span class="days"></span> <p class="days_text"></p></li>
-                                                        <li class="seperator"> </li>
-                                                        <li><span class="hours"></span> <p class="hours_text"> hrs</p></li>
-                                                        <li class="seperator"> </li>
-                                                        <li><span class="minutes"></span> <p class="minutes_text"> min</p></li>
-                                                        <li class="seperator"> </li>
-                                                        <li><span class="seconds"></span> <p class="seconds_text"> sec</p></li>
-                                                    </ul>
-                                                </div>
-
-                                            </div>
-
-                                            <h6 class="deal_seller_name" style="margin-left: 1rem;">&#032; SOLD BY &#032;
-                                                        <span> <i class="fa fa-user" /> &#032; <t t-esc="deal.seller_name"/> </span>  </h6>
+												<div class="d-flex align-items-center">													
+														<h2 t-field="deal.name" class="deal_name text-uppercase" t-attf-href="/daily/deals/#{ slug(deal) }">Flash Sale Name</h2>															
+												</div>		
+											</div>
+											<div class="d-flex justify-content-between aline-items-center pt8">
+												<div class="d-flex align-items-center">
+													<h6 class="deal_seller_name" style="margin-left: 1rem;">&#032; SOLD BY &#032;
+														<span> <i class="fa fa-user" /> &#032; <t t-esc="deal.seller_name"/> </span>  
+													</h6>
+												</div>														
+												<div>
+													<button type="button" t-attf-href="/daily/deals/#{ slug(deal) }" role="button" class="btn btn-default deal_product_quick_view"  title="View Detail">View Detail</button>
+												</div>														
+											</div>
+											<div class="d-flex justify-content-between aline-items-center pt8">
+												<div class="d-flex align-items-center">													
+													<h2></h2>															
+												</div>
+												<div class="countdown d-flex align-items-center">
+													<ul class="deal_countdown_timer deal_name">
+														<li><p class="m-0">Ending in</p></li>
+														<li><span class="days"></span> <p class="days_text"></p></li>
+														<li class="seperator"> </li>
+														<li><span class="hours"></span> <p class="hours_text"> hrs</p></li>
+														<li class="seperator"> </li>
+														<li><span class="minutes"></span> <p class="minutes_text"> min</p></li>
+														<li class="seperator"> </li>
+														<li><span class="seconds"></span> <p class="seconds_text"> sec</p></li>
+													</ul>
+												</div>		
+											</div>
                                             <!-- Banner  -->
                                             <div t-if="deal.banner">
                                                 <div class="deal_banner_description row mt24 mb8 m-0">

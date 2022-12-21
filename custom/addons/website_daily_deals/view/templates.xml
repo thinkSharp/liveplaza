@@ -83,7 +83,22 @@
 												
 													<div class="d-flex justify-content-between aline-items-center pt8">
 														<div class="d-flex align-items-center">													
-															<h2 t-field="deal.name" class="deal_name text-uppercase">Flash Sale Name</h2>
+															<h2 t-field="deal.name" class="deal_name text-uppercase" t-attf-href="/daily/deals/#{ slug(deal) }">Flash Sale Name</h2>															
+														</div>		
+													</div>
+													<div class="d-flex justify-content-between aline-items-center pt8">
+														<div class="d-flex align-items-center">
+															<h6 class="deal_seller_name" style="margin-left: 1rem;">&#032; SOLD BY &#032;
+																<span> <i class="fa fa-user" /> &#032; <t t-esc="deal.seller_name"/> </span>  
+															</h6>
+														</div>														
+														<div>
+															<button type="button" t-attf-href="/daily/deals/#{ slug(deal) }" role="button" class="btn btn-default deal_product_quick_view"  title="View Detail">View Detail</button>
+														</div>														
+													</div>
+													<div class="d-flex justify-content-between aline-items-center pt8">
+														<div class="d-flex align-items-center">													
+															<h2></h2>															
 														</div>
 														<div class="countdown d-flex align-items-center">
 															<ul class="deal_countdown_timer deal_name">
@@ -96,12 +111,8 @@
 																<li class="seperator"> </li>
 																<li><span class="seconds"></span> <p class="seconds_text"> sec</p></li>
 															</ul>
-														</div>
-		
-													</div>
-		
-													<h6 class="deal_seller_name" style="margin-left: 1rem;">&#032; SOLD BY &#032;
-																<span> <i class="fa fa-user" /> &#032; <t t-esc="deal.seller_name"/> </span>  </h6>
+														</div>		
+													</div>	
 													<!-- Banner  -->
 													<div t-if="deal.banner">
 														<div class="deal_banner_description row mt24 mb8 m-0">
@@ -182,17 +193,18 @@
 		<template id="daily_deals_detail_page" name="Daily Deals Details">
 			<t t-call="website.layout">
 				<div id="wrap" class="website_daily_deals oe_website_sale">
-					<div class="modal" id="deal_product_item_view_modal">
-						<div class="modal-dialog modal-lg">
-							<div class="modal-content">
-								<div class="modal-header" style="border:none;">
-									<button type="button" class="close" data-dismiss="modal">x</button>
-								</div>
-								<div class="modal-body daily-deals-quick-view" style="min-height:400px;">
+					<div class="container">
+						<div class="modal" id="deal_product_item_view_modal">
+							<div class="modal-dialog modal-lg">
+								<div class="modal-content">
+									<div class="modal-header" style="border:none;">
+										<button type="button" class="close" data-dismiss="modal">x</button>
+									</div>
+									<div class="modal-body daily-deals-quick-view" style="min-height:400px;">
+									</div>
 								</div>
 							</div>
-						</div>
-					</div>					
+						</div>					
 						<section t-if="not daily_deals" class="s_parallax parallax s_parallax_is_fixed bg-black-50 pt64 pb80" data-scroll-background-ratio="1">
 							<span class="s_parallax_bg oe_img_bg oe_custom_bg" style="background-color:#F2F3F4; background-position: 50% 75%;"/>
 							<div class="oe_structure">
@@ -208,7 +220,8 @@
 							</div>
 						</section>
 						<section>
-							<div class="container">
+							<div class="deals_detail_container">
+								<div class='deals_detail_main_row'>
 									<div class='deal_main_row' t-foreach="daily_deals" t-as="deal">	
 											<div t-attf-class="col-12 pt16 pb16 deal_main_div #{'blur' if deal.state_after_expiration()== 'blur' else ''}" t-if="deal.state_after_expiration()!= 'delete'" >
 												<input name="deal_id" type="hidden" t-att-value="deal.id"/>
@@ -231,7 +244,15 @@
 		
 												<div class="d-flex justify-content-between aline-items-center pt8">
 													<div class="d-flex align-items-center">
-														<h2 t-field="deal.name" class="deal_name text-uppercase">Flash Sale Name</h2>
+														<h3 t-field="deal.name" class="deal_name text-uppercase">Flash Sale Name</h3>
+													</div>	
+												</div>
+												<h6 class="deal_seller_name" style="margin-left: 1rem;">&#032; SOLD BY &#032;
+													<span> <i class="fa fa-user" /> &#032; <t t-esc="deal.seller_name"/> </span>  
+												</h6>
+												<div class="d-flex justify-content-between aline-items-center pt8">
+													<div class="d-flex align-items-center">
+														<h2></h2>
 													</div>
 													<div class="countdown d-flex align-items-center">
 														<ul class="deal_countdown_timer deal_name">
@@ -244,12 +265,8 @@
 															<li class="seperator"> </li>
 															<li><span class="seconds"></span> <p class="seconds_text"> sec</p></li>
 														</ul>
-													</div>
-	
-												</div>
-	
-												<h6 class="deal_seller_name" style="margin-left: 1rem;">&#032; SOLD BY &#032;
-															<span> <i class="fa fa-user" /> &#032; <t t-esc="deal.seller_name"/> </span>  </h6>
+													</div>	
+												</div>	
 												<!-- Banner  -->
 												<div t-if="deal.banner">
 													<div class="deal_banner_description row mt24 mb8 m-0">
@@ -342,9 +359,11 @@
 												</div>
 											</div>
 									</div>
+								</div>		
 							</div>
 						</section>
 					<div class="oe_structure mb32"/>
+				</div>	
 			</div>
 			</t>
 		</template>
@@ -420,17 +439,17 @@
 				<t t-set="all_out_of_stock" t-value="false" />
 				<div t-attf-class="deal_item #{'' if product_quantity > 0 else 'd-none hidden-deal-product'} #{'col-12 col-sm-6 col-md-3 col-lg-2 p-0' if deal_item else ''}">
 					<div class='div_img'>
-						<a t-att-href="product_tmpl_id.website_url">
+						<a t-att-href="product_tmpl_id.sudo().website_url">
 							<span itemprop="image" t-field="product_tmpl_id.image_1920" t-options="{'widget': 'image', 'preview_image': 'image_1024' if product_image_big else 'image_256'}" t-att-alt="product_tmpl_id.name"/>
 						</a>
 						<div class="item_mask">
 							<button type="button" role="button" class="btn btn-default deal_product_quick_view"  title="Quick View" t-att-product-template-id="product_tmpl_id.id">Quick View</button>
-							<a t-att-href="product_tmpl_id.website_url" type="button" role="button" class="btn btn-default"  title="Quick View" t-att-product-template-id="product_tmpl_id.id">Choose Options</a>
+							<a t-att-href="product_tmpl_id.sudo().website_url" type="button" role="button" class="btn btn-default"  title="Quick View" t-att-product-template-id="product_tmpl_id.id">Choose Options</a>
 						</div>
 					</div>
 					<div class="deal_item_details">
 						<div class="product_name">
-							<a t-att-href="product_tmpl_id.website_url" itemprop="name" t-field="product_tmpl_id.name"/>
+							<a t-att-href="product_tmpl_id.sudo().website_url" itemprop="name" t-field="product_tmpl_id.name"/>
 						</div>
 						<div class="discounted_price">
 							<span t-esc="deal_item.discounted_price" t-options="{'widget': 'monetary', 'display_currency': website.currency_id}"/>

@@ -66,7 +66,11 @@ class Picking(models.Model):
     pick_date = fields.Datetime('Pick Date', store=True)
     pack_date = fields.Datetime('Pack Date', store=True)
     delivery_date = fields.Datetime('Delivery Date', store=True)
-
+    payment_upload_pick = fields.Binary(string='Upload Payment')
+    payment_upload_name_pick = fields.Char(string='Upload Payment Name')
+    payment_upload_pack = fields.Binary(string='Upload Payment')
+    payment_upload_name_pack = fields.Char(string='Upload Payment Name')
+    
     def deliver_now(self):
         picking = self.env["stock.picking"].search(
             [('origin', '=', self.origin), ('picking_type_id.name', '=', self.picking_type_id.name)])

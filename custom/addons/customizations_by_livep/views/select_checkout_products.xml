@@ -19,7 +19,7 @@
             <table class="cart_modal_table">
                 <tbody>
                     <t t-foreach="website_sale_order.website_order_line" t-as="line">
-                        <tr t-att-class="'optional_product info' if line.linked_line_id else None">
+                        <tr t-if="not line.is_voucher" t-att-class="'optional_product info' if line.linked_line_id else None">
                             <t t-if="line.selected_checkout">
                                 <td colspan="3" ><input checked="checked" type="checkbox" disabled="disabled"
                                        t-att-data-order-id="line.id" class="btn btn-link d-md-inline-block" />
@@ -86,7 +86,7 @@
                         </thead>
                         <tbody>
                             <tr t-foreach="website_sale_order.website_order_line" t-as="line">
-                                <t t-if="line.selected_checkout">
+                                <t t-if="line.selected_checkout  and not line.is_voucher">
                                     <td class='' colspan="2" t-if="not line.product_id.product_tmpl_id"></td>
                                     <td class='td-img text-center' t-if="line.product_id.product_tmpl_id">
                                         <span t-field="line.product_id.image_128" t-options="{'widget': 'image', 'qweb_img_responsive': False, 'class': 'rounded o_image_64_max'}" />
@@ -137,7 +137,7 @@
                         </thead>
                         <tbody>
                             <tr t-foreach="website_sale_order.website_order_line" t-as="line">
-                                <t t-if="line.selected_checkout">
+                                <t t-if="line.selected_checkout and not line.is_voucher">
                                     <td class='' colspan="2" t-if="not line.product_id.product_tmpl_id"></td>
                                     <td class='td-img text-center' t-if="line.product_id.product_tmpl_id">
                                         <span t-field="line.product_id.image_128" t-options="{'widget': 'image', 'qweb_img_responsive': False, 'class': 'rounded o_image_64_max'}" />

@@ -14,6 +14,7 @@ class ResPartner(models.Model):
 	delivery_method_ids = fields.Many2many(
 		'delivery.method', 'partner_deli_rel', string='Delivery Zone', domain=[("active", "=", True)])
 	vendor_sequence = fields.Integer(string="Sequence", store=True)
+	pickup_person_sequence = fields.Float(string="Sequence", default=0)
 	active_delivery = fields.Boolean('Active Delivery', default=False)
 	delivery_method_domain = fields.Char(compute="_compute_delivery_domain", readonly=True, store=False,)
 	picking_method_domain = fields.Char(compute="_compute_picking_domain", readonly=True, store=False,)
@@ -37,12 +38,12 @@ class ResPartner(models.Model):
 						dm_list.append(dm_id.id)
 					rec.delivery_method_domain = json.dumps([('id', 'in', dm_list)] )
 				else:
-					dm_objs = self.env['delivery.method'].search([])
+					dm_objs = self.env['delivery.method'].search([("delivery_vendor_company", "=", self.id)])
 					for dm_id in dm_objs:
 						dm_list.append(dm_id.id)
 					rec.delivery_method_domain = json.dumps([('id', 'in', dm_list)] )	
 			else:
-				dm_objs = self.env['delivery.method'].search([])
+				dm_objs = self.env['delivery.method'].search([("delivery_vendor_company", "=", self.id)])
 				for dm_id in dm_objs:
 					dm_list.append(dm_id.id)
 				rec.delivery_method_domain = json.dumps([('id', 'in', dm_list)] )					
@@ -58,12 +59,12 @@ class ResPartner(models.Model):
 						pm_list.append(pm_id.id)
 					rec.picking_method_domain = json.dumps([('id', 'in', pm_list)] )
 				else:
-					pm_objs = self.env['picking.method'].search([])
+					pm_objs = self.env['picking.method'].search([("pickup_vendor_company", "=", self.id)])
 					for pm_id in pm_objs:
 						pm_list.append(pm_id.id)
 					rec.picking_method_domain = json.dumps([('id', 'in', pm_list)] )
 			else:
-				pm_objs = self.env['picking.method'].search([])
+				pm_objs = self.env['picking.method'].search([("pickup_vendor_company", "=", self.id)])
 				for pm_id in pm_objs:
 					pm_list.append(pm_id.id)
 				rec.picking_method_domain = json.dumps([('id', 'in', pm_list)] )

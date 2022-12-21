@@ -263,7 +263,7 @@
 <!--                     <button name="do_print_picking" string="Print" groups="stock.group_stock_user" type="object" attrs="{'invisible': ['|', ('state', 'not in', ('assigned', 'partially_available')), ('is_locked', '=', False)]}"/> -->
 <!--                     <button name="%(stock.action_report_delivery)d" string="Print" attrs="{'invisible': ['|', ('state', '!=', 'done'), ('is_locked', '=', False)]}" type="action" groups="odoo_marketplace.marketplace_seller_group"/> -->
 <!--                     <button name="%(stock.act_stock_return_picking)d" string="Return" attrs="{'invisible': ['|', ('state', '!=', 'done'), ('is_locked', '=', False)]}" type="action" groups="odoo_marketplace.marketplace_seller_group"/> -->
-<!--                     <button name="action_cancel" attrs="{'invisible': ['|', ('state', 'not in', ('assigned', 'confirmed', 'partially_available', 'draft', 'waiting')), ('is_locked', '=', False)]}" string="Cancel" groups="odoo_marketplace.marketplace_seller_group" type="object"/> -->
+                    <button name="action_cancel" attrs="{'invisible': ['|', ('state', 'not in', ('assigned','delivering', 'confirmed', 'partially_available', 'draft', 'waiting')), ('is_locked', '=', False)]}" string="Cancel" groups="odoo_marketplace.marketplace_seller_group" type="object"/>
                     <field name="picking_type_code" invisible="1"/>
 <!--                     <button name="do_unreserve" string="Unreserve" groups="odoo_marketplace.marketplace_officer_group" type="object" attrs="{'invisible': ['|', '|', '|', '|', ('picking_type_code', '=', 'incoming'), ('immediate_transfer', '=', True), ('is_locked', '=', False), '&amp;', ('state', 'not in', ('assigned', 'partially_available')), ('move_type', '!=', 'one'), '&amp;', ('state', 'not in', ('assigned', 'partially_available', 'confirmed')), ('move_type', '=', 'one')]}"/> -->
                     <field name="show_operations" invisible="1" readonly="1"/>
@@ -328,8 +328,6 @@
 		                    <field name="paid_amount" attrs="{'invisible': [('journal_id', '=', False)],  'readonly': ['|',('state', '=', 'done'),('payment_provider', '=', 'transfer')]}" />
 
 		                    <field name="payment_remark" attrs="{'invisible': [('journal_id', '=', False)], 'readonly': ['|',('state', '=', 'done'),('payment_provider', '=', 'transfer')]}" />
-		                    <field name="payment_upload" filename="payment_upload_name" attrs="{'invisible': [('paid_amount', '&lt;=', '0.0')], 'readonly': ['|',('state', '=', 'done'),('payment_provider', '=', 'transfer')]}" />
-		                    <field name="payment_upload_name" invisible="1" />
 
 		                    <field name="is_picked" invisible="1" />
 		                    <field name="is_packaged" invisible="1" />
@@ -355,7 +353,7 @@
                     </group>
                     <notebook>
                         <!-- Reservation hidden -->
-                        <page string="Detailed Operations" attrs="{'invisible': ['|', ('show_operations', '=', False), ('show_reserved', '=', True)]}" groups="odoo_marketplace.marketplace_officer_group">
+                        <page string="Detailed Operations" attrs="{'invisible': ['|', ('show_operations', '=', False), ('show_reserved', '=', True)]}">
                             <field name="move_line_nosuggest_ids"
                                    attrs="{'readonly': ['|', '|', ('show_operations', '=', False), ('state', '=', 'cancel'), '&amp;', ('state', '=', 'done'), ('is_locked', '=', True)]}"
                                    context="{'tree_view_ref': 'stock.view_stock_move_line_detailed_operation_tree', 'default_picking_id': id, 'default_location_id': location_id, 'default_location_dest_id': location_dest_id, 'default_company_id': company_id}"/>
@@ -366,13 +364,18 @@
                         </page>
 
                         <!-- Reservation displayed -->
-                        <page string="Detailed Operations"  attrs="{'invisible': ['|', ('show_operations', '=', False), ('show_reserved', '=', False)]}" groups="odoo_marketplace.marketplace_officer_group">
+                        <page string="Detailed Operations"  attrs="{'invisible': ['|', ('show_operations', '=', False), ('show_reserved', '=', False)]}">
                             <field name="move_line_ids_without_package" options="{'no_create': True}"  readonly="1"
                                    context="{'tree_view_ref': 'stock.view_stock_move_line_detailed_operation_tree', 'default_picking_id': id, 'default_location_id': location_id, 'default_location_dest_id': location_dest_id, 'default_company_id': company_id}"/>
                             <field name="package_level_ids_details" context="{'default_location_id': location_id, 'default_location_dest_id': location_dest_id, 'default_company_id': company_id}" attrs="{'readonly': [('state', '=', 'done')], 'invisible': ['|', ('picking_type_entire_packs', '=', False), ('show_operations', '=', False)]}" />
                             <button class="oe_highlight" name="put_in_pack" type="object" string="Put in Pack" attrs="{'invisible': [('state', 'in', ('draft', 'done', 'cancel'))]}" groups="stock.group_tracking_lot"/>
                         </page>
-
+                        <page string="Payment Photo Upload" name="payment_photo_upload">
+                            <group>
+                            	<field name="payment_upload" filename="payment_upload_name" widget="image" attrs="{'invisible': [('paid_amount', '&lt;=', '0.0')], 'readonly': ['|',('state', 'in', ('hold', 'done', 'cancel')),('payment_provider', '=', 'transfer')]}" />
+		                   		<field name="payment_upload_name" invisible="1" />
+                            </group>
+                        </page>
                         <page string="Operations">
                             <field name="move_ids_without_package" readonly="1" attrs="{'readonly': ['|', '&amp;', ('show_operations', '=', True), '|', ('is_locked', '=', True), ('state', '=', 'done'), '&amp;', ('state', '=', 'done'), ('is_locked', '=', True)]}" context="{'default_company_id': company_id, 'picking_type_code': picking_type_code, 'default_picking_id': id, 'form_view_ref':'stock.view_move_form', 'address_in_id': partner_id, 'default_picking_type_id': picking_type_id, 'default_location_id': location_id, 'default_location_dest_id': location_dest_id}">
                                 <tree decoration-danger="not parent.immediate_transfer and state != 'done' and quantity_done > reserved_availability and show_reserved_availability" decoration-muted="scrapped == True or state == 'cancel' or (state == 'done' and is_locked == True)" string="Stock Moves" editable="bottom">
@@ -488,7 +491,7 @@
 <!--                     <button name="do_print_picking" string="Print" groups="stock.group_stock_user" type="object" attrs="{'invisible': ['|', ('state', 'not in', ('assigned', 'partially_available')), ('is_locked', '=', False)]}"/> -->
 <!--                     <button name="%(stock.action_report_delivery)d" string="Print" attrs="{'invisible': ['|', ('state', '!=', 'done'), ('is_locked', '=', False)]}" type="action" groups="odoo_marketplace.marketplace_seller_group"/> -->
 <!--                     <button name="%(stock.act_stock_return_picking)d" string="Return" attrs="{'invisible': ['|', ('state', '!=', 'done'), ('is_locked', '=', False)]}" type="action" groups="odoo_marketplace.marketplace_seller_group"/> -->
-<!--                     <button name="action_cancel" attrs="{'invisible': ['|', ('state', 'not in', ('assigned', 'confirmed', 'partially_available', 'draft', 'waiting')), ('is_locked', '=', False)]}" string="Cancel" groups="odoo_marketplace.marketplace_seller_group" type="object"/> -->
+                    <button name="action_cancel" attrs="{'invisible': ['|', ('state', 'not in', ('assigned','delivering', 'confirmed', 'partially_available', 'draft', 'waiting')), ('is_locked', '=', False)]}" string="Cancel" groups="odoo_marketplace.marketplace_seller_group" type="object"/>
                     <field name="picking_type_code" invisible="1"/>
 <!--                     <button name="do_unreserve" string="Unreserve" groups="odoo_marketplace.marketplace_officer_group" type="object" attrs="{'invisible': ['|', '|', '|', '|', ('picking_type_code', '=', 'incoming'), ('immediate_transfer', '=', True), ('is_locked', '=', False), '&amp;', ('state', 'not in', ('assigned', 'partially_available')), ('move_type', '!=', 'one'), '&amp;', ('state', 'not in', ('assigned', 'partially_available', 'confirmed')), ('move_type', '=', 'one')]}"/> -->
                     <field name="show_operations" invisible="1" readonly="1"/>
@@ -568,7 +571,7 @@
                     </group>
                     <notebook>
                         <!-- Reservation hidden -->
-                        <page string="Detailed Operations" attrs="{'invisible': ['|', ('show_operations', '=', False), ('show_reserved', '=', True)]}" groups="odoo_marketplace.marketplace_officer_group">
+                        <page string="Detailed Operations" attrs="{'invisible': ['|', ('show_operations', '=', False), ('show_reserved', '=', True)]}">
                             <field name="move_line_nosuggest_ids"
                                    attrs="{'readonly': ['|', '|', ('show_operations', '=', False), ('state', '=', 'cancel'), '&amp;', ('state', '=', 'done'), ('is_locked', '=', True)]}"
                                    context="{'tree_view_ref': 'stock.view_stock_move_line_detailed_operation_tree', 'default_picking_id': id, 'default_location_id': location_id, 'default_location_dest_id': location_dest_id, 'default_company_id': company_id}"/>
@@ -579,13 +582,18 @@
                         </page>
 
                         <!-- Reservation displayed -->
-                        <page string="Detailed Operations"  attrs="{'invisible': ['|', ('show_operations', '=', False), ('show_reserved', '=', False)]}" groups="odoo_marketplace.marketplace_officer_group">
+                        <page string="Detailed Operations"  attrs="{'invisible': ['|', ('show_operations', '=', False), ('show_reserved', '=', False)]}">
                             <field name="move_line_ids_without_package" options="{'no_create': True}"  readonly="1"
                                    context="{'tree_view_ref': 'stock.view_stock_move_line_detailed_operation_tree', 'default_picking_id': id, 'default_location_id': location_id, 'default_location_dest_id': location_dest_id, 'default_company_id': company_id}"/>
                             <field name="package_level_ids_details" context="{'default_location_id': location_id, 'default_location_dest_id': location_dest_id, 'default_company_id': company_id}" attrs="{'readonly': [('state', '=', 'done')], 'invisible': ['|', ('picking_type_entire_packs', '=', False), ('show_operations', '=', False)]}" />
                             <button class="oe_highlight" name="put_in_pack" type="object" string="Put in Pack" attrs="{'invisible': [('state', 'in', ('draft', 'done', 'cancel'))]}" groups="stock.group_tracking_lot"/>
                         </page>
-
+                        <page string="Payment Photo Upload" name="payment_photo_upload">
+                            <group>
+                                <field name="payment_upload_pick" filename="payment_upload_name_pick" widget="image" attrs="{'readonly': [('state', 'in',('hold', 'done', 'cancel'))]}" />
+	                    		<field name="payment_upload_name_pick" invisible="1" />
+                            </group>
+                        </page>
                         <page string="Operations">
                             <field name="move_ids_without_package" readonly="1" attrs="{'readonly': ['|', '&amp;', ('show_operations', '=', True), '|', ('is_locked', '=', True), ('state', '=', 'done'), '&amp;', ('state', '=', 'done'), ('is_locked', '=', True)]}" context="{'default_company_id': company_id, 'picking_type_code': picking_type_code, 'default_picking_id': id, 'form_view_ref':'stock.view_move_form', 'address_in_id': partner_id, 'default_picking_type_id': picking_type_id, 'default_location_id': location_id, 'default_location_dest_id': location_dest_id}">
                                 <tree decoration-danger="not parent.immediate_transfer and state != 'done' and quantity_done > reserved_availability and show_reserved_availability" decoration-muted="scrapped == True or state == 'cancel' or (state == 'done' and is_locked == True)" string="Stock Moves" editable="bottom">
@@ -702,7 +710,7 @@
 <!--                     <button name="do_print_picking" string="Print" groups="stock.group_stock_user" type="object" attrs="{'invisible': ['|', ('state', 'not in', ('assigned', 'partially_available')), ('is_locked', '=', False)]}"/> -->
 <!--                     <button name="%(stock.action_report_delivery)d" string="Print" attrs="{'invisible': ['|', ('state', '!=', 'done'), ('is_locked', '=', False)]}" type="action" groups="odoo_marketplace.marketplace_seller_group"/> -->
 <!--                     <button name="%(stock.act_stock_return_picking)d" string="Return" attrs="{'invisible': ['|', ('state', '!=', 'done'), ('is_locked', '=', False)]}" type="action" groups="odoo_marketplace.marketplace_seller_group"/> -->
-<!--                     <button name="action_cancel" attrs="{'invisible': ['|', ('state', 'not in', ('assigned', 'confirmed', 'partially_available', 'draft', 'waiting')), ('is_locked', '=', False)]}" string="Cancel" groups="odoo_marketplace.marketplace_seller_group" type="object"/> -->
+                    <button name="action_cancel" attrs="{'invisible': ['|', ('state', 'not in', ('assigned','delivering', 'confirmed', 'partially_available', 'draft', 'waiting')), ('is_locked', '=', False)]}" string="Cancel" groups="odoo_marketplace.marketplace_seller_group" type="object"/>
                     <field name="picking_type_code" invisible="1"/>
 <!--                     <button name="do_unreserve" string="Unreserve" groups="odoo_marketplace.marketplace_officer_group" type="object" attrs="{'invisible': ['|', '|', '|', '|', ('picking_type_code', '=', 'incoming'), ('immediate_transfer', '=', True), ('is_locked', '=', False), '&amp;', ('state', 'not in', ('assigned', 'partially_available')), ('move_type', '!=', 'one'), '&amp;', ('state', 'not in', ('assigned', 'partially_available', 'confirmed')), ('move_type', '=', 'one')]}"/> -->
                     <field name="show_operations" invisible="1" readonly="1"/>
@@ -768,7 +776,7 @@
                             <field name="scheduled_date" attrs="{'readonly': [('state', 'in', ('done','assigned', 'cancel'))], 'required': [('id', '!=', False)]}"/>
                             <field name="date_done" string="Effective Date" attrs="{'invisible': [('state', '!=', 'done')]}"/>
                             <field name="origin" readonly="1" placeholder="e.g. PO0032"/>
-                            <field name="vendor_id"  domain="[('delivery_vendor', '=', True)]" attrs="{'readonly': [('state', 'in', ('done','assigned','cancel'))]}" invisible="1"/>
+                            <field name="vendor_id"  string="Vendor" domain="[('delivery_vendor', '=', True)]" attrs="{'readonly': [('state', 'in', ('done','assigned','cancel'))]}"/>
                             <field name="delivery_method_id" readonly="1" invisible="1"/>
 		                    <field name="hold_reason" attrs="{'invisible': [('state', '!=', 'assigned')]}" />
 		                    <field name="hold_state" string="To Receive" invisible="1"/>
@@ -781,7 +789,7 @@
                     </group>
                     <notebook>
                         <!-- Reservation hidden -->
-                        <page string="Detailed Operations" attrs="{'invisible': ['|', ('show_operations', '=', False), ('show_reserved', '=', True)]}" groups="odoo_marketplace.marketplace_officer_group">
+                        <page string="Detailed Operations" attrs="{'invisible': ['|', ('show_operations', '=', False), ('show_reserved', '=', True)]}">
                             <field name="move_line_nosuggest_ids"
                                    attrs="{'readonly': ['|', '|', ('show_operations', '=', False), ('state', '=', 'cancel'), '&amp;', ('state', '=', 'done'), ('is_locked', '=', True)]}"
                                    context="{'tree_view_ref': 'stock.view_stock_move_line_detailed_operation_tree', 'default_picking_id': id, 'default_location_id': location_id, 'default_location_dest_id': location_dest_id, 'default_company_id': company_id}"/>
@@ -792,13 +800,18 @@
                         </page>
 
                         <!-- Reservation displayed -->
-                        <page string="Detailed Operations"  attrs="{'invisible': ['|', ('show_operations', '=', False), ('show_reserved', '=', False)]}" groups="odoo_marketplace.marketplace_officer_group">
+                        <page string="Detailed Operations"  attrs="{'invisible': ['|', ('show_operations', '=', False), ('show_reserved', '=', False)]}">
                             <field name="move_line_ids_without_package" options="{'no_create': True}"  readonly="1"
                                    context="{'tree_view_ref': 'stock.view_stock_move_line_detailed_operation_tree', 'default_picking_id': id, 'default_location_id': location_id, 'default_location_dest_id': location_dest_id, 'default_company_id': company_id}"/>
                             <field name="package_level_ids_details" context="{'default_location_id': location_id, 'default_location_dest_id': location_dest_id, 'default_company_id': company_id}" attrs="{'readonly': [('state', '=', 'done')], 'invisible': ['|', ('picking_type_entire_packs', '=', False), ('show_operations', '=', False)]}" />
                             <button class="oe_highlight" name="put_in_pack" type="object" string="Put in Pack" attrs="{'invisible': [('state', 'in', ('draft', 'done', 'cancel'))]}" groups="stock.group_tracking_lot"/>
                         </page>
-
+                        <page string="Payment Photo Upload" name="payment_photo_upload">
+                            <group>
+                                <field name="payment_upload_pack" filename="payment_upload_name_pack" widget="image" attrs="{'readonly': [('state', 'in',('hold', 'done', 'cancel'))]}" />
+	                    		<field name="payment_upload_name_pack" invisible="1" />
+                            </group>
+                        </page>
                         <page string="Operations">
                             <field name="move_ids_without_package" readonly="1" attrs="{'readonly': ['|', '&amp;', ('show_operations', '=', True), '|', ('is_locked', '=', True), ('state', '=', 'done'), '&amp;', ('state', '=', 'done'), ('is_locked', '=', True)]}" context="{'default_company_id': company_id, 'picking_type_code': picking_type_code, 'default_picking_id': id, 'form_view_ref':'stock.view_move_form', 'address_in_id': partner_id, 'default_picking_type_id': picking_type_id, 'default_location_id': location_id, 'default_location_dest_id': location_dest_id}">
                                 <tree decoration-danger="not parent.immediate_transfer and state != 'done' and quantity_done > reserved_availability and show_reserved_availability" decoration-muted="scrapped == True or state == 'cancel' or (state == 'done' and is_locked == True)" string="Stock Moves" editable="bottom">
@@ -1103,5 +1116,7 @@
         <menuitem action="stock_packing_do_cus_action_inventory" id="stock_do_menu_inventory_pack" parent="stock_do_menu_inventory" sequence="3" name="Packing"/>
         <menuitem action="stock_do_cus_action_inventory" id="stock_do_menu_inventory_do" parent="stock_do_menu_inventory" sequence="4" name="Delivery Order"/>
         
-            
+        <menuitem id="stock_do_menu_inventory_zones" parent="menu_delivery_root" sequence="3" name="Zones"/>
+        <menuitem name="Delivery Zones" id="deli_delivery_method_menu" parent="stock_do_menu_inventory_zones" groups="base.group_user" action="picking_and_delivery_vendor.action_delivery_method" sequence="1" />
+        <menuitem name="Pickup Zones" id="pickup_delivery_method_menu" parent="stock_do_menu_inventory_zones" groups="base.group_user" action="picking_and_delivery_vendor.action_picking_method" sequence="2" />  
 </odoo>

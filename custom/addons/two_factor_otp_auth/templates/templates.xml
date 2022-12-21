@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+  <template id="account_2_step_verification" name="Two Step Verification" inherit_id="portal.portal_layout">
+    <xpath expr="//div[@id='o_my_sidebar']" position="inside">
+      <div class="mt-4">
+        <h4>Two Step Verification</h4>
+        <hr class="mt-1 mb-1" />
+        <div class="d-flex gap-2 align-items-start my-3">
+          <i class="fa fa-key fa-fw mt-1"></i>
+          <div>
+            <h5 class="text-neutral-700 mb-1">Authenticator</h5>
+            <p class="text-neutral-500 mb-2">Add a layer of security. Require a verification code from an authenticator app in addition to your password</p>
+            <div class="d-flex gap-1">
+              <t t-if="request.env.user.enable_2fa">
+                <a href="/my/enable_2fa" class="text-neutral-700 px-4 py-2 bg-neutral-100 border-0 rounded">Change</a>
+                <a href="/my/disable_2fa" class="text-error-500 px-4 py-2 bg-white hover:bg-white border border-error-500 rounded">Disable</a>
+              </t>
+              <t t-else="">
+                <a href="/my/enable_2fa" class="text-white px-4 py-2 bg-primary-500 border-0 rounded">Setup</a>
+              </t>
+            </div>
+          </div>
+        </div>
+      </div>
+    </xpath>
+  </template>
+
+  <template id="2fa_setup" name="Setup Two Factor Authentication">
+    <t t-call="two_factor_otp_auth.2fa_layout">
+      <t t-set="header">Enable Authenticator</t>
+      <t t-call="two_factor_otp_auth.qr_code_instructions" />
+      <form method="post" action="/my/enable_2fa">
+        <t t-call="two_factor_otp_auth.otp_code_input" />
+        <div class="d-flex gap-2 justify-content-center">
+          <a href="/my/home" class="text-primary-500 px-4 py-2 bg-primary-100 border-0 rounded">Cancel</a>
+          <button type="submit" class="text-white px-4 py-2 bg-primary-500 border-0 rounded">Enable</button>
+        </div>
+        <input name="csrf_token"
+          type="hidden"
+          t-att-value="request.csrf_token()"
+        />
+        <input name="qr_code_2fa"
+          type="hidden"
+          t-att-value="qr_code_2fa"
+        />
+        <input name="secret_code_2fa"
+          type="hidden"
+          t-att-value="secret_code_2fa"
+        />
+      </form>
+    </t>
+  </template>
+
+  <template id="2fa_change_setup" name="Change Two Factor Authentication">
+    <t t-call="two_factor_otp_auth.2fa_layout">
+      <t t-set="header">Change Authenticator</t>
+      <t t-call="two_factor_otp_auth.qr_code_instructions" />
+      <form method="post" action="/my/enable_2fa">
+        <t t-call="two_factor_otp_auth.otp_code_input" />
+        <div class="d-flex gap-2 justify-content-center">
+          <a href="/my/home" class="text-primary-500 px-4 py-2 bg-primary-100 border-0 rounded">Cancel</a>
+          <button type="submit" class="text-white px-4 py-2 bg-primary-500 border-0 rounded">Change</button>
+        </div>
+        <input name="csrf_token"
+          type="hidden"
+          t-att-value="request.csrf_token()"
+        />
+        <input name="qr_code_2fa"
+          type="hidden"
+          t-att-value="qr_code_2fa"
+        />
+        <input name="secret_code_2fa"
+          type="hidden"
+          t-att-value="secret_code_2fa"
+        />
+        <input name="old_secret_code"
+          type="hidden"
+          t-att-value="old_secret_code"
+        />
+      </form>
+    </t>
+  </template>
+
+  <template id="2fa_disable" name="Disable Two Factor Authentication">
+    <t t-call="two_factor_otp_auth.2fa_layout">
+      <t t-set="header">Disable Authenticator</t>
+      <form method="post">
+        <t t-call="two_factor_otp_auth.otp_code_input" />
+        <div class="d-flex gap-2 justify-content-center">
+          <a href="/my/home" class="text-primary-500 px-4 py-2 bg-primary-100 border-0 rounded">Cancel</a>
+          <button type="submit" class="text-white px-4 py-2 bg-error-500 border-0 rounded">Disable</button>
+        </div>
+        <input name="csrf_token"
+          type="hidden"
+          t-att-value="request.csrf_token()"
+        />
+      </form>
+    </t>
+  </template>
+
+  <template id="2fa_verify_change" name="Verify Two Factor Authentication">
+    <t t-call="two_factor_otp_auth.2fa_layout">
+      <t t-set="header">Verify with Authenticator</t>
+      <form method="post">
+        <t t-call="two_factor_otp_auth.otp_code_input" />
+        <div class="d-flex gap-2 justify-content-center">
+          <a href="/my/home" class="text-primary-500 px-4 py-2 bg-primary-100 border-0 rounded">Cancel</a>
+          <button type="submit" class="text-white px-4 py-2 bg-primary-500 border-0 rounded">Verify</button>
+        </div>
+        <input name="csrf_token"
+          type="hidden"
+          t-att-value="request.csrf_token()"
+        />
+      </form>
+    </t>
+  </template>
+
+  <template id="2fa_verify_login" name="Verify Two Factor Authentication">
+    <t t-call="two_factor_otp_auth.2fa_layout">
+      <t t-set="header">Verify with Authenticator</t>
+      <form method="post">
+        <t t-call="two_factor_otp_auth.otp_code_input" />
+        <div class="d-flex gap-2 justify-content-center">
+          <a href="/web/session/logout" class="text-primary-500 px-4 py-2 bg-primary-100 border-0 rounded">Cancel</a>
+          <button type="submit" class="text-white px-4 py-2 bg-error-500 border-0 rounded">Verify</button>
+        </div>
+        <input name="csrf_token"
+          type="hidden"
+          t-att-value="request.csrf_token()"
+        />
+        <input name="login"
+          type="hidden"
+          t-att-value="login"
+        />
+        <input name="password"
+          type="hidden"
+          t-att-value="password"
+        />
+      </form>
+    </t>
+  </template>
+
+  <template id="2fa_layout">
+    <t t-call="website.layout">
+      <div class="container my-3 px-4 py-3 bg-white">
+        <h1 class="h4 pb-2 border-bottom border-neutral-200"><t t-esc="header" /></h1>
+        <t t-raw="0" />
+        <div class="text-center mt-3">
+          <a href="/faq">Need help?</a>
+        </div>
+      </div>
+    </t>
+  </template>
+
+  <template id="otp_code_input">
+    <div class="d-flex flex-column align-items-center mb-3 pt-2">
+      <label for="otp-code">Enter the 2-step verification code from your authenticator app</label>
+      <input
+        id="otp-code"
+        name="otp_code"
+        type="text"
+        t-attf-class="px-3 py-2 rounded lspace-4 outline-none #{'border-danger' if error else 'border-neutral-200 focus:border-neutral-500 active:border-neutral-200' }"
+        placeholder="000000"
+        maxlength="6"
+        pattern="\d*"
+        required="true"
+      />
+      <div class="text-error-500" t-if="error" role="alert">
+        <t t-esc="error" />
+      </div>
+    </div>
+  </template>
+
+  <template id="qr_code_instructions">
+    <div class="d-flex flex-column align-items-center border-bottom border-neutral-200">
+      <a t-att-href="uri" class="qr-code-image">
+        <t t-esc="qr_code_2fa" t-options="{'widget':'image'}"/>
+      </a>
+      <label class="">Secret Key: <code class="" t-esc="secret_code_2fa" /></label>
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-4 col-md-6">
+            <h3 class="h6 font-weight-bold">Instructions for Desktop</h3>
+            <ol class="pl-4">
+              <li class="">Install an authenticator app on your mobile device. (eg. Google Authenticator, Authy, etc...)</li>
+              <li class="">Scan QR Code with the authenticator (or Copy the secret to setup manually)</li>
+            </ol>
+          </div>
+          <div class="col-lg-4 col-md-6">
+            <h3 class="h6 font-weight-bold">Instructions for Mobile</h3>
+            <ol class="pl-4">
+              <li class="">Install an authenticator app on your mobile device. (eg. Google Authenticator, Authy, etc...)</li>
+              <li class="">Click on QR Code to open authenticator (or Copy the secret to setup manually)</li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>
+
+</odoo>

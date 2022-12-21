@@ -13,6 +13,8 @@ from odoo.http import request
 
 from ..exceptions import MissingOtpError, InvalidOtpError
 
+from ..lib.otp import OTP
+
 _logger = getLogger(__name__)
 
 try:
@@ -40,14 +42,28 @@ class ResUsers(models.Model):
         copy=False,
     )
 
+    def do_enable_2fa(self, secret):
+        for user in self:
+            user.enable_2fa = True
+            user.secret_code_2fa = secret
+
+    def do_disable_2fa(self):
+        for user in self:
+            user.enable_2fa = False
+            user.secret_code_2fa = False
+
+    def verify_2fa(self, code):
+        for user in self:
+            return OTP(user.secret_code_2fa).verify(code)
+
     def write(self, vals):
         """
         Overload core method to check access rights for changing 2FA.
         If `enable_2fa` in `vals` check access for action
         via `_can_change_2f_auth_settings`.
         """
-        if "enable_2fa" in vals:
-            self._can_change_2f_auth_settings(self.env.user)
+        # if "enable_2fa" in vals:
+        #     self._can_change_2f_auth_settings(self.env.user)
 
         return super(ResUsers, self).write(vals)
 
@@ -122,7 +138,7 @@ class ResUsers(models.Model):
         """
         self.ensure_one()
         key = b32encode(urandom(10))
-        code = pyotp.totp.TOTP(key).provisioning_uri(self.login)
+        code = pyotp.totp.TOTP(key).provisioning_uri(name=self.login, issuer_name="Live Plaza")
         img = qrcode.make(code)
         _, file_path = mkstemp()  # creating temporary file
         img.save(file_path)

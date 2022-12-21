@@ -104,7 +104,7 @@
                                     <tbody>
                                         <t t-foreach="sol_list" t-as="line">
                                             <tr t-att-class="'bg-200 font-weight-bold o_line_section' if line.display_type == 'line_section' else 'font-italic o_line_note' if line.display_type == 'line_note' else ''"
-                                             t-if="(not line.is_delivery) and ( line.delivery_status != 'cancel')">
+                                             t-if="(not line.is_delivery) and ( line.delivery_status != 'cancel') and (not line.is_voucher)">
                                                 <t t-set="number" t-value="number + 1" />
                                                 <t t-if="not line.display_type">
                                                     <td class="text-center td_style"><span style="color: black;" t-esc="number" /></td>
@@ -142,7 +142,7 @@
                                                         style=" width: 80%; position: absolute; bottom: 0; left: 10%;" />
                                                 </td>
                                                 <td style="width: 40%;">
-                                                    <t t-set="subtotal" t-value="doc.amount_untaxed - doc.amount_delivery" />
+                                                    <t t-set="subtotal" t-value="doc.amount_untaxed - doc.amount_delivery + doc.wk_coupon_value" />
                                                     <table class="summary_table">
                                                         <tr>
                                                             <td class="summary_td_style text-right"><h6 class="summary"><strong>Sub Total</strong></h6></td>
@@ -150,6 +150,17 @@
                                                                 <h6 class="summary">
                                                                     <strong class="text-right o_price_total">
                                                                         <strong t-esc="subtotal" class="summary monetary_field" style="white-space: nowrap;"
+                                                                                t-options='{"widget": "monetary", "display_currency": doc.currency_id,}'/>
+                                                                    </strong>
+                                                                </h6>
+                                                            </td>
+                                                        </tr>
+                                                        <tr t-if="doc.wk_coupon_value">
+                                                            <td class="summary_td_style text-right"><h6 class="summary"><strong>Gift Voucher</strong></h6></td>
+                                                            <td class="summary_td_style text-right">
+                                                                <h6 class="summary">
+                                                                    <strong class="text-right">
+                                                                        <strong t-esc="doc.wk_coupon_value * (-1)" class="summary monetary_field" style="white-space: nowrap;"
                                                                                 t-options='{"widget": "monetary", "display_currency": doc.currency_id,}'/>
                                                                     </strong>
                                                                 </h6>

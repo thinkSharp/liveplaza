@@ -43,7 +43,7 @@
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">res.partner</field>
             <field name="binding_view_types">form</field>
-            <field name="domain">[('delivery_vendor', '=', True), ('state', '!=', False),('active', '=', True)]</field>            
+            <field name="domain">[('delivery_vendor', '=', True), ('state', '!=', False),('active', '=', True), ('id','in',['get_pickup_deli_person_id()'])]</field>            
             <field name="context">{'no_archive': 1}</field>
             <field name="view_mode">kanban,tree,form</field>
             <field name="view_id" ref="base.res_partner_kanban_view"/>
@@ -69,7 +69,7 @@
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">res.partner</field>
             <field name="binding_view_types">form</field>
-            <field name="domain">[('picking_vendor', '=', True), ('state', '!=', False),('active', '=', True)]</field>            
+            <field name="domain">[('picking_vendor', '=', True), ('state', '!=', False),('active', '=', True), ('id','in',['get_pickup_deli_person_id()'])]</field>            
             <field name="context">{'no_archive': 1}</field>
             <field name="view_mode">kanban,tree,form</field>
             <field name="view_id" ref="base.res_partner_kanban_view"/>
@@ -90,6 +90,23 @@
             </field>
         </record>
         
+        <record id="contacts.action_contacts" model="ir.actions.act_window">
+            <field name="name">Contacts</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.partner</field>
+            <field name="view_mode">kanban,tree,form,activity</field>
+            <field name="search_view_id" ref="base.view_res_partner_filter"/>
+            <field name="domain">[('id','in',['get_pickup_deli_person_id()'])]</field>
+            <field name="context">{'default_is_company': True}</field>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Create a contact in your address book
+              </p><p>
+                Odoo helps you to easily track all activities related to a customer.
+              </p>
+            </field>
+        </record>
+
         <record id="pick_do_delivery_person_action_admin" model="ir.actions.act_window">
             <field name="name">Delivery Persons by Admin</field>
             <field name="type">ir.actions.act_window</field>

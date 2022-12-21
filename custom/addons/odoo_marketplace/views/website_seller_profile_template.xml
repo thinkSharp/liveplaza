@@ -459,7 +459,7 @@
 					</t>
 				</t>
 				<div class="col-xs-12">
-					<a class="pull-right view-profile" itemprop="name" t-attf-href="/seller/profile/#{seller_obj.sudo().url_handler if seller_obj.sudo().url_handler else seller_obj.sudo().id}">
+					<a class="position-absolute bottom-0 right-0 view-profile invisible" itemprop="name" t-attf-href="/seller/profile/#{seller_obj.sudo().url_handler if seller_obj.sudo().url_handler else seller_obj.sudo().id}">
 						<u>View Profile</u>
 					</a>
 				</div>
@@ -527,7 +527,7 @@
 															t-att-seller_id="seller_obj.id"
 															t-att-colspan="td_seller['x'] != 1 and td_seller['x']"
 															t-att-rowspan="td_seller['y'] != 1 and td_seller['y']"
-															t-attf-class="mp_seller oe_product #{td_seller['class']}"
+															t-attf-class="mp_seller oe_product position-relative #{td_seller['class']}"
 															style="vertical-align: top;border:1px solid rgba(0, 0, 0, 0.125)">
 															<div t-attf-class="o_wsale_product_grid_wrapper o_wsale_product_grid_wrapper_#{td_seller['x']}_#{td_seller['y']}">
 																<t t-call="odoo_marketplace.seller_list_item">

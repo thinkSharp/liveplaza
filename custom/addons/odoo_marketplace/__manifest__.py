@@ -61,6 +61,7 @@
                              'data/ir_config_parameter_data.xml',
                              'security/ir.model.access.csv',
                              'views/mp_backend_asset.xml',
+                             'views/mp_frontend_asset.xml',
                              'wizard/server_action_wizard.xml',
                              'wizard/seller_status_reason_wizard_view.xml',
                              'wizard/seller_payment_wizard_view.xml',

@@ -315,14 +315,22 @@
                                         <h4><strong>Order Summary</strong></h4>
                                         <div>
                                             <table class="order_summary_table">
+                                                <t t-set="subtotal" t-value="sale_order.checked_amount_untaxed + sale_order.wk_coupon_value" />
                                                 <tr class="border-black">
                                                     <td><strong>Subtotal</strong></td>
                                                     <td class="text-right">
                                                         <span
                                                             data-id="total_untaxed"
-                                                            t-field="sale_order.checked_amount_untaxed"
+                                                            t-esc="subtotal"
                                                             t-options='{"widget": "monetary","display_currency": sale_order.pricelist_id.currency_id}'
                                                         />
+                                                    </td>
+                                                </tr>
+                                                <tr t-if="sale_order.wk_coupon_value">
+                                                    <td><strong>Gift Voucher</strong></td>
+                                                    <td class="text-right">
+                                                        <span t-esc="sale_order.wk_coupon_value * (-1)" class="summary monetary_field" style="white-space: nowrap;"
+                                                                t-options='{"widget": "monetary", "display_currency": sale_order.currency_id,}'/>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -384,7 +392,7 @@
                                         <h5><strong class="preview_subtitle">Review Items</strong></h5>
                                         <table class="cart_modal_table" >
                                             <t t-foreach="sale_order.order_line" t-as="line">
-                                                <tr t-if="not line.is_delivery and line.selected_checkout" t-att-style="'opacity: 0.4' if line.delivery_status == 'hold' else ''"
+                                                <tr t-if="not line.is_delivery and line.selected_checkout and not line.is_voucher" t-att-style="'opacity: 0.4' if line.delivery_status == 'hold' else ''"
                                                     t-att-data-product-id='line.product_id.id' t-att-data-order-line="line.id" >
                                                     <td align="center" t-if="line.product_id.product_tmpl_id" class='td-img'>
                                                         <span t-field="line.product_id.image_128" t-options="{'widget': 'image', 'qweb_img_responsive': False, 'class': 'rounded'}" />

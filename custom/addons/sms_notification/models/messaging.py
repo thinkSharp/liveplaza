@@ -68,10 +68,13 @@ class SaleOrder(models.Model):
                 # Code to send sms to customer of the order.
 
             picking_objs = self.env['stock.picking'].search([('origin', '=', self.name)])
-            delivery_vendor_obj = self.env['res.partner'].search(
-                [('delivery_vendor', '=', True), ('is_default', '=', True)], limit=1)
-            picking_vendor_obj = self.env['res.partner'].search(
-                [('picking_vendor', '=', True), ('is_default', '=', True)], limit=1)
+            delivery_carrier_obj = self.env['delivery.carrier'].search([('id', '=', self.selected_carrier_id)])
+            delivery_person = None
+            delivery_zone = None
+            delivery_vendor_obj = delivery_carrier_obj.vendor_id
+            picking_vendor_obj  = delivery_carrier_obj.vendor_id
+            #delivery_vendor_obj = self.env['res.partner'].search([('delivery_vendor', '=', True), ('is_default', '=', True)], limit=1)
+            #picking_vendor_obj = self.env['res.partner'].search([('picking_vendor', '=', True), ('is_default', '=', True)], limit=1)
 
             # self.write({'service_delivery_status': 'delivered'})
             for line in self.order_line:
@@ -92,10 +95,10 @@ class SaleOrder(models.Model):
                         raise Warning("Township cannot be empty for buyer %s" % picking_data.partner_id.name)
 
                     pick_all_zone = self.env['picking.method'].search([])
-                    pickup_zone = None
-                    delivery_zone = None
+                    pickup_zone = None                    
                     pickup_person = None
-                    delivery_person = None
+                    pickup_person_list = []
+                    deli_person_list = []
 
                     for zone in picking_vendor_obj.picking_method_ids:
                         if seller_township in zone.township_ids:
@@ -103,26 +106,80 @@ class SaleOrder(models.Model):
 
                             for pickup_person_data in picking_vendor_obj.child_ids:
                                 if pickup_zone in pickup_person_data.picking_method_ids:
-                                    pickup_person = pickup_person_data.id
+                                    if pickup_person_data not in pickup_person_list:
+                                        pickup_person_list.append(pickup_person_data)
 
-                    for d_zone in delivery_vendor_obj.delivery_method_ids:
-                        if buyer_township in d_zone.township_ids:
-                            delivery_zone = d_zone
+                    ################################# NEW code to assign pickup person sequence
+                    if pickup_person_list:
+                        if len(pickup_person_list) > 1:
+                            new_seq_list = []
+                            for aa in pickup_person_list:
+                                new_seq_list.append(aa.pickup_person_sequence)
+                            if new_seq_list:
+                                new_seq_list.sort()
+                                seq_count = len(new_seq_list)
+                                biggest_number = new_seq_list[seq_count-1]
+                                if pickup_zone.last_used_sequence and pickup_zone.last_used_sequence > 0 and pickup_zone.last_used_sequence < biggest_number:
+                                    for seq_data in new_seq_list:
+                                        if seq_data > pickup_zone.last_used_sequence:
+                                            pickup_person = self.env['res.partner'].search([('pickup_person_sequence', '=', seq_data),('picking_vendor', '=', True),
+                                                                                            ('parent_id', '=', picking_vendor_obj.id)])
+                                            pickup_zone.sudo().write({'last_used_sequence': seq_data})
+                                            break
+                                else:
+                                    pickup_person = self.env['res.partner'].search([('pickup_person_sequence', '=', new_seq_list[0]),('picking_vendor', '=', True),
+                                                                                    ('parent_id', '=', picking_vendor_obj.id)])
+                                    pickup_zone.sudo().write({'last_used_sequence': new_seq_list[0]})
+                            else:
+                                raise UserError(_("Please configure sequence in Pickup Person for relevant zone."))
+                        else:
+                            pickup_person = pickup_person_list[0]
+                    else:
+                        raise UserError(_("Please configure Pickup Person for relevant zone."))
+                    ################################# NEW code to assign pickup person sequence
 
-                            for delivery_person_data in delivery_vendor_obj.child_ids:
-                                if delivery_zone in delivery_person_data.delivery_method_ids:
-                                    delivery_person = delivery_person_data.id
+                    if not delivery_person:
+                        for d_zone in delivery_vendor_obj.delivery_method_ids:
+                            if buyer_township in d_zone.township_ids:
+                                delivery_zone = d_zone
 
-                    if not delivery_zone:
+                                for delivery_person_data in delivery_vendor_obj.child_ids:
+                                    if delivery_zone in delivery_person_data.delivery_method_ids:
+                                        if delivery_person_data not in deli_person_list:
+                                            deli_person_list.append(delivery_person_data)
+
+                    ################################# NEW code to assign deli person sequence
+                        new_deliseq_list = []
+                        for aa in deli_person_list:
+                            new_deliseq_list.append(aa.vendor_sequence)
+                        if new_deliseq_list:
+                            new_deliseq_list.sort()
+                            deli_seq_count = len(new_deliseq_list)
+                            deli_biggest_number = new_deliseq_list[deli_seq_count - 1]
+                            if delivery_zone.last_used_sequence and delivery_zone.last_used_sequence > 0 and delivery_zone.last_used_sequence < deli_biggest_number:
+                                for seq_data in new_deliseq_list:
+                                    if seq_data > delivery_zone.last_used_sequence:
+                                        delivery_person = self.env['res.partner'].search([('vendor_sequence', '=', seq_data),('delivery_vendor', '=', True),
+                                                                                        ('parent_id', '=', delivery_vendor_obj.id)])
+                                        delivery_zone.sudo().write({'last_used_sequence': seq_data})
+                            else:
+                                delivery_person = self.env['res.partner'].search([('vendor_sequence', '=', new_deliseq_list[0]),('delivery_vendor', '=', True),
+                                                                                ('parent_id', '=', delivery_vendor_obj.id)])
+                                delivery_zone.sudo().write({'last_used_sequence': new_deliseq_list[0]})
+                        else:
+                            raise UserError(_("Please configure sequence in Delivery Person for respective zone."))
+                    ################################# NEW code to assign deli person sequence
+
+                    if not delivery_zone and not is_all_service:
                         raise Warning("Need to setup delivery zone for buyer township %s" % buyer_township.name)
-                    if not pickup_zone:
+                    if not pickup_zone and not is_all_service:
                         raise Warning("Need to setup pickup zone for seller township %s" % seller_township.name)
 
                     picking_data.write({'payment_provider': self.get_portal_last_transaction().acquirer_id.provider,
                                         'is_admin_approved': True,
                                         'vendor_id': picking_vendor_obj.id or None,
-                                        'picking_method_id': pickup_zone.id or None,
-                                        'pickup_person_id': pickup_person or None,
+                                        'picking_method_id': pickup_zone.id if pickup_zone else None,
+                                        'pickup_person_id': pickup_person.id if pickup_person else None,
                                         'hold_state': False})
 
                     if self.all_service_ticket and picking_data.state == 'assigned':
@@ -177,6 +234,7 @@ class SaleOrder(models.Model):
                     print("pack............................")
                     picking_data.write({'payment_provider': self.get_portal_last_transaction().acquirer_id.provider,
                                         'is_admin_approved': True,
+                                        'vendor_id': picking_vendor_obj.id or None,
                                         'hold_state': False})
 
                     if self.all_service_ticket and picking_data.state == 'assigned':
@@ -208,8 +266,8 @@ class SaleOrder(models.Model):
                     picking_data.write({'payment_provider': self.get_portal_last_transaction().acquirer_id.provider,
                                         'is_admin_approved': True,
                                         'vendor_id': delivery_vendor_obj.id or None,
-                                        'delivery_method_id': delivery_zone.id or None,
-                                        'delivery_person_id': delivery_person or None,
+                                        'delivery_method_id': delivery_zone.id if delivery_zone else None,
+                                        'delivery_person_id': delivery_person.id if delivery_person else None,
                                         'hold_state': False})
 
                     if self.get_portal_last_transaction().acquirer_id.provider != 'cash_on_delivery':
