@@ -158,7 +158,7 @@ class SaleOrderLine(models.Model):
 class ProductTemplate(models.Model):
     _inherit = 'product.template'
 
-    is_booking_type = fields.Boolean("Available for booking", default=True)
+    is_booking_type = fields.Boolean("Available for booking")
     br_start_date = fields.Date("Start Date")
     br_end_date = fields.Date("End Date")
     max_bk_qty = fields.Integer("Max Booking Qty")
