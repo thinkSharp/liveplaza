@@ -23,6 +23,7 @@
   "data"                 :  [
                              'security/ir.model.access.csv',
                              'data/data.xml',
+                             'data/cron.xml',
                              'view/website_daily_deals_view.xml',
                              'view/config_view.xml',
                              'view/webkul_addons_config_inherit_view.xml',

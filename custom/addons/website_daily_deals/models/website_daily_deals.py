@@ -995,7 +995,7 @@ class WebsiteDeals(models.Model):
     @api.model
     def _update_deal_items(self):
         pricelist = self.deal_pricelist
-        if pricelist and self.state == 'validated':
+        if pricelist and self.state == 'validated' and self.expiration_status == 'inprogress':
             for item in self.pricelist_items:
                 item.pricelist_id = pricelist.id
                 if item.product_tmpl_id:
@@ -1009,6 +1009,12 @@ class WebsiteDeals(models.Model):
         else:
             for item in self.pricelist_items:
                 item.pricelist_id = self.env.ref("website_daily_deals.wk_deals_dummy_pricelist")
+
+    @api.model
+    def update_all_deal_items(self):
+        for record in self.search([]):
+            record._update_deal_items()
+
 
     def get_instock_items(self):
         instock_items = []
