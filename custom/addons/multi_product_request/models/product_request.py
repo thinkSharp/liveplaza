@@ -164,30 +164,37 @@ class ProductRequest(models.Model):
         result = super(ProductRequest, self).create(vals)
         return result
 
+    def delete_created_product(self, product_list):
+        for p in product_list:
+            products = request.env['product.product'].search([('product_tmpl_id', '=', p)])
+            for product in products:
+                print("product.id = ", product.id)
+                if product.status == 'draft':
+                    stock_quants = self.env['stock.quant'].search([('product_id', '=', product.id)])
+                    for stock_quant in stock_quants:
+                        print("stock_quant = ", stock_quant.product_id)
+                        stock_quant.unlink()
+                product.unlink()
+
     @api.model
     def discard(self, action_id):
         if action_id and created_product:
             action = request.env['ir.actions.act_window'].browse(action_id)
             if action.name == 'Product Requests':
-                for c in created_product:
-                    products = request.env['product.product'].search([('product_tmpl_id', '=', c)])
-                    for product in products:
-                        print("product.id = ", product.id)
-                        if product .status == 'draft':
-                            stock_quants = self.env['stock.quant'].search([('product_id', '=', product.id)])
-                            for stock_quant in stock_quants:
-                                print("stock_quant = ", stock_quant.product_id)
-                                stock_quant.unlink()
-                        product.unlink()
+                self.delete_created_product(created_product)
+
+    # delete created products when the browser is refreshed and 'product_ids' is clear
+    @api.onchange('product_ids')
+    def delete_unsaved_products(self):
+        if len(self.product_ids) == 0:
+            self.delete_created_product(created_product)
 
     @api.model
     def get_action(self, action_id):
-        print("get action = ", action_id)
         if action_id:
             action = request.env['ir.actions.act_window'].browse(action_id)
             print("name = ", action.name)
             return action.name
-        print("no action name")
         return ""
 
     @api.model
@@ -267,6 +274,27 @@ class Product(models.Model):
         domain="[('product_tmpl_id', '=', product_tmpl_id)]",
         string='Variant Extra Price',
         default=_get_default_attribute)
+
+    def delete_created_product(self, product_list):
+        for p in product_list:
+            products = request.env['product.product'].search([('product_tmpl_id', '=', p)])
+            for product in products:
+                print("product.id = ", product.id)
+                if product.status == 'draft':
+                    stock_quants = self.env['stock.quant'].search([('product_id', '=', product.id)])
+                    for stock_quant in stock_quants:
+                        print("stock_quant = ", stock_quant.product_id)
+                        stock_quant.unlink()
+                product.unlink()
+
+    @api.model
+    def discard(self, action_id):
+        print("in discard function")
+        if action_id and created_product:
+            action = request.env['ir.actions.act_window'].browse(action_id)
+            if action.name == 'Product Requests':
+                print("product requests")
+                self.delete_created_product(created_product)
 
     def action_generate_product_variants(self):
 
