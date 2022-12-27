@@ -135,7 +135,7 @@
 												</a>
 
 											<!-- Products  -->
-											<div t-if="deal.state!='expired'">
+											<div t-if="deal.expiration_status != 'expired'">
 <!--												<t t-set="display_as" t-value="deal.get_display_products_as()"/>-->
 	<!--											<t t-set="product_quantity" t-value="website.get_product_stock_qty(product.sudo(), config_setting.get('wk_stock_type'))" />-->
 												<div class="deal_products" t-if="deal.pricelist_items and deal.is_deal_product_shown()">
@@ -289,7 +289,7 @@
 	
 												<!-- Products  -->
 												
-												<div t-if="deal.state!='expired'">
+												<div t-if="deal.expiration_status != 'expired'">
 	<!--												<t t-set="display_as" t-value="deal.get_display_products_as()"/>-->
 		<!--											<t t-set="product_quantity" t-value="website.get_product_stock_qty(product.sudo(), config_setting.get('wk_stock_type'))" />-->
 													<div class="deal_products" t-if="deal.pricelist_items and deal.is_deal_product_shown()">
