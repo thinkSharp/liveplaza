@@ -19,6 +19,7 @@ class PickingMethod(models.Model):
         'res.partner', 'partner_pickup_rel', string='Partner', readonly=True)
     township_ids = fields.Many2many(
         'res.country.township', 'pkup_tshp_rel', string='Allowed Townships')
+    last_used_sequence = fields.Float(string="Last Used Sequence", default=0)
     pickup_vendor_company = fields.Many2one('res.partner', required=True, string='Pickup Vendor Company')
     picking_vendor_domain = fields.Char(compute="_compute_picking_vendor_domain", readonly=True, store=False)
 

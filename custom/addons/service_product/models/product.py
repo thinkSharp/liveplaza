@@ -16,6 +16,17 @@ class ProductInherit(models.Model):
         ('365', '365 days'),
     ], string='Expiration Policy', default='0')
 
+    # make able to delete the non-approved products
+    def unlink(self):
+        for rec in self:
+            products = self.env['product.product'].search([('product_tmpl_id', '=', rec.id)])
+            for product in products:
+                if product.status == 'draft':
+                    stock_quants = self.env['stock.quant'].search([('product_id', '=', product.id)])
+                    for stock_quant in stock_quants:
+                        stock_quant.unlink()
+        return super().unlink()
+
     def delete_discard_products(self):
         pending_products = self.env["product.template"].search([('status', '=', "draft"), ('type', '=', "product")])
         print("Pending Products..........", pending_products)

@@ -2,23 +2,25 @@
 
 from odoo import fields, models, api, _, exceptions
 import datetime
+from odoo.http import request
 
+created_product = []
 
 class ProductTemplateAttributeLineInherit(models.Model):
     _inherit = "product.template.attribute.line"
     requested_product_tmpl_id = fields.Many2one('product.request.product')
 
     # To create product variants without product_template
-    product_tmpl_id = fields.Many2one('product.template', string="Product Template", ondelete='cascade', required=False, index=True)
-
-
+    product_tmpl_id = fields.Many2one('product.template', string="Product Template", ondelete='cascade', required=False,
+                                      index=True)
 
 
 class ProductRequest(models.Model):
     _name = 'product.request'
     _description = 'Product requests from vendors to sale on website.'
-    
-    name = fields.Char(string='Request', required=True, copy=False, index=True, readonly=True, default=lambda self: _('New'))
+
+    name = fields.Char(string='Request', required=True, copy=False, index=True, readonly=True,
+                       default=lambda self: _('New'))
     state = fields.Selection([
         ('draft', 'Draft'),
         ('requested', 'Requested'),
@@ -26,10 +28,11 @@ class ProductRequest(models.Model):
         ('rejected', 'Rejected'),
     ], string='Status', readonly=True, copy=False, index=True, default='draft')
 
-    seller = fields.Many2one("res.partner", string="Seller", default=lambda self: self.env.user.partner_id.id if self.env.user.partner_id and self.env.user.partner_id.seller else self.env['res.partner'], required=True)
+    seller = fields.Many2one("res.partner", string="Seller", default=lambda
+        self: self.env.user.partner_id.id if self.env.user.partner_id and self.env.user.partner_id.seller else self.env[
+        'res.partner'], required=True)
     product_ids = fields.One2many('product.request.product', 'product_request_id', string='Products')
     no_products = fields.Integer(readonly=True, default=0)
-
 
     def action_request(self):
         super(ProductRequest, self).write({'state': 'requested'})
@@ -50,7 +53,6 @@ class ProductRequest(models.Model):
                 self.env["product.product"].search([('id', '=', product_id)]).write({'state': 'requested'})
             '''
 
-
         return True
 
     def action_approve(self):
@@ -63,7 +65,8 @@ class ProductRequest(models.Model):
         for product_tmpl_id in product_tmpl_ids:
             print('Product Delete..........................')
             print('Product template Id', product_tmpl_id)
-            self.env["product.template"].search([('id', '=', product_tmpl_id)]).write({'status': 'approved', 'sale_ok': True})
+            self.env["product.template"].search([('id', '=', product_tmpl_id)]).write(
+                {'status': 'approved', 'sale_ok': True})
             '''
             product_query = "select id from product_product where product_tmpl_id=%s"
             self.env.cr.execute(product_query, (product_tmpl_id,))
@@ -73,7 +76,6 @@ class ProductRequest(models.Model):
                 self.env["product.product"].search([('id', '=', product_id)]).write({'state': 'approved'})
             '''
         return True
-
 
     def action_reject(self):
         super(ProductRequest, self).write({'state': 'rejected'})
@@ -96,7 +98,6 @@ class ProductRequest(models.Model):
             '''
         return True
 
-
     def action_reset_requested(self):
         super(ProductRequest, self).write({'state': 'requested'})
 
@@ -108,7 +109,6 @@ class ProductRequest(models.Model):
             print('Product Delete..........................')
             print('Product template Id', product_tmpl_id)
             self.env["product.template"].search([('id', '=', product_tmpl_id)]).write({'status': 'pending'})
-
 
     @api.constrains('product_ids')
     def _check_product_ids(self):
@@ -127,13 +127,11 @@ class ProductRequest(models.Model):
                     missing_is_variants_saved.append(product_id.name)
 
                 if not product_id.is_extra_price_saved:
-
                     missing_is_extra_price_saved.append(product_id.name)
 
             elif product_id.has_variant == 'no':
                 if not product_id.is_product_saved:
                     missing_is_product_saved.append(product_id.name)
-
 
         if missing_is_product_saved or missing_is_variants_generated or missing_is_variants_saved or missing_is_extra_price_saved:
             string = ''
@@ -157,9 +155,7 @@ class ProductRequest(models.Model):
                 for product in missing_is_extra_price_saved:
                     string += f'     {product}\n'
 
-
             raise exceptions.ValidationError(_('Before Saving,\n' + string))
-
 
     @api.model
     def create(self, vals):
@@ -168,13 +164,64 @@ class ProductRequest(models.Model):
         result = super(ProductRequest, self).create(vals)
         return result
 
+    def delete_created_product(self, product_list):
+        for p in product_list:
+            products = request.env['product.product'].search([('product_tmpl_id', '=', p)])
+            for product in products:
+                print("product.id = ", product.id)
+                if product.status == 'draft':
+                    stock_quants = self.env['stock.quant'].search([('product_id', '=', product.id)])
+                    for stock_quant in stock_quants:
+                        print("stock_quant = ", stock_quant.product_id)
+                        stock_quant.unlink()
+                product.unlink()
 
+    @api.model
+    def discard(self, action_id):
+        if action_id and created_product:
+            action = request.env['ir.actions.act_window'].browse(action_id)
+            if action.name == 'Product Requests':
+                self.delete_created_product(created_product)
 
+    # delete created products when the browser is refreshed and 'product_ids' is clear
+    @api.onchange('product_ids')
+    def delete_unsaved_products(self):
+        if len(self.product_ids) == 0:
+            self.delete_created_product(created_product)
 
+    @api.model
+    def get_action(self, action_id):
+        if action_id:
+            action = request.env['ir.actions.act_window'].browse(action_id)
+            print("name = ", action.name)
+            return action.name
+        return ""
+
+    @api.model
+    def reload(self, action_id):
+        print("reload reload")
+        if action_id and created_product:
+            action = request.env['ir.actions.act_window'].browse(action_id)
+            print("action name = ", action.name)
+            if action.name == 'Product Requests':
+                print("Product Requests")
+                for c in created_product:
+                    print("c = ", c)
+                    products = request.env['product.product'].search([('product_tmpl_id', '=', c)])
+                    for product in products:
+                        print("product.id = ", product.id)
+                        if product.status == 'draft':
+                            stock_quants = self.env['stock.quant'].search([('product_id', '=', product.id)])
+                            for stock_quant in stock_quants:
+                                print("stock_quant = ", stock_quant.product_id)
+                                stock_quant.unlink()
+                        product.unlink()
+        else:
+            print('action id = ', action_id)
+            print("created product = ", created_product)
 
 
 class Product(models.Model):
-
 
     @api.model
     def _get_default_attribute(self):
@@ -182,9 +229,6 @@ class Product(models.Model):
         termsids = terms_obj.search([('product_tmpl_id', '=', self.product_tmpl_id)])
 
         return termsids
-
-
-
 
     _name = "product.request.product"
     _description = "Products"
@@ -206,9 +250,13 @@ class Product(models.Model):
     product_request_id = fields.Many2one('product.request', ondelete='cascade')
     admin_request_id = fields.Many2one('admin.product.request', ondelete='cascade')
 
-    attribute_line_ids = fields.One2many('product.template.attribute.line', 'requested_product_tmpl_id', string='Variants')
-    product_variant_lines = fields.One2many('product.request.product.variant.lines', 'product_variant_id', string='Products', required=True)
-    seller = fields.Many2one("res.partner", string="Seller", default=lambda self: self.env.user.partner_id.id if self.env.user.partner_id and self.env.user.partner_id.seller else self.env['res.partner'], required=True)
+    attribute_line_ids = fields.One2many('product.template.attribute.line', 'requested_product_tmpl_id',
+                                         string='Variants')
+    product_variant_lines = fields.One2many('product.request.product.variant.lines', 'product_variant_id',
+                                            string='Products', required=True)
+    seller = fields.Many2one("res.partner", string="Seller", default=lambda
+        self: self.env.user.partner_id.id if self.env.user.partner_id and self.env.user.partner_id.seller else self.env[
+        'res.partner'], required=True)
 
     has_variant = fields.Selection([
         ('yes', 'Yes'),
@@ -225,7 +273,28 @@ class Product(models.Model):
         'product.template.attribute.value',
         domain="[('product_tmpl_id', '=', product_tmpl_id)]",
         string='Variant Extra Price',
-    default=_get_default_attribute)
+        default=_get_default_attribute)
+
+    def delete_created_product(self, product_list):
+        for p in product_list:
+            products = request.env['product.product'].search([('product_tmpl_id', '=', p)])
+            for product in products:
+                print("product.id = ", product.id)
+                if product.status == 'draft':
+                    stock_quants = self.env['stock.quant'].search([('product_id', '=', product.id)])
+                    for stock_quant in stock_quants:
+                        print("stock_quant = ", stock_quant.product_id)
+                        stock_quant.unlink()
+                product.unlink()
+
+    @api.model
+    def discard(self, action_id):
+        print("in discard function")
+        if action_id and created_product:
+            action = request.env['ir.actions.act_window'].browse(action_id)
+            if action.name == 'Product Requests':
+                print("product requests")
+                self.delete_created_product(created_product)
 
     def action_generate_product_variants(self):
 
@@ -236,13 +305,9 @@ class Product(models.Model):
                     raise exceptions.ValidationError(_('Quantity must be between 1 and 999.'))
                     return True
 
-
-
-                if line.list_price > 9999999 or line.list_price< 100:
+                if line.list_price > 9999999 or line.list_price < 100:
                     raise exceptions.ValidationError(_('Price must be between 100 and 9999999.'))
                     return True
-
-
 
             if self.has_variant == 'yes':
                 if not len(self.attribute_line_ids):
@@ -266,7 +331,6 @@ class Product(models.Model):
                 }
                 # print('action_variant_vals', vals)
 
-
                 product_vals = {
                     'name': vals['name'],
                     'categ_id': 1,
@@ -276,7 +340,7 @@ class Product(models.Model):
                     'description': vals['description'],
                     'active': True,
                     'sale_ok': False,
-                    'website_published':vals['auto_publish'],
+                    'website_published': vals['auto_publish'],
                     'public_categ_ids': line.categ_ids,
                     'invoice_policy': 'order',
                     'alternative_product_ids': vals['alternative'],
@@ -286,26 +350,30 @@ class Product(models.Model):
 
                 product_tmpl_obj = self.env['product.template'].create(product_vals)
                 if product_tmpl_obj:
-                    self.write({'is_variants_generated' : True})
+                    created_product.append(product_tmpl_obj.id)
+                    self.write({'is_variants_generated': True})
                 # print('Action Variant New Product:', product_tmpl_obj.id)
                 self.product_tmpl_id = product_tmpl_obj.id
 
-                self.env['wk.product.tabs'].create({'name': 'Product Description', 'content': line.description,'tab_product_id': self.product_tmpl_id, 'active': True})
+                self.env['wk.product.tabs'].create(
+                    {'name': 'Product Description', 'content': line.description, 'tab_product_id': self.product_tmpl_id,
+                     'active': True})
 
                 for image in [line.image2, line.image3, line.image4, line.image5]:
                     if image:
-                        self.env['product.image'].create({'name': self.name, 'image_1920': image, 'product_tmpl_id': self.product_tmpl_id})
+                        self.env['product.image'].create(
+                            {'name': self.name, 'image_1920': image, 'product_tmpl_id': self.product_tmpl_id})
 
                 for att_data in line:
                     for att_line in att_data.attribute_line_ids:
-                        lines ={
-                        'attribute_id': att_line.attribute_id.id,
-                        'product_tmpl_id': product_tmpl_obj.id,
-                        'value_ids': [(6, 0, att_line.value_ids.ids)]
+                        lines = {
+                            'attribute_id': att_line.attribute_id.id,
+                            'product_tmpl_id': product_tmpl_obj.id,
+                            'value_ids': [(6, 0, att_line.value_ids.ids)]
                         }
                         self.env['product.template.attribute.line'].create(lines)
 
-            product_obj =self.env['product.product'].search([('product_tmpl_id', '=', self.product_tmpl_id)])
+            product_obj = self.env['product.product'].search([('product_tmpl_id', '=', self.product_tmpl_id)])
             for pobj in product_obj:
                 self.env['product.request.product.variant.lines'].sudo().create({
                     'product_id': pobj.id,
@@ -315,21 +383,18 @@ class Product(models.Model):
                     'quantity': self.quantity
                 })
 
-            #terms_obj = self.env['product.template.attribute.value']
-            #termsids = terms_obj.search([('product_tmpl_id', '=', self.product_tmpl_id)])
-            #self.product_template_attribute_value_ids = [(4, 0, termsid) for termsid in termsids]
-
-
-
+            # terms_obj = self.env['product.template.attribute.value']
+            # termsids = terms_obj.search([('product_tmpl_id', '=', self.product_tmpl_id)])
+            # self.product_template_attribute_value_ids = [(4, 0, termsid) for termsid in termsids]
 
             if self.has_variant == 'no':
-                warehouse_location = self.env['ir.config_parameter'].sudo().get_param('multi_product_request.warehouse_location')
+                warehouse_location = self.env['ir.config_parameter'].sudo().get_param(
+                    'multi_product_request.warehouse_location')
 
                 print('Warehouse Location', warehouse_location)
 
                 for line in self.product_variant_lines:
-
-                    lines ={
+                    lines = {
                         'location_id': int(warehouse_location),
                         'product_id': line.product_id.id,
                         'in_date': datetime.datetime.today(),
@@ -337,16 +402,14 @@ class Product(models.Model):
                     }
 
                     print('Line', lines)
-                    self.env['stock.quant'].sudo().create(lines)
+                    stock = self.env['stock.quant'].sudo().create(lines)
+                    print("stock = ", stock.product_id)
 
                     self.write({'is_variants_generated': False})
                     self.write({'is_product_saved': True})
 
             self.write({'is_generate_button_pressed': True})
             return True
-        
-
-
 
     def saved_variants(self):
         for line in self.product_variant_lines:
@@ -358,18 +421,16 @@ class Product(models.Model):
                 raise exceptions.ValidationError(_('Quantity must be between 1 and 999.'))
                 return True
 
-
-
-
             if line.price > 9999999 or line.price < 100:
                 raise exceptions.ValidationError(_('Price must be between 100 and 9999999.'))
                 return True
 
-        warehouse_location = self.env['ir.config_parameter'].sudo().get_param('multi_product_request.warehouse_location')
-        for index,line in enumerate(self.product_variant_lines):
+        warehouse_location = self.env['ir.config_parameter'].sudo().get_param(
+            'multi_product_request.warehouse_location')
+        for index, line in enumerate(self.product_variant_lines):
             print('In Loop.............................')
             print('IN UPDATE VARIANT FOR LOOP')
-            lines ={
+            lines = {
                 'location_id': int(warehouse_location),
                 'product_id': line.product_id.id,
                 'in_date': datetime.datetime.today(),
@@ -380,20 +441,14 @@ class Product(models.Model):
             self.env['stock.quant'].sudo().create(lines)
             self.write({'is_variants_saved': True})
 
-
-
             self.env['product.product'].search([('id', '=', line.product_id.id)]).write({'image_1920': line.image})
 
-
         return True
-
-
 
     def action_save_extra_price(self):
         self.write({'is_extra_price_saved': True})
         for variant in self.product_variant_lines:
             variant.price = self.env['product.product'].search([('id', '=', variant.product_id.id)]).lst_price
-
 
     def unlink(self):
         products = self.env['product.product'].search([('product_tmpl_id', '=', self.product_tmpl_id)])
@@ -406,18 +461,10 @@ class Product(models.Model):
         return super().unlink()
 
 
-
-
-
-
-
-
-
 class Product_Variants_Lines(models.Model):
     _name = "product.request.product.variant.lines"
     _description = "Product Variants Request"
 
-    
     product_variant_id = fields.Many2one('product.request.product', string='Products')
     product_id = fields.Many2one('product.product', readonly=True)
     quantity = fields.Integer()
@@ -432,8 +479,6 @@ class Product_Variants_Lines(models.Model):
         return super(Product_Variants_Lines, self).unlink()
 
 
-
-
 class AdminProductRequest(models.Model):
     _name = 'admin.product.request'
     _description = 'Product requests from admin as a vendor to sale on website.'
@@ -445,11 +490,12 @@ class AdminProductRequest(models.Model):
         ('draft', 'Draft'),
         ('approved', 'Approved'),
     ], string='Status', readonly=True, copy=False, index=True, default='draft')
-    seller = fields.Many2one("res.partner", string="Seller", default=lambda self: self.env.user.partner_id.id if self.env.user.partner_id and self.env.user.partner_id.seller else self.env['res.partner'], required=True)
+    seller = fields.Many2one("res.partner", string="Seller", default=lambda
+        self: self.env.user.partner_id.id if self.env.user.partner_id and self.env.user.partner_id.seller else self.env[
+        'res.partner'], required=True)
 
     product_ids = fields.One2many('product.request.product', 'admin_request_id', string='Products')
     no_products = fields.Integer(readonly=True, default=0)
-
 
     def action_approve(self):
         super(AdminProductRequest, self).write({'state': 'approved'})
@@ -462,7 +508,8 @@ class AdminProductRequest(models.Model):
         for product_tmpl_id in product_tmpl_ids:
             print('Product Delete..........................')
             print('Product template Id', product_tmpl_id)
-            self.env["product.template"].search([('id', '=', product_tmpl_id)]).write({'status': 'approved', 'sale_ok': True, 'marketplace_seller_id': self.seller.id})
+            self.env["product.template"].search([('id', '=', product_tmpl_id)]).write(
+                {'status': 'approved', 'sale_ok': True, 'marketplace_seller_id': self.seller.id})
 
         return True
 
@@ -484,16 +531,13 @@ class AdminProductRequest(models.Model):
                 if not product_id.is_variants_saved:
                     missing_is_variants_saved.append(product_id.name)
 
-
                 if not product_id.is_extra_price_saved:
-
                     missing_is_extra_price_saved.append(product_id.name)
 
 
             elif product_id.has_variant == 'no':
                 if not product_id.is_product_saved:
                     missing_is_product_saved.append(product_id.name)
-
 
         if missing_is_product_saved or missing_is_variants_generated or missing_is_variants_saved or missing_is_extra_price_saved:
             string = ''
@@ -517,8 +561,6 @@ class AdminProductRequest(models.Model):
                 for product in missing_is_extra_price_saved:
                     string += f'     {product}\n'
 
-
-
             raise exceptions.ValidationError(_('Before Saving,\n' + string))
 
     @api.onchange('seller')
@@ -528,12 +570,6 @@ class AdminProductRequest(models.Model):
         self.product_ids.unlink()
         self.seller = seller
         print('After Seller', self.seller)
-
-
-
-
-
-
 
     @api.model
     def create(self, vals):

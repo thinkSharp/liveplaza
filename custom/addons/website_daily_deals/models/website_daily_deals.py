@@ -515,7 +515,7 @@ class ProductPricelistItem(models.Model):
     def _compute_available_product(self):
         for rec in self:
             if rec.website_deals_m2o.marketplace_seller_id:
-                booking_ids = self.env['product.template'].search([('is_booking_type', '=', True), ('status', '=', 'approved'), 
+                booking_ids = self.env['product.template'].search([('is_booking_type', '=', True), ('status', '=', 'approved'), ('br_end_date', '>=', fields.Date.today()),
                                                         ('marketplace_seller_id','=',rec.website_deals_m2o.marketplace_seller_id.id), ('active', '=', True)])
                 if booking_ids:
                     rec.available_product_ids += booking_ids
@@ -525,7 +525,7 @@ class ProductPricelistItem(models.Model):
                 if product_ids:
                     rec.available_product_ids += product_ids
             else:
-                booking_ids = self.env['product.template'].search([('is_booking_type', '=', True), ('status', '=', 'approved'), ('active', '=', True)])
+                booking_ids = self.env['product.template'].search([('is_booking_type', '=', True), ('br_end_date', '>=', fields.Date.today()), ('status', '=', 'approved'), ('active', '=', True)])
                 if booking_ids:
                     rec.available_product_ids += booking_ids
                 
@@ -560,13 +560,13 @@ class ProductPricelistItem(models.Model):
     def _compute_product_domain(self):
         for rec in self:
             cpd_list = []
-            booking_ids = self.env['product.template'].search([('is_booking_type', '=', True), 
+            booking_ids = self.env['product.template'].search([('is_booking_type', '=', True), ('br_end_date', '>=', fields.Date.today()),
                                 ('status', '=', 'approved'), ('marketplace_seller_id','=',rec.website_deals_m2o.marketplace_seller_id.id), ('active', '=', True)])
             if booking_ids:
                 for bids in booking_ids:
                     cpd_list.append(bids.id)
             
-            product_ids = self.env['product.template'].search([('virtual_available', '>', 0), 
+            product_ids = self.env['product.template'].search([('virtual_available', '>', 0), ('br_end_date', '>=', fields.Date.today()),
                                 ('status', '=', 'approved'), ('marketplace_seller_id','=',rec.website_deals_m2o.marketplace_seller_id.id), ('active', '=', True)])
             if product_ids:
                 for pids in product_ids:
