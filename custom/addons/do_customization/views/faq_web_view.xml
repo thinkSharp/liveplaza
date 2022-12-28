@@ -13,7 +13,7 @@
         <template id="faq">
             <t t-call="website.layout">
                 <t t-set="pageName" t-value="'faq'"/>
-                <div id="wrap" class="oe_structure oe_empty">
+                <div id="wrap" class="oe_structure oe_empty faq_wrapper">
                     <div class="outer_container">
                         <div class="container help_outer">
                             <h1 class="help_center"> Help Center </h1>
