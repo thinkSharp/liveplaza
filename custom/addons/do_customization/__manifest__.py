@@ -40,6 +40,7 @@
         'data/account_data.xml',
         'wizards/delivery_vendor_report_wizard_view.xml',
         'wizards/delivery_person_report_wizard_view.xml',
+        'wizards/delivery_cod_payment_report_wizard_view.xml',
     ],
 
     'qweb': [
