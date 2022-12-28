@@ -568,7 +568,7 @@ class ProductPricelistItem(models.Model):
                 for bids in booking_ids:
                     cpd_list.append(bids.id)
             
-            product_ids = self.env['product.template'].search([('virtual_available', '>', 0), ('br_end_date', '>=', fields.Date.today()),
+            product_ids = self.env['product.template'].search([('virtual_available', '>', 0),
                                 ('status', '=', 'approved'), ('marketplace_seller_id','=',rec.website_deals_m2o.marketplace_seller_id.id), ('active', '=', True)])
             if product_ids:
                 for pids in product_ids:
