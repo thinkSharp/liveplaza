@@ -14,6 +14,8 @@ from dateutil.relativedelta import relativedelta
 import json
 from itertools import chain
 
+from utils import today_myanmar_time
+
 class DealsPriceListStyle(models.Model):
     _name = "deals.pricelist.style"
     _description = "Deals Pricelist Style"
@@ -933,7 +935,7 @@ class WebsiteDeals(models.Model):
     @api.depends('start_date', 'end_date')
     def _compute_expiration_status(self):
         for record in self:
-            today = date.today()
+            today = today_myanmar_time()
             if today < record.start_date:
                 record.expiration_status = 'planned'
             elif record.start_date <= today <= record.end_date:
@@ -950,21 +952,21 @@ class WebsiteDeals(models.Model):
             return self._search_by_expired(operator)
 
     def _search_by_planned(self, operator):
-        today = date.today()
+        today = today_myanmar_time()
         if operator == '=':
             return [('start_date', '>', today)]
         elif operator == '!=':
             return [('start_date', '<=', today)]
 
     def _search_by_inprogress(self, operator):
-        today = date.today()
+        today = today_myanmar_time()
         if operator == '=':
             return [('start_date', '<=', today), ('end_date', '>=', today)]
         elif operator == '!=':
             return ['|', ('start_date', '>', today), ('end_date', '<', today)]
 
     def _search_by_expired(self, operator):
-        today = date.today()
+        today = today_myanmar_time()
         if operator == '=':
             return [('end_date', '<', today)]
         if operator == '!=':
