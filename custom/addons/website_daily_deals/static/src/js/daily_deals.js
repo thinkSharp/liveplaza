@@ -73,7 +73,7 @@ odoo.define("website_daily_deals.daily_deals_js", function (require) {
             if (state=="validated") {
                 $(this).find(".deal_countdown_timer").countdown({
                     date: end_date,
-                    offset: +0,
+                    offset: +6.5,
                     day: 'day',
                     days: 'day',
                     hour:   'hrs',
