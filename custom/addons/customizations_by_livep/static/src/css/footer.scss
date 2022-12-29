@@ -1,7 +1,7 @@
-.collapsed > .fa-angle-up {
+#footer .collapsed > .fa-angle-up {
   display: none;
 }
 
-:not(.collapsed) > .fa-angle-down {
+#footer :not(.collapsed) > .fa-angle-down {
   display: none;
 }

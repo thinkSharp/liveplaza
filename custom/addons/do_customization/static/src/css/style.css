@@ -172,3 +172,12 @@
         font-size: 16px;
     }
 }
+
+#top_menu_collapse #top_menu .dropdown-item.active, .dropdown-item:active {
+    background: rgba(0, 81, 177, 0.9);
+    color: white;
+}
+
+#top_menu_collapse #top_menu .dropdown-item {
+    padding: 0 5px;
+}
