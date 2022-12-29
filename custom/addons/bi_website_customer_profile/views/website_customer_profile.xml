@@ -32,7 +32,7 @@
 	<template id="address_list" name="Address List">
 		<div>
 			<h2 class="h3 mb-3" t-esc="title" />
-			<ul t-if="len(addresses) > 0" class="list-unstyled">
+			<ul t-if="len(addresses) > 0" class="list-unstyled d-flex flex-column gap-2">
 				<t t-foreach="addresses" t-as="addr">
 					<li class="d-flex flex-wrap rounded px-3 py-2 bg-white">
 						<span class="font-weight-bold text-neutral-900 mr-3" t-esc="addr.name" />
