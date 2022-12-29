@@ -6,7 +6,7 @@
     "name" : "Website Customer Profile and Address Book in Odoo",
     "version" : "13.0.0.3",
     "category" : "Website",
-    "depends" : ['base','sale_management','website','portal'],
+    "depends" : ['base','sale_management','website','portal', 'css_utils'],
     "author": "BrowseInfo",
     'price': 19,
     'currency': "EUR",

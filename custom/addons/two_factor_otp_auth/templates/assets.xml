@@ -5,7 +5,6 @@
 
         <xpath expr="link[last()]" position="after">
             <link rel="stylesheet" type="text/scss" href="/two_factor_otp_auth/static/src/scss/two_factor_otp_auth.scss"/>
-            <link rel="stylesheet" type="text/css" href="/two_factor_otp_auth/static/src/scss/utilities.css"/>
         </xpath>
 
     </template>
