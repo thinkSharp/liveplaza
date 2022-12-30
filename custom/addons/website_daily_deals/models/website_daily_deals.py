@@ -748,7 +748,7 @@ class ProductPricelistItem(models.Model):
                 for values in rec.product_tmpl_ids:
                     self.env['product.pricelist.item'].create({'applied_on': rec.applied_on, 
                           'min_quantity': rec.min_quantity, 
-                          'pricelist_id': rec.pricelist_id.id, 
+                          'pricelist_id': self.env.ref("website_daily_deals.wk_deals_dummy_pricelist").id, #rec.pricelist_id.id,
                           'compute_price': rec.compute_price, 
                           'base': rec.base, 
                           'price_discount': rec.price_discount, 
@@ -778,7 +778,7 @@ class ProductPricelistItem(models.Model):
                 for values in rec.product_ids:
                     self.env['product.pricelist.item'].create({'applied_on': rec.applied_on, 
                           'min_quantity': rec.min_quantity, 
-                          'pricelist_id': rec.pricelist_id.id, 
+                          'pricelist_id': self.env.ref("website_daily_deals.wk_deals_dummy_pricelist").id, #rec.pricelist_id.id,
                           'compute_price': rec.compute_price, 
                           'base': rec.base, 
                           'price_discount': rec.price_discount, 
