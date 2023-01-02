@@ -592,19 +592,20 @@ class SaleOrderLine(models.Model):
                 if soline.sol_state != 'cancel' and not soline.is_delivery:
                     final_sol = False
 
-            print("I am")
-            if final_sol:
-               print("Final SaLE ORDER")
-               sms_template_objs = self.env["wk.sms.template"].sudo().search(
-                   [('condition', '=', 'final_sale_order_line_cancel'), ('globally_access', '=', False)])
-            else:
-                sms_template_objs = self.env["wk.sms.template"].sudo().search(
-                    [('condition', '=', 'sale_order_line_cancel'), ('globally_access', '=', False)])
-            for sms_template_obj in sms_template_objs:
-                mobile = sms_template_obj._get_partner_mobile(self.order_id.partner_id)
-                if mobile:
-                    sms_template_obj.send_sms_using_template(
-                        mobile, sms_template_obj, obj=self)
+            #Comment the below codes not to send sms when sol is cancelled
+            # print("I am")
+            # if final_sol:
+            #    print("Final SaLE ORDER")
+            #    sms_template_objs = self.env["wk.sms.template"].sudo().search(
+            #        [('condition', '=', 'final_sale_order_line_cancel'), ('globally_access', '=', False)])
+            # else:
+            #     sms_template_objs = self.env["wk.sms.template"].sudo().search(
+            #         [('condition', '=', 'sale_order_line_cancel'), ('globally_access', '=', False)])
+            # for sms_template_obj in sms_template_objs:
+            #     mobile = sms_template_obj._get_partner_mobile(self.order_id.partner_id)
+            #     if mobile:
+            #         sms_template_obj.send_sms_using_template(
+            #             mobile, sms_template_obj, obj=self)
 
             if rec.sol_state == 'cancel':
                 picking_obj = self.env['stock.picking'].search([('origin','=',self.order_id.name), ('order_line_id','=',rec.id),

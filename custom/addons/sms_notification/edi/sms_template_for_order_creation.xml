@@ -20,7 +20,12 @@
             <field name="condition">order_cancel</field>
             <field name="auto_delete" eval="True"/>
             <field name="sms_body_html"><![CDATA[
-              Hello ${object.partner_id.name},Your order ${object.name} has been cancelled from ${object.company_id.name}
+              Hello ${object.partner_id.name}, your Order ${object.name} is cancelled by ${object.company_id.name}:
+              REFERENCES
+              Order number: ${object.name}
+              Order total: ${object.amount_total} ${object.pricelist_id.currency_id.name}
+              Order date: ${format_datetime(object.date_order, tz=user.tz, dt_format='M/d/Y, H:mm:ss')}
+              Order Status: Cancelled
               For more information, please contact www.liveplaza.online
               ]]>
             </field>
