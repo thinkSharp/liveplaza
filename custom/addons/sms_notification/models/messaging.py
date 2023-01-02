@@ -305,19 +305,18 @@ class SaleOrder(models.Model):
                 if line.write({'sol_state': 'approve_by_admin'}):
                     line.action_ready_to_pick()
 
-    # def action_cancel(self):
-    #     res = super(SaleOrder, self).action_cancel()
-    #     sms_template_objs = self.env["wk.sms.template"].sudo().search(
-    #         [('condition', '=', 'order_cancel'),('globally_access','=',False)])
-    #     for obj in self:
+    def action_cancel(self):
+        res = super(SaleOrder, self).action_cancel()
+        sms_template_objs = self.env["wk.sms.template"].sudo().search(
+            [('condition', '=', 'order_cancel'),('globally_access','=',False)])
+        for obj in self:
+            for sms_template_obj in sms_template_objs:
+                mobile = sms_template_obj._get_partner_mobile(obj.partner_id)
+                if mobile:
+                    sms_template_obj.send_sms_using_template(
+                        mobile, sms_template_obj, obj=obj)
 
-    #         for sms_template_obj in sms_template_objs:
-    #             mobile = sms_template_obj._get_partner_mobile(obj.partner_id)
-    #             if mobile:
-    #                 sms_template_obj.send_sms_using_template(
-    #                     mobile, sms_template_obj, obj=obj)
-    #
-    #     return res
+        return res
 
     # def write(self, vals):
     #     result = super(SaleOrder, self).write(vals)
