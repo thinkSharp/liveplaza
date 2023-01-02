@@ -4,7 +4,7 @@ from odoo import fields, models, api, _, exceptions
 import datetime
 from odoo.http import request
 
-created_product = []
+# created_product = []
 
 class ProductTemplateAttributeLineInherit(models.Model):
     _inherit = "product.template.attribute.line"
@@ -42,7 +42,6 @@ class ProductRequest(models.Model):
         product_tmpl_ids = self.env.cr.fetchall()
 
         for product_tmpl_id in product_tmpl_ids:
-            print('Product template Id', product_tmpl_id)
             self.env["product.template"].search([('id', '=', product_tmpl_id)]).write({'status': 'pending'})
             '''
             product_query = "select id from product_product where product_tmpl_id=%s"
@@ -63,8 +62,6 @@ class ProductRequest(models.Model):
         product_tmpl_ids = self.env.cr.fetchall()
 
         for product_tmpl_id in product_tmpl_ids:
-            print('Product Delete..........................')
-            print('Product template Id', product_tmpl_id)
             self.env["product.template"].search([('id', '=', product_tmpl_id)]).write(
                 {'status': 'approved', 'sale_ok': True})
             '''
@@ -85,8 +82,6 @@ class ProductRequest(models.Model):
         product_tmpl_ids = self.env.cr.fetchall()
 
         for product_tmpl_id in product_tmpl_ids:
-            print('Product Delete..........................')
-            print('Product template Id', product_tmpl_id)
             self.env["product.template"].search([('id', '=', product_tmpl_id)]).write({'status': 'rejected'})
             '''
             product_query = "select id from product_product where product_tmpl_id=%s"
@@ -106,13 +101,10 @@ class ProductRequest(models.Model):
         product_tmpl_ids = self.env.cr.fetchall()
 
         for product_tmpl_id in product_tmpl_ids:
-            print('Product Delete..........................')
-            print('Product template Id', product_tmpl_id)
             self.env["product.template"].search([('id', '=', product_tmpl_id)]).write({'status': 'pending'})
 
     @api.constrains('product_ids')
     def _check_product_ids(self):
-        print(len(self.product_ids))
         self.no_products = len(self.product_ids)
         missing_is_product_saved = []
         missing_is_variants_generated = []
@@ -164,61 +156,36 @@ class ProductRequest(models.Model):
         result = super(ProductRequest, self).create(vals)
         return result
 
-    def delete_created_product(self, product_list):
-        for p in product_list:
-            products = request.env['product.product'].search([('product_tmpl_id', '=', p)])
-            for product in products:
-                print("product.id = ", product.id)
-                if product.status == 'draft':
-                    stock_quants = self.env['stock.quant'].search([('product_id', '=', product.id)])
-                    for stock_quant in stock_quants:
-                        print("stock_quant = ", stock_quant.product_id)
-                        stock_quant.unlink()
-                product.unlink()
+    # def delete_created_product(self, product_list):
+    #     for p in product_list:
+    #         products = request.env['product.product'].search([('product_tmpl_id', '=', p)])
+    #         for product in products:
+    #             if product.status == 'draft':
+    #                 stock_quants = self.env['stock.quant'].search([('product_id', '=', product.id)])
+    #                 for stock_quant in stock_quants:
+    #                     stock_quant.unlink()
+    #             product.unlink()
 
-    @api.model
-    def discard(self, action_id):
-        if action_id and created_product:
-            action = request.env['ir.actions.act_window'].browse(action_id)
-            if action.name == 'Product Requests':
-                self.delete_created_product(created_product)
-
-    # delete created products when the browser is refreshed and 'product_ids' is clear
-    @api.onchange('product_ids')
-    def delete_unsaved_products(self):
-        if len(self.product_ids) == 0:
-            self.delete_created_product(created_product)
-
-    @api.model
-    def get_action(self, action_id):
-        if action_id:
-            action = request.env['ir.actions.act_window'].browse(action_id)
-            print("name = ", action.name)
-            return action.name
-        return ""
-
-    @api.model
-    def reload(self, action_id):
-        print("reload reload")
-        if action_id and created_product:
-            action = request.env['ir.actions.act_window'].browse(action_id)
-            print("action name = ", action.name)
-            if action.name == 'Product Requests':
-                print("Product Requests")
-                for c in created_product:
-                    print("c = ", c)
-                    products = request.env['product.product'].search([('product_tmpl_id', '=', c)])
-                    for product in products:
-                        print("product.id = ", product.id)
-                        if product.status == 'draft':
-                            stock_quants = self.env['stock.quant'].search([('product_id', '=', product.id)])
-                            for stock_quant in stock_quants:
-                                print("stock_quant = ", stock_quant.product_id)
-                                stock_quant.unlink()
-                        product.unlink()
-        else:
-            print('action id = ', action_id)
-            print("created product = ", created_product)
+    # @api.model
+    # def discard(self, action_id):
+    #     if action_id and created_product:
+    #         action = request.env['ir.actions.act_window'].browse(action_id)
+    #         if action.name == 'Product Requests':
+    #             self.delete_created_product(created_product)
+    #
+    # @api.model
+    # def reload(self, action_id):
+    #     if action_id and created_product:
+    #         action = request.env['ir.actions.act_window'].browse(action_id)
+    #         if action.name == 'Product Requests':
+    #             for c in created_product:
+    #                 products = request.env['product.product'].search([('product_tmpl_id', '=', c)])
+    #                 for product in products:
+    #                     if product.status == 'draft':
+    #                         stock_quants = self.env['stock.quant'].search([('product_id', '=', product.id)])
+    #                         for stock_quant in stock_quants:
+    #                             stock_quant.unlink()
+    #                     product.unlink()
 
 
 class Product(models.Model):
@@ -275,26 +242,22 @@ class Product(models.Model):
         string='Variant Extra Price',
         default=_get_default_attribute)
 
-    def delete_created_product(self, product_list):
-        for p in product_list:
-            products = request.env['product.product'].search([('product_tmpl_id', '=', p)])
-            for product in products:
-                print("product.id = ", product.id)
-                if product.status == 'draft':
-                    stock_quants = self.env['stock.quant'].search([('product_id', '=', product.id)])
-                    for stock_quant in stock_quants:
-                        print("stock_quant = ", stock_quant.product_id)
-                        stock_quant.unlink()
-                product.unlink()
+    # def delete_created_product(self, product_list):
+    #     for p in product_list:
+    #         products = request.env['product.product'].search([('product_tmpl_id', '=', p)])
+    #         for product in products:
+    #             if product.status == 'draft':
+    #                 stock_quants = self.env['stock.quant'].search([('product_id', '=', product.id)])
+    #                 for stock_quant in stock_quants:
+    #                     stock_quant.unlink()
+    #             product.unlink()
 
-    @api.model
-    def discard(self, action_id):
-        print("in discard function")
-        if action_id and created_product:
-            action = request.env['ir.actions.act_window'].browse(action_id)
-            if action.name == 'Product Requests':
-                print("product requests")
-                self.delete_created_product(created_product)
+    # @api.model
+    # def discard(self, action_id):
+    #     if action_id and created_product:
+    #         action = request.env['ir.actions.act_window'].browse(action_id)
+    #         if action.name == 'Product Requests':
+    #             self.delete_created_product(created_product)
 
     def action_generate_product_variants(self):
 
@@ -329,7 +292,6 @@ class Product(models.Model):
                     'auto_publish': line.auto_publish,
                     'product_request_id': line.product_request_id,
                 }
-                # print('action_variant_vals', vals)
 
                 product_vals = {
                     'name': vals['name'],
@@ -350,9 +312,8 @@ class Product(models.Model):
 
                 product_tmpl_obj = self.env['product.template'].create(product_vals)
                 if product_tmpl_obj:
-                    created_product.append(product_tmpl_obj.id)
+                    # created_product.append(product_tmpl_obj.id)
                     self.write({'is_variants_generated': True})
-                # print('Action Variant New Product:', product_tmpl_obj.id)
                 self.product_tmpl_id = product_tmpl_obj.id
 
                 self.env['wk.product.tabs'].create(
@@ -391,7 +352,6 @@ class Product(models.Model):
                 warehouse_location = self.env['ir.config_parameter'].sudo().get_param(
                     'multi_product_request.warehouse_location')
 
-                print('Warehouse Location', warehouse_location)
 
                 for line in self.product_variant_lines:
                     lines = {
@@ -401,9 +361,7 @@ class Product(models.Model):
                         'quantity': line.quantity
                     }
 
-                    print('Line', lines)
                     stock = self.env['stock.quant'].sudo().create(lines)
-                    print("stock = ", stock.product_id)
 
                     self.write({'is_variants_generated': False})
                     self.write({'is_product_saved': True})
@@ -413,9 +371,6 @@ class Product(models.Model):
 
     def saved_variants(self):
         for line in self.product_variant_lines:
-            print('In upper validation')
-            print(line.quantity)
-            print(line.price)
 
             if line.quantity > 999 or line.quantity < 1:
                 raise exceptions.ValidationError(_('Quantity must be between 1 and 999.'))
@@ -428,8 +383,6 @@ class Product(models.Model):
         warehouse_location = self.env['ir.config_parameter'].sudo().get_param(
             'multi_product_request.warehouse_location')
         for index, line in enumerate(self.product_variant_lines):
-            print('In Loop.............................')
-            print('IN UPDATE VARIANT FOR LOOP')
             lines = {
                 'location_id': int(warehouse_location),
                 'product_id': line.product_id.id,
@@ -437,7 +390,6 @@ class Product(models.Model):
                 'quantity': line.quantity
             }
 
-            print('Line', lines)
             self.env['stock.quant'].sudo().create(lines)
             self.write({'is_variants_saved': True})
 
@@ -457,7 +409,6 @@ class Product(models.Model):
             for stock_quant in stock_quants:
                 stock_quant.unlink()
             product.unlink()
-        print("Unlinked......")
         return super().unlink()
 
 
@@ -473,7 +424,6 @@ class Product_Variants_Lines(models.Model):
 
     def unlink(self):
         for line in self:
-            print('Delete Product', line.product_id.id)
             self.env['product.product'].search([('id', '=', line.product_id.id)]).unlink()
 
         return super(Product_Variants_Lines, self).unlink()
@@ -503,11 +453,8 @@ class AdminProductRequest(models.Model):
         product_tmpl_ids_query = "select product_tmpl_id from product_request_product where admin_request_id=%s"
         self.env.cr.execute(product_tmpl_ids_query, (self.id,))
         product_tmpl_ids = self.env.cr.fetchall()
-        print(product_tmpl_ids)
 
         for product_tmpl_id in product_tmpl_ids:
-            print('Product Delete..........................')
-            print('Product template Id', product_tmpl_id)
             self.env["product.template"].search([('id', '=', product_tmpl_id)]).write(
                 {'status': 'approved', 'sale_ok': True, 'marketplace_seller_id': self.seller.id})
 
@@ -515,7 +462,6 @@ class AdminProductRequest(models.Model):
 
     @api.constrains('product_ids')
     def _check_product_ids(self):
-        print(len(self.product_ids))
         self.no_products = len(self.product_ids)
         missing_is_product_saved = []
         missing_is_variants_generated = []
@@ -565,11 +511,9 @@ class AdminProductRequest(models.Model):
 
     @api.onchange('seller')
     def _onchange_seller(self):
-        print('Before Seller', self.seller)
         seller = self.seller
         self.product_ids.unlink()
         self.seller = seller
-        print('After Seller', self.seller)
 
     @api.model
     def create(self, vals):
