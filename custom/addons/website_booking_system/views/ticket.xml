@@ -122,7 +122,7 @@
     </record>
 
     <record id="booking_ticket_action" model="ir.actions.act_window">
-         <field name="name">Codes</field>
+        <field name="name">Booking Resend Code</field>
         <field name="res_model">booking.ticket</field>
         <field name="view_mode">tree,form</field>
         <field name="view_ids" eval="[(5, 0, 0),
