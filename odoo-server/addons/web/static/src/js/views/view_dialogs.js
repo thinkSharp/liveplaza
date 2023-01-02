@@ -118,7 +118,6 @@ var FormViewDialog = ViewDialog.extend({
                         self.form_view.model.discardChanges(self.form_view.handle, {
                             rollback: self.shouldSaveLocally,
                         });
-                        this.discard();
                     }
                 },
             }];
@@ -227,31 +226,6 @@ var FormViewDialog = ViewDialog.extend({
         });
 
         return this;
-    },
-
-    discard: function() {
-        var url = window.location.hash;
-        var split = url.split('&');
-        for(var i = 0 ; i < split.length ; i++) {
-            if(split[i].includes('action')) {
-                var get_id = split[i].split('=');
-                if(get_id.length > 1) {
-                    var action_id = parseInt(get_id[1])
-                    if(action_id > 0) {
-                        this._rpc({
-                            model: 'product.request.product',
-                            method: 'discard',
-                            args: [action_id],
-                        })
-                        .then(function (result) {
-                            if(result) {
-                                window.location.href = result;
-                            }
-                        });
-                    }
-                }
-            }
-        }
     },
 
     //--------------------------------------------------------------------------
