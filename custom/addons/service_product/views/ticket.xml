@@ -120,7 +120,7 @@
     </record>
 
     <record id="ticket_action" model="ir.actions.act_window">
-         <field name="name">Codes</field>
+        <field name="name">Service Resend Code</field>
         <field name="res_model">ticket</field>
         <field name="view_mode">tree,form</field>
         <field name="view_ids" eval="[(5, 0, 0),

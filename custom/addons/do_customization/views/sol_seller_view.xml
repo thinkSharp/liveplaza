@@ -173,7 +173,6 @@
                     <field name="marketplace_seller_id" string="Seller"/>
                     <field name="product_id" string="Product"/>
                     <field name="order_partner_id" string="Customer"/>
-                    <field name="parent_payment_provider" string="Payment Type"/>
                     <group expand="0" string="Group By">
                         <filter string="Product" name="by_product" domain="[]" context="{'group_by':'product_id'}"/>
                         <filter string="Order" name="by_order" domain="[]" context="{'group_by':'order_id'}"/>
