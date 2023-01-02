@@ -141,5 +141,5 @@
 
 
     <menuitem id='search_tickets' name='Redeem Code' action='ticket_search_action' parent='odoo_marketplace.wk_seller_dashboard_menu2'/>
-    <menuitem id='tickets' name='Resend Code' action='ticket_action' parent='odoo_marketplace.wk_seller_dashboard_menu2'/>
+    <menuitem id='tickets' name='Resend Service Code' action='ticket_action' parent='odoo_marketplace.wk_seller_dashboard_menu2'/>
 </odoo>
