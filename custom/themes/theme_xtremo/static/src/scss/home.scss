@@ -7,7 +7,7 @@ main{
   #xtremo_home_cat{
     margin-top: 15px;
     display: inline-block;
-    height: 430px;
+    // height: 430px;
     display: flex;
     justify-content: space-between;
     >ul{
@@ -119,8 +119,9 @@ main{
     .s_carousel{
       width: 79%;
     }
-    @media #{$mobile}{
-      height: 65vw;
+    @media #{$pad-with-mobile}{
+      // height: 65vw;
+      aspect-ratio: 2;
       >ul{
         display: none !important;
       }
