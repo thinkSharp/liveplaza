@@ -102,7 +102,7 @@
             <field name="name">pick.stock.picking.kanban</field>
             <field name="model">stock.picking</field>
             <field name="arch" type="xml">
-                <kanban class="o_kanban_mobile" create="0" disable_draggable="true">
+                <kanban class="o_kanban_mobile" create="0" disable_draggable="true" default_order="id desc">
                     <field name="name"/>
                     <field name="partner_id"/>
                     <field name="location_dest_id"/>
@@ -147,7 +147,7 @@
             <field name="name">pack.stock.packing.kanban</field>
             <field name="model">stock.picking</field>
             <field name="arch" type="xml">
-                <kanban class="o_kanban_mobile" create="0" disable_draggable="true">
+                <kanban class="o_kanban_mobile" create="0" disable_draggable="true" default_order="id desc">
                     <field name="name"/>
                     <field name="partner_id"/>
                     <field name="location_dest_id"/>
@@ -192,7 +192,7 @@
             <field name="name">do.stock.do.kanban</field>
             <field name="model">stock.picking</field>
             <field name="arch" type="xml">
-                <kanban class="o_kanban_mobile" create="0" disable_draggable="true">
+                <kanban class="o_kanban_mobile" create="0" disable_draggable="true" default_order="id desc">
                     <field name="name"/>
                     <field name="partner_id"/>
                     <field name="location_dest_id"/>
