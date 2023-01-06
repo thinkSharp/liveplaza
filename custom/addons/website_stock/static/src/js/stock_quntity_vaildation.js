@@ -8,8 +8,10 @@ odoo.define('website_stock.stock_quntity_vaildation', function(require) {
 
     var _t = core._t;
     var temp = '1';
+    var old_qty = '1';
 
-    $(document).ready(function() { 
+    $(document).ready(function() {
+
         $('.oe_website_sale').each(function() {
 
             var oe_website_sale = this;
@@ -26,9 +28,8 @@ odoo.define('website_stock.stock_quntity_vaildation', function(require) {
                     'set_qty': value
                 })
                 .then(function(msg) {
-                    console.log(msg);
                     if (msg) {
-                        console.log("test1"+msg);
+                        $input.val(old_qty);
                         $dom.popover({
                             content: _t("You are Trying to Add More Than Available Quantity of Product."),
                             title: _t("WARNING"),
@@ -39,8 +40,10 @@ odoo.define('website_stock.stock_quntity_vaildation', function(require) {
                         setTimeout(function() {
                             $dom.popover('dispose')
                         }, 1000);
+
                     } else {
                         $dom.popover('dispose');
+                        old_qty = value.toString();;
                     }
                 });
             });

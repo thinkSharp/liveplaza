@@ -201,8 +201,9 @@ class SaleOrder(models.Model):
             order.update({
                 'checked_amount_untaxed': checked_amount_untaxed,
                 'checked_amount_tax': checked_amount_tax,
-                'checked_amount_total': checked_amount_untaxed + checked_amount_tax,
+                'checked_amount_total': checked_amount_untaxed + checked_amount_tax + order.amount_delivery,
             })
+
 
 
             

@@ -144,6 +144,17 @@ class Website(models.Model):
                 return True
         return False
 
+    def cart_line_stock_maximum(self, product_id=False, added_qty=0.0):
+        if product_id and added_qty > 0.0:
+            product_obj = self.env['product.product'].sudo().browse(int(product_id))
+            if product_obj.type == 'service':
+                return True
+            quantity = self.stock_qty_validate(int(product_id))
+            allowed = -1 if product_obj.wk_order_allow == 'deny' else 1
+            if allowed == 1 or quantity > added_qty:
+                return True
+        return False
+
     @api.model
     def shop_checkout_validate(self):
         order = self.sale_get_order()
