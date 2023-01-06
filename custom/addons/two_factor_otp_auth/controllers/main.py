@@ -45,6 +45,15 @@ class Login2fa(Home):
 
         return response
 
+    @http.route('/web/reset_password', type='http', auth='public', website=True, sitemap=False)
+    def web_auth_reset_password(self, redirect=None, **kw):
+        try:
+            response = super(Login2fa, self).web_auth_reset_password(redirect, **kw)
+        except (MissingOtpError, InvalidOtpError):
+            response = request.redirect('/web/login')
+
+        return response
+
     @staticmethod
     def _redirect_to_2fa(message=None):
         """
