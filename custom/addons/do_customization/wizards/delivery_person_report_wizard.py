@@ -103,7 +103,7 @@ class DPRDeliveryReportWizard(models.TransientModel):
                     INNER JOIN stock_picking_type spt ON spt.id=sp.picking_type_id                
                     INNER JOIN res_partner pp ON pp.id=sp.pickup_person_id               
                     WHERE 1=1
-                    AND sp.scheduled_date BETWEEN %s AND %s
+                    AND sp.scheduled_date::DATE BETWEEN %s AND %s
                     AND sp.pickup_person_id = %s
                     ORDER BY sp.id'''
                 self.env.cr.execute(query, (start_date,end_date,obj.id,))
@@ -125,7 +125,7 @@ class DPRDeliveryReportWizard(models.TransientModel):
                     INNER JOIN stock_picking_type spt ON spt.id=sp.picking_type_id                
                     INNER JOIN res_partner pp ON pp.id=sp.pickup_person_id               
                     WHERE 1=1
-                    AND sp.scheduled_date BETWEEN %s AND %s
+                    AND sp.scheduled_date::DATE BETWEEN %s AND %s
                     AND sp.delivery_person_id = %s
                     ORDER BY sp.id'''
                 self.env.cr.execute(query, (start_date, end_date, obj.id,))
@@ -147,7 +147,7 @@ class DPRDeliveryReportWizard(models.TransientModel):
                     INNER JOIN stock_picking_type spt ON spt.id=sp.picking_type_id                
                     INNER JOIN res_partner pp ON pp.id=sp.pickup_person_id               
                     WHERE 1=1
-                    AND sp.scheduled_date BETWEEN %s AND %s
+                    AND sp.scheduled_date::DATE BETWEEN %s AND %s
                     AND sp.pickup_person_id = %s
                     ORDER BY sp.id)
                     UNION
@@ -166,7 +166,7 @@ class DPRDeliveryReportWizard(models.TransientModel):
                     INNER JOIN stock_picking_type spt ON spt.id=sp.picking_type_id                
                     INNER JOIN res_partner pp ON pp.id=sp.pickup_person_id               
                     WHERE 1=1
-                    AND sp.scheduled_date BETWEEN %s AND %s
+                    AND sp.scheduled_date::DATE BETWEEN %s AND %s
                     AND sp.delivery_person_id = %s
                     ORDER BY sp.id)'''
                 self.env.cr.execute(query, (start_date, end_date, obj.id,start_date, end_date, obj.id))

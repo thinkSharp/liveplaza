@@ -98,7 +98,7 @@ class DVRDeliveryReportWizard(models.TransientModel):
                 LEFT JOIN res_partner pp ON pp.id=sp.pickup_person_id
                 LEFT JOIN res_partner dp ON dp.id=sp.delivery_person_id
                 WHERE 1=1
-                AND sp.scheduled_date BETWEEN %s AND %s
+                AND sp.scheduled_date::DATE BETWEEN %s AND %s
                 AND sp.vendor_id = %s
                 ORDER BY sp.id'''
             self.env.cr.execute(query, (start_date,end_date,vendor_id.id,))

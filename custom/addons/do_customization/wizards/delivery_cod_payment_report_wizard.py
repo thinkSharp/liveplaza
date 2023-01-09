@@ -101,7 +101,7 @@ class DeliveryCODPaymentReportWizard(models.TransientModel):
                 INNER JOIN res_partner rp ON rp.id=sp.delivery_person_id
                 WHERE 1=1
                 AND sp.payment_provider='cash_on_delivery' 
-                AND sp.scheduled_date BETWEEN %s AND %s
+                AND sp.scheduled_date::DATE BETWEEN %s AND %s
                 AND sp.delivery_person_id = %s
                 GROUP BY rp.name,sp.paid_amount,sp.origin,sp.payment_provider,sp.origin,do_date,sp.state'''
             self.env.cr.execute(query, (start_date,end_date,delivery_person_id.id,))
