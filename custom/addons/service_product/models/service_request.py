@@ -232,6 +232,10 @@ class ServiceProduct(models.Model):
         string='Variant Extra Price',
     default=_get_default_attribute)
 
+    @api.onchange('has_variant')
+    def clear_variants(self):
+        self.attribute_line_ids = None
+
     def action_generate_product_variants(self):
 
         if not self.is_generate_button_pressed:

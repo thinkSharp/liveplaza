@@ -181,3 +181,7 @@
 #top_menu_collapse #top_menu .dropdown-item {
     padding: 0 5px;
 }
+
+.wsd_requests .nav-pills .nav-link.active {
+    background: rgba(0, 81, 177, 0.8);
+}
