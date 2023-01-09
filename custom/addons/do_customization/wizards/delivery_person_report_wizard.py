@@ -2,7 +2,7 @@
 
 from odoo import api, fields, models, tools, _
 from datetime import datetime
-
+import json
 from odoo.exceptions import ValidationError, UserError, Warning
 
 
@@ -12,7 +12,33 @@ class DPRDeliveryReportWizard(models.TransientModel):
     start_date = fields.Date('Start Date', default=datetime.today())
     end_date = fields.Date('End Date', default=datetime.today())
     person_id = fields.Many2one('res.partner', string='Delivery Person', required=True,
-                                domain=['|',('delivery_vendor', '=', True),('picking_vendor', '=', True)], copy=False)
+                                copy=False)
+    person_domain = fields.Char(compute="_compute_person_domain", readonly=True, store=False)
+
+    @api.depends('person_id')
+    def _compute_person_domain(self):
+        for rec in self:
+            person_list = []
+            user_obj = self.env['res.users'].sudo().browse(self._uid)
+            if user_obj.partner_id:
+                if user_obj.has_group('access_rights_customization.group_delivery_operator') or user_obj.has_group(
+                        'access_rights_customization.group_pickupandpackaging_operator'):
+                    person_list.append(user_obj.partner_id.id)
+                elif user_obj.has_group('picking_and_delivery_vendor.pickup_vendor_group') or user_obj.has_group(
+                        'picking_and_delivery_vendor.delivery_vendor_group'):
+                    person_ids = self.env['res.partner'].search(
+                        [('commercial_partner_id', '=', user_obj.partner_id.commercial_partner_id.id),
+                         ('active', '=', True)])
+                    if person_ids:
+                        for pids in person_ids:
+                            person_list.append(pids.id)
+                else:
+                    person_ids = self.env['res.partner'].search(['|',('delivery_vendor', '=', True), ('picking_vendor', '=', True)])
+                    if person_ids:
+                        for vids in person_ids:
+                            person_list.append(vids.id)
+
+            rec.person_domain = json.dumps([('id', 'in', person_list)])
 
     def generate_order_report(self):
         vals = []
@@ -77,7 +103,7 @@ class DPRDeliveryReportWizard(models.TransientModel):
                     INNER JOIN stock_picking_type spt ON spt.id=sp.picking_type_id                
                     INNER JOIN res_partner pp ON pp.id=sp.pickup_person_id               
                     WHERE 1=1
-                    AND sp.scheduled_date BETWEEN %s AND %s
+                    AND sp.scheduled_date::DATE BETWEEN %s AND %s
                     AND sp.pickup_person_id = %s
                     ORDER BY sp.id'''
                 self.env.cr.execute(query, (start_date,end_date,obj.id,))
@@ -99,7 +125,7 @@ class DPRDeliveryReportWizard(models.TransientModel):
                     INNER JOIN stock_picking_type spt ON spt.id=sp.picking_type_id                
                     INNER JOIN res_partner pp ON pp.id=sp.pickup_person_id               
                     WHERE 1=1
-                    AND sp.scheduled_date BETWEEN %s AND %s
+                    AND sp.scheduled_date::DATE BETWEEN %s AND %s
                     AND sp.delivery_person_id = %s
                     ORDER BY sp.id'''
                 self.env.cr.execute(query, (start_date, end_date, obj.id,))
@@ -121,7 +147,7 @@ class DPRDeliveryReportWizard(models.TransientModel):
                     INNER JOIN stock_picking_type spt ON spt.id=sp.picking_type_id                
                     INNER JOIN res_partner pp ON pp.id=sp.pickup_person_id               
                     WHERE 1=1
-                    AND sp.scheduled_date BETWEEN %s AND %s
+                    AND sp.scheduled_date::DATE BETWEEN %s AND %s
                     AND sp.pickup_person_id = %s
                     ORDER BY sp.id)
                     UNION
@@ -140,7 +166,7 @@ class DPRDeliveryReportWizard(models.TransientModel):
                     INNER JOIN stock_picking_type spt ON spt.id=sp.picking_type_id                
                     INNER JOIN res_partner pp ON pp.id=sp.pickup_person_id               
                     WHERE 1=1
-                    AND sp.scheduled_date BETWEEN %s AND %s
+                    AND sp.scheduled_date::DATE BETWEEN %s AND %s
                     AND sp.delivery_person_id = %s
                     ORDER BY sp.id)'''
                 self.env.cr.execute(query, (start_date, end_date, obj.id,start_date, end_date, obj.id))
