@@ -9,7 +9,8 @@
                 <group>
                   <group>
                     <field name="start_date"/>
-                    <field name="vendor_id"/>
+                    <field name="vendor_domain" invisible="1"/>
+                    <field name="vendor_id" domain="vendor_domain" options="{'no_create': True}"/>
                   </group>
                   <group>
                     <field name="end_date"/>

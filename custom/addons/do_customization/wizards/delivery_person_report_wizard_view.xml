@@ -9,7 +9,8 @@
                 <group>
                   <group>
                     <field name="start_date"/>
-                    <field name="person_id"/>
+                    <field name="person_domain" invisible="1"/>
+                    <field name="person_id"  domain="person_domain" options="{'no_create': True}"/>
                   </group>
                   <group>
                     <field name="end_date"/>
