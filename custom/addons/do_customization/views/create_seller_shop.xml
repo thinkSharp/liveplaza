@@ -60,7 +60,7 @@
                     <div class="container">
                       <div class="row s_nb_column_fixed">
                         <div class="col-lg-12 s_title pt16 pb16" style="text-align: center;">
-                          <h1 class="s_title_thin" style="text-align: right;">&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Benefits for Seller</h1>
+                          <h1 class="s_title_thin" style="text-align: center !important;">Benefits for Seller</h1>
                         </div>
                       </div>
                     </div>
@@ -144,7 +144,7 @@
                     <div class="container">
                       <div class="row s_nb_column_fixed">
                         <div class="col-lg-12 s_title pt16 pb48" style="text-align: center;">
-                          <h1 class="s_title_default">&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;User Guide For Sellers<br/></h1>
+                          <h1 class="s_title_default">User Guide For Sellers<br/></h1>
                         </div>
                       </div>
                     </div>
@@ -320,7 +320,7 @@
 <!--                    <div class="container">-->
 <!--                      <div class="row s_nb_column_fixed">-->
 <!--                        <div class="col-lg-12 s_title pt16 pb16" style="text-align: center;">-->
-<!--                          <h1 class="s_title_thin">&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Product Packages <font style="color: rgb(0, 0, 255);">(Monthly Subscription Based)</font></h1>-->
+<!--                          <h1 class="s_title_thin">Product Packages <font style="color: rgb(0, 0, 255);">(Monthly Subscription Based)</font></h1>-->
 <!--                        </div>-->
 <!--                      </div>-->
 <!--                      <div class="row">-->

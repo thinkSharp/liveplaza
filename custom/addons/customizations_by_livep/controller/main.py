@@ -818,7 +818,7 @@ class WebsiteSaleWishlist(WebsiteSale):
             partner_id
         )
 
-        # if not partner_id:
-        #     request.session['wishlist_ids'] = request.session.get('wishlist_ids', []) + [wish_id.id]
+        if not partner_id:
+            request.session['wishlist_ids'] = request.session.get('wishlist_ids', []) + [wish_id.id]
 
         return wish_id

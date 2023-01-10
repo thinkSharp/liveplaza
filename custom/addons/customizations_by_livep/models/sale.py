@@ -198,11 +198,20 @@ class SaleOrder(models.Model):
                     checked_amount_untaxed += line.price_subtotal
                     checked_amount_tax += line.price_tax
 
-            order.update({
-                'checked_amount_untaxed': checked_amount_untaxed,
-                'checked_amount_tax': checked_amount_tax,
-                'checked_amount_total': checked_amount_untaxed + checked_amount_tax + order.amount_delivery,
-            })
+
+            if order.wk_coupon_value:
+                order.update({
+                    'checked_amount_untaxed': checked_amount_untaxed,
+                    'checked_amount_tax': checked_amount_tax,
+                    'checked_amount_total': checked_amount_untaxed + checked_amount_tax + order.amount_delivery,
+                })
+            else:
+                order.update({
+                    'checked_amount_untaxed': checked_amount_untaxed,
+                    'checked_amount_tax': checked_amount_tax,
+                    'checked_amount_total': checked_amount_untaxed + checked_amount_tax,
+                })
+
 
 
 
