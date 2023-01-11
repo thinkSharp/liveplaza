@@ -21,7 +21,7 @@ class sale_order(models.Model):
 	def _compute_cart_info(self):
 		for order in self:
 			order.cart_quantity = int(
-				sum(order.order_line.mapped(lambda l: l.product_uom_qty if not l.is_voucher else 0)))
+				sum(order.order_line.mapped(lambda l: l.product_uom_qty if not l.is_voucher and not l.is_delivery else 0)))
 			order.only_services = all(l.product_id.type in ('service', 'digital') for l in order.website_order_line)
 
 	@api.model
