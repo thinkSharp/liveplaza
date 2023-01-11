@@ -257,7 +257,7 @@
 							<h1><field name="name"/></h1>
 							<label class="oe_edit_only" for="public_categ_ids"/>
 							<h3><field name="public_categ_ids" required="1" options="{'no_create': True}" widget="many2many_tags" placeholder="Category..."/></h3>
-							<field name="product_template_attribute_value_ids" options="{'no_create': True}" widget="many2many_tags" groups="product.group_product_variant" placeholder="Attributes..."/>
+							<field name="product_template_attribute_value_ids" readonly="1" options="{'no_create': True}" widget="many2many_tags" groups="product.group_product_variant" placeholder="Attributes..."/>
 						</div>
 						<field name="product_tmpl_id" class="oe_inline" readonly="1" invisible="1" attrs="{'required': [('id', '!=', False)]}"/>
 						<field name="product_variant_count" invisible="1"/>
