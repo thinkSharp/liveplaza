@@ -96,14 +96,14 @@ class WebsiteSale(Website_Sale):
         order = request.website.sale_get_order(force_create=1)
         new_product_id = product_id
 
-
         # remove voucher if the related product is deleted from cart
         for line in order.order_line:
             if line.wk_voucher_id:
                 check_product = order.check_voucher_product(order, line.wk_voucher_id,
                                                             product_id=new_product_id)
                 if not check_product:
-                    line.sudo().unlink()
+                    if not set_qty or set_qty <= 0:
+                        line.sudo().unlink()
                     order.wk_coupon_value = 0
         if order.state != 'draft':
             request.website.sale_reset()
