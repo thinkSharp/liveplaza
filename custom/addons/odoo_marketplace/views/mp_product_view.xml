@@ -455,6 +455,7 @@
 					<sheet>
 						<field name="id" invisible="True"/>
                         <field name="website_published" invisible="True"/>
+						<field name="active" invisible="True"/>
 						<div class="oe_button_box" name="button_box" attrs="{'invisible':['|', ('status', 'in', ('pending','draft','rejected')), ('id', '=', False)]}">
 							<!--<button class="oe_stat_button" name="mp_action_view_sales" type="object" icon="fa-strikethrough">-->
 							<!--	<field string="Sales" name="sales_count" widget="statinfo"/>-->
