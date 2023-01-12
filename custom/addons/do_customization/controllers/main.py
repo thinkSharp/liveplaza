@@ -274,6 +274,19 @@ class WebsiteSale(WebsiteSale):
             cod = "0"
         delivery = sale_order._check_delivery_selected()
 
+        if sale_order.wk_coupon_value:
+            checked_amount_untaxed = checked_amount_tax = 0.0
+            for line in sale_order.order_line:
+                if line.selected_checkout:
+                    checked_amount_untaxed += line.price_subtotal
+                    checked_amount_tax += line.price_tax
+
+            sale_order.update({
+                'checked_amount_untaxed': checked_amount_untaxed,
+                'checked_amount_tax': checked_amount_tax,
+                'checked_amount_total': checked_amount_untaxed + checked_amount_tax + sale_order.amount_delivery,
+            })
+
         values = {
             'sale_order': sale_order,
             'acq': acquirer,

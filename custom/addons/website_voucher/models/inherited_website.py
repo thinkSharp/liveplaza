@@ -44,24 +44,18 @@ class Website(models.Model):
 						if voucher_obj.applied_on == 'specific':
 							if selected_prod_percent_price > wk_voucher_value:
 								price_unit = -wk_voucher_value
-								# print("1 price unit(wk_voucher_value) = ", price_unit)
 							else:
 								price_unit = -selected_prod_percent_price
-								# print("2 price unit(selected_prod_percent_price) = ", price_unit)
 						else:
 							if order_total_price >= wk_voucher_value:
 								price_unit = -wk_voucher_value
-								# print("3 price unit(wk_voucher_value) = ", price_unit)
 							else:
 								price_unit = -order_total_price
-								# print("4 price unit(selected_prod_percent_price) = ", price_unit)
 					else:
 						if voucher_obj.applied_on == 'specific':
 							price_unit = -((wk_voucher_value * selected_prod_percent_price) /100)
-							# print("5 price unit(selected_prod_percent_price) = ", price_unit)
 						else:
 							price_unit = -((wk_voucher_value * order_total_price) /100)
-							# print("6 price unit(selected_prod_percent_price) = ", price_unit)
 				else:
 					amount_left = 0
 					history_objs = self.env['voucher.history'].search([('voucher_id','=',coupon_id)])
@@ -74,27 +68,18 @@ class Website(models.Model):
 						if voucher_obj.applied_on == 'specific':
 							if selected_prod_percent_price >= amount_left:
 								price_unit = -amount_left
-								# print("7 price unit(amount_left) = ", price_unit)
 							else:
 								price_unit = -selected_prod_percent_price
-								# print("8 price unit(selected_prod_percent_price) = ", price_unit)
 						else:
 							if order_total_price >= amount_left:
 								price_unit = -amount_left
-								# print("9 price unit(amount_left) = ", price_unit)
 							else :
 								price_unit = -order_total_price
-								# print("10 price unit(order_total_price) = ", price_unit)
 					else:
 						if voucher_obj.applied_on == 'specific':
 							price_unit = -((amount_left * selected_prod_percent_price) /100)
-							# print("11 price unit(amount_left) = ", price_unit)
 						else:
 							price_unit = -((amount_left * order_total_price) /100)
-							# print("12 price unit(selected_prod_percent_price) = ", price_unit)
-				sale_order.update({
-					'update_price': False
-				})
 				order_line_id.price_unit = price_unit
 		return True
 

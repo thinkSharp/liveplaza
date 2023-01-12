@@ -37,7 +37,6 @@ class SaleOrder(models.Model):
                                              compute='_checked_amount_all', tracking=5, default=0.0)
     checked_amount_tax = fields.Monetary(string='Checked Taxes', store=True, readonly=True, compute='_checked_amount_all',default=0.0)
     checked_amount_total = fields.Monetary(string='Checked Total', store=True, readonly=True, compute='_checked_amount_all', tracking=4)
-    update_price = fields.Boolean(string='Update Price', readonly=True, default=True)
 
     def _cart_update(self, product_id=None, line_id=None, add_qty=0, set_qty=0, **kwargs):
         """ Add or set product quantity, add_qty can be negative """
@@ -193,22 +192,17 @@ class SaleOrder(models.Model):
         Compute the total amounts of the SO.
         """
         for order in self:
-            if order.update_price:
-                checked_amount_untaxed = checked_amount_tax = 0.0
-                for line in order.order_line:
-                    if line.selected_checkout:
-                        checked_amount_untaxed += line.price_subtotal
-                        checked_amount_tax += line.price_tax
-                        
-                order.update({
-                    'checked_amount_untaxed': checked_amount_untaxed,
-                    'checked_amount_tax': checked_amount_tax,
-                    'checked_amount_total': checked_amount_untaxed + checked_amount_tax,
-                })
+            checked_amount_untaxed = checked_amount_tax = 0.0
+            for line in order.order_line:
+                if line.selected_checkout:
+                    checked_amount_untaxed += line.price_subtotal
+                    checked_amount_tax += line.price_tax
 
-        self.update({
-            'update_price': True
-        })
+            order.update({
+                'checked_amount_untaxed': checked_amount_untaxed,
+                'checked_amount_tax': checked_amount_tax,
+                'checked_amount_total': checked_amount_untaxed + checked_amount_tax,
+            })
 
 
 
