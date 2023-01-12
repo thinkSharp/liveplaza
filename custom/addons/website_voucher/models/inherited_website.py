@@ -92,9 +92,11 @@ class Website(models.Model):
 						else:
 							price_unit = -((amount_left * order_total_price) /100)
 							# print("12 price unit(selected_prod_percent_price) = ", price_unit)
+				sale_order.update({
+					'update_price': False
+				})
 				order_line_id.price_unit = price_unit
 		return True
-
 
 	def get_current_order_voucher(self, order):
 		voucher_product_id = self.env['ir.default'].sudo().get('res.config.settings', 'wk_coupon_product_id')
