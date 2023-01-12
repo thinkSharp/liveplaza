@@ -434,7 +434,7 @@ class VoucherVoucher(models.Model):
         res = {}
         return res
 
-    def _validate_n_get_value(self, secret_code, wk_order_total, product_ids, refrence=False, partner_id=False):
+    def _validate_n_get_value(self, secret_code, wk_order_total, product_ids, refrence=False, partner_id=False, all_products_list=False):
         result = {}
         result['status'] = False
         defaults = self.get_default_values()
@@ -474,7 +474,7 @@ class VoucherVoucher(models.Model):
         if self_obj.applied_on == 'specific':
             templ_ids = []
             prd_prices = []
-            for prod_id in product_ids:
+            for prod_id in all_products_list:
                 prod = self.env['product.product'].browse(prod_id)
                 templ_id = prod.product_tmpl_id.id
                 templ_ids.append(templ_id)
@@ -483,6 +483,7 @@ class VoucherVoucher(models.Model):
             if prd_prices:
                 total_prod_voucher_price += sum(prd_prices)
             contains = set(templ_ids) & set(self_obj.product_ids.ids)
+
             if not contains:
                 result['type'] = _('ERROR')
                 result['message'] = _('This voucher is not applicable on the products in cart.')
@@ -548,8 +549,8 @@ class VoucherVoucher(models.Model):
         return result
 
     @api.model
-    def validate_voucher(self, secret_code, wk_order_total, products_list, refrence=False, partner_id=False):
-        result = self._validate_n_get_value(secret_code, wk_order_total, products_list, refrence, partner_id)
+    def validate_voucher(self, secret_code, wk_order_total, products_list, refrence=False, partner_id=False, all_products_list=False):
+        result = self._validate_n_get_value(secret_code, wk_order_total, products_list, refrence, partner_id, all_products_list)
         return result
 
     @api.model
