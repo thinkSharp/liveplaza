@@ -4,10 +4,10 @@
         <field name="default" eval="True" />
         <field name="format">A6</field>
         <field name="orientation">Portrait</field>
-        <field name="margin_top">20</field>
-        <field name="margin_bottom">10</field>
-        <field name="margin_left">3</field>
-        <field name="margin_right">0</field>
+        <field name="margin_top">160</field>
+        <field name="margin_bottom">100</field>
+        <field name="margin_left">30</field>
+        <field name="margin_right">30</field>
         <field name="header_line" eval="False" />
         <field name="header_spacing">15</field>
         <field name="dpi">90</field>
@@ -33,7 +33,7 @@
     </template>
 
     <template id="sale_report_external_layout_standard_A6">
-        <div t-attf-class="header o_company_#{company.id}_layout">
+        <!-- <div t-attf-class="header o_company_#{company.id}_layout">
             <div class="row" style="width: 100%; font-size: 9px; color: black;" >
                 <div class=" " style="width: 22%; margin-right: 5px;">
                     <img t-if="company.invoice_logo" t-att-src="image_data_uri(company.invoice_logo)" style="max-width: 90px; max-height: 25px;" alt="Logo"/>
@@ -58,18 +58,57 @@
                 </div>
             </div>
             <div class="row" style="height: 8px; width: 100%; background: #DAE4F1; margin-top: 20px;"></div>
+        </div> -->
+        <div t-attf-class="header o_company_#{company.id}_layout" style="width: 100%; font-size: 6px;">
+            <div style="max-width: 278px; margin-left: auto; margin-right: auto;">
+                <div style="display: flex; justify-content: space-between;">
+                    <div style="">
+                        <img t-if="company.invoice_logo" t-att-src="image_data_uri(company.invoice_logo)" style="max-height: 12px;" alt="Logo"/>
+                        <img t-elif="company.logo" t-att-src="image_data_uri(company.logo)" style="max-height: 12px;" alt="Logo"/>
+                    </div>
+                    <div style="">
+                        <div style="display: flex; align-items: center; color: #1D54A6; margin-bottom: 2px;" t-if="company.phone" class="">
+                            <span style="margin-right: 2px;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="4" fill="#1D54A6" viewBox="0 0 512 512"><path d="M164.9 24.6c-7.7-18.6-28-28.5-47.4-23.2l-88 24C12.1 30.2 0 46 0 64C0 311.4 200.6 512 448 512c18 0 33.8-12.1 38.6-29.5l24-88c5.3-19.4-4.6-39.7-23.2-47.4l-96-40c-16.3-6.8-35.2-2.1-46.3 11.6L304.7 368C234.3 334.7 177.3 277.7 144 207.3L193.3 167c13.7-11.2 18.4-30 11.6-46.3l-40-96z"/></svg>
+                            </span>
+                            <span t-field="company.phone"/>
+                        </div>
+                        <div style="display: flex; align-items: center; color: #1D54A6;" t-if="company.email" class="">
+                            <span style="margin-right: 2px;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="4" fill="#1D54A6" viewBox="0 0 512 512"><path d="M48 64C21.5 64 0 85.5 0 112c0 15.1 7.1 29.3 19.2 38.4L236.8 313.6c11.4 8.5 27 8.5 38.4 0L492.8 150.4c12.1-9.1 19.2-23.3 19.2-38.4c0-26.5-21.5-48-48-48H48zM0 176V384c0 35.3 28.7 64 64 64H448c35.3 0 64-28.7 64-64V176L294.4 339.2c-22.8 17.1-54 17.1-76.8 0L0 176z"/></svg>
+                            </span>
+                            <span t-field="company.email"/>
+                        </div>
+                    </div>
+                    <div style="">
+                        <div style="display: flex; align-items: center; color: #1D54A6; margin-bottom: 2px;" t-if="company.website" class="">
+                            <span style="margin-right: 2px;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="6" fill="#1D54A6" viewBox="0 0 512 512"><path d="M352 256c0 22.2-1.2 43.6-3.3 64H163.3c-2.2-20.4-3.3-41.8-3.3-64s1.2-43.6 3.3-64H348.7c2.2 20.4 3.3 41.8 3.3 64zm28.8-64H503.9c5.3 20.5 8.1 41.9 8.1 64s-2.8 43.5-8.1 64H380.8c2.1-20.6 3.2-42 3.2-64s-1.1-43.4-3.2-64zm112.6-32H376.7c-10-63.9-29.8-117.4-55.3-151.6c78.3 20.7 142 77.5 171.9 151.6zm-149.1 0H167.7c6.1-36.4 15.5-68.6 27-94.7c10.5-23.6 22.2-40.7 33.5-51.5C239.4 3.2 248.7 0 256 0s16.6 3.2 27.8 13.8c11.3 10.8 23 27.9 33.5 51.5c11.6 26 21 58.2 27 94.7zm-209 0H18.6C48.6 85.9 112.2 29.1 190.6 8.4C165.1 42.6 145.3 96.1 135.3 160zM8.1 192H131.2c-2.1 20.6-3.2 42-3.2 64s1.1 43.4 3.2 64H8.1C2.8 299.5 0 278.1 0 256s2.8-43.5 8.1-64zM194.7 446.6c-11.6-26-20.9-58.2-27-94.6H344.3c-6.1 36.4-15.5 68.6-27 94.6c-10.5 23.6-22.2 40.7-33.5 51.5C272.6 508.8 263.3 512 256 512s-16.6-3.2-27.8-13.8c-11.3-10.8-23-27.9-33.5-51.5zM135.3 352c10 63.9 29.8 117.4 55.3 151.6C112.2 482.9 48.6 426.1 18.6 352H135.3zm358.1 0c-30 74.1-93.6 130.9-171.9 151.6c25.5-34.2 45.2-87.7 55.3-151.6H493.4z"/></svg>
+                            </span>
+                            <span t-field="company.website"/>
+                        </div>
+                        <div style="display: flex; align-items: center; color: #1D54A6;" t-if="company.website" class="">
+                            <span style="margin-right: 2px;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="7" fill="#1D54A6" viewBox="0 0 50 50"><path d="M41,4H9C6.24,4,4,6.24,4,9v32c0,2.76,2.24,5,5,5h32c2.76,0,5-2.24,5-5V9C46,6.24,43.76,4,41,4z M37,19h-2c-2.14,0-3,0.5-3,2 v3h5l-1,5h-4v15h-5V29h-4v-5h4v-3c0-4,2-7,6-7c2.9,0,4,1,4,1V19z"/></svg>
+                            </span>
+                            <a style="color: inherit; text-decoration: none; font-size: inherit;" href="https://www.facebook.com/LIVEPlaza">https://www.facebook.com/LIVEPlaza</a>
+                        </div>
+                    </div>
+                </div>
+                <div style="height: 4px; width: 100%; background: #DAE4F1; -webkit-print-color-adjust: exact; margin-top: 4px;"></div>
+            </div>
         </div>
         <div t-attf-class="article o_report_layout_standard o_company_#{company.id}_layout"  t-att-data-oe-model="o and o._name"
              t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')" >
             <t t-call="report_customization.sale_report_address_layout"/>
             <t t-raw="0"/>
         </div>
-        <div t-attf-class="footer o_standard_footer o_company_#{company.id}_layout">
-            <div class="text-center" style="border-top: 1px solid black;">
-            <div t-if="report_type == 'pdf'" class="text-muted">
-                Page: <span class="page"/> / <span class="topage"/>
+        <div t-attf-class="footer o_standard_footer o_company_#{company.id}_layout" style="width: 100%; font-size: 6px;">
+            <div style="text-align: center; padding-top: 2px; border-top: 1px solid black; max-width: 256px; margin-left: auto; margin-right: auto;">
+                <div t-if="report_type == 'pdf'" class="text-muted" style="margin-left: auto; margin-right: auto;">
+                    Page: <span class="page pageNumber"/> / <span class="topage totalPages"/>
+                </div>
             </div>
-        </div>
         </div>
     </template>
 
@@ -94,7 +133,7 @@
         <t t-call="report_customization.sale_report_external_layout_A6">
             <t t-set="doc" t-value="doc.with_context(lang=doc.partner_id.lang)" />
             <t t-set="company" t-value="doc.company_id" />
-            <div class="page sale_report_template" style="font-size: 10px;">
+            <div class="sale_report_template" style="font-family: 'Pyidaungsu', 'NotoSansMyanmar', sans-serif;">
                 <t t-set="payment_tx_id" t-value="doc.get_portal_last_transaction()"/>
                 <t t-set="carrier" t-value="request.env['delivery.carrier'].sudo().search([('id', '=', doc.selected_carrier_id)])"/>
                 <t t-set="count" t-value="0" />
@@ -110,7 +149,7 @@
                 </t>
                 <div>
                     <div class="customer_info_container">
-                    <table class="cart_modal_table" style="width: 100%; font-size: 10px;">
+                    <table class="cart_modal_table" style="width: 100%;">
                         <tbody>
                             <tr>
                                 <td class="summary_td_style">Customer</td>
@@ -264,6 +303,11 @@
                     </div>
                 </div>
             </div>
+            <style>
+                html {
+                    font-size: 18px;
+                }
+            </style>
         </t>
     </template>
     
