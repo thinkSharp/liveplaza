@@ -10,11 +10,11 @@
 				</p>
         <div class="d-flex gap-1">
           <t t-if="request.env.user.enable_2fa">
-            <a href="/my/enable_2fa" class="text-neutral-700 px-4 py-2 bg-neutral-100 border-0 rounded">Change</a>
-            <a href="/my/disable_2fa" class="text-error-500 px-4 py-2 bg-white hover:bg-white border border-error-500 rounded">Disable</a>
+            <a href="/my/enable_2fa?redirect=/my/profile" class="text-neutral-700 px-4 py-2 bg-neutral-100 border-0 rounded">Change</a>
+            <a href="/my/disable_2fa?redirect=/my/profile" class="text-error-500 px-4 py-2 bg-white hover:bg-white border border-error-500 rounded">Disable</a>
           </t>
           <t t-else="">
-            <a href="/my/enable_2fa" class="text-white px-4 py-2 bg-primary-500 border-0 rounded">Setup</a>
+            <a href="/my/enable_2fa?redirect=/my/profile" class="text-white px-4 py-2 bg-primary-500 border-0 rounded">Setup</a>
           </t>
         </div>
 			</div>
@@ -25,10 +25,10 @@
     <t t-call="two_factor_otp_auth.2fa_layout">
       <t t-set="header">Enable Authenticator</t>
       <t t-call="two_factor_otp_auth.qr_code_instructions" />
-      <form method="post" action="/my/enable_2fa">
+      <form method="post" action="/my/enable_2fa?redirect=/my/profile">
         <t t-call="two_factor_otp_auth.otp_code_input" />
         <div class="d-flex gap-2 justify-content-center">
-          <a href="/my/home" class="text-primary-500 px-4 py-2 bg-primary-100 border-0 rounded">Cancel</a>
+          <a href="/my/profile" class="text-primary-500 px-4 py-2 bg-primary-100 border-0 rounded">Cancel</a>
           <button type="submit" class="text-white px-4 py-2 bg-primary-500 border-0 rounded">Enable</button>
         </div>
         <input name="csrf_token"
@@ -51,10 +51,10 @@
     <t t-call="two_factor_otp_auth.2fa_layout">
       <t t-set="header">Change Authenticator</t>
       <t t-call="two_factor_otp_auth.qr_code_instructions" />
-      <form method="post" action="/my/enable_2fa">
+      <form method="post" action="/my/enable_2fa?redirect=/my/profile">
         <t t-call="two_factor_otp_auth.otp_code_input" />
         <div class="d-flex gap-2 justify-content-center">
-          <a href="/my/home" class="text-primary-500 px-4 py-2 bg-primary-100 border-0 rounded">Cancel</a>
+          <a href="/my/profile" class="text-primary-500 px-4 py-2 bg-primary-100 border-0 rounded">Cancel</a>
           <button type="submit" class="text-white px-4 py-2 bg-primary-500 border-0 rounded">Change</button>
         </div>
         <input name="csrf_token"
@@ -83,7 +83,7 @@
       <form method="post">
         <t t-call="two_factor_otp_auth.otp_code_input" />
         <div class="d-flex gap-2 justify-content-center">
-          <a href="/my/home" class="text-primary-500 px-4 py-2 bg-primary-100 border-0 rounded">Cancel</a>
+          <a href="/my/profile" class="text-primary-500 px-4 py-2 bg-primary-100 border-0 rounded">Cancel</a>
           <button type="submit" class="text-white px-4 py-2 bg-error-500 border-0 rounded">Disable</button>
         </div>
         <input name="csrf_token"
@@ -100,7 +100,7 @@
       <form method="post">
         <t t-call="two_factor_otp_auth.otp_code_input" />
         <div class="d-flex gap-2 justify-content-center">
-          <a href="/my/home" class="text-primary-500 px-4 py-2 bg-primary-100 border-0 rounded">Cancel</a>
+          <a href="/my/profile" class="text-primary-500 px-4 py-2 bg-primary-100 border-0 rounded">Cancel</a>
           <button type="submit" class="text-white px-4 py-2 bg-primary-500 border-0 rounded">Verify</button>
         </div>
         <input name="csrf_token"

@@ -89,17 +89,17 @@ class Login2fa(Home):
 class TwoFAPortal(Controller):
 
     @route('/my/disable_2fa', type="http", auth="user", website=True)
-    def disable_2fa(self, **kw):
+    def disable_2fa(self, redirect=None, **kw):
         code = request.params.get('otp_code')
         current_user = request.env.user
 
         if not current_user.enable_2fa:
-            return request.redirect('/my/home')
+            return request.redirect(redirect or '/')
         elif not code:
             return request.render("two_factor_otp_auth.2fa_disable")
         elif current_user.verify_2fa(code):
             current_user.do_disable_2fa()
-            return request.redirect('/my/home')
+            return request.redirect(redirect or '/')
         else:
             context = {
                 'error': _("Your Security code is wrong.")
@@ -136,7 +136,7 @@ class TwoFAPortal(Controller):
 
 
     @route('/my/enable_2fa', type="http", auth="user", website=True)
-    def enable_2fa(self, **kw):
+    def enable_2fa(self, redirect=None, **kw):
         params = request.params.copy()
         old_secret = params.get('old_secret_code')
         secret = params.get('secret_code_2fa')
@@ -157,7 +157,7 @@ class TwoFAPortal(Controller):
             return request.render("two_factor_otp_auth.2fa_setup", context)
         elif OTP(secret).verify(code):
             user.do_enable_2fa(secret)
-            return request.redirect('/my/home')
+            return request.redirect(redirect or '/')
         else:
             context = {}
             context.update(params)
