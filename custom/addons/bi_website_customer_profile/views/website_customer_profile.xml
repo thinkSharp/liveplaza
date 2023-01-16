@@ -50,36 +50,52 @@
 		</div>
 	</template>
 
+	<template id="settings">
+		<div class="bg-white p-3 mt-3">
+			<h2 class="h3 text-neutral-700 font-weight-bold mb-3">Settings</h2>
+			<div t-if="website.mp_show_become_a_seller and not user_id.partner_id.seller">
+				<h3 class="h5 text-uppercase text-neutral-500 border-bottom pb-1 mb-2">Become a seller</h3>
+				<p class="">
+					Why Still Offline, start selling online with us
+				</p>
+				<a href="/seller/signup" class="d-inline-block text-white px-4 py-2 bg-primary-500 border-0 rounded">Register</a>
+			</div>
+		</div>
+	</template>
+
 	<template id="bi_portal_my_profile" name="My Profile">
 		<t t-call="website.layout">
 			<div class="container">
 				<div class="row my-4 gap-4">
-					<div class="col-lg-4 bg-white p-3 d-flex flex-column gap-4 sm:flex-row lg:flex-column">
-						<div class="sm:w-50 lg:w-100">
-							<img alt="User Image" t-att-src="'data:image/png;base64,%s' % to_text(user_id.partner_id.image_1920)" class="img-fluid aspect-square object-cover" />
-						</div>
-						<div class="d-flex flex-column flex-grow-1">
-							<h1 t-field="user_id.partner_id.name" class="h2 text-neutral-700 font-weight-bold mb-4"/>
-							<t t-call="bi_website_customer_profile.contact_information_list">
-								<t t-set="title">Contact Information</t>
-								<t t-call="bi_website_customer_profile.contact_information_item" t-if="user_id.partner_id.phone">
-									<t t-set="label">Phone:</t>
-									<a class="p-0 text-primary-500" href="#" t-esc="user_id.partner_id.phone" />
+					<div class="col-lg-4">
+						<div class="bg-white p-3 d-flex flex-column gap-4 sm:flex-row lg:flex-column">
+							<div class="sm:w-50 lg:w-100">
+								<img alt="User Image" t-att-src="'data:image/png;base64,%s' % to_text(user_id.partner_id.image_1920)" class="img-fluid aspect-square object-cover" />
+							</div>
+							<div class="d-flex flex-column flex-grow-1">
+								<h1 t-field="user_id.partner_id.name" class="h2 text-neutral-700 font-weight-bold mb-4"/>
+								<t t-call="bi_website_customer_profile.contact_information_list">
+									<t t-set="title">Contact Information</t>
+									<t t-call="bi_website_customer_profile.contact_information_item" t-if="user_id.partner_id.phone">
+										<t t-set="label">Phone:</t>
+										<a class="p-0 text-primary-500" href="#" t-esc="user_id.partner_id.phone" />
+									</t>
+									<t t-call="bi_website_customer_profile.contact_information_item">
+										<t t-set="label">Address:</t>
+										<span t-esc="user_id.partner_id._display_address()" />
+									</t>
+									<t t-call="bi_website_customer_profile.contact_information_item" t-if="user_id.partner_id.email">
+										<t t-set="label">Email:</t>
+										<a class="p-0 text-primary-500" href="#" t-esc="user_id.partner_id.email" />
+									</t>
 								</t>
-								<t t-call="bi_website_customer_profile.contact_information_item">
-									<t t-set="label">Address:</t>
-									<span t-esc="user_id.partner_id._display_address()" />
-								</t>
-								<t t-call="bi_website_customer_profile.contact_information_item" t-if="user_id.partner_id.email">
-									<t t-set="label">Email:</t>
-									<a class="p-0 text-primary-500" href="#" t-esc="user_id.partner_id.email" />
-								</t>
-							</t>
-							<div class="d-flex flex-wrap gap-2 mt-auto">
-								<a href="/my/profile/edit" class="d-inline-block text-white px-4 py-2 bg-primary-500 border-0 rounded">Edit</a>
-								<a href="/web/reset_password/" class="d-inline-block text-neutral-700 px-4 py-2 bg-neutral-100 border-0 rounded">Reset Password</a>
+								<div class="d-flex flex-wrap gap-2 mt-auto">
+									<a href="/my/profile/edit" class="d-inline-block text-white px-4 py-2 bg-primary-500 border-0 rounded">Edit</a>
+									<a href="/web/reset_password/" class="d-inline-block text-neutral-700 px-4 py-2 bg-neutral-100 border-0 rounded">Reset Password</a>
+								</div>
 							</div>
 						</div>
+						<t t-call="bi_website_customer_profile.settings" />
 					</div>
 					<div class="col-md sm:p-0 d-flex flex-column gap-3">
 						<t t-call="bi_website_customer_profile.address_list">
