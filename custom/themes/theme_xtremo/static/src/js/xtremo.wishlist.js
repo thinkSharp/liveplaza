@@ -7,6 +7,9 @@ var VariantMixin = require('sale.VariantMixin');
 var old_wishlist = require('website_sale_wishlist.wishlist');
 var utils = require('web.utils');
 var session = require('web.session');
+var ajax = require('web.ajax');
+var core = require('web.core');
+var _t = core._t;
 var wishlist = publicWidget.registry.ProductWishlist;
 
     $(document).ready(function() {
@@ -364,9 +367,37 @@ publicWidget.registry.ProductWishlist = publicWidget.Widget.extend(VariantMixin,
     _onClickWishAdd: function (ev) {
         var self = this;
         this.$('.wishlist-section .o_wish_add').addClass('disabled');
-        this._addOrMoveWish(ev).then(function () {
-            self.$('.wishlist-section .o_wish_add').removeClass('disabled');
+        var $form = $(this).closest('form');
+        if ($("input[name='product_id']").is(':radio'))
+            var product_id = $("input[name='product_id']:checked").attr('value');
+        else
+            var product_id = $("input[name='product_id']").attr('value');
+        var add_qty = 1;
+
+        ajax.jsonRpc("/shop/cart/update/msg", 'call', {
+            'product_id': product_id,
+            'add_qty': add_qty
+        })
+        .then(function(result) {
+            if (result.status == 'deny') {
+                $('.o_wish_add').popover({
+                    content: _t("There is no available quantity, You cannot add more."),
+                    title: _t("WARNING"),
+                    placement: "left",
+                    trigger: 'focus',
+                });
+                $('.o_wish_add').popover('show');
+                setTimeout(function() {
+                    $('.o_wish_add').popover('dispose')
+                }, 7000);
+
+            } else {
+                self._addOrMoveWish(ev).then(function () {
+                    self.$('.wishlist-section .o_wish_add').removeClass('disabled');
+                });
+            }
         });
+
     },
 });
 });

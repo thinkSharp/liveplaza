@@ -4,6 +4,13 @@
   <template id="theme_xtremo_products_count" inherit_id="website_sale.products" name="checking" priority="1">
     <xpath expr="//div[@id='products_grid']/div[hasclass('o_wsale_products_grid_table_wrapper')]" position="before">
         <div class="xt_outer_container ">
+            <div class="feeling_header">
+                <t t-if="feeling">
+                    <t t-if="search_count > 0" >
+                        <h4><t t-esc="feeling.feeling_noun" /> </h4>
+                    </t>
+                </t>
+            </div>
             <div  class="xt_container ">
                 <t t-set="xt_product" t-value="'All Products'" />
                 <ul id="xt_category">
@@ -31,13 +38,7 @@
                 </p>
                 <div class="clr"></div>
             </div>
-            <div class="feeling_header">
-                <t t-if="feeling">
-                    <t t-if="search_count > 0" >
-                        <h4><t t-esc="feeling.feeling_noun" /> </h4>
-                    </t>
-                </t>
-            </div>
+
         </div>
 
     </xpath>
