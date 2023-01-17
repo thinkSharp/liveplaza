@@ -17,7 +17,7 @@
             <t t-call="report_customization.sale_report_external_layout">
                 <t t-set="doc" t-value="doc.with_context(lang=doc.partner_id.lang)" />
                 <t t-set="company" t-value="doc.company_id" />
-                <div class="sale_report_template">
+                <div class="sale_report_template" style="font-family: 'Pyidaungsu', 'NotoSansMyanmar', sans-serif;">
                     <t t-set="payment_tx_id" t-value="doc.get_portal_last_transaction()"/>
                     <t t-set="carrier" t-value="request.env['delivery.carrier'].sudo().search([('id', '=', doc.selected_carrier_id)])"/>
                     <t t-set="count" t-value="0" />
@@ -367,6 +367,11 @@
                         </t>
                     </t>
                 </div>
+                <style>
+                    html {
+                        font-size: 21px;
+                    }
+                </style>
             </t>
         </xpath>
     </template>
