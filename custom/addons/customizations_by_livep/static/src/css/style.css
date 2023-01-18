@@ -235,3 +235,9 @@ meter.o_password_meter {
 ::-ms-reveal {
     display: none;
 }
+
+.oe_cart {
+    table td:first-child {
+        min-width: 15px;
+    }
+}
