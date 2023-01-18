@@ -12,6 +12,7 @@
               Invoice number: ${object.number},
               Invoice total: ${object.amount_total} ${object.currency_id.name},
               Invoice date: ${object.date_invoice}
+              from ${object.company_id.name}.
                             ]]>
             </field>
         </record>

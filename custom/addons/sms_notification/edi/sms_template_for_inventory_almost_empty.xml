@@ -8,6 +8,8 @@
             <field name="sms_body_html"><![CDATA[
               Hello ${object.name}, your inventory is almost empty.
               ${object.inventory_empty_product}
+
+              from ${object.company_id.name}.
                             ]]>
             </field>
         </record>
