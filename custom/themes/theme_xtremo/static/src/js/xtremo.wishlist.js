@@ -368,10 +368,7 @@ publicWidget.registry.ProductWishlist = publicWidget.Widget.extend(VariantMixin,
         var self = this;
         this.$('.wishlist-section .o_wish_add').addClass('disabled');
         var $form = $(this).closest('form');
-        if ($("input[name='product_id']").is(':radio'))
-            var product_id = $("input[name='product_id']:checked").attr('value');
-        else
-            var product_id = $("input[name='product_id']").attr('value');
+        var product_id = $(ev.currentTarget).closest('tr').find('.product-id').val()
         var add_qty = 1;
 
         ajax.jsonRpc("/shop/cart/update/msg", 'call', {
@@ -380,7 +377,7 @@ publicWidget.registry.ProductWishlist = publicWidget.Widget.extend(VariantMixin,
         })
         .then(function(result) {
             if (result.status == 'deny') {
-                $('.o_wish_add').popover({
+                $(ev.currentTarget).popover({
                     content: _t("There is no available quantity, You cannot add more."),
                     title: _t("WARNING"),
                     placement: "left",
@@ -389,7 +386,8 @@ publicWidget.registry.ProductWishlist = publicWidget.Widget.extend(VariantMixin,
                 $('.o_wish_add').popover('show');
                 setTimeout(function() {
                     $('.o_wish_add').popover('dispose')
-                }, 7000);
+                }, 1000);
+                self.$('.wishlist-section .o_wish_add').removeClass('disabled');
 
             } else {
                 self._addOrMoveWish(ev).then(function () {
