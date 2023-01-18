@@ -29,6 +29,7 @@ class AuthSignupHome(AuthSignupHome):
             raise UserError(_("The form was not properly filled in."))
         if values.get('password') != qcontext.get('confirm_password'):
             raise UserError(_("Passwords do not match; please retype them."))
+        request.env['res.users'].sudo()._check_password_policy([values.get('password')])
         supported_langs = [
             lang['code'] for lang in request.env['res.lang'].sudo().search_read([], ['code'])]
         if request.lang in supported_langs:
