@@ -31,7 +31,7 @@ class ProductRequest(models.Model):
     seller = fields.Many2one("res.partner", string="Seller", default=lambda
         self: self.env.user.partner_id.id if self.env.user.partner_id and self.env.user.partner_id.seller else self.env[
         'res.partner'], required=True)
-    product_ids = fields.One2many('product.request.product', 'product_request_id', string='Products')
+    product_ids = fields.One2many('product.request.product', 'product_request_id', string='Products', required=True)
     no_products = fields.Integer(readonly=True, default=0)
 
     def action_request(self):
@@ -110,6 +110,7 @@ class ProductRequest(models.Model):
         missing_is_variants_generated = []
         missing_is_variants_saved = []
         missing_is_extra_price_saved = []
+
         for product_id in self.product_ids:
             if product_id.has_variant == 'yes':
                 if not product_id.is_variants_generated:
@@ -151,6 +152,9 @@ class ProductRequest(models.Model):
 
     @api.model
     def create(self, vals):
+        if len(self.product_ids) == 0:
+            raise exceptions.ValidationError(_('Please add the products first'))
+
         if vals.get('name', _('New')) == _('New'):
             vals['name'] = self.env['ir.sequence'].next_by_code('request.sequence') or _('New')
         result = super(ProductRequest, self).create(vals)
@@ -214,7 +218,7 @@ class Product(models.Model):
     description = fields.Html(string='Product Description')
     returnable = fields.Boolean(readonly=True, default=True)
     auto_publish = fields.Boolean(readonly=True, default=True)
-    product_request_id = fields.Many2one('product.request', ondelete='cascade')
+    product_request_id = fields.Many2one('product.request', ondelete='cascade', required=True)
     admin_request_id = fields.Many2one('admin.product.request', ondelete='cascade')
 
     attribute_line_ids = fields.One2many('product.template.attribute.line', 'requested_product_tmpl_id',

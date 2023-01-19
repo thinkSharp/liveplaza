@@ -708,7 +708,13 @@ class MarketplaceSellerShop(http.Controller):
             "product_count": int(product_count),
         }
 
-        return request.render("odoo_marketplace.mp_seller_shop", values)
+        if values.get("pager").get('page_end').get('num') < page:
+            return "none"
+        elif post.get("test"):
+            view = request.render("theme_xtremo.wk_lazy_list_product_item_seller_shop", values)
+            return view
+        else:
+            return request.render("odoo_marketplace.mp_seller_shop", values)
 
     @http.route(['/seller/shop/change_sequence'], type='json', auth="public")
     def change_sequence(self, id, sequence):

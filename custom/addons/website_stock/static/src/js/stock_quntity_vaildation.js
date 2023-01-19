@@ -15,7 +15,6 @@ odoo.define('website_stock.stock_quntity_vaildation', function(require) {
         $('.oe_website_sale').each(function() {
 
             var oe_website_sale = this;
-            var old_qty = parseInt($('.oe_cart input.js_quantity').val() || 1);
 
             $(oe_website_sale).on("change", ".oe_cart input.js_quantity", function(ev) {
                 var $input = $(this);
@@ -23,6 +22,11 @@ odoo.define('website_stock.stock_quntity_vaildation', function(require) {
                 var $dom = $(this).closest('tr');
                 var line_id = parseInt($input.data('line-id'), 10);
                 var product_id = parseInt($input.data('product-id'), 10);
+                var old_qty = parseInt($input.data('old-qty'));
+                if (isNaN(value)) {
+                    $input.val(old_qty);
+                }
+
                 ajax.jsonRpc("/shop/cart/update_json/msg", 'call', {
                     'line_id': line_id,
                     'product_id': parseInt($input.data('product-id'), 10),
@@ -44,7 +48,6 @@ odoo.define('website_stock.stock_quntity_vaildation', function(require) {
 
                     } else {
                         $dom.popover('dispose');
-                        old_qty = value.toString();
                     }
                 });
             });

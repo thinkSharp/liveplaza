@@ -421,6 +421,7 @@ class SaleOrderLine(models.Model):
 
     discount_amount = fields.Float(string='Discount Amount', digits='Discount', default=0.0)
     hold_reason = fields.Char('Hold Reason', store=True, readonly=True)
+    product_old_qty = fields.Float(string='Old Quantity', digits='Product Unit of Measure', readonly=True, default=1)
 
     @api.depends('product_uom_qty', 'discount', 'discount_amount', 'price_unit', 'tax_id')
     def _compute_amount(self):
