@@ -288,10 +288,8 @@
                                     </tbody>
                             </table>
                             <t t-set="count" t-value="count + 1" />
-                            <t t-if="count &lt; len(sol_total_list)">
-                                <p style="page-break-after: always;"/>
-                            </t>
-                            <t t-else="">
+
+                            <t t-if="count &gt; len(sol_total_list)-1">
                                 <div style="margin-top: 10px;">
                                     <table style="width: 100%;">
                                         <tr>
@@ -522,6 +520,9 @@
                             </div>
                         </t>
                     </div>
+                    <t t-if="count &lt; len(sol_total_list)">
+                        <p style="page-break-after: always;"/>
+                    </t>
                     <style>
                         html {
                             font-size: 21px;
