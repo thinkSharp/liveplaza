@@ -85,7 +85,8 @@ class WebsiteSale(WebsiteSale):
     @http.route(['/shop/cart/update_json/msg'], type='json', auth="public", methods=['POST'], website=True)
     def cart_update_json_msg(self, product_id, line_id, add_qty=None, set_qty=None, display=True):
         sale_order_obj = request.registry.get('sale.order.line')
-        order_line = request.env['sale.order.line'].browse(line_id)
+        order = request.website.sale_get_order()
+        order_line = order.website_order_line.search([('id', '=', line_id)])
         present_qty = self.get_present_qty(product_id, line_id)
         get_quantity = request.website.stock_qty_validate(
             product_id=int(product_id))
