@@ -44,6 +44,7 @@ class WebsiteSale(WebsiteSale):
     def cart_update(self, product_id, add_qty=1, set_qty=0, **kw):
         if float(add_qty) == 0:
             add_qty = '1'
+
         allow_order = request.website.check_if_allowed(int(product_id))
         if allow_order == 1:
             res = super(WebsiteSale, self).cart_update(product_id, add_qty, set_qty)
@@ -59,11 +60,7 @@ class WebsiteSale(WebsiteSale):
 
     # @http.route(['/shop/cart/update_json'], type='json', auth="public", methods=['POST'], website=True)
     # def cart_update_json(self, product_id, line_id=None, add_qty=None, set_qty=None, display=True):
-    #     print("ID", product_id)
     #     product = request.env["product.product"].search([('id', '=', product_id)])
-    #     print("Product", product)
-    #     print("product_id", product.id)
-    #     print(product.name)
     #     if not product.is_booking_type:
     #         sale_order_obj = request.registry.get('sale.order.line')
     #         present_qty = self.get_present_qty(product_id, line_id)
@@ -88,6 +85,7 @@ class WebsiteSale(WebsiteSale):
     @http.route(['/shop/cart/update_json/msg'], type='json', auth="public", methods=['POST'], website=True)
     def cart_update_json_msg(self, product_id, line_id, add_qty=None, set_qty=None, display=True):
         sale_order_obj = request.registry.get('sale.order.line')
+        order_line = request.env['sale.order.line'].browse(line_id)
         present_qty = self.get_present_qty(product_id, line_id)
         get_quantity = request.website.stock_qty_validate(
             product_id=int(product_id))
@@ -101,6 +99,9 @@ class WebsiteSale(WebsiteSale):
         if allow_order == -1:
             if get_quantity < quantity:
                 return 'error message'
+            else:
+                if set_qty and order_line:
+                    order_line.product_old_qty = float(set_qty)
 
     @http.route(['/shop/cart/update/msg'], type='json', auth="public", methods=['POST'], website=True)
     def cart_update_msg(self, product_id, add_qty=1, set_qty=0, **kw):

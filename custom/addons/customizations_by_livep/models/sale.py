@@ -88,6 +88,7 @@ class SaleOrder(models.Model):
             product_id = product.id
 
             values = self._website_product_id_change(self.id, product_id, qty=1)
+            values['product_old_qty'] = float(add_qty)
 
             # add no_variant attributes that were not received
             for ptav in combination.filtered(lambda ptav: ptav.attribute_id.create_variant == 'no_variant' and ptav not in received_no_variant_values):

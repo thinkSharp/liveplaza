@@ -97,7 +97,7 @@
                                     <i class="fa fa-minus"></i>
                                 </a>
                             </div>
-                            <input type="text" class="js_quantity form-control quantity " t-att-data-line-id="line.id"
+                            <input type="text" class="js_quantity form-control quantity " t-att-data-line-id="line.id" t-att-data-old-qty="int(line.product_old_qty)"
                                    t-att-data-product-id="line.product_id.id" t-attf-name="add_quantity#{line.product_id.id}"
                                    t-att-value="int(line.product_uom_qty) == line.product_uom_qty and int(line.product_uom_qty) or line.product_uom_qty" />
                             <div class="input-group-append">
