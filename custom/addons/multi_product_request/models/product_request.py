@@ -152,7 +152,7 @@ class ProductRequest(models.Model):
 
     @api.model
     def create(self, vals):
-        if len(self.product_ids) == 0:
+        if vals.get('product_ids') is None:
             raise exceptions.ValidationError(_('Please add the products first'))
 
         if vals.get('name', _('New')) == _('New'):
