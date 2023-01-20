@@ -568,9 +568,13 @@ class WebsiteSale(http.Controller):
 
         #street validation
         street = data.get('street')
-        if len(street) > 80:
+        if len(street) > 160:
             error['street'] = 'street name too long'
-            error_message.append(_('Address is too long. Please use two lines.'))
+            error_message.append(_('Address is too long.'))
+        street2 = data.get('street2')
+        if len(street2) > 160:
+            error['street2'] = 'street 2 name too long'
+            error_message.append(_('Address 2 is too long.'))
 
         # email validation
         if data.get('email') and not tools.single_email_re.match(data.get('email')):
