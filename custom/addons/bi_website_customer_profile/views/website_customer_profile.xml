@@ -148,7 +148,7 @@
 
 
 		<div t-attf-class="form-group #{error and 'state_id' in error and 'has-error' or ''} col-lg-6">
-			<label class="col-form-label" for="state_id">State / Province</label>
+			<label class="control-label" for="state_id">State / Province</label>
 			<select id="state_id" name="state_id" class="form-control js-select-filter" data-target="township_id" required="required">
 				<t t-set="state_list" t-value="website.get_state_list()"/>
 				<option value="">-- Select State --</option>
@@ -190,6 +190,23 @@
 					</option>
 				</t>
 			</select>
+		</div>
+	</template>
+
+	<template id="contact_info_form">
+		<div t-attf-class="form-group #{error and 'email' in error and 'has-error' or ''} col-lg-6">
+			<label class="control-label" for="email">Email</label>
+			<input type="email" id="email" name="email" class="form-control" t-att-value="email"/>
+		</div>
+
+		<div t-attf-class="form-group #{error and 'phone' in error and 'has-error' or ''} col-lg-6">
+			<label class="control-label" for="phone">Phone</label>
+			<input type="text" id="phone" name="phone" class="form-control" t-att-value="phone"/>
+		</div>
+
+		<div t-attf-class="form-group #{error and 'mobile' in error and 'has-error' or ''} col-lg-6">
+			<label class="control-label" for="mobile_number">Mobile</label>
+			<input type="text" id="mobile_number" name="mobile" class="form-control" t-att-value="user_id.partner_id.mobile"/>
 		</div>
 	</template>
 
@@ -241,28 +258,7 @@
 
 									<t t-call="bi_website_customer_profile.physical_address_form" />
 
-									<div t-attf-class="form-group #{error and 'email' in error and 'has-error' or ''} col-lg-6">
-										<label class="control-label" for="email">Email</label>
-										<input type="email" name="email" class="form-control" t-att-value="email"/>
-									</div>
-
-
-									<!-- disbled by KMS -->
-									<!-- <div t-attf-class="form-group #{error and 'function' in error and 'has-error' or ''} col-lg-6">
-											<label class="control-label" for="function">Job Postion</label>
-											<input type="text" required="True" name="function" class="form-control" t-att-value="user_id.partner_id.function"/>
-										</div> -->
-
-
-									<div t-attf-class="form-group #{error and 'phone' in error and 'has-error' or ''} col-lg-6">
-										<label class="control-label" for="phone">Phone</label>
-										<input type="text" name="phone" class="form-control" t-att-value="phone"/>
-									</div>
-
-									<div t-attf-class="form-group #{error and 'mobile' in error and 'has-error' or ''} col-lg-6">
-										<label class="control-label" for="mobile">Mobile</label>
-										<input type="text" name="mobile" class="form-control" t-att-value="user_id.partner_id.mobile"/>
-									</div>
+									<t t-call="bi_website_customer_profile.contact_info_form" />
 
 							</div>
 
@@ -325,28 +321,7 @@
 
 									<t t-call="bi_website_customer_profile.physical_address_form" />
 
-									<div t-attf-class="form-group #{error and 'email' in error and 'has-error' or ''} col-lg-6">
-										<label class="control-label" for="email">Email</label>
-										<input type="email" name="email" class="form-control" t-att-value="email"/>
-									</div>
-
-
-									<!-- disbled by KMS -->
-									<!-- <div t-attf-class="form-group #{error and 'function' in error and 'has-error' or ''} col-lg-6">
-											<label class="control-label" for="function">Job Postion</label>
-											<input type="text" required="True" name="function" class="form-control" t-att-value="user_id.partner_id.function"/>
-										</div> -->
-
-
-									<div t-attf-class="form-group #{error and 'phone' in error and 'has-error' or ''} col-lg-6">
-										<label class="control-label" for="phone">Phone</label>
-										<input type="text" name="phone" class="form-control" t-att-value="partner.phone"/>
-									</div>
-
-									<div t-attf-class="form-group #{error and 'mobile' in error and 'has-error' or ''} col-lg-6">
-										<label class="control-label" for="mobile">Mobile</label>
-										<input type="text" name="mobile" class="form-control" t-att-value="partner.mobile"/>
-									</div>
+									<t t-call="bi_website_customer_profile.contact_info_form" />
 
 							</div>
 
@@ -410,28 +385,7 @@
 
 									<t t-call="bi_website_customer_profile.physical_address_form" />
 
-									<div t-attf-class="form-group #{error and 'email' in error and 'has-error' or ''} col-lg-6">
-										<label class="control-label" for="email">Email</label>
-										<input type="email" name="email" class="form-control" t-att-value="partner.email"/>
-									</div>
-
-
-									<!-- disbled by KMS -->
-									<!-- <div t-attf-class="form-group #{error and 'function' in error and 'has-error' or ''} col-lg-6">
-											<label class="control-label" for="function">Job Postion</label>
-											<input type="text" required="True" name="function" class="form-control" t-att-value="user_id.partner_id.function"/>
-										</div> -->
-
-
-									<div t-attf-class="form-group #{error and 'phone' in error and 'has-error' or ''} col-lg-6">
-										<label class="control-label" for="phone">Phone</label>
-										<input type="text" name="phone" class="form-control" t-att-value="partner.phone"/>
-									</div>
-
-									<div t-attf-class="form-group #{error and 'mobile' in error and 'has-error' or ''} col-lg-6">
-										<label class="control-label" for="mobile">Mobile</label>
-										<input type="text" name="mobile" class="form-control" t-att-value="partner.mobile"/>
-									</div>
+									<t t-call="bi_website_customer_profile.contact_info_form" />
 
 							</div>
 
