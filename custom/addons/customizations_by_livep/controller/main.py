@@ -175,7 +175,7 @@ class WebsiteSale(Website_Sale):
                     return request.redirect(kw.get('callback') or '/shop/confirm_order')
 
         email_or_phone = 'email' in values and values['email']
-        phone_no = 'phone' in values and values['mobile']
+        phone_no = 'mobile' in values and values['mobile']
 
         if not email_or_phone:
             email = ""
