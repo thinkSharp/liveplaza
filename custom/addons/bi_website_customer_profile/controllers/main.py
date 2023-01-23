@@ -11,7 +11,11 @@ import json
 
 class customerprofile(CustomerPortal):
 
-    @http.route(['/my/profile'], type='http', auth="public", website=True)
+    @http.route(['/my', '/my/home'], type='http', auth="user", website=True)
+    def home(self, **kw):
+        return request.redirect('/my/profile')
+
+    @http.route(['/my/profile'], type='http', auth="user", website=True)
     def partner_profile(self, page=1, **kwargs):
         values = {}
         param = request.env['ir.config_parameter'].sudo()

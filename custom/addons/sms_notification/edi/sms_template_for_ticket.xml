@@ -6,7 +6,7 @@
             <field name="condition">ticket_ready</field>
             <field name="auto_delete" eval="True"/>
             <field name="sms_body_html"><![CDATA[
-              Hello ${object.customer.name}. Here is your Service Code Information:
+              Hello ${object.customer.name}. Here is your Service Code Information from ${object.sale_order.company_id.name}:
               REFERENCES
               Code: ${object.ticket_code}
               Order number: ${object.sale_order.name}

@@ -2,7 +2,7 @@
 
 from odoo import api, fields, models, tools, _
 from datetime import datetime
-
+import json
 from odoo.exceptions import ValidationError, UserError, Warning
 
 
@@ -11,8 +11,26 @@ class DVRDeliveryReportWizard(models.TransientModel):
 
     start_date = fields.Date('Start Date', default=datetime.today())
     end_date = fields.Date('End Date', default=datetime.today())
-    vendor_id = fields.Many2one('res.partner', string='Delivery Vendor', required=True,
-                                domain=[('is_default', '=', True)], copy=False)
+    vendor_id = fields.Many2one('res.partner', string='Delivery Vendor', required=True, copy=False)
+    vendor_domain = fields.Char(compute="_compute_vendor_domain", readonly=True, store=False)
+
+    @api.depends('vendor_id')
+    def _compute_vendor_domain(self):
+        for rec in self:
+            vendor_list = []
+            user_obj = self.env['res.users'].sudo().browse(self._uid)
+            if user_obj.partner_id:
+                if user_obj.has_group('access_rights_customization.group_delivery_operator') or user_obj.has_group('access_rights_customization.group_pickupandpackaging_operator'):
+                    vendor_list.append(user_obj.partner_id.id)  #self.env['res.partner'].search([('is_default', '=', True), ('active', '=', True)])
+                elif user_obj.has_group('picking_and_delivery_vendor.pickup_vendor_group') or user_obj.has_group('picking_and_delivery_vendor.delivery_vendor_group'):
+                    vendor_list.append(user_obj.partner_id.id)
+                else:  #user_obj.has_group('base.group_system') or user_obj.has_group('picking_and_delivery_vendor.pickup_vendor_group') or user_obj.has_group('picking_and_delivery_vendor.delivery_vendor_group'):
+                    vendor_ids = self.env['res.partner'].search([('is_default', '=', True), ('active', '=', True)])
+                    if vendor_ids:
+                        for vids in vendor_ids:
+                            vendor_list.append(vids.id)
+
+            rec.vendor_domain = json.dumps([('id', 'in', vendor_list)])
 
     def generate_order_report(self):
         vals = []
@@ -80,7 +98,7 @@ class DVRDeliveryReportWizard(models.TransientModel):
                 LEFT JOIN res_partner pp ON pp.id=sp.pickup_person_id
                 LEFT JOIN res_partner dp ON dp.id=sp.delivery_person_id
                 WHERE 1=1
-                AND sp.scheduled_date BETWEEN %s AND %s
+                AND sp.scheduled_date::DATE BETWEEN %s AND %s
                 AND sp.vendor_id = %s
                 ORDER BY sp.id'''
             self.env.cr.execute(query, (start_date,end_date,vendor_id.id,))
