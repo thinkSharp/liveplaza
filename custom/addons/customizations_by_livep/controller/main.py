@@ -191,6 +191,9 @@ class WebsiteSale(Website_Sale):
                 else:
                     phone = str(phone_no)
 
+        if not phone:
+            phone = 'phone' in values and values['phone']
+
         country = 'country_id' in values and values['country_id'] != '' and request.env['res.country'].browse(
             int(values['country_id']))
         country = country and country.exists() or def_country_id
