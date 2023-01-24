@@ -206,6 +206,9 @@ odoo.define('do_customization.buy_again', function (require) {
 
     var publicWidget = require('web.public.widget');
     var wSaleUtils = require('website_sale.utils');
+    var ajax = require('web.ajax');
+    var core = require('web.core');
+    var _t = core._t;
 
     publicWidget.registry.BuyAgain = publicWidget.Widget.extend({
         selector: '.orders_container',
@@ -236,14 +239,35 @@ odoo.define('do_customization.buy_again', function (require) {
 
         _buyAgain: function (e) {
             e.preventDefault();
+            var self = this;
             var $navButton = wSaleUtils.getNavBarButton('.o_wsale_my_cart');
-//            var tr = $(e.currentTarget).parents('tr');
             var tr = $(e.currentTarget).parents('.ordered_product');
             var product = tr.data('product-id');
-            $('.o_wsale_my_cart').removeClass('d-none');
-            wSaleUtils.animateClone($navButton, tr, 25, 850);
 
-            return this._addToCart(product, tr.find('add_qty').val() || 1);
+            ajax.jsonRpc("/shop/cart/update/msg", 'call', {
+                'product_id': product,
+                'add_qty': 1
+            })
+            .then(function(result) {
+                if (result.status == 'deny') {
+                    $(e.currentTarget).popover({
+                        content: _t("There is no available quantity, You cannot purchase again."),
+                        title: _t("WARNING"),
+                        placement: "left",
+                        trigger: 'focus',
+                    });
+                    $(e.currentTarget).popover('show');
+                    setTimeout(function() {
+                        $(e.currentTarget).popover('dispose')
+                    }, 1500);
+
+                } else {
+                    wSaleUtils.animateClone($navButton, tr, 25, 850);
+                    return self._addToCart(product, 1);
+                }
+            });
+
+//            return this._addToCart(product, tr.find('add_qty').val() || 1);
 
         },
 
