@@ -1160,7 +1160,8 @@ class WebsiteDeals(models.Model):
                     unit = IrDefault.get('website.daily.deals.conf', 'show_message_before_expiry')
                     td = self.get_time_delta(interval, unit)
 
-        return {'message': message, 'offset': td and self.end_date - td}
+        end_datetime = datetime.combine(self.end_date + timedelta(days=1), datetime.min.time())
+        return {'message': message, 'offset': td and end_datetime - td}
 
     @api.model
     def get_time_delta(self, interval, unit):
