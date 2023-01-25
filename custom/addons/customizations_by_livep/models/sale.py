@@ -88,7 +88,8 @@ class SaleOrder(models.Model):
             product_id = product.id
 
             values = self._website_product_id_change(self.id, product_id, qty=1)
-            values['product_old_qty'] = float(add_qty)
+            if add_qty:
+                values['product_old_qty'] = float(add_qty)
 
             # add no_variant attributes that were not received
             for ptav in combination.filtered(lambda ptav: ptav.attribute_id.create_variant == 'no_variant' and ptav not in received_no_variant_values):
@@ -196,8 +197,11 @@ class SaleOrder(models.Model):
             checked_amount_untaxed = checked_amount_tax = 0.0
             for line in order.order_line:
                 if line.selected_checkout:
-                    checked_amount_untaxed += line.price_subtotal
-                    checked_amount_tax += line.price_tax
+                    check = request.website.cart_line_stock_validate(int(line.product_id.id),
+                                                                     line.product_uom_qty)
+                    if check:
+                        checked_amount_untaxed += line.price_subtotal
+                        checked_amount_tax += line.price_tax
 
             order.update({
                 'checked_amount_untaxed': checked_amount_untaxed,

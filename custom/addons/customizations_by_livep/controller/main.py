@@ -524,9 +524,7 @@ class WebsiteSale (WebsiteSale):
         #         pobj.website_published = False
         #     else:
         #         pobj.website_published = True
-        #
-        # for pobj in bk_products:
-        #     print(pobj.website_published)
+
 
         ticket_domain = domain + [('is_service', '=', True), ('status', '=', 'approved')]
         ticket_product = Product.search(ticket_domain, order=self._get_search_order(post))
@@ -647,13 +645,10 @@ class WebsiteSale (WebsiteSale):
 
         voucher_valid = True
         for line in order.order_line:
-            print(line)
             # if line.is_voucher:
             #     voucher = line.wk_voucher_id
             #     voucher_code = voucher.voucher_code
-            #     print(voucher_code)
             #     applied_products = voucher.product_ids
-            #     print(applied_products)
             #
             #     if applied_products:
             #         voucher_valid = False
@@ -728,6 +723,8 @@ class WebsiteSale (WebsiteSale):
         result = super(WebsiteSale, self).cart(**post)
 
         order = request.website.sale_get_order()
+        request.website.unselect_out_of_stock_products(order)
+
         checked_list = request.website.get_checked_sale_order_line(order.website_order_line)
         order_id_list = request.website.get_sale_order_id_list()
 
@@ -751,6 +748,7 @@ class WebsiteSale (WebsiteSale):
         result = super(WebsiteSale, self).payment(**post)
 
         order = request.website.sale_get_order()
+        request.website.unselect_out_of_stock_products(order)
         checked_list = request.website.get_checked_sale_order_line(order.website_order_line)
         order_id_list = request.website.get_sale_order_id_list()
 

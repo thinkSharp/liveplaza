@@ -131,6 +131,13 @@ class Website(models.Model):
             return virtual
         else:
             return (qty_hand - outgoing)
+
+    @api.model
+    def unselect_out_of_stock_products(self, order):
+        for line in order.order_line:
+            check = self.cart_line_stock_validate(int(line.product_id.id), line.product_uom_qty)
+            if not check:
+                line.selected_checkout = False
  
     @api.model
     def cart_line_stock_validate(self, product_id=False, added_qty=0.0):
