@@ -258,6 +258,8 @@ class WebsiteSale(WebsiteSale):
     @http.route('/shop/checkout/preview', type='http', method=['POST'], auth="public", website=True, csrf=False)
     def checkout_preview(self, **post):
         sale_order = request.website.sale_get_order()
+        request.website.unselect_out_of_stock_products(sale_order)
+
         checked_length = request.website.get_checked_sale_order_line_length()
         if checked_length == 0:
             return request.redirect('/shop')

@@ -122,19 +122,20 @@ class WebsiteSale(WebsiteSale):
                 result['status'] = 'deny'
         return result
 
-    @http.route(['/shop/checkout'], type='http', auth="public", website=True)
-    def checkout(self, **post):
-        check = request.website.shop_checkout_validate()
-        if not check:
-            return request.redirect("/shop/cart")
-        return super(WebsiteSale, self).checkout(**post)
+    # @http.route(['/shop/checkout'], type='http', auth="public", website=True)
+    # def checkout(self, **post):
+    #     check = request.website.shop_checkout_validate()
+    #     if not check:
+    #         print("not check and return shop/cart")
+    #         return request.redirect("/shop/cart")
+    #     return super(WebsiteSale, self).checkout(**post)
 
-    @http.route(['/shop/payment'], type='http', auth="public", website=True)
-    def payment(self, **post):
-        check = request.website.shop_checkout_validate()
-        if not check:
-            return request.redirect("/shop/cart")
-        return super(WebsiteSale, self).payment(**post)
+    # @http.route(['/shop/payment'], type='http', auth="public", website=True)
+    # def payment(self, **post):
+    #     check = request.website.shop_checkout_validate()
+    #     if not check:
+    #         return request.redirect("/shop/cart")
+    #     return super(WebsiteSale, self).payment(**post)
 
     @http.route([
         '/shop',
