@@ -115,6 +115,9 @@ class WebsiteSale(WebsiteSale):
                     if i == 'township_id':
                         error.pop('township_id')
                         error.update({'Township': 'missing'})
+                    elif i == 'state_id':
+                        error.pop('state_id')
+                        error.update({'State': 'missing'})
                     elif i == 'country_id':
                         error.pop('country_id')
                         error.update({'Country': 'missing'})
