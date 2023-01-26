@@ -235,11 +235,11 @@ publicWidget.registry.ProductWishlist = publicWidget.Widget.extend(VariantMixin,
      * @private
      */
     _addOrMoveWish: function (e) {
-        var $navButton = wSaleUtils.getNavBarButton('.o_wsale_my_cart');
+        var $navButton = wSaleUtils.getNavBarButton('#my_cart');
         var tr = $(e.currentTarget).parents('tr');
         var product = tr.data('product-id');
         $('.o_wsale_my_cart').removeClass('d-none');
-        wSaleUtils.animateClone($navButton, tr, 10, 900);
+        wSaleUtils.animateClone($navButton, tr, 0, 0);
 
         if ($('#b2b_wish').is(':checked')) {
             return this._addToCart(product, tr.find('add_qty').val() || 1);
