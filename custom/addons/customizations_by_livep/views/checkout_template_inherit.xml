@@ -272,7 +272,7 @@
                     <div class="w-100"/>
 <!--                    <t t-if="mode[1] == 'billing'">-->
                         <div t-attf-class="form-group #{error.get('email') and 'o_has_error' or ''} col-lg-6" id="div_email">
-                            <label class="col-form-label" for="email">Email<span class="text-danger"> *</span></label>
+                            <label class="col-form-label" for="email">Email</label>
 <!--                            <input type="email" name="email" t-attf-class="form-control #{error.get('email') and 'is-invalid' or ''}" t-att-value="'email' in checkout and checkout['email']" />-->
                             <input type="email" name="email" t-attf-class="form-control #{error.get('email') and 'is-invalid' or ''}" t-att-value="email" />
                         </div>
