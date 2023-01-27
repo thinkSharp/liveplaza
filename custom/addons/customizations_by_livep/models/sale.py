@@ -197,7 +197,7 @@ class SaleOrder(models.Model):
             checked_amount_untaxed = checked_amount_tax = 0.0
             for line in order.order_line:
                 if line.selected_checkout:
-                    check = request.website.cart_line_stock_validate(int(line.product_id.id),
+                    check = request.env['website'].cart_line_stock_validate(int(line.product_id.id),
                                                                      line.product_uom_qty)
                     if check:
                         checked_amount_untaxed += line.price_subtotal
