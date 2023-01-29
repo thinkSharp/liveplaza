@@ -81,6 +81,30 @@
             </field>
         </record>
 
+        <record id="mp_wk_booking_time_slot_form_view" model="ir.ui.view">
+            <field name="name">Marketplace Booking Time Slot Form</field>
+            <field name="model">booking.time.slot</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml" >
+                <form string="Booking Time Slot">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="sequence" />
+                                <field name="start_time" widget="float_time" />
+                                <field name="end_time" widget="float_time" />
+                            </group>
+                            <group>
+                                <field name="marketplace_seller_id" />
+                                <field name="state" />
+                                <field name="auto_timeslot_approve" />
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
         <record id="mp_booking_timeslots_new_action" model="ir.actions.act_window">
             <field name="name">Marketplace Booking New TimeSlots</field>
             <field name="type">ir.actions.act_window</field>
