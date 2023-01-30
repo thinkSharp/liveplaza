@@ -184,3 +184,15 @@ odoo.define('backend_theme_manon.theme_manon', function(require) {
 
     });
 });
+
+odoo.define('backend_theme_manon.bootstrap_events_to_click_event', function(require) {
+    "use strict";
+
+    var core = require('web.core')
+
+    _.each('show.bs.dropdown,hide.bs.dropdown'.split(','), function (evtype) {
+        $('html').on(evtype, function (ev) {
+            core.bus.trigger('click', ev)
+        })
+    })
+})
