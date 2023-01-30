@@ -220,6 +220,8 @@
 							</div>
 						</section>
 						<section>
+							<div class="deals_detail_container">
+								<div class='deals_detail_main_row'>
 									<div class='deal_main_row' t-foreach="daily_deals" t-as="deal">	
 											<div t-attf-class="col-12 pt16 pb16 deal_main_div #{'blur' if deal.state_after_expiration()== 'blur' else ''}" t-if="deal.state_after_expiration()!= 'delete'" >
 												<input name="deal_id" type="hidden" t-att-value="deal.id"/>
@@ -301,7 +303,7 @@
 														<t t-else="">
 															<!-- Grid View -->
 															<div class="deals_grid_view row m-0" id="deals_grid">
-								                                <div t-if="bins" class="w-100">
+								                                <div t-if="bins" class="col">
 								                                    <table class="table table-borderless m-0" t-att-data-ppg="ppg" t-att-data-ppr="ppr">
 								                                        <colgroup t-ignore="true">
 								                                            <!-- Force the number of columns (useful when only one row of (x < ppr) products) -->
@@ -357,6 +359,8 @@
 												</div>
 											</div>
 									</div>
+								</div>
+							</div>
 						</section>
 					<div class="oe_structure mb32"/>
 				</div>	
