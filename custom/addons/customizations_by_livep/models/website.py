@@ -25,11 +25,11 @@ class Website(models.Model):
         if isinstance(order, list):
             for line in order:
                 line_tmp = self.env['sale.order.line'].sudo().browse(int(line))
-                if line_tmp.selected_checkout:
+                if line_tmp.selected_checkout and not line_tmp.is_voucher:
                     checked_list.append(line_tmp.id)
         else:
             for line in order:
-                if line.selected_checkout:
+                if line.selected_checkout and not line.is_voucher:
                     checked_list.append(line)
 
         return checked_list

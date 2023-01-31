@@ -179,6 +179,8 @@ class VoucherVoucher(models.Model):
         ('voucher_code_uniq', 'unique(voucher_code)', 'Voucher Code Must Be Unique !!!'),
     ]
 
+    customer_qty = fields.Integer("Times for customer use", default=0)
+
     @api.onchange('marketplace_seller_id')
     def get_seller_products(self):
         for rec in self:
@@ -439,6 +441,7 @@ class VoucherVoucher(models.Model):
         result['status'] = False
         defaults = self.get_default_values()
         self_obj = self._get_voucher_obj_by_code(secret_code, refrence)
+
         if not self_obj:
             result['type'] = _('ERROR')
             result['message'] = _('Voucher doesn`t exist !!!')
@@ -471,6 +474,21 @@ class VoucherVoucher(models.Model):
             result['type'] = _('ERROR')
             result['message'] = _('This Voucher has been expired on (%s) !!!') % self_obj.expiry_date
             return result
+
+        # check the customer used the coupons more than the limit
+        res_user = self.sudo().env['res.users'].browse(self.env.uid).partner_id
+        voucher_history = self.env['voucher.history'].search(
+            [('user_id', '=', res_user.id), ('voucher_id', '=', self_obj.id)])
+        max_customer_qty = self_obj.customer_qty
+        used_voucher_times = 0
+        for u in voucher_history:
+            if u.order_id.state not in ['draft', 'sent']:
+                used_voucher_times += 1
+        if max_customer_qty != 0 and used_voucher_times >= max_customer_qty:
+            result['type'] = _('ERROR')
+            result['message'] = _('You have already used this voucher (%s)') % self_obj.name
+            return result
+
         if self_obj.applied_on == 'specific':
             templ_ids = []
             prd_prices = []

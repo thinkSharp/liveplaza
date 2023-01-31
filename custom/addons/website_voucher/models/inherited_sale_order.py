@@ -37,6 +37,7 @@ class sale_order(models.Model):
 			if line.is_voucher:
 				line.unlink()
 
+	# check products in cart which are related to voucher or not
 	@api.model
 	def check_voucher_product(self, order, voucher_id, product_id=None):
 
