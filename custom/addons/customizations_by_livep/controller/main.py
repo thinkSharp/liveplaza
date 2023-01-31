@@ -237,7 +237,6 @@ class WebsiteSale (WebsiteSale):
         '''/shop/feeling/<model("feeling.products"):feeling>''',
         '''/shop/feeling/<model("feeling.products"):feeling>/page/<int:page>'''
     ], type='http', auth="public", website=True)
-
     def feelingShop(self, feeling=None, page=0, category=None, search='', ppg=False, **post):
         # if feeling is None:
         #     return super(WebsiteSale, self).shop(**post)
@@ -721,12 +720,20 @@ class WebsiteSale (WebsiteSale):
                     order.wk_coupon_value = 0
         # checked_list = request.website.get_checked_sale_order_line(order.website_order_line)
 
+    def redirect_shop_cart(self):
+        order = request.website.sale_get_order()
+        checked_list = request.website.get_checked_sale_order_line(order.website_order_line)
+        if len(checked_list) <= 0:
+            order.remove_voucher()
+            return request.redirect('/shop/cart')
+
     @http.route(['/shop/cart'], type='http', auth="public", website=True, sitemap=False)
     def cart(self, access_token=None, revive='', **post):
         result = super(WebsiteSale, self).cart(**post)
 
         order = request.website.sale_get_order()
         request.website.unselect_out_of_stock_products(order)
+        self.redirect_shop_cart()
 
         checked_list = request.website.get_checked_sale_order_line(order.website_order_line)
         order_id_list = request.website.get_sale_order_id_list()
@@ -752,7 +759,10 @@ class WebsiteSale (WebsiteSale):
 
         order = request.website.sale_get_order()
         request.website.unselect_out_of_stock_products(order)
+        self.redirect_shop_cart()
+
         checked_list = request.website.get_checked_sale_order_line(order.website_order_line)
+
         order_id_list = request.website.get_sale_order_id_list()
 
         result.qcontext.update({
