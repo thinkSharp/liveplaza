@@ -59,10 +59,10 @@
           </ul>
           <div id="myCarousel" class="s_carousel s_carousel_default carousel slide" data-interval="10000">
             <div class="carousel-inner">
-              <div class="carousel-item active oe_custom_bg oe_img_bg pt152 pb152" style="background-image: url('/theme_xtremo/static/src/img/snippet/pexels-photo-296881.jpeg');" data-name="Slide">
-              </div>
-              <div class="carousel-item oe_custom_bg oe_img_bg pt128 pb128" style="background-image: url('/theme_xtremo/static/src/img/snippet/pexels-photo-936112.jpeg');" data-name="Slide">
-              </div>
+              <a href="#" class="carousel-item active oe_custom_bg oe_img_bg pt152 pb152" style="background-image: url('/theme_xtremo/static/src/img/snippet/pexels-photo-296881.jpeg');" data-name="Slide">
+              </a>
+              <a href="#" class="carousel-item oe_custom_bg oe_img_bg pt128 pb128" style="background-image: url('/theme_xtremo/static/src/img/snippet/pexels-photo-936112.jpeg');" data-name="Slide">
+              </a>
             </div>
             <div class="carousel-control-prev" data-target="#myCarousel" data-slide="prev" role="img" aria-label="Previous" title="Previous">
                 <span class="carousel-control-prev-icon"/>
