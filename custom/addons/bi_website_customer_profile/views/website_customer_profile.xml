@@ -99,15 +99,6 @@
 					</div>
 					<div class="col-md sm:p-0 d-flex flex-column gap-3">
 						<t t-call="bi_website_customer_profile.address_list">
-							<t t-set="title">Billing Address</t>
-							<t t-set="addresses" t-value="inv_address" />
-							<t t-set="edit_link_format" t-value="'/my/billing_address/edit/%d'"/>
-							<t t-set="delete_link_format" t-value="'/billing_address/delete/%d'"/>
-							<div class="d-flex flex-wrap justify-content-end gap-2">
-								<a href="/my/billing_address/edit" class="d-inline-block text-white px-4 py-2 bg-primary-500 border-0 rounded">New Address</a>
-							</div>
-						</t>
-						<t t-call="bi_website_customer_profile.address_list">
 							<t t-set="title">Shipping Address</t>
 							<t t-set="addresses" t-value="sh_address" />
 							<t t-set="edit_link_format" t-value="'/my/shipping_address/edit/%d'"/>
