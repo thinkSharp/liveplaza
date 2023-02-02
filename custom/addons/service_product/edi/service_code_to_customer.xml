@@ -15,7 +15,7 @@
             <field name="lang">${object.seller.lang}</field>
             <field name="body_html"><![CDATA[
                 <p>Hello ${object.customer.name},</p>
-                <p>Here is your Service Code Information:</p>
+                <p>Here is your Service Code Information from ${object.sale_order.company_id.name}:</p>
               <p>REFERENCES</p>
               <p>Order number: ${object.sale_order.name}</p>
               <p>Order date: ${format_datetime(object.sale_order.date_order, tz=user.tz, dt_format='M/d/Y, H:mm:ss')},</p>

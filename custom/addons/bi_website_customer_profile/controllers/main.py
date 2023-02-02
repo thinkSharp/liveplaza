@@ -11,7 +11,11 @@ import json
 
 class customerprofile(CustomerPortal):
 
-    @http.route(['/my/profile'], type='http', auth="public", website=True)
+    @http.route(['/my', '/my/home'], type='http', auth="user", website=True)
+    def home(self, **kw):
+        return request.redirect('/my/profile')
+
+    @http.route(['/my/profile'], type='http', auth="user", website=True)
     def partner_profile(self, page=1, **kwargs):
         values = {}
         param = request.env['ir.config_parameter'].sudo()
@@ -110,10 +114,12 @@ class customerprofile(CustomerPortal):
     @http.route(['/shipping_address/delete/<int:sh_id>'], type='http', auth="public", website=True)
     def partner_shipping_address_delete(self, sh_id=False, **kwargs):
         partner = request.env['res.partner'].browse(sh_id)
+        shipping_address = request.env['subscription.subscription'].sudo().search([('customer_billing_address', '=', partner.id)], limit=1)
         try:
             with http.request.env.cr.savepoint():
-                partner.unlink()
-                return request.redirect('/my/profile')
+                if shipping_address.unlink():
+                    if partner.unlink():
+                        return request.redirect('/my/profile')
         except:
             return request.redirect('/error_page/shipping')
 

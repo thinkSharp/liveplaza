@@ -242,6 +242,7 @@ var FormViewDialog = ViewDialog.extend({
                 isFocusSet = isFocused;
             },
         });
+
         return isFocusSet;
     },
 

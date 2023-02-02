@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="delivery_vendor_report_wizard_form" model="ir.ui.view">
+            <field name="name">delivery.vendor.report.wizard.form</field>
+            <field name="model">dvr.delivery.wizard</field>
+            <field name="arch" type="xml">
+              <form string="Delivery Report">
+                <group>
+                  <group>
+                    <field name="start_date"/>
+                    <field name="vendor_domain" invisible="1"/>
+                    <field name="vendor_id" domain="vendor_domain" options="{'no_create': True}"/>
+                  </group>
+                  <group>
+                    <field name="end_date"/>
+                  </group>
+                </group>
+                <footer>
+                  <button name="generate_order_report" string="Generate" type="object" class="btn-primary"/>
+                  <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+              </form>
+            </field>
+        </record>
+
+        <record id="delivery_vendor_report_wizard_action" model="ir.actions.act_window">
+            <field name="name">Delivery Vendor Report</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">dvr.delivery.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="delivery_vendor_report_wizard_form"/>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="delivery_report_menu" parent="menu_delivery_root" sequence="7" name="Delivery Reports"/>
+        <menuitem id="delivery_vendor_report_menu" name="Delivery Vendor Report"
+                  groups="picking_and_delivery_vendor.delivery_vendor_group,picking_and_delivery_vendor.pickup_vendor_group,access_rights_customization.group_operation_operator,access_rights_customization.group_operation_supervisor"
+                  action="delivery_vendor_report_wizard_action" parent="delivery_report_menu" sequence="1"/>
+                  
+        <record id="dvr_delivery_result_tree" model="ir.ui.view">
+            <field name="name">Delivery Vendor Report</field>
+            <field name="model">dvr.delivery.result</field>
+            <field name="arch" type="xml">
+                <tree string="Delivery Vendor Report" create="false">
+                    <field name="dvr_vendor_name"/>
+
+                    <field name="start_date"/>
+                    <field name="end_date"/>
+                    <field name="report_date"/>
+
+                    <field name="dvr_picking_type"/>
+                    <field name="dvr_order_number"/>
+                    <field name="dvr_reference"/>
+
+                    <field name="picking_date"/>
+                    <field name="dvr_status"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="dvr_delivery_result_search_view" model="ir.ui.view">
+            <field name="name">Delivery Vendor Report Search</field>
+            <field name="model">dvr.delivery.result</field>
+            <field name="priority" eval="100"/>
+            <field name="arch" type="xml">
+                <search string="Search Delivery Vendor Report">
+                    <group expand="0" string="Group By">
+                        <filter string="Picking Type" name="by_dvr_picking_type" domain="[]" context="{'group_by':'dvr_picking_type'}"/>
+                        <filter string="Status" name="by_dvr_status" domain="[]" context="{'group_by':'dvr_status'}"/>
+                        <filter string="Order Number" name="by_dvr_order_number" context="{'group_by':'dvr_order_number'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+    </data>
+</odoo>

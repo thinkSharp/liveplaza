@@ -8,8 +8,11 @@
         </xpath>
 
         <xpath expr="//td[@colspan='2']" position="before">
-            <td> <input t-att-checked="line.selected_checkout" type="checkbox" id="select-product" name="checked_list"
-                                   t-att-data-order-id="line.id" class="btn btn-link d-md-inline-block" /></td>
+            <t t-set="validate_value" t-value="website.cart_line_stock_validate(int(line.product_id.id), float(line.product_uom_qty))"/>
+            <td t-if="validate_value" style="padding-left: 5px;" >
+                <input t-att-checked="line.selected_checkout" type="checkbox" id="select-product" name="checked_list"
+                     t-att-data-order-id="line.id" class="btn btn-link d-md-inline-block" /></td>
+            <td t-else=""></td>
         </xpath>
 
     </template>

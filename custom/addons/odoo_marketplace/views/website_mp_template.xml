@@ -193,27 +193,27 @@
         <template id="seller_signup_fields" name="Seller Auth Signup/ResetPassword form fields">
 
             <div class="form-group field-login">
-                <label for="login">Your Email</label>
+                <label for="login">Your Email<span class="text-danger"> *</span></label>
                 <input type="text" name="login" t-att-value="login" id="login" class="form-control form-control-sm" autofocus="autofocus"
                     autocapitalize="off" required="required" t-att-readonly="'readonly' if only_passwords else None"/>
             </div>
 
             <div class="form-group field-name">
-                <label for="name">Your Name</label>
+                <label for="name">Your Name<span class="text-danger"> *</span></label>
                 <input type="text" name="name" t-att-value="name" id="name" class="form-control form-control-sm" placeholder="e.g. John Doe"
                     required="required" t-att-readonly="'readonly' if only_passwords else None"
                     t-att-autofocus="'autofocus' if login and not only_passwords else None" />
             </div>
 
             <div class="form-group field-password pt-2">
-                <label for="password">Password</label>
-                <input type="password" name="password" id="password" class="form-control form-control-sm"
+                <label for="password">Password<span class="text-danger"> *</span></label>
+                <input type="password" name="password" t-att-value="password" id="password" class="form-control form-control-sm"
                     required="required" t-att-autofocus="'autofocus' if only_passwords else None"/>
             </div>
 
             <div class="form-group field-confirm_password">
-                <label for="confirm_password">Confirm Password</label>
-                <input type="password" name="confirm_password" id="confirm_password" class="form-control form-control-sm" required="required"/>
+                <label for="confirm_password">Confirm Password<span class="text-danger"> *</span></label>
+                <input type="password" name="confirm_password" t-att-value="confirm_password" id="confirm_password" class="form-control form-control-sm" required="required"/>
             </div>
         </template>
 
@@ -243,7 +243,7 @@
                         <div class="form-group has-feedback">
                             <label for="profile_url" class="control-label">Profile URL</label>
                             <span class="fa fa-info-circle text-info pull-right url_info" data-toggle="popover" data-trigger="hover" data-content="This will be used to display your public profile."/>
-                            <input type="text" name="url_handler" id="profile_url" class="form-control" placeholder="Unique Seller Profile URL handler.." t-att-required="'disabled' if set_seller or signup_from_seller_page else None"/>
+                            <input type="text" name="url_handler" t-att-value="url_handler" id="profile_url" class="form-control" placeholder="Unique Seller Profile URL handler.." t-att-required="'disabled' if set_seller or signup_from_seller_page else None"/>
                             <span class="fa fa-pencil form-control-feedback pull-right" style="margin-top:-24px;margin-right: 10px;"></span>
                             <div class="text-danger" id="profile_url_error" style="display:none;"></div>
                             <input type="hidden" name="valid_profile_url" id="valid_profile_url"/>

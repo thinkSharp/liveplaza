@@ -6,7 +6,7 @@
             <field name="condition">invoice_vaildate</field>
             <field name="auto_delete" eval="True"/>
             <field name="sms_body_html"><![CDATA[
-              Hello ${object.partner_id.name},A new invoice is available for you:
+              Hello ${object.partner_id.name},A new invoice is available for you from ${object.company_id.name}:
               REFERENCES:
               Invoice number: ${object.number}
               Invoice total: ${object.amount_total} ${object.currency_id.name}

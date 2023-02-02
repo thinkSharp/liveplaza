@@ -25,12 +25,15 @@ class website_voucher(http.Controller):
             order = request.website.sale_get_order()
             wk_order_total = order.checked_amount_total
             partner_id = request.env['res.users'].browse(request.uid).partner_id.id
-            products = []
+            selected_products = []
+            all_products = []
             for line in order.order_line:
+                if not line.is_delivery:
+                    all_products.append(line.product_id.id)
                 if line.selected_checkout:
-                    products.append(line.product_id.id)
-            result = voucher_obj.sudo().validate_voucher(secret_code, wk_order_total, products, refrence="ecommerce",
-                                                         partner_id=partner_id)
+                    selected_products.append(line.product_id.id)
+            result = voucher_obj.sudo().validate_voucher(secret_code, wk_order_total, selected_products, refrence="ecommerce",
+                                                         partner_id=partner_id, all_products_list=all_products)
             if result['status']:
                 if change:
                     final_result = request.website.sale_get_order(force_create=1)._change_voucher(wk_order_total, result)
@@ -96,14 +99,14 @@ class WebsiteSale(Website_Sale):
         order = request.website.sale_get_order(force_create=1)
         new_product_id = product_id
 
-
         # remove voucher if the related product is deleted from cart
         for line in order.order_line:
             if line.wk_voucher_id:
                 check_product = order.check_voucher_product(order, line.wk_voucher_id,
                                                             product_id=new_product_id)
                 if not check_product:
-                    line.sudo().unlink()
+                    if not set_qty or set_qty <= 0:
+                        line.sudo().unlink()
                     order.wk_coupon_value = 0
         if order.state != 'draft':
             request.website.sale_reset()

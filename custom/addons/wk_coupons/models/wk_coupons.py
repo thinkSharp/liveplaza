@@ -179,6 +179,8 @@ class VoucherVoucher(models.Model):
         ('voucher_code_uniq', 'unique(voucher_code)', 'Voucher Code Must Be Unique !!!'),
     ]
 
+    customer_qty = fields.Integer("Times for customer use", default=0)
+
     @api.onchange('marketplace_seller_id')
     def get_seller_products(self):
         for rec in self:
@@ -434,11 +436,12 @@ class VoucherVoucher(models.Model):
         res = {}
         return res
 
-    def _validate_n_get_value(self, secret_code, wk_order_total, product_ids, refrence=False, partner_id=False):
+    def _validate_n_get_value(self, secret_code, wk_order_total, product_ids, refrence=False, partner_id=False, all_products_list=False):
         result = {}
         result['status'] = False
         defaults = self.get_default_values()
         self_obj = self._get_voucher_obj_by_code(secret_code, refrence)
+
         if not self_obj:
             result['type'] = _('ERROR')
             result['message'] = _('Voucher doesn`t exist !!!')
@@ -471,10 +474,26 @@ class VoucherVoucher(models.Model):
             result['type'] = _('ERROR')
             result['message'] = _('This Voucher has been expired on (%s) !!!') % self_obj.expiry_date
             return result
+
+        # check the customer used the coupons more than the limit
+        res_user = self.sudo().env['res.users'].browse(self.env.uid).partner_id
+        voucher_history = self.env['voucher.history'].search(
+            [('user_id', '=', res_user.id), ('voucher_id', '=', self_obj.id)])
+        max_customer_qty = self_obj.customer_qty
+        used_voucher_times = 0
+        if res_user.id != 4:
+            for u in voucher_history:
+                if u.order_id.state not in ['draft', 'sent']:
+                    used_voucher_times += 1
+        if max_customer_qty != 0 and used_voucher_times >= max_customer_qty:
+            result['type'] = _('ERROR')
+            result['message'] = _('You have already used this voucher (%s)') % self_obj.name
+            return result
+
         if self_obj.applied_on == 'specific':
             templ_ids = []
             prd_prices = []
-            for prod_id in product_ids:
+            for prod_id in all_products_list:
                 prod = self.env['product.product'].browse(prod_id)
                 templ_id = prod.product_tmpl_id.id
                 templ_ids.append(templ_id)
@@ -483,6 +502,7 @@ class VoucherVoucher(models.Model):
             if prd_prices:
                 total_prod_voucher_price += sum(prd_prices)
             contains = set(templ_ids) & set(self_obj.product_ids.ids)
+
             if not contains:
                 result['type'] = _('ERROR')
                 result['message'] = _('This voucher is not applicable on the products in cart.')
@@ -548,8 +568,8 @@ class VoucherVoucher(models.Model):
         return result
 
     @api.model
-    def validate_voucher(self, secret_code, wk_order_total, products_list, refrence=False, partner_id=False):
-        result = self._validate_n_get_value(secret_code, wk_order_total, products_list, refrence, partner_id)
+    def validate_voucher(self, secret_code, wk_order_total, products_list, refrence=False, partner_id=False, all_products_list=False):
+        result = self._validate_n_get_value(secret_code, wk_order_total, products_list, refrence, partner_id, all_products_list)
         return result
 
     @api.model

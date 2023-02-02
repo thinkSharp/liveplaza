@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="delivery_person_report_wizard_form" model="ir.ui.view">
+            <field name="name">delivery.person.report.wizard.form</field>
+            <field name="model">dpr.delivery.wizard</field>
+            <field name="arch" type="xml">
+              <form string="Person Report">
+                <group>
+                  <group>
+                    <field name="start_date"/>
+                    <field name="person_domain" invisible="1"/>
+                    <field name="person_id"  domain="person_domain" options="{'no_create': True}"/>
+                  </group>
+                  <group>
+                    <field name="end_date"/>
+                  </group>
+                </group>
+                <footer>
+                  <button name="generate_order_report" string="Generate" type="object" class="btn-primary"/>
+                  <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+              </form>
+            </field>
+        </record>
+
+        <record id="delivery_person_report_wizard_action" model="ir.actions.act_window">
+            <field name="name">Person Report</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">dpr.delivery.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="delivery_person_report_wizard_form"/>
+            <field name="target">new</field>
+        </record>
+
+        <menuitem id="delivery_report_menu" parent="menu_delivery_root" sequence="7" name="Delivery Reports"/>
+        <menuitem id="delivery_person_report_menu" name="Person Report" action="delivery_person_report_wizard_action" parent="delivery_report_menu" sequence="1"/>
+
+        <record id="dpr_delivery_result_tree" model="ir.ui.view">
+            <field name="name">Delivery Person Report</field>
+            <field name="model">dpr.delivery.result</field>
+            <field name="arch" type="xml">
+                <tree string="Delivery Person Report" create="false">
+                    <field name="dpr_person_name"/>
+
+                    <field name="start_date"/>
+                    <field name="end_date"/>
+                    <field name="report_date"/>
+
+                    <field name="dpr_picking_type"/>
+                    <field name="dpr_order_number"/>
+                    <field name="dpr_reference"/>
+
+                    <field name="dpr_picking_date"/>
+                    <field name="dpr_status"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="dpr_delivery_result_search_view" model="ir.ui.view">
+            <field name="name">Delivery Person Report Search</field>
+            <field name="model">dpr.delivery.result</field>
+            <field name="priority" eval="100"/>
+            <field name="arch" type="xml">
+                <search string="Search Delivery Person Report">
+                    <group expand="0" string="Group By">
+                        <filter string="Picking Type" name="by_dpr_picking_type" domain="[]" context="{'group_by':'dpr_picking_type'}"/>
+                        <filter string="Status" name="by_dpr_status" domain="[]" context="{'group_by':'dpr_status'}"/>
+                        <filter string="Order Number" name="by_dpr_order_number" context="{'group_by':'dpr_order_number'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+    </data>
+</odoo>

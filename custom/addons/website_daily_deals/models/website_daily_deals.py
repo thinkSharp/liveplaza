@@ -14,6 +14,8 @@ from dateutil.relativedelta import relativedelta
 import json
 from itertools import chain
 
+from .utils import today_myanmar_time
+
 class DealsPriceListStyle(models.Model):
     _name = "deals.pricelist.style"
     _description = "Deals Pricelist Style"
@@ -515,7 +517,7 @@ class ProductPricelistItem(models.Model):
     def _compute_available_product(self):
         for rec in self:
             if rec.website_deals_m2o.marketplace_seller_id:
-                booking_ids = self.env['product.template'].search([('is_booking_type', '=', True), ('status', '=', 'approved'), 
+                booking_ids = self.env['product.template'].search([('is_booking_type', '=', True), ('status', '=', 'approved'), ('br_end_date', '>=', fields.Date.today()),
                                                         ('marketplace_seller_id','=',rec.website_deals_m2o.marketplace_seller_id.id), ('active', '=', True)])
                 if booking_ids:
                     rec.available_product_ids += booking_ids
@@ -525,7 +527,7 @@ class ProductPricelistItem(models.Model):
                 if product_ids:
                     rec.available_product_ids += product_ids
             else:
-                booking_ids = self.env['product.template'].search([('is_booking_type', '=', True), ('status', '=', 'approved'), ('active', '=', True)])
+                booking_ids = self.env['product.template'].search([('is_booking_type', '=', True), ('br_end_date', '>=', fields.Date.today()), ('status', '=', 'approved'), ('active', '=', True)])
                 if booking_ids:
                     rec.available_product_ids += booking_ids
                 
@@ -560,13 +562,13 @@ class ProductPricelistItem(models.Model):
     def _compute_product_domain(self):
         for rec in self:
             cpd_list = []
-            booking_ids = self.env['product.template'].search([('is_booking_type', '=', True), 
+            booking_ids = self.env['product.template'].search([('is_booking_type', '=', True), ('br_end_date', '>=', fields.Date.today()),
                                 ('status', '=', 'approved'), ('marketplace_seller_id','=',rec.website_deals_m2o.marketplace_seller_id.id), ('active', '=', True)])
             if booking_ids:
                 for bids in booking_ids:
                     cpd_list.append(bids.id)
             
-            product_ids = self.env['product.template'].search([('virtual_available', '>', 0), 
+            product_ids = self.env['product.template'].search([('virtual_available', '>', 0),
                                 ('status', '=', 'approved'), ('marketplace_seller_id','=',rec.website_deals_m2o.marketplace_seller_id.id), ('active', '=', True)])
             if product_ids:
                 for pids in product_ids:
@@ -746,7 +748,7 @@ class ProductPricelistItem(models.Model):
                 for values in rec.product_tmpl_ids:
                     self.env['product.pricelist.item'].create({'applied_on': rec.applied_on, 
                           'min_quantity': rec.min_quantity, 
-                          'pricelist_id': rec.pricelist_id.id, 
+                          'pricelist_id': self.env.ref("website_daily_deals.wk_deals_dummy_pricelist").id, #rec.pricelist_id.id,
                           'compute_price': rec.compute_price, 
                           'base': rec.base, 
                           'price_discount': rec.price_discount, 
@@ -776,7 +778,7 @@ class ProductPricelistItem(models.Model):
                 for values in rec.product_ids:
                     self.env['product.pricelist.item'].create({'applied_on': rec.applied_on, 
                           'min_quantity': rec.min_quantity, 
-                          'pricelist_id': rec.pricelist_id.id, 
+                          'pricelist_id': self.env.ref("website_daily_deals.wk_deals_dummy_pricelist").id, #rec.pricelist_id.id,
                           'compute_price': rec.compute_price, 
                           'base': rec.base, 
                           'price_discount': rec.price_discount, 
@@ -884,12 +886,17 @@ class WebsiteDeals(models.Model):
                                 help="the title will be displayed in the website and it is displayed only if 'What to Display in Website = Products Only'")
     description = fields.Text(string='Description', help="description of the deal to show in website")
     state = fields.Selection(
-        [('draft', 'Draft'), ('pending', 'Pending For Approval'), ('validated', 'In Progress'), ('expired', 'Expired'), ('cancel', 'Cancelled')], 'State',
+        [('draft', 'Draft'), ('pending', 'Pending For Approval'), ('validated', 'Validated'), ('expired', 'Expired'), ('cancel', 'Cancelled')], 'State',
         default='draft')
     deal_pricelist = fields.Many2one('product.pricelist', 'Pricelist', domain="[('active','=', True),('selectable','=', True)]", required=True, default=_get_default_pricelist)
     overide_config = fields.Boolean('Override Default Configuration')
-    start_date = fields.Datetime('Start Date', required=True, default=datetime.now() + timedelta(days=-1))
-    end_date = fields.Datetime('End Date', required=True, default=datetime.now() + timedelta(days=1))
+    start_date = fields.Date('Start Date', required=True, default=date.today())
+    end_date = fields.Date('End Date', required=True, default=date.today())
+    expiration_status = fields.Selection(
+        [('planned', "Planned"), ('inprogress', "In Progress"), ('expired', "Expired")],
+        string="Expiration Status",
+        compute='_compute_expiration_status', search='_search_by_expiration_status'
+    )
 
     banner = fields.Binary('Banner', required=False)
     pricelist_items = fields.One2many(comodel_name='product.pricelist.item', inverse_name='website_deals_m2o',
@@ -925,10 +932,56 @@ class WebsiteDeals(models.Model):
     # user_id = fields.Char("User ID", default=lambda self: self.env.user.id)
     seller_name = fields.Char("Seller", default=lambda self: self.env.user.name)
 
+    @api.depends('start_date', 'end_date')
+    def _compute_expiration_status(self):
+        for record in self:
+            today = today_myanmar_time()
+            if today < record.start_date:
+                record.expiration_status = 'planned'
+            elif record.start_date <= today <= record.end_date:
+                record.expiration_status = 'inprogress'
+            else:
+                record.expiration_status = 'expired'
+
+    def _search_by_expiration_status(self, operator, value):
+        if value == 'planned':
+            return self._search_by_planned(operator)
+        elif value == 'inprogress':
+            return self._search_by_inprogress(operator)
+        else:
+            return self._search_by_expired(operator)
+
+    def _search_by_planned(self, operator):
+        today = today_myanmar_time()
+        if operator == '=':
+            return [('start_date', '>', today)]
+        elif operator == '!=':
+            return [('start_date', '<=', today)]
+
+    def _search_by_inprogress(self, operator):
+        today = today_myanmar_time()
+        if operator == '=':
+            return [('start_date', '<=', today), ('end_date', '>=', today)]
+        elif operator == '!=':
+            return ['|', ('start_date', '>', today), ('end_date', '<', today)]
+
+    def _search_by_expired(self, operator):
+        today = today_myanmar_time()
+        if operator == '=':
+            return [('end_date', '<', today)]
+        if operator == '!=':
+            return [('end_date', '>=', today)]
+
     @api.constrains('sequence')
     def _check_value(self):
         if self.sequence <= 0:
             raise ValidationError('Enter the sequence value greater than 0')
+
+    @api.constrains('start_date', 'end_date')
+    def _check_valid_time_period(self):
+        for record in self:
+            if record.start_date > record.end_date:
+                raise ValidationError('End date can not be earlier than start date.')
 
     @api.model
     def create(self, vals):
@@ -950,7 +1003,7 @@ class WebsiteDeals(models.Model):
     @api.model
     def _update_deal_items(self):
         pricelist = self.deal_pricelist
-        if pricelist and self.state == 'validated':
+        if pricelist and self.state == 'validated' and self.expiration_status == 'inprogress':
             for item in self.pricelist_items:
                 item.pricelist_id = pricelist.id
                 if item.product_tmpl_id:
@@ -964,6 +1017,12 @@ class WebsiteDeals(models.Model):
         else:
             for item in self.pricelist_items:
                 item.pricelist_id = self.env.ref("website_daily_deals.wk_deals_dummy_pricelist")
+
+    @api.model
+    def update_all_deal_items(self):
+        for record in self.search([]):
+            record._update_deal_items()
+
 
     def get_instock_items(self):
         instock_items = []
@@ -987,21 +1046,9 @@ class WebsiteDeals(models.Model):
         self.state = 'draft'
         self._update_deal_items()
 
-    def set_to_expired(self):
-        self.state = 'expired'
-        self._update_deal_items()
-
     def button_validate_the_deal(self):
-        start_date = self.start_date
-        end_date = self.end_date
-        print("end date = ", end_date)
-        if start_date > end_date:
-            raise UserError('End date can not be earlier than start date.')
-        elif end_date > datetime.now():
-            self.state = 'validated'
-            self._update_deal_items()
-        else:
-            self.set_to_expired()
+        self.state = 'validated'
+        self._update_deal_items()
 
     def cancel_deal(self):
         self.state = 'cancel'
@@ -1010,15 +1057,23 @@ class WebsiteDeals(models.Model):
     @api.model
     def get_valid_deals(self):
 
-        deals = self.search(['|', ('state', '=', 'validated'),
-                             '&', ('state', '=', 'expired'), ('d_state_after_expire', '!=', 'delete')]).sorted(
-            lambda d: d.state == "expired")
+        deals = self.search([
+            '&', ('state', '=', 'validated'),
+                '|', ('expiration_status', '=', 'inprogress'),
+                    '&', ('expiration_status', '=', 'expired'), ('d_state_after_expire', '!=', 'delete')
+        ]).sorted(lambda d: d.expiration_status == 'expired')
 
         return deals
 
     @api.model
     def get_homepage_deals(self):
-        deals = self.search([('state', 'in', ['validated']), ('display_on_homepage', '=', 'True')])
+        deals = self.search([
+            '&', ('state', '=', 'validated'),
+                ('display_on_homepage', '=', True),
+                '|', ('expiration_status', '=', 'inprogress'),
+                    '&', ('expiration_status', '=', 'expired'), ('d_state_after_expire', '!=', 'delete')
+        ]).sorted(lambda d: d.expiration_status == 'expired')
+
         return deals
 
     @api.model
@@ -1078,23 +1133,11 @@ class WebsiteDeals(models.Model):
     @api.model
     def state_after_expiration(self):
         if self.overide_config:
-            return self.state == 'expired' and self.d_state_after_expire
+            return self.expiration_status == 'expired' and self.d_state_after_expire
         else:
             config_value = self.env['ir.default'].sudo().get('website.daily.deals.conf', 'd_state_after_expire')
-            return self.state == 'expired' and config_value and 'blur'
+            return self.expiration_status == 'expired' and config_value and 'blur'
         return False
-
-    @api.onchange('datetime.now()')
-    def cancel_expired_deals(self):
-        if datetime.now() > self.end_date + timedelta(seconds=10):
-            self.cancel_deal()
-            return
-
-    @api.model
-    def cancel_expired_deals(self):
-        if datetime.now() > self.end_date + timedelta(seconds=10):
-            self.cancel_deal()
-            return
 
 
     @api.model
@@ -1117,7 +1160,8 @@ class WebsiteDeals(models.Model):
                     unit = IrDefault.get('website.daily.deals.conf', 'show_message_before_expiry')
                     td = self.get_time_delta(interval, unit)
 
-        return {'message': message, 'offset': td and self.end_date - td}
+        end_datetime = datetime.combine(self.end_date + timedelta(days=1), datetime.min.time())
+        return {'message': message, 'offset': td and end_datetime - td}
 
     @api.model
     def get_time_delta(self, interval, unit):
@@ -1141,7 +1185,7 @@ class WebsiteDeals(models.Model):
     @api.model
     def get_message_after_expiry(self):
         message = False
-        if self.state == "expired":
+        if self.expiration_status == 'expired':
             if self.overide_config:
                 message = self.show_message_after_expiry and self.message_after_expiry
             else:

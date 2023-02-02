@@ -386,6 +386,6 @@
         <field name="target">inline</field>
     </record>
 
-    <menuitem id="menu_webkul_website_addons" parent="website.menu_website_configuration" action="action_webkul_website_addons" sequence="218" name="Webkul Website Addons"/>
+    <menuitem id="menu_webkul_website_addons" parent="website.menu_website_configuration" action="action_webkul_website_addons" groups="base.group_system" sequence="218" name="Webkul Website Addons"/>
 
 </odoo>

@@ -135,7 +135,7 @@
 												</a>
 
 											<!-- Products  -->
-											<div t-if="deal.state!='expired'">
+											<div t-if="deal.expiration_status != 'expired'">
 <!--												<t t-set="display_as" t-value="deal.get_display_products_as()"/>-->
 	<!--											<t t-set="product_quantity" t-value="website.get_product_stock_qty(product.sudo(), config_setting.get('wk_stock_type'))" />-->
 												<div class="deal_products" t-if="deal.pricelist_items and deal.is_deal_product_shown()">
@@ -289,7 +289,7 @@
 	
 												<!-- Products  -->
 												
-												<div t-if="deal.state!='expired'">
+												<div t-if="deal.expiration_status != 'expired'">
 	<!--												<t t-set="display_as" t-value="deal.get_display_products_as()"/>-->
 		<!--											<t t-set="product_quantity" t-value="website.get_product_stock_qty(product.sudo(), config_setting.get('wk_stock_type'))" />-->
 													<div class="deal_products" t-if="deal.pricelist_items and deal.is_deal_product_shown()">
@@ -303,7 +303,7 @@
 														<t t-else="">
 															<!-- Grid View -->
 															<div class="deals_grid_view row m-0" id="deals_grid">
-								                                <div t-if="bins">
+								                                <div t-if="bins" class="col">
 								                                    <table class="table table-borderless m-0" t-att-data-ppg="ppg" t-att-data-ppr="ppr">
 								                                        <colgroup t-ignore="true">
 								                                            <!-- Force the number of columns (useful when only one row of (x < ppr) products) -->
@@ -359,7 +359,7 @@
 												</div>
 											</div>
 									</div>
-								</div>		
+								</div>
 							</div>
 						</section>
 					<div class="oe_structure mb32"/>

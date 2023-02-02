@@ -180,8 +180,6 @@ class AuthSignupHome(AuthSignupHome):
             except SignupError:
                 qcontext['error'] = _("Could not reset your password")
                 _logger.exception('error when resetting password')
-            except Exception as e:
-                qcontext['error'] = str(e)
 
         response = request.render('auth_signup.reset_password', qcontext)
         response.headers['X-Frame-Options'] = 'DENY'

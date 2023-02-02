@@ -58,20 +58,38 @@
 
 
     <template id="cart_line_validate_lines" inherit_id="website_sale.cart_lines">
+<!--        <xpath expr="//table//tbody//tr" position="attributes">-->
+<!--            <t t-set="validate_value" t-value="website.cart_line_stock_validate(int(line.product_id.id), float(line.product_uom_qty))"/>-->
+<!--            <attribute name="t-att-style">'opacity: 0.5' if validate_value else ''</attribute>-->
+<!--        </xpath>-->
+        <xpath expr="//table//tbody//td[hasclass('td-price')]" position="after">
+<!--            <t t-set="validate_value" t-value="website.cart_line_stock_validate(int(line.product_id.id), float(line.product_uom_qty))"/>-->
+<!--            <attribute name="t-if">validate_value</attribute>-->
+            <t t-set="validate_value" t-value="website.cart_line_stock_validate(int(line.product_id.id), float(line.product_uom_qty))"/>
+            <td t-if="not validate_value">
+                <a style="color: #ef5350; margin-left: 10px;" class="remove-cart-line"><i class="fa fa-trash-o"/></a>
+            </td>
+        </xpath>
+        <xpath expr="//table//tbody//td[hasclass('td-action')]" position="attributes">
+            <t t-set="validate_value" t-value="website.cart_line_stock_validate(int(line.product_id.id), float(line.product_uom_qty))"/>
+            <attribute name="t-if">validate_value</attribute>
+        </xpath>
         <xpath expr="//table//tbody//td[hasclass('td-qty')]" position="replace">
             <t t-set="bk_product_temp" t-value="line.product_id.product_tmpl_id"/>
             <t t-if="not (bk_product_temp.is_booking_type or bk_product_temp.categ_id.name=='Gift Voucher')">
                 <t t-set="validate_value" t-value="website.cart_line_stock_validate(int(line.product_id.id), float(line.product_uom_qty))"/>
                 <t t-if="not validate_value">
                     <td class="text-center td-qty" t-att-data-line-id="line.id" t-att-data-product-id="line.product_id.id">
-                        <div class="cart-line-error-md hidden-xs">
-                            <i class="fa fa-exclamation-triangle"> Product Not Available</i>
-                            <a href="#" class="remove-cart-line"><i class="fa fa-trash-o fa-2x"/></a>
+                        <div class="">
+                            <i style="color: #343a40; font-size: 14px">
+                                Product Not Available (out of stock) </i>
                         </div>
                     </td>
+
                 </t>
 
-                <t t-if="validate_value">
+                <t t-else="">
+                    <t t-set="validate_max" t-value="website.cart_line_stock_maximum(int(line.product_id.id), float(line.product_uom_qty))"/>
                     <td class="text-center td-qty">
                         <div t-if="not line.linked_line_id" class="css_quantity input-group oe_website_spinner">
                             <div class="input-group-prepend">
@@ -79,9 +97,16 @@
                                     <i class="fa fa-minus"></i>
                                 </a>
                             </div>
-                            <input type="text" class="js_quantity form-control quantity" t-att-data-line-id="line.id" t-att-data-product-id="line.product_id.id" t-att-value="int(line.product_uom_qty) == line.product_uom_qty and int(line.product_uom_qty) or line.product_uom_qty" />
+                            <input type="text" class="js_quantity form-control quantity " t-att-data-line-id="line.id" t-att-data-old-qty="int(line.product_old_qty)"
+                                   t-att-data-product-id="line.product_id.id" t-attf-name="add_quantity#{line.product_id.id}"
+                                   t-att-value="int(line.product_uom_qty) == line.product_uom_qty and int(line.product_uom_qty) or line.product_uom_qty" />
                             <div class="input-group-append">
-                                <a t-attf-href="#" class="btn btn-link float_left js_add_cart_json d-none d-md-inline-block" aria-label="Add one" title="Add one">
+                                <a t-if="validate_max" t-attf-href="#" class="btn btn-link float_left js_add_cart_json d-none d-md-inline-block"
+                                   aria-label="Add one" title="Add one">
+                                    <i class="fa fa-plus"></i>
+                                </a>
+                                <a t-else="" class="btn btn-link float_left d-none d-md-inline-block" style="opacity: 0.7;"
+                                   aria-label="Add one" title="Add one">
                                     <i class="fa fa-plus"></i>
                                 </a>
                             </div>
@@ -215,6 +240,18 @@
                 <t t-esc="product_obj.wk_in_stock_msg" />
             </div>
         </t>
+    </template>
+
+    <template id="product_wishlist" inherit_id="website_sale_wishlist.product_wishlist">
+        <xpath expr="//td[@class='text-center td-wish-btn']" position="replace">
+            <td class='text-center td-wish-btn'>
+                <t t-set="product_wish_id" t-value="wish.product_id.id"/>
+                <input name="product_id" t-att-value="wish.product_id.id" class="product-id" type="hidden"/>
+                <button type="button" role="button" t-attf-id="wish_id_#{product_wish_id}" class="btn btn-secondary btn-block o_wish_add mb4" >
+                    Add <span class='d-none d-md-inline'>to Cart</span>
+                </button>
+            </td>
+        </xpath>
     </template>
 
 </odoo>

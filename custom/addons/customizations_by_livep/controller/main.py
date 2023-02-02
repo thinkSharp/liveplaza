@@ -16,10 +16,10 @@ import random
 class WebsiteSale(Website_Sale):
     
     def _get_mandatory_billing_fields(self):
-        return ["name", "street", "country_id","township_id"]
+        return ["name", "street", "country_id", "state_id", "township_id"]
 
     def _get_mandatory_shipping_fields(self):
-        return ["name", "street",  "country_id","township_id"]
+        return ["name", "street",  "country_id", "state_id", "township_id"]
 
     def _get_search_order(self, post):
         order = post.get('order') or 'website_sequence DESC'
@@ -175,7 +175,7 @@ class WebsiteSale(Website_Sale):
                     return request.redirect(kw.get('callback') or '/shop/confirm_order')
 
         email_or_phone = 'email' in values and values['email']
-        phone_no = 'phone' in values and values['phone']
+        phone_no = 'mobile' in values and values['mobile']
 
         if not email_or_phone:
             email = ""
@@ -190,6 +190,9 @@ class WebsiteSale(Website_Sale):
                     phone = ""
                 else:
                     phone = str(phone_no)
+
+        if not phone:
+            phone = 'phone' in values and values['phone']
 
         country = 'country_id' in values and values['country_id'] != '' and request.env['res.country'].browse(
             int(values['country_id']))
@@ -234,7 +237,6 @@ class WebsiteSale (WebsiteSale):
         '''/shop/feeling/<model("feeling.products"):feeling>''',
         '''/shop/feeling/<model("feeling.products"):feeling>/page/<int:page>'''
     ], type='http', auth="public", website=True)
-
     def feelingShop(self, feeling=None, page=0, category=None, search='', ppg=False, **post):
         # if feeling is None:
         #     return super(WebsiteSale, self).shop(**post)
@@ -524,9 +526,7 @@ class WebsiteSale (WebsiteSale):
         #         pobj.website_published = False
         #     else:
         #         pobj.website_published = True
-        #
-        # for pobj in bk_products:
-        #     print(pobj.website_published)
+
 
         ticket_domain = domain + [('is_service', '=', True), ('status', '=', 'approved')]
         ticket_product = Product.search(ticket_domain, order=self._get_search_order(post))
@@ -647,13 +647,10 @@ class WebsiteSale (WebsiteSale):
 
         voucher_valid = True
         for line in order.order_line:
-            print(line)
             # if line.is_voucher:
             #     voucher = line.wk_voucher_id
             #     voucher_code = voucher.voucher_code
-            #     print(voucher_code)
             #     applied_products = voucher.product_ids
-            #     print(applied_products)
             #
             #     if applied_products:
             #         voucher_valid = False
@@ -723,11 +720,21 @@ class WebsiteSale (WebsiteSale):
                     order.wk_coupon_value = 0
         # checked_list = request.website.get_checked_sale_order_line(order.website_order_line)
 
+    def redirect_shop_cart(self):
+        order = request.website.sale_get_order()
+        checked_list = request.website.get_checked_sale_order_line(order.website_order_line)
+        if len(checked_list) <= 0:
+            order.remove_voucher()
+            return request.redirect('/shop/cart')
+
     @http.route(['/shop/cart'], type='http', auth="public", website=True, sitemap=False)
     def cart(self, access_token=None, revive='', **post):
         result = super(WebsiteSale, self).cart(**post)
 
         order = request.website.sale_get_order()
+        request.website.unselect_out_of_stock_products(order)
+        self.redirect_shop_cart()
+
         checked_list = request.website.get_checked_sale_order_line(order.website_order_line)
         order_id_list = request.website.get_sale_order_id_list()
 
@@ -751,7 +758,11 @@ class WebsiteSale (WebsiteSale):
         result = super(WebsiteSale, self).payment(**post)
 
         order = request.website.sale_get_order()
+        request.website.unselect_out_of_stock_products(order)
+        self.redirect_shop_cart()
+
         checked_list = request.website.get_checked_sale_order_line(order.website_order_line)
+
         order_id_list = request.website.get_sale_order_id_list()
 
         result.qcontext.update({
@@ -818,7 +829,7 @@ class WebsiteSaleWishlist(WebsiteSale):
             partner_id
         )
 
-        # if not partner_id:
-        #     request.session['wishlist_ids'] = request.session.get('wishlist_ids', []) + [wish_id.id]
+        if not partner_id:
+            request.session['wishlist_ids'] = request.session.get('wishlist_ids', []) + [wish_id.id]
 
         return wish_id

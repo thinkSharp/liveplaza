@@ -17,12 +17,12 @@
                                 <field name="website_published" widget="website_publish_button"/>
                             </button>
                         </div>
+                        <field name="id" invisible="1"/>
 												<div class="oe_title">
 													<label class="oe_edit_only" for="name" string="Name"/>
 													<h1><field name="name" default_focus="1" placeholder="Live Stream Name" required="1"/></h1>
 												</div>
 												<hr class="mt16"/>
-                        <field name="id" invisible="1"/>
 												<group>
 		                      <group>
 														<label for="publish_on_shop" string="To be Published On"

@@ -47,6 +47,36 @@
 
     </template>
 
+    <template id="signup_form_asterisk_1" inherit_id="auth_signup.fields">
+        <xpath expr="//label[@for='login']" position="inside">
+            <span class="text-danger"> *</span>
+        </xpath>
+        <xpath expr="//label[@for='name']" position="inside">
+            <span class="text-danger"> *</span>
+        </xpath>
+        <xpath expr="//label[@for='password']" position="inside">
+            <span class="text-danger"> *</span>
+        </xpath>
+        <xpath expr="//label[@for='confirm_password']" position="inside">
+            <span class="text-danger"> *</span>
+        </xpath>
+    </template>
+
+    <template id="signup_form_asterisk_2" inherit_id="otp_sms_auth.auth_signup_inherit">
+        <xpath expr="//label[@for='phone']" position="inside">
+            <span class="text-danger"> *</span>
+        </xpath>
+    </template>
+
+    <template id="signup_form_asterisk_3" inherit_id="otp_sms_auth.wk_auth_signup_mobile_fields">
+        <xpath expr="//label[@for='mobile']" position="inside">
+            <span class="text-danger"> *</span>
+        </xpath>
+        <xpath expr="//label[@for='country_id']" position="inside">
+            <span class="text-danger"> *</span>
+        </xpath>
+    </template>
+
 
     <!--    <template id="buyer_signup_form_inherit" inherit_id="auth_signup.fields">-->
     <!--        <xpath expr="//label[@for='login']" position="before" >-->

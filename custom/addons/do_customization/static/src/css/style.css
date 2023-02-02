@@ -1,3 +1,6 @@
+.faq_wrapper {
+    font-family: Roboto;
+}
 
 .help_outer {
     padding: 0 5%;
@@ -168,4 +171,17 @@
     .faq_answer {
         font-size: 16px;
     }
+}
+
+#top_menu_collapse #top_menu .dropdown-item.active, .dropdown-item:active {
+    background: rgba(0, 81, 177, 0.9);
+    color: white;
+}
+
+#top_menu_collapse #top_menu .dropdown-item {
+    padding: 0 5px;
+}
+
+.wsd_requests .nav-pills .nav-link.active {
+    background: rgba(0, 81, 177, 0.8);
 }

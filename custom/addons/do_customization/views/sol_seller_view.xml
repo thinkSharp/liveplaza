@@ -15,7 +15,8 @@
         <template id="backend_assets" inherit_id="web.assets_backend">
             <xpath expr="." position="inside">
                 <script src="/documentations/static/src/js/form_controller.js" type="text/javascript"></script>
-                <script src="/multi_product_request/static/src/js/basic_controller.js" type="text/javascript"></script>
+<!--                <script src="/multi_product_request/static/src/js/basic_controller.js" type="text/javascript"></script>-->
+<!--                <script src="/multi_product_request/static/src/js/view_dialogs.js" type="text/javascript"></script>-->
             </xpath>
         </template>
     
@@ -169,6 +170,10 @@
             <field name="priority" eval="100"/>
             <field name="arch" type="xml">
                 <search string="Search Order Lines">
+                    <field name="name" string="Order Number"/>
+                    <field name="marketplace_seller_id" string="Seller"/>
+                    <field name="product_id" string="Product"/>
+                    <field name="order_partner_id" string="Customer"/>
                     <group expand="0" string="Group By">
                         <filter string="Product" name="by_product" domain="[]" context="{'group_by':'product_id'}"/>
                         <filter string="Order" name="by_order" domain="[]" context="{'group_by':'order_id'}"/>

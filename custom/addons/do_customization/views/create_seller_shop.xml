@@ -42,7 +42,10 @@
                           <div class="media_iframe_video" data-oe-expression="//www.youtube.com/embed/AUd45eL5yPg?autoplay=0&amp;rel=0&amp;controls=0">
                             <div class="css_editable_mode_display">&amp;nbsp;</div>
                             <div class="media_iframe_video_size">&amp;nbsp;</div>
-                            <iframe src="//www.youtube.com/embed/AUd45eL5yPg?autoplay=0&amp;rel=0&amp;controls=0" frameborder="0" allowfullscreen="allowfullscreen"/>
+<!--                            <iframe src="//www.youtube.com/embed/AUd45eL5yPg?autoplay=0&amp;rel=0&amp;controls=0" frameborder="0" allowfullscreen="allowfullscreen"/>-->
+                            <iframe width="560" height="315" src="https://www.youtube.com/embed/AUd45eL5yPg" title="YouTube video player"
+                                    frameborder="0" allowfullscreen="allowfullscreen"
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" ></iframe>
                           </div>
                           <figure class="figure">
                             <figcaption class="figure-caption py-3 text-center">
@@ -57,7 +60,7 @@
                     <div class="container">
                       <div class="row s_nb_column_fixed">
                         <div class="col-lg-12 s_title pt16 pb16" style="text-align: center;">
-                          <h1 class="s_title_thin" style="text-align: right;">&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Benefits for Seller</h1>
+                          <h1 class="s_title_thin" style="text-align: center">Benefits for Seller</h1>
                         </div>
                       </div>
                     </div>
@@ -141,7 +144,7 @@
                     <div class="container">
                       <div class="row s_nb_column_fixed">
                         <div class="col-lg-12 s_title pt16 pb48" style="text-align: center;">
-                          <h1 class="s_title_default">&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;User Guide For Sellers<br/></h1>
+                          <h1 class="s_title_default">User Guide For Sellers<br/></h1>
                         </div>
                       </div>
                     </div>
@@ -317,7 +320,7 @@
 <!--                    <div class="container">-->
 <!--                      <div class="row s_nb_column_fixed">-->
 <!--                        <div class="col-lg-12 s_title pt16 pb16" style="text-align: center;">-->
-<!--                          <h1 class="s_title_thin">&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Product Packages <font style="color: rgb(0, 0, 255);">(Monthly Subscription Based)</font></h1>-->
+<!--                          <h1 class="s_title_thin">Product Packages <font style="color: rgb(0, 0, 255);">(Monthly Subscription Based)</font></h1>-->
 <!--                        </div>-->
 <!--                      </div>-->
 <!--                      <div class="row">-->

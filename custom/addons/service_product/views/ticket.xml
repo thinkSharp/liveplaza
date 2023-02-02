@@ -120,7 +120,7 @@
     </record>
 
     <record id="ticket_action" model="ir.actions.act_window">
-         <field name="name">Codes</field>
+        <field name="name">Resend Service Code</field>
         <field name="res_model">ticket</field>
         <field name="view_mode">tree,form</field>
         <field name="view_ids" eval="[(5, 0, 0),
@@ -140,6 +140,6 @@
     </record>
 
 
-    <menuitem id='search_tickets' name='Redeem Code' action='ticket_search_action' parent='odoo_marketplace.wk_seller_dashboard_menu2'/>
-    <menuitem id='tickets' name='Resend Code' action='ticket_action' parent='odoo_marketplace.wk_seller_dashboard_menu2'/>
+    <menuitem id='search_tickets' name='Redeem Service Code' action='ticket_search_action' parent='odoo_marketplace.wk_seller_dashboard_menu2'/>
+    <menuitem id='tickets' name='Resend Service Code' action='ticket_action' parent='odoo_marketplace.wk_seller_dashboard_menu2'/>
 </odoo>

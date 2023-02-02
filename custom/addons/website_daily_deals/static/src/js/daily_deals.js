@@ -65,13 +65,15 @@ odoo.define("website_daily_deals.daily_deals_js", function (require) {
 
         $(".deal_main_div").each(function(){
             var end_date= $(this).find("input[name='end_date']").val();
+            end_date = new Date(end_date)
+            end_date.setHours(23, 59, 59)
             var deal_id = parseInt($(this).find("input[name='deal_id']").val(),10);
             var state = $(this).find("input[name='state']").val()
             var msg_before_offset= $(this).find("input[name='msg_before_offset']").val()
             if (state=="validated") {
                 $(this).find(".deal_countdown_timer").countdown({
                     date: end_date,
-                    offset: +0,
+                    offset: +6.5,
                     day: 'day',
                     days: 'day',
                     hour:   'hrs',
@@ -82,13 +84,7 @@ odoo.define("website_daily_deals.daily_deals_js", function (require) {
                     second:'sec',
                 },
                 function () {
-                    ajax.jsonRpc('/daily/deal/expired/'+deal_id, 'call', {})
-                    .then(function (res) {
-                        console.log(res);
-                        if(res){
-                            window.location.reload();
-                        }
-                    });
+                    window.location.reload();
                 });
                 if(msg_before_offset){
                     var $target = $(this).find(".msg_before_exp");

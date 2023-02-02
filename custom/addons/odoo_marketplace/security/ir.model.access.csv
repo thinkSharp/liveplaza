@@ -16,7 +16,7 @@ res_currency_seller,res_currency_seller,base.model_res_currency,marketplace_sell
 res_users_seller,res_users_seller,base.model_res_users,marketplace_seller_group,1,1,1,0
 stock_warehouse_seller,stock_warehouse_seller,stock.model_stock_warehouse,marketplace_seller_group,1,0,0,0
 stock_location_seller,stock_location_seller,stock.model_stock_location,marketplace_seller_group,1,0,0,0
-stock_quant_seller,stock_quant_seller,stock.model_stock_quant,marketplace_seller_group,1,0,0,0
+stock_quant_seller,stock_quant_seller,stock.model_stock_quant,marketplace_seller_group,1,1,1,1
 sale_report_seller,sale_report_seller,sale.model_sale_report,marketplace_seller_group,1,0,0,0
 product_packaging_seller,product_packaging_seller,product.model_product_packaging,marketplace_seller_group,1,0,0,0
 stock_location_route_seller,stock_location_route_seller,stock.model_stock_location_route,marketplace_seller_group,1,0,0,0

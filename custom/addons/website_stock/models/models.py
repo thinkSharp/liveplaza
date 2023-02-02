@@ -131,6 +131,13 @@ class Website(models.Model):
             return virtual
         else:
             return (qty_hand - outgoing)
+
+    @api.model
+    def unselect_out_of_stock_products(self, order):
+        for line in order.order_line:
+            check = self.cart_line_stock_validate(int(line.product_id.id), line.product_uom_qty)
+            if not check:
+                line.selected_checkout = False
  
     @api.model
     def cart_line_stock_validate(self, product_id=False, added_qty=0.0):
@@ -141,6 +148,17 @@ class Website(models.Model):
             quantity = self.stock_qty_validate(int(product_id))
             allowed = -1 if product_obj.wk_order_allow == 'deny' else 1
             if allowed == 1 or quantity >= added_qty:
+                return True
+        return False
+
+    def cart_line_stock_maximum(self, product_id=False, added_qty=0.0):
+        if product_id and added_qty > 0.0:
+            product_obj = self.env['product.product'].sudo().browse(int(product_id))
+            if product_obj.type == 'service':
+                return True
+            quantity = self.stock_qty_validate(int(product_id))
+            allowed = -1 if product_obj.wk_order_allow == 'deny' else 1
+            if allowed == 1 or quantity > added_qty:
                 return True
         return False
 
