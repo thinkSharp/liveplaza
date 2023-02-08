@@ -174,10 +174,14 @@ class ProductPricelist(models.Model):
                     if rule.product_id and not (product.product_variant_count == 1 and product.product_variant_id.id == rule.product_id.id):
                         # product rule acceptable on template if has only one variant
                         continue
-                    if rule.isMulti_products and rule.product_tmpl_ids:
+                    if rule.isMulti_products:
+                        if not rule.product_tmpl_ids:
+                            continue
                         if product not in rule.product_tmpl_ids:
                             continue
-                    if rule.isMulti_variants and rule.product_ids:
+                    if rule.isMulti_variants:
+                        if not rule.product_ids:
+                            continue
                         if product.product_variant_id not in rule.product_ids:
                             continue
                 else:
@@ -604,7 +608,7 @@ class ProductPricelistItem(models.Model):
                 raise ValidationError(_("Please specify the product variant for which this rule should be applied"))
 
     @api.depends('applied_on', 'categ_id', 'product_tmpl_id','product_tmpl_ids', 'product_id','product_ids', 'compute_price', 'fixed_price', \
-        'pricelist_id', 'percent_price', 'fixed_discount', 'price_discount', 'price_surcharge')
+        'pricelist_id', 'percent_price', 'fixed_discount', 'isMulti_products', 'isMulti_variants', 'price_discount', 'price_surcharge')
     def _get_pricelist_item_name_price(self):
         for item in self:
             if item.categ_id and item.applied_on == '2_product_category':
@@ -685,6 +689,20 @@ class ProductPricelistItem(models.Model):
                 'price_min_margin': 0.0,
                 'price_max_margin': 0.0,
             })
+
+    @api.onchange('isMulti_products')
+    def _onchange_isMulti_products(self):
+        is_Multi_products = self.filtered('isMulti_products')
+        if is_Multi_products:
+            if self.product_tmpl_id:
+                self.product_tmpl_id = None
+
+    @api.onchange('isMulti_variants')
+    def _onchange_isMulti_variants(self):
+        is_Multi_variants = self.filtered('isMulti_variants')
+        if is_Multi_variants:
+            if self.product_id:
+                self.product_id = None
 
     @api.onchange('product_id')
     def _onchange_product_id(self):
