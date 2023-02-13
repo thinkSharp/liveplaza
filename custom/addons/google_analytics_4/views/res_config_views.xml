@@ -1,0 +1,31 @@
+<odoo>
+  <data>
+    <record id="google_analytics_4_settings" model="ir.ui.view">
+      <field name="name">Settings For Google Analytics 4</field>
+      <field name="model">res.config.settings</field>
+      <field name="inherit_id" ref="website.res_config_settings_view_form"/>
+      <field name="arch" type="xml">
+        <xpath expr="//div[@id='google_analytics_setting']" position="after">
+          <div class="col-12 col-lg-offset-6 col-lg-6 o_setting_box" id="google_analytics_4_setting">
+            <div class="o_setting_left_pane">
+                <field name="has_google_analytics_4"/>
+            </div>
+            <div class="o_setting_right_pane">
+              <label for="has_google_analytics_4"/>
+              <div class="text-muted">
+                Track visits in Google Analytics 4
+              </div>
+              <div class="content-group" attrs="{'invisible': [('has_google_analytics_4', '=', False)]}">
+                <div class="row mt16">
+                  <label class="col-lg-3 o_light_label" string="Measurement ID" for="measurement_id"/>
+                  <field name="measurement_id" placeholder="G-XXXXXXXXXX"
+                    attrs="{'required': [('has_google_analytics_4', '=', True)]}"/>
+                </div>
+              </div>
+            </div>
+          </div>
+        </xpath>
+      </field>
+    </record>
+  </data>
+</odoo>

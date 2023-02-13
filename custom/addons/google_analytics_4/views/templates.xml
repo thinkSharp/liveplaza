@@ -1,0 +1,19 @@
+<odoo>
+    <data>
+      <template id="layout" inherit_id="portal.frontend_layout">
+        <xpath expr="//head" position="before">
+          <!-- Google tag (gtag.js) -->
+          <t t-if="website.has_google_analytics_4">
+            <script async="1" t-attf-src="https://www.googletagmanager.com/gtag/js?id={{ website.measurement_id }}"></script>
+            <script>
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+
+              gtag('config', '<t t-esc="website.measurement_id" />');
+            </script>
+          </t>
+        </xpath>
+      </template>
+    </data>
+</odoo>
