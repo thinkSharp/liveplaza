@@ -107,9 +107,9 @@ class customerprofile(CustomerPortal):
         partner_township = partner.township_id.id
         partner_state = partner.township_id.state_id.id 
         if partner:
-            return request.render("bi_website_customer_profile.bi_portal_my_shipping_edit", {'partner': partner, 'partner_township' : partner_township, 'partner_state': partner_state, 'option': 'edit'})
+            return request.render("bi_website_customer_profile.bi_portal_my_shipping_edit", {'partner': partner, 'partner_township' : partner_township, 'partner_state': partner_state, 'phone': partner.phone, 'mobile': partner.mobile, 'option': 'edit'})
         else:
-            return request.render("bi_website_customer_profile.bi_portal_my_shipping_edit", {'partner': request.env.user.partner_id, 'partner_township' : partner_township, 'partner_state': partner_state, 'option': 'create'})
+            return request.render("bi_website_customer_profile.bi_portal_my_shipping_edit", {'partner': request.env.user.partner_id, 'partner_township' : partner_township, 'partner_state': partner_state, 'phone': request.env.user.partner_id.phone, 'mobile': request.env.user.partner_id.mobile, 'option': 'create'})
 
     @http.route(['/shipping_address/delete/<int:sh_id>'], type='http', auth="public", website=True)
     def partner_shipping_address_delete(self, sh_id=False, **kwargs):
@@ -139,7 +139,8 @@ class customerprofile(CustomerPortal):
                 # 'zip': post['zip'],
                 'street': post['street'],
                 'street2': post['street2'],
-                'phone': post['phone'],
+                # 'phone': post['phone'],
+                'phone': post['mobile'],
                 'mobile': post['mobile'],
                 'email': post['email'],
                 'township_id': post['township_id'],
@@ -159,7 +160,8 @@ class customerprofile(CustomerPortal):
                 # 'zip': post['zip'],
                 'street': post['street'],
                 'street2': post['street2'],
-                'phone': post['phone'],
+                # 'phone': post['phone'],
+                'phone': post['mobile'],
                 'mobile': post['mobile'],
                 'email': post['email'],
                 'township_id': post['township_id'],
@@ -185,7 +187,8 @@ class customerprofile(CustomerPortal):
                 # 'zip': post['zip'],
                 'street': post['street'],
                 'street2': post['street2'],
-                'phone': post['phone'],
+                # 'phone': post['phone'],
+                'phone': post['mobile'],
                 'mobile': post['mobile'],
                 'email': post['email'],
                 'township_id': post['township_id'],
@@ -205,7 +208,8 @@ class customerprofile(CustomerPortal):
                 # 'zip': post['zip'],
                 'street': post['street'],
                 'street2': post['street2'],
-                'phone': post['phone'],
+                # 'phone': post['phone'],
+                'phone': post['mobile'],
                 'mobile': post['mobile'],
                 'email': post['email'],
                 'township_id': post['township_id'],
@@ -220,9 +224,9 @@ class customerprofile(CustomerPortal):
         partner_township = partner.township_id.id
         partner_state = partner.township_id.state_id.id
         if partner:
-            return request.render("bi_website_customer_profile.bi_portal_my_billing_edit", {'partner': partner, 'partner_township' : partner_township, 'partner_state': partner_state, 'option': 'edit'})
+            return request.render("bi_website_customer_profile.bi_portal_my_billing_edit", {'partner': partner, 'partner_township' : partner_township, 'partner_state': partner_state, 'phone': partner.phone, 'mobile': partner.mobile, 'option': 'edit'})
         else:
-            return request.render("bi_website_customer_profile.bi_portal_my_billing_edit", {'partner': request.env.user.partner_id, 'partner_township' : partner_township, 'partner_state': partner_state, 'option': 'create'})
+            return request.render("bi_website_customer_profile.bi_portal_my_billing_edit", {'partner': request.env.user.partner_id, 'partner_township' : partner_township, 'partner_state': partner_state, 'phone': request.env.user.partner_id.phone, 'mobile': request.env.user.partner_id.mobile, 'option': 'create'})
 
     @http.route(['/billing_address/delete/<int:bl_id>'], type='http', auth="public", website=True)
     def partner_billing_address_delete(self, bl_id=False, **kwargs):
