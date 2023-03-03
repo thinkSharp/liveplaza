@@ -49,6 +49,7 @@ class customerprofile(CustomerPortal):
                                'partner_township' : partner_township,
                                'partner_state': partner_state,
                                'phone': phone,
+                               'mobile': partner.mobile,
                                'email': email,
                                })
 
@@ -73,7 +74,7 @@ class customerprofile(CustomerPortal):
                         # 'zip': post['zip'],
                         'street': post['street'],
                         'street2': post['street2'],
-                        'phone': post['phone'],
+                        'phone': post['mobile'],
                         'mobile': post['mobile'],
                         'email': post['email'],
                         'township_id': post['township_id'],
@@ -91,7 +92,7 @@ class customerprofile(CustomerPortal):
                         # 'zip': post['zip'],
                         'street': post['street'],
                         'street2': post['street2'],
-                        'phone': post['phone'],
+                        'phone': post['mobile'],
                         'mobile': post['mobile'],
                         'email': post['email'],
                         'township_id': post['township_id'],
