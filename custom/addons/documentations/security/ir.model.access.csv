@@ -1,13 +1,16 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 
+access_documents_public,documents.public,model_documents,,1,0,0,0
 documents_supervisor,website.documents.supervisor,model_documents,access_rights_customization.group_operation_supervisor,1,1,1,1
 documents_operator,documents.operator,model_documents,access_rights_customization.group_operation_operator,1,1,1,1
 documents_manager,documents.manager,model_documents,odoo_marketplace.marketplace_manager_group,1,1,1,1
 
+access_documents_category_public,documents.category.public,model_documents_category,,1,0,0,0
 documents_category_supervisor,documents.category.supervisor,model_documents_category,access_rights_customization.group_operation_supervisor,1,1,1,1
 documents_category_operator,documents.category.operator,model_documents_category,access_rights_customization.group_operation_operator,1,1,1,1
 documents_category_manager,documents.category.manager,model_documents_category,odoo_marketplace.marketplace_manager_group,1,1,1,1
 
+access_documents_line_public,documents.line.public,model_documents_line,,1,0,0,0
 documents_line_supervisor,documents.line.supervisor,model_documents_line,access_rights_customization.group_operation_supervisor,1,1,1,1
 documents_line_operator,documents.line.operator,model_documents_line,access_rights_customization.group_operation_operator,1,1,1,1
 documents_line_manager,documents.line.manager,model_documents_line,odoo_marketplace.marketplace_manager_group,1,1,1,1
