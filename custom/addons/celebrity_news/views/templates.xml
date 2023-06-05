@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <template id="celebrity_news">
+    <t t-call="website.layout">
+      <t t-set="pageName" t-value="'Celebrity News'" />
+      <div id="wrap">
+        <div class="oe_structure">
+          <div class="container">
+            <div class="row">
+              <div class="grid gap-3 grid-cols-1 my-4 sm:my-8 sm:grid-cols-2 lg:grid-cols-3"
+                style="height: auto; overflow: auto;">
+                <t t-foreach="news" t-as="feed">
+                  <div class="flex items-stretch flex-col group relative">
+                    <div class="relative w-full aspect-video shrink-0 bg-gray-900 overflow-hidden">
+                      <img
+                        t-att-alt="feed.get('title')"
+                        loading="lazy" width="500" height="500" decoding="async" data-nimg="1"
+                        class="w-full h-full object-contain object-center"
+                        t-att-srcset="feed.get('srcset')"
+                        t-att-src="feed.get('src')"
+                        style="color: transparent;" />
+                      <div class="absolute inset-0 bg-gray-900 opacity-10 hidden group-hover:block"></div>
+                      <div
+                        class="absolute inset-0 flex justify-center items-center hidden group-hover:flex">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                          fill="currentColor" aria-hidden="true" class="!block !text-white h-10 w-10">
+                          <path fill-rule="evenodd"
+                            d="M4.5 5.653c0-1.426 1.529-2.33 2.779-1.643l11.54 6.348c1.295.712 1.295 2.573 0 3.285L7.28 19.991c-1.25.687-2.779-.217-2.779-1.643V5.653z"
+                            clip-rule="evenodd"></path>
+                        </svg>
+                      </div>
+                    </div>
+                    <div class="p-4 border grow">
+                      <p class="text-sm text-gray-400"><t t-esc="feed.get('info')" /></p>
+                      <h3 class="mt-1 text-base line-clamp-2 font-semibold text-gray-700">
+                        <a t-att-href="feed.get('url')" target="_blank"><span aria-hidden="true" class="!block absolute inset-0"></span>
+                          <t t-esc="feed.get('title')" />
+                        </a>
+                      </h3>
+                    </div>
+                  </div>
+                </t>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </t>
+  </template>
+</odoo>
